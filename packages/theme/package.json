@@ -1,0 +1,26 @@
+{
+  "name": "@alveole-js/theme",
+  "version": "0.1.5",
+  "description": "Shared theme tokens and utilities.",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "files": [
+    "dist",
+    "assets",
+    "README.md"
+  ],
+  "sideEffects": false,
+  "scripts": {
+    "build": "tsc -p tsconfig.build.json && cp -R src/assets assets"
+  },
+  "peerDependencies": {
+    "@tamagui/core": "*",
+    "expo-font": "*",
+    "expo-system-ui": "*",
+    "react": "*",
+    "react-native": "*"
+  },
+  "publishConfig": {
+    "access": "public"
+  }
+}
