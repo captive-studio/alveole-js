@@ -1,0 +1,14 @@
+{
+  "name": "@alveole-js/root",
+  "private": true,
+  "workspaces": [
+    "packages/*"
+  ],
+  "scripts": {
+    "build": "npm -w @alveole-js/theme run build"
+  },
+  "devDependencies": {
+    "@types/react": "^19.2.9",
+    "typescript": "^5.3.3"
+  }
+}
