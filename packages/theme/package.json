@@ -1,6 +1,6 @@
 {
   "name": "@alveole-js/theme",
-  "version": "0.1.5",
+  "version": "0.3.0",
   "description": "Shared theme tokens and utilities.",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
@@ -11,7 +11,7 @@
   ],
   "sideEffects": false,
   "scripts": {
-    "build": "tsc -p tsconfig.build.json && cp -R src/assets assets"
+    "build": "tsc -p tsconfig.build.json && rm -rf assets && cp -R src/assets assets"
   },
   "peerDependencies": {
     "@tamagui/core": "*",

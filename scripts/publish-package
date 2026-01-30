@@ -1,0 +1,60 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+ROOT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
+cd "$ROOT_DIR"
+
+if [[ -z "${NPM_TOKEN:-}" ]]; then
+  echo "NPM_TOKEN manquant. Ex: export NPM_TOKEN=\"npm_xxx\""
+  exit 1
+fi
+
+echo "Configuration du token npm..."
+npm config set //registry.npmjs.org/:_authToken="$NPM_TOKEN"
+
+echo "Vérification npm whoami..."
+npm whoami
+
+echo ""
+echo "Packages disponibles:"
+ls -1 packages
+echo ""
+read -r -p "Nom du package (ex: theme): " PACKAGE
+
+if [[ -z "$PACKAGE" ]]; then
+  echo "Nom du package manquant."
+  exit 1
+fi
+
+PACKAGE_PATH="packages/$PACKAGE"
+if [[ ! -d "$PACKAGE_PATH" ]]; then
+  echo "Package introuvable: $PACKAGE_PATH"
+  exit 1
+fi
+
+PACKAGE_NAME="$(node -p "require('./$PACKAGE_PATH/package.json').name")"
+
+echo ""
+read -r -p "Type de version (patch/minor/major): " RELEASE_TYPE
+case "$RELEASE_TYPE" in
+  patch|minor|major) ;;
+  *)
+    echo "Type invalide: $RELEASE_TYPE"
+    exit 1
+    ;;
+esac
+
+echo ""
+echo "Build $PACKAGE_NAME..."
+npm -w "$PACKAGE_NAME" run build
+
+echo ""
+echo "Bump version ($RELEASE_TYPE) $PACKAGE_NAME..."
+npm -w "$PACKAGE_NAME" version "$RELEASE_TYPE"
+
+echo ""
+echo "Publish $PACKAGE_NAME..."
+npm -w "$PACKAGE_NAME" publish --access public
+
+echo ""
+echo "OK: $PACKAGE_NAME publié."

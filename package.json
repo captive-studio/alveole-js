@@ -5,7 +5,8 @@
     "packages/*"
   ],
   "scripts": {
-    "build": "npm -w @alveole-js/theme run build"
+    "build": "npm -w @alveole-js/theme run build",
+    "publish:package": "scripts/publish-package"
   },
   "devDependencies": {
     "@types/react": "^19.2.9",
