@@ -85,6 +85,8 @@ const palette = {
 module.exports = { palette };
 
 // Utiliser dans le provider :
+// import config from '@/alveole.config.js';
+// ...
 // <ThemeProvider color={config.palette}>
 ```
 
