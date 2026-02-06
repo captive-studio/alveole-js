@@ -30,5 +30,7 @@ jobs:
             - node_modules
 
       # NPM_TOKEN doit être configuré dans Project Settings > Environment Variables
-      - run: ./scripts/publish-package --ci
-        no_output_timeout: 10m
+      - run:
+          name: Publish packages to npm
+          command: ./scripts/publish-package --ci
+          no_output_timeout: 10m
