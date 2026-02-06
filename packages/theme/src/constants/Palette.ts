@@ -1,6 +1,92 @@
 import { Colors } from './Color';
 
 export const CustomPalette = {
+  light: {
+    artwork: {
+      'major-primary': Colors['BleuCaptive']['200'],
+      'decorative-primary': Colors['BleuCaptive']['950'],
+      'minor-secondary': Colors['Cerise']['600'],
+    },
+    background: {
+      'alt-primary': Colors['BleuCaptive']['975'],
+      'alt-grey': Colors['Neutre']['975'],
+      'action-low-primary': Colors['BleuCaptive']['925'],
+      'contrast-grey': Colors['Neutre']['950'],
+      'contrast-success': Colors['VertSuccess']['950'],
+      'contrast-error': Colors['RougeErreur']['950'],
+      'contrast-info': Colors['BleuCaptive']['950'],
+      'contrast-warning': Colors['OrangeWarning']['950'],
+      'default-grey': Colors['Neutre']['1000'],
+      'default-grey-hover': Colors['Neutre']['975'],
+      'default-grey-active': Colors['Neutre']['925'],
+      'active-primary': Colors['BleuCaptive']['sun-172'],
+      'disabled-grey': Colors['Neutre']['925'],
+      'active-inverted': Colors['Neutre']['1000'],
+      'transparent-hover': 'rgba(0, 0, 0, 0.04)',
+      'action-high-primary': Colors['BleuCaptive']['sun-172'],
+      'action-high-primary-hover': Colors['BleuCaptive']['sun-172-hover'],
+      'action-high-error': Colors['RougeErreur']['425'],
+      'flat-error': Colors['RougeErreur']['425'],
+      'flat-info': Colors['BleuCaptive']['425'],
+      'flat-success': Colors['VertSuccess']['425'],
+      'flat-warning': Colors['OrangeWarning']['425'],
+      'open-primary': Colors['BleuCaptive']['925'],
+    },
+    border: {
+      'default-grey': Colors['Neutre']['900'],
+      'contrast-grey': Colors['Neutre']['625'],
+      'default-primary': Colors['BleuCaptive']['425'],
+      'action-high-primary': Colors['BleuCaptive']['sun-172'],
+      'action-high-grey': Colors['Neutre']['50'],
+      'active-primary': Colors['BleuCaptive']['sun-172'],
+      'open-primary': Colors['BleuCaptive']['925'],
+      'disabled-grey': Colors['Neutre']['925'],
+      'plain-primary': Colors['BleuCaptive']['sun-172'],
+      'plain-grey': Colors['Neutre']['200'],
+      'plain-success': Colors['VertSuccess']['425'],
+      'plain-error': Colors['RougeErreur']['425'],
+      'plain-warning': Colors['OrangeWarning']['425'],
+      'plain-info': Colors['BleuCaptive']['425'],
+      'action-low-primary': Colors['BleuCaptive']['850'],
+    },
+    text: {
+      'title-grey': Colors['Neutre']['50'],
+      'title-primary': Colors['BleuCaptive']['sun-172'],
+      'default-grey': Colors['Neutre']['200'],
+      'mention-grey': Colors['Neutre']['425'],
+      'label-grey': Colors['Neutre']['50'],
+      'action-high-primary': Colors['BleuCaptive']['125'],
+      'action-high-grey': Colors['Neutre']['50'],
+      'action-high-info': Colors['BleuCaptive']['425'],
+      'action-high-warning': Colors['OrangeWarning']['425'],
+      'action-high-error': Colors['RougeErreur']['425'],
+      'inverted-grey': Colors['Neutre']['1000'],
+      'inverted-primary': Colors['BleuCaptive']['975'],
+      'active-primary': Colors['BleuCaptive']['sun-172'],
+      'active-grey': Colors['Neutre']['50'],
+      'disabled-grey': Colors['Neutre']['625'],
+      'default-success': Colors['VertSuccess']['425'],
+      'default-error': Colors['RougeErreur']['425'],
+      'default-warning': Colors['OrangeWarning']['425'],
+      'default-info': Colors['BleuCaptive']['425'],
+    },
+    system: {
+      focus: Colors['Focus']['525'],
+    },
+    illustration: {
+      'color-sun': {
+        default: {
+          yellow: Colors['Ocre']['sun-403'],
+        },
+      },
+      'color-950': {
+        default: {
+          yellow: Colors['Ocre']['950'],
+        },
+      },
+    },
+  },
+
   primary: Colors['PinkVivid']['500'],
   transparent: 'transparent',
   danger: Colors['RougeErreur']['425'],
@@ -209,7 +295,7 @@ export const CustomPalette = {
   },
 
   system: {
-    focus: '#0A76F6',
+    focus: Colors['Focus']['525'],
   },
 } as const;
 
