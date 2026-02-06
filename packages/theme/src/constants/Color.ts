@@ -193,6 +193,17 @@ export const Colors = {
     800: '#34126F',
     900: '#240754',
   },
+  Focus: {
+    525: '#0A76F6',
+  },
+  OrangeWarning: {
+    975: '#FFF4F3',
+    950: '#FFE9E6',
+    925: '#FFDED9',
+    850: '#FFBEB4',
+    'main-525': '#D64D00',
+    425: '#B34000',
+  },
   RougeErreur: {
     975: '#FEF5F4',
     950: '#FDEAE8',
