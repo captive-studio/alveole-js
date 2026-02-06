@@ -1,11 +1,11 @@
-# @alveole-js/theme
+# @alveole/theme
 
 Thème partagé (tokens, typographies, helpers) pour les apps React Native / web.
 
 ## Installation
 
 ```bash
-npm i @alveole-js/theme
+npm i @alveole/theme
 ```
 
 Peer deps requis : `react`, `react-native`, `expo-font`, `expo-system-ui`, `@tamagui/core`.
@@ -13,7 +13,7 @@ Peer deps requis : `react`, `react-native`, `expo-font`, `expo-system-ui`, `@tam
 ## Utilisation rapide
 
 ```tsx
-import { ThemeProvider, useTheme, makeStyles } from '@alveole-js/theme';
+import { ThemeProvider, useTheme, makeStyles } from '@alveole/theme';
 
 export default function App() {
   return (
@@ -33,7 +33,7 @@ function Screen() {
 
 ```tsx
 // Exemple.styles.tsx
-import { makeStyles } from '@alveole-js/theme';
+import { makeStyles } from '@alveole/theme';
 
 export const useStyles = makeStyles(({ spacing }) => ({
   container: { padding: spacing('150') },
@@ -66,9 +66,9 @@ function Exemple() {
 > (Recommandé) Vous pouvez définir un fichier de configuration à la racine de votre projet `alveole.config.js` afin de surcharger les tokens du thème.
 
 ```js
-const { Colors } = require('@alveole-js/theme');
+const { Colors } = require('@alveole/theme');
 
-/** @type {import('@alveole-js/theme').Palette} */
+/** @type {import('@alveole/theme').Palette} */
 const palette = {
   primary: Colors.VertPrairie['sun-475'],
 

@@ -2,7 +2,7 @@
 
 ## Packages
 
-- `@alveole-js/theme` — thème partagé (tokens, typographies, helpers). Voir `packages/theme/README.md`.
+- `@alveole/theme` — thème partagé (tokens, typographies, helpers). Voir `packages/theme/README.md`.
 
 ## Déployer (publication npm)
 
@@ -16,7 +16,7 @@ La publication passe par le script du repo.
 ### Étapes
 
 ```bash
-./scripts/publish-package
+npm run publish:package
 ```
 
 Le script :

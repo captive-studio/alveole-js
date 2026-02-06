@@ -1,11 +1,11 @@
 {
-  "name": "@alveole-js/root",
+  "name": "@alveole/root",
   "private": true,
   "workspaces": [
     "packages/*"
   ],
   "scripts": {
-    "build": "npm -w @alveole-js/theme run build",
+    "build": "npm -w @alveole/theme run build",
     "publish:package": "scripts/publish-package"
   },
   "devDependencies": {
