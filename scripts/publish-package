@@ -4,57 +4,131 @@ set -euo pipefail
 ROOT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
 cd "$ROOT_DIR"
 
-if [[ -z "${NPM_TOKEN:-}" ]]; then
-  echo "NPM_TOKEN manquant. Ex: export NPM_TOKEN=\"npm_xxx\""
+# Détection du mode CI (tag poussé ou flag --ci)
+CI_MODE=false
+if [[ -n "${CIRCLE_TAG:-}" ]]; then
+  CI_MODE=true
+fi
+for arg in "$@"; do
+  [[ "$arg" == "--ci" ]] && CI_MODE=true && break
+done
+
+# Liste des packages publiables (dossiers avec un package.json sous packages/)
+get_packages() {
+  for dir in packages/*/; do
+    [[ -f "${dir}package.json" ]] || continue
+    echo "${dir%/}"
+  done
+}
+
+get_package_names() {
+  while IFS= read -r pkg_dir; do
+    node -p "require('./$pkg_dir/package.json').name"
+  done <<< "$(get_packages)"
+}
+
+# --- Mode CI : build + publish uniquement ---
+if [[ "$CI_MODE" == true ]]; then
+  if [[ -z "${NPM_TOKEN:-}" ]]; then
+    echo "NPM_TOKEN manquant (requis en CI)."
+    exit 1
+  fi
+
+  echo "Configuration du token npm..."
+  npm config set //registry.npmjs.org/:_authToken="$NPM_TOKEN"
+  npm whoami
+
+  echo ""
+  echo "Build de tous les packages..."
+  while IFS= read -r name; do
+    echo "  Build $name..."
+    npm -w "$name" run build
+  done <<< "$(get_package_names)"
+
+  echo ""
+  echo "Publication sur npm..."
+  while IFS= read -r name; do
+    echo "  Publish $name..."
+    npm -w "$name" publish --access public
+  done <<< "$(get_package_names)"
+
+  echo ""
+  echo "OK: tous les packages ont été publiés."
+  exit 0
+fi
+
+# --- Mode release (local) ---
+# NPM_TOKEN non requis en local (la publication est faite par la CI au push du tag)
+
+PACKAGE_DIRS=($(get_packages))
+if [[ ${#PACKAGE_DIRS[@]} -eq 0 ]]; then
+  echo "Aucun package trouvé sous packages/."
   exit 1
 fi
 
-echo "Configuration du token npm..."
-npm config set //registry.npmjs.org/:_authToken="$NPM_TOKEN"
+# Version actuelle (depuis le premier package)
+FIRST_PKG="${PACKAGE_DIRS[0]}"
+CURRENT_VERSION="$(node -p "require('./$FIRST_PKG/package.json').version")"
 
-echo "Vérification npm whoami..."
-npm whoami
-
-echo ""
-echo "Packages disponibles:"
-ls -1 packages
-echo ""
-read -r -p "Nom du package (ex: theme): " PACKAGE
-
-if [[ -z "$PACKAGE" ]]; then
-  echo "Nom du package manquant."
-  exit 1
+# Type de release : argument ou interactif
+RELEASE_TYPE="${1:-}"
+if [[ -z "$RELEASE_TYPE" ]]; then
+  echo ""
+  echo "Version actuelle: $CURRENT_VERSION"
+  echo "Packages: ${PACKAGE_DIRS[*]}"
+  echo ""
+  read -r -p "Type de version (patch/minor/major): " RELEASE_TYPE
 fi
-
-PACKAGE_PATH="packages/$PACKAGE"
-if [[ ! -d "$PACKAGE_PATH" ]]; then
-  echo "Package introuvable: $PACKAGE_PATH"
-  exit 1
-fi
-
-PACKAGE_NAME="$(node -p "require('./$PACKAGE_PATH/package.json').name")"
-
-echo ""
-read -r -p "Type de version (patch/minor/major): " RELEASE_TYPE
 case "$RELEASE_TYPE" in
   patch|minor|major) ;;
   *)
-    echo "Type invalide: $RELEASE_TYPE"
+    echo "Type invalide: $RELEASE_TYPE (patch, minor ou major attendu)."
     exit 1
     ;;
 esac
 
-echo ""
-echo "Build $PACKAGE_NAME..."
-npm -w "$PACKAGE_NAME" run build
+# Calcul de la nouvelle version (via npm version dans un package temporaire)
+NEW_VERSION="$(node -p "
+  const v = '$CURRENT_VERSION'.split('.').map(Number);
+  const type = '$RELEASE_TYPE';
+  if (type === 'major') { v[0]++; v[1]=0; v[2]=0; }
+  else if (type === 'minor') { v[1]++; v[2]=0; }
+  else { v[2]++; }
+  v.join('.');
+")"
 
 echo ""
-echo "Bump version ($RELEASE_TYPE) $PACKAGE_NAME..."
-npm -w "$PACKAGE_NAME" version "$RELEASE_TYPE"
+echo "Bump: $CURRENT_VERSION -> $NEW_VERSION ($RELEASE_TYPE)"
+
+# Mise à jour de la version dans tous les packages
+for pkg_dir in "${PACKAGE_DIRS[@]}"; do
+  echo "  Mise à jour $pkg_dir/package.json..."
+  node -e "
+    const fs = require('fs');
+    const p = '$pkg_dir/package.json';
+    const j = JSON.parse(fs.readFileSync(p, 'utf8'));
+    j.version = '$NEW_VERSION';
+    fs.writeFileSync(p, JSON.stringify(j, null, 2) + '\n');
+  "
+done
 
 echo ""
-echo "Publish $PACKAGE_NAME..."
-npm -w "$PACKAGE_NAME" publish --access public
+echo "Build de tous les packages..."
+while IFS= read -r name; do
+  echo "  Build $name..."
+  npm -w "$name" run build
+done <<< "$(get_package_names)"
 
 echo ""
-echo "OK: $PACKAGE_NAME publié."
+echo "Commit et tag..."
+git add packages/*/package.json
+git commit -m "chore: release v$NEW_VERSION"
+git tag "v$NEW_VERSION"
+
+echo ""
+echo "OK: release v$NEW_VERSION préparée."
+echo "Poussez le commit et le tag pour déclencher la publication sur CircleCI :"
+echo "  git push && git push --tags"
+echo ""
+echo "Ou pour publier manuellement tout de suite :"
+echo "  scripts/publish-package --ci"
