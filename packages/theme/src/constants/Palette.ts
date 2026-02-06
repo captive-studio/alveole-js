@@ -14,6 +14,7 @@ export const CustomPalette = {
     'title-grey': Colors['Neutre']['50'],
     mention: Colors['Neutre']['425'],
     'disabled-grey': Colors['Neutre']['625'],
+    /** @deprecated Utiliser action-high-primary */
     'action-high-blue-captive': Colors['BleuCaptive']['100'],
     'action-high-primary': Colors['BleuCaptive']['100'],
     'action-high-info': Colors['BleuCaptive']['425'],
