@@ -18,9 +18,12 @@ export const CustomPalette = {
     'action-high-blue-captive': Colors['BleuCaptive']['100'],
     'action-high-primary': Colors['BleuCaptive']['100'],
     'action-high-info': Colors['BleuCaptive']['425'],
+    /** @deprecated Utiliser 'title-grey' */
     'title-blue-captive': Colors['BleuCaptive']['100'],
     'label-grey': Colors['Neutre']['50'],
+    /** @deprecated Utiliser 'inverted-primary' */
     'inverted-blue-captive': Colors['Neutre']['1000'],
+    'inverted-primary': Colors['Neutre']['1000'],
     'default-success': Colors['VertSuccess']['425'],
     'default-error': Colors['RougeErreur']['425'],
     'default-info': Colors['BleuCiel']['main-686'],
@@ -90,7 +93,9 @@ export const CustomPalette = {
     'plain-grey': Colors['Neutre']['200'],
     'plain-success': Colors['VertSuccess']['425'],
     'plain-error': Colors['RougeErreur']['425'],
+    /** @deprecated Utiliser 'default-primary' */
     'default-bleu-captive': Colors['BleuCaptive']['main-525'],
+    'default-primary': Colors['BleuCaptive']['main-525'],
     'contrast-grey': Colors['Neutre']['900'],
 
     button: {
@@ -137,9 +142,13 @@ export const CustomPalette = {
     action: Colors['BleuCaptive']['100'],
     'disabled-grey': Colors['Neutre']['925'],
     'default-hover': Colors['Neutre']['975'],
+    /** @deprecated Utiliser 'open-primary' */
     'open-bleu-captive': Colors['BleuCaptive']['925'],
+    'open-primary': Colors['BleuCaptive']['925'],
     'contrast-grey': Colors['Neutre']['925'],
+    /** @deprecated Utiliser 'alt-primary' */
     'alt-bleu-captive': Colors['BleuCaptive']['975'],
+    'alt-primary': Colors['BleuCaptive']['975'],
     'action-low-primary': Colors['BleuCaptive']['925'],
     'default-success': Colors['VertSuccess']['925'],
 
