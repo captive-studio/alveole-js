@@ -137,7 +137,7 @@ export const CustomPalette = {
     'open-bleu-captive': Colors['BleuCaptive']['925'],
     'contrast-grey': Colors['Neutre']['925'],
     'alt-bleu-captive': Colors['BleuCaptive']['975'],
-    'action-low-bleu-captive': Colors['BleuCaptive']['925'],
+    'action-low-primary': Colors['BleuCaptive']['925'],
     'default-success': Colors['VertSuccess']['925'],
 
     alert: {
