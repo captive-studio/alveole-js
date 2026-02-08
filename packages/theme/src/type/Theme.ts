@@ -1,4 +1,4 @@
-import type { Colors, CustomPalette, CustomTypography, Fonts, Spacing, SpacingKey, Variant } from '../constants';
+import type { Colors, CustomPalette, CustomTypography, Fonts, Grilles, Spacing, SpacingKey, Variant } from '../constants';
 import { Radius, RadiusKey } from '../constants/Radius';
 import { alpha } from '../helpers/alphaColor';
 import { elevationStyle } from '../helpers/elevationStyle';
@@ -17,6 +17,9 @@ export interface Theme {
 
   // Radius
   radius: (key: RadiusKey) => Radius;
+
+  // Grilles
+  grilles: typeof Grilles;
 
   // Typographies
   text: Typography & typeof CustomTypography;

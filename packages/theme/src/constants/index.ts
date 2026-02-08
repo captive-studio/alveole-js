@@ -2,6 +2,7 @@ export * from './Breakpoint';
 export * from './Color';
 export * from './Elevation';
 export * from './Font';
+export * from './Grille';
 export * from './Palette';
 export * from './Sizes';
 export * from './Spacing';
