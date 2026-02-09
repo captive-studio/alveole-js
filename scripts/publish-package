@@ -127,8 +127,29 @@ git tag "v$NEW_VERSION"
 
 echo ""
 echo "OK: release v$NEW_VERSION préparée."
-echo "Poussez le commit et le tag pour déclencher la publication sur CircleCI :"
-echo "  git push && git push --tags"
 echo ""
-echo "Ou pour publier manuellement tout de suite :"
-echo "  scripts/publish-package --ci"
+read -r -p "Mode de publication [A/m/Automatique/Manuel]: " PUBLISH_MODE
+PUBLISH_MODE="${PUBLISH_MODE:-A}"
+
+case "${PUBLISH_MODE^^}" in
+  A|AUTOMATIQUE|"")
+    echo ""
+    echo "Publication automatique : push du commit et du tag..."
+    git push && git push --tags
+    echo ""
+    echo "OK: Le commit et le tag ont été poussés. La publication sur CircleCI va se déclencher automatiquement."
+    ;;
+  M|MANUEL)
+    echo ""
+    echo "Publication manuelle..."
+    "$0" --ci
+    ;;
+  *)
+    echo "Choix invalide: $PUBLISH_MODE"
+    echo "Publication annulée. Vous pouvez publier manuellement avec :"
+    echo "  git push && git push --tags"
+    echo "  ou"
+    echo "  scripts/publish-package --ci"
+    exit 1
+    ;;
+esac
