@@ -6,9 +6,11 @@
   ],
   "scripts": {
     "build": "npm -w @alveole/theme run build",
+    "lint": "npm run -ws --if-present lint",
     "publish:package": "scripts/publish-package"
   },
   "devDependencies": {
+    "eslint": "^9.39.2",
     "@types/react": "^19.2.9",
     "typescript": "^5.3.3"
   }
