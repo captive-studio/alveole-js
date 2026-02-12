@@ -1,17 +1,23 @@
 export const Colors = {
   VertPrairie: {
+    /** @deprecated */
     50: '#F3FDE7',
-    100: '#E3FBC8',
-    200: '#C5F59A',
+    75: '#0B220B',
+    100: '#112233',
+    125: '#184116',
+    200: '#235A1F',
+    /** @deprecated */
     300: '#9EED61',
+    /** @deprecated */
     400: '#85E23F',
-    'sun-475-hover': '#28571D',
-    'sun-475': '#3E7F2E',
-    'main-646': '#60BB46',
+    425: '#3E8F32',
     850: '#BEE2B0',
     925: '#D7EED0',
     950: '#E6F4E1',
     975: '#F3FAF1',
+    'main-646': '#60BB46',
+    'sun-475': '#3E7F2E',
+    'sun-475-hover': '#28571D',
   },
   Mandarine: {
     50: '#FEF9EE',
