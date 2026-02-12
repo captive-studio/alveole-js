@@ -11,7 +11,12 @@
   ],
   "sideEffects": false,
   "scripts": {
-    "build": "tsc -p tsconfig.build.json && rm -rf assets && cp -R src/assets assets"
+    "build": "tsc -p tsconfig.build.json && rm -rf assets && cp -R src/assets assets",
+    "lint": "eslint ."
+  },
+  "devDependencies": {
+    "@alveole/eslint-config": "file:../eslint-config",
+    "eslint": "^9.39.2"
   },
   "peerDependencies": {
     "@tamagui/core": "*",
