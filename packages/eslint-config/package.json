@@ -4,6 +4,7 @@
   "description": "ESLint flat config pour les projets Alveole",
   "main": "index.js",
   "scripts": {
+    "build": "echo \"Nothing to build for @alveole/eslint-config\"",
     "lint": "eslint ."
   },
   "files": [
