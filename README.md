@@ -3,6 +3,7 @@
 ## Packages
 
 - `@alveole/theme` — thème partagé (tokens, typographies, helpers). Voir `packages/theme/README.md`.
+- `@alveole/eslint-config` — configuration ESLint partagée (flat config). Voir `packages/eslint-config/README.md`.
 
 ## Déployer (publication npm)
 

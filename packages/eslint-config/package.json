@@ -1,0 +1,26 @@
+{
+  "name": "@alveole/eslint-config",
+  "version": "0.8.0",
+  "description": "ESLint flat config pour les projets Alveole",
+  "main": "index.js",
+  "scripts": {
+    "build": "echo \"Nothing to build for @alveole/eslint-config\"",
+    "lint": "eslint ."
+  },
+  "files": [
+    "index.js",
+    "README.md"
+  ],
+  "peerDependencies": {
+    "eslint": "^9.0.0"
+  },
+  "dependencies": {
+    "eslint-config-expo": "^10.0.0"
+  },
+  "devDependencies": {
+    "eslint": "^9.39.2"
+  },
+  "publishConfig": {
+    "access": "public"
+  }
+}
