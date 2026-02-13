@@ -1,0 +1,13 @@
+node_modules
+build
+dist
+android
+ios
+coverage
+*.png
+*.jpg
+*.svg
+*.snap
+.tamagui/tamagui.config.json
+public/json-form/schema.json
+**/**/*.hbs
