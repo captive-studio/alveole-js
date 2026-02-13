@@ -41,6 +41,10 @@ jobs:
           command: npm run lint
 
       - run:
+          name: Check formatting
+          command: npm run format:check
+
+      - run:
           name: Typecheck workspaces
           command: npm run typecheck
 
