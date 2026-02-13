@@ -12,7 +12,8 @@
   "sideEffects": false,
   "scripts": {
     "build": "tsc -p tsconfig.build.json && rm -rf assets && cp -R src/assets assets",
-    "lint": "eslint ."
+    "lint": "eslint .",
+    "typecheck": "tsc -p tsconfig.build.json --noEmit"
   },
   "devDependencies": {
     "@alveole/eslint-config": "file:../eslint-config",

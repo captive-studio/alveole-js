@@ -5,7 +5,8 @@
   "main": "index.js",
   "scripts": {
     "build": "echo \"Nothing to build for @alveole/eslint-config\"",
-    "lint": "eslint ."
+    "lint": "eslint .",
+    "typecheck": "echo \"Nothing to typecheck for @alveole/eslint-config\""
   },
   "files": [
     "index.js",
