@@ -13,6 +13,7 @@ La publication passe par le script du repo, puis la CI prends le relai
 
 - Être à la racine du repo.
 - Exécuter la commande :
+
 ```bash
 npm run publish:package
 ```

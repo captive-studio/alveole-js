@@ -43,10 +43,10 @@ export function useThemeBuilder(params: CustomBuilder): Theme & { isReady: boole
   return {
     // Spacings
     spacing: key => Spacings[key],
-    
+
     // Radius
     radius: key => RadiusList[key],
-    
+
     // Grilles
     grilles: Grilles,
 
