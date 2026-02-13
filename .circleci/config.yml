@@ -40,6 +40,10 @@ jobs:
           name: Lint workspaces
           command: npm run lint
 
+      - run:
+          name: Typecheck workspaces
+          command: npm run typecheck
+
   publish-packages:
     docker:
       - image: cimg/node:lts
