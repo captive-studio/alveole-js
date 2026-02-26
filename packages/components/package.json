@@ -1,17 +1,16 @@
 {
-  "name": "@alveole/theme",
+  "name": "@alveole/components",
   "version": "0.11.0",
-  "description": "Shared theme tokens and utilities.",
+  "description": "Shared UI components.",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
   "files": [
     "dist",
-    "assets",
     "README.md"
   ],
   "sideEffects": false,
   "scripts": {
-    "build": "tsc -p tsconfig.build.json && rm -rf assets && cp -R src/assets assets",
+    "build": "tsc -p tsconfig.build.json",
     "lint": "eslint .",
     "typecheck": "tsc -p tsconfig.build.json --noEmit"
   },
@@ -20,9 +19,8 @@
     "eslint": "^9.39.2"
   },
   "peerDependencies": {
+    "@alveole/theme": "*",
     "@tamagui/core": "*",
-    "expo-font": "*",
-    "expo-system-ui": "*",
     "react": "*",
     "react-native": "*"
   },
