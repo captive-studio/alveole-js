@@ -4,6 +4,17 @@
   "description": "Shared UI components.",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "default": "./dist/index.js"
+    },
+    "./stories": {
+      "types": "./dist/stories/index.d.ts",
+      "default": "./dist/stories/index.js"
+    },
+    "./package.json": "./package.json"
+  },
   "files": [
     "dist",
     "README.md"
