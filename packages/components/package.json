@@ -18,6 +18,9 @@
     "@alveole/eslint-config": "file:../eslint-config",
     "eslint": "^9.39.2"
   },
+  "dependencies": {
+    "zod": "^4.1.11"
+  },
   "peerDependencies": {
     "@alveole/theme": "*",
     "@tamagui/core": "*",
