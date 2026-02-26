@@ -27,6 +27,93 @@ get_package_names() {
   done <<< "$(get_packages)"
 }
 
+# Retourne les packages dans un ordre compatible avec les dépendances locales
+# (dependencies/devDependencies/peerDependencies/optionalDependencies).
+get_package_names_ordered() {
+  node <<'NODE'
+const fs = require('fs');
+const path = require('path');
+
+const root = process.cwd();
+const packagesDir = path.join(root, 'packages');
+const entries = fs
+  .readdirSync(packagesDir, { withFileTypes: true })
+  .filter((d) => d.isDirectory())
+  .map((d) => path.join(packagesDir, d.name, 'package.json'))
+  .filter((p) => fs.existsSync(p));
+
+const pkgs = entries.map((pkgJsonPath) => {
+  const json = JSON.parse(fs.readFileSync(pkgJsonPath, 'utf8'));
+  return {
+    name: json.name,
+    dir: path.dirname(pkgJsonPath),
+    json,
+  };
+});
+
+const localNames = new Set(pkgs.map((p) => p.name));
+const graph = new Map();
+const indegree = new Map();
+
+for (const pkg of pkgs) {
+  graph.set(pkg.name, new Set());
+  indegree.set(pkg.name, 0);
+}
+
+for (const pkg of pkgs) {
+  const localDeps = new Set();
+  for (const field of ['dependencies', 'devDependencies', 'peerDependencies', 'optionalDependencies']) {
+    const deps = pkg.json[field] || {};
+    for (const depName of Object.keys(deps)) {
+      if (localNames.has(depName) && depName !== pkg.name) {
+        localDeps.add(depName);
+      }
+    }
+  }
+
+  // Edge: dependency -> dependent (so dependencies are built first)
+  for (const depName of localDeps) {
+    if (!graph.get(depName).has(pkg.name)) {
+      graph.get(depName).add(pkg.name);
+      indegree.set(pkg.name, indegree.get(pkg.name) + 1);
+    }
+  }
+}
+
+const queue = Array.from(indegree.entries())
+  .filter(([, deg]) => deg === 0)
+  .map(([name]) => name)
+  .sort();
+
+const ordered = [];
+while (queue.length > 0) {
+  const name = queue.shift();
+  ordered.push(name);
+  const nexts = Array.from(graph.get(name)).sort();
+  for (const next of nexts) {
+    indegree.set(next, indegree.get(next) - 1);
+    if (indegree.get(next) === 0) {
+      queue.push(next);
+      queue.sort();
+    }
+  }
+}
+
+if (ordered.length !== pkgs.length) {
+  // Fallback stable: ordre alphabétique si cycle
+  const remaining = pkgs.map((p) => p.name).sort();
+  for (const name of remaining) {
+    console.log(name);
+  }
+  process.exit(0);
+}
+
+for (const name of ordered) {
+  console.log(name);
+}
+NODE
+}
+
 # --- Mode CI : build + publish uniquement ---
 if [[ "$CI_MODE" == true ]]; then
   if [[ -z "${NPM_TOKEN:-}" ]]; then
@@ -43,14 +130,14 @@ if [[ "$CI_MODE" == true ]]; then
   while IFS= read -r name; do
     echo "  Build $name..."
     npm -w "$name" run build
-  done <<< "$(get_package_names)"
+  done <<< "$(get_package_names_ordered)"
 
   echo ""
   echo "Publication sur npm..."
   while IFS= read -r name; do
     echo "  Publish $name..."
     npm -w "$name" publish --access public
-  done <<< "$(get_package_names)"
+  done <<< "$(get_package_names_ordered)"
 
   echo ""
   echo "OK: tous les packages ont été publiés."
@@ -117,7 +204,7 @@ echo "Build de tous les packages..."
 while IFS= read -r name; do
   echo "  Build $name..."
   npm -w "$name" run build
-done <<< "$(get_package_names)"
+done <<< "$(get_package_names_ordered)"
 
 echo ""
 echo "Commit et tag..."
