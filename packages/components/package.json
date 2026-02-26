@@ -1,0 +1,30 @@
+{
+  "name": "@alveole/components",
+  "version": "0.10.1",
+  "description": "Shared UI components.",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "files": [
+    "dist",
+    "README.md"
+  ],
+  "sideEffects": false,
+  "scripts": {
+    "build": "tsc -p tsconfig.build.json",
+    "lint": "eslint .",
+    "typecheck": "tsc -p tsconfig.build.json --noEmit"
+  },
+  "devDependencies": {
+    "@alveole/eslint-config": "file:../eslint-config",
+    "eslint": "^9.39.2"
+  },
+  "peerDependencies": {
+    "@alveole/theme": "*",
+    "@tamagui/core": "*",
+    "react": "*",
+    "react-native": "*"
+  },
+  "publishConfig": {
+    "access": "public"
+  }
+}
