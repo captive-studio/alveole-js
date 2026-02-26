@@ -5,7 +5,7 @@
     "packages/*"
   ],
   "scripts": {
-    "build": "npm -w @alveole/theme run build",
+    "build": "npm run -ws --if-present build",
     "format": "prettier . --write",
     "format:check": "prettier . --check",
     "lint": "npm run -ws --if-present lint",
