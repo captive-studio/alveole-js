@@ -30,6 +30,8 @@
     "eslint": "^9.39.2"
   },
   "dependencies": {
+    "@lucide/lab": "^0.1.2",
+    "lucide-react-native": "0.557.0",
     "zod": "^4.1.11"
   },
   "peerDependencies": {
