@@ -31,6 +31,7 @@
   },
   "dependencies": {
     "@lucide/lab": "^0.1.2",
+    "expo-image": "^55.0.5",
     "lucide-react-native": "0.557.0",
     "zod": "^4.1.11"
   },
