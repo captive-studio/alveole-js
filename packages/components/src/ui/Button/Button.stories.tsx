@@ -59,3 +59,9 @@ export const Icons = () => (
     <ButtonIcon variant="primary" icon="CircleUser" />
   </Box>
 );
+
+export const FullWidth = () => (
+  <Box display="flex" flexDirection="row" gap={6}>
+    <Button variant="primary" title="Full Width" fullWidth />
+  </Box>
+);

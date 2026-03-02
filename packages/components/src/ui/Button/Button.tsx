@@ -15,6 +15,7 @@ export type ButtonProps = Omit<PressableProps, 'children' | 'style'> & {
   startIcon?: IconProps['name'];
   endIcon?: IconProps['name'];
   ContainerProps?: BoxProps;
+  fullWidth?: boolean;
   noPadding?: boolean;
   borderNone?: boolean;
   leftAlign?: boolean;
@@ -35,6 +36,7 @@ export const Button = React.forwardRef<View, ButtonProps>(function Button(props,
     borderNone,
     leftAlign,
     isLoading,
+    fullWidth = false,
     ContainerProps = {},
     ...buttonProps
   } = props;
@@ -89,6 +91,7 @@ export const Button = React.forwardRef<View, ButtonProps>(function Button(props,
     return {
       ...applicableStyles,
       ...containerSize,
+      ...(fullWidth ? { width: '100%' } : {}),
       ...(noPadding ? noPaddingStyle : {}),
       ...(borderNone ? { borderRadius: 0 } : {}),
       ...(leftAlign ? { justifyContent: 'left' } : {}),
