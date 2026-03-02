@@ -91,6 +91,7 @@ export const Button = React.forwardRef<View, ButtonProps>(function Button(props,
     return {
       ...applicableStyles,
       ...containerSize,
+      ...(fullWidth ? { width: '100%' } : {}),
       ...(noPadding ? noPaddingStyle : {}),
       ...(borderNone ? { borderRadius: 0 } : {}),
       ...(leftAlign ? { justifyContent: 'left' } : {}),
