@@ -1,5 +1,5 @@
 import { Story } from '../../type';
-import { Box } from '../Box';
+import { Box } from '../../core';
 import { LucideIcon } from './LucideIcon';
 import { LucideIconPropsJSON } from './LucideIcon.props';
 
