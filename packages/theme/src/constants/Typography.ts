@@ -40,43 +40,43 @@ export const CustomTypography = {
     /** Font size: 18/20 */
     'H6 - XXS': {
       fontFamily: Fonts['Inter-Bold'],
-      fontSize: (Platform.OS === 'web' || navigator?.userAgent?.includes('Mobile')) ? 20 : 18,
-      lineHeight: (Platform.OS === 'web' || navigator?.userAgent?.includes('Mobile')) ? 28 : 24,
+      fontSize: Platform.OS === 'web' || navigator?.userAgent?.includes('Mobile') ? 20 : 18,
+      lineHeight: Platform.OS === 'web' || navigator?.userAgent?.includes('Mobile') ? 28 : 24,
       letterSpacing: 0,
     },
     /** Font size: 20/22 */
     'H5 - XS': {
       fontFamily: Fonts['Inter-Bold'],
-      fontSize: (Platform.OS === 'web' || navigator?.userAgent?.includes('Mobile')) ? 22 : 20,
+      fontSize: Platform.OS === 'web' || navigator?.userAgent?.includes('Mobile') ? 22 : 20,
       lineHeight: 28,
       letterSpacing: 0,
     },
     /** Font size: 22/24 */
     'H4 - SM': {
       fontFamily: Fonts['Inter-Bold'],
-      fontSize: (Platform.OS === 'web' || navigator?.userAgent?.includes('Mobile')) ? 24 : 22,
-      lineHeight: (Platform.OS === 'web' || navigator?.userAgent?.includes('Mobile')) ? 32 : 28,
+      fontSize: Platform.OS === 'web' || navigator?.userAgent?.includes('Mobile') ? 24 : 22,
+      lineHeight: Platform.OS === 'web' || navigator?.userAgent?.includes('Mobile') ? 32 : 28,
       letterSpacing: 0,
     },
     /** Font size: 24/28 */
     'H3 - MD': {
       fontFamily: Fonts['Inter-Bold'],
-      fontSize: (Platform.OS === 'web' || navigator?.userAgent?.includes('Mobile')) ? 28 : 24,
-      lineHeight: (Platform.OS === 'web' || navigator?.userAgent?.includes('Mobile')) ? 36 : 32,
+      fontSize: Platform.OS === 'web' || navigator?.userAgent?.includes('Mobile') ? 28 : 24,
+      lineHeight: Platform.OS === 'web' || navigator?.userAgent?.includes('Mobile') ? 36 : 32,
       letterSpacing: 0,
     },
     /** Font size: 28/32 */
     'H2 - LG': {
       fontFamily: Fonts['Inter-Bold'],
-      fontSize: (Platform.OS === 'web' || navigator?.userAgent?.includes('Mobile')) ? 32 : 28,
-      lineHeight: (Platform.OS === 'web' || navigator?.userAgent?.includes('Mobile')) ? 36 : 32,
+      fontSize: Platform.OS === 'web' || navigator?.userAgent?.includes('Mobile') ? 32 : 28,
+      lineHeight: Platform.OS === 'web' || navigator?.userAgent?.includes('Mobile') ? 36 : 32,
       letterSpacing: 0,
     },
     /** Font size: 40/48 */
     'H1 - XL': {
       fontFamily: Fonts['Barlow-SemiBold'],
-      fontSize: (Platform.OS === 'web' || navigator?.userAgent?.includes('Mobile')) ? 40 : 32,
-      lineHeight: (Platform.OS === 'web' || navigator?.userAgent?.includes('Mobile')) ? 48 : 40,
+      fontSize: Platform.OS === 'web' || navigator?.userAgent?.includes('Mobile') ? 40 : 32,
+      lineHeight: Platform.OS === 'web' || navigator?.userAgent?.includes('Mobile') ? 48 : 40,
       letterSpacing: 0,
     },
   },
