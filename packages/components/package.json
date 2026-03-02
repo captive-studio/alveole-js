@@ -30,18 +30,18 @@
     "eslint": "^9.39.2"
   },
   "dependencies": {
-    "@lucide/lab": "^0.1.2",
-    "expo-application": "~7.0.8",
-    "expo-image": "^55.0.5",
-    "lucide-react-native": "0.557.0",
-    "react-native-webview": "^13.16.1",
     "zod": "^4.1.11"
   },
   "peerDependencies": {
     "@alveole/theme": "*",
     "@tamagui/core": "*",
     "react": "*",
-    "react-native": "*"
+    "react-native": "*",
+    "lucide-react-native": "0.557.0",
+    "@lucide/lab": "*",
+    "react-native-webview": ">=13",
+    "expo-application": "*",
+    "expo-image": "*"
   },
   "publishConfig": {
     "access": "public"
