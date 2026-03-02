@@ -11,7 +11,7 @@ type CustomPressableState = PressableStateCallbackType & {
 export type ButtonProps = Omit<PressableProps, 'children' | 'style'> & {
   title: string;
   size?: 'xs' | 'sm' | 'md' | 'lg'; // xs n'est pas censé exister
-  variant: 'primary' | 'secondary' | 'tertiary' | 'link'; // link n'est pas censé exister
+  variant: 'primary' | 'secondary' | 'tertiary' | 'link'; // link n'est pas censé exister et il manque danger
   startIcon?: IconProps['name'];
   endIcon?: IconProps['name'];
   ContainerProps?: BoxProps;
