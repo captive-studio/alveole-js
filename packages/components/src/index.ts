@@ -1,3 +1,3 @@
 export * from './core';
-export * from './ui';
 export * from './type';
+export * from './ui';

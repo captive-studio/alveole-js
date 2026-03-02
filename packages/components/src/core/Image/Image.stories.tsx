@@ -1,8 +1,7 @@
-import React from 'react';
-import { Image } from './Image';
-import { Typography } from '../Typography';
-import { Box } from '../Box';
 import { Story } from '../../type';
+import { Box } from '../Box';
+import { Typography } from '../Typography';
+import { Image } from './Image';
 
 export default {
   title: 'Image',

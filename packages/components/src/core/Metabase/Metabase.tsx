@@ -1,7 +1,6 @@
-import React from 'react';
 import WebView from 'react-native-webview';
-import { useStyles } from './Metabase.styles';
 import { BoxProps } from '../Box';
+import { useStyles } from './Metabase.styles';
 
 export type MetabaseProps =
   | {

@@ -1,7 +1,6 @@
-import React from 'react';
+import { Story } from '../../type';
 import { Metabase } from './Metabase';
 import { useStyles } from './Metabase.styles';
-import { Story } from '../../type';
 
 export default {
   title: 'Metabase',

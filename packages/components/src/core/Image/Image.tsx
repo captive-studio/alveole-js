@@ -1,8 +1,8 @@
 import { Image as ExpoImage, ImageProps as ExpoImageProps, ImageLoadEventData } from 'expo-image';
 import React, { useEffect, useState } from 'react';
 import { LucideIcon } from '../../ui';
-import { useStyles } from './Image.style';
 import { Box } from '../Box';
+import { useStyles } from './Image.style';
 
 const DEFAULT_ASPECT_RATIO = 3 / 4;
 type Dimension = number | `${number}%`;

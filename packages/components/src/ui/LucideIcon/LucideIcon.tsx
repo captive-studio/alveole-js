@@ -1,6 +1,5 @@
 import * as LabIcons from '@lucide/lab';
 import { Icon as BaseIcon, LucideIcon as Icon, icons } from 'lucide-react-native';
-import React from 'react';
 import { StyleProp, ViewStyle } from 'react-native';
 import { isLucideIconName, LucideIconName, LucideIconProps } from './LucideIcon.props';
 
