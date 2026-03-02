@@ -75,8 +75,8 @@ export const CustomTypography = {
     /** Font size: 40/48 */
     'H1 - XL': {
       fontFamily: Fonts['Barlow-SemiBold'],
-      fontSize: Platform.OS === 'web' ? 48 : 40,
-      lineHeight: Platform.OS === 'web' ? 56 : 48,
+      fontSize: Platform.OS === 'web' ? 40 : 32,
+      lineHeight: Platform.OS === 'web' ? 48 : 40,
       letterSpacing: 0,
     },
   },
