@@ -14,19 +14,7 @@ export default {
 } satisfies Story;
 
 export const Sizes = () => (
-  <Box
-    display="flex"
-    flexDirection="row"
-    gap={8}
-    flexWrap="wrap"
-    pressStyle={undefined}
-    focusStyle={undefined}
-    disabledStyle={undefined}
-    exitStyle={undefined}
-    opacity={undefined}
-    flex={undefined}
-    overflow={undefined}
-  >
+  <Box display="flex" flexDirection="row" gap={8} flexWrap="wrap">
     <Avatar size="xs" src="https://picsum.photos/100/200" />
     <Avatar size="sm" src="https://picsum.photos/100/200" />
     <Avatar size="md" src="https://picsum.photos/100/200" />
@@ -36,19 +24,7 @@ export const Sizes = () => (
 );
 
 export const Variants = () => (
-  <Box
-    display="flex"
-    flexDirection="row"
-    gap={8}
-    flexWrap="wrap"
-    pressStyle={undefined}
-    focusStyle={undefined}
-    disabledStyle={undefined}
-    exitStyle={undefined}
-    opacity={undefined}
-    flex={undefined}
-    overflow={undefined}
-  >
+  <Box display="flex" flexDirection="row" gap={8} flexWrap="wrap">
     <Avatar size="sm" src="https://picsum.photos/100/200" />
     <Avatar size="sm" fallbackText="Jean Pierre" />
     <Avatar size="sm" fallbackText="Jean-Pierre" />

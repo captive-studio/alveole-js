@@ -1,18 +1,18 @@
 import { Story } from '../../type/Story';
 import { ListItem } from '../ListItem';
 import { LucideIcon } from '../LucideIcon';
-import { AlveoleResourceList } from './ResourceList';
+import { ResourceList } from './ResourceList';
 import { useStyles } from './ResourceList.styles';
 import { ResourceListNoContent } from './ResourceListNoContent';
 
 export default {
-  title: 'AlveoleResourceList',
+  title: 'ResourceList',
   tags: ['Composant'],
   experimental: false,
   figmaURL:
     'https://www.figma.com/design/xJz8Z6vfrnZPKTtRbuT2W8/Alveole---Composants?node-id=1002-558&p=f&t=wo7HwL3p0McYL9ei-0',
   description: "Permet d’afficher une liste d'items avec un header et un footer",
-  component: AlveoleResourceList,
+  component: ResourceList,
   styleFn: useStyles,
 } satisfies Story;
 
@@ -44,7 +44,7 @@ const exampleDataWithPreview = [
 ];
 
 export const Default = () => (
-  <AlveoleResourceList
+  <ResourceList
     data={exampleData}
     keyExtractor={item => item.id}
     renderItem={({ item, index }) => (
@@ -62,7 +62,7 @@ export const Default = () => (
 );
 
 export const WithTitle = () => (
-  <AlveoleResourceList
+  <ResourceList
     titre="Titre de la liste"
     data={exampleData}
     keyExtractor={item => item.id}
@@ -81,7 +81,7 @@ export const WithTitle = () => (
 );
 
 export const WithIcon = () => (
-  <AlveoleResourceList
+  <ResourceList
     data={exampleData}
     keyExtractor={item => item.id}
     renderItem={({ item, index }) => (
@@ -104,7 +104,7 @@ export const WithIcon = () => (
 );
 
 export const WithPreviewImageAndTrailing = () => (
-  <AlveoleResourceList
+  <ResourceList
     data={exampleDataWithPreview}
     keyExtractor={item => item.id}
     renderItem={({ item, index }) => (
@@ -128,7 +128,7 @@ export const WithPreviewImageAndTrailing = () => (
 );
 
 export const WithNoContent = () => (
-  <AlveoleResourceList
+  <ResourceList
     data={[] as typeof exampleData}
     keyExtractor={item => item.id}
     renderItem={({ item }) => <ListItem title={item.name} description={item.description} />}

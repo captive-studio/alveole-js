@@ -4,7 +4,7 @@ import { ActivityIndicator, FlatList, FlatListProps } from 'react-native';
 import { Divider } from '../Divider';
 import { useStyles } from './ResourceList.styles';
 
-export type AlveoleResourceListProps<Item> = FlatListProps<Item> & {
+export type ResourceListProps<Item> = FlatListProps<Item> & {
   data: Item[];
   isLoading?: boolean;
   withPagination?: boolean;
@@ -14,13 +14,13 @@ export type AlveoleResourceListProps<Item> = FlatListProps<Item> & {
   renderNoContent: () => React.ReactNode;
 };
 
-export const AlveoleResourceListDivider = () => (
+export const ResourceListDivider = () => (
   <Box pl="100" pr="100">
     <Divider />
   </Box>
 );
 
-export const AlveoleResourceList = <Item,>(props: AlveoleResourceListProps<Item>) => {
+export const ResourceList = <Item,>(props: ResourceListProps<Item>) => {
   const {
     style,
     data,
