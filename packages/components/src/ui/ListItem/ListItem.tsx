@@ -1,8 +1,8 @@
 import { Box, BoxProps, IconProps, Image, LucideIcon, Typography } from '@alveole/components';
 import React from 'react';
 import { ActivityIndicator } from 'react-native';
-import { useStyles } from './ListItem.styles';
 import { Avatar, AvatarProps } from '../Avatar';
+import { useStyles } from './ListItem.styles';
 
 export type ListItemProps = BoxProps & {
   title: string;
