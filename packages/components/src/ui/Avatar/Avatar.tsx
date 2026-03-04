@@ -1,8 +1,8 @@
 import { useTheme } from '@alveole/theme';
 import { CSSProperties } from 'react';
 import { AvatarImageProps, Avatar as TamaguiAvatar } from 'tamagui';
-import { useStyles } from '././Avatar.styles';
 import { Typography } from '../../core';
+import { useStyles } from '././Avatar.styles';
 
 export type AvatarProps = {
   size: 'xs' | 'sm' | 'md' | 'lg' | 'xl';

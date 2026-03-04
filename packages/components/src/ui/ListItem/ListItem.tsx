@@ -1,8 +1,8 @@
-import { Box, BoxProps, IconProps, Image, Typography } from '../../core';
-import { LucideIcon } from '../LucideIcon';
 import React from 'react';
 import { ActivityIndicator } from 'react-native';
+import { Box, BoxProps, Image, Typography } from '../../core';
 import { Avatar, AvatarProps } from '../Avatar';
+import { IconProps, LucideIcon } from '../LucideIcon';
 import { useStyles } from './ListItem.styles';
 
 export type ListItemProps = BoxProps & {

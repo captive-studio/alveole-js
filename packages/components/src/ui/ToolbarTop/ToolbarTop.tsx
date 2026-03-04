@@ -1,6 +1,7 @@
-import { Box, ButtonIcon, Typography } from '../../core';
 import { useRouter } from 'expo-router';
 import React from 'react';
+import { Box, Typography } from '../../core';
+import { ButtonIcon } from '../Button';
 import { useStyles } from './ToolbarTop.styles';
 
 export type ToolbarTopVariant = 'default' | 'large' | 'compactLarge';

@@ -1,6 +1,6 @@
-import { Box, Typography } from '../../core';
 import React from 'react';
 import { ActivityIndicator, FlatList, FlatListProps } from 'react-native';
+import { Box, Typography } from '../../core';
 import { Divider } from '../Divider';
 import { useStyles } from './ResourceList.styles';
 

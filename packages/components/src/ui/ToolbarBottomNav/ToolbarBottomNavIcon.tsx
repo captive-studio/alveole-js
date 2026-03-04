@@ -1,6 +1,5 @@
-import { IconProps } from '../../core';
-import { LucideIcon } from '../LucideIcon';
 import { Color } from '@alveole/theme';
+import { IconProps, LucideIcon } from '../LucideIcon';
 
 export type ToolbarBottomNavIconProps = { color: Color };
 export const toolbarBottomNavIcon = (name: IconProps['name']) =>

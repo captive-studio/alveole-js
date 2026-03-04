@@ -27,7 +27,9 @@ export const WithLoading = () => <ListItem title="Titre" description="Descriptio
 
 export const WithoutSeparator = () => <ListItem title="Titre" description="Description" showSeparateur={false} />;
 
-export const WithIcon = () => <ListItem title="Titre" description="Description" IconProps={{ name: 'Settings' }} />;
+export const WithIcon = () => (
+  <ListItem title="Titre" description="Description" IconProps={{ name: 'Settings', color: 'primary' }} />
+);
 
 export const WithAvatar = () => (
   <ListItem
