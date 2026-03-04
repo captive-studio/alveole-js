@@ -35,6 +35,7 @@
   "peerDependencies": {
     "@alveole/theme": "*",
     "@tamagui/core": "*",
+    "tamagui": "*",
     "react": "*",
     "react-native": "*",
     "lucide-react-native": "0.557.0",
