@@ -41,7 +41,8 @@
     "@lucide/lab": "*",
     "react-native-webview": ">=13",
     "expo-application": "*",
-    "expo-image": "*"
+    "expo-image": "*",
+    "expo-router": "*"
   },
   "publishConfig": {
     "access": "public"
