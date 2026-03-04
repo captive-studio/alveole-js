@@ -1,6 +1,7 @@
 export * from './Avatar';
 export * from './Button';
 export * from './Divider';
+export * from './EmptyState';
 export * from './ListItem';
 export * from './LucideIcon';
 export * from './ResourceList';
