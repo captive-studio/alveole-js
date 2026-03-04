@@ -2,6 +2,7 @@
 export * as BoxStory from '../core/Box/Box.stories';
 export * as ImageStory from '../core/Image/Image.stories';
 export * as MetabaseStory from '../core/Metabase/Metabase.stories';
+export * as SectionStory from '../core/Section/Section.stories';
 export * as TypographyStory from '../core/Typography/Typography.stories';
 export * as VersionStory from '../core/Version/Version.stories';
 
