@@ -1,4 +1,4 @@
-import { ButtonIcon } from '@alveole/components';
+import { ButtonIcon } from '../../core';
 import { Story } from '../../type/Story';
 import { useStyles } from './ToolbarTop.styles';
 import { ToolbarTop } from './index';

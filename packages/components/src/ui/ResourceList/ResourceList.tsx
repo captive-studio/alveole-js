@@ -1,4 +1,4 @@
-import { Box, Typography } from '@alveole/components';
+import { Box, Typography } from '../../core';
 import React from 'react';
 import { ActivityIndicator, FlatList, FlatListProps } from 'react-native';
 import { Divider } from '../Divider';

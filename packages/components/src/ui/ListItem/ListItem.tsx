@@ -1,4 +1,5 @@
-import { Box, BoxProps, IconProps, Image, LucideIcon, Typography } from '@alveole/components';
+import { Box, BoxProps, IconProps, Image, Typography } from '../../core';
+import { LucideIcon } from '../LucideIcon';
 import React from 'react';
 import { ActivityIndicator } from 'react-native';
 import { Avatar, AvatarProps } from '../Avatar';

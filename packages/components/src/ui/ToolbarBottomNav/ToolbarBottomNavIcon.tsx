@@ -1,4 +1,5 @@
-import { IconProps, LucideIcon } from '@alveole/components';
+import { IconProps } from '../../core';
+import { LucideIcon } from '../LucideIcon';
 import { Color } from '@alveole/theme';
 
 export type ToolbarBottomNavIconProps = { color: Color };

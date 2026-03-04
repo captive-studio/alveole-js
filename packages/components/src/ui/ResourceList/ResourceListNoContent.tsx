@@ -1,4 +1,4 @@
-import { Box, BoxProps, Typography } from '@alveole/components';
+import { Box, BoxProps, Typography } from '../../core';
 import { Button, ButtonProps } from '../Button';
 import { IconProps, LucideIcon } from '../LucideIcon';
 import { useStyles } from './ResourceList.styles';

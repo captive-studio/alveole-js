@@ -1,4 +1,4 @@
-import { Box, ButtonIcon, Typography } from '@alveole/components';
+import { Box, ButtonIcon, Typography } from '../../core';
 import { useRouter } from 'expo-router';
 import React from 'react';
 import { useStyles } from './ToolbarTop.styles';
