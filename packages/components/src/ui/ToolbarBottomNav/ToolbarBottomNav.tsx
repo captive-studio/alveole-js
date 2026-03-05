@@ -18,7 +18,7 @@ export const ToolbarBottomNav = (props: ToolbarBottomNavProps) => {
       screenOptions={{
         headerShown: false,
         ...styles,
-        tabBarStyle: { ...styles.tabBarStyle, height: TabItemHeight, marginBottom: bottom },
+        tabBarStyle: { ...styles.tabBarStyle, height: TabItemHeight, paddingBottom: bottom },
         tabBarActiveTintColor: tabBarActiveTintColor.color,
         tabBarInactiveTintColor: tabBarInactiveTintColor.color,
         ...screenOptions,
