@@ -46,7 +46,6 @@ export const useStyles = makeStyles(({ text, color, spacing, radius }) => ({
   },
   footer: {
     width: '100%',
-    marginTop: spacing('100'),
     display: 'flex',
     flexDirection: 'column',
     gap: spacing('100'),
