@@ -48,6 +48,7 @@
     "@tamagui/tabs": "^1.129.0 <2.0.0",
     "@tamagui/toast": "^1.129.0 <2.0.0",
     "tamagui": "^1.129.0 <2.0.0",
+    "react-native-safe-area-context": "*",
     "react": "*",
     "react-native": "*",
     "react-native-svg": "^15.0.0",
