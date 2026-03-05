@@ -43,6 +43,7 @@ export const useStyles = makeStyles(({ text, color, spacing, shadows, radius }) 
     color: color.light.text['action-high-grey'],
   },
   secondaryContainer: {
+    borderStyle: 'solid',
     borderWidth: 1,
     borderColor: color.light.border['default-grey'],
     backgroundColor: color.light.background['default-grey'],
