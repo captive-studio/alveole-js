@@ -24,7 +24,7 @@ export const useStyles = makeStyles(({ text, spacing, color }) => ({
   },
   compactLargeInformations: {
     paddingBottom: 0,
-    height: 60,
+    minHeight: 60,
     justifyContent: 'center',
   },
   titre: {
