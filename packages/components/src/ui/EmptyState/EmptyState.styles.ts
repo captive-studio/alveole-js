@@ -13,6 +13,7 @@ export const useStyles = makeStyles(({ text, color, spacing, radius }) => ({
     paddingRight: spacing('2W'),
     textAlign: 'center',
     height: '100%',
+    width: '100%',
   },
   contenu: {
     display: 'flex',
