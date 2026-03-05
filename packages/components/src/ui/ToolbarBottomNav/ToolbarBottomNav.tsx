@@ -19,6 +19,9 @@ export const ToolbarBottomNav = (props: ToolbarBottomNavProps) => {
         headerShown: false,
         ...styles,
         tabBarStyle: { ...styles.tabBarStyle, height: TabItemHeight, marginBottom: bottom },
+        sceneStyle: {
+          backgroundColor: styles.tabBarStyle.backgroundColor,
+        },
         tabBarActiveTintColor: tabBarActiveTintColor.color,
         tabBarInactiveTintColor: tabBarInactiveTintColor.color,
         ...screenOptions,
