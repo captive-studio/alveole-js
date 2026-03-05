@@ -1,5 +1,5 @@
 import React, { CSSProperties } from 'react';
-import { ActivityIndicator, Pressable, PressableProps, PressableStateCallbackType, View } from 'react-native';
+import { ActivityIndicator, Platform, Pressable, PressableProps, PressableStateCallbackType, View } from 'react-native';
 import { Box, BoxProps, Typography } from '../../core';
 import { IconProps, LucideIcon } from '../LucideIcon';
 import { useStyles } from './Button.styles';
@@ -152,6 +152,12 @@ export const Button = React.forwardRef<View, ButtonProps>(function Button(props,
     return { size: iconSize };
   };
 
+  // Fix la bordure sur iOS pour le bouton secondaire
+  const pressableStyle = (Platform.OS === 'ios' && variant === 'secondary') ? {
+    borderWidth: 1,
+    borderColor: styles.secondaryContainer.borderColor
+  } : {};
+
   return (
     <Pressable
       ref={ref}
@@ -160,6 +166,7 @@ export const Button = React.forwardRef<View, ButtonProps>(function Button(props,
       {...(type === 'submit' ? { 'aria-selected': true } : {})}
       {...(fullWidth ? { style: { width: '100%' } } : {})}
       {...buttonProps}
+      style={[pressableStyle]}
     >
       {(state: CustomPressableState) => (
         <Box
