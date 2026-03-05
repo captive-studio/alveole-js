@@ -158,6 +158,10 @@ export const Button = React.forwardRef<View, ButtonProps>(function Button(props,
       ? {
           borderWidth: 1,
           borderColor: styles.secondaryContainer.borderColor,
+          borderTopLeftRadius: styles.container.borderTopLeftRadius,
+          borderBottomLeftRadius: styles.container.borderBottomLeftRadius,
+          borderTopRightRadius: styles.container.borderTopRightRadius,
+          borderBottomRightRadius: styles.container.borderBottomRightRadius,
         }
       : {};
 
