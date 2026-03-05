@@ -1,6 +1,6 @@
 {
   "name": "@alveole/theme",
-  "version": "0.16.0",
+  "version": "0.16.1",
   "description": "Shared theme tokens and utilities.",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
