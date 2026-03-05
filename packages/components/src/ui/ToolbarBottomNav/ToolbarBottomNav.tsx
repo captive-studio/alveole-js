@@ -1,7 +1,7 @@
 import { Tabs as ExpoTabs } from 'expo-router';
 import React from 'react';
-import { useStyles } from './ToolbarBottomNav.styles';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
+import { useStyles } from './ToolbarBottomNav.styles';
 
 export type ToolbarBottomNavProps = React.ComponentProps<typeof ExpoTabs>;
 export const TabItemHeight = 60;
