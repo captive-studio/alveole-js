@@ -22,6 +22,7 @@ export const useStyles = makeStyles(({ text, color, spacing, radius }) => ({
     textAlign: 'center',
     flex: 1,
     justifyContent: 'center',
+    width: '100%',
   },
   media: {
     display: 'flex',
@@ -36,6 +37,7 @@ export const useStyles = makeStyles(({ text, color, spacing, radius }) => ({
     display: 'flex',
     flexDirection: 'column',
     gap: spacing('2W'),
+    width: '100%',
   },
   title: {
     color: color.light.text['title-grey'],
