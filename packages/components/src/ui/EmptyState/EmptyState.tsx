@@ -31,7 +31,7 @@ export const EmptyState = (props: EmptyStateProps) => {
             {illustration ? (
               illustration
             ) : iconName && isLucideIconName(iconName) ? (
-              <LucideIcon name={iconName} size="lg" />
+              <LucideIcon name={iconName} size="lg" color={styles.media.color} />
             ) : null}
           </Box>
         )}
