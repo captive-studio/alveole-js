@@ -1,57 +1,77 @@
 import { Story } from '../../type/Story';
-import { ButtonIcon } from '../Button';
+import { ButtonIcon } from '../Button/ButtonIcon';
+import { ToolbarTop } from './ToolbarTop';
 import { useStyles } from './ToolbarTop.styles';
-import { ToolbarTop } from './index';
 
 export default {
   title: 'ToolbarTop',
   tags: ['Composant'],
   experimental: false,
-  description: "Barre d'outils en haut de page avec titre, sous-titre optionnel, bouton retour et actions.",
   figmaURL:
-    'https://www.figma.com/design/xJz8Z6vfrnZPKTtRbuT2W8/Alveole---Composants?node-id=1749-4674&t=baZKFA9BpkeQGeZm-4',
+    'https://www.figma.com/design/xJz8Z6vfrnZPKTtRbuT2W8/Alveole---Composants?node-id=1749-4674&t=qyctNCnE5tT5rKRk-4',
+  description:
+    "La ToolbarTop est un composant de navigation et d'action. A utiliser uniquement sur Mobile. Elle dispose de 3 variantes : default, large et compactLarge.",
+  mobileOnly: true,
   component: ToolbarTop,
   styleFn: useStyles,
 } satisfies Story;
 
-export const Default = () => <ToolbarTop title="Mon titre" />;
+export const Default = () => <ToolbarTop title="Titre" sousTitre="Sous-titre" />;
 
-export const WithSubtitle = () => <ToolbarTop title="Mon titre" subtitle="Un sous-titre optionnel" />;
-
-export const WithBackground = () => (
-  <ToolbarTop title="Page avec fond" subtitle="Le fond utilise la couleur par défaut" background />
-);
-
-export const WithBackButton = () => (
+export const SansAvatarEtAvecActions = () => (
   <ToolbarTop
-    title="Page détails"
-    subtitle="Avec bouton de retour"
-    canGoBack
-    onNavigateBack={() => console.log('Retour')}
+    title="Titre"
+    sousTitre="Sous-titre"
+    onNavigate={console.log}
+    actions={<ButtonIcon variant="tertiary" size="lg" iconSize="md" icon={'Plus'} onPress={console.log} />}
   />
 );
 
-export const WithActions = () => (
+export const AvecAvatarSansActions = () => (
+  <ToolbarTop title="Titre" sousTitre="Sous-titre" AvatarProps={{ src: 'https://picsum.photos/100/200' }} />
+);
+
+export const AvecAvatarEtActions = () => (
   <ToolbarTop
-    title="Page avec actions"
+    title="Titre"
+    sousTitre="Sous-titre"
+    onNavigate={console.log}
+    AvatarProps={{ src: 'https://picsum.photos/100/200' }}
+    actions={<ButtonIcon variant="tertiary" size="lg" iconSize="md" icon={'Plus'} onPress={console.log} />}
+  />
+);
+
+export const AvecPlusieursActions = () => (
+  <ToolbarTop
+    title="Titre"
+    sousTitre="Sous-titre"
+    onNavigate={console.log}
+    AvatarProps={{ src: 'https://picsum.photos/100/200' }}
     actions={
       <>
-        <ButtonIcon variant="tertiary" icon="Search" onPress={() => console.log('Recherche')} />
-        <ButtonIcon variant="tertiary" icon="MoveVertical" onPress={() => console.log('Menu')} />
+        <ButtonIcon variant="tertiary" size="lg" iconSize="md" icon={'Plus'} onPress={console.log} />
+        <ButtonIcon variant="tertiary" size="lg" iconSize="md" icon={'Download'} onPress={console.log} />
       </>
     }
   />
 );
 
-export const Full = () => (
+export const AvecTitreEtSansSousTitre = () => (
   <ToolbarTop
-    title="Tous les options"
-    subtitle="Sous-titre avec fond et actions"
-    background
-    canGoBack
-    onNavigateBack={() => console.log('Retour')}
-    actions={<ButtonIcon variant="tertiary" icon="Share" onPress={() => console.log('Partager')} />}
+    title="Titre"
+    onNavigate={console.log}
+    AvatarProps={{ src: 'https://picsum.photos/100/200' }}
+    actions={
+      <>
+        <ButtonIcon variant="tertiary" size="lg" iconSize="md" icon={'Plus'} onPress={console.log} />
+        <ButtonIcon variant="tertiary" size="lg" iconSize="md" icon={'Download'} onPress={console.log} />
+      </>
+    }
   />
 );
 
 export const CompactLarge = () => <ToolbarTop title="Titre compact large" variant="compactLarge" />;
+
+export const Large = () => (
+  <ToolbarTop title="Titre large" variant="large" onNavigate={console.log} sousTitre="Sous-titre" />
+);

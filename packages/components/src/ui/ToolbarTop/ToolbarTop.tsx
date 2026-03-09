@@ -1,62 +1,103 @@
-import { useRouter } from 'expo-router';
 import React from 'react';
-import { Box, Typography } from '../../core';
+import { Box, BoxProps, Typography } from '../../core';
+import { Avatar, AvatarProps } from '../Avatar';
 import { ButtonIcon } from '../Button';
+import { IconProps } from '../LucideIcon';
 import { useStyles } from './ToolbarTop.styles';
 
-export type ToolbarTopVariant = 'default' | 'large' | 'compactLarge';
-
-export type ToolbarTopProps = {
-  variant?: ToolbarTopVariant;
+export type ToolbarTopProps = BoxProps & {
+  variant?: 'default' | 'large' | 'compactLarge';
   title: string;
-  subtitle?: string;
-  background?: boolean;
-  showSubtitle?: boolean;
-
-  canGoBack?: boolean;
-  onNavigateBack?: () => void;
-
+  AvatarProps?: Omit<AvatarProps, 'size'>;
+  onNavigate?: () => void;
+  navigationIcon?: IconProps['name'];
+  sousTitre?: string;
+  onActions?: () => void;
+  actionsIcon?: IconProps['name'];
   actions?: React.ReactNode;
 };
 
 export const ToolbarTop = (props: ToolbarTopProps) => {
-  const { title, subtitle, background, canGoBack, actions, variant, onNavigateBack } = props;
+  const {
+    variant = 'default',
+    style,
+    title,
+    onNavigate,
+    navigationIcon = 'ChevronLeft',
+    AvatarProps,
+    sousTitre,
+    actions,
+    ...toolbarProps
+  } = props;
 
-  const router = useRouter();
   const styles = useStyles();
 
-  const handleBack = () => {
-    if (onNavigateBack) {
-      onNavigateBack();
-    } else if (router.canGoBack()) {
-      router.back();
-    }
-  };
+  const toolbarNavigation = onNavigate ? (
+    <Box tag="toolbar-navigation" style={styles.toolbarNavigation}>
+      <ButtonIcon variant="tertiary" size="lg" iconSize="md" icon={navigationIcon} onPress={onNavigate} />
+    </Box>
+  ) : (
+    <></>
+  );
 
-  return (
-    <Box tag="toolbar" style={{ ...styles.container, ...(background && styles.containerWithBackground) }}>
-      {variant !== 'compactLarge' && (
-        <Box tag="toolbar-haut" style={styles.toolbarHaut}>
-          <Box tag="toolbar-navigation">
-            {canGoBack && <ButtonIcon size="lg" variant="tertiary" icon="ArrowLeft" onPress={handleBack} />}
-          </Box>
-          <Box tag="toolbar-actions">{actions}</Box>
-        </Box>
-      )}
-
-      <Box
-        tag="toolbar-informations"
-        style={{ ...styles.informations, ...(variant === 'compactLarge' && styles.compactLargeInformations) }}
-      >
-        <Box tag="toolbar-titre">
-          <Typography style={styles.titre}>{title}</Typography>
-        </Box>
-        {subtitle && (
-          <Box tag="toolbar-sous-titre">
-            <Typography style={styles.sousTitre}>{subtitle}</Typography>
-          </Box>
+  const toolbarInformation = (
+    <Box
+      tag="toolbar-information"
+      style={{ ...styles.toolbarInformation, ...(variant === 'compactLarge' ? styles.compactLargeInformations : {}) }}
+    >
+      {AvatarProps && <Avatar {...AvatarProps} size="md" />}
+      <Box tag="toolbar-information-title" style={styles.toolbarInformationTitle}>
+        <Typography
+          style={{
+            ...styles.toolbarInformationTitleText,
+            ...(variant === 'compactLarge' || variant === 'large' ? styles.largeInformationTitleText : {}),
+          }}
+        >
+          {title}
+        </Typography>
+        {sousTitre && (
+          <Typography
+            style={{
+              ...styles.toolbarInformationTitleSubText,
+              ...(variant === 'compactLarge' || variant === 'large' ? styles.largeToolbarInformationTitleSubText : {}),
+            }}
+          >
+            {sousTitre}
+          </Typography>
         )}
       </Box>
+    </Box>
+  );
+
+  const toolbarActions = actions ? (
+    <Box tag="toolbar-actions" style={styles.toolbarActions}>
+      {actions}
+    </Box>
+  ) : (
+    <></>
+  );
+
+  if (variant === 'large') {
+    return (
+      <Box tag="toolbar" style={[styles.toolbarContainer, styles.largeToolbarContainer, style]} {...toolbarProps}>
+        {toolbarNavigation}
+        <Box tag="toolbar-bas">
+          {toolbarInformation}
+          {toolbarActions}
+        </Box>
+      </Box>
+    );
+  }
+
+  return (
+    <Box
+      tag="toolbar"
+      style={[styles.toolbarContainer, variant === 'compactLarge' ? styles.compactLargetoolbarContainer : {}, style]}
+      {...toolbarProps}
+    >
+      {toolbarNavigation}
+      {toolbarInformation}
+      {toolbarActions}
     </Box>
   );
 };
