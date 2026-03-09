@@ -45,7 +45,7 @@ export const ToolbarTop = (props: ToolbarTopProps) => {
       tag="toolbar-information"
       style={{ ...styles.toolbarInformation, ...(variant === 'compactLarge' ? styles.compactLargeInformations : {}) }}
     >
-      {AvatarProps && <Avatar {...AvatarProps} size="md" />}
+      {AvatarProps && <Avatar {...AvatarProps} size="md" carre />}
       <Box tag="toolbar-information-title" style={styles.toolbarInformationTitle}>
         <Typography
           style={{
