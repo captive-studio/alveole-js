@@ -13,8 +13,16 @@ export default {
   styleFn: useStyles,
 } satisfies Story;
 
+const styleContainer = {
+  display: 'flex',
+  flexDirection: 'row',
+  gap: 8,
+  alignItems: 'center',
+  flexWrap: 'wrap',
+} as const;
+
 export const Sizes = () => (
-  <Box display="flex" flexDirection="row" gap={8} flexWrap="wrap">
+  <Box style={styleContainer}>
     <Avatar size="xs" src="https://picsum.photos/100/200" />
     <Avatar size="sm" src="https://picsum.photos/100/200" />
     <Avatar size="md" src="https://picsum.photos/100/200" />
@@ -23,10 +31,19 @@ export const Sizes = () => (
   </Box>
 );
 
-export const Variants = () => (
-  <Box display="flex" flexDirection="row" gap={8} flexWrap="wrap">
-    <Avatar size="sm" src="https://picsum.photos/100/200" />
-    <Avatar size="sm" fallbackText="Jean Pierre" />
-    <Avatar size="sm" fallbackText="Jean-Pierre" />
+export const WithFallbackText = () => (
+  <Box style={styleContainer}>
+    <Avatar size="lg" fallbackText="Jean Pierre" />
+    <Avatar size="md" fallbackText="Jean Pierre" />
+  </Box>
+);
+
+export const Carre = () => (
+  <Box style={styleContainer}>
+    <Avatar size="xs" src="https://picsum.photos/100/200" carre />
+    <Avatar size="sm" src="https://picsum.photos/100/200" carre />
+    <Avatar size="md" src="https://picsum.photos/100/200" carre />
+    <Avatar size="lg" src="https://picsum.photos/100/200" carre />
+    <Avatar size="xl" src="https://picsum.photos/100/200" carre />
   </Box>
 );

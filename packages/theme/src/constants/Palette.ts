@@ -87,6 +87,16 @@ export const CustomPalette = {
     },
   },
 
+  dark: {
+    text: {
+      'default-grey': Colors['Neutre']['850'],
+    },
+    background: {
+      'alt-primary': Colors.BleuCaptive['75'],
+      'contrast-grey': Colors.Neutre['100'],
+    },
+  },
+
   /** @deprecated Utiliser light.background['action-high-primary'] ou les tokens du thème light selon le contexte */
   primary: Colors['PinkVivid']['500'],
   /** @deprecated Utiliser 'transparent' en valeur directe ou light.background selon le contexte */

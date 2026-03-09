@@ -2,13 +2,14 @@ import { useTheme } from '@alveole/theme';
 import { CSSProperties } from 'react';
 import { AvatarImageProps, Avatar as TamaguiAvatar } from 'tamagui';
 import { Typography } from '../../core';
-import { useStyles } from '././Avatar.styles';
+import { useStyles } from './Avatar.styles';
 
 export type AvatarProps = {
   size: 'xs' | 'sm' | 'md' | 'lg' | 'xl';
   fallbackText?: string;
   style?: CSSProperties;
   src?: AvatarImageProps['src'];
+  carre?: boolean;
 };
 
 const getInitials = (name: string) => {
@@ -19,7 +20,7 @@ const getInitials = (name: string) => {
 };
 
 export const Avatar = (props: AvatarProps) => {
-  const { style, fallbackText, src, size, ...avatarProps } = props;
+  const { style, fallbackText, src, size, carre, ...avatarProps } = props;
 
   const initials = getInitials(fallbackText ?? '');
 
@@ -35,7 +36,12 @@ export const Avatar = (props: AvatarProps) => {
   };
 
   return (
-    <TamaguiAvatar style={{ ...styles.avatar, ...style }} circular size={avatarSize[size]} {...avatarProps}>
+    <TamaguiAvatar
+      style={{ ...styles.avatar, ...(carre ? styles.carre : {}), ...style }}
+      circular={!carre}
+      size={avatarSize[size]}
+      {...avatarProps}
+    >
       <TamaguiAvatar.Image src={src} />
       <Typography style={styles.fallbackText}>{initials}</Typography>
     </TamaguiAvatar>
