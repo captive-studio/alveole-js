@@ -40,9 +40,12 @@ export function useThemeBuilder(params: CustomBuilder): Theme & { isReady: boole
     [loadedFonts, variant, width],
   );
 
+  const externalPadding = useCallback(() => (variant === 'mobile' ? Spacings['2W'] : Spacings['3W']), [variant]);
+
   return {
     // Spacings
     spacing: key => Spacings[key],
+    externalPadding,
 
     // Radius
     radius: key => RadiusList[key],

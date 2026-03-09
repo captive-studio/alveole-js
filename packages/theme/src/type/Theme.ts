@@ -16,6 +16,8 @@ import type { Typography } from './Typography';
 export interface Theme {
   // Spacing
   spacing: (key: SpacingKey) => Spacing;
+  /** Padding externe responsive : 100 sur mobile, 150 sur desktop */
+  externalPadding: () => Spacing;
 
   // Breakpoints
   variant: Variant;

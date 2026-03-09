@@ -1,7 +1,7 @@
 import { makeStyles } from '@alveole/theme';
 
-export const useStyles = makeStyles(({ isVariant, spacing }) => {
-  const paddingValue = isVariant('mobile') ? spacing('100') : spacing('150');
+export const useStyles = makeStyles(({ externalPadding, spacing }) => {
+  const paddingValue = externalPadding();
 
   return {
     section: {
