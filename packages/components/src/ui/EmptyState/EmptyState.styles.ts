@@ -38,14 +38,17 @@ export const useStyles = makeStyles(({ text, color, spacing, radius }) => ({
     flexDirection: 'column',
     gap: spacing('2W'),
     width: '100%',
+    justifyContent: 'center',
   },
   title: {
     color: color.light.text['title-grey'],
     ...text.Titres['H6 - XXS'],
+    textAlign: 'center',
   },
   description: {
     color: color.light.text['mention-grey'],
     ...text['Corps de texte'].SM.Regular,
+    textAlign: 'center',
   },
   footer: {
     width: '100%',
