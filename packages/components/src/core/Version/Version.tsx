@@ -7,7 +7,7 @@ import { useStyles } from './Version.styles';
 export const displayVersion = (version: string | undefined, build?: string) => {
   return `App version ${version}${build ? ` (build ${build})` : ''}`;
 };
-export type VersionProps = React.PropsWithoutRef<{}>;
+export type VersionProps = React.PropsWithoutRef<object>;
 export const Version = (_props: VersionProps) => {
   const styles = useStyles();
 

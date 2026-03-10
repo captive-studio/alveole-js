@@ -6,7 +6,7 @@ export const useStyles = makeStyles(() => ({
     height: Platform.OS === 'web' ? '100%' : 600,
     width: '100%',
     flex: 1,
-    background: '#ffffff',
+    backgroundColor: '#ffffff',
     borderRadius: 10,
     boxSizing: 'border-box',
   },
