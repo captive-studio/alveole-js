@@ -47,6 +47,11 @@ module.exports = defineConfig([
           message:
             'N’utilisez pas la forme raccourcie padding avec plusieurs valeurs. Utilisez paddingTop, paddingBottom, paddingLeft et paddingRight à la place.',
         },
+        {
+          selector: "Property[key.name='border'], Property[key.value='border']",
+          message:
+            'N’utilisez pas la propriété raccourcie border. Utilisez borderColor, borderWidth, borderStyle, etc. à la place.',
+        },
       ],
     },
   },
