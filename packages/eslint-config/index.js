@@ -32,6 +32,19 @@ module.exports = defineConfig([
     },
   },
   {
+    files: ['**/*.styles.ts'],
+    rules: {
+      'no-restricted-syntax': [
+        'error',
+        {
+          selector: "Property[key.name='transition'], Property[key.value='transition']",
+          message:
+            'N’utilisez pas la propriété CSS transition. Utilisez transitionBehavior, transitionDelay, transitionDuration, transitionProperty ou transitionTimingFunction à la place.',
+        },
+      ],
+    },
+  },
+  {
     files: ['**/services/**/*.{ts,tsx}'],
     rules: {
       '@typescript-eslint/no-redeclare': 'off',
