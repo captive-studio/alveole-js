@@ -27,6 +27,9 @@ export const useStyles = makeStyles(({ text, color, spacing }) => ({
   },
   toolbarInformationWithBorder: {
     borderBottomWidth: 1,
+    borderLeftWidth: 0,
+    borderRightWidth: 0,
+    borderTopWidth: 0,
     borderStyle: 'solid',
     borderColor: color.light.border['default-grey'],
   },
