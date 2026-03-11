@@ -25,6 +25,11 @@ export const useStyles = makeStyles(({ text, color, spacing }) => ({
     flexDirection: 'column',
     alignItems: 'flex-start',
   },
+  toolbarInformationWithBorder: {
+    borderBottomWidth: 1,
+    borderStyle: 'solid',
+    borderColor: color.light.border['default-grey'],
+  },
   toolbarNavigation: {
     display: 'flex',
     justifyContent: 'center',

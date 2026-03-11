@@ -9,6 +9,7 @@ export type ToolbarTopProps = BoxProps & {
   variant?: 'default' | 'large' | 'compactLarge';
   title: string;
   AvatarProps?: Omit<AvatarProps, 'size'>;
+  withBorder?: boolean;
   onNavigate?: () => void;
   navigationIcon?: IconProps['name'];
   sousTitre?: string;
@@ -27,6 +28,7 @@ export const ToolbarTop = (props: ToolbarTopProps) => {
     AvatarProps,
     sousTitre,
     actions,
+    withBorder = false,
     ...toolbarProps
   } = props;
 
@@ -43,7 +45,11 @@ export const ToolbarTop = (props: ToolbarTopProps) => {
   const toolbarInformation = (
     <Box
       tag="toolbar-information"
-      style={{ ...styles.toolbarInformation, ...(variant === 'compactLarge' ? styles.compactLargeInformations : {}) }}
+      style={{
+        ...styles.toolbarInformation,
+        ...(variant === 'compactLarge' ? styles.compactLargeInformations : {}),
+        ...(withBorder ? styles.toolbarInformationWithBorder : {}),
+      }}
     >
       {AvatarProps && <Avatar {...AvatarProps} size="md" carre />}
       <Box tag="toolbar-information-title" style={styles.toolbarInformationTitle}>
