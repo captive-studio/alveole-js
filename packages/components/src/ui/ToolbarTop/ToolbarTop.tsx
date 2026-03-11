@@ -48,7 +48,6 @@ export const ToolbarTop = (props: ToolbarTopProps) => {
       style={{
         ...styles.toolbarInformation,
         ...(variant === 'compactLarge' ? styles.compactLargeInformations : {}),
-        ...(withBorder ? styles.toolbarInformationWithBorder : {}),
       }}
     >
       {AvatarProps && <Avatar {...AvatarProps} size="md" carre />}
@@ -85,7 +84,16 @@ export const ToolbarTop = (props: ToolbarTopProps) => {
 
   if (variant === 'large') {
     return (
-      <Box tag="toolbar" style={[styles.toolbarContainer, styles.largeToolbarContainer, style]} {...toolbarProps}>
+      <Box
+        tag="toolbar"
+        style={[
+          styles.toolbarContainer,
+          styles.largeToolbarContainer,
+          style,
+          withBorder ? styles.toolbarInformationWithBorder : {},
+        ]}
+        {...toolbarProps}
+      >
         {toolbarNavigation}
         <Box tag="toolbar-bas">
           {toolbarInformation}
@@ -98,7 +106,12 @@ export const ToolbarTop = (props: ToolbarTopProps) => {
   return (
     <Box
       tag="toolbar"
-      style={[styles.toolbarContainer, variant === 'compactLarge' ? styles.compactLargetoolbarContainer : {}, style]}
+      style={[
+        styles.toolbarContainer,
+        variant === 'compactLarge' ? styles.compactLargetoolbarContainer : {},
+        style,
+        withBorder ? styles.toolbarInformationWithBorder : {},
+      ]}
       {...toolbarProps}
     >
       {toolbarNavigation}

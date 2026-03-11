@@ -1,7 +1,8 @@
 import { Platform } from 'react-native';
 import { Fonts } from './Font';
 
-export const isMobile = Platform.OS !== 'web' || navigator?.userAgent?.includes('iPhone') || navigator?.userAgent?.includes('Android');
+export const isMobile =
+  Platform.OS !== 'web' || navigator?.userAgent?.includes('iPhone') || navigator?.userAgent?.includes('Android');
 
 export const CustomTypography = {
   'Titres alternatifs': {
