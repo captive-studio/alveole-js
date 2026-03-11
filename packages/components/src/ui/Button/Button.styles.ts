@@ -163,6 +163,7 @@ export const useStyles = makeStyles(({ text, color, spacing, shadows, radius }) 
   },
   secondaryContainerDisabled: {
     cursor: 'not-allowed',
+    borderColor: color.light.border['disabled-grey'],
   },
   tertiaryTitleDisabled: {
     cursor: 'not-allowed',

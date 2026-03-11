@@ -153,8 +153,8 @@ export const Button = React.forwardRef<View, ButtonProps>(function Button(props,
   };
 
   // Fix la bordure sur iOS pour le bouton secondaire
-  const pressableStyle =
-    Platform.OS === 'ios' && variant === 'secondary'
+  const pressableStyle = {
+    ...(Platform.OS === 'ios' && variant === 'secondary'
       ? {
           borderWidth: 1,
           borderColor: styles.secondaryContainer.borderColor,
@@ -163,7 +163,9 @@ export const Button = React.forwardRef<View, ButtonProps>(function Button(props,
           borderTopRightRadius: styles.container.borderTopRightRadius,
           borderBottomRightRadius: styles.container.borderBottomRightRadius,
         }
-      : {};
+      : {}),
+    ...(disabled ? { borderColor: styles.secondaryContainerDisabled.borderColor } : {}),
+  };
 
   return (
     <Pressable
