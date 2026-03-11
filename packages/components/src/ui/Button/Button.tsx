@@ -164,7 +164,7 @@ export const Button = React.forwardRef<View, ButtonProps>(function Button(props,
           borderBottomRightRadius: styles.container.borderBottomRightRadius,
         }
       : {}),
-    ...(disabled ? { borderColor: styles.secondaryContainerDisabled.borderColor } : {}),
+    ...(disabled ? { borderWidth: 0 } : {}),
   };
 
   return (
