@@ -1,5 +1,6 @@
 import * as LabIcons from '@lucide/lab';
-import { Icon as BaseIcon, LucideIcon as Icon, icons } from 'lucide-react-native';
+import { Icon as BaseIcon, LucideIcon as Icon } from 'lucide-react-native';
+import * as LucideIcons from 'lucide-react-native/icons';
 import { StyleProp, ViewStyle } from 'react-native';
 import { isLucideIconName, LucideIconName, LucideIconProps } from './LucideIcon.props';
 
@@ -10,7 +11,7 @@ export type IconProps = LucideIconProps;
 export const LucideIcon = (props: IconProps) => {
   const { style, size, color } = props;
 
-  const iconMap: Record<LucideIconName, Icon> = icons;
+  const iconMap: Record<LucideIconName, Icon> = LucideIcons;
 
   const sizeMap: Record<IconProps['size'], number> = {
     xs: 12,
