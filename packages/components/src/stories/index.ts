@@ -10,6 +10,7 @@ export * as VersionStory from '../core/Version/Version.stories';
 // UI
 export * as AvatarStory from '../ui/Avatar/Avatar.stories';
 export * as ButtonStory from '../ui/Button/Button.stories';
+export * as CardStory from '../ui/Card/Card.stories';
 export * as DividerStory from '../ui/Divider/Divider.stories';
 export * as EmptyStateStory from '../ui/EmptyState/EmptyState.stories';
 export * as ListItemStory from '../ui/ListItem/ListItem.stories';
