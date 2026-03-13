@@ -1,4 +1,4 @@
-import { Box } from '@alveole/components';
+import { Box } from '../../core/Box';
 import { useTheme } from '@alveole/theme';
 import React from 'react';
 import { Platform } from 'react-native';

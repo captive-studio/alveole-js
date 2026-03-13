@@ -1,4 +1,4 @@
-import { Box } from '@alveole/components';
+import { Box } from '../../core/Box';
 import React, { useImperativeHandle, useRef } from 'react';
 import { NativeScrollEvent, NativeSyntheticEvent, ScrollView } from 'react-native';
 import type { PageProps } from './Page';
