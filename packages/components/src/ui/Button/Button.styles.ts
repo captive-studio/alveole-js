@@ -1,6 +1,6 @@
 import { makeStyles } from '@alveole/theme';
 
-export const useStyles = makeStyles(({ text, color, spacing, shadows, radius }) => ({
+export const useStyles = makeStyles(({ text, color, spacing, radius }) => ({
   container: {
     borderTopLeftRadius: radius('md'),
     borderBottomLeftRadius: radius('md'),
@@ -30,7 +30,6 @@ export const useStyles = makeStyles(({ text, color, spacing, shadows, radius }) 
   },
   primaryContainer: {
     backgroundColor: color.light.background['action-high-primary'],
-    ...shadows(2),
   },
   primaryTitleHover: {
     color: color.light.text['inverted-primary'],
