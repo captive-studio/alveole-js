@@ -5,6 +5,7 @@ export * as MetabaseStory from '../core/Metabase/Metabase.stories';
 export * as SectionStory from '../core/Section/Section.stories';
 export * as TypographyStory from '../core/Typography/Typography.stories';
 export * as VersionStory from '../core/Version/Version.stories';
+export * as PageStory from '../core/Page/Page.stories';
 
 // UI
 export * as AvatarStory from '../ui/Avatar/Avatar.stories';
