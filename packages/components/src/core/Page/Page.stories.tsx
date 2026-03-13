@@ -1,11 +1,6 @@
-import { Highlight } from '@/ui/base/Highlight';
-import { Story } from '@/ui/type/Story';
-import React from 'react';
-import { Light } from 'react-syntax-highlighter';
-import typescript from 'react-syntax-highlighter/dist/esm/languages/hljs/typescript';
+import { Story } from '../../type';
+import { Box } from '../Box';
 import { Page } from './Page';
-
-Light.registerLanguage('typescript', typescript);
 
 export default {
   title: 'Pages',
@@ -26,7 +21,7 @@ const codeExample = `<Page
   {/* ... */}
 </Page>`;
 
-export const ExampleUsage = () => <Highlight language="typescript">{codeExample}</Highlight>;
+export const ExampleUsage = () => <Box>{codeExample}</Box>;
 
 const codeExampleSidebar = `const sidebarController = useSidebar();
 return (
@@ -39,4 +34,4 @@ return (
   </Page>
 );`;
 
-export const ExampleUsageSidebar = () => <Highlight language="typescript">{codeExampleSidebar}</Highlight>;
+export const ExampleUsageSidebar = () => <Box>{codeExampleSidebar}</Box>;

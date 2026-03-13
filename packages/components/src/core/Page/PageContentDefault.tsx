@@ -1,5 +1,4 @@
 import { Box } from '@alveole/components';
-import React from 'react';
 import type { PageProps } from './Page';
 
 export type PageContentDefaultProps = PageProps;

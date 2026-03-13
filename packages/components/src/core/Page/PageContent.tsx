@@ -4,8 +4,8 @@ import React from 'react';
 import { Platform } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { PageProps } from './Page';
-import { PageBackground } from './PageBackground';
 import { useStyles } from './Page.styles';
+import { PageBackground } from './PageBackground';
 import { PageContentDefault } from './PageContentDefault';
 import { PageContentScrollable } from './PageContentScrollable';
 

@@ -1,5 +1,5 @@
-import React from 'react';
 import { LinearGradient } from 'expo-linear-gradient';
+import React from 'react';
 import { useStyles } from './Page.styles';
 
 export type PageBackgroundProps = {
@@ -20,4 +20,3 @@ export const PageBackground = ({ children }: PageBackgroundProps) => {
     </LinearGradient>
   );
 };
-

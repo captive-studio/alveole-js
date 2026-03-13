@@ -1,6 +1,6 @@
-import { SidebarController } from '@/ui/components/Sidebar';
 import { BoxProps } from '@alveole/components';
 import React from 'react';
+import { SidebarController } from '../../ui/Sidebar';
 import { PageContent } from './PageContent';
 import { PageHead } from './PageHead';
 
