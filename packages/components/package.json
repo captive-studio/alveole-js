@@ -57,7 +57,8 @@
     "react-native-webview": ">=13",
     "expo-application": "*",
     "expo-image": "*",
-    "expo-router": "*"
+    "expo-router": "*",
+    "expo-linear-gradient": "*"
   },
   "publishConfig": {
     "access": "public"
