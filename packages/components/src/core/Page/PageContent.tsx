@@ -1,8 +1,8 @@
-import { Box } from '../../core/Box';
 import { useTheme } from '@alveole/theme';
 import React from 'react';
 import { Platform } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
+import { Box } from '../../core/Box';
 import { PageProps } from './Page';
 import { useStyles } from './Page.styles';
 import { PageBackground } from './PageBackground';

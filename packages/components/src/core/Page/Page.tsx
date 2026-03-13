@@ -1,5 +1,5 @@
-import { BoxProps } from '../../core';
 import React from 'react';
+import { BoxProps } from '../../core';
 import { SidebarController } from '../../ui/Sidebar';
 import { PageContent } from './PageContent';
 import { PageHead } from './PageHead';

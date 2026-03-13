@@ -1,6 +1,6 @@
-import { Box } from '../../core/Box';
 import React, { useImperativeHandle, useRef } from 'react';
 import { NativeScrollEvent, NativeSyntheticEvent, ScrollView } from 'react-native';
+import { Box } from '../../core/Box';
 import type { PageProps } from './Page';
 
 export type PageContentScrollableHandle = {
