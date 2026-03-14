@@ -6,6 +6,7 @@ export * from './Divider';
 export * from './EmptyState';
 export * from './ListItem';
 export * from './LucideIcon';
+export * from './PageHeader';
 export * from './ResourceList';
 export * from './ToolbarBottomNav';
 export * from './ToolbarTop';
