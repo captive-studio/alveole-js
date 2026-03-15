@@ -10,12 +10,18 @@ export type BreadcrumbItem = {
 };
 
 function humanizeSegment(segment: string): string {
-  return segment.replace(/[-_]/g, ' ').replace(/^\w/, c => c.toUpperCase());
+  return segment
+    .replace(/[-_]/g, ' ')
+    .replace(/^\w/, (c) => c.toUpperCase());
 }
 
 export type BreadcrumbsProps = React.PropsWithChildren<{
   /** Label du premier élément (lien vers la racine). Défaut : "Accueil" */
   rootLabel?: string;
+  /**
+   * Segments à ne pas afficher dans le fil d'Ariane (ex. ["admin"] pour avoir Accueil > Missions au lieu de Accueil > Admin > Missions).
+   */
+  segmentsToSkip?: string[];
   /**
    * Personnalisation du libellé pour un segment.
    * Par défaut : capitalisation + remplacement des - et _ par des espaces.
@@ -31,12 +37,24 @@ export type BreadcrumbsProps = React.PropsWithChildren<{
  * Accueil > Admin > Missions > Détail
  */
 export const Breadcrumbs = (props: BreadcrumbsProps) => {
-  const { rootLabel = 'Accueil', getLabel = segment => humanizeSegment(segment) } = props;
+  const {
+    rootLabel = 'Accueil',
+    segmentsToSkip,
+    getLabel = (segment) => humanizeSegment(segment),
+  } = props;
 
   const pathname = usePathname();
   const styles = useStyles();
 
   const segments = pathname.split('/').filter(Boolean);
+
+  const segmentItems = segments
+    .map((segment, index) => ({
+      segment,
+      index,
+      path: '/' + segments.slice(0, index + 1).join('/'),
+    }))
+    .filter(({ segment }) => !segmentsToSkip?.includes(segment));
 
   const items: BreadcrumbItem[] = [
     {
@@ -44,27 +62,27 @@ export const Breadcrumbs = (props: BreadcrumbsProps) => {
       href: '/',
       isCurrent: segments.length === 0,
     },
-    ...segments.map((segment, index) => {
-      const path = '/' + segments.slice(0, index + 1).join('/');
-      return {
-        label: getLabel(segment, index, path),
-        href: path,
-        isCurrent: index === segments.length - 1,
-      };
-    }),
+    ...segmentItems.map(({ segment, index, path }) => ({
+      label: getLabel(segment, index, path),
+      href: path,
+      isCurrent: index === segments.length - 1,
+    })),
   ];
 
   return (
     <Box style={styles.container}>
       {items.map((item, index) => (
-        <Box key={`${item.href}-${index}`} style={{ flexDirection: 'row', alignItems: 'center' }}>
-          {index > 0 && <Typography style={styles.separator}> &gt; </Typography>}
+        <Box
+          key={`${item.href}-${index}`}
+          style={{ flexDirection: 'row', alignItems: 'center' }}
+        >
+          {index > 0 && (
+            <Typography style={styles.separator}> &gt; </Typography>
+          )}
           {item.isCurrent ? (
             <Typography style={styles.current}>{item.label}</Typography>
           ) : (
-            <A href={item.href as Href & string} style={styles.link} hoverStyle={styles.linkHover}>
-              {item.label}
-            </A>
+            <A href={item.href as Href & string} style={styles.link} hoverStyle={styles.linkHover}>{item.label}</A>
           )}
         </Box>
       ))}

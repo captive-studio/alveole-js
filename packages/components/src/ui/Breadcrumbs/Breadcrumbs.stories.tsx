@@ -41,3 +41,21 @@ export const WithCustomLabels = () => (
     />
   </Box>
 );
+
+export const WithSegmentsToSkip = () => (
+  <Box p={4}>
+    <Breadcrumbs
+      segmentsToSkip={['admin', 'ui-kit']}
+      getLabel={(segment, _index, _path) => {
+        const labels: Record<string, string> = {
+          admin: 'Administration',
+          missions: 'Missions',
+          show: 'Détail',
+          salarie: 'Espace salarié',
+          client: 'Espace client',
+        };
+        return labels[segment] ?? segment;
+      }}
+    />
+  </Box>
+);
