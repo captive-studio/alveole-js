@@ -1,6 +1,6 @@
 import { makeStyles } from '@alveole/theme';
 
-export const useStyles = makeStyles(({ externalPadding, text, color, spacing, radius }) => {
+export const useStyles = makeStyles(({ externalPadding, text, color, spacing, radius, isVariant }) => {
   const paddingValue = externalPadding();
 
   return {
@@ -9,9 +9,9 @@ export const useStyles = makeStyles(({ externalPadding, text, color, spacing, ra
       flexDirection: 'column',
       alignItems: 'center',
       justifyContent: 'center',
-      gap: spacing('150'),
-      paddingTop: 0,
-      paddingBottom: spacing('2W'),
+      gap: isVariant('mobile') ? spacing('2W') : spacing('3W'),
+      paddingTop: isVariant('mobile') ? 0 : spacing('3W'),
+      paddingBottom: isVariant('mobile') ? 0 : spacing('3W'),
       paddingLeft: paddingValue,
       paddingRight: paddingValue,
       textAlign: 'center',
@@ -23,7 +23,7 @@ export const useStyles = makeStyles(({ externalPadding, text, color, spacing, ra
       gap: spacing('2W'),
       alignItems: 'center',
       textAlign: 'center',
-      flex: 1,
+      flex: isVariant('mobile') ? 1 : undefined,
       justifyContent: 'center',
       width: '100%',
     },
@@ -54,7 +54,7 @@ export const useStyles = makeStyles(({ externalPadding, text, color, spacing, ra
       textAlign: 'center',
     },
     footer: {
-      width: '100%',
+      width: isVariant('mobile') ? '100%' : undefined,
       display: 'flex',
       flexDirection: 'column',
       gap: spacing('100'),

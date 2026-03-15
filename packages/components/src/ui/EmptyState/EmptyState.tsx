@@ -43,7 +43,11 @@ export const EmptyState = (props: EmptyStateProps) => {
         </Box>
       </Box>
 
-      {footer && <Box style={styles.footer}>{footer}</Box>}
+      {footer && (
+        <Box tag="empty-state-footer" style={styles.footer}>
+          {footer}
+        </Box>
+      )}
     </Box>
   );
 };
