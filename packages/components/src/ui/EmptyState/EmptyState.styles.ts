@@ -15,7 +15,7 @@ export const useStyles = makeStyles(({ externalPadding, text, color, spacing, ra
       paddingLeft: paddingValue,
       paddingRight: paddingValue,
       textAlign: 'center',
-      height: '100%',
+      height: isVariant('mobile') ? '100%' : undefined,
       width: '100%',
     },
     contenu: {
