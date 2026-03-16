@@ -13,6 +13,9 @@ export const useStyles = makeStyles(({ text, color, spacing, radius }) => ({
     gap: spacing('050'),
     marginTop: 'auto',
     marginBottom: 'auto',
+    transitionProperty: 'all',
+    transitionDuration: '150ms',
+    transitionTimingFunction: 'ease',
   },
   buttonLoader: {
     position: 'absolute',
