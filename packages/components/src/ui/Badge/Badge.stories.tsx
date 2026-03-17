@@ -1,5 +1,5 @@
-import { Box } from '@alveole/components';
 import type { Story } from '../../type/Story';
+import { Box } from '../../core';
 import { Badge } from './Badge';
 import { useStyles } from './Badge.styles';
 

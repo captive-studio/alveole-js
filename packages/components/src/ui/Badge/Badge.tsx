@@ -1,15 +1,14 @@
-import { Typography, TypographyProps } from '@alveole/components';
 import { TextStyle } from 'react-native';
 import { Box } from '../../core';
 import { LucideIcon, LucideIconProps } from '../LucideIcon';
 import { useStyles } from './Badge.styles';
+import { TypographyProps , Typography } from '../../core/Typography';
 
 export type BadgeProps = TypographyProps & {
   variant: 'default' | 'info' | 'success' | 'error' | 'new' | 'warning';
   size: 'sm' | 'md';
   icon?: LucideIconProps['name'];
 };
-
 export const Badge = (props: BadgeProps) => {
   const { variant, style, size, icon, ...badgeProps } = props;
 
