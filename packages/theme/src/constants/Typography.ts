@@ -93,6 +93,12 @@ export const CustomTypography = {
         lineHeight: 20,
         letterSpacing: 0,
       },
+      Bold: {
+        fontFamily: Fonts['Inter-Bold'],
+        fontSize: 12,
+        lineHeight: 20,
+        letterSpacing: 0,
+      },
       Caps: {
         fontFamily: Fonts['Inter-Regular'],
         fontSize: 12,
