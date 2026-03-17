@@ -1,6 +1,5 @@
-import type { Story } from '../../type/Story';
 import { Box } from '@alveole/components';
-import React from 'react';
+import type { Story } from '../../type/Story';
 import { Badge } from './Badge';
 import { useStyles } from './Badge.styles';
 
