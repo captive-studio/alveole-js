@@ -21,11 +21,7 @@ export default {
 export const Default = () => <ToolbarTop title="Titre" sousTitre="Sous-titre" />;
 
 export const AvecRetourArriere = () => (
-  <ToolbarTop
-    title="Titre"
-    sousTitre="Sous-titre"
-    onNavigate={() => router.back()}
-  />
+  <ToolbarTop title="Titre" sousTitre="Sous-titre" onNavigate={() => router.back()} />
 );
 
 export const SansAvatarEtAvecActions = () => (
