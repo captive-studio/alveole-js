@@ -1,8 +1,8 @@
 import { TextStyle } from 'react-native';
 import { Box } from '../../core';
+import { Typography, TypographyProps } from '../../core/Typography';
 import { LucideIcon, LucideIconProps } from '../LucideIcon';
 import { useStyles } from './Badge.styles';
-import { TypographyProps , Typography } from '../../core/Typography';
 
 export type BadgeProps = TypographyProps & {
   variant: 'default' | 'info' | 'success' | 'error' | 'new' | 'warning';

@@ -1,5 +1,5 @@
-import type { Story } from '../../type/Story';
 import { Box } from '../../core';
+import type { Story } from '../../type/Story';
 import { Badge } from './Badge';
 import { useStyles } from './Badge.styles';
 
