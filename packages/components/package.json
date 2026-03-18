@@ -58,7 +58,8 @@
     "expo-application": "*",
     "expo-image": "*",
     "expo-router": "*",
-    "expo-linear-gradient": "*"
+    "expo-linear-gradient": "*",
+    "expo-constants": "*"
   },
   "publishConfig": {
     "access": "public"
