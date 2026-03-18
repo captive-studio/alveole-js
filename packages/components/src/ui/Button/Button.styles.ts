@@ -40,6 +40,9 @@ export const useStyles = makeStyles(({ text, color, spacing, radius }) => ({
   primaryContainerHover: {
     backgroundColor: color.light.background['action-high-primary-hover'],
   },
+  primaryContainerPressed: {
+    backgroundColor: color.light.background['action-high-primary-hover'],
+  },
 
   secondaryTitle: {
     color: color.light.text['action-high-grey'],
@@ -57,6 +60,10 @@ export const useStyles = makeStyles(({ text, color, spacing, radius }) => ({
     borderColor: color.light.border['default-grey'],
     backgroundColor: color.light.background['transparent-hover'],
   },
+  secondaryContainerPressed: {
+    borderColor: color.light.border['default-grey'],
+    backgroundColor: color.light.background['transparent-hover'],
+  },
 
   tertiaryTitle: {
     color: color.light.text['action-high-grey'],
@@ -66,6 +73,9 @@ export const useStyles = makeStyles(({ text, color, spacing, radius }) => ({
     color: color.light.text['action-high-grey'],
   },
   tertiaryContainerHover: {
+    backgroundColor: color.light.background['transparent-hover'],
+  },
+  tertiaryContainerPressed: {
     backgroundColor: color.light.background['transparent-hover'],
   },
 
@@ -79,6 +89,9 @@ export const useStyles = makeStyles(({ text, color, spacing, radius }) => ({
     color: color.text.link.hover,
   },
   linkContainerHover: {
+    backgroundColor: color.background.button.tertiary.default,
+  },
+  linkContainerPressed: {
     backgroundColor: color.background.button.tertiary.default,
   },
 

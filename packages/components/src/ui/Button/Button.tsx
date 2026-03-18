@@ -57,7 +57,7 @@ export const Button = React.forwardRef<View, ButtonProps>(function Button(props,
 
   const noPaddingStyle = { paddingTop: 0, paddingBottom: 0, paddingLeft: 0, paddingRight: 0 };
 
-  const buttonContainerStyle = () => {
+  const buttonContainerStyle = (state?: { pressed?: boolean }) => {
     let applicableStyles = {
       ...styles.container,
       ...(startIcon
@@ -78,15 +78,19 @@ export const Button = React.forwardRef<View, ButtonProps>(function Button(props,
     if (variant === 'primary') {
       applicableStyles = { ...applicableStyles, ...styles.primaryContainer };
       if (disabled) applicableStyles = { ...applicableStyles, ...styles.primaryContainerDisabled };
+      else if (state?.pressed) applicableStyles = { ...applicableStyles, ...styles.primaryContainerPressed };
     } else if (variant === 'secondary') {
       applicableStyles = { ...applicableStyles, ...styles.secondaryContainer };
       if (disabled) applicableStyles = { ...applicableStyles, ...styles.secondaryContainerDisabled };
+      else if (state?.pressed) applicableStyles = { ...applicableStyles, ...styles.secondaryContainerPressed };
     } else if (variant === 'tertiary') {
       applicableStyles = { ...applicableStyles, ...styles.tertiaryContainer };
       if (disabled) applicableStyles = { ...applicableStyles, ...styles.tertiaryContainerDisabled };
+      else if (state?.pressed) applicableStyles = { ...applicableStyles, ...styles.tertiaryContainerPressed };
     } else if (variant === 'link') {
       applicableStyles = { ...applicableStyles, ...styles.linkContainer };
       if (disabled) applicableStyles = { ...applicableStyles, ...styles.tertiaryContainerDisabled };
+      else if (state?.pressed) applicableStyles = { ...applicableStyles, ...styles.linkContainerPressed };
     }
     return {
       ...applicableStyles,
@@ -179,7 +183,7 @@ export const Button = React.forwardRef<View, ButtonProps>(function Button(props,
     >
       {(state: CustomPressableState) => (
         <Box
-          style={[buttonContainerStyle(), style]}
+          style={[buttonContainerStyle({ pressed: state.pressed }), style]}
           hoverStyle={{ ...buttonContainerHoverStyle(), ...hoverStyle }}
           {...containerProps}
         >
