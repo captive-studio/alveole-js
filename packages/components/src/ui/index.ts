@@ -9,6 +9,7 @@ export * from './ListItem';
 export * from './LucideIcon';
 export * from './PageHeader';
 export * from './ResourceList';
+export * from './Sidebar';
 export * from './Tag';
 export * from './ToolbarBottomNav';
 export * from './ToolbarTop';
