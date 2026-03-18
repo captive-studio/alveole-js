@@ -1,3 +1,4 @@
+import { router } from 'expo-router';
 import { Typography } from '../../core';
 import { Story } from '../../type/Story';
 import { ButtonIcon } from '../Button/ButtonIcon';
@@ -18,6 +19,14 @@ export default {
 } satisfies Story;
 
 export const Default = () => <ToolbarTop title="Titre" sousTitre="Sous-titre" />;
+
+export const AvecRetourArriere = () => (
+  <ToolbarTop
+    title="Titre"
+    sousTitre="Sous-titre"
+    onNavigate={() => router.back()}
+  />
+);
 
 export const SansAvatarEtAvecActions = () => (
   <ToolbarTop
