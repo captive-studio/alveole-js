@@ -1,6 +1,6 @@
-import { Box, Typography } from '@alveole/components';
 import React, { CSSProperties } from 'react';
 import { TextStyle } from 'react-native';
+import { Box, Typography } from '../../core';
 import { useStyles } from './Tag.styles';
 
 export type TagColors = 'default' | 'action';

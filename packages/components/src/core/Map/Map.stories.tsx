@@ -1,4 +1,4 @@
-import { Box } from '@alveole/components';
+import { Box } from '../../core';
 import type { Story } from '../../type/Story';
 import { Map } from './index';
 import { MapPropsJSON } from './Map.props';

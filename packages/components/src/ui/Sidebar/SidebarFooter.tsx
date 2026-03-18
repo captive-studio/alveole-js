@@ -1,4 +1,5 @@
-import { Box, Divider, Version } from '@alveole/components';
+import { Box, Version } from '../../core';
+import { Divider } from '../Divider';
 
 import React from 'react';
 

@@ -1,4 +1,4 @@
-import { Box, Typography } from '@alveole/components';
+import { Box, Typography } from '../../core';
 import { MapProps } from './Map.props';
 
 export const Map = (_: MapProps) => {
