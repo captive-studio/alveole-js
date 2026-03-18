@@ -4,6 +4,7 @@ export * from './Image';
 export * from './Map';
 export * from './Metabase';
 export * from './Page';
+export * from './PdfViewer';
 export * from './Section';
 export * from './Typography';
 export * from './Version';
