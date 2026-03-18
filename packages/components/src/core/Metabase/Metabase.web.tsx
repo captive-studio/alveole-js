@@ -1,4 +1,5 @@
 import React, { useEffect, useRef } from 'react';
+import { MetabaseProps } from './Metabase.props';
 import { useStyles } from './Metabase.styles';
 
 declare global {
@@ -15,15 +16,6 @@ declare global {
     }
   }
 }
-
-export type MetabaseProps =
-  | {
-      source: string;
-    }
-  | {
-      token: string;
-      instanceUrl: string;
-    };
 
 export const Metabase = (props: MetabaseProps) => {
   const styles = useStyles();
