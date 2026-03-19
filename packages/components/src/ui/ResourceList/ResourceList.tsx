@@ -1,10 +1,11 @@
+import { FlashList, FlashListProps } from '@shopify/flash-list';
 import React from 'react';
-import { ActivityIndicator, FlatList, FlatListProps } from 'react-native';
+import { ActivityIndicator } from 'react-native';
 import { Box, Typography } from '../../core';
 import { Divider } from '../Divider';
 import { useStyles } from './ResourceList.styles';
 
-export type ResourceListProps<Item> = FlatListProps<Item> & {
+export type ResourceListProps<Item> = FlashListProps<Item> & {
   data: Item[];
   isLoading?: boolean;
   withPagination?: boolean;
@@ -70,7 +71,7 @@ export const ResourceList = <Item,>(props: ResourceListProps<Item>) => {
           ...(withWhiteBackground ? styles.itemsWithWhiteBackground : {}),
         }}
       >
-        <FlatList data={data} contentContainerStyle={style} {...listProps} />
+        <FlashList data={data} contentContainerStyle={style} {...listProps} />
       </Box>
     </Box>
   );
