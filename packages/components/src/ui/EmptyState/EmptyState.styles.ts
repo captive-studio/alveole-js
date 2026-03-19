@@ -11,7 +11,7 @@ export const useStyles = makeStyles(({ externalPadding, text, color, spacing, ra
       justifyContent: 'center',
       gap: isVariant('mobile') ? spacing('2W') : spacing('3W'),
       paddingTop: isVariant('mobile') ? 0 : spacing('3W'),
-      paddingBottom: isVariant('mobile') ? 0 : spacing('3W'),
+      paddingBottom: isVariant('mobile') ? spacing('2W') : spacing('3W'),
       paddingLeft: paddingValue,
       paddingRight: paddingValue,
       textAlign: 'center',
