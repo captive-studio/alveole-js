@@ -1,7 +1,6 @@
+import { LucideIcon, LucideIconProps, Typography, TypographyProps } from '@alveole/components';
 import { TextStyle } from 'react-native';
 import { Box } from '../../core';
-import { Typography, TypographyProps } from '../../core/Typography';
-import { LucideIcon, LucideIconProps } from '../LucideIcon';
 import { useStyles } from './Badge.styles';
 
 export type BadgeProps = TypographyProps & {
