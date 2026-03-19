@@ -37,40 +37,4 @@ export const useStyles = makeStyles(({ color, text, radius, spacing, isVariant }
     alignItems: 'center',
     padding: spacing('4W'),
   },
-  noContent: {
-    display: 'flex',
-    padding: spacing('4W'),
-    flexDirection: 'column',
-    alignItems: 'center',
-    gap: spacing('5W'),
-    borderRadius: isVariant('mobile') ? 0 : spacing('2W'),
-    borderWidth: 1,
-    borderColor: color.border['default-grey'],
-    backgroundColor: '#FFFFFF',
-    borderLeftWidth: isVariant('mobile') ? 0 : 1,
-    borderRightWidth: isVariant('mobile') ? 0 : 1,
-    width: '100%',
-  },
-  noContentIntro: {
-    display: 'flex',
-    flexDirection: 'column',
-    alignItems: 'center',
-    gap: spacing('2W'),
-  },
-  noContentText: {
-    display: 'flex',
-    flexDirection: 'column',
-    alignItems: 'center',
-    gap: spacing('1W'),
-  },
-
-  noContentTextTitle: {
-    color: color.text['title-grey'],
-    ...text.Titres['H6 - XXS'],
-  },
-
-  noContentTextDescription: {
-    color: color.text['mention'],
-    ...text['Corps de texte'].SM.Regular,
-  },
 }));

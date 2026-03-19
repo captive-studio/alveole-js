@@ -1,9 +1,9 @@
 import { Story } from '../../type/Story';
+import { EmptyState } from '../EmptyState';
 import { ListItem } from '../ListItem';
 import { LucideIcon } from '../LucideIcon';
 import { ResourceList } from './ResourceList';
 import { useStyles } from './ResourceList.styles';
-import { ResourceListNoContent } from './ResourceListNoContent';
 
 export default {
   title: 'ResourceList',
@@ -50,14 +50,7 @@ export const Default = () => (
     renderItem={({ item, index }) => (
       <ListItem title={item.name} description={item.description} showSeparateur={index !== 0} />
     )}
-    renderNoContent={() => (
-      <ResourceListNoContent
-        title="Aucun élément"
-        description="Cliquez sur le bouton"
-        IconProps={{ name: 'House' }}
-        ButtonProps={{ title: 'Retour' }}
-      />
-    )}
+    renderNoContent={() => <EmptyState title="Aucun élément" description="Cliquez sur le bouton" iconName="House" />}
   />
 );
 
@@ -69,14 +62,7 @@ export const WithTitle = () => (
     renderItem={({ item, index }) => (
       <ListItem title={item.name} description={item.description} showSeparateur={index !== 0} />
     )}
-    renderNoContent={() => (
-      <ResourceListNoContent
-        title="Aucun élément"
-        description="Cliquez sur le bouton"
-        IconProps={{ name: 'House' }}
-        ButtonProps={{ title: 'Retour' }}
-      />
-    )}
+    renderNoContent={() => <EmptyState title="Aucun élément" description="Cliquez sur le bouton" iconName="House" />}
   />
 );
 
@@ -92,14 +78,7 @@ export const WithIcon = () => (
         showSeparateur={index !== 0}
       />
     )}
-    renderNoContent={() => (
-      <ResourceListNoContent
-        title="Aucun élément"
-        description="Cliquez sur le bouton"
-        IconProps={{ name: 'House' }}
-        ButtonProps={{ title: 'Retour' }}
-      />
-    )}
+    renderNoContent={() => <EmptyState title="Aucun élément" description="Cliquez sur le bouton" iconName="House" />}
   />
 );
 
@@ -116,14 +95,7 @@ export const WithPreviewImageAndTrailing = () => (
         showSeparateur={index !== 0}
       />
     )}
-    renderNoContent={() => (
-      <ResourceListNoContent
-        title="Aucun élément"
-        description="Cliquez sur le bouton"
-        IconProps={{ name: 'House' }}
-        ButtonProps={{ title: 'Retour' }}
-      />
-    )}
+    renderNoContent={() => <EmptyState title="Aucun élément" description="Cliquez sur le bouton" iconName="House" />}
   />
 );
 
@@ -132,13 +104,6 @@ export const WithNoContent = () => (
     data={[] as typeof exampleData}
     keyExtractor={item => item.id}
     renderItem={({ item }) => <ListItem title={item.name} description={item.description} />}
-    renderNoContent={() => (
-      <ResourceListNoContent
-        title="Aucun élément"
-        description="Cliquez sur le bouton"
-        IconProps={{ name: 'House' }}
-        ButtonProps={{ title: 'Retour' }}
-      />
-    )}
+    renderNoContent={() => <EmptyState title="Aucun élément" description="Cliquez sur le bouton" iconName="House" />}
   />
 );
