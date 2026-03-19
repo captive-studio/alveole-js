@@ -1,9 +1,15 @@
+const flashListPlugin = require('../plugins/flash-list');
+
 /** @type {import('eslint').Linter.Config} */
 const config = {
   files: ['**/*.{ts,tsx}'],
+  plugins: {
+    flashList: flashListPlugin,
+  },
   rules: {
     'no-redeclare': 'off',
     '@typescript-eslint/no-redeclare': ['error', { ignoreDeclarationMerge: true }],
+    'flashList/prefer-flash-list': 'error',
     'no-restricted-properties': [
       'error',
       {
