@@ -1,6 +1,6 @@
 import { makeStyles } from '@alveole/theme';
 
-export const useStyles = makeStyles(({ color, text, radius, spacing, isVariant }) => ({
+export const useStyles = makeStyles(({ color, text, radius, spacing }) => ({
   list: {
     display: 'flex',
     flexDirection: 'column',
@@ -22,7 +22,7 @@ export const useStyles = makeStyles(({ color, text, radius, spacing, isVariant }
   },
   withBorder: {
     borderWidth: 1,
-    borderColor: color.border['default-grey'],
+    borderColor: color.light.border['default-grey'],
     borderLeftWidth: 1,
     borderRightWidth: 1,
   },

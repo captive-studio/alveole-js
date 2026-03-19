@@ -2,7 +2,7 @@ import { Story } from '../../type/Story';
 import { EmptyState } from '../EmptyState';
 import { ListItem } from '../ListItem';
 import { LucideIcon } from '../LucideIcon';
-import { ResourceList } from './ResourceList';
+import { ResourceList, ResourceListDivider } from './ResourceList';
 import { useStyles } from './ResourceList.styles';
 
 export default {
@@ -104,6 +104,18 @@ export const WithNoContent = () => (
     data={[] as typeof exampleData}
     keyExtractor={item => item.id}
     renderItem={({ item }) => <ListItem title={item.name} description={item.description} />}
+    renderNoContent={() => <EmptyState title="Aucun élément" description="Cliquez sur le bouton" iconName="House" />}
+  />
+);
+
+export const WithDivider = () => (
+  <ResourceList
+    data={exampleData}
+    keyExtractor={item => item.id}
+    renderItem={({ item, index }) => (
+      <ListItem title={item.name} description={item.description} showSeparateur={index !== 0} />
+    )}
+    ItemSeparatorComponent={ResourceListDivider}
     renderNoContent={() => <EmptyState title="Aucun élément" description="Cliquez sur le bouton" iconName="House" />}
   />
 );
