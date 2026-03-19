@@ -54,6 +54,7 @@
     "react-native-svg": "^15.0.0",
     "lucide-react-native": ">=0.570.0",
     "@lucide/lab": "*",
+    "@shopify/flash-list": ">=2",
     "react-native-webview": ">=13",
     "expo-application": "*",
     "expo-image": "*",
