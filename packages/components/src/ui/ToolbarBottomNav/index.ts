@@ -3,9 +3,7 @@ import { ToolbarBottomNav as ToolbarBottomNavBase } from './ToolbarBottomNav';
 import { toolbarBottomNavIcon } from './ToolbarBottomNavIcon';
 
 // L'annotation explicite évite de faire fuiter des types internes de React Navigation.
-export const Tabs: any = Object.assign(ToolbarBottomNavBase, {
+export const ToolbarBottomNav: any = Object.assign(ToolbarBottomNavBase, {
   Screen: ExpoTabs.Screen,
   Icon: toolbarBottomNavIcon,
 });
-
-export { Tabs as ToolbarBottomNav };
