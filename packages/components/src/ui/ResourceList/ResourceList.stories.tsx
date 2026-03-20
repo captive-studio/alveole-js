@@ -2,8 +2,9 @@ import { Story } from '../../type/Story';
 import { EmptyState } from '../EmptyState';
 import { ListItem } from '../ListItem';
 import { LucideIcon } from '../LucideIcon';
-import { ResourceList, ResourceListDivider } from './ResourceList';
+import { ResourceList } from './ResourceList';
 import { useStyles } from './ResourceList.styles';
+import { ResourceListDivider } from './ResourceListDivider';
 
 export default {
   title: 'ResourceList',
