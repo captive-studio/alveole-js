@@ -2,7 +2,6 @@ import { FlashList, FlashListProps } from '@shopify/flash-list';
 import React from 'react';
 import { ActivityIndicator } from 'react-native';
 import { Box, Typography } from '../../core';
-import { Divider } from '../Divider';
 import { useStyles } from './ResourceList.styles';
 
 export type ResourceListProps<Item> = FlashListProps<Item> & {
@@ -14,12 +13,6 @@ export type ResourceListProps<Item> = FlashListProps<Item> & {
   titre?: string;
   renderNoContent: () => React.ReactNode;
 };
-
-export const ResourceListDivider = () => (
-  <Box pl="100" pr="100">
-    <Divider />
-  </Box>
-);
 
 export const ResourceList = <Item,>(props: ResourceListProps<Item>) => {
   const {
