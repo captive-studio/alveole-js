@@ -165,8 +165,7 @@ import { useLocalSearchParams } from 'expo-router';
 export default function UIKitStoryDetailRoute() {
   const { component } = useLocalSearchParams<{ component: string }>();
 
-  const story =
-    (Object.values(Stories) as StorybookModule[]).find(entry => entry.default.title === component) ?? null;
+  const story = (Object.values(Stories) as StorybookModule[]).find(entry => entry.default.title === component) ?? null;
 
   return <StoryDetailScreen story={story} />;
 }
@@ -180,11 +179,7 @@ import { ThemeConstantsScreen } from '@alveole/storybook';
 
 export default function ThemeConstantsPage() {
   return (
-    <ThemeConstantsScreen
-      constants={ThemeConstants}
-      title="UI Kit - Constants"
-      description="Constantes du thème"
-    />
+    <ThemeConstantsScreen constants={ThemeConstants} title="UI Kit - Constants" description="Constantes du thème" />
   );
 }
 ```
