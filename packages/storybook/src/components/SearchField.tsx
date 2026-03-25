@@ -14,20 +14,23 @@ export const SearchField = ({ label, placeholder, value, onChangeText }: SearchF
 
   return (
     <Box display="flex" gap={8}>
-      <Typography style={text['Corps de texte'].SM.SemiBold}>{label}</Typography>
+      <Typography style={text['Corps de texte'].XS.CapsBold}>{label}</Typography>
       <TextInput
         placeholder={placeholder}
         value={value}
         onChangeText={onChangeText}
         placeholderTextColor={color.light.text['mention-grey']}
+        autoCapitalize="none"
+        autoCorrect={false}
         style={{
           borderWidth: 1,
-          borderColor: color.light.border['plain-grey'],
+          borderColor: color.light.border['default-grey'],
           borderRadius: radius('md'),
-          paddingVertical: spacing('075'),
-          paddingHorizontal: spacing('100'),
+          paddingVertical: spacing('1W'),
+          paddingHorizontal: spacing('2W'),
           backgroundColor: color.light.background['default-grey'],
           color: color.light.text['default-grey'],
+          ...text['Corps de texte'].MD.Regular,
         }}
       />
     </Box>

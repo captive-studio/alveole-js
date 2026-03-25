@@ -1,26 +1,25 @@
-import type { z } from 'zod';
+import type { ComponentType } from 'react';
 
-export interface Story {
-  /** Nom de la page (doit être unique) */
+export type StoryTag = 'Kit' | 'Composant' | 'Template' | (string & {});
+
+export type StoryMeta = {
   title: string;
-  /** Classification du composant */
-  tags: ['Kit'] | ['Composant'] | ['Template'];
-  /** Composant créé par le dév */
+  tags: readonly StoryTag[];
   experimental: boolean;
-  /** Lien vers le figma */
   figmaURL?: string;
-  /** Uniquement disponible sur mobile */
   mobileOnly?: boolean;
-  /** Uniquement disponible sur web */
   webOnly?: boolean;
-  /** Description */
   description: string;
-  /** Composant */
-  component: React.FC<any>;
-  /** Configuration (Template only) */
+  component?: ComponentType<any>;
   config?: object;
-  /** Schema json des props */
-  props?: z.core.JSONSchema.JSONSchema;
-  /** Fonction représentant les styles */
+  props?: unknown;
   styleFn: () => string | object;
-}
+};
+
+export type Story = StoryMeta;
+
+export type StoryExample = ComponentType<any>;
+
+export type StoryModule<TMeta extends StoryMeta = StoryMeta> = {
+  default: TMeta;
+} & Record<string, StoryExample | TMeta>;

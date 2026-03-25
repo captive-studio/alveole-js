@@ -5,14 +5,15 @@ import { JsonBlock } from '../components/JsonBlock';
 export type ThemeConstantDetailScreenProps = {
   name: string;
   value: unknown;
+  beforeContent?: React.ReactNode;
 };
 
-export const ThemeConstantDetailScreen = ({ name, value }: ThemeConstantDetailScreenProps) => {
+export const ThemeConstantDetailScreen = ({ name, value, beforeContent }: ThemeConstantDetailScreenProps) => {
   const { text } = useTheme();
   const entries = typeof value === 'object' && value != null ? Object.entries(value) : [];
 
   return (
-    <Page scrollable title={name} description={name}>
+    <Page scrollable title={name} description={name} beforeContent={beforeContent}>
       <Section withPaddingY>
         <Box display="flex" gap={16}>
           {entries.length === 0 ? (

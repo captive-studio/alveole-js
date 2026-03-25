@@ -30,28 +30,30 @@ export type ThemePaletteScreenProps = {
   palette: Record<string, PaletteValue>;
   title?: string;
   description?: string;
+  beforeContent?: React.ReactNode;
 };
 
 export const ThemePaletteScreen = ({
   palette,
   title = 'UI Kit - Theme colors',
   description = 'Theme palette',
+  beforeContent,
 }: ThemePaletteScreenProps) => {
   const { text } = useTheme();
   const { width } = useWindowDimensions();
   const columns = width >= 1200 ? 3 : width >= 768 ? 2 : 1;
 
   return (
-    <Page scrollable title={title} description={description}>
+    <Page scrollable title={title} description={description} beforeContent={beforeContent}>
       <Section withPaddingY>
         <Box display="flex" flexDirection="row" flexWrap="wrap" gap={16}>
           {Object.entries(palette).map(([key, value]) => (
             <Box key={key} width={columns === 1 ? '100%' : columns === 2 ? '48%' : '31%'}>
               <Card>
-                <Card.Section display="flex" gap={16} p={'100'}>
+                <Box display="flex" gap={16} p={'100'}>
                   <Typography style={text.Titres['H5 - XS']}>{key}</Typography>
                   <PaletteValueView value={value} />
-                </Card.Section>
+                </Box>
               </Card>
             </Box>
           ))}
