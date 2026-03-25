@@ -1,4 +1,4 @@
-import { makeStyles } from '@alveole/theme';
+import { makeStyles, paletteCssVar } from '@alveole/theme';
 
 export const useStyles = makeStyles(({ text, color, spacing, radius }) => ({
   container: {
@@ -29,70 +29,70 @@ export const useStyles = makeStyles(({ text, color, spacing, radius }) => ({
 
   // Variants
   primaryTitle: {
-    color: color.light.text['inverted-primary'],
+    color: paletteCssVar(color, 'light', 'text', 'inverted-primary'),
   },
   primaryContainer: {
-    backgroundColor: color.light.background['action-high-primary'],
+    backgroundColor: paletteCssVar(color, 'light', 'background', 'action-high-primary'),
   },
   primaryTitleHover: {
-    color: color.light.text['inverted-primary'],
+    color: paletteCssVar(color, 'light', 'text', 'inverted-primary'),
   },
   primaryContainerHover: {
-    backgroundColor: color.light.background['action-high-primary-hover'],
+    backgroundColor: paletteCssVar(color, 'light', 'background', 'action-high-primary-hover'),
   },
   primaryContainerPressed: {
-    backgroundColor: color.light.background['action-high-primary-hover'],
+    backgroundColor: paletteCssVar(color, 'light', 'background', 'action-high-primary-hover'),
   },
 
   secondaryTitle: {
-    color: color.light.text['action-high-grey'],
+    color: paletteCssVar(color, 'light', 'text', 'action-high-grey'),
   },
   secondaryContainer: {
     borderStyle: 'solid',
     borderWidth: 1,
-    borderColor: color.light.border['default-grey'],
-    backgroundColor: color.light.background['default-grey'],
+    borderColor: paletteCssVar(color, 'light', 'border', 'default-grey'),
+    backgroundColor: paletteCssVar(color, 'light', 'background', 'default-grey'),
   },
   secondaryTitleHover: {
-    color: color.light.text['action-high-grey'],
+    color: paletteCssVar(color, 'light', 'text', 'action-high-grey'),
   },
   secondaryContainerHover: {
-    borderColor: color.light.border['default-grey'],
-    backgroundColor: color.light.background['transparent-hover'],
+    borderColor: paletteCssVar(color, 'light', 'border', 'default-grey'),
+    backgroundColor: paletteCssVar(color, 'light', 'background', 'transparent-hover'),
   },
   secondaryContainerPressed: {
-    borderColor: color.light.border['default-grey'],
-    backgroundColor: color.light.background['transparent-hover'],
+    borderColor: paletteCssVar(color, 'light', 'border', 'default-grey'),
+    backgroundColor: paletteCssVar(color, 'light', 'background', 'transparent-hover'),
   },
 
   tertiaryTitle: {
-    color: color.light.text['action-high-grey'],
+    color: paletteCssVar(color, 'light', 'text', 'action-high-grey'),
   },
   tertiaryContainer: {},
   tertiaryTitleHover: {
-    color: color.light.text['action-high-grey'],
+    color: paletteCssVar(color, 'light', 'text', 'action-high-grey'),
   },
   tertiaryContainerHover: {
-    backgroundColor: color.light.background['transparent-hover'],
+    backgroundColor: paletteCssVar(color, 'light', 'background', 'transparent-hover'),
   },
   tertiaryContainerPressed: {
-    backgroundColor: color.light.background['transparent-hover'],
+    backgroundColor: paletteCssVar(color, 'light', 'background', 'transparent-hover'),
   },
 
   linkTitle: {
-    color: color.text.link.default,
+    color: paletteCssVar(color, 'text', 'link', 'default'),
   },
   linkContainer: {
-    backgroundColor: color.background.button.tertiary.default,
+    backgroundColor: paletteCssVar(color, 'background', 'button', 'tertiary', 'default'),
   },
   linkTitleHover: {
-    color: color.text.link.hover,
+    color: paletteCssVar(color, 'text', 'link', 'hover'),
   },
   linkContainerHover: {
-    backgroundColor: color.background.button.tertiary.default,
+    backgroundColor: paletteCssVar(color, 'background', 'button', 'tertiary', 'default'),
   },
   linkContainerPressed: {
-    backgroundColor: color.background.button.tertiary.default,
+    backgroundColor: paletteCssVar(color, 'background', 'button', 'tertiary', 'default'),
   },
 
   // Sizes
@@ -166,23 +166,23 @@ export const useStyles = makeStyles(({ text, color, spacing, radius }) => ({
   // Disabled
   primaryTitleDisabled: {
     cursor: 'not-allowed',
-    color: color.light.text['disabled-grey'],
+    color: paletteCssVar(color, 'light', 'text', 'disabled-grey'),
   },
   primaryContainerDisabled: {
     cursor: 'not-allowed',
-    backgroundColor: color.light.background['disabled-grey'],
+    backgroundColor: paletteCssVar(color, 'light', 'background', 'disabled-grey'),
   },
   secondaryTitleDisabled: {
     cursor: 'not-allowed',
-    color: color.light.text['disabled-grey'],
+    color: paletteCssVar(color, 'light', 'text', 'disabled-grey'),
   },
   secondaryContainerDisabled: {
     cursor: 'not-allowed',
-    borderColor: color.light.border['disabled-grey'],
+    borderColor: paletteCssVar(color, 'light', 'border', 'disabled-grey'),
   },
   tertiaryTitleDisabled: {
     cursor: 'not-allowed',
-    color: color.light.text['disabled-grey'],
+    color: paletteCssVar(color, 'light', 'text', 'disabled-grey'),
   },
   tertiaryContainerDisabled: {
     cursor: 'not-allowed',
@@ -190,33 +190,33 @@ export const useStyles = makeStyles(({ text, color, spacing, radius }) => ({
 
   // Icons
   primaryIcon: {
-    color: color.light.text['inverted-primary'],
+    color: paletteCssVar(color, 'light', 'text', 'inverted-primary'),
   },
   primaryIconHover: {
-    color: color.light.text['inverted-primary'],
+    color: paletteCssVar(color, 'light', 'text', 'inverted-primary'),
   },
   primaryIconDisabled: {
-    color: color.light.text['disabled-grey'],
+    color: paletteCssVar(color, 'light', 'text', 'disabled-grey'),
   },
   secondaryIcon: {
-    color: color.light.text['action-high-grey'],
+    color: paletteCssVar(color, 'light', 'text', 'action-high-grey'),
   },
   secondaryIconHover: {
-    color: color.light.text['action-high-grey'],
+    color: paletteCssVar(color, 'light', 'text', 'action-high-grey'),
   },
   secondaryIconDisabled: {
-    color: color.light.text['disabled-grey'],
+    color: paletteCssVar(color, 'light', 'text', 'disabled-grey'),
   },
   tertiaryIcon: {
-    color: color.light.text['action-high-grey'],
+    color: paletteCssVar(color, 'light', 'text', 'action-high-grey'),
   },
   tertiaryIconHover: {
-    color: color.light.text['action-high-grey'],
+    color: paletteCssVar(color, 'light', 'text', 'action-high-grey'),
   },
   tertiaryIconDisabled: {
-    color: color.light.text['disabled-grey'],
+    color: paletteCssVar(color, 'light', 'text', 'disabled-grey'),
   },
   linkIcon: {
-    color: color.text.link.default,
+    color: paletteCssVar(color, 'text', 'link', 'default'),
   },
 }));

@@ -10,7 +10,7 @@ const ThemeContext = createContext<Theme | null>(null);
 const MIN_LOADING_DELAY = 0;
 
 export const ThemeProvider = (props: PropsWithChildren<CustomBuilder & { loader?: boolean }>) => {
-  const { loader = true, ...builder } = props;
+  const { loader = true, children, ...builder } = props;
   const theme = useThemeBuilder(builder);
 
   const [showLoader, setShowLoader] = React.useState(true);
@@ -22,14 +22,18 @@ export const ThemeProvider = (props: PropsWithChildren<CustomBuilder & { loader?
 
   React.useEffect(() => {
     void SystemUI.setBackgroundColorAsync('white');
-    if (Platform.OS === 'web') injectVariableCSS(theme);
   }, []);
+
+  React.useEffect(() => {
+    if (Platform.OS !== 'web' || !theme.isReady) return;
+    injectVariableCSS(theme);
+  }, [theme.isReady, theme.variant, builder.color]);
 
   if ((!theme.isReady || showLoader) && loader !== false) return <ThemeProviderLoader />;
   return (
     <ThemeContext.Provider value={theme}>
       <StatusBar barStyle="dark-content" backgroundColor="white" />
-      {props.children}
+      {children}
     </ThemeContext.Provider>
   );
 };
