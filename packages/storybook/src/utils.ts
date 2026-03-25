@@ -66,3 +66,11 @@ export const getStoryExamples = (story: StorybookModule) =>
     string,
     Exclude<StorybookModule[keyof StorybookModule], StorybookMeta>,
   ][];
+
+export const toStoryModules = (stories: Record<string, unknown>) => Object.values(stories) as StorybookModule[];
+
+export const findStoryByTitle = (stories: StorybookModule[], title: string | undefined | null) =>
+  stories.find(story => story.default.title === title) ?? null;
+
+export const findConstantByName = (constants: Record<string, unknown>, name: string | undefined | null) =>
+  Object.entries(constants).find(([key]) => key === name) ?? null;

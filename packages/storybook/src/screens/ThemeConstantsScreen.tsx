@@ -7,6 +7,7 @@ export type ThemeConstantsScreenProps = {
   constants: Record<string, unknown>;
   title?: string;
   description?: string;
+  beforeContent?: React.ReactNode;
   onSelectConstant?: (entry: { name: string; value: unknown }) => void;
 };
 
@@ -14,6 +15,7 @@ export const ThemeConstantsScreen = ({
   constants,
   title = 'UI Kit - Constants',
   description = 'Theme constants',
+  beforeContent,
   onSelectConstant,
 }: ThemeConstantsScreenProps) => {
   const { text } = useTheme();
@@ -29,16 +31,16 @@ export const ThemeConstantsScreen = ({
   );
 
   return (
-    <Page scrollable title={title} description={description}>
+    <Page scrollable title={title} description={description} beforeContent={beforeContent}>
       <Section withPaddingY>
         <Box display="flex" flexDirection="row" flexWrap="wrap" gap={16}>
           {entries.map(([name, value]) => (
             <Box key={name} width={columns === 1 ? '100%' : columns === 2 ? '48%' : '31%'}>
               <Pressable onPress={onSelectConstant ? () => onSelectConstant({ name, value }) : undefined}>
                 <Card>
-                  <Card.Section p={'100'}>
+                  <Box p={'100'}>
                     <Typography style={text.Titres['H5 - XS']}>{name}</Typography>
-                  </Card.Section>
+                  </Box>
                 </Card>
               </Pressable>
             </Box>

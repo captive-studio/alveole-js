@@ -15,6 +15,7 @@ export const JsonBlock = ({ value }: JsonBlockProps) => {
       borderRadius={radius('md')}
       borderWidth={1}
       p={'100'}
+      mt={'1,5V'}
       width={'100%'}
     >
       <Typography
