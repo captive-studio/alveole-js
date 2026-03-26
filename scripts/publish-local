@@ -1,0 +1,221 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+ROOT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
+cd "$ROOT_DIR"
+
+if [[ -t 1 ]]; then
+  COLOR_RESET=$'\033[0m'
+  COLOR_BOLD=$'\033[1m'
+  COLOR_RED=$'\033[31m'
+  COLOR_GREEN=$'\033[32m'
+  COLOR_YELLOW=$'\033[33m'
+  COLOR_BLUE=$'\033[34m'
+  COLOR_CYAN=$'\033[36m'
+else
+  COLOR_RESET=""
+  COLOR_BOLD=""
+  COLOR_RED=""
+  COLOR_GREEN=""
+  COLOR_YELLOW=""
+  COLOR_BLUE=""
+  COLOR_CYAN=""
+fi
+
+print_section() {
+  echo ""
+  echo "${COLOR_BOLD}${COLOR_BLUE}$1${COLOR_RESET}"
+}
+
+print_info() {
+  echo "${COLOR_CYAN}ℹ${COLOR_RESET} $1"
+}
+
+print_step() {
+  echo "${COLOR_YELLOW}▶${COLOR_RESET} $1"
+}
+
+print_success() {
+  echo "${COLOR_GREEN}✅${COLOR_RESET} $1"
+}
+
+print_error() {
+  echo "${COLOR_RED}❌${COLOR_RESET} $1" >&2
+}
+
+TARGET_PROJECT_DIR="${1:-}"
+if [[ -z "$TARGET_PROJECT_DIR" ]]; then
+  print_error "Usage: npm run publish:local -- /absolute/path/to/project"
+  exit 1
+fi
+
+if [[ "$TARGET_PROJECT_DIR" != /* ]]; then
+  print_error "Le chemin du projet cible doit etre absolu."
+  exit 1
+fi
+
+if [[ ! -d "$TARGET_PROJECT_DIR" ]]; then
+  print_error "Projet cible introuvable: $TARGET_PROJECT_DIR"
+  exit 1
+fi
+
+if [[ ! -f "$TARGET_PROJECT_DIR/package.json" ]]; then
+  print_error "package.json introuvable dans le projet cible: $TARGET_PROJECT_DIR"
+  exit 1
+fi
+
+if [[ ! -d "$TARGET_PROJECT_DIR/node_modules" ]]; then
+  print_error "node_modules introuvable dans le projet cible: $TARGET_PROJECT_DIR"
+  exit 1
+fi
+
+get_package_names_ordered() {
+  node <<'NODE'
+const fs = require('fs');
+const path = require('path');
+
+const root = process.cwd();
+const packagesDir = path.join(root, 'packages');
+const entries = fs
+  .readdirSync(packagesDir, { withFileTypes: true })
+  .filter((d) => d.isDirectory())
+  .map((d) => path.join(packagesDir, d.name, 'package.json'))
+  .filter((p) => fs.existsSync(p));
+
+const pkgs = entries.map((pkgJsonPath) => {
+  const json = JSON.parse(fs.readFileSync(pkgJsonPath, 'utf8'));
+  return {
+    name: json.name,
+    dir: path.dirname(pkgJsonPath),
+    json,
+  };
+});
+
+const localNames = new Set(pkgs.map((p) => p.name));
+const graph = new Map();
+const indegree = new Map();
+
+for (const pkg of pkgs) {
+  graph.set(pkg.name, new Set());
+  indegree.set(pkg.name, 0);
+}
+
+for (const pkg of pkgs) {
+  const localDeps = new Set();
+  for (const field of ['dependencies', 'devDependencies', 'peerDependencies', 'optionalDependencies']) {
+    const deps = pkg.json[field] || {};
+    for (const depName of Object.keys(deps)) {
+      if (localNames.has(depName) && depName !== pkg.name) {
+        localDeps.add(depName);
+      }
+    }
+  }
+
+  for (const depName of localDeps) {
+    if (!graph.get(depName).has(pkg.name)) {
+      graph.get(depName).add(pkg.name);
+      indegree.set(pkg.name, indegree.get(pkg.name) + 1);
+    }
+  }
+}
+
+const queue = Array.from(indegree.entries())
+  .filter(([, deg]) => deg === 0)
+  .map(([name]) => name)
+  .sort();
+
+const ordered = [];
+while (queue.length > 0) {
+  const name = queue.shift();
+  ordered.push(name);
+  const nexts = Array.from(graph.get(name)).sort();
+  for (const next of nexts) {
+    indegree.set(next, indegree.get(next) - 1);
+    if (indegree.get(next) === 0) {
+      queue.push(next);
+      queue.sort();
+    }
+  }
+}
+
+if (ordered.length !== pkgs.length) {
+  for (const name of pkgs.map((p) => p.name).sort()) {
+    console.log(name);
+  }
+  process.exit(0);
+}
+
+for (const name of ordered) {
+  console.log(name);
+}
+NODE
+}
+
+get_installed_target_dir() {
+  local package_name="$1"
+  node -e "
+    const path = require('path');
+    const targetRoot = process.argv[1];
+    const packageName = process.argv[2];
+    console.log(path.join(targetRoot, 'node_modules', ...packageName.split('/')));
+  " "$TARGET_PROJECT_DIR" "$package_name"
+}
+
+print_section "🔎 Analyse du projet cible"
+print_info "$TARGET_PROJECT_DIR"
+
+PACKAGES_TO_SYNC=()
+while IFS= read -r package_name; do
+  [[ -z "$package_name" ]] && continue
+  target_dir="$(get_installed_target_dir "$package_name")"
+  if [[ -d "$target_dir" ]]; then
+    PACKAGES_TO_SYNC+=("$package_name")
+  fi
+done <<< "$(get_package_names_ordered)"
+
+if [[ ${#PACKAGES_TO_SYNC[@]} -eq 0 ]]; then
+  print_error "Aucun package local installe trouve dans $TARGET_PROJECT_DIR/node_modules."
+  exit 1
+fi
+
+print_section "📦 Packages a synchroniser"
+for package_name in "${PACKAGES_TO_SYNC[@]}"; do
+  echo "  ${COLOR_CYAN}•${COLOR_RESET} $package_name"
+done
+
+print_section "🏗️ Build des packages"
+while IFS= read -r package_name; do
+  [[ -z "$package_name" ]] && continue
+  print_step "Build $package_name"
+  npm -w "$package_name" run build
+done <<< "$(printf '%s\n' "${PACKAGES_TO_SYNC[@]}")"
+
+TMP_DIR="$(mktemp -d)"
+NPM_CONFIG_CACHE="$TMP_DIR/npm-cache"
+mkdir -p "$NPM_CONFIG_CACHE"
+
+cleanup() {
+  rm -rf "$TMP_DIR"
+}
+trap cleanup EXIT
+
+print_section "🚚 Copie vers node_modules"
+for package_name in "${PACKAGES_TO_SYNC[@]}"; do
+  target_dir="$(get_installed_target_dir "$package_name")"
+  tarball_name="$(NPM_CONFIG_CACHE="$NPM_CONFIG_CACHE" npm pack --workspace "$package_name" --pack-destination "$TMP_DIR" --silent)"
+  tarball_path="$TMP_DIR/$tarball_name"
+
+  if [[ ! -f "$tarball_path" ]]; then
+    print_error "Tarball introuvable pour $package_name."
+    exit 1
+  fi
+
+  rm -rf "$target_dir"
+  mkdir -p "$target_dir"
+  tar -xzf "$tarball_path" -C "$target_dir" --strip-components 1
+
+  print_success "Sync $package_name -> $target_dir"
+done
+
+print_section "🎉 Terminé"
+print_success "node_modules du projet cible a ete mis a jour avec les builds locaux."
