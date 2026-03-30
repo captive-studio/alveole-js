@@ -11,7 +11,7 @@ type CustomPressableState = PressableStateCallbackType & {
 export type ButtonProps = Omit<PressableProps, 'children' | 'style'> & {
   title: string;
   size?: 'xs' | 'sm' | 'md' | 'lg'; // xs n'est pas censé exister
-  variant: 'primary' | 'secondary' | 'tertiary' | 'link'; // link n'est pas censé exister et il manque danger
+  variant: 'primary' | 'secondary' | 'tertiary' | 'danger' | 'link'; // link n'est pas censé exister
   startIcon?: IconProps['name'];
   endIcon?: IconProps['name'];
   ContainerProps?: BoxProps;
@@ -87,6 +87,10 @@ export const Button = React.forwardRef<View, ButtonProps>(function Button(props,
       applicableStyles = { ...applicableStyles, ...styles.tertiaryContainer };
       if (disabled) applicableStyles = { ...applicableStyles, ...styles.tertiaryContainerDisabled };
       else if (state?.pressed) applicableStyles = { ...applicableStyles, ...styles.tertiaryContainerPressed };
+    } else if (variant === 'danger') {
+      applicableStyles = { ...applicableStyles, ...styles.dangerContainer };
+      if (disabled) applicableStyles = { ...applicableStyles, ...styles.dangerContainerDisabled };
+      else if (state?.pressed) applicableStyles = { ...applicableStyles, ...styles.dangerContainerPressed };
     } else if (variant === 'link') {
       applicableStyles = { ...applicableStyles, ...styles.linkContainer };
       if (disabled) applicableStyles = { ...applicableStyles, ...styles.tertiaryContainerDisabled };
@@ -107,10 +111,11 @@ export const Button = React.forwardRef<View, ButtonProps>(function Button(props,
     if (variant === 'primary') return styles.primaryContainerHover;
     else if (variant === 'secondary') return styles.secondaryContainerHover;
     else if (variant === 'tertiary') return styles.tertiaryContainerHover;
+    else if (variant === 'danger') return styles.dangerContainerHover;
     else if (variant === 'link') return styles.linkContainerHover;
   };
 
-  const textStyle = (state: { hovered: boolean }) => {
+  const textStyle = (state: { hovered: boolean; pressed: boolean }) => {
     let applicableStyles: CSSProperties = styles.title;
 
     if (variant === 'primary') {
@@ -125,6 +130,11 @@ export const Button = React.forwardRef<View, ButtonProps>(function Button(props,
       applicableStyles = { ...applicableStyles, ...styles.tertiaryTitle };
       if (disabled) applicableStyles = { ...applicableStyles, ...styles.tertiaryTitleDisabled };
       else if (state.hovered) applicableStyles = { ...applicableStyles, ...styles.tertiaryTitleHover };
+    } else if (variant === 'danger') {
+      applicableStyles = { ...applicableStyles, ...styles.dangerTitle };
+      if (disabled) applicableStyles = { ...applicableStyles, ...styles.dangerTitleDisabled };
+      else if (state.hovered) applicableStyles = { ...applicableStyles, ...styles.dangerTitleHover };
+      else if (state.pressed) applicableStyles = { ...applicableStyles, ...styles.dangerTitlePressed };
     } else if (variant === 'link') {
       applicableStyles = { ...applicableStyles, ...styles.linkTitle };
       if (disabled) applicableStyles = { ...applicableStyles, ...styles.tertiaryTitleDisabled };
@@ -149,6 +159,10 @@ export const Button = React.forwardRef<View, ButtonProps>(function Button(props,
       if (disabled) return { size: iconSize, color: styles.tertiaryIconDisabled.color };
       else if (state.hovered) return { size: iconSize, color: styles.tertiaryIconHover.color };
       return { size: iconSize, color: styles.tertiaryIcon.color };
+    } else if (variant === 'danger') {
+      if (disabled) return { size: iconSize, color: styles.dangerIconDisabled.color };
+      else if (state.hovered) return { size: iconSize, color: styles.dangerIconHover.color };
+      return { size: iconSize, color: styles.dangerIcon.color };
     } else if (variant === 'link') {
       if (state.hovered) return { size: iconSize, color: styles.linkTitleHover.color };
       return { size: iconSize, color: styles.linkIcon.color };
@@ -188,7 +202,7 @@ export const Button = React.forwardRef<View, ButtonProps>(function Button(props,
           {...containerProps}
         >
           {startIcon && <LucideIcon name={startIcon} {...iconStyle({ hovered: !!state.hovered })} />}
-          <Typography user-select={false} style={textStyle({ hovered: !!state.hovered })}>
+          <Typography user-select={false} style={textStyle({ hovered: !!state.hovered, pressed: !!state.pressed })}>
             {title}
           </Typography>
           {isLoading ? (

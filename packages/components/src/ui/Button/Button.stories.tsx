@@ -43,6 +43,13 @@ export const Tertiary = () => (
   </Box>
 );
 
+export const Danger = () => (
+  <Box display="flex" flexDirection="row" gap={4}>
+    <Button variant="danger" title="Bouton danger" />
+    <Button variant="danger" title="Disabled" disabled />
+  </Box>
+);
+
 export const Link = () => (
   <Box display="flex" flexDirection="row" gap={4}>
     <Button variant="link" title="Bouton link" />

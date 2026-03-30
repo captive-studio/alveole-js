@@ -79,6 +79,31 @@ export const useStyles = makeStyles(({ text, color, spacing, radius }) => ({
     backgroundColor: color.light.background['transparent-hover'],
   },
 
+  dangerTitle: {
+    color: color.light.text['action-high-error'],
+  },
+  dangerContainer: {
+    borderStyle: 'solid',
+    borderWidth: 1,
+    borderColor: color.light.border['default-grey'],
+    backgroundColor: color.light.background['default-grey'],
+  },
+  dangerTitleHover: {
+    borderColor: color.light.border['plain-error'],
+    color: color.light.text['inverted-grey'],
+  },
+  dangerContainerHover: {
+    backgroundColor: color.light.background['action-high-error'],
+  },
+  dangerContainerPressed: {
+    color: color.light.text['inverted-grey'],
+    borderColor: color.light.border['plain-error'],
+    backgroundColor: color.light.background['action-high-error'],
+  },
+  dangerTitlePressed: {
+    color: color.light.text['inverted-grey'],
+  },
+
   linkTitle: {
     color: color.text.link.default,
   },
@@ -187,6 +212,14 @@ export const useStyles = makeStyles(({ text, color, spacing, radius }) => ({
   tertiaryContainerDisabled: {
     cursor: 'not-allowed',
   },
+  dangerTitleDisabled: {
+    cursor: 'not-allowed',
+    color: color.light.text['disabled-grey'],
+  },
+  dangerContainerDisabled: {
+    cursor: 'not-allowed',
+    borderColor: color.light.border['disabled-grey'],
+  },
 
   // Icons
   primaryIcon: {
@@ -214,6 +247,15 @@ export const useStyles = makeStyles(({ text, color, spacing, radius }) => ({
     color: color.light.text['action-high-grey'],
   },
   tertiaryIconDisabled: {
+    color: color.light.text['disabled-grey'],
+  },
+  dangerIcon: {
+    color: color.light.text['inverted-primary'],
+  },
+  dangerIconHover: {
+    color: color.light.text['inverted-primary'],
+  },
+  dangerIconDisabled: {
     color: color.light.text['disabled-grey'],
   },
   linkIcon: {
