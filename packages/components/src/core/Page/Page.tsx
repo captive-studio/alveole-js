@@ -1,8 +1,14 @@
 import React from 'react';
+import type { StatusBarStyle } from 'react-native';
 import { BoxProps } from '../../core';
 import { SidebarController } from '../../ui/Sidebar';
 import { PageContent } from './PageContent';
 import { PageHead } from './PageHead';
+
+export type PageStatusBarProps = {
+  barStyle?: StatusBarStyle;
+  backgroundColor?: string;
+};
 
 export type PageProps = BoxProps & {
   title: string;
@@ -13,6 +19,7 @@ export type PageProps = BoxProps & {
   sidebar?: React.ReactNode;
   beforeContent?: React.ReactNode;
   sideBarController?: SidebarController;
+  statusBar?: PageStatusBarProps;
 
   renderToolbar?: (options?: { isScrolled: boolean }) => React.ReactNode;
 

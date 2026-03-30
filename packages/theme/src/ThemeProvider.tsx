@@ -1,6 +1,6 @@
 import * as SystemUI from 'expo-system-ui';
 import React, { createContext, useContext, type PropsWithChildren } from 'react';
-import { Platform, StatusBar } from 'react-native';
+import { Platform } from 'react-native';
 import { injectVariableCSS } from './helpers/injectVariableCSS';
 import { CustomBuilder, useThemeBuilder } from './helpers/useThemeBuilder';
 import { ThemeProviderLoader } from './ThemeProviderLoader';
@@ -26,12 +26,7 @@ export const ThemeProvider = (props: PropsWithChildren<CustomBuilder & { loader?
   }, []);
 
   if ((!theme.isReady || showLoader) && loader !== false) return <ThemeProviderLoader />;
-  return (
-    <ThemeContext.Provider value={theme}>
-      <StatusBar barStyle="dark-content" backgroundColor="white" />
-      {props.children}
-    </ThemeContext.Provider>
-  );
+  return <ThemeContext.Provider value={theme}>{props.children}</ThemeContext.Provider>;
 };
 
 export const useTheme = (): Theme => {
