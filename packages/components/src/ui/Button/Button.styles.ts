@@ -80,25 +80,23 @@ export const useStyles = makeStyles(({ text, color, spacing, radius }) => ({
   },
 
   dangerTitle: {
-    color: color.light.text['action-high-error'],
+    color: color.light.text['inverted-grey'],
   },
   dangerContainer: {
     borderStyle: 'solid',
     borderWidth: 1,
+    borderColor: color.light.border['plain-error'],
+    backgroundColor: color.light.background['action-high-error'],
+  },
+  dangerTitleHover: {
+    color: color.light.text['action-high-error'],
+  },
+  dangerContainerHover: {
     borderColor: color.light.border['default-grey'],
     backgroundColor: color.light.background['default-grey'],
   },
-  dangerTitleHover: {
-    borderColor: color.light.border['plain-error'],
-    color: color.light.text['inverted-grey'],
-  },
-  dangerContainerHover: {
-    backgroundColor: color.light.background['action-high-error'],
-  },
   dangerContainerPressed: {
-    color: color.light.text['inverted-grey'],
-    borderColor: color.light.border['plain-error'],
-    backgroundColor: color.light.background['action-high-error'],
+    backgroundColor: color.alpha(color.light.background['action-high-error'], 0.8),
   },
   dangerTitlePressed: {
     color: color.light.text['inverted-grey'],
@@ -218,6 +216,7 @@ export const useStyles = makeStyles(({ text, color, spacing, radius }) => ({
   },
   dangerContainerDisabled: {
     cursor: 'not-allowed',
+    backgroundColor: color.light.background['default-grey'],
     borderColor: color.light.border['disabled-grey'],
   },
 
@@ -253,7 +252,7 @@ export const useStyles = makeStyles(({ text, color, spacing, radius }) => ({
     color: color.light.text['inverted-primary'],
   },
   dangerIconHover: {
-    color: color.light.text['inverted-primary'],
+    color: color.light.text['action-high-error'],
   },
   dangerIconDisabled: {
     color: color.light.text['disabled-grey'],
