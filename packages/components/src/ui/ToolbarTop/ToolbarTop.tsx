@@ -16,6 +16,7 @@ export type ToolbarTopProps = BoxProps & {
   onActions?: () => void;
   actionsIcon?: IconProps['name'];
   actions?: React.ReactNode;
+  typographyStyle?: React.CSSProperties;
 };
 
 export const ToolbarTop = (props: ToolbarTopProps) => {
@@ -29,6 +30,7 @@ export const ToolbarTop = (props: ToolbarTopProps) => {
     sousTitre,
     actions,
     withBorder = false,
+    typographyStyle = {},
     ...toolbarProps
   } = props;
 
@@ -56,6 +58,7 @@ export const ToolbarTop = (props: ToolbarTopProps) => {
           style={{
             ...styles.toolbarInformationTitleText,
             ...(variant === 'compactLarge' || variant === 'large' ? styles.largeInformationTitleText : {}),
+            ...typographyStyle,
           }}
         >
           {title}
@@ -65,6 +68,7 @@ export const ToolbarTop = (props: ToolbarTopProps) => {
             style={{
               ...styles.toolbarInformationTitleSubText,
               ...(variant === 'compactLarge' || variant === 'large' ? styles.largeToolbarInformationTitleSubText : {}),
+              ...typographyStyle,
             }}
           >
             {sousTitre}
