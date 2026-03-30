@@ -10,14 +10,17 @@ export type StoryCardProps = {
 };
 
 export const StoryCard = ({ story, onPress }: StoryCardProps) => {
-  const { text } = useTheme();
+  const { text, isVariant } = useTheme();
   const meta = story.default;
   const flags = getStoryFlags(meta);
 
   return (
-    <Pressable onPress={onPress ? () => onPress(story) : undefined} style={{ height: '100%' }}>
-      <Card height={'100%'}>
-        <Box display="flex" gap={12} p={'100'} style={{ height: '100%' }}>
+    <Pressable
+      onPress={onPress ? () => onPress(story) : undefined}
+      style={{ height: isVariant('mobile') ? undefined : '100%' }}
+    >
+      <Card height={isVariant('mobile') ? undefined : '100%'}>
+        <Box display="flex" gap={12} p={'100'} style={{ height: isVariant('mobile') ? undefined : '100%' }}>
           <Box display="flex" flexDirection="row" flexWrap="wrap" gap={8}>
             {meta.tags.map(tag => (
               <Badge key={tag} variant="info" size="sm" style={{ marginRight: 0 }}>
