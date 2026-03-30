@@ -1,7 +1,7 @@
 import { Spacings } from '../constants';
-import type { ThemeBase } from '../type';
+import { Theme } from '../type';
 
-const generateCSSVariables = (theme: ThemeBase): string => {
+const generateCSSVariables = (theme: Theme): string => {
   const lines: string[] = [];
 
   // Couleurs
@@ -19,7 +19,7 @@ const generateCSSVariables = (theme: ThemeBase): string => {
   return `:root {\n${lines.join('\n')}\n}`;
 };
 
-export const injectVariableCSS = (theme: ThemeBase) => {
+export const injectVariableCSS = (theme: Theme) => {
   if (typeof document === 'undefined') return;
 
   const styleId = 'theme-css-variables';

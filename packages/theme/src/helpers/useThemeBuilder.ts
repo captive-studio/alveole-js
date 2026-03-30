@@ -1,4 +1,4 @@
-import type { ThemeBase } from '../type';
+import type { Theme } from '../type';
 
 import { useFonts } from 'expo-font';
 import { useCallback, useMemo } from 'react';
@@ -26,7 +26,7 @@ export type CustomBuilder = {
   color?: DeepPartial<Palette>;
 };
 
-export function useThemeBuilder(params: CustomBuilder): ThemeBase & { isReady: boolean } {
+export function useThemeBuilder(params: CustomBuilder): Theme & { isReady: boolean } {
   const { width } = useWindowDimensions();
 
   const [loadedFonts] = useFonts(FontsMap);

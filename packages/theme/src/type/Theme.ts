@@ -1,4 +1,3 @@
-import type { StatusBarStyle } from 'react-native';
 import type {
   Colors,
   CustomPalette,
@@ -14,17 +13,7 @@ import { alpha } from '../helpers/alphaColor';
 import { elevationStyle } from '../helpers/elevationStyle';
 import type { Typography } from './Typography';
 
-export type ThemeStatusBarOptions = {
-  barStyle: StatusBarStyle;
-  backgroundColor: string;
-};
-
-export type ThemeStatusBarApi = {
-  setStatusBar: (options: Partial<ThemeStatusBarOptions>) => void;
-  resetStatusBar: () => void;
-};
-
-export interface ThemeBase {
+export interface Theme {
   // Spacing
   spacing: (key: SpacingKey) => Spacing;
   /** Padding externe responsive : 100 sur mobile, 150 sur desktop */
@@ -57,5 +46,3 @@ export interface ThemeBase {
       alpha: typeof alpha;
     };
 }
-
-export type Theme = ThemeBase & ThemeStatusBarApi;
