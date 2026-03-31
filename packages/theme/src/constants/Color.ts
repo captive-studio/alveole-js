@@ -203,12 +203,13 @@ export const Colors = {
     525: '#0A76F6',
   },
   OrangeWarning: {
-    975: '#FFF4F3',
-    950: '#FFE9E6',
-    925: '#FFDED9',
-    850: '#FFBEB4',
+    975: '#FFF5F0',
+    950: '#FFEEE5',
+    925: '#FFE2D4',
+    850: '#FFC6AA',
+    625: '#F96B24',
     'main-525': '#D64D00',
-    425: '#B34000',
+    425: '#BC4401',
   },
   RougeErreur: {
     975: '#FEF5F4',
