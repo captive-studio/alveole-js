@@ -21,6 +21,7 @@ export const useStyles = makeStyles(({ color, spacing, text, radius }) => ({
     borderColor: color.light.border['default-grey'],
     borderBottomWidth: 1,
     backgroundColor: 'transparent',
+    overflowX: 'scroll', // On ajoute un scroll horizontal pour les petits écrans
   },
   tabsTab: {
     appearance: 'none',
