@@ -24,7 +24,9 @@ export const CardHeader = (props: CardHeaderProps) => {
       {image}
       <Box tag="card-header-texte" style={styles.texte}>
         <Typography style={[styles.titre, disabledTextStyle]}>{titre}</Typography>
-        <Typography style={[styles.sousTitre, disabledTextStyle]}>{sousTitre}</Typography>
+        {sousTitre && (
+          <Typography style={[styles.sousTitre, disabledTextStyle]}>{sousTitre}</Typography>
+        )}
       </Box>
       {badge}
     </Box>
