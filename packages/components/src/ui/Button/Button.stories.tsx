@@ -1,4 +1,4 @@
-import { Box } from '../../core';
+import { Box, Typography } from '../../core';
 import { Story } from '../../type';
 import { Button } from './Button';
 import { useStyles } from './Button.styles';
@@ -51,10 +51,13 @@ export const Danger = () => (
 );
 
 export const Link = () => (
-  <Box display="flex" flexDirection="row" gap={4}>
-    <Button variant="link" title="Bouton link" />
-    <Button variant="link" title="Disabled" disabled />
-  </Box>
+  <>
+    <Typography>Deprecated</Typography>
+    <Box display="flex" flexDirection="row" gap={4}>
+      <Button variant="link" title="Bouton link" />
+      <Button variant="link" title="Disabled" disabled />
+    </Box>
+  </>
 );
 
 export const Icons = () => (
