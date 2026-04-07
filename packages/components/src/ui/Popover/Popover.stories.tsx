@@ -14,21 +14,31 @@ export default {
   styleFn: useStyles,
 } satisfies Story;
 
-export const Default = () => (
-  <Popover placement="right" renderTrigger={() => <Button variant="tertiary" title="Actions" />}>
-    <Typography>Children</Typography>
-  </Popover>
-);
+export const Default = () => {
+  const alignments = [
+    'top',
+    'right',
+    'bottom',
+    'left',
+    'top-start',
+    'top-end',
+    'right-start',
+    'right-end',
+    'bottom-start',
+    'bottom-end',
+    'left-start',
+    'left-end'
+  ] as const;
 
-export const Bottom = () => (
-  <Popover
-    placement="bottom"
-    renderTrigger={() => (
-      <Box>
-        <Typography>Sur typographie</Typography>
-      </Box>
-    )}
-  >
-    <Typography>Children</Typography>
-  </Popover>
-);
+  return (
+    <Box display="flex" flexWrap="wrap" gap="1W" flexDirection="row" justify-content="center" align-items="center" width="100%">
+      {alignments.map((alignment) => (
+        <Popover key={alignment} placement={alignment} renderTrigger={() => <Button variant="secondary" title={alignment} />}>
+          <Typography>
+            Contenu du popover
+          </Typography>
+        </Popover>
+      ))}
+    </Box>
+  )
+}
