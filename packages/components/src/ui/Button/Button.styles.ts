@@ -123,8 +123,7 @@ export const useStyles = makeStyles(({ text, color, spacing, radius }) => ({
     borderColor: color.light.border['default-primary'],
     borderWidth: 1,
   },
-  selectedContainerHover: {
-  },
+  selectedContainerHover: {},
   selectedTitle: {
     color: color.light.text['action-high-primary'],
   },

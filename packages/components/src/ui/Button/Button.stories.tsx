@@ -70,9 +70,7 @@ export const Icons = () => (
   </Box>
 );
 
-export const FullWidth = () => (
-  <Button variant="primary" title="Full Width" fullWidth />
-);
+export const FullWidth = () => <Button variant="primary" title="Full Width" fullWidth />;
 
 export const Selected = () => (
   <Box display="flex" flexDirection="row" gap={4}>
