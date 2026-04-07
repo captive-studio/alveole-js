@@ -11,6 +11,7 @@ export * as TypographyStory from '../core/Typography/Typography.stories';
 export * as VersionStory from '../core/Version/Version.stories';
 
 // UI
+export * as ActionMenuStory from '../ui/ActionMenu/ActionMenu.stories';
 export * as AvatarStory from '../ui/Avatar/Avatar.stories';
 export * as BadgeStory from '../ui/Badge/Badge.stories';
 export * as BreadcrumbsStory from '../ui/Breadcrumbs/Breadcrumbs.stories';
