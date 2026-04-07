@@ -14,6 +14,7 @@ export type ButtonProps = Omit<PressableProps, 'children' | 'style'> & {
   variant: 'primary' | 'secondary' | 'tertiary' | 'danger' | 'link'; // link n'est pas censé exister
   startIcon?: IconProps['name'];
   endIcon?: IconProps['name'];
+  selected?: boolean;
   ContainerProps?: BoxProps;
   fullWidth?: boolean;
   noPadding?: boolean;
@@ -36,6 +37,7 @@ export const Button = React.forwardRef<View, ButtonProps>(function Button(props,
     borderNone,
     leftAlign,
     isLoading,
+    selected,
     fullWidth = false,
     ContainerProps = {},
     ...buttonProps
@@ -75,7 +77,9 @@ export const Button = React.forwardRef<View, ButtonProps>(function Button(props,
             : styles.mdContainerEndIcon
         : {}),
     };
-    if (variant === 'primary') {
+    if (selected) {
+      applicableStyles = { ...applicableStyles, ...styles.selectedContainer };
+    } else if (variant === 'primary') {
       applicableStyles = { ...applicableStyles, ...styles.primaryContainer };
       if (disabled) applicableStyles = { ...applicableStyles, ...styles.primaryContainerDisabled };
       else if (state?.pressed) applicableStyles = { ...applicableStyles, ...styles.primaryContainerPressed };
@@ -108,7 +112,8 @@ export const Button = React.forwardRef<View, ButtonProps>(function Button(props,
 
   const buttonContainerHoverStyle = () => {
     if (disabled) return {};
-    if (variant === 'primary') return styles.primaryContainerHover;
+    if (selected) return styles.selectedContainerHover;
+    else if (variant === 'primary') return styles.primaryContainerHover;
     else if (variant === 'secondary') return styles.secondaryContainerHover;
     else if (variant === 'tertiary') return styles.tertiaryContainerHover;
     else if (variant === 'danger') return styles.dangerContainerHover;
@@ -118,7 +123,9 @@ export const Button = React.forwardRef<View, ButtonProps>(function Button(props,
   const textStyle = (state: { hovered: boolean; pressed: boolean }) => {
     let applicableStyles: CSSProperties = styles.title;
 
-    if (variant === 'primary') {
+    if (selected) {
+      applicableStyles = { ...applicableStyles, ...styles.selectedTitle };
+    } else if (variant === 'primary') {
       applicableStyles = { ...applicableStyles, ...styles.primaryTitle };
       if (disabled) applicableStyles = { ...applicableStyles, ...styles.primaryTitleDisabled };
       else if (state.hovered) applicableStyles = { ...applicableStyles, ...styles.primaryTitleHover };
@@ -147,7 +154,9 @@ export const Button = React.forwardRef<View, ButtonProps>(function Button(props,
   const iconStyle = (state: { hovered: boolean }): Omit<IconProps, 'name'> => {
     const iconSize = size === 'lg' ? 'md' : 'sm';
 
-    if (variant === 'primary') {
+    if (selected) {
+      return { size: iconSize, color: styles.selectedIcon.color };
+    } else if (variant === 'primary') {
       if (disabled) return { size: iconSize, color: styles.primaryIconDisabled.color };
       else if (state.hovered) return { size: iconSize, color: styles.primaryIconHover.color };
       return { size: iconSize, color: styles.primaryIcon.color };

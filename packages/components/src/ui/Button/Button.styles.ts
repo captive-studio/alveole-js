@@ -118,6 +118,20 @@ export const useStyles = makeStyles(({ text, color, spacing, radius }) => ({
     backgroundColor: color.background.button.tertiary.default,
   },
 
+  selectedContainer: {
+    backgroundColor: color.light.background['alt-primary'],
+    borderColor: color.light.border['default-primary'],
+    borderWidth: 1,
+  },
+  selectedContainerHover: {
+  },
+  selectedTitle: {
+    color: color.light.text['action-high-primary'],
+  },
+  selectedIcon: {
+    color: color.light.text['action-high-primary'],
+  },
+
   // Sizes
   xsContainer: {
     paddingLeft: spacing('075'),
