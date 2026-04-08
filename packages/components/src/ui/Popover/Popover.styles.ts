@@ -11,6 +11,6 @@ export const useStyles = makeStyles(({ color, spacing, shadows, radius }) => ({
     borderStyle: 'solid',
     borderColor: color.light.border['default-grey'],
     backgroundColor: color.light.background['active-inverted'],
-    ...shadows(2),
+    ...shadows('lifted'),
   },
 }));
