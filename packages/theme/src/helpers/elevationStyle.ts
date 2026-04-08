@@ -1,7 +1,7 @@
 import { Platform } from 'react-native';
 import { ElevationKey, Elevations } from '../constants';
 
-const isElevationKey = (key: number): key is keyof typeof Elevations =>
+const isElevationKey = (key: ElevationKey): key is keyof typeof Elevations =>
   Object.prototype.hasOwnProperty.call(Elevations, key);
 
 /**
