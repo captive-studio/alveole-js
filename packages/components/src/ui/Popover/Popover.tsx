@@ -8,12 +8,26 @@ export type PopoverProps = PopoverStyles &
   React.PropsWithChildren<{
     placement: TamaguiPopoverProps['placement'];
     renderTrigger: (context: { open: boolean }) => React.ReactNode;
+    scrollable?: boolean;
+    open?: boolean;
+    setOpen?: (open: boolean) => void;
   }>;
 
 export const Popover = (props: PopoverProps) => {
-  const { children, placement, renderTrigger, ...popoverStyles } = props;
+  const { children, placement, renderTrigger, scrollable = true, open: controlledOpen, setOpen: controlledSetOpen, ...popoverStyles } = props;
 
-  const [open, setOpen] = React.useState(false);
+  const [internalOpen, setInternalOpen] = React.useState(false);
+  const isControlled = controlledOpen !== undefined;
+  const open = isControlled ? controlledOpen : internalOpen;
+  const setOpen = React.useCallback(
+    (nextOpen: boolean) => {
+      controlledSetOpen?.(nextOpen);
+      if (!isControlled) {
+        setInternalOpen(nextOpen);
+      }
+    },
+    [controlledSetOpen, isControlled]
+  );
 
   const styles = useStyles();
   const { spacing } = useTheme();
@@ -37,13 +51,17 @@ export const Popover = (props: PopoverProps) => {
         trapFocus={false}
         disableFocusScope
         overflow="hidden"
-        style={{ maxHeight: maxH, maxWidth: maxW }}
+        style={{ maxHeight: scrollable ? maxH : undefined, maxWidth: maxW }}
         {...spacings}
         {...styles.content}
       >
-        <YStack style={{ maxHeight: maxH, overflow: 'hidden' }}>
-          <ScrollView style={{ maxHeight: maxH - spacing('025') }}>{children}</ScrollView>
-        </YStack>
+        {scrollable ? (
+          <YStack style={{ overflow: 'hidden' }}>
+            <ScrollView style={{ maxHeight: maxH - spacing('025') }}>{children}</ScrollView>
+          </YStack>
+        ) : (
+          children
+        )}
       </TamaguiPopover.Content>
     </TamaguiPopover>
   );
