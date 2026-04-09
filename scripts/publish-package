@@ -147,6 +147,12 @@ fi
 # --- Mode release (local) ---
 # NPM_TOKEN non requis en local (la publication est faite par la CI au push du tag)
 
+CURRENT_BRANCH="$(git rev-parse --abbrev-ref HEAD 2>/dev/null || true)"
+if [[ "$CURRENT_BRANCH" != "main" ]]; then
+  echo "Ce script de release doit être exécuté depuis la branche main (branche courante: ${CURRENT_BRANCH:-inconnue})."
+  exit 1
+fi
+
 PACKAGE_DIRS=($(get_packages))
 if [[ ${#PACKAGE_DIRS[@]} -eq 0 ]]; then
   echo "Aucun package trouvé sous packages/."
