@@ -13,12 +13,12 @@ export const isLottieDimensionValue = (dimension: unknown): dimension is LottieD
 
 export type LottieLoopProps = {
   loop: true;
-  onLoop?: React.ComponentProps<typeof LottieView>['onAnimationLoop'];
+  onAnimationLoop?: React.ComponentProps<typeof LottieView>['onAnimationLoop'];
 };
 
 export type LottieOneTimeProps = {
   loop: false;
-  onFinish?: React.ComponentProps<typeof LottieView>['onAnimationFinish'];
+  onAnimationFinish?: React.ComponentProps<typeof LottieView>['onAnimationFinish'];
 };
 
 export type LottieProps = (LottieLoopProps | LottieOneTimeProps) & {

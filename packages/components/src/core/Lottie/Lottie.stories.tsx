@@ -15,8 +15,10 @@ export const Default = () => <Lottie loop style={{ width: 32, height: 32 }} sour
 
 export const Size = () => <Lottie loop style={{ width: 60, height: 60 }} source={dotsAnimation} />;
 
-export const Loop = () => <Lottie loop style={{ width: 60, height: 60 }} source={dotsAnimation} onLoop={console.log} />;
+export const Loop = () => (
+  <Lottie loop style={{ width: 60, height: 60 }} source={dotsAnimation} onAnimationLoop={console.log} />
+);
 
 export const OneTime = () => (
-  <Lottie loop={false} style={{ width: 60, height: 60 }} source={dotsAnimation} onFinish={console.log} />
+  <Lottie loop={false} style={{ width: 60, height: 60 }} source={dotsAnimation} onAnimationFinish={console.log} />
 );
