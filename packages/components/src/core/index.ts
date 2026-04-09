@@ -7,4 +7,5 @@ export * from './Page';
 export * from './PdfViewer';
 export * from './Section';
 export * from './Typography';
+export * from './Lottie';
 export * from './Version';
