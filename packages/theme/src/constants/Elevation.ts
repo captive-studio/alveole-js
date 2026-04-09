@@ -4,7 +4,7 @@ import type { Color } from './Color';
 const BASE = '#151617';
 
 export const Elevations = {
-  'raised': {
+  raised: {
     web: '0 2px 6px 0 rgba(1, 43, 83, 0.16)',
     mobile: {
       shadowColor: BASE as Color,
@@ -14,7 +14,7 @@ export const Elevations = {
       elevation: 2,
     },
   },
-  'overlap': {
+  overlap: {
     web: '0 4px 12px 0 rgba(1, 43, 83, 0.16)',
     mobile: {
       shadowColor: BASE as Color,
@@ -24,7 +24,7 @@ export const Elevations = {
       elevation: 4,
     },
   },
-  'lifted': {
+  lifted: {
     web: '0 6px 18px 0 rgba(1, 43, 83, 0.16)',
     mobile: {
       shadowColor: BASE as Color,

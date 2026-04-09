@@ -27,18 +27,28 @@ export const Default = () => {
     'bottom-start',
     'bottom-end',
     'left-start',
-    'left-end'
+    'left-end',
   ] as const;
 
   return (
-    <Box display="flex" flexWrap="wrap" gap="1W" flexDirection="row" justify-content="center" align-items="center" width="100%">
-      {alignments.map((alignment) => (
-        <Popover key={alignment} placement={alignment} renderTrigger={() => <Button variant="secondary" title={alignment} />}>
-          <Typography>
-            Contenu du popover
-          </Typography>
+    <Box
+      display="flex"
+      flexWrap="wrap"
+      gap="1W"
+      flexDirection="row"
+      justify-content="center"
+      align-items="center"
+      width="100%"
+    >
+      {alignments.map(alignment => (
+        <Popover
+          key={alignment}
+          placement={alignment}
+          renderTrigger={() => <Button variant="secondary" title={alignment} />}
+        >
+          <Typography>Contenu du popover</Typography>
         </Popover>
       ))}
     </Box>
-  )
-}
+  );
+};

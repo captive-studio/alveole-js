@@ -14,7 +14,15 @@ export type PopoverProps = PopoverStyles &
   }>;
 
 export const Popover = (props: PopoverProps) => {
-  const { children, placement, renderTrigger, scrollable = true, open: controlledOpen, setOpen: controlledSetOpen, ...popoverStyles } = props;
+  const {
+    children,
+    placement,
+    renderTrigger,
+    scrollable = true,
+    open: controlledOpen,
+    setOpen: controlledSetOpen,
+    ...popoverStyles
+  } = props;
 
   const [internalOpen, setInternalOpen] = React.useState(false);
   const isControlled = controlledOpen !== undefined;
@@ -26,7 +34,7 @@ export const Popover = (props: PopoverProps) => {
         setInternalOpen(nextOpen);
       }
     },
-    [controlledSetOpen, isControlled]
+    [controlledSetOpen, isControlled],
   );
 
   const styles = useStyles();
