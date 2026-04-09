@@ -21,6 +21,7 @@ export type ButtonProps = Omit<PressableProps, 'children' | 'style'> & {
   borderNone?: boolean;
   leftAlign?: boolean;
   type?: 'button' | 'submit';
+  active?: boolean;
   isLoading?: boolean;
 };
 
@@ -40,6 +41,7 @@ export const Button = React.forwardRef<View, ButtonProps>(function Button(props,
     selected,
     fullWidth = false,
     ContainerProps = {},
+    active = false,
     ...buttonProps
   } = props;
   const { style, hoverStyle, ...containerProps } = ContainerProps;
@@ -82,23 +84,24 @@ export const Button = React.forwardRef<View, ButtonProps>(function Button(props,
     } else if (variant === 'primary') {
       applicableStyles = { ...applicableStyles, ...styles.primaryContainer };
       if (disabled) applicableStyles = { ...applicableStyles, ...styles.primaryContainerDisabled };
-      else if (state?.pressed) applicableStyles = { ...applicableStyles, ...styles.primaryContainerPressed };
+      else if (state?.pressed || active) applicableStyles = { ...applicableStyles, ...styles.primaryContainerPressed };
     } else if (variant === 'secondary') {
       applicableStyles = { ...applicableStyles, ...styles.secondaryContainer };
       if (disabled) applicableStyles = { ...applicableStyles, ...styles.secondaryContainerDisabled };
-      else if (state?.pressed) applicableStyles = { ...applicableStyles, ...styles.secondaryContainerPressed };
+      else if (state?.pressed || active)
+        applicableStyles = { ...applicableStyles, ...styles.secondaryContainerPressed };
     } else if (variant === 'tertiary') {
       applicableStyles = { ...applicableStyles, ...styles.tertiaryContainer };
       if (disabled) applicableStyles = { ...applicableStyles, ...styles.tertiaryContainerDisabled };
-      else if (state?.pressed) applicableStyles = { ...applicableStyles, ...styles.tertiaryContainerPressed };
+      else if (state?.pressed || active) applicableStyles = { ...applicableStyles, ...styles.tertiaryContainerPressed };
     } else if (variant === 'danger') {
       applicableStyles = { ...applicableStyles, ...styles.dangerContainer };
       if (disabled) applicableStyles = { ...applicableStyles, ...styles.dangerContainerDisabled };
-      else if (state?.pressed) applicableStyles = { ...applicableStyles, ...styles.dangerContainerPressed };
+      else if (state?.pressed || active) applicableStyles = { ...applicableStyles, ...styles.dangerContainerPressed };
     } else if (variant === 'link') {
       applicableStyles = { ...applicableStyles, ...styles.linkContainer };
       if (disabled) applicableStyles = { ...applicableStyles, ...styles.tertiaryContainerDisabled };
-      else if (state?.pressed) applicableStyles = { ...applicableStyles, ...styles.linkContainerPressed };
+      else if (state?.pressed || active) applicableStyles = { ...applicableStyles, ...styles.linkContainerPressed };
     }
     return {
       ...applicableStyles,
