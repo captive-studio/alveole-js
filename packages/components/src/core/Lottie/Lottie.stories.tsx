@@ -8,17 +8,9 @@ export default {
   experimental: true,
   description: 'Lottie animations',
   component: Lottie,
-  styleFn: () => "Aucun style",
+  styleFn: () => 'Aucun style',
 } satisfies Story;
 
-export const Default = () =>
-  <Lottie
-    style={{ width: 32, height: 32 }}
-    source={dotsAnimation}
-  />;
+export const Default = () => <Lottie style={{ width: 32, height: 32 }} source={dotsAnimation} />;
 
-export const Size = () =>
-  <Lottie
-    style={{ width: 60, height: 60 }}
-    source={dotsAnimation}
-  />;
+export const Size = () => <Lottie style={{ width: 60, height: 60 }} source={dotsAnimation} />;
