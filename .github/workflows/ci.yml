@@ -9,6 +9,44 @@ on:
   pull_request:
 
 jobs:
+  test:
+    runs-on: macos-latest
+    steps:
+      - uses: actions/checkout@v6
+      - uses: actions/setup-java@v5
+        with:
+          distribution: 'adopt'
+          java-version: '21'
+      - uses: futureware-tech/simulator-action@v5
+        with:
+          model: 'iPhone 17 Pro'
+      - name: Install Maestro CLI
+        run: |
+          curl -Ls "https://get.maestro.mobile.dev" | bash
+          echo "$HOME/.maestro/bin" >> "$GITHUB_PATH"
+
+      - name: Run Maestro tests (with retries)
+        run: |
+          mkdir -p maestro/screenshots
+
+          max_attempts=3
+          attempt=1
+
+          while [ "$attempt" -le "$max_attempts" ]; do
+            echo "Maestro test attempt $attempt/$max_attempts"
+            if maestro test .maestro --format junit --output report.xml --debug-output maestro/screenshots; then
+              exit 0
+            fi
+
+            if [ "$attempt" -eq "$max_attempts" ]; then
+              echo "Maestro tests failed after $max_attempts attempts."
+              exit 1
+            fi
+
+            echo "Retrying in 30 seconds after transient failure..."
+            sleep 30
+            attempt=$((attempt + 1))
+          done
   lint:
     name: Lint workspaces
     if: github.event_name != 'push' || !startsWith(github.ref, 'refs/tags/')
