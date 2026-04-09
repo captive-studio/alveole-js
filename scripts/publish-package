@@ -6,7 +6,7 @@ cd "$ROOT_DIR"
 
 # Détection du mode CI (tag poussé ou flag --ci)
 CI_MODE=false
-if [[ -n "${CIRCLE_TAG:-}" ]]; then
+if [[ "${GITHUB_REF_TYPE:-}" == "tag" || "${GITHUB_REF:-}" == refs/tags/* ]]; then
   CI_MODE=true
 fi
 for arg in "$@"; do
@@ -224,7 +224,7 @@ case "${PUBLISH_MODE^^}" in
     echo "Publication automatique : push du commit et du tag..."
     git push && git push --tags
     echo ""
-    echo "OK: Le commit et le tag ont été poussés. La publication sur CircleCI va se déclencher automatiquement."
+    echo "OK: Le commit et le tag ont été poussés. La publication sur GitHub Actions va se déclencher automatiquement."
     ;;
   M|MANUEL)
     echo ""
