@@ -353,7 +353,7 @@ export const Colors = {
     900: '#DEE3EC',
     925: '#E6EAF1',
     950: '#EFF1F6',
-    975: '#F6F6F8',
+    975: '#F6F7F8',
     1000: '#FFFFFF',
   },
   BleuCaptive: {
