@@ -11,6 +11,12 @@ export default {
   styleFn: () => 'Aucun style',
 } satisfies Story;
 
-export const Default = () => <Lottie style={{ width: 32, height: 32 }} source={dotsAnimation} />;
+export const Default = () => <Lottie loop style={{ width: 32, height: 32 }} source={dotsAnimation} />;
 
-export const Size = () => <Lottie style={{ width: 60, height: 60 }} source={dotsAnimation} />;
+export const Size = () => <Lottie loop style={{ width: 60, height: 60 }} source={dotsAnimation} />;
+
+export const Loop = () => <Lottie loop style={{ width: 60, height: 60 }} source={dotsAnimation} onLoop={console.log} />;
+
+export const OneTime = () => (
+  <Lottie loop={false} style={{ width: 60, height: 60 }} source={dotsAnimation} onFinish={console.log} />
+);

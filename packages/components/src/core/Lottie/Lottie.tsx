@@ -11,7 +11,17 @@ export const isLottieDimensionValue = (dimension: unknown): dimension is LottieD
   return false;
 };
 
-export type LottieProps = {
+export type LottieLoopProps = {
+  loop: true;
+  onLoop?: React.ComponentProps<typeof LottieView>['onAnimationLoop'];
+};
+
+export type LottieOneTimeProps = {
+  loop: false;
+  onFinish?: React.ComponentProps<typeof LottieView>['onAnimationFinish'];
+};
+
+export type LottieProps = (LottieLoopProps | LottieOneTimeProps) & {
   style: React.ComponentProps<typeof LottieView>['style'];
   source: React.ComponentProps<typeof LottieView>['source'];
 };
@@ -23,7 +33,7 @@ export const Lottie = (props: LottieProps) => {
 
   return (
     <View style={{ height, width }}>
-      <LottieView autoPlay loop resizeMode="contain" {...props} />
+      <LottieView autoPlay resizeMode="contain" {...props} />
     </View>
   );
 };
