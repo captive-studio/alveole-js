@@ -113,7 +113,7 @@ const SidebarItemMobile = (props: SidebarItemProps) => {
           <LucideIcon
             size="md"
             name={icon}
-            color={isCurrentPage ? styles.sidebarItemIconSelectedMobile.color : undefined}
+            color={isCurrentPage ? styles.sidebarItemTitleSelectedMobile.color : styles.sidebarItemTitleSelectedMobile.stroke}
           />
         )}
         <Typography

@@ -111,11 +111,8 @@ export const useStyles = makeStyles(({ text, color, spacing, isVariant, radius }
   },
   sidebarItemTitleSelectedMobile: {
     ...text['Corps de texte'].MD.Medium,
-    color: '#D81B38',
-    stroke: '#D81B38',
-  },
-  sidebarItemIconSelectedMobile: {
-    color: '#D81B38',
+    color: color.light.text['default-grey'],
+    stroke: color.light.text['mention-grey'],
   },
   sidebarItemTitleDesktop: {
     ...text['Corps de texte'].MD.Regular,
