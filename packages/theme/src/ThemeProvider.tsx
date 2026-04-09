@@ -9,8 +9,15 @@ import type { Theme } from './type';
 const ThemeContext = createContext<Theme | null>(null);
 const MIN_LOADING_DELAY = 0;
 
-export const ThemeProvider = (props: PropsWithChildren<CustomBuilder & { loader?: boolean }>) => {
-  const { loader = true, ...builder } = props;
+export type ThemeProviderProps = PropsWithChildren<
+  CustomBuilder & {
+    loader?: boolean;
+    onReady?: () => void;
+  }
+>;
+
+export const ThemeProvider = (props: ThemeProviderProps) => {
+  const { loader = true, onReady, ...builder } = props;
   const theme = useThemeBuilder(builder);
 
   const [showLoader, setShowLoader] = React.useState(true);
@@ -24,6 +31,10 @@ export const ThemeProvider = (props: PropsWithChildren<CustomBuilder & { loader?
     void SystemUI.setBackgroundColorAsync('white');
     if (Platform.OS === 'web') injectVariableCSS(theme);
   }, []);
+
+  React.useEffect(() => {
+    if (onReady && theme.isReady) onReady();
+  }, [onReady, theme.isReady]);
 
   if ((!theme.isReady || showLoader) && loader !== false) return <ThemeProviderLoader />;
   return <ThemeContext.Provider value={theme}>{props.children}</ThemeContext.Provider>;
