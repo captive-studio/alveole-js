@@ -4,6 +4,26 @@ set -euo pipefail
 ROOT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
 cd "$ROOT_DIR"
 
+if [[ -t 1 ]]; then
+  RED=$'\033[31m'
+  BLUE=$'\033[34m'
+  RESET=$'\033[0m'
+else
+  RED=''
+  BLUE=''
+  RESET=''
+fi
+
+info() {
+  printf "%b\n" "${BLUE}$*${RESET}"
+}
+
+error() {
+  printf "%b\n" "${RED}$*${RESET}" >&2
+}
+
+trap 'rc=$?; if [[ $rc -ne 0 ]]; then error "Erreur: le script a échoué (code $rc)."; fi' ERR
+
 # Détection du mode CI (tag poussé ou flag --ci)
 CI_MODE=false
 if [[ "${GITHUB_REF_TYPE:-}" == "tag" || "${GITHUB_REF:-}" == refs/tags/* ]]; then
@@ -117,30 +137,30 @@ NODE
 # --- Mode CI : build + publish uniquement ---
 if [[ "$CI_MODE" == true ]]; then
   if [[ -z "${NPM_TOKEN:-}" ]]; then
-    echo "NPM_TOKEN manquant (requis en CI)."
+    error "NPM_TOKEN manquant (requis en CI)."
     exit 1
   fi
 
-  echo "Configuration du token npm..."
+  info "Configuration du token npm..."
   npm config set //registry.npmjs.org/:_authToken="$NPM_TOKEN"
   npm whoami
 
   echo ""
-  echo "Build de tous les packages..."
+  info "Build de tous les packages..."
   while IFS= read -r name; do
     echo "  Build $name..."
     npm -w "$name" run build
   done <<< "$(get_package_names_ordered)"
 
   echo ""
-  echo "Publication sur npm..."
+  info "Publication sur npm..."
   while IFS= read -r name; do
     echo "  Publish $name..."
     npm -w "$name" publish --access public
   done <<< "$(get_package_names_ordered)"
 
   echo ""
-  echo "OK: tous les packages ont été publiés."
+  info "OK: tous les packages ont été publiés."
   exit 0
 fi
 
@@ -149,13 +169,13 @@ fi
 
 CURRENT_BRANCH="$(git rev-parse --abbrev-ref HEAD 2>/dev/null || true)"
 if [[ "$CURRENT_BRANCH" != "main" ]]; then
-  echo "Ce script de release doit être exécuté depuis la branche main (branche courante: ${CURRENT_BRANCH:-inconnue})."
+  error "Ce script de release doit être exécuté depuis la branche main (branche courante: ${CURRENT_BRANCH:-inconnue})."
   exit 1
 fi
 
 PACKAGE_DIRS=($(get_packages))
 if [[ ${#PACKAGE_DIRS[@]} -eq 0 ]]; then
-  echo "Aucun package trouvé sous packages/."
+  error "Aucun package trouvé sous packages/."
   exit 1
 fi
 
@@ -167,15 +187,15 @@ CURRENT_VERSION="$(node -p "require('./$FIRST_PKG/package.json').version")"
 RELEASE_TYPE="${1:-}"
 if [[ -z "$RELEASE_TYPE" ]]; then
   echo ""
-  echo "Version actuelle: $CURRENT_VERSION"
-  echo "Packages: ${PACKAGE_DIRS[*]}"
+  info "Version actuelle: $CURRENT_VERSION"
+  info "Packages: ${PACKAGE_DIRS[*]}"
   echo ""
   read -r -p "Type de version (patch/minor/major): " RELEASE_TYPE
 fi
 case "$RELEASE_TYPE" in
   patch|minor|major) ;;
   *)
-    echo "Type invalide: $RELEASE_TYPE (patch, minor ou major attendu)."
+    error "Type invalide: $RELEASE_TYPE (patch, minor ou major attendu)."
     exit 1
     ;;
 esac
@@ -191,7 +211,7 @@ NEW_VERSION="$(node -p "
 ")"
 
 echo ""
-echo "Bump: $CURRENT_VERSION -> $NEW_VERSION ($RELEASE_TYPE)"
+info "Bump: $CURRENT_VERSION -> $NEW_VERSION ($RELEASE_TYPE)"
 
 # Mise à jour de la version dans tous les packages
 for pkg_dir in "${PACKAGE_DIRS[@]}"; do
@@ -213,15 +233,15 @@ while IFS= read -r name; do
 done <<< "$(get_package_names_ordered)"
 
 echo ""
-echo "Commit et tag..."
+info "Commit et tag..."
 git add package-lock.json packages/*/package.json
 git commit -m "🔖 release v$NEW_VERSION"
 git tag "v$NEW_VERSION"
 
 echo ""
-echo "OK: release v$NEW_VERSION préparée."
+info "OK: release v$NEW_VERSION préparée."
 echo ""
 echo "Publication automatique : push du commit et du tag..."
 git push && git push --tags
 echo ""
-echo "OK: Le commit et le tag ont été poussés. La publication sur GitHub Actions va se déclencher automatiquement."
+info "OK: Le commit et le tag ont été poussés. La publication sur GitHub Actions va se déclencher automatiquement."
