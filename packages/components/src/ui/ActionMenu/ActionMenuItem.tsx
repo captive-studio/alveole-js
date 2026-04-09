@@ -34,7 +34,15 @@ export const ActionMenuItem = (props: ActionMenuItemProps) => {
           style={{ ...styles.sidebarItemDesktop, ...itemStyleSelected }}
           hoverStyle={{ ...sidebarItemHover }}
         >
-          {icon && <LucideIcon size="md" name={icon} color={selected ? styles.sidebarItemTitleSelectedDesktop.color : styles.sidebarItemTitleSelectedDesktop.stroke} />}
+          {icon && (
+            <LucideIcon
+              size="md"
+              name={icon}
+              color={
+                selected ? styles.sidebarItemTitleSelectedDesktop.color : styles.sidebarItemTitleSelectedDesktop.stroke
+              }
+            />
+          )}
           <Typography
             style={{ ...styles.sidebarItemTitleDesktop, ...titleStyleSelected }}
             hoverStyle={{ ...sidebarItemTitleDesktop }}

@@ -1,7 +1,7 @@
+import { Colors } from '@alveole/theme';
 import { LinearGradient } from 'expo-linear-gradient';
 import React from 'react';
 import { useStyles } from './Page.styles';
-import { Colors } from '@alveole/theme';
 
 export type PageBackgroundProps = {
   children: React.ReactNode;

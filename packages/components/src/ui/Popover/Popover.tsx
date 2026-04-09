@@ -2,7 +2,6 @@ import { useTheme } from '@alveole/theme';
 import React from 'react';
 import { ScrollView, Popover as TamaguiPopover, PopoverProps as TamaguiPopoverProps, YStack } from 'tamagui';
 import { useStyles } from './Popover.styles';
-import { Box } from '../../core';
 
 export type PopoverStyles = { maxW?: number; maxH?: number };
 export type PopoverProps = PopoverStyles &
@@ -62,7 +61,7 @@ export const Popover = (props: PopoverProps) => {
         {...spacings}
         // {...styles.tamaguiPopoverContent}
         style={[{ maxHeight: scrollable ? maxH : undefined, maxWidth: scrollable ? maxW : undefined }, styles.content]}
-        >
+      >
         {scrollable ? (
           <YStack style={{ overflow: 'hidden' }}>
             <ScrollView style={{ maxHeight: maxH - spacing('025') }}>{children}</ScrollView>
