@@ -60,7 +60,9 @@
     "expo-image": "*",
     "expo-router": "*",
     "expo-linear-gradient": "*",
-    "expo-constants": "*"
+    "expo-constants": "*",
+    "lottie-react-native": "*",
+    "@lottiefiles/dotlottie-react": "*"
   },
   "publishConfig": {
     "access": "public"
