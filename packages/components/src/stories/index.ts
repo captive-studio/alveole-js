@@ -19,6 +19,7 @@ export * as BreadcrumbsStory from '../ui/Breadcrumbs/Breadcrumbs.stories';
 export * as ButtonStory from '../ui/Button/Button.stories';
 export * as CardStory from '../ui/Card/Card.stories';
 export * as DividerStory from '../ui/Divider/Divider.stories';
+export * as DocumentViewerStory from '../ui/DocumentViewer/DocumentViewer.stories';
 export * as EmptyStateStory from '../ui/EmptyState/EmptyState.stories';
 export * as ListItemStory from '../ui/ListItem/ListItem.stories';
 export * as LucideIconStory from '../ui/LucideIcon/LucideIcon.stories';
