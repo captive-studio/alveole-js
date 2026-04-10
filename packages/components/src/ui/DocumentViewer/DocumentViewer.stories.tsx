@@ -12,30 +12,30 @@ export default {
   styleFn: useStyles,
 } satisfies Story;
 
-export const DocumentImage = () => (
-  <Box maxW={500}>
-    <DocumentViewer title="Document image" type="image" source="https://picsum.photos/1000/2000" height={600} />
+export const DocumentImageEx = () => (
+  <Box maxW={500} height={500}>
+    <DocumentViewer title="Document image" type="image" source="https://picsum.photos/1000/2000" height="100%" />
   </Box>
 );
 
 export const DocumentPdf = () => (
-  <Box maxW={500}>
+  <Box height={400} maxW={500}>
     <DocumentViewer
       title="Document PDF"
       type="pdf"
       source="https://ontheline.trincoll.edu/images/bookdown/sample-local-pdf.pdf"
-      height={600}
+      height="100%"
     />
   </Box>
 );
 
 export const WithChildren = () => (
-  <Box>
+  <Box height={600}>
     <DocumentViewer
       title="Document PDF"
       type="pdf"
       source="https://ontheline.trincoll.edu/images/bookdown/sample-local-pdf.pdf"
-      height={600}
+      height="100%"
     >
       <Box p={'2W'} minW={600}>
         <Typography>Contenu enfant</Typography>

@@ -44,8 +44,12 @@ export const useStyles = makeStyles(({ text, color, spacing, radius }) => ({
   viewerWrapper: {
     display: 'flex',
     flexDirection: 'row',
+    height: '100%',
   },
   viewerContainer: {
+    display: 'flex',
+    flexDirection: 'column',
+    flex: 1,
     padding: spacing('1W'),
     borderColor: color.light.border['default-grey'],
     borderWidth: 1,
@@ -57,6 +61,13 @@ export const useStyles = makeStyles(({ text, color, spacing, radius }) => ({
     overflow: 'hidden',
   },
   children: {
+    display: 'flex',
+    flexDirection: 'column',
+    height: '100%',
+    width: '40%',
+    maxWidth: '40%',
+    minWidth: 0,
+    flexShrink: 1,
     borderColor: color.light.border['default-grey'],
     borderWidth: 1,
     borderStyle: 'solid',
@@ -64,7 +75,7 @@ export const useStyles = makeStyles(({ text, color, spacing, radius }) => ({
     borderTopRightRadius: radius('md'),
     borderBottomRightRadius: radius('md'),
     backgroundColor: color.light.background['default-grey'],
-    overflow: 'hidden',
+    overflow: 'auto',
   },
   viewerImageContent: {
     display: 'flex',

@@ -13,11 +13,11 @@ export type DocumentViewerProps = BoxProps & {
   type: 'image' | 'pdf';
   title: string;
   source: string;
-  height: number;
+  height?: BoxProps['height'];
 };
 
 export const DocumentViewer = (props: DocumentViewerProps) => {
-  const { children, title, source, type, height, ...boxProps } = props;
+  const { children, title, source, type, height = '100%', ...boxProps } = props;
 
   const styles = useStyles();
 
@@ -61,8 +61,8 @@ export const DocumentViewer = (props: DocumentViewerProps) => {
   }, []);
 
   return (
-    <Box tag="document-viewer-wrapper" style={styles.viewerWrapper}>
-      <Box tag="document-viewer" flex={1} {...boxProps}>
+    <Box tag="document-viewer-wrapper" height={height} style={styles.viewerWrapper}>
+      <Box tag="document-viewer" flex={1} height={'100%'} minW={0} style={{ flexBasis: 0 }} {...boxProps}>
         <DocumentViewerToolbar
           title={title}
           state={state}
@@ -80,7 +80,7 @@ export const DocumentViewer = (props: DocumentViewerProps) => {
             ...(children ? { borderBottomRightRadius: 0 } : {}),
           }}
         >
-          <Box>
+          <Box flex={1}>
             {type === 'image' && <DocumentViewerImage source={source} rotation={rotation} height={height} />}
             {type === 'pdf' && (
               <DocumentViewerPDF

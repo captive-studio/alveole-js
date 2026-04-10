@@ -1,4 +1,4 @@
-import { Box } from '@alveole/components';
+import { Box, BoxProps } from '@alveole/components';
 import type { PDFDocumentProxy } from 'pdfjs-dist';
 import * as pdfjs from 'pdfjs-dist';
 import 'pdfjs-dist/build/pdf.worker.entry';
@@ -10,7 +10,7 @@ import { useStyles } from './DocumentViewer.styles';
 export type DocumentViewerPDFProps = {
   source: string;
   page: number;
-  height: number;
+  height?: BoxProps['height'];
   rotation: DocumentViewerRotation;
   scale?: number;
   onReady?: (state: PDFDocumentProxy) => void;
@@ -26,7 +26,7 @@ const isPdfCancellationError = (error: unknown) => {
 };
 
 export const DocumentViewerPDF = (props: DocumentViewerPDFProps) => {
-  const { source, page, rotation, height, scale = 1, onReady } = props;
+  const { source, page, rotation, height = '100%', scale = 1, onReady } = props;
 
   const styles = useStyles();
 

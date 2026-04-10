@@ -1,11 +1,11 @@
-import { Box, Image } from '@alveole/components';
+import { Box, BoxProps, Image } from '@alveole/components';
 import React from 'react';
 import { DocumentViewerRotation } from './DocumentViewer';
 import { useStyles } from './DocumentViewer.styles';
 
 export type DocumentViewerImageProps = {
   source: string;
-  height: number;
+  height?: BoxProps['height'];
   rotation: DocumentViewerRotation;
   scale?: number;
 };
