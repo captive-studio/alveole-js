@@ -1,14 +1,9 @@
-import { BoxProps } from '@alveole/components';
+import { BoxProps } from '../../core';
 import { ProgressBarDeterminate } from './ProgressBarDeterminate';
 import { ProgressBarIndeterminate } from './ProgressBarIndeterminate';
 import { ProgressBarLoop } from './ProgressBarLoop';
 
 type ProgressBarMode = 'determinate' | 'indeterminate' | 'loop';
-
-export const PROGRESS_BAR_GAP = 8;
-export const PROGRESS_BAR_HEIGHT = 8;
-export const PROGRESS_DURATION = 2000;
-export const PROGRESS_DETERMINATE_DURATION = 400;
 
 export type ProgressBarProps = BoxProps & {
   value?: number;

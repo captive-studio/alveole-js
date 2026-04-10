@@ -1,7 +1,7 @@
-import { Box, BoxProps } from '@alveole/components';
 import React from 'react';
 import { Animated, Easing, LayoutChangeEvent } from 'react-native';
-import { PROGRESS_BAR_GAP, PROGRESS_BAR_HEIGHT, PROGRESS_DURATION } from './ProgressBar';
+import { Box, BoxProps } from '../../core';
+import { PROGRESS_BAR_GAP, PROGRESS_BAR_HEIGHT, PROGRESS_DURATION } from './ProgressBar.constants';
 import { useStyles } from './ProgressBar.styles';
 
 export type ProgressBarLoopProps = BoxProps;
