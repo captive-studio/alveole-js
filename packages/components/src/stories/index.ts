@@ -25,6 +25,7 @@ export * as ListItemStory from '../ui/ListItem/ListItem.stories';
 export * as LucideIconStory from '../ui/LucideIcon/LucideIcon.stories';
 export * as PageHeaderStory from '../ui/PageHeader/PageHeader.stories';
 export * as PopoverStory from '../ui/Popover/Popover.stories';
+export * as ProgressBarStory from '../ui/ProgressBar/ProgressBar.stories';
 export * as ResourceListStory from '../ui/ResourceList/ResourceList.stories';
 export * as SidebarStory from '../ui/Sidebar/Sidebar.stories';
 export * as TabsStory from '../ui/Tabs/Tabs.stories';

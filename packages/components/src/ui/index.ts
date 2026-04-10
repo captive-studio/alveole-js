@@ -11,6 +11,7 @@ export * from './ListItem';
 export * from './LucideIcon';
 export * from './PageHeader';
 export * from './Popover';
+export * from './ProgressBar';
 export * from './ResourceList';
 export * from './Sidebar';
 export * from './Tabs';
