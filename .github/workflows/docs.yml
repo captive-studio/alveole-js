@@ -24,12 +24,17 @@ jobs:
       - name: Install dependencies
         run: npm ci
 
-      - name: Build packages
-        run: npm run build
+      - name: Build @alveole/theme
+        run: npm run build --workspace=packages/theme
+
+      - name: Build @alveole/components
+        run: npm run build --workspace=packages/components
+
+      - name: Build @alveole/storybook
+        run: npm run build --workspace=packages/storybook
 
       - name: Build docs
-        working-directory: apps/docs
-        run: npm run build
+        run: npm run build --workspace=apps/docs
 
       - name: Deploy to GitHub Pages
         uses: peaceiris/actions-gh-pages@v4
