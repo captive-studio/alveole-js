@@ -20,4 +20,10 @@ config.resolver.alias = {
   '@': projectRoot,
 };
 
+// Stub native-only optional dependencies that break web/SSR bundling
+config.resolver.extraNodeModules = {
+  ...config.resolver.extraNodeModules,
+  canvas: path.resolve(projectRoot, 'shims/canvas.js'),
+};
+
 module.exports = config;
