@@ -1,0 +1,14 @@
+{
+  "expo": {
+    "name": "Alveole Docs",
+    "slug": "alveole-docs",
+    "scheme": "alveole-docs",
+    "web": {
+      "bundler": "metro",
+      "output": "static"
+    },
+    "experiments": {
+      "baseUrl": "/alveole-js/"
+    }
+  }
+}
