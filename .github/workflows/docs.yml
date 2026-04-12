@@ -39,6 +39,9 @@ jobs:
       - name: Create 404.html for SPA deep links
         run: cp apps/docs/dist/index.html apps/docs/dist/404.html
 
+      - name: Disable Jekyll (allow _expo/ assets)
+        run: touch apps/docs/dist/.nojekyll
+
       - name: Deploy to GitHub Pages
         uses: peaceiris/actions-gh-pages@v4
         with:
