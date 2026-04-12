@@ -26,4 +26,18 @@ config.resolver.extraNodeModules = {
   canvas: path.resolve(projectRoot, 'shims/canvas.js'),
 };
 
+// Deduplicate React across the monorepo — prevents "two React instances" error (#525)
+// All packages must resolve to the same React copy (the one in apps/docs/node_modules)
+config.resolver.resolveRequest = (context, moduleName, platform) => {
+  const dedupedModules = ['react', 'react-dom', 'react-native', 'react-native-web'];
+  if (dedupedModules.includes(moduleName)) {
+    return context.resolveRequest(
+      { ...context, originModulePath: path.resolve(projectRoot, 'index.js') },
+      moduleName,
+      platform,
+    );
+  }
+  return context.resolveRequest(context, moduleName, platform);
+};
+
 module.exports = config;
