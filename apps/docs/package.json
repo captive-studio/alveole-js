@@ -33,6 +33,7 @@
   },
   "devDependencies": {
     "@babel/core": "^7.0.0",
+    "@tamagui/babel-plugin": "^1.129.0",
     "@types/react": "^19.0.0",
     "typescript": "^5.3.3"
   }
