@@ -2,6 +2,7 @@
   "name": "@alveole/docs",
   "private": true,
   "version": "0.0.1",
+  "main": "expo-router/entry",
   "scripts": {
     "start": "expo start --web",
     "build": "expo export --platform web"
