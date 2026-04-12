@@ -20,24 +20,20 @@ config.resolver.alias = {
   '@': projectRoot,
 };
 
-// Stub native-only optional dependencies that break web/SSR bundling
+// Force single copies of React and React Native across the monorepo.
+// extraNodeModules acts as a hard override: any import of these modules from
+// anywhere in the bundle (including node_modules packages) resolves to the
+// same physical path, eliminating the "two React instances" crash.
+const localNodeModules = path.resolve(projectRoot, 'node_modules');
 config.resolver.extraNodeModules = {
   ...config.resolver.extraNodeModules,
   canvas: path.resolve(projectRoot, 'shims/canvas.js'),
-};
-
-// Deduplicate React across the monorepo — prevents "two React instances" error (#525)
-// All packages must resolve to the same React copy (the one in apps/docs/node_modules)
-config.resolver.resolveRequest = (context, moduleName, platform) => {
-  const dedupedModules = ['react', 'react-dom', 'react-native', 'react-native-web'];
-  if (dedupedModules.includes(moduleName)) {
-    return context.resolveRequest(
-      { ...context, originModulePath: path.resolve(projectRoot, 'index.js') },
-      moduleName,
-      platform,
-    );
-  }
-  return context.resolveRequest(context, moduleName, platform);
+  react: path.resolve(localNodeModules, 'react'),
+  'react-dom': path.resolve(localNodeModules, 'react-dom'),
+  'react-native': path.resolve(localNodeModules, 'react-native'),
+  'react-native-web': path.resolve(localNodeModules, 'react-native-web'),
+  'react/jsx-runtime': path.resolve(localNodeModules, 'react/jsx-runtime'),
+  'react/jsx-dev-runtime': path.resolve(localNodeModules, 'react/jsx-dev-runtime'),
 };
 
 module.exports = config;
