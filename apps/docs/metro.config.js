@@ -20,20 +20,35 @@ config.resolver.alias = {
   '@': projectRoot,
 };
 
-// Force single copies of React and React Native across the monorepo.
-// extraNodeModules acts as a hard override: any import of these modules from
-// anywhere in the bundle (including node_modules packages) resolves to the
-// same physical path, eliminating the "two React instances" crash.
 const localNodeModules = path.resolve(projectRoot, 'node_modules');
+
 config.resolver.extraNodeModules = {
   ...config.resolver.extraNodeModules,
   canvas: path.resolve(projectRoot, 'shims/canvas.js'),
-  react: path.resolve(localNodeModules, 'react'),
-  'react-dom': path.resolve(localNodeModules, 'react-dom'),
-  'react-native': path.resolve(localNodeModules, 'react-native'),
-  'react-native-web': path.resolve(localNodeModules, 'react-native-web'),
-  'react/jsx-runtime': path.resolve(localNodeModules, 'react/jsx-runtime'),
-  'react/jsx-dev-runtime': path.resolve(localNodeModules, 'react/jsx-dev-runtime'),
+};
+
+// Force a single copy of React and React Native across the entire monorepo.
+// packages/*/dist files resolve react from the root node_modules while
+// apps/docs uses its own node_modules/react → two instances → crash.
+// resolveRequest intercepts ALL require/import calls including subpaths
+// like react/jsx-runtime that extraNodeModules cannot cover.
+config.resolver.resolveRequest = (context, moduleName, platform) => {
+  if (
+    moduleName === 'react' ||
+    moduleName === 'react-dom' ||
+    moduleName === 'react-native' ||
+    moduleName === 'react-native-web' ||
+    moduleName.startsWith('react/') ||
+    moduleName.startsWith('react-dom/')
+  ) {
+    try {
+      const filePath = require.resolve(moduleName, { paths: [localNodeModules] });
+      return { filePath, type: 'sourceFile' };
+    } catch {
+      // fall through to default resolution
+    }
+  }
+  return context.resolveRequest(context, moduleName, platform);
 };
 
 module.exports = config;
