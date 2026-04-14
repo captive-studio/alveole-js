@@ -69,6 +69,27 @@ jobs:
       - name: Run typecheck
         run: npm run typecheck
 
+  test-unit:
+    name: Test Unit workspaces
+    if: github.event_name != 'push' || !startsWith(github.ref, 'refs/tags/')
+    runs-on: [self-hosted]
+    steps:
+      - name: Checkout
+        uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6
+
+      - name: Setup Node.js
+        uses: actions/setup-node@53b83947a5a98c8d113130e565377fae1a50d02f # v6
+        with:
+          node-version: lts/*
+          cache: npm
+
+      - name: Install dependencies
+        run: npm ci
+
+      - run:
+          name: Unit tests (Jest)
+          command: npm run test:unit
+
   publish-packages:
     name: Publish packages to npm
     if: github.event_name == 'push' && startsWith(github.ref, 'refs/tags/v')

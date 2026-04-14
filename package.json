@@ -9,14 +9,17 @@
     "build": "npm run --workspaces --if-present build",
     "format": "prettier . --write",
     "format:check": "prettier . --check",
+    "test": "npx jest --maxWorkers=50%",
     "lint": "npm run --workspaces --if-present lint",
     "typecheck": "npm run --workspaces --if-present typecheck",
     "publish:local": "scripts/publish-local",
     "publish:package": "scripts/publish-package"
   },
   "devDependencies": {
+    "@types/jest": "^30.0.0",
     "@types/react": "^19.2.9",
     "eslint": "^9.39.2",
+    "jest": "^30.3.0",
     "prettier": "^3.8.1",
     "prettier-plugin-organize-imports": "^4.3.0",
     "typescript": "^5.3.3"
