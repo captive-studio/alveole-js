@@ -1,6 +1,6 @@
 import { makeStyles } from '@alveole/theme';
 
-export const useStyles = makeStyles(({ text, color, spacing, radius }) => ({
+export const useStyles = makeStyles(({ text, color, spacing, radius, isVariant }) => ({
   toolbar: {
     padding: spacing('1W'),
     borderColor: color.light.border['default-grey'],
@@ -21,7 +21,7 @@ export const useStyles = makeStyles(({ text, color, spacing, radius }) => ({
     justifyContent: 'flex-end',
   },
   toolbarTitle: {
-    ...text['Corps de texte'].SM.Bold,
+    ...text['Corps de texte'].MD.SemiBold,
     color: color.light.text['default-grey'],
     paddingLeft: spacing('1W'),
     marginTop: 'auto',
@@ -64,8 +64,8 @@ export const useStyles = makeStyles(({ text, color, spacing, radius }) => ({
     display: 'flex',
     flexDirection: 'column',
     height: '100%',
-    width: '40%',
-    maxWidth: '40%',
+    width: isVariant('tablet') ? '60%' : '40%',
+    maxWidth: isVariant('tablet') ? '60%' : '40%',
     minWidth: 0,
     flexShrink: 1,
     borderColor: color.light.border['default-grey'],
