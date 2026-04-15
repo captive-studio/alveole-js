@@ -1,6 +1,6 @@
 import { format, isValid, Locale, parseISO } from 'date-fns';
 import { enGB, fr } from 'date-fns/locale';
-import { DateFormats, type DateFormat } from './DateFormat';
+import { DateFormats, type DateFormat } from './dateFormat';
 
 /**
  * Retourne la locale date-fns à partir du code langue (ex: 'en', 'fr').
