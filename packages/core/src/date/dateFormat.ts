@@ -1,4 +1,4 @@
-export const dateFormats = {
+export const DateFormats = {
   DatetimeFull: 'iiii d MMMM yyyy à HH:mm',
   Datetime: 'd MMMM yyyy à HH:mm',
   DatetimeShort: 'd MMMM à HH:mm',
@@ -17,7 +17,7 @@ export const dateFormats = {
   DateTimeFR: 'd MMMM yyyy à HH:mm',
   DateTimeEN: 'd MMMM yyyy at HH:mm',
 } as const;
-export type dateFormat = (typeof dateFormats)[keyof typeof dateFormats];
+export type DateFormat = (typeof DateFormats)[keyof typeof DateFormats];
 
 export const isDateFormat = (value: unknown): value is dateFormat =>
-  value != null && Object.values(dateFormats).includes(value as any);
+  value != null && Object.values(DateFormats).includes(value as any);
