@@ -1,7 +1,7 @@
 {
-  "name": "@alveole/date",
+  "name": "@alveole/core",
   "version": "0.34.4",
-  "description": "Date helpers for Alveole stories and theme tokens.",
+  "description": "Core for Alveole.",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
   "exports": {
