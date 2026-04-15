@@ -17,7 +17,8 @@ export const DateFormats = {
   DateTimeFR: 'd MMMM yyyy à HH:mm',
   DateTimeEN: 'd MMMM yyyy at HH:mm',
 } as const;
+
 export type DateFormat = (typeof DateFormats)[keyof typeof DateFormats];
 
-export const isDateFormat = (value: unknown): value is dateFormat =>
+export const isDateFormat = (value: unknown): value is DateFormat =>
   value != null && Object.values(DateFormats).includes(value as any);
