@@ -1,7 +1,10 @@
+import FormControlStories from '../core/FormControl/FormControl.stories';
+
 // Core
 export * as AStory from '../core/A/A.stories';
 export * as BoxStory from '../core/Box/Box.stories';
 export * as ImageStory from '../core/Image/Image.stories';
+export * as FormControlStories from '../core/FormControl/FormControl.stories';
 export * as LottieStory from '../core/Lottie/Lottie.stories';
 export * as MapStory from '../core/Map/Map.stories';
 export * as MetabaseStory from '../core/Metabase/Metabase.stories';

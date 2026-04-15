@@ -1,6 +1,7 @@
 export * from './A';
 export * from './Box';
 export * from './Image';
+export * from './FormControl';
 export * from './Lottie';
 export * from './Map';
 export * from './Metabase';
