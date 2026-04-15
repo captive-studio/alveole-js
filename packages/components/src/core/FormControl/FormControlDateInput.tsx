@@ -1,5 +1,5 @@
 import { Box } from '@alveole/components';
-import { dateFormats, displayDate } from '@alveole/core';
+import { DateFormats, displayDate } from '@alveole/core';
 import React from 'react';
 import { useStyles } from './FormControl.styles';
 
@@ -19,10 +19,10 @@ export const FormControlDateInput = React.forwardRef<FormControlDateInputElement
     const styles = useStyles();
 
     const parsed = React.useMemo(() => {
-      if (type === 'datetime' && value != null) return displayDate(value, { format: dateFormats.DateTimeString });
-      if (type === 'time' && value != null) return displayDate(value, { format: dateFormats.Time, fallback: value });
+      if (type === 'datetime' && value != null) return displayDate(value, { format: DateFormats.DateTimeString });
+      if (type === 'time' && value != null) return displayDate(value, { format: DateFormats.Time, fallback: value });
       if (type === 'month' && value != null)
-        return displayDate(value, { format: dateFormats.MonthString, fallback: value });
+        return displayDate(value, { format: DateFormats.MonthString, fallback: value });
       return value;
     }, [type, value]);
 
