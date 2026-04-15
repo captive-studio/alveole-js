@@ -95,10 +95,6 @@ export const useStyles = makeStyles(({ text, color, spacing }) => ({
     position: 'absolute',
     right: 0,
   },
-  inputFileIcon: {
-    marginTop: 'auto',
-    marginBottom: 'auto',
-  },
   inputWeb: {
     borderWidth: 0,
     borderStyle: 'none',
@@ -145,23 +141,6 @@ export const useStyles = makeStyles(({ text, color, spacing }) => ({
   },
   modalFooter: {
     marginTop: spacing('100'),
-  },
-  modalInputContainer: {
-    borderRadius: 6,
-    borderWidth: 1,
-    borderColor: color.border['default-grey'],
-    backgroundColor: '#FFFFFF',
-    minHeight: 200,
-  },
-  modalInput: {
-    ...text['Corps de texte'].SM.Regular,
-    color: color.text['default-grey'],
-    paddingLeft: spacing('100'),
-    paddingRight: spacing('100'),
-    paddingTop: spacing('100'),
-    paddingBottom: spacing('100'),
-    minHeight: 180,
-    flex: 1,
   },
 
   // Caption

@@ -10,8 +10,8 @@ import {
   TextInput as ReactNativeTextInput,
   TextInputProps as ReactNativeTextInputProps,
 } from 'react-native';
-import { useStyles } from './FormControl.styles';
-import { FormControlModal } from './FormControlModal';
+import { FormControlModal } from '../../core/FormControl/FormControlModal';
+import { useStyles } from './TextInput.style';
 
 export type TextInputElement = ReactNativeTextInput;
 export type TextInputProps = Omit<ReactNativeTextInputProps, 'style'> & {

@@ -18,3 +18,4 @@ export * from './Tabs';
 export * from './Tag';
 export * from './ToolbarBottomNav';
 export * from './ToolbarTop';
+export * from './TextInput';
