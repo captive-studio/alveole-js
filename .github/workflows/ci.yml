@@ -11,6 +11,7 @@ on:
 jobs:
   lint:
     name: Lint workspaces
+    if: github.event_name != 'push' || !startsWith(github.ref, 'refs/tags/')
     runs-on: [self-hosted]
     steps:
       - name: Checkout
@@ -30,6 +31,7 @@ jobs:
 
   format-check:
     name: Check formatting
+    if: github.event_name != 'push' || !startsWith(github.ref, 'refs/tags/')
     runs-on: [self-hosted]
     steps:
       - name: Checkout
@@ -49,6 +51,7 @@ jobs:
 
   typecheck:
     name: Typecheck workspaces
+    if: github.event_name != 'push' || !startsWith(github.ref, 'refs/tags/')
     runs-on: [self-hosted]
     steps:
       - name: Checkout
@@ -68,6 +71,7 @@ jobs:
 
   test-unit:
     name: Test Unit workspaces
+    if: github.event_name != 'push' || !startsWith(github.ref, 'refs/tags/')
     runs-on: [self-hosted]
     steps:
       - name: Checkout
