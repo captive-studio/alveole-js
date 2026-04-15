@@ -5,7 +5,8 @@
     "paths": {
       "@alveole/theme": ["../theme/src/index.ts"],
       "@alveole/components": ["../components/src/index.ts"],
-      "@alveole/storybook": ["./src/index.ts"]
+      "@alveole/storybook": ["../storybook/src/index.ts"],
+      "@alveole/core": ["./src/index.ts"],
     }
   },
   "include": ["src"]
