@@ -26,6 +26,7 @@
     "eslint": "^9.39.2"
   },
   "peerDependencies": {
-    "date-fns": "*"
+    "date-fns": "*",
+    "sweetalert2": "*"
   }
 }
