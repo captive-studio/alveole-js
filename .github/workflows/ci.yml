@@ -86,9 +86,8 @@ jobs:
       - name: Install dependencies
         run: npm ci
 
-      - run:
-          name: Unit tests (Jest)
-          command: npm run test:unit
+      - name: Unit tests (Jest)
+        run: npm run test:unit
 
   publish-packages:
     name: Publish packages to npm
