@@ -61,6 +61,7 @@
     "expo-application": "*",
     "expo-constants": "*",
     "expo-document-picker": "*",
+    "expo-image-picker": "*",
     "expo-image": "*",
     "expo-linear-gradient": "*",
     "expo-router": "*",
