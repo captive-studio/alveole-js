@@ -1,1 +1,1 @@
-export * from './DevMode'
+export * from './DevMode';
