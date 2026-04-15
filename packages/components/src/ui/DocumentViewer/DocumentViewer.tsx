@@ -14,10 +14,11 @@ export type DocumentViewerProps = BoxProps & {
   title: string;
   source: string;
   height?: BoxProps['height'];
+  ChildrenProps?: Omit<BoxProps, 'children'>;
 };
 
 export const DocumentViewer = (props: DocumentViewerProps) => {
-  const { children, title, source, type, height = '100%', ...boxProps } = props;
+  const { children, title, source, type, height = '100%', ChildrenProps, ...boxProps } = props;
 
   const styles = useStyles();
 
@@ -96,7 +97,7 @@ export const DocumentViewer = (props: DocumentViewerProps) => {
       </Box>
 
       {children && (
-        <Box tag="document-viewer-children" style={styles.children}>
+        <Box tag="document-viewer-children" {...ChildrenProps} style={[styles.children, ChildrenProps?.style]}>
           {children}
         </Box>
       )}
