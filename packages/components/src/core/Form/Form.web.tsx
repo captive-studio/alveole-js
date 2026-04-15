@@ -1,7 +1,7 @@
 import { Box } from '@alveole/components';
 import React, { useRef } from 'react';
 import type { FormProps } from './Form';
-import { useStyles } from './From.styles';
+import { useStyles } from './Form.styles';
 
 export const Form = (props: FormProps) => {
   const { style, ...formProps } = props;

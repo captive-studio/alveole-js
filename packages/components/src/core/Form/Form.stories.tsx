@@ -1,7 +1,7 @@
 import { Story } from '../../type';
 import { Button, TextInput } from '../../ui';
 import { Form } from './Form';
-import { useStyles } from './From.styles';
+import { useStyles } from './Form.styles';
 
 export default {
   title: 'Form',

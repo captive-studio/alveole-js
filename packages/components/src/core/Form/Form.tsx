@@ -1,7 +1,7 @@
 import { Box, BoxProps } from '@alveole/components';
 import React from 'react';
 import { Keyboard, Platform, TouchableWithoutFeedback } from 'react-native';
-import { useStyles } from './From.styles';
+import { useStyles } from './Form.styles';
 
 export type FormProps = BoxProps & {
   disabledKeyboardOverflow?: boolean;
