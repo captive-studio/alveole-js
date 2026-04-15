@@ -16,6 +16,6 @@ export * from './ResourceList';
 export * from './Sidebar';
 export * from './Tabs';
 export * from './Tag';
+export * from './TextInput';
 export * from './ToolbarBottomNav';
 export * from './ToolbarTop';
-export * from './TextInput';

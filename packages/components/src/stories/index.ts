@@ -1,11 +1,9 @@
-import FormControlStories from '../core/FormControl/FormControl.stories';
-
 // Core
 export * as AStory from '../core/A/A.stories';
 export * as BoxStory from '../core/Box/Box.stories';
-export * as ImageStory from '../core/Image/Image.stories';
 export * as FormStories from '../core/Form/Form.stories';
 export * as FormControlStories from '../core/FormControl/FormControl.stories';
+export * as ImageStory from '../core/Image/Image.stories';
 export * as LottieStory from '../core/Lottie/Lottie.stories';
 export * as MapStory from '../core/Map/Map.stories';
 export * as MetabaseStory from '../core/Metabase/Metabase.stories';
@@ -34,6 +32,6 @@ export * as ResourceListStory from '../ui/ResourceList/ResourceList.stories';
 export * as SidebarStory from '../ui/Sidebar/Sidebar.stories';
 export * as TabsStory from '../ui/Tabs/Tabs.stories';
 export * as TagStory from '../ui/Tag/Tag.stories';
+export * as TextInputStory from '../ui/TextInput/TextInput.stories';
 export * as ToolbarBottomNavStory from '../ui/ToolbarBottomNav/ToolbarBottomNav.stories';
 export * as ToolbarTopStory from '../ui/ToolbarTop/ToolbarTop.stories';
-export * as TextInputStory from '../ui/TextInput/TextInput.stories';

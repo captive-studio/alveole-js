@@ -1,8 +1,7 @@
 import { Story } from '../../type';
-import React from 'react';
+import { Button, TextInput } from '../../ui';
 import { Form } from './Form';
 import { useStyles } from './From.styles';
-import { Button, TextInput } from '../../ui';
 
 export default {
   title: 'Form',
@@ -14,10 +13,9 @@ export default {
   styleFn: useStyles,
 } satisfies Story;
 
-
 export const ExampleUsage = () => (
   <Form>
-    <TextInput/>
+    <TextInput />
     <Button variant="primary" title="Valide" />
   </Form>
 );
