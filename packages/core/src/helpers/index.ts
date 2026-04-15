@@ -1,2 +1,2 @@
 export * from './Alert';
-export * from './DevMode/DevMode';
+export * from './DevMode';

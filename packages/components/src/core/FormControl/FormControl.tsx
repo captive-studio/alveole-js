@@ -5,7 +5,7 @@ import { useStyles } from './FormControl.styles';
 
 export type FormControlProps = React.PropsWithChildren & { style?: BoxProps['style'] };
 
-export const FormControl = React.forwardRef<ReactNativeTextInput, FormControlProps>(function FormControl(props, ref) {
+export const FormControl = React.forwardRef<ReactNativeTextInput, FormControlProps>(function FormControl(props, _ref) {
   const { children, style } = props;
 
   const styles = useStyles();
