@@ -1,6 +1,6 @@
 {
   "name": "@alveole/storybook",
-  "version": "0.34.6",
+  "version": "0.34.7",
   "description": "Catalog screens and helpers for Alveole stories and theme tokens.",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
