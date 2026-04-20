@@ -1,11 +1,29 @@
-import { Box, BoxProps } from '@alveole/components';
-import type { PDFDocumentProxy } from 'pdfjs-dist';
-import * as pdfjs from 'pdfjs-dist';
-import 'pdfjs-dist/legacy/build/pdf.worker.min.mjs';
+import { Box, type BoxProps } from '@alveole/components';
 import React from 'react';
-import { Platform } from 'react-native';
 import { DocumentViewerRotation } from './DocumentViewer';
 import { useStyles } from './DocumentViewer.styles';
+
+type PDFDocumentProxyLike = {
+  destroy?: () => void | Promise<void>;
+  getPage: (page: number) => Promise<{
+    getViewport: (options: { scale: number; rotation: DocumentViewerRotation }) => { width: number; height: number };
+    render: (options: {
+      canvasContext: CanvasRenderingContext2D;
+      viewport: { width: number; height: number };
+      transform?: [number, number, number, number, number, number];
+    }) => { promise: Promise<void>; cancel?: () => void } | null;
+    cleanup?: () => void;
+  }>;
+  numPages: number;
+};
+
+type PdfJsModule = {
+  GlobalWorkerOptions: { workerSrc: string };
+  getDocument: (source: string) => {
+    promise: Promise<PDFDocumentProxyLike>;
+    destroy: () => void;
+  };
+};
 
 export type DocumentViewerPDFProps = {
   source: string;
@@ -13,7 +31,7 @@ export type DocumentViewerPDFProps = {
   height?: BoxProps['height'];
   rotation: DocumentViewerRotation;
   scale?: number;
-  onReady?: (state: PDFDocumentProxy) => void;
+  onReady?: (state: PDFDocumentProxyLike) => void;
 };
 
 const isPdfCancellationError = (error: unknown) => {
@@ -25,12 +43,36 @@ const isPdfCancellationError = (error: unknown) => {
   );
 };
 
+const loadPdfJs = (() => {
+  let promise: Promise<PdfJsModule> | null = null;
+
+  return () => {
+    if (typeof window === 'undefined') {
+      return Promise.reject(new Error('PDF.js is only available in the browser.'));
+    }
+
+    if (promise) return promise;
+
+    const dynamicImport = new Function('url', 'return import(url);') as (
+      url: string,
+    ) => Promise<{ default?: PdfJsModule }>;
+
+    promise = dynamicImport('/pdf.min.mjs').then(module => {
+      const pdfjs = (module.default ?? module) as PdfJsModule;
+      pdfjs.GlobalWorkerOptions.workerSrc = `${window.location.origin}/pdf.worker.min.mjs`;
+      return pdfjs;
+    });
+
+    return promise;
+  };
+})();
+
 export const DocumentViewerPDF = (props: DocumentViewerPDFProps) => {
   const { source, page, rotation, height = '100%', scale = 1, onReady } = props;
 
   const styles = useStyles();
 
-  const [pdf, setPdf] = React.useState<PDFDocumentProxy | null>(null);
+  const [pdf, setPdf] = React.useState<PDFDocumentProxyLike | null>(null);
   const [viewerSize, setViewerSize] = React.useState({ width: 0, height: 0 });
   const [isHovered, setIsHovered] = React.useState(false);
   const [transformOrigin, setTransformOrigin] = React.useState('50% 50%');
@@ -43,7 +85,7 @@ export const DocumentViewerPDF = (props: DocumentViewerPDFProps) => {
     onReadyRef.current = onReady;
   }, [onReady]);
 
-  const onPdfLoadedSuccess = React.useCallback((documentPdf: PDFDocumentProxy, active: boolean) => {
+  const onPdfLoadedSuccess = React.useCallback((documentPdf: PDFDocumentProxyLike, active: boolean) => {
     if (!active) return void documentPdf.destroy?.();
     setPdf(currentPdf => {
       void currentPdf?.destroy?.();
@@ -52,14 +94,14 @@ export const DocumentViewerPDF = (props: DocumentViewerPDFProps) => {
     onReadyRef.current?.(documentPdf);
   }, []);
 
-  const onPdfLoadedError = (active: boolean) => {
+  const onPdfLoadedError = React.useCallback((active: boolean) => {
     if (!active) return;
     setPdf(null);
-  };
+  }, []);
 
   const onPageLoadedSuccess = React.useCallback(
-    (pagePdf: pdfjs.PDFPageProxy, active: boolean) => {
-      if (!active || !canvasRef.current) return;
+    async (pagePdf: Awaited<ReturnType<PDFDocumentProxyLike['getPage']>>, active: boolean) => {
+      if (!active || !canvasRef.current) return null;
 
       const baseViewport = pagePdf.getViewport({ scale: 1, rotation });
       const fittedScale = Math.min(viewerSize.width / baseViewport.width, viewerSize.height / baseViewport.height);
@@ -90,10 +132,21 @@ export const DocumentViewerPDF = (props: DocumentViewerPDFProps) => {
 
   React.useEffect(() => {
     let isActive = true;
-    const loadingTask = pdfjs.getDocument(source);
+    let loadingTask: ReturnType<PdfJsModule['getDocument']> | null = null;
 
-    loadingTask.promise
-      .then(nextPdf => onPdfLoadedSuccess(nextPdf, isActive))
+    loadPdfJs()
+      .then(pdfjs => {
+        if (!isActive) return;
+
+        loadingTask = pdfjs.getDocument(source);
+
+        return loadingTask.promise
+          .then(nextPdf => onPdfLoadedSuccess(nextPdf, isActive))
+          .catch(error => {
+            if (!isActive || isPdfCancellationError(error)) return;
+            onPdfLoadedError(true);
+          });
+      })
       .catch(error => {
         if (!isActive || isPdfCancellationError(error)) return;
         onPdfLoadedError(true);
@@ -101,20 +154,20 @@ export const DocumentViewerPDF = (props: DocumentViewerPDFProps) => {
 
     return () => {
       isActive = false;
-      loadingTask.destroy();
+      loadingTask?.destroy();
     };
-  }, [source, onPdfLoadedSuccess]);
+  }, [source, onPdfLoadedError, onPdfLoadedSuccess]);
 
   React.useEffect(() => {
     if (!pdf || !canvasRef.current || viewerSize.width <= 0 || viewerSize.height <= 0) return;
 
     let isActive = true;
-    let renderTask: ReturnType<typeof onPageLoadedSuccess> = null;
+    let renderTask: Awaited<ReturnType<typeof onPageLoadedSuccess>> = null;
 
     pdf
       .getPage(page)
-      .then(pdfPage => {
-        renderTask = onPageLoadedSuccess(pdfPage, isActive);
+      .then(async pdfPage => {
+        renderTask = await onPageLoadedSuccess(pdfPage, isActive);
         return renderTask?.promise.then(() => {
           if (!isActive) return;
           pdfPage.cleanup?.();
@@ -129,7 +182,7 @@ export const DocumentViewerPDF = (props: DocumentViewerPDFProps) => {
       isActive = false;
       renderTask?.cancel?.();
     };
-  }, [pdf, page, rotation, scale, viewerSize, onPageLoadedSuccess]);
+  }, [pdf, page, rotation, scale, viewerSize, onPageLoadedSuccess, onPdfLoadedError]);
 
   const handleLayout = React.useCallback((event: any) => {
     const nextWidth = event?.nativeEvent?.layout?.width;
@@ -164,21 +217,19 @@ export const DocumentViewerPDF = (props: DocumentViewerPDFProps) => {
       style={styles.viewerPdfContent}
     >
       <Box width={'100%'} height={'100%'} p={'1V'} style={styles.viewerPdfStage}>
-        {Platform.OS === 'web' && (
-          <Box
-            style={[
-              styles.viewerPdfCanvasWrapper,
-              {
-                width: renderedPageSize.width,
-                height: renderedPageSize.height,
-                transformOrigin,
-                transform: [{ scale: hoveredScale }],
-              },
-            ]}
-          >
-            <canvas ref={canvasRef} style={styles.viewerPdfCanvas} />
-          </Box>
-        )}
+        <Box
+          style={[
+            styles.viewerPdfCanvasWrapper,
+            {
+              width: renderedPageSize.width,
+              height: renderedPageSize.height,
+              transformOrigin,
+              transform: [{ scale: hoveredScale }],
+            },
+          ]}
+        >
+          <canvas ref={canvasRef} style={styles.viewerPdfCanvas} />
+        </Box>
       </Box>
     </Box>
   );
