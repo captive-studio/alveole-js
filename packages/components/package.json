@@ -62,7 +62,7 @@
     "expo-linear-gradient": "*",
     "expo-constants": "*",
     "lottie-react-native": "*",
-    "pdfjs-dist": "^3.11.174",
+    "pdfjs-dist": "^4.2.67",
     "@lottiefiles/dotlottie-react": "*"
   },
   "publishConfig": {
