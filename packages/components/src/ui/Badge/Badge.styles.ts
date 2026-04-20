@@ -38,13 +38,13 @@ export const useStyles = makeStyles(({ radius, text, color, spacing }) => ({
 
   // Sizes
   badgeSm: {
-    paddingLeft: spacing('1V'),
+    paddingLeft: spacing('1,5V'),
     paddingRight: spacing('1,5V'),
     gap: spacing('1V'),
     ...text['Corps de texte'].XS.CapsBold,
   },
   badgeMd: {
-    paddingLeft: spacing('1V'),
+    paddingLeft: spacing('1W'),
     paddingRight: spacing('1W'),
     gap: spacing('1V'),
     ...text['Corps de texte'].SM.CapsBold,
