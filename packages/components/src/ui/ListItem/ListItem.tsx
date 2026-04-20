@@ -35,7 +35,12 @@ export const ListItem = (props: ListItemProps) => {
 
   return (
     <Box>
-      <Box tag="resource-item" style={[styles.item, style]} hoverStyle={styles.itemHover} {...itemProps}>
+      <Box
+        tag="resource-item"
+        style={[styles.item, style]}
+        hoverStyle={itemProps['onPress'] ? styles.itemHover : {}}
+        {...itemProps}
+      >
         {preview_url ? (
           <Box style={styles.previewContainer}>
             <Image
