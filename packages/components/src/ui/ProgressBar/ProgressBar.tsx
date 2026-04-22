@@ -9,6 +9,7 @@ export type ProgressBarProps = BoxProps & {
   value?: number;
   visible?: boolean;
   indicator?: boolean;
+  indicatorPrecision?: 0 | 1 | 2 | 3;
   mode?: ProgressBarMode;
 };
 

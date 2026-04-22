@@ -7,11 +7,12 @@ import { useStyles } from './ProgressBar.styles';
 
 export type ProgressBarDeterminateProps = BoxProps & {
   indicator?: boolean;
+  indicatorPrecision?: 0 | 1 | 2 | 3;
   clamped: number;
 };
 
 export const ProgressBarDeterminate = (props: ProgressBarDeterminateProps) => {
-  const { clamped, indicator, style, onLayout, ...boxProps } = props;
+  const { clamped, indicator, indicatorPrecision = 3, style, onLayout, ...boxProps } = props;
 
   const styles = useStyles();
   const animatedProgress = React.useRef(new Animated.Value(clamped)).current;
@@ -48,7 +49,7 @@ export const ProgressBarDeterminate = (props: ProgressBarDeterminateProps) => {
       </Box>
       {indicator && (
         <Box>
-          <Typography style={styles.indicator}>{clamped * 100}%</Typography>
+          <Typography style={styles.indicator}>{(clamped * 100).toFixed(indicatorPrecision)}%</Typography>
         </Box>
       )}
     </Box>
