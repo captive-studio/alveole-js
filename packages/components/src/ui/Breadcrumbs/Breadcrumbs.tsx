@@ -72,7 +72,9 @@ export const Breadcrumbs = (props: BreadcrumbsProps) => {
             <Typography style={styles.current}>{item.label}</Typography>
           ) : (
             <A href={item.href as Href & string} style={styles.link} hoverStyle={styles.linkHover}>
-              {item.label}
+              <Typography style={styles.link} hoverStyle={styles.linkHover}>
+                {item.label}
+              </Typography>
             </A>
           )}
         </Box>
