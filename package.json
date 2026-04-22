@@ -9,13 +9,15 @@
     "build": "npm run --workspaces --if-present build",
     "format": "prettier . --write",
     "format:check": "prettier . --check",
-    "test": "npx jest --maxWorkers=50%",
+    "test:unit": "npm run --workspaces --if-present test:unit",
     "lint": "npm run --workspaces --if-present lint",
     "typecheck": "npm run --workspaces --if-present typecheck",
     "publish:local": "scripts/publish-local",
     "publish:package": "scripts/publish-package"
   },
   "devDependencies": {
+    "@swc/core": "^1.13.5",
+    "@swc/jest": "^0.2.39",
     "@types/jest": "^30.0.0",
     "@types/react": "^19.2.9",
     "eslint": "^9.39.2",
