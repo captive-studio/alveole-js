@@ -21,7 +21,8 @@ const isPdfCancellationError = (error: unknown) => {
 
   return (
     ['RenderingCancelledException', 'AbortException', 'UnknownErrorException'].includes(error.name) ||
-    error.message.includes('Worker was terminated')
+    error.message.includes('Worker was terminated') ||
+    error.message.includes("Cannot read properties of null (reading 'sendWithPromise')")
   );
 };
 
@@ -111,8 +112,8 @@ export const DocumentViewerPDF = (props: DocumentViewerPDFProps) => {
     let isActive = true;
     let renderTask: ReturnType<typeof onPageLoadedSuccess> = null;
 
-    pdf
-      .getPage(page)
+    Promise.resolve()
+      .then(() => pdf.getPage(page))
       .then(pdfPage => {
         renderTask = onPageLoadedSuccess(pdfPage, isActive);
         return renderTask?.promise.then(() => {
