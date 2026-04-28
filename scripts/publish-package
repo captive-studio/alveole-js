@@ -226,6 +226,10 @@ for pkg_dir in "${PACKAGE_DIRS[@]}"; do
 done
 
 echo ""
+info "Mise à jour du package-lock.json..."
+npm install --package-lock-only --ignore-scripts
+
+echo ""
 echo "Build de tous les packages..."
 while IFS= read -r name; do
   echo "  Build $name..."
@@ -234,7 +238,7 @@ done <<< "$(get_package_names_ordered)"
 
 echo ""
 info "Commit et tag..."
-git add package-lock.json packages/*/package.json
+git add package-lock.json packages/*/package.json packages/*/src/generated/version.ts
 git commit -m "🔖 release v$NEW_VERSION"
 git tag "v$NEW_VERSION"
 

@@ -23,7 +23,7 @@
   ],
   "sideEffects": false,
   "scripts": {
-    "build": "tsc -p tsconfig.build.json && node ./scripts/prepare-pdfjs-web-assets.mjs",
+    "build": "node ./scripts/generate-version.mjs && tsc -p tsconfig.build.json && node ./scripts/prepare-pdfjs-web-assets.mjs",
     "lint": "eslint .",
     "postinstall": "node ./scripts/postinstall.mjs",
     "test:unit": "NODE_OPTIONS=--max-old-space-size=4096 npx jest --maxWorkers=2 --ci",
