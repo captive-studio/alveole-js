@@ -4,7 +4,7 @@ import { Lottie } from './Lottie';
 
 export default {
   title: 'Lottie',
-  tags: ['Kit'],
+  tags: ['core'],
   experimental: true,
   description: 'Lottie animations',
   component: Lottie,

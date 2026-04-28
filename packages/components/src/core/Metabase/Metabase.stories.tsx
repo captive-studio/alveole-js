@@ -4,7 +4,7 @@ import { useStyles } from './Metabase.styles';
 
 export default {
   title: 'Metabase',
-  tags: ['Kit'],
+  tags: ['core'],
   experimental: true,
   description: "Intègre une page Metabase en passant l'url",
   component: Metabase,

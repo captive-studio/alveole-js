@@ -6,7 +6,7 @@ import { useStyles } from './ListItem.styles';
 
 export default {
   title: 'ListItem',
-  tags: ['Composant'],
+  tags: ['ui'],
   experimental: false,
   figmaURL: 'https://www.figma.com/design/xJz8Z6vfrnZPKTtRbuT2W8/Composants?node-id=1002-558',
   description: 'Permet d’afficher les données d‘une ressource.',

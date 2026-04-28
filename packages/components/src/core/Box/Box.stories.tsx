@@ -4,7 +4,7 @@ import { Box } from './Box';
 
 export default {
   title: 'Box',
-  tags: ['Kit'],
+  tags: ['core'],
   experimental: false,
   description:
     'La Box doit être utilisé pour tout contenir, à la manière d‘une <div>. De type View (tamagui), elle permet de définir le tag rendu en web.',

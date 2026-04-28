@@ -5,7 +5,7 @@ import { ActionMenu } from './ActionMenu';
 
 export default {
   title: 'ActionMenu',
-  tags: ['Composant'],
+  tags: ['ui'],
   experimental: false,
   figmaURL: 'https://www.figma.com/design/xJz8Z6vfrnZPKTtRbuT2W8/Composants?node-id=1002-547',
   description: 'Composant de type Box.',

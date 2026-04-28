@@ -4,7 +4,7 @@ import { useStyles } from './DocumentViewer.styles';
 
 export default {
   title: 'DocumentViewer',
-  tags: ['Kit'],
+  tags: ['ui'],
   experimental: false,
   webOnly: true,
   description: 'Viewer de documents (PDF, Image)',

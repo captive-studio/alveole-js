@@ -5,7 +5,7 @@ import { useStyles } from './Tag.styles';
 
 export default {
   title: 'Tag',
-  tags: ['Kit'],
+  tags: ['ui'],
   experimental: false,
   figmaURL: 'https://www.figma.com/design/xJz8Z6vfrnZPKTtRbuT2W8/Alveole---Composants?node-id=1002-8509',
   description: 'Différents tags. Composant de type Typography.',

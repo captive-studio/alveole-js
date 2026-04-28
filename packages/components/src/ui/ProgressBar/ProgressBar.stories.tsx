@@ -6,7 +6,7 @@ import { useStyles } from './ProgressBar.styles';
 
 export default {
   title: 'ProgressBar',
-  tags: ['Kit'],
+  tags: ['ui'],
   experimental: false,
   description: 'bar de progression',
   component: ProgressBar,

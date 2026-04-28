@@ -4,7 +4,7 @@ import { useStyles } from './ToolbarBottomNav.styles';
 
 export default {
   title: 'ToolbarBottomNav',
-  tags: ['Kit'],
+  tags: ['ui'],
   experimental: false,
   description: 'Navigation bottom de type TabsExpo. A utiliser dans les _layout.',
   figmaURL:

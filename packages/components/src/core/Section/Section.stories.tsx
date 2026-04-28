@@ -5,7 +5,7 @@ import { useStyles } from './Section.styles';
 
 export default {
   title: 'Section',
-  tags: ['Kit'],
+  tags: ['core'],
   experimental: true,
   description:
     'Section de page. Permet de contenir une section dans un élément adapté aux différentes platformes. Composant de type Box.',

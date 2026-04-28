@@ -8,7 +8,7 @@ import { useStyles } from './CardSection.styles';
 
 export default {
   title: 'Card',
-  tags: ['Kit'],
+  tags: ['ui'],
   experimental: false,
   figmaURL: 'https://www.figma.com/design/xJz8Z6vfrnZPKTtRbuT2W8/Alveole---Composants?node-id=2196-918&m=dev',
   description: 'Carte avec header, section et actions. Composant de type Box.',

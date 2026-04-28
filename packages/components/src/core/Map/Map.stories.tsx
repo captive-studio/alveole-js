@@ -6,7 +6,7 @@ import { useStyles } from './Map.styles';
 
 export default {
   title: 'Map',
-  tags: ['Kit'],
+  tags: ['core'],
   experimental: true,
   webOnly: true,
   description: 'Carte interactive (Google Map)',
