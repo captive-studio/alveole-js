@@ -5,7 +5,7 @@ import { useStyles } from './Avatar.styles';
 
 export default {
   title: 'Avatar',
-  tags: ['Kit'],
+  tags: ['ui'],
   experimental: false,
   figmaURL: 'https://www.figma.com/design/xJz8Z6vfrnZPKTtRbuT2W8/Composants?node-id=1002-546',
   description: 'Avatar avec image ou texte, de différentes tailles. Composant de type Avatar (tamagui).',

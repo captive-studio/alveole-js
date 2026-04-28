@@ -6,7 +6,7 @@ import { useStyles } from './Tabs.styles';
 
 export default {
   title: 'Tabs',
-  tags: ['Composant'],
+  tags: ['ui'],
   experimental: false,
   figmaURL: 'https://www.figma.com/design/xJz8Z6vfrnZPKTtRbuT2W8/Alveole---Composants?node-id=1863-621',
   description: 'Composant d’onglets (tabs) basé sur tamagui.',

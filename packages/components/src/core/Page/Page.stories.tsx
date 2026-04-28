@@ -4,7 +4,7 @@ import { Page } from './Page';
 
 export default {
   title: 'Pages',
-  tags: ['Kit'],
+  tags: ['core'],
   experimental: false,
   description:
     'Permet de définir les valeurs de la balise <head> via Expo router. Doit englober toutes les pages. Permet aussi de la rendre scrollable la page via l’attribut `scrollable`. Principalement pour le web.',

@@ -7,7 +7,7 @@ import { useStyles } from './ToolbarTop.styles';
 
 export default {
   title: 'ToolbarTop',
-  tags: ['Composant'],
+  tags: ['ui'],
   experimental: false,
   figmaURL:
     'https://www.figma.com/design/xJz8Z6vfrnZPKTtRbuT2W8/Alveole---Composants?node-id=1749-4674&t=qyctNCnE5tT5rKRk-4',

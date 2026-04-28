@@ -5,7 +5,7 @@ import { useStyles } from './Breadcrumbs.styles';
 
 export default {
   title: 'Breadcrumbs',
-  tags: ['Kit'],
+  tags: ['ui'],
   experimental: false,
   description:
     "Fil d'Ariane construit à partir de la navigation Expo Router. Tous les éléments sauf le dernier (page en cours) sont cliquables.",

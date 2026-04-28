@@ -3,7 +3,7 @@ import { Typography } from './Typography';
 
 export default {
   title: 'Typography',
-  tags: ['Kit'],
+  tags: ['core'],
   experimental: false,
   description: 'La Typography doit être utilisé pour contenir tous les textes. Composant de type Text (tamagui).',
   component: Typography,

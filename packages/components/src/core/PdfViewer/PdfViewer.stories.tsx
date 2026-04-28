@@ -5,7 +5,7 @@ import { useStyles } from './PdfViewer.styles';
 
 export default {
   title: 'PdfViewer',
-  tags: ['Composant'],
+  tags: ['core'],
   experimental: false,
   description: "Affichage d'un document PDF. Utilise un iframe sur web et WebView sur mobile.",
   component: PdfViewer,

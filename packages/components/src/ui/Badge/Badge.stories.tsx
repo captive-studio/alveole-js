@@ -5,7 +5,7 @@ import { useStyles } from './Badge.styles';
 
 export default {
   title: 'Badge',
-  tags: ['Kit'],
+  tags: ['ui'],
   experimental: false,
   figmaURL: 'https://www.figma.com/design/xJz8Z6vfrnZPKTtRbuT2W8/Composants?node-id=1002-547',
   description: 'Différents variants de badges. Composant de type Typography.',

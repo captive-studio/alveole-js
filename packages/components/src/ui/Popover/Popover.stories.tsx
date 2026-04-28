@@ -5,7 +5,7 @@ import { useStyles } from './Popover.styles';
 
 export default {
   title: 'Popover',
-  tags: ['Kit'],
+  tags: ['ui'],
   experimental: false,
   description: 'Zone cliquable avec ouverture d’un Popover (Tamagui Popover).',
   figmaURL:

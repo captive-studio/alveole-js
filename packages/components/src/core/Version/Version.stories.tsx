@@ -4,7 +4,7 @@ import { useStyles } from './Version.styles';
 
 export default {
   title: 'Version',
-  tags: ['Kit'],
+  tags: ['core'],
   experimental: false,
   description: "Affiche la version de l'app",
   component: Version,

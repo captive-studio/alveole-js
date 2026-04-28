@@ -5,7 +5,7 @@ import { useStyles } from './EmptyState.styles';
 
 export default {
   title: 'Empty State',
-  tags: ['Kit'],
+  tags: ['ui'],
   experimental: false,
   description: "À utiliser quand une liste d'objet est vide",
   figmaURL:

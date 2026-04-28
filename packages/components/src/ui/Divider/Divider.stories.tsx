@@ -4,7 +4,7 @@ import { useStyles } from './Divider.styles';
 
 export default {
   title: 'Divider',
-  tags: ['Kit'],
+  tags: ['ui'],
   experimental: false,
   figmaURL: 'https://www.figma.com/design/xJz8Z6vfrnZPKTtRbuT2W8/Composants?node-id=1002-15729',
   description: 'Sérateur. Composant de type Box - Equivalent <hr/>.',

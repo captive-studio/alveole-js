@@ -6,7 +6,7 @@ import { useStyles } from './PageHeader.styles';
 
 export default {
   title: 'PageHeader',
-  tags: ['Kit'],
+  tags: ['ui'],
   experimental: false,
   description: 'En-tête de page : fil d’Ariane, puis titre à gauche et actions à droite.',
   component: PageHeader,

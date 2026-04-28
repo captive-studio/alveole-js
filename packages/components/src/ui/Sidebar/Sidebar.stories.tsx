@@ -5,7 +5,7 @@ import { useStyles } from './Sidebar.styles';
 
 export default {
   title: 'Sidebar',
-  tags: ['Composant'],
+  tags: ['ui'],
   experimental: false,
   figmaURL: 'https://www.figma.com/design/xJz8Z6vfrnZPKTtRbuT2W8/Alveole---Composants?node-id=1328-725',
   description:

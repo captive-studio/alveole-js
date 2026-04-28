@@ -8,7 +8,7 @@ import { ResourceListDivider } from './ResourceListDivider';
 
 export default {
   title: 'ResourceList',
-  tags: ['Composant'],
+  tags: ['ui'],
   experimental: false,
   figmaURL:
     'https://www.figma.com/design/xJz8Z6vfrnZPKTtRbuT2W8/Alveole---Composants?node-id=1002-558&p=f&t=wo7HwL3p0McYL9ei-0',
