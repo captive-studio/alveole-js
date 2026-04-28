@@ -11,4 +11,5 @@ coverage
 *.snap
 .tamagui/tamagui.config.json
 public/json-form/schema.json
+packages/components/src/generated/version.ts
 **/**/*.hbs

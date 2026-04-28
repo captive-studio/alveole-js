@@ -1,4 +1,4 @@
-import { Box, Typography } from '@alveole/components';
+import { ALVEOLE_COMPONENTS_VERSION, Box, Typography } from '@alveole/components';
 import { useTheme } from '@alveole/theme';
 import { Pressable, useWindowDimensions } from 'react-native';
 
@@ -36,14 +36,14 @@ export const UIKitTopBar = ({ activeKey, items }: UIKitTopBarProps) => {
         }}
       >
         <Box display="flex" gap={2}>
-          <Typography style={text['Corps de texte'].XS.CapsBold}>UI Kit</Typography>
+          <Typography style={text['Corps de texte'].SM.Bold}>Alveole • UI Kit</Typography>
           <Typography
             style={{
               ...text['Corps de texte'].XS.Regular,
               color: color.light.text['mention-grey'],
             }}
           >
-            Alveole
+            Version {ALVEOLE_COMPONENTS_VERSION}
           </Typography>
         </Box>
 
