@@ -12,6 +12,7 @@ module.exports = {
   // eslint-disable-next-line no-undef
   cacheDirectory: path.join(__dirname, '.jest-cache'),
   collectCoverage: false,
+  watchman: false,
   moduleNameMapper: {
     '^@/(.*)$': '<rootDir>/$1',
   },
