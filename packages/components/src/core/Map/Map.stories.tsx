@@ -7,7 +7,7 @@ import { useStyles } from './Map.styles';
 export default {
   title: 'Map',
   tags: ['core'],
-  experimental: true,
+  experimental: false,
   webOnly: true,
   description: 'Carte interactive (Google Map)',
   props: MapPropsJSON,

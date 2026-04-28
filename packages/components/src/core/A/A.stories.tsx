@@ -6,7 +6,7 @@ import { useStyles } from './A.styles';
 export default {
   title: 'A',
   tags: ['core'],
-  experimental: true,
+  experimental: false,
   description: 'Equivalent d’une balise <a>',
   component: A,
   styleFn: useStyles,

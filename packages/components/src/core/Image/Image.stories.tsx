@@ -6,7 +6,7 @@ import { Image } from './Image';
 export default {
   title: 'Image',
   tags: ['core'],
-  experimental: true,
+  experimental: false,
   description:
     "Permet d'afficher une image de manière responsive que ce soit sur mobile ou desktop. Actuellement l'image ne peut que être fill, il faudrait développer les autres en se basant sur l'élément <img> HTML. https://www.w3schools.com/csS/css3_object-fit.asp",
   component: Image,
