@@ -9,6 +9,7 @@ export default {
   experimental: false,
   description:
     "Fil d'Ariane construit à partir de la navigation Expo Router. Tous les éléments sauf le dernier (page en cours) sont cliquables.",
+  figmaURL: "https://www.figma.com/design/xJz8Z6vfrnZPKTtRbuT2W8/Alveole---Composants?node-id=1437-302",
   component: Breadcrumbs,
   styleFn: useStyles,
 } satisfies Story;
