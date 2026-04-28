@@ -238,7 +238,15 @@ done <<< "$(get_package_names_ordered)"
 
 echo ""
 info "Commit et tag..."
-git add package-lock.json packages/*/package.json packages/*/src/generated/version.ts
+git add \
+  package-lock.json \
+  packages/*/package.json \
+  ':(glob)packages/**/src/generated/version.ts' \
+  ':(glob)packages/**/*.stories.ts' \
+  ':(glob)packages/**/*.stories.tsx' \
+  ':(glob)packages/**/*.stories.sources.ts' \
+  ':(glob)packages/**/*.stories.sources.tsx'
+  
 git commit -m "🔖 release v$NEW_VERSION"
 git tag "v$NEW_VERSION"
 
