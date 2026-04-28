@@ -79,6 +79,49 @@ type DetailTab = {
   scrollable?: boolean;
 };
 
+type StorySourceValue = string | (() => string);
+
+type StorySourcesExport = {
+  storySources?: Record<string, StorySourceValue>;
+} & Record<string, unknown>;
+
+const getStoryExampleSource = (story: StorybookModule, exampleName: string): string | null => {
+  const sources = (story as unknown as { Sources?: StorySourcesExport }).Sources;
+  const source = sources?.storySources?.[exampleName] ?? sources?.[exampleName];
+
+  if (typeof source === 'string') return source;
+  if (typeof source === 'function') {
+    const value = source();
+    return typeof value === 'string' ? value : null;
+  }
+
+  return null;
+};
+
+type SourceAccordionProps = {
+  source: string;
+};
+
+const SourceAccordion = ({ source }: SourceAccordionProps) => {
+  const [isOpen, setIsOpen] = React.useState(false);
+
+  return (
+    <Box display="flex" gap={8}>
+      <Box style={{ alignItems: 'flex-start' }}>
+        <Button
+          title={isOpen ? 'Masquer le code source' : 'Afficher le code source'}
+          size="sm"
+          variant="secondary"
+          endIcon={isOpen ? 'ChevronUp' : 'ChevronDown'}
+          onPress={() => setIsOpen(value => !value)}
+        />
+      </Box>
+
+      {isOpen ? <JsonBlock value={source} /> : null}
+    </Box>
+  );
+};
+
 type DetailTabsProps = {
   tabs: DetailTab[];
   defaultValue?: string;
@@ -144,37 +187,43 @@ export const StoryDetailScreen = ({
 
   const examplesContent = (
     <Box display="flex" gap={24} mt={'1,5V'}>
-      {examples.map(([key, Example]) => (
-        <Box
-          key={key}
-          borderColor={color.light.border['default-grey']}
-          borderRadius={radius('lg')}
-          borderWidth={1}
-          display="flex"
-          gap={16}
-          p={'150'}
-          style={{ backgroundColor: color.light.background['alt-grey'] }}
-        >
-          {!isTemplate ? (
-            <Box display="flex" gap={6}>
-              <Typography style={text.Titres['H5 - XS']}>{key}</Typography>
-            </Box>
-          ) : null}
+      {examples.map(([key, Example]) => {
+        const source = getStoryExampleSource(story, key);
 
+        return (
           <Box
+            key={key}
             borderColor={color.light.border['default-grey']}
+            borderRadius={radius('lg')}
             borderWidth={1}
-            borderRadius={radius('md')}
-            p={'100'}
-            style={{
-              backgroundColor: color.light.background['default-grey'],
-              minHeight: isTemplate ? 420 : undefined,
-            }}
+            display="flex"
+            gap={16}
+            p={'150'}
+            style={{ backgroundColor: color.light.background['alt-grey'] }}
           >
-            <Example />
+            {!isTemplate ? (
+              <Box display="flex" gap={6}>
+                <Typography style={text.Titres['H5 - XS']}>{key}</Typography>
+              </Box>
+            ) : null}
+
+            <Box
+              borderColor={color.light.border['default-grey']}
+              borderWidth={1}
+              borderRadius={radius('md')}
+              p={'100'}
+              style={{
+                backgroundColor: color.light.background['default-grey'],
+                minHeight: isTemplate ? 420 : undefined,
+              }}
+            >
+              <Example />
+            </Box>
+
+            {source ? <SourceAccordion source={source} /> : null}
           </Box>
-        </Box>
-      ))}
+        );
+      })}
     </Box>
   );
 
