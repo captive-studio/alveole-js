@@ -1,17 +1,18 @@
-import * as Stories from '@alveole/components/stories';
-import { StoriesScreen, type StorybookModule } from '@alveole/storybook';
+import { StoriesScreen } from '@alveole/storybook';
 import { router } from 'expo-router';
-
-const storyList = Object.values(Stories) as StorybookModule[];
+import { storyList, useUIKitTopBar } from '../components/uiKitNavigation';
 
 export default function IndexRoute() {
+  const topBar = useUIKitTopBar('components');
+
   return (
     <StoriesScreen
+      beforeContent={topBar}
       stories={storyList}
-      title="Alveole — UI Kit"
+      title="UI Kit - Composants"
       description="Catalogue des composants partagés"
       onSelectStory={story => {
-        router.push(`/${encodeURIComponent(story.default.title)}`);
+        router.push(`/components/${encodeURIComponent(story.default.title)}`);
       }}
     />
   );

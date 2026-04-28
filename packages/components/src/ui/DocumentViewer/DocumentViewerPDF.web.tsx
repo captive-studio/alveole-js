@@ -44,6 +44,15 @@ const isPdfCancellationError = (error: unknown) => {
   );
 };
 
+const getPdfJsAssetUrl = (filename: string) => {
+  const expoScript = document.querySelector<HTMLScriptElement>('script[src*="/_expo/"]');
+  const scriptUrl = expoScript?.src ? new URL(expoScript.src, window.location.href) : null;
+  const basePath = scriptUrl?.pathname.split('/_expo/')[0] ?? '';
+  const normalizedBasePath = basePath === '/' ? '' : basePath;
+
+  return `${window.location.origin}${normalizedBasePath}/${filename}`;
+};
+
 const loadPdfJs = (() => {
   let promise: Promise<PdfJsModule> | null = null;
 
@@ -58,9 +67,9 @@ const loadPdfJs = (() => {
       url: string,
     ) => Promise<{ default?: PdfJsModule }>;
 
-    promise = dynamicImport('/pdf.min.mjs').then(module => {
+    promise = dynamicImport(getPdfJsAssetUrl('pdf.min.mjs')).then(module => {
       const pdfjs = (module.default ?? module) as PdfJsModule;
-      pdfjs.GlobalWorkerOptions.workerSrc = `${window.location.origin}/pdf.worker.min.mjs`;
+      pdfjs.GlobalWorkerOptions.workerSrc = getPdfJsAssetUrl('pdf.worker.min.mjs');
       return pdfjs;
     });
 

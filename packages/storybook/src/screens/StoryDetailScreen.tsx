@@ -1,6 +1,7 @@
-import { Box, Button, Page, Section, Tabs, Typography } from '@alveole/components';
+import { Box, Button, Page, Section, Typography } from '@alveole/components';
 import { useTheme } from '@alveole/theme';
-import { Linking } from 'react-native';
+import React from 'react';
+import { Linking, ScrollView } from 'react-native';
 import { JsonBlock } from '../components/JsonBlock';
 import { StorybookModule } from '../types';
 import { getStoryExamples, getStoryFlags } from '../utils';
@@ -67,6 +68,54 @@ const MetaCard = ({ label, value }: MetaCardProps) => {
     >
       <Typography style={text['Corps de texte'].XS.CapsBold}>{label}</Typography>
       <Typography style={text['Corps de texte'].SM.SemiBold}>{value}</Typography>
+    </Box>
+  );
+};
+
+type DetailTab = {
+  value: string;
+  label: string;
+  content: React.ReactNode;
+  scrollable?: boolean;
+};
+
+type DetailTabsProps = {
+  tabs: DetailTab[];
+  defaultValue?: string;
+};
+
+const DetailTabs = ({ tabs, defaultValue }: DetailTabsProps) => {
+  const initialValue = defaultValue || tabs[0]?.value || '';
+  const [activeValue, setActiveValue] = React.useState(initialValue);
+  const activeTab = tabs.find(tab => tab.value === activeValue) ?? tabs[0];
+
+  return (
+    <Box display="flex" gap={16}>
+      <Box display="flex" flexDirection="row" flexWrap="wrap" gap={8}>
+        {tabs.map(tab => (
+          <Button
+            key={tab.value}
+            title={tab.label}
+            size="sm"
+            variant="tertiary"
+            selected={tab.value === activeTab?.value}
+            onPress={() => setActiveValue(tab.value)}
+          />
+        ))}
+      </Box>
+
+      {activeTab?.scrollable ? (
+        <ScrollView
+          style={{ flex: 1 }}
+          contentContainerStyle={{ paddingBottom: 16 }}
+          keyboardShouldPersistTaps="handled"
+          showsVerticalScrollIndicator
+        >
+          {activeTab.content}
+        </ScrollView>
+      ) : (
+        activeTab?.content
+      )}
     </Box>
   );
 };
@@ -188,7 +237,7 @@ export const StoryDetailScreen = ({
             </Box>
           </Box>
 
-          <Tabs
+          <DetailTabs
             defaultValue="examples"
             tabs={[
               {

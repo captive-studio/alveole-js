@@ -4,8 +4,8 @@
   "version": "0.0.1",
   "main": "expo-router/entry",
   "scripts": {
-    "start": "expo start --web",
-    "build": "expo export --platform web"
+    "start": "node ./scripts/sync-pdfjs-web-assets.mjs && expo start --web",
+    "build": "node ./scripts/sync-pdfjs-web-assets.mjs && expo export --platform web"
   },
   "dependencies": {
     "@alveole/components": "*",
