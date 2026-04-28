@@ -22,6 +22,32 @@ error() {
   printf "%b\n" "${RED}$*${RESET}" >&2
 }
 
+stage_release_files() {
+  git add \
+    package-lock.json \
+    packages/*/package.json
+
+  local files=()
+
+  while IFS= read -r -d '' file; do
+    files+=("$file")
+  done < <(
+    find packages -type f \( \
+      -path '*/src/generated/version.ts' \
+      -o -name '*.stories.ts' \
+      -o -name '*.stories.tsx' \
+      -o -name '*.stories.sources.ts' \
+      -o -name '*.stories.sources.tsx' \
+    \) -print0
+  )
+
+  if [[ ${#files[@]} -gt 0 ]]; then
+    git add -- "${files[@]}"
+  else
+    info "Aucun fichier généré de stories/version à ajouter."
+  fi
+}
+
 trap 'rc=$?; if [[ $rc -ne 0 ]]; then error "Erreur: le script a échoué (code $rc)."; fi' ERR
 
 # Détection du mode CI (tag poussé ou flag --ci)
@@ -238,14 +264,7 @@ done <<< "$(get_package_names_ordered)"
 
 echo ""
 info "Commit et tag..."
-git add \
-  package-lock.json \
-  packages/*/package.json \
-  ':(glob)packages/**/src/generated/version.ts' \
-  ':(glob)packages/**/*.stories.ts' \
-  ':(glob)packages/**/*.stories.tsx' \
-  ':(glob)packages/**/*.stories.sources.ts' \
-  ':(glob)packages/**/*.stories.sources.tsx'
+stage_release_files
   
 git commit -m "🔖 release v$NEW_VERSION"
 git tag "v$NEW_VERSION"
