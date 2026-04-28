@@ -4,8 +4,10 @@
     "baseUrl": ".",
     "paths": {
       "@alveole/theme": ["../theme/src/index.ts"],
-      "@alveole/components": ["src/index.ts"]
-    }
+      "@alveole/components": ["src/index.ts"],
+      "@/*": ["./*"]
+    },
+    "types": ["jest"]
   },
-  "include": ["src"]
+  "include": ["src", "__tests__"]
 }
