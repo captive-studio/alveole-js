@@ -66,3 +66,5 @@ export const WithFixHeight = () => {
     </EmptyState>
   );
 };
+
+export * as Sources from './EmptyState.stories.sources';

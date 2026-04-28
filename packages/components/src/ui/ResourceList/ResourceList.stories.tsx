@@ -120,3 +120,5 @@ export const WithDivider = () => (
     renderNoContent={() => <EmptyState title="Aucun élément" description="Cliquez sur le bouton" iconName="House" />}
   />
 );
+
+export * as Sources from './ResourceList.stories.sources';

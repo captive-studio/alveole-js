@@ -53,3 +53,5 @@ export const Default = () => {
     </Box>
   );
 };
+
+export * as Sources from './ActionMenu.stories.sources';

@@ -35,3 +35,5 @@ return (
 );`;
 
 export const ExampleUsageSidebar = () => <Box>{codeExampleSidebar}</Box>;
+
+export * as Sources from './Page.stories.sources';

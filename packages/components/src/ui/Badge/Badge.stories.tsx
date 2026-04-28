@@ -56,3 +56,5 @@ export const Icons = () => (
     </Badge>
   </Box>
 );
+
+export * as Sources from './Badge.stories.sources';

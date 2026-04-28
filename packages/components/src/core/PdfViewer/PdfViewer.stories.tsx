@@ -35,3 +35,5 @@ export const CustomTitle = () => (
     <PdfViewer source={samplePdfUrl} title="Mon document personnalisé" />
   </Box>
 );
+
+export * as Sources from './PdfViewer.stories.sources';

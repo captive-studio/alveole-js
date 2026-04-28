@@ -43,3 +43,5 @@ export const WithChildren = () => (
     </DocumentViewer>
   </Box>
 );
+
+export * as Sources from './DocumentViewer.stories.sources';

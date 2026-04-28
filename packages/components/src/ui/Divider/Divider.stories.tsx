@@ -13,3 +13,5 @@ export default {
 } satisfies Story;
 
 export const Default = () => <Divider mt={8} mb={16} />;
+
+export * as Sources from './Divider.stories.sources';

@@ -22,3 +22,5 @@ export const Loop = () => (
 export const OneTime = () => (
   <Lottie loop={false} style={{ width: 60, height: 60 }} source={dotsAnimation} onAnimationFinish={console.log} />
 );
+
+export * as Sources from './Lottie.stories.sources';

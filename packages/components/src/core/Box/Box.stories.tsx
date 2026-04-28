@@ -35,3 +35,5 @@ export const BoxHovered = () => (
     <Typography>Box avec fond gris changeant au hover</Typography>
   </Box>
 );
+
+export * as Sources from './Box.stories.sources';

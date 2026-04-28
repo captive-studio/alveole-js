@@ -31,3 +31,5 @@ export const WithActions = () => (
     />
   </Box>
 );
+
+export * as Sources from './PageHeader.stories.sources';

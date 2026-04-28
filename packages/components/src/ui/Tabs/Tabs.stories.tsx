@@ -37,3 +37,5 @@ export const Example = () => {
     </Box>
   );
 };
+
+export * as Sources from './Tabs.stories.sources';

@@ -149,3 +149,5 @@ export const ImageNotFound = () => {
     </Box>
   );
 };
+
+export * as Sources from './Image.stories.sources';

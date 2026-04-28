@@ -24,3 +24,5 @@ export const Default = () => (
 );
 
 export const Colored = () => <LucideIcon name="AArrowDown" size="md" color="blue" />;
+
+export * as Sources from './LucideIcon.stories.sources';

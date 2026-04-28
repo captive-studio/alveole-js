@@ -47,3 +47,5 @@ export const Carre = () => (
     <Avatar size="xl" src="https://picsum.photos/100/200" carre />
   </Box>
 );
+
+export * as Sources from './Avatar.stories.sources';

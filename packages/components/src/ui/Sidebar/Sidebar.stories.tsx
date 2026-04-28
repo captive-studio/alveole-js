@@ -29,3 +29,5 @@ const codeExample = `<Sidebar
 </Sidebar>`;
 
 export const ExampleUsage = () => <Typography>{codeExample}</Typography>;
+
+export * as Sources from './Sidebar.stories.sources';

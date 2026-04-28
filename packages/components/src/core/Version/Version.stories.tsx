@@ -12,3 +12,5 @@ export default {
 } satisfies Story;
 
 export const Default = () => <Version />;
+
+export * as Sources from './Version.stories.sources';

@@ -91,3 +91,5 @@ export const CompactLarge = () => <ToolbarTop title="Titre compact large" varian
 export const Large = () => (
   <ToolbarTop title="Titre large" variant="large" onNavigate={console.log} sousTitre="Sous-titre" />
 );
+
+export * as Sources from './ToolbarTop.stories.sources';

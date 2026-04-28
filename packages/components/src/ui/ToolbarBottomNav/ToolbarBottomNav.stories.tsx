@@ -21,3 +21,5 @@ const codeExample = `<ToolbarBottomNav>
 </ToolbarBottomNav>`;
 
 export const ExampleUsage = () => codeExample;
+
+export * as Sources from './ToolbarBottomNav.stories.sources';

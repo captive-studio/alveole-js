@@ -17,3 +17,5 @@ export const Default = () => (
     <Typography>Children</Typography>
   </A>
 );
+
+export * as Sources from './A.stories.sources';

@@ -14,3 +14,5 @@ export default {
 export const Default = () => (
   <Metabase source="https://spined-burst.metabaseapp.com/public/dashboard/a5f977a6-b6f4-4609-8e16-e422826c40ab" />
 );
+
+export * as Sources from './Metabase.stories.sources';

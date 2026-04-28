@@ -41,3 +41,5 @@ export const Usage = () => {
     </Box>
   );
 };
+
+export * as Sources from './ProgressBar.stories.sources';

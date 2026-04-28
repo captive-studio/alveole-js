@@ -29,3 +29,5 @@ export const TypographyTransformCapitalize = () => (
 );
 
 export const TypographyTransformUppercase = () => <Typography textTransform="uppercase">En majuscule</Typography>;
+
+export * as Sources from './Typography.stories.sources';

@@ -36,3 +36,5 @@ export const Sizes = () => (
     </Tag>
   </Box>
 );
+
+export * as Sources from './Tag.stories.sources';
