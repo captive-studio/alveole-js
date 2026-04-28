@@ -11,6 +11,9 @@
 
 Pour itérer localement sur les packages sans publier de version npm, le repo expose un script `publish:local`.
 
+Pour lancer l'ui-kit en local sans passer par un autre projet :
+`npm run start:ui-kit` (Il est nécessaire de lancer un npm run build pour appliquer les changements venant des packages, sans avoir besoin de couper le serveur de l'ui-kit)
+
 ### Exemple
 
 ```bash
