@@ -3,3 +3,4 @@ packages/*/dist
 .DS_Store
 packages/**/.jest-cache/*
 public/**/*.mjs
+apps/**/dist/*
