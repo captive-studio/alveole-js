@@ -1,5 +1,6 @@
 export * from './A';
 export * from './Box';
+export * from './Highlight';
 export * from './Image';
 export * from './Lottie';
 export * from './Map';

@@ -1,34 +1,14 @@
-import { Box, Typography } from '@alveole/components';
-import { useTheme } from '@alveole/theme';
+import { Box, Highlight, HighlightProps } from '@alveole/components';
 
 export type JsonBlockProps = {
   value: unknown;
+  language?: HighlightProps['language'];
 };
 
-export const JsonBlock = ({ value }: JsonBlockProps) => {
-  const { text, color, radius } = useTheme();
-
+export const JsonBlock = ({ value, language = 'json' }: JsonBlockProps) => {
   return (
-    <Box
-      backgroundColor={color.light.background['alt-grey']}
-      borderColor={color.light.border['plain-grey']}
-      borderRadius={radius('md')}
-      borderWidth={1}
-      p={'100'}
-      mt={'1,5V'}
-      width={'100%'}
-    >
-      <Typography
-        style={[
-          text['Corps de texte'].SM.Regular,
-          {
-            fontFamily: 'monospace',
-            whiteSpace: 'pre-wrap',
-          },
-        ]}
-      >
-        {typeof value === 'string' ? value : JSON.stringify(value, null, 2)}
-      </Typography>
+    <Box mt={'1,5V'} width={'100%'}>
+      <Highlight language={language}>{typeof value === 'string' ? value : JSON.stringify(value, null, 2)}</Highlight>
     </Box>
   );
 };

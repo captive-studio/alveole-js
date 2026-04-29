@@ -1,4 +1,4 @@
-import { Box, Button, Page, Section, Typography } from '@alveole/components';
+import { Box, Button, Divider, Page, Section, Typography } from '@alveole/components';
 import { useTheme } from '@alveole/theme';
 import React from 'react';
 import { Linking, ScrollView } from 'react-native';
@@ -96,30 +96,6 @@ const getStoryExampleSource = (story: StorybookModule, exampleName: string): str
   }
 
   return null;
-};
-
-type SourceAccordionProps = {
-  source: string;
-};
-
-const SourceAccordion = ({ source }: SourceAccordionProps) => {
-  const [isOpen, setIsOpen] = React.useState(false);
-
-  return (
-    <Box display="flex" gap={8}>
-      <Box style={{ alignItems: 'flex-start' }}>
-        <Button
-          title={isOpen ? 'Masquer le code source' : 'Afficher le code source'}
-          size="sm"
-          variant="secondary"
-          endIcon={isOpen ? 'ChevronUp' : 'ChevronDown'}
-          onPress={() => setIsOpen(value => !value)}
-        />
-      </Box>
-
-      {isOpen ? <JsonBlock value={source} /> : null}
-    </Box>
-  );
 };
 
 type DetailTabsProps = {
@@ -220,7 +196,9 @@ export const StoryDetailScreen = ({
               <Example />
             </Box>
 
-            {source ? <SourceAccordion source={source} /> : null}
+            <Divider mt="1W" mb="1,5V" />
+
+            {source ? <JsonBlock language="tsx" value={source} /> : null}
           </Box>
         );
       })}

@@ -1,6 +1,7 @@
 // Core
 export * as AStory from '../core/A/A.stories';
 export * as BoxStory from '../core/Box/Box.stories';
+export * as Highlight from '../core/Highlight/Highlight.stories';
 export * as ImageStory from '../core/Image/Image.stories';
 export * as LottieStory from '../core/Lottie/Lottie.stories';
 export * as MapStory from '../core/Map/Map.stories';
