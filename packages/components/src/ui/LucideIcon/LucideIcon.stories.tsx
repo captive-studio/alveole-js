@@ -23,6 +23,6 @@ export const Default = () => (
   </Box>
 );
 
-export const Colored = () => <LucideIcon name="AArrowDown" size="md" color="blue" />;
+export const Colored = () => <LucideIcon name="AArrowDown" size="md" color="green" />;
 
 export * as Sources from './LucideIcon.stories.sources';
