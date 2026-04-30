@@ -14,15 +14,13 @@ export default {
 } satisfies Story;
 
 export const Colors = () => (
-  <Box>
-    <Box display="flex" flexDirection="column" gap={4}>
-      <Tag size="md" color="default">
-        Tag default
-      </Tag>
-      <Tag size="md" color="action">
-        Tag action
-      </Tag>
-    </Box>
+  <Box display="flex" flexDirection="row" gap={4} flexWrap="wrap">
+    <Tag size="md" color="default">
+      Tag default
+    </Tag>
+    <Tag size="md" color="action">
+      Tag action
+    </Tag>
   </Box>
 );
 
