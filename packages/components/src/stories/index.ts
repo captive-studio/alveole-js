@@ -31,5 +31,6 @@ export * as ResourceListStory from '../ui/ResourceList/ResourceList.stories';
 export * as SidebarStory from '../ui/Sidebar/Sidebar.stories';
 export * as TabsStory from '../ui/Tabs/Tabs.stories';
 export * as TagStory from '../ui/Tag/Tag.stories';
+export * as ToastStory from '../ui/Toast/Toast.stories';
 export * as ToolbarBottomNavStory from '../ui/ToolbarBottomNav/ToolbarBottomNav.stories';
 export * as ToolbarTopStory from '../ui/ToolbarTop/ToolbarTop.stories';
