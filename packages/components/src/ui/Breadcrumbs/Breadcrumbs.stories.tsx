@@ -46,7 +46,7 @@ export const WithCustomLabels = () => (
 export const WithSegmentsToSkip = () => (
   <Box p={4}>
     <Breadcrumbs
-      segmentsToSkip={['admin', 'ui-kit']}
+      segmentsToSkip={['admin', 'ui-kit', 'components']}
       getLabel={(segment, _index, _path) => {
         const labels: Record<string, string> = {
           admin: 'Administration',
