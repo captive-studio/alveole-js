@@ -51,13 +51,13 @@ export const Danger = () => (
 );
 
 export const Link = () => (
-  <>
+  <Box display="flex" flexDirection="column" gap={8}>
     <Typography>Deprecated</Typography>
     <Box display="flex" flexDirection="row" gap={4}>
       <Button variant="link" title="Bouton link" />
       <Button variant="link" title="Disabled" disabled />
     </Box>
-  </>
+  </Box>
 );
 
 export const Icons = () => (
@@ -79,7 +79,7 @@ export const Selected = () => (
 );
 
 export const Active = () => (
-  <Box display="flex" flexDirection="row" gap={4}>
+  <Box display="flex" flexDirection="column" gap={4}>
     <Typography>Utilisé quand le bouton est actif (ex: quand un menu est ouvert)</Typography>
     <Button variant="secondary" title="Active" active />
   </Box>
