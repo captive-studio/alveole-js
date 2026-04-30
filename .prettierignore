@@ -13,3 +13,4 @@ coverage
 public/json-form/schema.json
 packages/components/src/generated/version.ts
 **/**/*.hbs
+**/*.stories.sources.ts
