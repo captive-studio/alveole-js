@@ -23,4 +23,34 @@ export const HighlightTSX = () => (
   <Highlight language="tsx">{`<Typography tag="span" p={spacing('100')}>Bonjour</Typography>`}</Highlight>
 );
 
+const rubyCode = `# The Greeter class
+class Greeter
+  def initialize(name)
+    @name = name.capitalize
+  end
+
+  def salute
+    puts "Hello #{@name}!"
+  end
+end
+
+g = Greeter.new("world")
+g.salute`;
+export const HighlightRuby = () => <Highlight language="ruby">{rubyCode}</Highlight>;
+
+const htmlCode = `<!DOCTYPE html>
+<title>Title</title>
+
+<style>body {width: 500px;}</style>
+
+<script type="application/javascript">
+  function $init() {return true;}
+</script>
+
+<body>
+  <p checked class="title" id='title'>Title</p>
+  <!-- here goes the rest of the page -->
+</body>`;
+export const HighlightHTML = () => <Highlight language="html">{htmlCode}</Highlight>;
+
 export * as Sources from './Highlight.stories.sources';
