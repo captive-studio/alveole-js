@@ -1,5 +1,5 @@
-import { Box, Highlight, Typography } from '../../core';
 import { Button } from '@alveole/components';
+import { Box, Highlight, Typography } from '../../core';
 import { Story } from '../../type';
 import { Toast } from './Toast';
 import { useStyles } from './Toast.styles';
@@ -31,24 +31,39 @@ export const All = () => {
   const withCustomIcon = () => toast.present('Avec icon custom', undefined, { icon: 'Worm' });
 
   return (
-    <Box display="flex" flexDirection="column" gap={16}>
-      <Box display="flex" flexDirection="column" gap={'050'}>
-        <Button title="Default toast" variant="primary" onPress={defaultToast} />
-        <Button title="Success toast" variant="primary" onPress={successToast} />
-        <Button title="Error toast" variant="primary" onPress={errorToast} />
-        <Button title="Info toast" variant="primary" onPress={infoToast} />
-        <Button title="Message long" variant="primary" onPress={infoToastMultiLine} />
-        <Button title="Without message toast" variant="primary" onPress={withoutMessageToast} />
-        <Button title="Without message toast error" variant="primary" onPress={withoutMessageToastError} />
-        <Button title="WithCustomIcon" variant="primary" onPress={withCustomIcon} />
+    <Box display="flex" flexDirection="column" gap={8}>
+      <Box display="flex" flexDirection="row" gap={4} flexWrap="wrap">
+        <Button title="Default toast" variant="secondary" onPress={defaultToast} />
+        <Button title="Success toast" variant="secondary" onPress={successToast} />
+        <Button title="Error toast" variant="secondary" onPress={errorToast} />
+        <Button title="Info toast" variant="secondary" onPress={infoToast} />
+        <Button title="Message long" variant="secondary" onPress={infoToastMultiLine} />
+        <Button title="Without message toast" variant="secondary" onPress={withoutMessageToast} />
+        <Button title="Without message toast error" variant="secondary" onPress={withoutMessageToastError} />
+        <Button title="WithCustomIcon" variant="secondary" onPress={withCustomIcon} />
       </Box>
       <Box display="flex" flexDirection="column" gap={4}>
         <Typography>{`Le fichier _layout.tsx doit inclure la balise <Toasts> pour fonctionner`}</Typography>
         <Highlight language="tsx">
           {`
-            <Toasts>
-              <Stack screenOptions={{ headerShown: false }} />
-            </Toasts>
+            import { Toasts } from '@alveole/components';
+            import { ThemeProvider } from '@alveole/theme';
+            import { Stack } from 'expo-router';
+            import React from 'react';
+            import { TamaguiProvider } from 'tamagui';
+            import { tamaguiConfig } from '../tamagui.config';
+
+            export default function RootLayout() {
+              return (
+                <TamaguiProvider config={tamaguiConfig} defaultTheme="light">
+                  <ThemeProvider loader={false}>
+                    <Toasts>
+                      <Stack screenOptions={{ headerShown: false }} />
+                    </Toasts>
+                  </ThemeProvider>
+                </TamaguiProvider>
+              );
+            }
           `}
         </Highlight>
       </Box>

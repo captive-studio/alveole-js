@@ -1,7 +1,7 @@
-import { Box, BoxProps, Typography } from '../../core';
 import { Toast as TamaguiToast, useToastController, useToastState } from '@tamagui/toast';
 import React from 'react';
 import { Pressable } from 'react-native';
+import { Box, BoxProps, Typography } from '../../core';
 import { LucideIcon, LucideIconProps } from '../LucideIcon';
 import { useStyles } from './Toast.styles';
 
