@@ -8,7 +8,7 @@ export default {
   tags: ['ui'],
   experimental: false,
   figmaURL: 'https://www.figma.com/design/xJz8Z6vfrnZPKTtRbuT2W8/Composants?node-id=1002-547',
-  description: 'Composant de type Box.',
+  description: "Menu contextuel affichant une liste d'actions sous forme de liste de liens.",
   component: ActionMenu,
   styleFn: () => '',
 } satisfies Story;
