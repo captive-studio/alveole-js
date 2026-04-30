@@ -81,7 +81,9 @@ export const Selected = () => (
 export const Active = () => (
   <Box display="flex" flexDirection="column" gap={4}>
     <Typography>Utilisé quand le bouton est actif (ex: quand un menu est ouvert)</Typography>
-    <Button variant="secondary" title="Active" active />
+    <Box>
+      <Button variant="secondary" title="Active" active />
+    </Box>
   </Box>
 );
 
