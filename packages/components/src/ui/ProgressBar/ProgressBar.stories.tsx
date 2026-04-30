@@ -8,7 +8,7 @@ export default {
   title: 'ProgressBar',
   tags: ['ui'],
   experimental: false,
-  description: 'bar de progression',
+  description: 'Barre de progression',
   component: ProgressBar,
   styleFn: useStyles,
 } satisfies Story;
