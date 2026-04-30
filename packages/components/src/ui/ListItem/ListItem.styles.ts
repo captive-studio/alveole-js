@@ -14,7 +14,7 @@ export const useStyles = makeStyles(({ color, text, radius, spacing }) => ({
   itemHover: {
     backgroundColor: color.alpha(color.light.background['alt-grey'], 0.75),
     borderRadius: radius('md'),
-    cursor: 'pointer'
+    cursor: 'pointer',
   },
 
   container: {
