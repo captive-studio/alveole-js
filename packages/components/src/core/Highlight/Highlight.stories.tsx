@@ -6,7 +6,7 @@ export default {
   title: 'Highlight',
   tags: ['core'],
   experimental: true,
-  description: 'Affiche du code en typescript, html, json, etc. Composant de type Light (react-syntax-highlighter).',
+  description: 'Affiche du code en typescript, html, json, etc. Composant React Native pour la coloration syntaxique (react-native-syntax-highlighter).',
   component: Highlight,
   styleFn: useStyles,
 } satisfies Story;
