@@ -1,6 +1,5 @@
 import { Avatar, Card } from '@alveole/components';
 import type { Story } from '../../type/Story';
-import { Box } from '../Box';
 import { Typography } from '../Typography';
 import { A } from './A';
 import { useStyles } from './A.styles';
