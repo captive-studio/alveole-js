@@ -3,6 +3,7 @@ import { Box, Highlight, Typography } from '../../core';
 import { Story } from '../../type';
 import { Toast } from './Toast';
 import { useStyles } from './Toast.styles';
+import { defaultDuration } from './ToastBridge';
 import { useToast } from './index';
 
 export default {
@@ -10,13 +11,15 @@ export default {
   tags: ['ui'],
   experimental: false,
   figmaURL: 'https://www.figma.com/design/xJz8Z6vfrnZPKTtRbuT2W8/Alveole---Composants?node-id=2084-1372',
-  description: 'Toaster Tamagui. Contient le provider global et le hook useToast',
+  description: `Toaster Tamagui. Contient le provider global et le hook useToast. Par défaut un toast reste affiché pendant ${defaultDuration / 1000} secondes`,
   component: Toast,
   styleFn: useStyles,
 } satisfies Story;
 
 export const All = () => {
   const toast = useToast();
+
+  defaultDuration;
 
   const defaultToast = () => toast.present('Default', 'Message');
   const successToast = () => toast.present('Success', 'Message', { variant: 'success' });

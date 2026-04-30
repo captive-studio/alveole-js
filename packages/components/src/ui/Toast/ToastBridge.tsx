@@ -4,6 +4,8 @@ import { ToastContext, type ToastAPI, type ToastAPIOptions } from './ToastContex
 
 export type ToastBridgeProps = React.PropsWithChildren<object>;
 
+export const defaultDuration = 8000;
+
 export function ToastBridge(props: ToastBridgeProps) {
   const { children } = props;
   const controller = useToastController();
@@ -13,7 +15,7 @@ export function ToastBridge(props: ToastBridgeProps) {
       present: (title, message, opts) => {
         controller.show(title, {
           message,
-          duration: opts?.duration ?? 8000,
+          duration: opts?.duration ?? defaultDuration,
           customData: { ...opts, presentAt: Date.now() },
         });
       },
