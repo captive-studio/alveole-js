@@ -3,9 +3,9 @@
 ## Packages
 
 - `@alveole/theme` — thème partagé (tokens, typographies, helpers). Voir [packages/theme/README.md](./packages/theme/).
+- `@alveole/core` — Core des différents packages. Voir [packages/core/README.md](./packages/core/).
 - `@alveole/eslint-config` — configuration ESLint partagée (flat config). Voir [packages/eslint-config/README.md](./packages/eslint-config/).
 - `@alveole/components` — composants de l'ui-kit. Voir [packages/components/README.md](./packages/components/).
-- `@alveole/date` — Helper de date. Voir [packages/date/README.md](./packages/date/).
 
 ## Développement local
 
