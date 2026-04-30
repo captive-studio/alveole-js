@@ -94,7 +94,7 @@ export const WithPreviewImage = () => (
 );
 
 export const withoutHover = () => (
-  <Box>
+  <Box display="flex" flexDirection="column" gap={8}>
     <Typography>Sans props openPress, l’effet de Hover n’apparait pas</Typography>
     <ListItem title="Titre" description="Description" />
   </Box>
