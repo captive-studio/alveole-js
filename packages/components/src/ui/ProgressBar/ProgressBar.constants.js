@@ -1,0 +1,4 @@
+export const PROGRESS_BAR_GAP = 8;
+export const PROGRESS_BAR_HEIGHT = 8;
+export const PROGRESS_DURATION = 2000;
+export const PROGRESS_DETERMINATE_DURATION = 400;

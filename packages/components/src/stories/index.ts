@@ -29,6 +29,7 @@ export * as PopoverStory from '../ui/Popover/Popover.stories';
 export * as ProgressBarStory from '../ui/ProgressBar/ProgressBar.stories';
 export * as ResourceListStory from '../ui/ResourceList/ResourceList.stories';
 export * as SidebarStory from '../ui/Sidebar/Sidebar.stories';
+export * as SignatureStory from '../ui/Signature/Signature.stories';
 export * as TabsStory from '../ui/Tabs/Tabs.stories';
 export * as TagStory from '../ui/Tag/Tag.stories';
 export * as ToastStory from '../ui/Toast/Toast.stories';

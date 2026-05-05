@@ -1,0 +1,193 @@
+import React from 'react';
+import { ActivityIndicator, Platform, Pressable } from 'react-native';
+import { jsx as _jsx, jsxs as _jsxs } from 'react/jsx-runtime';
+import { Box, Typography } from '../../core';
+import { LucideIcon } from '../LucideIcon';
+import { useStyles } from './Button.styles';
+export const Button = React.forwardRef(function Button(props, ref) {
+  const {
+    title,
+    type,
+    size,
+    variant,
+    disabled,
+    startIcon,
+    endIcon,
+    noPadding,
+    borderNone,
+    leftAlign,
+    isLoading,
+    selected,
+    fullWidth = false,
+    ContainerProps = {},
+    active = false,
+    ...buttonProps
+  } = props;
+  const { style, hoverStyle, ...containerProps } = ContainerProps;
+  const styles = useStyles();
+  const containerSize =
+    size === 'sm'
+      ? styles.smContainer
+      : size === 'lg'
+        ? styles.lgContainer
+        : size === 'xs'
+          ? styles.xsContainer
+          : styles.mdContainer;
+  const titleSize =
+    size === 'sm' ? styles.smTitle : size === 'lg' ? styles.lgTitle : size === 'xs' ? styles.xsTitle : styles.mdTitle;
+  const noPaddingStyle = { paddingTop: 0, paddingBottom: 0, paddingLeft: 0, paddingRight: 0 };
+  const buttonContainerStyle = state => {
+    let applicableStyles = {
+      ...styles.container,
+      ...(startIcon
+        ? size === 'sm'
+          ? styles.smContainerStartIcon
+          : size === 'lg'
+            ? styles.lgContainerStartIcon
+            : styles.mdContainerStartIcon
+        : {}),
+      ...(endIcon
+        ? size === 'sm'
+          ? styles.smContainerEndIcon
+          : size === 'lg'
+            ? styles.lgContainerEndIcon
+            : styles.mdContainerEndIcon
+        : {}),
+    };
+    if (selected) {
+      applicableStyles = { ...applicableStyles, ...styles.selectedContainer };
+    } else if (variant === 'primary') {
+      applicableStyles = { ...applicableStyles, ...styles.primaryContainer };
+      if (disabled) applicableStyles = { ...applicableStyles, ...styles.primaryContainerDisabled };
+      else if (state?.pressed || active) applicableStyles = { ...applicableStyles, ...styles.primaryContainerPressed };
+    } else if (variant === 'secondary') {
+      applicableStyles = { ...applicableStyles, ...styles.secondaryContainer };
+      if (disabled) applicableStyles = { ...applicableStyles, ...styles.secondaryContainerDisabled };
+      else if (state?.pressed || active)
+        applicableStyles = { ...applicableStyles, ...styles.secondaryContainerPressed };
+    } else if (variant === 'tertiary') {
+      applicableStyles = { ...applicableStyles, ...styles.tertiaryContainer };
+      if (disabled) applicableStyles = { ...applicableStyles, ...styles.tertiaryContainerDisabled };
+      else if (state?.pressed || active) applicableStyles = { ...applicableStyles, ...styles.tertiaryContainerPressed };
+    } else if (variant === 'danger') {
+      applicableStyles = { ...applicableStyles, ...styles.dangerContainer };
+      if (disabled) applicableStyles = { ...applicableStyles, ...styles.dangerContainerDisabled };
+      else if (state?.pressed || active) applicableStyles = { ...applicableStyles, ...styles.dangerContainerPressed };
+    } else if (variant === 'link') {
+      applicableStyles = { ...applicableStyles, ...styles.linkContainer };
+      if (disabled) applicableStyles = { ...applicableStyles, ...styles.tertiaryContainerDisabled };
+      else if (state?.pressed || active) applicableStyles = { ...applicableStyles, ...styles.linkContainerPressed };
+    }
+    return {
+      ...applicableStyles,
+      ...containerSize,
+      ...(fullWidth ? { width: '100%' } : {}),
+      ...(noPadding ? noPaddingStyle : {}),
+      ...(borderNone ? { borderRadius: 0 } : {}),
+      ...(leftAlign ? { justifyContent: 'left' } : {}),
+    };
+  };
+  const buttonContainerHoverStyle = () => {
+    if (disabled) return {};
+    if (selected) return styles.selectedContainerHover;
+    else if (variant === 'primary') return styles.primaryContainerHover;
+    else if (variant === 'secondary') return styles.secondaryContainerHover;
+    else if (variant === 'tertiary') return styles.tertiaryContainerHover;
+    else if (variant === 'danger') return styles.dangerContainerHover;
+    else if (variant === 'link') return styles.linkContainerHover;
+  };
+  const textStyle = state => {
+    let applicableStyles = styles.title;
+    if (selected) {
+      applicableStyles = { ...applicableStyles, ...styles.selectedTitle };
+    } else if (variant === 'primary') {
+      applicableStyles = { ...applicableStyles, ...styles.primaryTitle };
+      if (disabled) applicableStyles = { ...applicableStyles, ...styles.primaryTitleDisabled };
+      else if (state.hovered) applicableStyles = { ...applicableStyles, ...styles.primaryTitleHover };
+    } else if (variant === 'secondary') {
+      applicableStyles = { ...applicableStyles, ...styles.secondaryTitle };
+      if (disabled) applicableStyles = { ...applicableStyles, ...styles.secondaryTitleDisabled };
+      else if (state.hovered) applicableStyles = { ...applicableStyles, ...styles.secondaryTitleHover };
+    } else if (variant === 'tertiary') {
+      applicableStyles = { ...applicableStyles, ...styles.tertiaryTitle };
+      if (disabled) applicableStyles = { ...applicableStyles, ...styles.tertiaryTitleDisabled };
+      else if (state.hovered) applicableStyles = { ...applicableStyles, ...styles.tertiaryTitleHover };
+    } else if (variant === 'danger') {
+      applicableStyles = { ...applicableStyles, ...styles.dangerTitle };
+      if (disabled) applicableStyles = { ...applicableStyles, ...styles.dangerTitleDisabled };
+      else if (state.hovered) applicableStyles = { ...applicableStyles, ...styles.dangerTitleHover };
+      else if (state.pressed) applicableStyles = { ...applicableStyles, ...styles.dangerTitlePressed };
+    } else if (variant === 'link') {
+      applicableStyles = { ...applicableStyles, ...styles.linkTitle };
+      if (disabled) applicableStyles = { ...applicableStyles, ...styles.tertiaryTitleDisabled };
+      else if (state.hovered) applicableStyles = { ...applicableStyles, ...styles.linkTitleHover };
+    }
+    return { ...applicableStyles, ...titleSize };
+  };
+  const iconStyle = state => {
+    const iconSize = size === 'lg' ? 'md' : 'sm';
+    if (selected) {
+      return { size: iconSize, color: styles.selectedIcon.color };
+    } else if (variant === 'primary') {
+      if (disabled) return { size: iconSize, color: styles.primaryIconDisabled.color };
+      else if (state.hovered) return { size: iconSize, color: styles.primaryIconHover.color };
+      return { size: iconSize, color: styles.primaryIcon.color };
+    } else if (variant === 'secondary') {
+      if (disabled) return { size: iconSize, color: styles.secondaryIconDisabled.color };
+      else if (state.hovered) return { size: iconSize, color: styles.secondaryIconHover.color };
+      return { size: iconSize, color: styles.secondaryIcon.color };
+    } else if (variant === 'tertiary') {
+      if (disabled) return { size: iconSize, color: styles.tertiaryIconDisabled.color };
+      else if (state.hovered) return { size: iconSize, color: styles.tertiaryIconHover.color };
+      return { size: iconSize, color: styles.tertiaryIcon.color };
+    } else if (variant === 'danger') {
+      if (disabled) return { size: iconSize, color: styles.dangerIconDisabled.color };
+      else if (state.hovered) return { size: iconSize, color: styles.dangerIconHover.color };
+      return { size: iconSize, color: styles.dangerIcon.color };
+    } else if (variant === 'link') {
+      if (state.hovered) return { size: iconSize, color: styles.linkTitleHover.color };
+      return { size: iconSize, color: styles.linkIcon.color };
+    }
+    return { size: iconSize };
+  };
+  // Fix la bordure sur iOS pour le bouton secondaire
+  const pressableStyle = {
+    ...(Platform.OS === 'ios' && variant === 'secondary'
+      ? {
+          borderWidth: 1,
+          borderColor: styles.secondaryContainer.borderColor,
+          borderTopLeftRadius: styles.container.borderTopLeftRadius,
+          borderBottomLeftRadius: styles.container.borderBottomLeftRadius,
+          borderTopRightRadius: styles.container.borderTopRightRadius,
+          borderBottomRightRadius: styles.container.borderBottomRightRadius,
+        }
+      : {}),
+    ...(disabled ? { borderWidth: 0 } : {}),
+  };
+  return _jsx(Pressable, {
+    ref: ref,
+    disabled: disabled,
+    accessibilityRole: 'button',
+    ...(type === 'submit' ? { 'aria-selected': true } : {}),
+    ...(fullWidth ? { style: { width: '100%' } } : {}),
+    ...buttonProps,
+    style: [pressableStyle],
+    children: state =>
+      _jsxs(Box, {
+        style: [buttonContainerStyle({ pressed: state.pressed }), style],
+        hoverStyle: { ...buttonContainerHoverStyle(), ...hoverStyle },
+        ...containerProps,
+        children: [
+          startIcon && _jsx(LucideIcon, { name: startIcon, ...iconStyle({ hovered: !!state.hovered }) }),
+          _jsx(Typography, {
+            'user-select': false,
+            style: textStyle({ hovered: !!state.hovered, pressed: !!state.pressed }),
+            children: title,
+          }),
+          isLoading
+            ? _jsx(ActivityIndicator, { size: 'small', style: styles.buttonLoader })
+            : endIcon && _jsx(LucideIcon, { name: endIcon, ...iconStyle({ hovered: !!state.hovered }) }),
+        ],
+      }),
+  });
+});

@@ -1,0 +1,1 @@
+{"version":3,"file":"ToolbarBottomNav.d.ts","sourceRoot":"","sources":["ToolbarBottomNav.tsx"],"names":[],"mappings":"AAAA,OAAO,EAAE,IAAI,IAAI,QAAQ,EAAE,MAAM,aAAa,CAAC;AAC/C,OAAO,KAAK,MAAM,OAAO,CAAC;AAI1B,MAAM,MAAM,qBAAqB,GAAG,KAAK,CAAC,cAAc,CAAC,OAAO,QAAQ,CAAC,CAAC;AAC1E,eAAO,MAAM,aAAa,KAAK,CAAC;AAEhC,eAAO,MAAM,gBAAgB,GAAI,OAAO,qBAAqB,4CAuB5D,CAAC"}
