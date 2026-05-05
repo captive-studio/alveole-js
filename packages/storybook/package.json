@@ -27,6 +27,7 @@
   },
   "peerDependencies": {
     "@alveole/components": "*",
+    "@alveole/core": "*",
     "@alveole/theme": "*",
     "react": "*",
     "react-native": "*"

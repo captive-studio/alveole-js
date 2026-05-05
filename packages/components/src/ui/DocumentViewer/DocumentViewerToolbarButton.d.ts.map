@@ -1,0 +1,1 @@
+{"version":3,"file":"DocumentViewerToolbarButton.d.ts","sourceRoot":"","sources":["DocumentViewerToolbarButton.tsx"],"names":[],"mappings":"AAAA,OAAO,EAAc,eAAe,EAAE,MAAM,qBAAqB,CAAC;AAElE,KAAK,kBAAkB,GAAG;IACxB,IAAI,EAAE,eAAe,CAAC,MAAM,CAAC,CAAC;IAC9B,QAAQ,CAAC,EAAE,OAAO,CAAC;IACnB,OAAO,CAAC,EAAE,MAAM,IAAI,CAAC;CACtB,CAAC;AAEF,eAAO,MAAM,aAAa,GAAI,OAAO,kBAAkB,4CAGtD,CAAC"}
