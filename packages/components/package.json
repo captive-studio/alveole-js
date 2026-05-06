@@ -57,6 +57,7 @@
     "zod": "^4.1.11"
   },
   "peerDependencies": {
+    "@alveole/core": "*",
     "@alveole/theme": "*",
     "@lottiefiles/dotlottie-react": "*",
     "@lucide/lab": "*",
