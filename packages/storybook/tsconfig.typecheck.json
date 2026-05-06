@@ -3,6 +3,7 @@
   "compilerOptions": {
     "baseUrl": ".",
     "paths": {
+      "@alveole/core": ["../core/src/index.ts"],
       "@alveole/theme": ["../theme/src/index.ts"],
       "@alveole/components": ["../components/src/index.ts"],
       "@alveole/storybook": ["./src/index.ts"]

@@ -57,6 +57,7 @@
     "zod": "^4.1.11"
   },
   "peerDependencies": {
+    "@alveole/core": "*",
     "@alveole/theme": "*",
     "@lottiefiles/dotlottie-react": "*",
     "@lucide/lab": "*",
@@ -74,6 +75,7 @@
     "@tamagui/switch": "^1.129.0 <2.0.0",
     "@tamagui/tabs": "^1.129.0 <2.0.0",
     "@tamagui/toast": "^1.129.0 <2.0.0",
+    "@uiw/react-signature": "*",
     "expo-application": "*",
     "expo-constants": "*",
     "expo-image": "*",
@@ -86,6 +88,7 @@
     "react-native": "*",
     "react-native-code-highlighter": "*",
     "react-native-safe-area-context": "*",
+    "react-native-signature-canvas": "*",
     "react-native-svg": "^15.0.0",
     "react-native-webview": ">=13",
     "react-syntax-highlighter": "*",

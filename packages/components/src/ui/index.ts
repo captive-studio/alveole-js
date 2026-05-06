@@ -14,6 +14,7 @@ export * from './Popover';
 export * from './ProgressBar';
 export * from './ResourceList';
 export * from './Sidebar';
+export * from './Signature';
 export * from './Tabs';
 export * from './Tag';
 export * from './Toast';

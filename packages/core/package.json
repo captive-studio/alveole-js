@@ -29,5 +29,9 @@
   },
   "peerDependencies": {
     "date-fns": "*"
+  },
+  "dependencies": {
+    "@uiw/react-signature": "^1.3.5",
+    "react-native-signature-canvas": "^5.0.2"
   }
 }
