@@ -5,3 +5,5 @@ packages/**/.jest-cache/*
 public/**/*.mjs
 apps/**/public/**/*.mjs
 apps/**/dist/*
+*.d.ts
+*.d.map.ts

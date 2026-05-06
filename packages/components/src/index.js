@@ -1,4 +1,0 @@
-export * from './core';
-export { ALVEOLE_COMPONENTS_VERSION } from './generated/version';
-export * from './type';
-export * from './ui';

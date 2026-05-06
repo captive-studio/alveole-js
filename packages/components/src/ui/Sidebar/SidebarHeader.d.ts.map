@@ -1,1 +1,0 @@
-{"version":3,"file":"SidebarHeader.d.ts","sourceRoot":"","sources":["SidebarHeader.tsx"],"names":[],"mappings":"AACA,OAAO,KAAK,MAAM,OAAO,CAAC;AAO1B,OAAO,EAAE,iBAAiB,EAAE,MAAM,cAAc,CAAC;AAEjD,MAAM,MAAM,kBAAkB,GAAG;IAC/B,UAAU,CAAC,EAAE,iBAAiB,CAAC;IAC/B,IAAI,EAAE,KAAK,CAAC,SAAS,CAAC;CACvB,CAAC;AAiCF,eAAO,MAAM,aAAa,GAAI,OAAO,kBAAkB,4CAKtD,CAAC"}
