@@ -28,7 +28,11 @@
     "eslint": "^9.39.2"
   },
   "peerDependencies": {
-    "date-fns": "*"
+    "date-fns": "*",
+    "axios": "*",
+    "@tanstack/react-query": "*",
+    "expo-secure-store": "*",
+    "@react-native-community/netinfo": "*"
   },
   "dependencies": {
     "@uiw/react-signature": "^1.3.5",
