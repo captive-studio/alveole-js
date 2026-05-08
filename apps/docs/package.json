@@ -32,7 +32,7 @@
     "react-native-safe-area-context": "*",
     "react-native-signature-canvas": "^5.0.2",
     "react-native-svg": "^15.0.0",
-    "react-native-web": "^0.20.0",
+    "react-native-web": "^0.21.0",
     "react-native-webview": ">=13",
     "tamagui": "^1.129.0"
   },
