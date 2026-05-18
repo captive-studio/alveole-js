@@ -150,13 +150,4 @@ export const ImageNotFound = () => {
   );
 };
 
-export const lazy = () => {
-  return (
-    <Box>
-      <Typography>Image avec Lazy Loading</Typography>
-      <Image source="https://picsum.photos/seed/696/400/300" width={400} height={300} loading="lazy" />
-    </Box>
-  );
-};
-
 export * as Sources from './Image.stories.sources';
