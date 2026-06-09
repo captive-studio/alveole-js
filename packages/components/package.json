@@ -1,6 +1,6 @@
 {
   "name": "@alveole/components",
-  "version": "0.36.2",
+  "version": "0.37.0",
   "description": "Shared UI components.",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
