@@ -1,5 +1,5 @@
 import { useTheme } from '@alveole/theme';
-import { useRoute } from '@react-navigation/native';
+import { usePathname } from 'expo-router';
 import React from 'react';
 import { A, AProps, Box, Typography } from '../../core';
 import { LucideIcon, LucideIconProps } from '../LucideIcon';
@@ -11,7 +11,7 @@ export type SidebarItemNavigable = {
   icon?: LucideIconProps['name'];
   href: AProps['href'];
   direction?: AProps['direction'];
-  routeName: string;
+  routeName?: string;
 };
 
 export type SidebarItemPressable = {
@@ -26,11 +26,10 @@ export type SidebarItemProps = SidebarItemNavigable | SidebarItemPressable;
 const SidebarItemDesktop = (props: SidebarItemProps) => {
   const { title, icon } = props;
 
-  const route = useRoute();
+  const pathname = usePathname();
   const styles = useStyles();
 
-  const currentRouteName = route.name;
-  const isCurrentPage = !props.pressable && currentRouteName === props.routeName;
+  const isCurrentPage = !props.pressable && pathname === props.href;
 
   const itemStyleSelected = isCurrentPage ? styles.sidebarItemSelectedDesktop : {};
   const titleStyleSelected = isCurrentPage ? styles.sidebarItemTitleSelectedDesktop : {};
@@ -75,11 +74,10 @@ const SidebarItemDesktop = (props: SidebarItemProps) => {
 const SidebarItemMobile = (props: SidebarItemProps) => {
   const { title, icon } = props;
 
-  const route = useRoute();
+  const pathname = usePathname();
   const styles = useStyles();
 
-  const currentRouteName = route.name;
-  const isCurrentPage = !props.pressable && currentRouteName === props.routeName;
+  const isCurrentPage = !props.pressable && pathname === props.href;
 
   const itemStyleSelected = isCurrentPage ? styles.sidebarItemSelectedMobile : {};
   const titleStyleSelected = isCurrentPage ? styles.sidebarItemTitleSelectedMobile : {};
