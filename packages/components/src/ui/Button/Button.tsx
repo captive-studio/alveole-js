@@ -214,7 +214,7 @@ export const Button = React.forwardRef<View, ButtonProps>(function Button(props,
           {...containerProps}
         >
           {startIcon && <LucideIcon name={startIcon} {...iconStyle({ hovered: !!state.hovered })} />}
-          <Typography user-select={false} style={textStyle({ hovered: !!state.hovered, pressed: !!state.pressed })}>
+          <Typography user-select="false" style={textStyle({ hovered: !!state.hovered, pressed: !!state.pressed })}>
             {title}
           </Typography>
           {isLoading ? (
