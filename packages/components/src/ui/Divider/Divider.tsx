@@ -5,5 +5,6 @@ export type DividerProps = Omit<BoxProps, 'children'>;
 
 export const Divider = (props: DividerProps) => {
   const styles = useStyles();
-  return <Box tag="divider" style={styles.divider} {...props} />;
+  const { style, ...rest } = props;
+  return <Box tag="divider" {...rest} style={[styles.divider, style]} />;
 };
