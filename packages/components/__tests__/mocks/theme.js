@@ -9,6 +9,7 @@ jest.mock('@alveole/theme', () => {
   const { Sizes, Heights } = jest.requireActual('../../../theme/src/constants/Sizes');
   const { Spacings } = jest.requireActual('../../../theme/src/constants/Spacing');
   const { alpha } = jest.requireActual('../../../theme/src/helpers/alphaColor');
+  const { darken } = jest.requireActual('../../../theme/src/helpers/darkenColor');
 
   const text = {
     'Corps de texte': {
@@ -48,7 +49,7 @@ jest.mock('@alveole/theme', () => {
   };
 
   const testTheme = {
-    color: { _constants: Colors, alpha, ...CustomPalette },
+    color: { _constants: Colors, alpha, darken, ...CustomPalette },
     externalPadding: () => Spacings['2W'],
     font: {},
     grilles: Grilles,
