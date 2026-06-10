@@ -56,6 +56,7 @@ export const Link = () => (
     <Box display="flex" flexDirection="row" gap={4}>
       <Button variant="link" title="Bouton link" />
       <Button variant="link" title="Disabled" disabled />
+      <Button variant="link" title="Disabled" disabled startIcon="Pen" />
     </Box>
   </Box>
 );

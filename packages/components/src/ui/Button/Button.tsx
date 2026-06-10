@@ -176,7 +176,8 @@ export const Button = React.forwardRef<View, ButtonProps>(function Button(props,
       else if (state.hovered) return { size: iconSize, color: styles.dangerIconHover.color };
       return { size: iconSize, color: styles.dangerIcon.color };
     } else if (variant === 'link') {
-      if (state.hovered) return { size: iconSize, color: styles.linkTitleHover.color };
+      if (disabled) return { size: iconSize, color: styles.linkIconDisabled.color };
+      else if (state.hovered) return { size: iconSize, color: styles.linkTitleHover.color };
       return { size: iconSize, color: styles.linkIcon.color };
     }
     return { size: iconSize };
