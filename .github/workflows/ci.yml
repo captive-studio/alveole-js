@@ -13,7 +13,7 @@ jobs:
     name: Lint workspaces
     if: github.event_name != 'push' || !startsWith(github.ref, 'refs/tags/')
     runs-on: [self-hosted]
-    container: node:lts
+    container: node:lts@sha256:8530f76a96d88820d288761f022e318970dda93d01536919fbc16076b7983e63
     steps:
       - name: Checkout
         uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6
@@ -28,7 +28,7 @@ jobs:
     name: Check formatting
     if: github.event_name != 'push' || !startsWith(github.ref, 'refs/tags/')
     runs-on: [self-hosted]
-    container: node:lts
+    container: node:lts@sha256:8530f76a96d88820d288761f022e318970dda93d01536919fbc16076b7983e63
     steps:
       - name: Checkout
         uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6
@@ -43,7 +43,7 @@ jobs:
     name: Typecheck workspaces
     if: github.event_name != 'push' || !startsWith(github.ref, 'refs/tags/')
     runs-on: [self-hosted]
-    container: node:lts
+    container: node:lts@sha256:8530f76a96d88820d288761f022e318970dda93d01536919fbc16076b7983e63
     steps:
       - name: Checkout
         uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6
@@ -58,7 +58,7 @@ jobs:
     name: Test Unit workspaces
     if: github.event_name != 'push' || !startsWith(github.ref, 'refs/tags/')
     runs-on: [self-hosted]
-    container: node:lts
+    container: node:lts@sha256:8530f76a96d88820d288761f022e318970dda93d01536919fbc16076b7983e63
     steps:
       - name: Checkout
         uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6
@@ -73,7 +73,7 @@ jobs:
     name: Publish packages to npm
     if: github.event_name == 'push' && startsWith(github.ref, 'refs/tags/v')
     runs-on: [self-hosted]
-    container: node:lts
+    container: node:lts@sha256:8530f76a96d88820d288761f022e318970dda93d01536919fbc16076b7983e63
     permissions:
       contents: read
     steps:
