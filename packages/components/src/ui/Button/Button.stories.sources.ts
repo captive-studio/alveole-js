@@ -11,7 +11,7 @@ export const Tertiary = () => "export const Tertiary = () => (\n  <Box display=\
 
 export const Danger = () => "export const Danger = () => (\n  <Box display=\"flex\" flexDirection=\"row\" gap={4}>\n    <Button variant=\"danger\" title=\"Bouton danger\" />\n    <Button variant=\"danger\" title=\"Disabled\" disabled />\n  </Box>\n);";
 
-export const Link = () => "export const Link = () => (\n  <Box display=\"flex\" flexDirection=\"column\" gap={8}>\n    <Typography>Deprecated</Typography>\n    <Box display=\"flex\" flexDirection=\"row\" gap={4}>\n      <Button variant=\"link\" title=\"Bouton link\" />\n      <Button variant=\"link\" title=\"Disabled\" disabled />\n    </Box>\n  </Box>\n);";
+export const Link = () => "export const Link = () => (\n  <Box display=\"flex\" flexDirection=\"column\" gap={8}>\n    <Typography>Deprecated</Typography>\n    <Box display=\"flex\" flexDirection=\"row\" gap={4}>\n      <Button variant=\"link\" title=\"Bouton link\" />\n      <Button variant=\"link\" title=\"Disabled\" disabled />\n      <Button variant=\"link\" title=\"Disabled\" disabled startIcon=\"Pen\" />\n    </Box>\n  </Box>\n);";
 
 export const Icons = () => "export const Icons = () => (\n  <Box display=\"flex\" flexDirection=\"row\" gap={4}>\n    <Button variant=\"primary\" title=\"Start Icon\" startIcon=\"Plus\" />\n    <Button variant=\"primary\" title=\"End Icon\" endIcon=\"Plus\" />\n    <Button variant=\"primary\" title=\"End Icon\" endIcon=\"Plus\" />\n    <ButtonIcon variant=\"primary\" icon=\"CircleUser\" />\n    <ButtonIcon variant=\"primary\" icon=\"CircleUser\" />\n  </Box>\n);";
 
