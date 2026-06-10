@@ -275,5 +275,5 @@ export const useStyles = makeStyles(({ text, color, spacing, radius }) => ({
   },
   linkIconDisabled: {
     color: color.light.text['disabled-grey'],
-  }
+  },
 }));
