@@ -17,7 +17,7 @@
   },
   "devDependencies": {
     "@alveole/eslint-config": "file:../eslint-config",
-    "eslint": "^9.39.2"
+    "eslint": "^10.0.0"
   },
   "peerDependencies": {
     "@tamagui/core": "*",
