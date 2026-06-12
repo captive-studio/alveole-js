@@ -28,7 +28,7 @@
     "lottie-react-native": "*",
     "react": "^19.0.0",
     "react-dom": "^19.0.0",
-    "react-native": "0.79.7",
+    "react-native": "0.86.0",
     "react-native-safe-area-context": "*",
     "react-native-signature-canvas": "^5.0.2",
     "react-native-svg": "^15.0.0",
