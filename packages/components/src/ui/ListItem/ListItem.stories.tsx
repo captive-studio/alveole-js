@@ -12,7 +12,7 @@ export default {
   shortDescription: 'Permet d’afficher les données d’une ressource.',
   description: `Permet d’afficher les données d’une ressource.
 
-Il est recommandé d’utiliser les \`ListItem\` au sein d’une [ResourceList](/?path=/docs/resourcelist--docs) plutôt que de manière isolée.`,
+Il est recommandé d’utiliser les \`ListItem\` au sein d’une [ResourceList](/components/ResourceList) plutôt que de manière isolée.`,
   component: ListItem,
   styleFn: useStyles,
 } satisfies Story;
