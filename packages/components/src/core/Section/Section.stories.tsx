@@ -16,8 +16,6 @@ export default {
 const paddingColor = '#b9c47f';
 const innerBoxColor = '#88b2bd';
 
-const styles = useStyles();
-
 export const Default = () => (
   <Section>
     <Box>
@@ -34,13 +32,17 @@ export const WithPaddingY = () => (
   </Section>
 );
 
-export const WidthMdSize = () => (
-  <Section backgroundColor={paddingColor} size="md">
-    <Box backgroundColor={innerBoxColor} p={'050'}>
-      <Typography>Section avec background et size md ({styles.sectionContainerMD.maxWidth}px)</Typography>
-    </Box>
-  </Section>
-);
+export const WidthMdSize = () => {
+  const styles = useStyles();
+
+  return (
+    <Section backgroundColor={paddingColor} size="md">
+      <Box backgroundColor={innerBoxColor} p={'050'}>
+        <Typography>Section avec background et size md ({styles.sectionContainerMD.maxWidth}px)</Typography>
+      </Box>
+    </Section>
+  );
+};
 
 export const WidthFullSize = () => (
   <Section backgroundColor={paddingColor} size="full">
@@ -50,12 +52,16 @@ export const WidthFullSize = () => (
   </Section>
 );
 
-export const WidthSmSize = () => (
-  <Section backgroundColor={paddingColor} size="sm">
-    <Box backgroundColor={innerBoxColor} p={'050'}>
-      <Typography>Section avec background et size sm ({styles.sectionContainerSM.maxWidth}px)</Typography>
-    </Box>
-  </Section>
-);
+export const WidthSmSize = () => {
+  const styles = useStyles();
+
+  return (
+    <Section backgroundColor={paddingColor} size="sm">
+      <Box backgroundColor={innerBoxColor} p={'050'}>
+        <Typography>Section avec background et size sm ({styles.sectionContainerSM.maxWidth}px)</Typography>
+      </Box>
+    </Section>
+  );
+};
 
 export * as Sources from './Section.stories.sources';
