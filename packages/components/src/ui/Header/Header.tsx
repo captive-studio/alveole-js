@@ -1,5 +1,6 @@
+import { Href } from 'expo-router';
 import React from 'react';
-import { Box, Typography } from '../../core';
+import { A, Box, Typography } from '../../core';
 import { useStyles } from './Header.styles';
 
 export type HeaderProps = {
@@ -9,18 +10,24 @@ export type HeaderProps = {
   title?: string;
   /** Contenu libre affiché à droite (navigation, boutons, etc.). */
   right?: React.ReactNode;
+  /** Lien vers lequel le logo et le titre redirigent. `null` pour désactiver le lien. Défaut : "/". */
+  homeHref?: (Href & string) | null;
 };
 
-export const Header = ({ logo, title, right }: HeaderProps) => {
+export const Header = ({ logo, title, right, homeHref = '/' }: HeaderProps) => {
   const styles = useStyles();
+
+  const identity = (
+    <Box style={styles.identity}>
+      {logo}
+      <Typography style={styles.titleText}>{title}</Typography>
+    </Box>
+  );
 
   return (
     <Box tag="header" style={styles.container}>
       <Box style={styles.inner}>
-        <Box style={styles.identity}>
-          {logo}
-          <Typography style={styles.titleText}>{title}</Typography>
-        </Box>
+        {homeHref != null ? <A href={homeHref}>{identity}</A> : identity}
         {right != null && <Box style={styles.right}>{right}</Box>}
       </Box>
     </Box>
