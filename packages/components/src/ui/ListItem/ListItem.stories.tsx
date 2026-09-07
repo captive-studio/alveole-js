@@ -9,7 +9,10 @@ export default {
   tags: ['ui'],
   experimental: false,
   figmaURL: 'https://www.figma.com/design/xJz8Z6vfrnZPKTtRbuT2W8/Composants?node-id=1002-558',
-  description: 'Permet d’afficher les données d‘une ressource.',
+  shortDescription: 'Permet d’afficher les données d’une ressource.',
+  description: `Permet d’afficher les données d’une ressource.
+
+Il est recommandé d’utiliser les \`ListItem\` au sein d’une [ResourceList](/?path=/docs/resourcelist--docs) plutôt que de manière isolée.`,
   component: ListItem,
   styleFn: useStyles,
 } satisfies Story;
