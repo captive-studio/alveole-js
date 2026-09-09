@@ -236,7 +236,7 @@ jobs:
     if: github.event_name == 'push' && startsWith(github.ref, 'refs/tags/v')
     uses: captive-studio/captive-ci/.github/workflows/release-npm.yml@main
     with:
-      node-version: "24"
-      packages-dir: "packages"
+      node-version: '24'
+      packages-dir: 'packages'
     secrets:
       NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
