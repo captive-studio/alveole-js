@@ -234,20 +234,9 @@ jobs:
   publish-packages:
     name: Publish packages to npm
     if: github.event_name == 'push' && startsWith(github.ref, 'refs/tags/v')
-    runs-on: [captive-small]
-    container: node:lts@sha256:be23f54a88d34e8824c741b19b91064094f92c1c97b194144bfc8b50d67258e2
-    permissions:
-      contents: read
-    steps:
-      - name: Checkout
-        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
-
-      - name: Install dependencies
-        env:
-          NODE_OPTIONS: --max-old-space-size=4096
-        run: npm ci --no-audit --no-fund
-
-      - name: Publish packages
-        env:
-          NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
-        run: ./scripts/publish-package --ci
+    uses: captive-studio/captive-ci/.github/workflows/release-npm.yml@main
+    with:
+      node-version: "24"
+      packages-dir: "packages"
+    secrets:
+      NPM_TOKEN: ${{ secrets.NPM_TOKEN }}

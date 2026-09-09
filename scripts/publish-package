@@ -48,15 +48,6 @@ stage_release_files() {
 
 trap 'rc=$?; if [[ $rc -ne 0 ]]; then error "Erreur: le script a échoué (code $rc)."; fi' ERR
 
-# Détection du mode CI (tag poussé ou flag --ci)
-CI_MODE=false
-if [[ "${GITHUB_REF_TYPE:-}" == "tag" || "${GITHUB_REF:-}" == refs/tags/* ]]; then
-  CI_MODE=true
-fi
-for arg in "$@"; do
-  [[ "$arg" == "--ci" ]] && CI_MODE=true && break
-done
-
 # Liste des packages publiables (dossiers avec un package.json sous packages/)
 get_packages() {
   for dir in packages/*/; do
@@ -158,38 +149,8 @@ for (const name of ordered) {
 NODE
 }
 
-# --- Mode CI : build + publish uniquement ---
-if [[ "$CI_MODE" == true ]]; then
-  if [[ -z "${NPM_TOKEN:-}" ]]; then
-    error "NPM_TOKEN manquant (requis en CI)."
-    exit 1
-  fi
-
-  info "Configuration du token npm..."
-  npm config set //registry.npmjs.org/:_authToken="$NPM_TOKEN"
-  npm whoami
-
-  echo ""
-  info "Build de tous les packages..."
-  while IFS= read -r name; do
-    echo "  Build $name..."
-    npm -w "$name" run build
-  done <<< "$(get_package_names_ordered)"
-
-  echo ""
-  info "Publication sur npm..."
-  while IFS= read -r name; do
-    echo "  Publish $name..."
-    npm -w "$name" publish --access public
-  done <<< "$(get_package_names_ordered)"
-
-  echo ""
-  info "OK: tous les packages ont été publiés."
-  exit 0
-fi
-
 # --- Mode release (local) ---
-# NPM_TOKEN non requis en local (la publication est faite par la CI au push du tag)
+# La publication npm est faite par la CI (captive-ci/release-npm.yml) au push du tag.
 
 CURRENT_BRANCH="$(git rev-parse --abbrev-ref HEAD 2>/dev/null || true)"
 if [[ "$CURRENT_BRANCH" != "main" ]]; then
