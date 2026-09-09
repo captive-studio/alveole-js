@@ -1,0 +1,24 @@
+{
+  "version_files": [
+    {
+      "path": "packages/components/package.json",
+      "type": "package_json"
+    },
+    {
+      "path": "packages/core/package.json",
+      "type": "package_json"
+    },
+    {
+      "path": "packages/eslint-config/package.json",
+      "type": "package_json"
+    },
+    {
+      "path": "packages/storybook/package.json",
+      "type": "package_json"
+    },
+    {
+      "path": "packages/theme/package.json",
+      "type": "package_json"
+    }
+  ]
+}
