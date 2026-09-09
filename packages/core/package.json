@@ -1,6 +1,6 @@
 {
   "name": "@alveole/core",
-  "version": "1.8.4",
+  "version": "1.9.0",
   "description": "Core for Alveole.",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
