@@ -2,571 +2,571 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
     <loc>https://alveole.captive.fr/</loc>
-    <lastmod>2026-09-07T15:47:35.959Z</lastmod>
+    <lastmod>2026-09-09T09:09:43.227Z</lastmod>
     <changefreq>daily</changefreq>
     <priority>1.0000</priority>
   </url>
   <url>
     <loc>https://alveole.captive.fr/philosophy</loc>
-    <lastmod>2026-09-07T15:47:35.959Z</lastmod>
+    <lastmod>2026-09-09T09:09:43.227Z</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.6000</priority>
   </url>
   <url>
     <loc>https://alveole.captive.fr/constants</loc>
-    <lastmod>2026-09-07T15:47:35.959Z</lastmod>
+    <lastmod>2026-09-09T09:09:43.227Z</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.6000</priority>
   </url>
   <url>
     <loc>https://alveole.captive.fr/theme/colors</loc>
-    <lastmod>2026-09-07T15:47:35.959Z</lastmod>
+    <lastmod>2026-09-09T09:09:43.227Z</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.6000</priority>
   </url>
   <url>
     <loc>https://alveole.captive.fr/theme/css-variables</loc>
-    <lastmod>2026-09-07T15:47:35.959Z</lastmod>
+    <lastmod>2026-09-09T09:09:43.227Z</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.6000</priority>
   </url>
   <url>
     <loc>https://alveole.captive.fr/theme/typographies</loc>
-    <lastmod>2026-09-07T15:47:35.959Z</lastmod>
+    <lastmod>2026-09-09T09:09:43.227Z</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.6000</priority>
   </url>
   <url>
     <loc>https://alveole.captive.fr/components/A</loc>
-    <lastmod>2026-09-07T15:47:35.959Z</lastmod>
+    <lastmod>2026-09-09T09:09:43.227Z</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8000</priority>
   </url>
   <url>
     <loc>https://alveole.captive.fr/components/Accordion</loc>
-    <lastmod>2026-09-07T15:47:35.959Z</lastmod>
+    <lastmod>2026-09-09T09:09:43.227Z</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8000</priority>
   </url>
   <url>
     <loc>https://alveole.captive.fr/components/ActionMenu</loc>
-    <lastmod>2026-09-07T15:47:35.959Z</lastmod>
+    <lastmod>2026-09-09T09:09:43.227Z</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8000</priority>
   </url>
   <url>
     <loc>https://alveole.captive.fr/components/AnchorHeading</loc>
-    <lastmod>2026-09-07T15:47:35.959Z</lastmod>
+    <lastmod>2026-09-09T09:09:43.227Z</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8000</priority>
   </url>
   <url>
     <loc>https://alveole.captive.fr/components/AppUpdateProvider</loc>
-    <lastmod>2026-09-07T15:47:35.959Z</lastmod>
+    <lastmod>2026-09-09T09:09:43.227Z</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8000</priority>
   </url>
   <url>
     <loc>https://alveole.captive.fr/components/Autocomplete</loc>
-    <lastmod>2026-09-07T15:47:35.959Z</lastmod>
+    <lastmod>2026-09-09T09:09:43.227Z</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8000</priority>
   </url>
   <url>
     <loc>https://alveole.captive.fr/components/AutocompleteAddress</loc>
-    <lastmod>2026-09-07T15:47:35.959Z</lastmod>
+    <lastmod>2026-09-09T09:09:43.227Z</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8000</priority>
   </url>
   <url>
     <loc>https://alveole.captive.fr/components/Avatar</loc>
-    <lastmod>2026-09-07T15:47:35.959Z</lastmod>
+    <lastmod>2026-09-09T09:09:43.227Z</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8000</priority>
   </url>
   <url>
     <loc>https://alveole.captive.fr/components/Badge</loc>
-    <lastmod>2026-09-07T15:47:35.959Z</lastmod>
+    <lastmod>2026-09-09T09:09:43.227Z</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8000</priority>
   </url>
   <url>
     <loc>https://alveole.captive.fr/components/BottomSheet</loc>
-    <lastmod>2026-09-07T15:47:35.959Z</lastmod>
+    <lastmod>2026-09-09T09:09:43.227Z</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8000</priority>
   </url>
   <url>
     <loc>https://alveole.captive.fr/components/Box</loc>
-    <lastmod>2026-09-07T15:47:35.959Z</lastmod>
+    <lastmod>2026-09-09T09:09:43.227Z</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8000</priority>
   </url>
   <url>
     <loc>https://alveole.captive.fr/components/Breadcrumbs</loc>
-    <lastmod>2026-09-07T15:47:35.959Z</lastmod>
+    <lastmod>2026-09-09T09:09:43.227Z</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8000</priority>
   </url>
   <url>
     <loc>https://alveole.captive.fr/components/Button</loc>
-    <lastmod>2026-09-07T15:47:35.959Z</lastmod>
+    <lastmod>2026-09-09T09:09:43.227Z</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8000</priority>
   </url>
   <url>
     <loc>https://alveole.captive.fr/components/Card</loc>
-    <lastmod>2026-09-07T15:47:35.959Z</lastmod>
+    <lastmod>2026-09-09T09:09:43.227Z</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8000</priority>
   </url>
   <url>
     <loc>https://alveole.captive.fr/components/Checkbox</loc>
-    <lastmod>2026-09-07T15:47:35.959Z</lastmod>
+    <lastmod>2026-09-09T09:09:43.227Z</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8000</priority>
   </url>
   <url>
     <loc>https://alveole.captive.fr/components/Code</loc>
-    <lastmod>2026-09-07T15:47:35.959Z</lastmod>
+    <lastmod>2026-09-09T09:09:43.227Z</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8000</priority>
   </url>
   <url>
     <loc>https://alveole.captive.fr/components/Counter</loc>
-    <lastmod>2026-09-07T15:47:35.959Z</lastmod>
+    <lastmod>2026-09-09T09:09:43.227Z</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8000</priority>
   </url>
   <url>
     <loc>https://alveole.captive.fr/components/DateInput</loc>
-    <lastmod>2026-09-07T15:47:35.959Z</lastmod>
+    <lastmod>2026-09-09T09:09:43.227Z</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8000</priority>
   </url>
   <url>
     <loc>https://alveole.captive.fr/components/Divider</loc>
-    <lastmod>2026-09-07T15:47:35.959Z</lastmod>
+    <lastmod>2026-09-09T09:09:43.227Z</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8000</priority>
   </url>
   <url>
     <loc>https://alveole.captive.fr/components/DocumentViewer</loc>
-    <lastmod>2026-09-07T15:47:35.959Z</lastmod>
+    <lastmod>2026-09-09T09:09:43.227Z</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8000</priority>
   </url>
   <url>
     <loc>https://alveole.captive.fr/components/DragAndDropFile</loc>
-    <lastmod>2026-09-07T15:47:35.959Z</lastmod>
+    <lastmod>2026-09-09T09:09:43.227Z</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8000</priority>
   </url>
   <url>
     <loc>https://alveole.captive.fr/components/DurationInput</loc>
-    <lastmod>2026-09-07T15:47:35.959Z</lastmod>
+    <lastmod>2026-09-09T09:09:43.227Z</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8000</priority>
   </url>
   <url>
     <loc>https://alveole.captive.fr/components/EmailField</loc>
-    <lastmod>2026-09-07T15:47:35.959Z</lastmod>
+    <lastmod>2026-09-09T09:09:43.227Z</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8000</priority>
   </url>
   <url>
     <loc>https://alveole.captive.fr/components/EmailInput</loc>
-    <lastmod>2026-09-07T15:47:35.959Z</lastmod>
+    <lastmod>2026-09-09T09:09:43.227Z</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8000</priority>
   </url>
   <url>
     <loc>https://alveole.captive.fr/components/Empty%20State</loc>
-    <lastmod>2026-09-07T15:47:35.959Z</lastmod>
+    <lastmod>2026-09-09T09:09:43.227Z</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8000</priority>
   </url>
   <url>
     <loc>https://alveole.captive.fr/components/FileField</loc>
-    <lastmod>2026-09-07T15:47:35.959Z</lastmod>
+    <lastmod>2026-09-09T09:09:43.227Z</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8000</priority>
   </url>
   <url>
     <loc>https://alveole.captive.fr/components/FilterDate</loc>
-    <lastmod>2026-09-07T15:47:35.959Z</lastmod>
+    <lastmod>2026-09-09T09:09:43.227Z</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8000</priority>
   </url>
   <url>
     <loc>https://alveole.captive.fr/components/Form</loc>
-    <lastmod>2026-09-07T15:47:35.959Z</lastmod>
+    <lastmod>2026-09-09T09:09:43.227Z</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8000</priority>
   </url>
   <url>
     <loc>https://alveole.captive.fr/components/FormControl</loc>
-    <lastmod>2026-09-07T15:47:35.959Z</lastmod>
+    <lastmod>2026-09-09T09:09:43.227Z</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8000</priority>
   </url>
   <url>
     <loc>https://alveole.captive.fr/components/Grid</loc>
-    <lastmod>2026-09-07T15:47:35.959Z</lastmod>
+    <lastmod>2026-09-09T09:09:43.227Z</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8000</priority>
   </url>
   <url>
     <loc>https://alveole.captive.fr/components/Header</loc>
-    <lastmod>2026-09-07T15:47:35.959Z</lastmod>
+    <lastmod>2026-09-09T09:09:43.227Z</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8000</priority>
   </url>
   <url>
     <loc>https://alveole.captive.fr/components/Highlight</loc>
-    <lastmod>2026-09-07T15:47:35.959Z</lastmod>
+    <lastmod>2026-09-09T09:09:43.227Z</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8000</priority>
   </url>
   <url>
     <loc>https://alveole.captive.fr/components/Image</loc>
-    <lastmod>2026-09-07T15:47:35.959Z</lastmod>
+    <lastmod>2026-09-09T09:09:43.227Z</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8000</priority>
   </url>
   <url>
     <loc>https://alveole.captive.fr/components/InputButtonAdornment</loc>
-    <lastmod>2026-09-07T15:47:35.959Z</lastmod>
+    <lastmod>2026-09-09T09:09:43.227Z</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8000</priority>
   </url>
   <url>
     <loc>https://alveole.captive.fr/components/InputHeading</loc>
-    <lastmod>2026-09-07T15:47:35.959Z</lastmod>
+    <lastmod>2026-09-09T09:09:43.227Z</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8000</priority>
   </url>
   <url>
     <loc>https://alveole.captive.fr/components/ListItem</loc>
-    <lastmod>2026-09-07T15:47:35.959Z</lastmod>
+    <lastmod>2026-09-09T09:09:43.227Z</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8000</priority>
   </url>
   <url>
     <loc>https://alveole.captive.fr/components/Lottie</loc>
-    <lastmod>2026-09-07T15:47:35.959Z</lastmod>
+    <lastmod>2026-09-09T09:09:43.227Z</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8000</priority>
   </url>
   <url>
     <loc>https://alveole.captive.fr/components/LucideIcon</loc>
-    <lastmod>2026-09-07T15:47:35.959Z</lastmod>
+    <lastmod>2026-09-09T09:09:43.227Z</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8000</priority>
   </url>
   <url>
     <loc>https://alveole.captive.fr/components/Map</loc>
-    <lastmod>2026-09-07T15:47:35.959Z</lastmod>
+    <lastmod>2026-09-09T09:09:43.227Z</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8000</priority>
   </url>
   <url>
     <loc>https://alveole.captive.fr/components/MarkdownDescription</loc>
-    <lastmod>2026-09-07T15:47:35.959Z</lastmod>
+    <lastmod>2026-09-09T09:09:43.227Z</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8000</priority>
   </url>
   <url>
     <loc>https://alveole.captive.fr/components/Metabase</loc>
-    <lastmod>2026-09-07T15:47:35.959Z</lastmod>
+    <lastmod>2026-09-09T09:09:43.227Z</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8000</priority>
   </url>
   <url>
     <loc>https://alveole.captive.fr/components/NumberField</loc>
-    <lastmod>2026-09-07T15:47:35.959Z</lastmod>
+    <lastmod>2026-09-09T09:09:43.227Z</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8000</priority>
   </url>
   <url>
     <loc>https://alveole.captive.fr/components/OtpField</loc>
-    <lastmod>2026-09-07T15:47:35.959Z</lastmod>
+    <lastmod>2026-09-09T09:09:43.227Z</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8000</priority>
   </url>
   <url>
     <loc>https://alveole.captive.fr/components/PageHeader</loc>
-    <lastmod>2026-09-07T15:47:35.959Z</lastmod>
+    <lastmod>2026-09-09T09:09:43.227Z</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8000</priority>
   </url>
   <url>
     <loc>https://alveole.captive.fr/components/Pages</loc>
-    <lastmod>2026-09-07T15:47:35.959Z</lastmod>
+    <lastmod>2026-09-09T09:09:43.227Z</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8000</priority>
   </url>
   <url>
     <loc>https://alveole.captive.fr/components/PasswordField</loc>
-    <lastmod>2026-09-07T15:47:35.959Z</lastmod>
+    <lastmod>2026-09-09T09:09:43.227Z</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8000</priority>
   </url>
   <url>
     <loc>https://alveole.captive.fr/components/PdfViewer</loc>
-    <lastmod>2026-09-07T15:47:35.959Z</lastmod>
+    <lastmod>2026-09-09T09:09:43.227Z</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8000</priority>
   </url>
   <url>
     <loc>https://alveole.captive.fr/components/PhoneField</loc>
-    <lastmod>2026-09-07T15:47:35.959Z</lastmod>
+    <lastmod>2026-09-09T09:09:43.227Z</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8000</priority>
   </url>
   <url>
     <loc>https://alveole.captive.fr/components/PhoneInput</loc>
-    <lastmod>2026-09-07T15:47:35.959Z</lastmod>
+    <lastmod>2026-09-09T09:09:43.227Z</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8000</priority>
   </url>
   <url>
     <loc>https://alveole.captive.fr/components/Popover</loc>
-    <lastmod>2026-09-07T15:47:35.959Z</lastmod>
+    <lastmod>2026-09-09T09:09:43.227Z</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8000</priority>
   </url>
   <url>
     <loc>https://alveole.captive.fr/components/PriceInput</loc>
-    <lastmod>2026-09-07T15:47:35.959Z</lastmod>
+    <lastmod>2026-09-09T09:09:43.227Z</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8000</priority>
   </url>
   <url>
     <loc>https://alveole.captive.fr/components/ProgressBar</loc>
-    <lastmod>2026-09-07T15:47:35.959Z</lastmod>
+    <lastmod>2026-09-09T09:09:43.227Z</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8000</priority>
   </url>
   <url>
     <loc>https://alveole.captive.fr/components/RadioGroup</loc>
-    <lastmod>2026-09-07T15:47:35.959Z</lastmod>
+    <lastmod>2026-09-09T09:09:43.227Z</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8000</priority>
   </url>
   <url>
     <loc>https://alveole.captive.fr/components/ResourceList</loc>
-    <lastmod>2026-09-07T15:47:35.959Z</lastmod>
+    <lastmod>2026-09-09T09:09:43.227Z</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8000</priority>
   </url>
   <url>
     <loc>https://alveole.captive.fr/components/Section</loc>
-    <lastmod>2026-09-07T15:47:35.959Z</lastmod>
+    <lastmod>2026-09-09T09:09:43.227Z</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8000</priority>
   </url>
   <url>
     <loc>https://alveole.captive.fr/components/Select</loc>
-    <lastmod>2026-09-07T15:47:35.959Z</lastmod>
+    <lastmod>2026-09-09T09:09:43.227Z</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8000</priority>
   </url>
   <url>
     <loc>https://alveole.captive.fr/components/SelectMultiple</loc>
-    <lastmod>2026-09-07T15:47:35.959Z</lastmod>
+    <lastmod>2026-09-09T09:09:43.227Z</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8000</priority>
   </url>
   <url>
     <loc>https://alveole.captive.fr/components/Sidebar</loc>
-    <lastmod>2026-09-07T15:47:35.959Z</lastmod>
+    <lastmod>2026-09-09T09:09:43.227Z</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8000</priority>
   </url>
   <url>
     <loc>https://alveole.captive.fr/components/Signature</loc>
-    <lastmod>2026-09-07T15:47:35.959Z</lastmod>
+    <lastmod>2026-09-09T09:09:43.227Z</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8000</priority>
   </url>
   <url>
     <loc>https://alveole.captive.fr/components/Spinner</loc>
-    <lastmod>2026-09-07T15:47:35.959Z</lastmod>
+    <lastmod>2026-09-09T09:09:43.227Z</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8000</priority>
   </url>
   <url>
     <loc>https://alveole.captive.fr/components/Switch</loc>
-    <lastmod>2026-09-07T15:47:35.959Z</lastmod>
+    <lastmod>2026-09-09T09:09:43.227Z</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8000</priority>
   </url>
   <url>
     <loc>https://alveole.captive.fr/components/Tabs</loc>
-    <lastmod>2026-09-07T15:47:35.959Z</lastmod>
+    <lastmod>2026-09-09T09:09:43.227Z</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8000</priority>
   </url>
   <url>
     <loc>https://alveole.captive.fr/components/Tag</loc>
-    <lastmod>2026-09-07T15:47:35.959Z</lastmod>
+    <lastmod>2026-09-09T09:09:43.227Z</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8000</priority>
   </url>
   <url>
     <loc>https://alveole.captive.fr/components/TextField</loc>
-    <lastmod>2026-09-07T15:47:35.959Z</lastmod>
+    <lastmod>2026-09-09T09:09:43.227Z</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8000</priority>
   </url>
   <url>
     <loc>https://alveole.captive.fr/components/TextInputArray</loc>
-    <lastmod>2026-09-07T15:47:35.959Z</lastmod>
+    <lastmod>2026-09-09T09:09:43.227Z</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8000</priority>
   </url>
   <url>
     <loc>https://alveole.captive.fr/components/TextareaField</loc>
-    <lastmod>2026-09-07T15:47:35.959Z</lastmod>
+    <lastmod>2026-09-09T09:09:43.227Z</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8000</priority>
   </url>
   <url>
     <loc>https://alveole.captive.fr/components/TextareaInput</loc>
-    <lastmod>2026-09-07T15:47:35.959Z</lastmod>
+    <lastmod>2026-09-09T09:09:43.227Z</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8000</priority>
   </url>
   <url>
     <loc>https://alveole.captive.fr/components/ThemeProvider</loc>
-    <lastmod>2026-09-07T15:47:35.959Z</lastmod>
+    <lastmod>2026-09-09T09:09:43.227Z</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8000</priority>
   </url>
   <url>
     <loc>https://alveole.captive.fr/components/TimeInput</loc>
-    <lastmod>2026-09-07T15:47:35.959Z</lastmod>
+    <lastmod>2026-09-09T09:09:43.227Z</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8000</priority>
   </url>
   <url>
     <loc>https://alveole.captive.fr/components/Toast</loc>
-    <lastmod>2026-09-07T15:47:35.959Z</lastmod>
+    <lastmod>2026-09-09T09:09:43.227Z</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8000</priority>
   </url>
   <url>
     <loc>https://alveole.captive.fr/components/ToolbarBottomNav</loc>
-    <lastmod>2026-09-07T15:47:35.959Z</lastmod>
+    <lastmod>2026-09-09T09:09:43.227Z</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8000</priority>
   </url>
   <url>
     <loc>https://alveole.captive.fr/components/ToolbarTop</loc>
-    <lastmod>2026-09-07T15:47:35.959Z</lastmod>
+    <lastmod>2026-09-09T09:09:43.227Z</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8000</priority>
   </url>
   <url>
     <loc>https://alveole.captive.fr/components/Typography</loc>
-    <lastmod>2026-09-07T15:47:35.959Z</lastmod>
+    <lastmod>2026-09-09T09:09:43.227Z</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8000</priority>
   </url>
   <url>
     <loc>https://alveole.captive.fr/components/Version</loc>
-    <lastmod>2026-09-07T15:47:35.959Z</lastmod>
+    <lastmod>2026-09-09T09:09:43.227Z</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8000</priority>
   </url>
   <url>
     <loc>https://alveole.captive.fr/constants/Breakpoints</loc>
-    <lastmod>2026-09-07T15:47:35.959Z</lastmod>
+    <lastmod>2026-09-09T09:09:43.227Z</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5000</priority>
   </url>
   <url>
     <loc>https://alveole.captive.fr/constants/Colors</loc>
-    <lastmod>2026-09-07T15:47:35.959Z</lastmod>
+    <lastmod>2026-09-09T09:09:43.227Z</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5000</priority>
   </url>
   <url>
     <loc>https://alveole.captive.fr/constants/CustomPalette</loc>
-    <lastmod>2026-09-07T15:47:35.959Z</lastmod>
+    <lastmod>2026-09-09T09:09:43.227Z</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5000</priority>
   </url>
   <url>
     <loc>https://alveole.captive.fr/constants/CustomTypography</loc>
-    <lastmod>2026-09-07T15:47:35.959Z</lastmod>
+    <lastmod>2026-09-09T09:09:43.227Z</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5000</priority>
   </url>
   <url>
     <loc>https://alveole.captive.fr/constants/Elevations</loc>
-    <lastmod>2026-09-07T15:47:35.959Z</lastmod>
+    <lastmod>2026-09-09T09:09:43.227Z</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5000</priority>
   </url>
   <url>
     <loc>https://alveole.captive.fr/constants/FontWeightMap</loc>
-    <lastmod>2026-09-07T15:47:35.959Z</lastmod>
+    <lastmod>2026-09-09T09:09:43.227Z</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5000</priority>
   </url>
   <url>
     <loc>https://alveole.captive.fr/constants/Fonts</loc>
-    <lastmod>2026-09-07T15:47:35.959Z</lastmod>
+    <lastmod>2026-09-09T09:09:43.227Z</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5000</priority>
   </url>
   <url>
     <loc>https://alveole.captive.fr/constants/FontsMap</loc>
-    <lastmod>2026-09-07T15:47:35.959Z</lastmod>
+    <lastmod>2026-09-09T09:09:43.227Z</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5000</priority>
   </url>
   <url>
     <loc>https://alveole.captive.fr/constants/Grilles</loc>
-    <lastmod>2026-09-07T15:47:35.959Z</lastmod>
+    <lastmod>2026-09-09T09:09:43.227Z</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5000</priority>
   </url>
   <url>
     <loc>https://alveole.captive.fr/constants/Heights</loc>
-    <lastmod>2026-09-07T15:47:35.959Z</lastmod>
+    <lastmod>2026-09-09T09:09:43.227Z</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5000</priority>
   </url>
   <url>
     <loc>https://alveole.captive.fr/constants/RadiusList</loc>
-    <lastmod>2026-09-07T15:47:35.959Z</lastmod>
+    <lastmod>2026-09-09T09:09:43.227Z</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5000</priority>
   </url>
   <url>
     <loc>https://alveole.captive.fr/constants/Sizes</loc>
-    <lastmod>2026-09-07T15:47:35.959Z</lastmod>
+    <lastmod>2026-09-09T09:09:43.227Z</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5000</priority>
   </url>
   <url>
     <loc>https://alveole.captive.fr/constants/Spacings</loc>
-    <lastmod>2026-09-07T15:47:35.959Z</lastmod>
+    <lastmod>2026-09-09T09:09:43.227Z</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5000</priority>
   </url>
   <url>
     <loc>https://alveole.captive.fr/constants/UnsupportedCSSProperties</loc>
-    <lastmod>2026-09-07T15:47:35.959Z</lastmod>
+    <lastmod>2026-09-09T09:09:43.227Z</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5000</priority>
   </url>
   <url>
     <loc>https://alveole.captive.fr/constants/Variants</loc>
-    <lastmod>2026-09-07T15:47:35.959Z</lastmod>
+    <lastmod>2026-09-09T09:09:43.227Z</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5000</priority>
   </url>
