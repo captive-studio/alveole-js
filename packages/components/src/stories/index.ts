@@ -31,6 +31,7 @@ export * as ButtonStory from '../ui/Button/Button.stories';
 export * as CardStory from '../ui/Card/Card.stories';
 export * as CheckboxStory from '../ui/Checkbox/Checkbox.stories';
 export * as CounterStory from '../ui/Counter/Counter.stories';
+export * as DataTableStory from '../ui/DataTable/DataTable.stories';
 export * as DateInputStory from '../ui/DateInput/DateInput.stories';
 export * as DividerStory from '../ui/Divider/Divider.stories';
 export * as DocumentViewerStory from '../ui/DocumentViewer/DocumentViewer.stories';
