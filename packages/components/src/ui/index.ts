@@ -10,6 +10,7 @@ export * from './Button';
 export * from './Card';
 export * from './Checkbox';
 export * from './Counter';
+export * from './DataTable';
 export * from './DateInput';
 export * from './Divider';
 export * from './DocumentViewer';
