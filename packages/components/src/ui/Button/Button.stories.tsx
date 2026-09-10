@@ -70,6 +70,17 @@ export const Icons = () => (
   </Box>
 );
 
+/** Sans `title`, le bouton passe en mode icône seule (padding carré, pas de texte). */
+export const IconOnly = () => (
+  <Box display="flex" flexDirection="row" gap={4} style={{ alignItems: 'center' }}>
+    <Button variant="tertiary" size="sm" startIcon="MoreHorizontal" accessibilityLabel="Plus d'actions" />
+    <Button variant="tertiary" size="md" startIcon="MoreHorizontal" accessibilityLabel="Plus d'actions" />
+    <Button variant="tertiary" size="lg" startIcon="MoreHorizontal" accessibilityLabel="Plus d'actions" />
+    <Button variant="secondary" size="sm" startIcon="Trash" accessibilityLabel="Supprimer" />
+    <Button variant="tertiary" size="sm" startIcon="MoreHorizontal" selected accessibilityLabel="Plus d'actions" />
+  </Box>
+);
+
 export const FullWidth = () => <Button variant="primary" title="Full Width" fullWidth />;
 
 export const Selected = () => (

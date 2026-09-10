@@ -163,6 +163,9 @@ export const useStyles = makeStyles(({ text, color, spacing, spacingValue, radiu
     paddingTop: spacing('3V'),
     paddingBottom: spacing('3V'),
   },
+  xsContainerIconOnly: {
+    padding: spacing('050'),
+  },
   smContainerIconOnly: {
     padding: spacing('1W'),
   },
