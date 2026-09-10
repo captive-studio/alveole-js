@@ -10,7 +10,8 @@ type CustomPressableState = PressableStateCallbackType & {
 };
 
 export type ButtonProps = Omit<PressableProps, 'children' | 'style'> & {
-  title: string;
+  /** Sans `title`, le bouton passe en mode icône seule (nécessite `startIcon` ou `endIcon`). */
+  title?: string;
   size?: 'xs' | 'sm' | 'md' | 'lg'; // xs n'est pas censé exister
   variant: 'primary' | 'secondary' | 'tertiary' | 'danger' | 'link'; // link n'est pas censé exister
   startIcon?: IconProps['name'];
@@ -49,8 +50,17 @@ export const Button = React.forwardRef<View, ButtonProps>(function Button(props,
 
   const styles = useStyles();
 
-  const containerSize =
-    size === 'sm'
+  const isIconOnly = !title;
+
+  const containerSize = isIconOnly
+    ? size === 'sm'
+      ? styles.smContainerIconOnly
+      : size === 'lg'
+        ? styles.lgContainerIconOnly
+        : size === 'xs'
+          ? styles.xsContainerIconOnly
+          : styles.mdContainerIconOnly
+    : size === 'sm'
       ? styles.smContainer
       : size === 'lg'
         ? styles.lgContainer
@@ -65,14 +75,14 @@ export const Button = React.forwardRef<View, ButtonProps>(function Button(props,
   const buttonContainerStyle = (state?: { pressed?: boolean }) => {
     let applicableStyles = {
       ...styles.container,
-      ...(startIcon
+      ...(startIcon && !isIconOnly
         ? size === 'sm'
           ? styles.smContainerStartIcon
           : size === 'lg'
             ? styles.lgContainerStartIcon
             : styles.mdContainerStartIcon
         : {}),
-      ...(endIcon
+      ...(endIcon && !isIconOnly
         ? size === 'sm'
           ? styles.smContainerEndIcon
           : size === 'lg'
@@ -256,9 +266,11 @@ export const Button = React.forwardRef<View, ButtonProps>(function Button(props,
           {...containerProps}
         >
           {startIcon && <LucideIcon name={startIcon} {...iconStyle({ hovered: !!state.hovered })} />}
-          <Typography user-select="false" style={textStyle({ hovered: !!state.hovered, pressed: !!state.pressed })}>
-            {title}
-          </Typography>
+          {!isIconOnly && (
+            <Typography user-select="false" style={textStyle({ hovered: !!state.hovered, pressed: !!state.pressed })}>
+              {title}
+            </Typography>
+          )}
           {isLoading ? (
             <Spinner size="sm" delay="long" style={styles.buttonLoader} />
           ) : (
