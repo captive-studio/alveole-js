@@ -9,14 +9,13 @@ import { CheckboxLabel, CheckboxLabelProps } from './CheckboxLabel';
 export type CheckboxProps = CheckboxContainerProps & CheckboxIndicatorProps & CheckboxLabelProps;
 
 export const Checkbox = React.forwardRef<CheckboxElement, CheckboxProps>(function Checkbox(props, ref) {
-  const { variant, label, error, success, disabled, onCheckedChange } = props;
-  const baseProps = { variant, label, error, success, disabled, onCheckedChange };
+  const { size, variant, label, error, success, disabled, onCheckedChange } = props;
+  const baseProps = { size, variant, label, error, success, disabled, onCheckedChange };
 
   const { spacingValue } = useTheme();
   const styles = useStyles();
 
-  const uniqId = useId();
-  const id = `checkbox--${variant}--${uniqId}`;
+  const id = useId();
 
   return (
     <Box tag="check-box-container" gap={error || success ? spacingValue('050') : 0} style={styles.checkboxContainer}>
