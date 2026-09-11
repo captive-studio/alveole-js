@@ -12,7 +12,7 @@ const toSlug = (value: string) =>
     .replace(/\s+/g, '-')
     .replace(/[^a-z0-9-]/g, '');
 
-export const AnchorHeading = ({ children, style }: AnchorHeadingProps) => {
+export const AnchorHeading = ({ children, style, scrollMarginTop }: AnchorHeadingProps) => {
   const { color } = useTheme();
   const [hovered, setHovered] = useState(false);
   const [iconHovered, setIconHovered] = useState(false);
@@ -21,7 +21,13 @@ export const AnchorHeading = ({ children, style }: AnchorHeadingProps) => {
   return (
     <div
       id={slug}
-      style={{ display: 'flex', flexDirection: 'row', alignItems: 'center', gap: 6 }}
+      style={{
+        display: 'flex',
+        flexDirection: 'row',
+        alignItems: 'center',
+        gap: 6,
+        ...(scrollMarginTop != null ? { scrollMarginTop } : null),
+      }}
       onMouseEnter={() => setHovered(true)}
       onMouseLeave={() => setHovered(false)}
     >
