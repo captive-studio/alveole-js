@@ -70,7 +70,7 @@
   "dependencies": {
     "react-markdown": "8.0.7",
     "remark-gfm": "3.0.1",
-    "zod": "4.4.3"
+    "zod": "4.5.4"
   },
   "peerDependencies": {
     "@alveole/core": "*",
