@@ -55,7 +55,7 @@ export const DataTable = <Row,>(props: DataTableProps<Row>) => {
     columns,
     data,
     keyExtractor,
-    size = 'sm',
+    size = 'md',
     selectable = false,
     selectedKeys: controlledSelectedKeys,
     onSelectionChange,
