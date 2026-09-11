@@ -12,7 +12,9 @@ export default {
   tags: ['ui'],
   experimental: false,
   figmaURL: 'https://www.figma.com/design/xJz8Z6vfrnZPKTtRbuT2W8/Composants?node-id=1002-547',
-  description: "Menu contextuel affichant une liste d'actions sous forme de liste de liens.",
+  description:
+    "Menu contextuel affichant une liste d'actions sous forme de liste de liens. Utilise le composant [Popover](https://alveole.captive.fr/components/Popover) pour faire apparaître le menu.",
+  shortDescription: "Menu contextuel affichant une liste d'actions sous forme de liste de liens.",
   component: ActionMenu,
   webOnly: true,
   styleFn: () => '',
