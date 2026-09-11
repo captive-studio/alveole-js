@@ -1,21 +1,25 @@
 import React from 'react';
 import { Checkbox as TamaguiCheckbox, CheckboxProps as TamaguiCheckboxProps, TamaguiElement } from 'tamagui';
 import { useStyles } from './Checkbox.styles';
+import { CheckboxSize, CheckboxVariant, resolveCheckboxSize } from './Checkbox.utils';
 
 export type CheckboxElement = TamaguiElement;
 export type CheckboxContainerProps = TamaguiCheckboxProps & {
-  variant?: 'small' | 'medium';
+  size?: CheckboxSize;
+  /** @deprecated use `size` ('sm' | 'md') instead */
+  variant?: CheckboxVariant;
   error?: string;
   success?: string;
 };
 
 export const CheckboxContainer = React.forwardRef<CheckboxElement, CheckboxContainerProps>(
   function Checkbox(props, ref) {
-    const { variant, error, success, disabled, ...checkboxProps } = props;
+    const { size, variant, error, success, disabled, ...checkboxProps } = props;
 
     const styles = useStyles();
 
-    const baseCheckboxStyles = { ...styles.checkbox, ...(variant === 'small' ? styles.checkboxSm : {}) };
+    const resolvedSize = resolveCheckboxSize(size, variant);
+    const baseCheckboxStyles = { ...styles.checkbox, ...(resolvedSize === 'sm' ? styles.checkboxSm : {}) };
 
     const checkboxStyles = {
       ...baseCheckboxStyles,

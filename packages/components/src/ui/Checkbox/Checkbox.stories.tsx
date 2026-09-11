@@ -23,10 +23,10 @@ export const Default = () => (
   </Box>
 );
 
-export const Variants = () => (
+export const Sizes = () => (
   <Box display="flex" flexDirection="row" gap={16}>
-    <Checkbox label="Normal" />
-    <Checkbox label="Small" variant="small" />
+    <Checkbox label="Size MD" size="md" />
+    <Checkbox label="Size SM" size="sm" />
   </Box>
 );
 
