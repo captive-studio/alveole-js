@@ -12,6 +12,8 @@ export type DataTableRowProps<Row> = {
   selectable?: boolean;
   selected?: boolean;
   size?: DataTableSize;
+  /** Retire la bordure basse (dernière ligne quand le tableau n'a pas de footer, pour éviter un double trait avec la bordure du conteneur). */
+  noBorderBottom?: boolean;
   onSelectedChange?: (checked: boolean) => void;
   onPress?: () => void;
 };
@@ -22,8 +24,25 @@ const selectionCellStyleBySize = {
   lg: 'selectionCellLg',
 } as const;
 
+const rowStyleBySize = {
+  sm: 'rowSm',
+  md: 'rowMd',
+  lg: 'rowLg',
+} as const;
+
 export const DataTableRow = <Row,>(props: DataTableRowProps<Row>) => {
-  const { row, rowIndex, rowKey, columns, selectable, selected, size = 'sm', onSelectedChange, onPress } = props;
+  const {
+    row,
+    rowIndex,
+    rowKey,
+    columns,
+    selectable,
+    selected,
+    size = 'sm',
+    noBorderBottom,
+    onSelectedChange,
+    onPress,
+  } = props;
   const styles = useStyles();
 
   return (
@@ -31,7 +50,13 @@ export const DataTableRow = <Row,>(props: DataTableRowProps<Row>) => {
       tag="data-table-row"
       onPress={onPress}
       hoverStyle={onPress ? styles.rowHover : {}}
-      style={[styles.row, selected ? styles.rowSelected : {}, onPress ? styles.rowHoverable : {}]}
+      style={[
+        styles.row,
+        styles[rowStyleBySize[size]],
+        selected ? styles.rowSelected : {},
+        onPress ? styles.rowHoverable : {},
+        noBorderBottom ? { borderBottomWidth: 0 } : {},
+      ]}
     >
       {selectable && (
         <Box

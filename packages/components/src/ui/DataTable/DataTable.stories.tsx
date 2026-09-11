@@ -1,9 +1,17 @@
+import { useTheme } from '@alveole/theme';
+import { format, formatDistanceToNowStrict } from 'date-fns';
+import { fr } from 'date-fns/locale';
 import React from 'react';
 import { Box, Typography } from '../../core';
 import { Story } from '../../type';
+import { ActionMenu } from '../ActionMenu';
 import { Avatar } from '../Avatar';
 import { Badge } from '../Badge';
+import { Button } from '../Button';
 import { EmptyState } from '../EmptyState';
+import { LucideIcon } from '../LucideIcon';
+import { Popover } from '../Popover';
+import { Tag } from '../Tag';
 import { DataTable } from './DataTable';
 import { useStyles } from './DataTable.styles';
 import { DataTableColumn, DataTableSort } from './DataTable.types';
@@ -86,7 +94,7 @@ const baseColumns: DataTableColumn<Repository>[] = [
     id: 'name',
     header: 'Repository',
     sortable: true,
-    renderCell: repo => <Typography style={{ fontWeight: 600 }}>{repo.name}</Typography>,
+    renderCell: repo => <Typography>{repo.name}</Typography>,
   },
   {
     id: 'visibility',
@@ -252,7 +260,7 @@ const manyColumns: DataTableColumn<RepositoryDetailed>[] = [
     id: 'name',
     header: 'Repository',
     width: 200,
-    renderCell: repo => <Typography style={{ fontWeight: 600 }}>{repo.name}</Typography>,
+    renderCell: repo => <Typography>{repo.name}</Typography>,
   },
   { id: 'owner', header: 'Propriétaire', width: 140, renderCell: repo => <Typography>{repo.owner}</Typography> },
   {
@@ -317,7 +325,12 @@ const manyColumns: DataTableColumn<RepositoryDetailed>[] = [
     id: 'lastCommit',
     header: 'Dernier commit',
     width: 130,
-    renderCell: repo => <Typography>{repo.lastCommit}</Typography>,
+    renderCell: repo => (
+      <Box display="flex" flexDirection="row" gap={'1V'} style={{ alignItems: 'center' }}>
+        <LucideIcon name="GitCommitHorizontal" size="xs" />
+        <Typography style={{ fontFamily: 'monospace' }}>{repo.lastCommit}</Typography>
+      </Box>
+    ),
   },
   {
     id: 'updatedAt',
@@ -366,7 +379,7 @@ export const WithCustomCells = () => {
       renderCell: repo => (
         <>
           <Avatar size="xs" fallbackText={repo.owner} />
-          <Typography style={{ marginLeft: 8, fontWeight: 600 }}>{repo.name}</Typography>
+          <Typography style={{ marginLeft: 8 }}>{repo.name}</Typography>
         </>
       ),
     },
@@ -413,6 +426,311 @@ export const WithPagination = () => {
         </DataTableFooter>
       }
     />
+  );
+};
+
+type Deployment = {
+  id: string;
+  message: string;
+  status: 'error' | 'ready';
+  duration: string;
+  environment: 'preview' | 'production';
+  promoted?: boolean;
+  commit: string;
+  source: string;
+  date: Date;
+  author: string;
+};
+
+const deployments: Deployment[] = [
+  {
+    id: 'd1',
+    message: 'Bump follow-redirects from 1.15.9 to 1.16.0',
+    status: 'error',
+    duration: '1m 51s',
+    environment: 'preview',
+    commit: 'f3c020f',
+    source: 'dependabot/npm_and_yarn/follow-redirects…',
+    date: new Date('2026-07-15T14:32:00Z'),
+    author: 'dependabot',
+  },
+  {
+    id: 'd2',
+    message: 'Bump axios from 1.8.4 to 1.15.0',
+    status: 'error',
+    duration: '1m 51s',
+    environment: 'preview',
+    commit: 'f0e960b',
+    source: 'dependabot/npm_and_yarn/axios-1.15.0',
+    date: new Date('2026-07-11T09:12:00Z'),
+    author: 'dependabot',
+  },
+  {
+    id: 'd3',
+    message: 'Bump serialize-javascript et terser-webpack-plugin',
+    status: 'error',
+    duration: '1m 43s',
+    environment: 'preview',
+    commit: '638473a',
+    source: 'dependabot/npm_and_yarn/multi-0d13b2d87f',
+    date: new Date('2026-06-29T18:47:00Z'),
+    author: 'dependabot',
+  },
+  {
+    id: 'd4',
+    message: 'Bump yaml',
+    status: 'error',
+    duration: '1m 55s',
+    environment: 'preview',
+    commit: 'd59cb81',
+    source: 'dependabot/npm_and_yarn/multi-c136cad177',
+    date: new Date('2026-06-26T07:58:00Z'),
+    author: 'dependabot',
+  },
+  {
+    id: 'd5',
+    message: '✨ Merge pull request #9 — mdast-util-to-hast 13.2.1',
+    status: 'ready',
+    duration: '2m 1s',
+    environment: 'production',
+    promoted: true,
+    commit: '9d71b6c',
+    source: 'main',
+    date: new Date('2025-12-02T14:04:32Z'),
+    author: 'cprodhomme',
+  },
+  {
+    id: 'd6',
+    message: 'Bump mdast-util-to-hast from 13.2.0 à 13.2.1',
+    status: 'ready',
+    duration: '1m 58s',
+    environment: 'preview',
+    commit: '9bdc055',
+    source: 'dependabot/npm_and_yarn/mdast-util-to-ha…',
+    date: new Date('2025-12-02T13:58:00Z'),
+    author: 'dependabot',
+  },
+  {
+    id: 'd7',
+    message: '🎨 Ajoute un style sur le blog',
+    status: 'ready',
+    duration: '51s',
+    environment: 'production',
+    commit: '7c70351',
+    source: 'main',
+    date: new Date('2026-04-18T10:21:00Z'),
+    author: 'cprodhomme',
+  },
+  {
+    id: 'd8',
+    message: '✨ feat(posts): add metaDescription field',
+    status: 'ready',
+    duration: '49s',
+    environment: 'production',
+    commit: 'ff3f424',
+    source: 'main',
+    date: new Date('2026-04-18T09:47:00Z'),
+    author: 'cprodhomme',
+  },
+];
+
+const localTimeZoneLabel = (() => {
+  const offsetMinutes = -new Date().getTimezoneOffset();
+  const sign = offsetMinutes >= 0 ? '+' : '-';
+  return `GMT${sign}${Math.abs(offsetMinutes) / 60}`;
+})();
+
+const formatTimestamp = (date: Date, timeZone?: string) =>
+  new Intl.DateTimeFormat('fr-FR', { dateStyle: 'long', timeStyle: 'medium', timeZone }).format(date);
+
+const DeploymentDateCell = ({ deployment }: { deployment: Deployment }) => {
+  const [open, setOpen] = React.useState(false);
+  const { text, color } = useTheme();
+
+  return (
+    <Popover
+      placement="left"
+      open={open}
+      setOpen={setOpen}
+      renderTrigger={() => (
+        <Box onHoverIn={() => setOpen(true)} onHoverOut={() => setOpen(false)}>
+          <Typography style={{ ...text['Corps de texte'].XS.Regular, color: color.light.text['mention-grey'] }}>
+            {format(deployment.date, 'd MMM', { locale: fr })}
+          </Typography>
+        </Box>
+      )}
+    >
+      <Box
+        display="flex"
+        flexDirection="column"
+        gap={'1W'}
+        style={{ minWidth: 260 }}
+        onHoverIn={() => setOpen(true)}
+        onHoverOut={() => setOpen(false)}
+      >
+        <Typography style={text['Corps de texte'].SM.Regular}>
+          {formatDistanceToNowStrict(deployment.date, { locale: fr, addSuffix: true })}
+        </Typography>
+        <Box display="flex" flexDirection="row" gap={'1W'} justify="space-between" style={{ alignItems: 'center' }}>
+          <Tag color="default" size="sm">
+            UTC
+          </Tag>
+          <Typography style={text['Corps de texte'].SM.Regular}>{formatTimestamp(deployment.date, 'UTC')}</Typography>
+        </Box>
+        <Box display="flex" flexDirection="row" gap={'1W'} justify="space-between" style={{ alignItems: 'center' }}>
+          <Tag color="default" size="sm">
+            {localTimeZoneLabel}
+          </Tag>
+          <Typography style={text['Corps de texte'].SM.Regular}>{formatTimestamp(deployment.date)}</Typography>
+        </Box>
+      </Box>
+    </Popover>
+  );
+};
+
+const DeploymentActionsCell = () => {
+  const [open, setOpen] = React.useState(false);
+
+  return (
+    <Box p={'1V'}>
+      <ActionMenu
+        placement="bottom-end"
+        open={open}
+        setOpen={setOpen}
+        renderTrigger={() => (
+          <Button variant="tertiary" size="sm" startIcon="MoreHorizontal" accessibilityLabel="Actions du déploiement" />
+        )}
+      >
+        <ActionMenu.Item title="Voir les détails" icon="Eye" />
+        <ActionMenu.Item title="Redéployer" icon="RefreshCw" />
+        <ActionMenu.Item title="Copier l'URL" icon="Link" />
+        <ActionMenu.Item title="Supprimer" icon="Trash" />
+      </ActionMenu>
+    </Box>
+  );
+};
+
+/**
+ * Reproduction de la vue "Deployments" de Vercel avec nos composants : `Tag` pour les pastilles
+ * d'environnement, `Badge` pour le statut, `Avatar` pour l'auteur, `ActionMenu` pour le menu contextuel
+ * "..." de chaque ligne, et `Popover` sur la date pour afficher le détail (temps relatif + horodatage
+ * UTC et fuseau local), comme chez Vercel. Le pied de page est ici un simple slot `footer` (pas
+ * `DataTableFooter`, qui sert au duo compteur+pagination) : un bouton pleine largeur, puis une note de
+ * rétention accompagnée d'une action.
+ */
+export const AsDeploymentList = () => {
+  const { text, color } = useTheme();
+
+  const deploymentColumns: DataTableColumn<Deployment>[] = [
+    {
+      id: 'message',
+      header: 'Déploiement',
+      width: 400,
+      renderCell: deployment => <Typography style={text['Corps de texte'].SM.Regular}>{deployment.message}</Typography>,
+    },
+    {
+      id: 'status',
+      header: 'Statut',
+      width: 140,
+      renderCell: deployment => (
+        <Box display="flex" flexDirection="row" gap={'1W'} style={{ alignItems: 'center' }}>
+          <Badge variant={deployment.status === 'error' ? 'error' : 'success'} size="sm">
+            {deployment.status === 'error' ? 'Error' : 'Ready'}
+          </Badge>
+          <Typography style={{ ...text['Corps de texte'].SM.Regular, color: color.light.text['mention-grey'] }}>
+            {deployment.duration}
+          </Typography>
+        </Box>
+      ),
+    },
+    {
+      id: 'environment',
+      header: 'Environnement',
+      width: 100,
+      renderCell: deployment => (
+        <Tag color={deployment.promoted ? 'action' : 'default'} size="sm">
+          {deployment.environment === 'production' ? 'Production' : 'Preview'}
+        </Tag>
+      ),
+    },
+    {
+      id: 'commit',
+      header: 'Commit',
+      width: 110,
+      renderCell: deployment => (
+        <Box display="flex" flexDirection="row" gap={'1V'} style={{ alignItems: 'center' }}>
+          <LucideIcon name="GitCommitHorizontal" size="sm" />
+          <Typography style={{ ...text['Corps de texte'].SM.Regular, fontFamily: 'monospace' }}>
+            {deployment.commit}
+          </Typography>
+        </Box>
+      ),
+    },
+    {
+      id: 'source',
+      header: 'Source',
+      width: 353,
+      renderCell: deployment => (
+        <Box display="flex" flexDirection="row" gap={'1V'} style={{ alignItems: 'center', minWidth: 0 }}>
+          <LucideIcon name="GitBranch" size="sm" />
+          <Typography
+            style={{
+              ...text['Corps de texte'].SM.Regular,
+              whiteSpace: 'nowrap',
+              overflow: 'hidden',
+              textOverflow: 'ellipsis',
+            }}
+          >
+            {deployment.source}
+          </Typography>
+        </Box>
+      ),
+    },
+    {
+      id: 'date',
+      header: 'Date',
+      width: 70,
+      renderCell: deployment => <DeploymentDateCell deployment={deployment} />,
+    },
+    {
+      id: 'author',
+      header: '',
+      width: 56,
+      renderCell: deployment => <Avatar size="sm" fallbackText={deployment.author} />,
+    },
+    {
+      id: 'actions',
+      header: '',
+      width: 40,
+      align: 'end',
+      renderCell: () => <DeploymentActionsCell />,
+    },
+  ];
+
+  return (
+    <Box display="flex" flexDirection="column" gap={'3V'}>
+      <Typography style={{ fontSize: 20, fontWeight: 700 }}>Deployments</Typography>
+
+      <DataTable
+        size="md"
+        data={deployments}
+        columns={deploymentColumns}
+        keyExtractor={deployment => deployment.id}
+        hideHeader
+      />
+
+      <Box display="flex" flexDirection="column" gap="1W">
+        <Box>
+          <Button title="Charger plus" variant="secondary" size="md" fullWidth />
+        </Box>
+        <Box display="flex" flexDirection="row" style={{ alignItems: 'center', justifyContent: 'space-between' }}>
+          <Typography style={{ ...text['Corps de texte'].XS.Regular, color: color.light.text['mention-grey'] }}>
+            La rétention des déploiements est activée — certains seront supprimés après un délai.
+          </Typography>
+          <Button title="Voir les supprimés" variant="secondary" size="sm" />
+        </Box>
+      </Box>
+    </Box>
   );
 };
 

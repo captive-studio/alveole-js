@@ -13,6 +13,12 @@ const headerSelectionCellStyleBySize = {
   lg: 'headerSelectionCellLg',
 } as const;
 
+const headerRowStyleBySize = {
+  sm: 'headerRowSm',
+  md: 'headerRowMd',
+  lg: 'headerRowLg',
+} as const;
+
 export type DataTableProps<Row> = {
   columns: DataTableColumn<Row>[];
   data: Row[];
@@ -100,7 +106,7 @@ export const DataTable = <Row,>(props: DataTableProps<Row>) => {
     <Box tag="data-table" style={styles.table}>
       <ScrollView horizontal showsHorizontalScrollIndicator contentContainerStyle={styles.scrollContent as object}>
         {!hideHeader && (
-          <Box tag="data-table-header-row" style={styles.headerRow}>
+          <Box tag="data-table-header-row" style={[styles.headerRow, styles[headerRowStyleBySize[size]]]}>
             {selectable && (
               <Box
                 tag="data-table-header-selection-cell"
@@ -140,6 +146,7 @@ export const DataTable = <Row,>(props: DataTableProps<Row>) => {
               selectable={selectable}
               selected={selectedKeys.includes(rowKey)}
               size={size}
+              noBorderBottom={!footer && index === data.length - 1}
               onSelectedChange={checked => toggleRow(rowKey, checked)}
               onPress={onRowPress ? () => onRowPress(row, index) : undefined}
             />

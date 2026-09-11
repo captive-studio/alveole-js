@@ -24,6 +24,15 @@ export const useStyles = makeStyles(({ color, text, radius, spacing }) => ({
     borderBottomWidth: 1,
     borderBottomColor: color.light.border['default-grey'],
   },
+  headerRowSm: {
+    minHeight: 28,
+  },
+  headerRowMd: {
+    minHeight: 32,
+  },
+  headerRowLg: {
+    minHeight: 36,
+  },
   headerCell: {
     display: 'flex',
     flexDirection: 'row',
@@ -33,20 +42,14 @@ export const useStyles = makeStyles(({ color, text, radius, spacing }) => ({
   headerCellSm: {
     paddingLeft: spacing('1W'),
     paddingRight: spacing('1W'),
-    paddingTop: spacing('1V'),
-    paddingBottom: spacing('1V'),
   },
   headerCellMd: {
     paddingLeft: spacing('2W'),
     paddingRight: spacing('2W'),
-    paddingTop: spacing('1,5V'),
-    paddingBottom: spacing('1,5V'),
   },
   headerCellLg: {
     paddingLeft: spacing('3W'),
     paddingRight: spacing('3W'),
-    paddingTop: spacing('1W'),
-    paddingBottom: spacing('1W'),
   },
   headerLabel: {
     ...text['Corps de texte'].XS.SemiBold,
@@ -84,6 +87,15 @@ export const useStyles = makeStyles(({ color, text, radius, spacing }) => ({
     borderBottomWidth: 1,
     borderBottomColor: color.light.border['default-grey'],
   },
+  rowSm: {
+    minHeight: 28,
+  },
+  rowMd: {
+    minHeight: 44,
+  },
+  rowLg: {
+    minHeight: 52,
+  },
   rowHoverable: {
     cursor: 'pointer',
   },
@@ -102,20 +114,14 @@ export const useStyles = makeStyles(({ color, text, radius, spacing }) => ({
   cellSm: {
     paddingLeft: spacing('1W'),
     paddingRight: spacing('1W'),
-    paddingTop: spacing('1V'),
-    paddingBottom: spacing('1V'),
   },
   cellMd: {
     paddingLeft: spacing('2W'),
     paddingRight: spacing('2W'),
-    paddingTop: spacing('3V'),
-    paddingBottom: spacing('3V'),
   },
   cellLg: {
     paddingLeft: spacing('3W'),
     paddingRight: spacing('3W'),
-    paddingTop: spacing('2W'),
-    paddingBottom: spacing('2W'),
   },
   cellAlignEnd: {
     justifyContent: 'flex-end',
