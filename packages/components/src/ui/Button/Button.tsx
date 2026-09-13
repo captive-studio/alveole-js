@@ -52,6 +52,7 @@ export const Button = React.forwardRef<View, ButtonProps>(function Button(props,
   const styles = useStyles();
 
   const isIconOnly = !title;
+  const isInactive = !!disabled || !!isLoading;
 
   const containerSize = isIconOnly
     ? size === 'sm'
@@ -258,6 +259,7 @@ export const Button = React.forwardRef<View, ButtonProps>(function Button(props,
       accessibilityRole="button"
       {...(type === 'submit' ? { 'aria-selected': true } : {})}
       {...buttonProps}
+      accessibilityState={{ disabled: isInactive }}
       style={(state: CustomPressableState) => getPressableStyle(state)}
     >
       {(state: CustomPressableState) => (

@@ -57,6 +57,7 @@ jest.mock('@alveole/theme', () => {
     radius: key => RadiusList[key],
     shadows: () => ({}),
     spacing: key => Spacings[key],
+    spacingValue: key => Spacings[key],
     text,
     variant: 'desktop',
   };
