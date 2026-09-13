@@ -144,7 +144,11 @@ const config = {
     // Les cycles d'imports cassent silencieusement le runtime (modules partiellement
     // initialisés, `undefined` au lieu d'un composant) et ne se voient ni au typecheck ni
     // au build. La règle verrouille le travail de décyclage déjà fait.
-    'import/no-cycle': ['error', { maxDepth: 6, ignoreExternal: true }],
+    // disableScc: le graphe de composantes fortement connexes fait tomber la règle en
+    // TypeError quand un chemin n'est pas résolvable (no-cycle.js lit `scc[myPath]` sans
+    // vérifier le null retourné par scc.js), et coûte ici deux fois plus cher qu'il ne
+    // rapporte. Sans lui la détection est identique, mesurée sur un cycle réintroduit.
+    'import/no-cycle': ['error', { maxDepth: 6, ignoreExternal: true, disableScc: true }],
     'no-unused-vars': 'off',
     '@typescript-eslint/no-unused-vars': [
       'error',
