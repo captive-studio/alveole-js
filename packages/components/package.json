@@ -33,7 +33,7 @@
   },
   "devDependencies": {
     "@alveole/eslint-config": "file:../eslint-config",
-    "@lucide/lab": "0.3.0",
+    "@lucide/lab": "0.6.0",
     "@react-native-community/datetimepicker": "9.1.0",
     "@react-native-picker/picker": "2.11.4",
     "@react-native/jest-preset": "0.86.3",
