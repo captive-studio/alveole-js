@@ -32,6 +32,64 @@ export type ButtonProps = Omit<PressableProps, 'children' | 'style'> & {
   isLoading?: boolean;
 };
 
+type Styles = ReturnType<typeof useStyles>;
+type StyleKey = keyof Styles;
+type EtatVisuel = { repos: StyleKey; desactive: StyleKey; actif: StyleKey };
+
+/** Styles porteurs d'une couleur, seuls utilisables pour teinter une icone. */
+type StyleCouleurKey = { [K in StyleKey]: Styles[K] extends { color: string } ? K : never }[StyleKey];
+type EtatCouleur = { repos: StyleCouleurKey; desactive: StyleCouleurKey; actif: StyleCouleurKey };
+
+/** Styles porteurs d'une bordure. Seuls `secondary` et `danger` en ont une. */
+type StyleBordureKey = { [K in StyleKey]: Styles[K] extends { borderColor: string } ? K : never }[StyleKey];
+type EtatBordure = { repos: StyleBordureKey; desactive: StyleBordureKey; actif: StyleBordureKey };
+
+/** `link` n'a pas de style desactive propre et emprunte celui de `tertiary`. */
+const CONTENEUR_PAR_VARIANT: Record<ButtonProps['variant'], EtatVisuel> = {
+  primary: { repos: 'primaryContainer', desactive: 'primaryContainerDisabled', actif: 'primaryContainerPressed' },
+  secondary: {
+    repos: 'secondaryContainer',
+    desactive: 'secondaryContainerDisabled',
+    actif: 'secondaryContainerPressed',
+  },
+  tertiary: { repos: 'tertiaryContainer', desactive: 'tertiaryContainerDisabled', actif: 'tertiaryContainerPressed' },
+  danger: { repos: 'dangerContainer', desactive: 'dangerContainerDisabled', actif: 'dangerContainerPressed' },
+  link: { repos: 'linkContainer', desactive: 'tertiaryContainerDisabled', actif: 'linkContainerPressed' },
+};
+
+const BORDURE_PAR_VARIANT: Partial<Record<ButtonProps['variant'], EtatBordure>> = {
+  secondary: {
+    repos: 'secondaryContainer',
+    desactive: 'secondaryContainerDisabled',
+    actif: 'secondaryContainerHover',
+  },
+  danger: { repos: 'dangerContainer', desactive: 'dangerContainerDisabled', actif: 'dangerContainerHover' },
+};
+
+const SURVOL_PAR_VARIANT: Record<ButtonProps['variant'], StyleKey> = {
+  primary: 'primaryContainerHover',
+  secondary: 'secondaryContainerHover',
+  tertiary: 'tertiaryContainerHover',
+  danger: 'dangerContainerHover',
+  link: 'linkContainerHover',
+};
+
+const TEXTE_PAR_VARIANT: Record<ButtonProps['variant'], EtatVisuel> = {
+  primary: { repos: 'primaryTitle', desactive: 'primaryTitleDisabled', actif: 'primaryTitleHover' },
+  secondary: { repos: 'secondaryTitle', desactive: 'secondaryTitleDisabled', actif: 'secondaryTitleHover' },
+  tertiary: { repos: 'tertiaryTitle', desactive: 'tertiaryTitleDisabled', actif: 'tertiaryTitleHover' },
+  danger: { repos: 'dangerTitle', desactive: 'dangerTitleDisabled', actif: 'dangerTitleHover' },
+  link: { repos: 'linkTitle', desactive: 'tertiaryTitleDisabled', actif: 'linkTitleHover' },
+};
+
+const ICONE_PAR_VARIANT: Record<ButtonProps['variant'], EtatCouleur> = {
+  primary: { repos: 'primaryIcon', desactive: 'primaryIconDisabled', actif: 'primaryIconHover' },
+  secondary: { repos: 'secondaryIcon', desactive: 'secondaryIconDisabled', actif: 'secondaryIconHover' },
+  tertiary: { repos: 'tertiaryIcon', desactive: 'tertiaryIconDisabled', actif: 'tertiaryIconHover' },
+  danger: { repos: 'dangerIcon', desactive: 'dangerIconDisabled', actif: 'dangerIconHover' },
+  link: { repos: 'linkIcon', desactive: 'linkIconDisabled', actif: 'linkTitleHover' },
+};
+
 export const Button = React.forwardRef<View, ButtonProps>(function Button(props, ref) {
   const {
     title,
@@ -101,26 +159,10 @@ export const Button = React.forwardRef<View, ButtonProps>(function Button(props,
     };
     if (selected) {
       applicableStyles = { ...applicableStyles, ...styles.selectedContainer };
-    } else if (variant === 'primary') {
-      applicableStyles = { ...applicableStyles, ...styles.primaryContainer };
-      if (disabled) applicableStyles = { ...applicableStyles, ...styles.primaryContainerDisabled };
-      else if (isActivated) applicableStyles = { ...applicableStyles, ...styles.primaryContainerPressed };
-    } else if (variant === 'secondary') {
-      applicableStyles = { ...applicableStyles, ...styles.secondaryContainer };
-      if (disabled) applicableStyles = { ...applicableStyles, ...styles.secondaryContainerDisabled };
-      else if (isActivated) applicableStyles = { ...applicableStyles, ...styles.secondaryContainerPressed };
-    } else if (variant === 'tertiary') {
-      applicableStyles = { ...applicableStyles, ...styles.tertiaryContainer };
-      if (disabled) applicableStyles = { ...applicableStyles, ...styles.tertiaryContainerDisabled };
-      else if (isActivated) applicableStyles = { ...applicableStyles, ...styles.tertiaryContainerPressed };
-    } else if (variant === 'danger') {
-      applicableStyles = { ...applicableStyles, ...styles.dangerContainer };
-      if (disabled) applicableStyles = { ...applicableStyles, ...styles.dangerContainerDisabled };
-      else if (isActivated) applicableStyles = { ...applicableStyles, ...styles.dangerContainerPressed };
-    } else if (variant === 'link') {
-      applicableStyles = { ...applicableStyles, ...styles.linkContainer };
-      if (disabled) applicableStyles = { ...applicableStyles, ...styles.tertiaryContainerDisabled };
-      else if (isActivated) applicableStyles = { ...applicableStyles, ...styles.linkContainerPressed };
+    } else {
+      const etats = CONTENEUR_PAR_VARIANT[variant];
+      const etat = disabled ? etats.desactive : isActivated ? etats.actif : undefined;
+      applicableStyles = { ...applicableStyles, ...styles[etats.repos], ...(etat ? styles[etat] : {}) };
     }
     return {
       ...applicableStyles,
@@ -144,11 +186,7 @@ export const Button = React.forwardRef<View, ButtonProps>(function Button(props,
   const buttonContainerHoverStyle = () => {
     if (disabled) return {};
     if (selected) return styles.selectedContainerHover;
-    else if (variant === 'primary') return styles.primaryContainerHover;
-    else if (variant === 'secondary') return styles.secondaryContainerHover;
-    else if (variant === 'tertiary') return styles.tertiaryContainerHover;
-    else if (variant === 'danger') return styles.dangerContainerHover;
-    else if (variant === 'link') return styles.linkContainerHover;
+    return styles[SURVOL_PAR_VARIANT[variant]];
   };
 
   const textStyle = (state: { hovered: boolean; pressed: boolean }) => {
@@ -156,27 +194,14 @@ export const Button = React.forwardRef<View, ButtonProps>(function Button(props,
 
     if (selected) {
       applicableStyles = { ...applicableStyles, ...styles.selectedTitle };
-    } else if (variant === 'primary') {
-      applicableStyles = { ...applicableStyles, ...styles.primaryTitle };
-      if (disabled) applicableStyles = { ...applicableStyles, ...styles.primaryTitleDisabled };
-      else if (state.hovered) applicableStyles = { ...applicableStyles, ...styles.primaryTitleHover };
-    } else if (variant === 'secondary') {
-      applicableStyles = { ...applicableStyles, ...styles.secondaryTitle };
-      if (disabled) applicableStyles = { ...applicableStyles, ...styles.secondaryTitleDisabled };
-      else if (state.hovered) applicableStyles = { ...applicableStyles, ...styles.secondaryTitleHover };
-    } else if (variant === 'tertiary') {
-      applicableStyles = { ...applicableStyles, ...styles.tertiaryTitle };
-      if (disabled) applicableStyles = { ...applicableStyles, ...styles.tertiaryTitleDisabled };
-      else if (state.hovered) applicableStyles = { ...applicableStyles, ...styles.tertiaryTitleHover };
-    } else if (variant === 'danger') {
-      applicableStyles = { ...applicableStyles, ...styles.dangerTitle };
-      if (disabled) applicableStyles = { ...applicableStyles, ...styles.dangerTitleDisabled };
-      else if (state.hovered) applicableStyles = { ...applicableStyles, ...styles.dangerTitleHover };
-      else if (state.pressed) applicableStyles = { ...applicableStyles, ...styles.dangerTitlePressed };
-    } else if (variant === 'link') {
-      applicableStyles = { ...applicableStyles, ...styles.linkTitle };
-      if (disabled) applicableStyles = { ...applicableStyles, ...styles.tertiaryTitleDisabled };
-      else if (state.hovered) applicableStyles = { ...applicableStyles, ...styles.linkTitleHover };
+    } else {
+      const etats = TEXTE_PAR_VARIANT[variant];
+      const etat = disabled ? etats.desactive : state.hovered ? etats.actif : undefined;
+      applicableStyles = { ...applicableStyles, ...styles[etats.repos], ...(etat ? styles[etat] : {}) };
+      // Seul `danger` distingue l'appui du survol sur son libelle.
+      if (variant === 'danger' && !disabled && !state.hovered && state.pressed) {
+        applicableStyles = { ...applicableStyles, ...styles.dangerTitlePressed };
+      }
     }
 
     return { ...applicableStyles, ...titleSize };
@@ -185,30 +210,11 @@ export const Button = React.forwardRef<View, ButtonProps>(function Button(props,
   const iconStyle = (state: { hovered: boolean }): Omit<IconProps, 'name'> => {
     const iconSize = size === 'lg' ? 'md' : 'sm';
 
-    if (selected) {
-      return { size: iconSize, color: styles.selectedIcon.color };
-    } else if (variant === 'primary') {
-      if (disabled) return { size: iconSize, color: styles.primaryIconDisabled.color };
-      else if (state.hovered) return { size: iconSize, color: styles.primaryIconHover.color };
-      return { size: iconSize, color: styles.primaryIcon.color };
-    } else if (variant === 'secondary') {
-      if (disabled) return { size: iconSize, color: styles.secondaryIconDisabled.color };
-      else if (state.hovered) return { size: iconSize, color: styles.secondaryIconHover.color };
-      return { size: iconSize, color: styles.secondaryIcon.color };
-    } else if (variant === 'tertiary') {
-      if (disabled) return { size: iconSize, color: styles.tertiaryIconDisabled.color };
-      else if (state.hovered) return { size: iconSize, color: styles.tertiaryIconHover.color };
-      return { size: iconSize, color: styles.tertiaryIcon.color };
-    } else if (variant === 'danger') {
-      if (disabled) return { size: iconSize, color: styles.dangerIconDisabled.color };
-      else if (state.hovered) return { size: iconSize, color: styles.dangerIconHover.color };
-      return { size: iconSize, color: styles.dangerIcon.color };
-    } else if (variant === 'link') {
-      if (disabled) return { size: iconSize, color: styles.linkIconDisabled.color };
-      else if (state.hovered) return { size: iconSize, color: styles.linkTitleHover.color };
-      return { size: iconSize, color: styles.linkIcon.color };
-    }
-    return { size: iconSize };
+    if (selected) return { size: iconSize, color: styles.selectedIcon.color };
+
+    const etats = ICONE_PAR_VARIANT[variant];
+    const etat = disabled ? etats.desactive : state.hovered ? etats.actif : etats.repos;
+    return { size: iconSize, color: styles[etat].color };
   };
 
   const getPressableStyle = (state: CustomPressableState) => {
@@ -231,30 +237,20 @@ export const Button = React.forwardRef<View, ButtonProps>(function Button(props,
       ? { borderTopLeftRadius: 0, borderBottomLeftRadius: 0, borderTopRightRadius: 0, borderBottomRightRadius: 0 }
       : sizeRadii;
 
-    let borderProps: any = {};
-    if (selected) {
-      borderProps = { borderWidth: 1, borderStyle: 'solid', borderColor: styles.selectedContainer.borderColor };
-    } else if (variant === 'secondary') {
-      const borderColor = disabled
-        ? styles.secondaryContainerDisabled.borderColor
-        : state.hovered
-          ? styles.secondaryContainerHover.borderColor
-          : styles.secondaryContainer.borderColor;
-      borderProps = { borderWidth: 1, borderStyle: 'solid', borderColor };
-    } else if (variant === 'danger') {
-      const borderColor = disabled
-        ? styles.dangerContainerDisabled.borderColor
-        : state.hovered
-          ? styles.dangerContainerHover.borderColor
-          : styles.dangerContainer.borderColor;
-      borderProps = { borderWidth: 1, borderStyle: 'solid', borderColor };
-    }
+    const bordure = (borderColor: string) => ({ borderWidth: 1, borderStyle: 'solid' as const, borderColor });
+
+    const etats = BORDURE_PAR_VARIANT[variant];
+    const borderProps = selected
+      ? bordure(styles.selectedContainer.borderColor)
+      : etats
+        ? bordure(styles[disabled ? etats.desactive : state.hovered ? etats.actif : etats.repos].borderColor)
+        : {};
 
     return {
       ...radiusStyle,
       ...borderProps,
-      overflow: 'hidden',
-      ...(fullWidth ? { width: '100%' } : {}),
+      overflow: 'hidden' as const,
+      ...(fullWidth ? { width: '100%' as const } : {}),
       ...(isFocused ? focusRing('default') : {}),
     };
   };
