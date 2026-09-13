@@ -1,6 +1,6 @@
 import { Picker, PickerProps } from '@react-native-picker/picker';
 import React from 'react';
-import { SelectOption } from './Select';
+import { SelectOption } from './Select.types';
 
 export type NativePickerProps = Omit<PickerProps, 'value' | 'onValueChange' | 'enabled'> & {
   value: string | null;

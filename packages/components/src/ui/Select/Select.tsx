@@ -14,9 +14,8 @@ import {
 import { InputHeading } from '../InputHeading';
 import { LucideIcon } from '../LucideIcon';
 import { useStyles } from './Select.styles';
+import type { SelectOption } from './Select.types';
 import { SelectInput } from './SelectInput';
-
-export type SelectOption = { label: string; value: string };
 
 export type SelectProps = Partial<Pick<PickerProps, 'onBlur' | 'onFocus'>> &
   FormControlLabelProps &
