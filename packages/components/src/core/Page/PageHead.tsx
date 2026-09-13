@@ -1,4 +1,4 @@
-import type { PageProps } from './Page';
+import type { PageProps } from './Page.types';
 export type PageHeadProps = PageProps;
 /**
  * Pas de  `<head>` en mobile
