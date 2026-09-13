@@ -10,6 +10,8 @@ export type FocusRingKind = 'default' | 'emphasis';
 export type FocusRingStyle = {
   outlineWidth?: number;
   outlineColor?: string;
+  outlineStyle?: 'solid';
+  outlineOffset?: number;
 };
 
 const OUTLINE_COLORS: Record<FocusRingKind, string> = {
@@ -22,4 +24,6 @@ const OUTLINE_COLORS: Record<FocusRingKind, string> = {
  * (cf. UnsupportedCSSProperties). Un anneau natif demanderait une vue dessinee en absolu.
  */
 export const focusRing = (kind: FocusRingKind): FocusRingStyle =>
-  Platform.OS === 'web' ? { outlineWidth: 2, outlineColor: OUTLINE_COLORS[kind] } : {};
+  Platform.OS === 'web'
+    ? { outlineWidth: 2, outlineStyle: 'solid', outlineColor: OUTLINE_COLORS[kind], outlineOffset: 2 }
+    : {};
