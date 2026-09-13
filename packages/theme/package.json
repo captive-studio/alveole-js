@@ -12,6 +12,7 @@
   "scripts": {
     "build": "tsc -p tsconfig.build.json && node scripts/build-css.mjs",
     "lint": "eslint .",
+    "test:unit": "jest",
     "typecheck": "tsc -p tsconfig.build.json --noEmit"
   },
   "devDependencies": {
