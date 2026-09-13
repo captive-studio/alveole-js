@@ -2,7 +2,7 @@ import { useTheme } from '@alveole/theme';
 import React from 'react';
 import { Platform } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
-import { Box } from '../../core';
+import { Box } from '../../core/Box';
 import { ButtonIcon } from '../Button';
 import { Divider } from '../Divider';
 import { useStyles } from './Sidebar.styles';

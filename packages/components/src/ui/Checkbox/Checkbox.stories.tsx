@@ -1,4 +1,4 @@
-import { Box } from '../../core';
+import { Box } from '../../core/Box';
 import { Story } from '../../type';
 import { Checkbox } from './Checkbox';
 import { useStyles } from './Checkbox.styles';

@@ -1,5 +1,6 @@
 import { makeStyles } from '@alveole/theme';
-import { Box, Typography } from '../../core';
+import { Box } from '../../core/Box';
+import { Typography } from '../../core/Typography';
 import { LucideIcon } from '../LucideIcon';
 
 const useStyles = makeStyles(({ color, text, radius, spacing }) => ({

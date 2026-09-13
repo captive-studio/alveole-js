@@ -1,6 +1,7 @@
 import { useTheme } from '@alveole/theme';
 import React from 'react';
-import { Box, Typography } from '../../core';
+import { Box } from '../../core/Box';
+import { Typography } from '../../core/Typography';
 import { useStyles } from './Sidebar.styles';
 
 export type SidebarGroupProps = React.PropsWithChildren & {

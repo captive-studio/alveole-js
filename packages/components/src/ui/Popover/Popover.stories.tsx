@@ -1,5 +1,7 @@
-import { Box, Button, Typography } from '@alveole/components';
+import { Box } from '../../core/Box';
+import { Typography } from '../../core/Typography';
 import type { Story } from '../../type';
+import { Button } from '../Button';
 import { Popover } from './Popover';
 import { useStyles } from './Popover.styles';
 

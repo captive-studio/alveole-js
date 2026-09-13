@@ -1,7 +1,7 @@
 import React from 'react';
 import { KeyboardAvoidingView, Modal, Platform, Pressable, StyleProp, ViewStyle } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
-import { Box } from '../../core';
+import { Box } from '../../core/Box';
 import { Button, ButtonIcon } from '../Button';
 import { useStyles } from './FormControl.styles';
 

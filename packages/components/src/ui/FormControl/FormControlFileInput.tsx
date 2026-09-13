@@ -1,7 +1,8 @@
 import * as DocumentPicker from 'expo-document-picker';
 import React from 'react';
 import { Pressable } from 'react-native';
-import { Box, Typography } from '../../core';
+import { Box } from '../../core/Box';
+import { Typography } from '../../core/Typography';
 import { useStyles } from './FormControlFileInput.styles';
 
 export type FormControlFileInputValue =

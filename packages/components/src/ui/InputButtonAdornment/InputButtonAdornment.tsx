@@ -1,4 +1,6 @@
-import { Box, ButtonIcon, IconProps } from '@alveole/components';
+import { Box } from '../../core/Box';
+import { ButtonIcon } from '../Button';
+import { IconProps } from '../LucideIcon';
 import { useStyles } from './InputButtonAdornment.styles';
 
 export type InputButtonAdornmentProps = {

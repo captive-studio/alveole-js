@@ -1,6 +1,7 @@
 import { makeStyles } from '@alveole/theme';
 import React from 'react';
-import { Box, Typography } from '../../core';
+import { Box } from '../../core/Box';
+import { Typography } from '../../core/Typography';
 
 const useFooterStyles = makeStyles(({ color, text, spacing }) => ({
   footer: {

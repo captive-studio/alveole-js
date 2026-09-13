@@ -1,7 +1,7 @@
 import { useTheme } from '@alveole/theme';
 import React from 'react';
 import { Platform, Pressable, ScrollView } from 'react-native';
-import { Box } from '../../core';
+import { Box } from '../../core/Box';
 import type { Story } from '../../type/Story';
 import { Avatar } from '../Avatar';
 import { Button } from '../Button';

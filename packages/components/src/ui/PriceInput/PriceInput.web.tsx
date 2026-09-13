@@ -1,5 +1,7 @@
-import { Box, FormControl, FormControlNumberInputElement, Typography } from '@alveole/components';
 import React from 'react';
+import { Box } from '../../core/Box';
+import { Typography } from '../../core/Typography';
+import { FormControl, FormControlNumberInputElement } from '../FormControl';
 import type { PriceInputProps } from './PriceInput';
 import './PriceInput.css';
 import { useStyles } from './PriceInput.styles';

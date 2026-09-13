@@ -1,6 +1,8 @@
-import { Box, FormControl, FormControlNumberInputProps, TextInputElement, Typography } from '@alveole/components';
 import React from 'react';
 import { TextInput as ReactNativeTextInput } from 'react-native';
+import { Box } from '../../core/Box';
+import { Typography } from '../../core/Typography';
+import { FormControl, FormControlNumberInputProps, TextInputElement } from '../FormControl';
 import { useStyles } from './PriceInput.styles';
 
 export type PriceInputProps = FormControlNumberInputProps & {

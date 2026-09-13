@@ -1,4 +1,4 @@
-import { Box } from '../../core';
+import { Box } from '../../core/Box';
 import { Story } from '../../type';
 import { Tag } from './Tag';
 import { useStyles } from './Tag.styles';

@@ -1,5 +1,9 @@
+import DateTimePicker from '@react-native-community/datetimepicker';
+import { getHours, getMinutes, setHours, setMinutes } from 'date-fns';
+import React, { useCallback, useMemo, useState } from 'react';
+import { Keyboard } from 'react-native';
+import { Box } from '../../core/Box';
 import {
-  Box,
   FormControl,
   FormControlCaption,
   FormControlCaptionProps,
@@ -7,14 +11,10 @@ import {
   FormControlHintProps,
   FormControlLabel,
   FormControlLabelProps,
-  InputHeading,
   TextInput,
   TextInputProps,
-} from '@alveole/components';
-import DateTimePicker from '@react-native-community/datetimepicker';
-import { getHours, getMinutes, setHours, setMinutes } from 'date-fns';
-import React, { useCallback, useMemo, useState } from 'react';
-import { Keyboard } from 'react-native';
+} from '../FormControl';
+import { InputHeading } from '../InputHeading';
 import { DateFormats, displayDate, isValidDate } from './dateUtils';
 
 type MinuteInterval = 1 | 2 | 3 | 4 | 5 | 6 | 10 | 12 | 15 | 20 | 30;

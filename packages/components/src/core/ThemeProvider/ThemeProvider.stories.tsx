@@ -1,6 +1,8 @@
-import { Box, Highlight, Typography } from '@alveole/components';
 import { useTheme } from '@alveole/theme';
 import { Story } from '../../type';
+import { Box } from '../Box';
+import { Highlight } from '../Highlight';
+import { Typography } from '../Typography';
 
 export default {
   title: 'ThemeProvider',

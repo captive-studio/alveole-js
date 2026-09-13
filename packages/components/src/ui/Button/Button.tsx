@@ -1,6 +1,7 @@
 import React, { CSSProperties } from 'react';
 import { Pressable, PressableProps, PressableStateCallbackType, View } from 'react-native';
-import { Box, BoxProps, Typography } from '../../core';
+import { Box, BoxProps } from '../../core/Box';
+import { Typography } from '../../core/Typography';
 import { IconProps, LucideIcon } from '../LucideIcon';
 import { Spinner } from '../Spinner';
 import { useStyles } from './Button.styles';

@@ -1,3 +1,5 @@
+import React from 'react';
+import { EmailInput } from '../EmailInput';
 import {
   FormControl,
   FormControlCaption,
@@ -6,12 +8,10 @@ import {
   FormControlHintProps,
   FormControlLabel,
   FormControlLabelProps,
-  InputHeading,
   TextInputElement,
   TextInputProps,
-} from '@alveole/components';
-import React from 'react';
-import { EmailInput } from '../EmailInput';
+} from '../FormControl';
+import { InputHeading } from '../InputHeading';
 
 export type EmailFieldProps = TextInputProps &
   FormControlLabelProps &

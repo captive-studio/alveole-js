@@ -1,5 +1,5 @@
-import { TextInput, TextInputElement, TextInputProps } from '@alveole/components';
 import React from 'react';
+import { TextInput, TextInputElement, TextInputProps } from '../FormControl';
 
 export type PhoneInputProps = TextInputProps & {
   onChange?: TextInputProps['onChangeText'];

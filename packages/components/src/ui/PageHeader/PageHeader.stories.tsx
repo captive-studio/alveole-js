@@ -1,4 +1,4 @@
-import { Box } from '../../core';
+import { Box } from '../../core/Box';
 import { Story } from '../../type/Story';
 import { Button } from '../Button';
 import { PageHeader } from './PageHeader';

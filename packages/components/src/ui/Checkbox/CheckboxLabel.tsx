@@ -1,5 +1,5 @@
-import { Typography } from '@alveole/components';
 import { Label, LabelProps } from 'tamagui';
+import { Typography } from '../../core/Typography';
 import { useStyles } from './Checkbox.styles';
 import { CheckboxSize, CheckboxVariant, resolveCheckboxSize } from './Checkbox.utils';
 

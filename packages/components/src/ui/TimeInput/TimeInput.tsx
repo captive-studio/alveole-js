@@ -1,3 +1,4 @@
+import React from 'react';
 import {
   FormControl,
   FormControlCaption,
@@ -6,10 +7,9 @@ import {
   FormControlHintProps,
   FormControlLabel,
   FormControlLabelProps,
-  InputHeading,
   TextInput,
-} from '@alveole/components';
-import React from 'react';
+} from '../FormControl';
+import { InputHeading } from '../InputHeading';
 
 export type TimeInputProps = FormControlLabelProps &
   FormControlHintProps &

@@ -1,4 +1,4 @@
-import { Typography } from '../../core';
+import { Typography } from '../../core/Typography';
 import { Story } from '../../type';
 import { useStyles } from './Accordion.styles';
 import { Accordion } from './index';

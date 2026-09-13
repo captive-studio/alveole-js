@@ -1,17 +1,17 @@
-import {
-  Box,
-  FormControl,
-  FormControlCaption,
-  FormControlHint,
-  FormControlLabel,
-  InputHeading,
-  TextInput,
-} from '@alveole/components';
 import DateTimePicker from '@react-native-community/datetimepicker';
 import { toDate } from 'date-fns';
 import React, { useCallback } from 'react';
 import { Keyboard, Platform } from 'react-native';
-import { FormControlModal } from '../FormControl';
+import { Box } from '../../core/Box';
+import {
+  FormControl,
+  FormControlCaption,
+  FormControlHint,
+  FormControlLabel,
+  FormControlModal,
+  TextInput,
+} from '../FormControl';
+import { InputHeading } from '../InputHeading';
 import { DateFormats, displayDate, isValidDate } from './dateUtils';
 
 import type { DateInputProps } from './DateInput';

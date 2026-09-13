@@ -1,5 +1,5 @@
 import { ReactNode } from 'react';
-import { Box } from '../../core';
+import { Box } from '../../core/Box';
 import { useStyles } from './InputHeading.styles';
 
 export type InputHeadingProps = {

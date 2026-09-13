@@ -1,8 +1,11 @@
-import { Box, Button, LucideIcon, TextInput } from '@alveole/components';
 import { Picker } from '@react-native-picker/picker';
 import React, { useCallback, useState } from 'react';
 import { Keyboard, Modal, StyleSheet, View } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
+import { Box } from '../../core/Box';
+import { Button } from '../Button';
+import { TextInput } from '../FormControl';
+import { LucideIcon } from '../LucideIcon';
 import { NativePicker } from './NativePicker';
 import type { SelectInputProps } from './SelectInput';
 

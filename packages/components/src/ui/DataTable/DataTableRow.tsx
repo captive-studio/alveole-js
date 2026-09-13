@@ -1,4 +1,4 @@
-import { Box } from '../../core';
+import { Box } from '../../core/Box';
 import { CheckboxContainer, CheckboxIndicator } from '../Checkbox';
 import { useStyles } from './DataTable.styles';
 import { DataTableColumn, DataTableSize } from './DataTable.types';

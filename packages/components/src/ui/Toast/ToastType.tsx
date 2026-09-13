@@ -1,5 +1,5 @@
 import React from 'react';
-import { Box } from '../../core';
+import { Box } from '../../core/Box';
 import { LucideIcon, LucideIconProps } from '../LucideIcon';
 import { useStyles } from './Toast.styles';
 import type { ToastAPIOptions } from './ToastContext';

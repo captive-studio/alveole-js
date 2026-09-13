@@ -1,4 +1,4 @@
-import { Box } from '../../core';
+import { Box } from '../../core/Box';
 import { Story } from '../../type/Story';
 import { Breadcrumbs } from './Breadcrumbs';
 import { useStyles } from './Breadcrumbs.styles';

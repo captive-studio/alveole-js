@@ -1,3 +1,4 @@
+import React from 'react';
 import {
   FormControl,
   FormControlCaption,
@@ -5,9 +6,8 @@ import {
   FormControlDateInputElement,
   FormControlHint,
   FormControlLabel,
-  InputHeading,
-} from '@alveole/components';
-import React from 'react';
+} from '../FormControl';
+import { InputHeading } from '../InputHeading';
 import { DateInputProps } from './DateInput';
 import { useStyles } from './DateInput.styles';
 

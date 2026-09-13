@@ -1,15 +1,15 @@
+import * as DocumentPicker from 'expo-document-picker';
+import React from 'react';
+import { Alert } from '../../core/Alert';
+import { Box } from '../../core/Box';
 import {
-  Box,
   FormControlCaption,
   FormControlFileInput,
   FormControlFileInputValue,
   FormControlHint,
   FormControlLabel,
-  LucideIcon,
-} from '@alveole/components';
-import * as DocumentPicker from 'expo-document-picker';
-import React from 'react';
-import { Alert } from '../../core/Alert';
+} from '../FormControl';
+import { LucideIcon } from '../LucideIcon';
 import { DragAndDropFileProps } from './DragAndDropFile';
 import { useStyles } from './DragAndDropFile.styles';
 

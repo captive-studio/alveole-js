@@ -1,4 +1,4 @@
-import { Typography } from '@alveole/components';
+import { Typography } from '../../core/Typography';
 import { useStyles } from './Counter.styles';
 
 export type CounterProps = {

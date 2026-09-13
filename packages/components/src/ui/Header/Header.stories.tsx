@@ -1,5 +1,6 @@
 import { useTheme } from '@alveole/theme';
-import { Box, Typography } from '../../core';
+import { Box } from '../../core/Box';
+import { Typography } from '../../core/Typography';
 import { Story } from '../../type/Story';
 import { Button } from '../Button';
 import { Header } from './Header';

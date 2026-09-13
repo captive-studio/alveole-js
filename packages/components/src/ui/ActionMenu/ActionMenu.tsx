@@ -1,5 +1,4 @@
-import { BoxProps } from '@alveole/components';
-import { Box } from '../../core';
+import { Box, BoxProps } from '../../core/Box';
 import { Popover, PopoverProps } from '../Popover';
 import { ActionMenuItem } from './ActionMenuItem';
 

@@ -1,6 +1,6 @@
 import React from 'react';
 import { OtpInput, OtpInputProps, OtpInputRef } from 'react-native-otp-entry';
-import { Box } from '../../core';
+import { Box } from '../../core/Box';
 
 export type FormControlOtpInputElement = OtpInputRef;
 export type FormControlOtpInputProps = Omit<OtpInputProps, 'style'> & {

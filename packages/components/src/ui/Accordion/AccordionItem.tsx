@@ -1,6 +1,7 @@
 import React from 'react';
 import { Square, Accordion as TamaguiAccordion } from 'tamagui';
-import { Box, Typography } from '../../core';
+import { Box } from '../../core/Box';
+import { Typography } from '../../core/Typography';
 import { LucideIcon, LucideIconProps } from '../LucideIcon';
 import { useStyles } from './Accordion.styles';
 

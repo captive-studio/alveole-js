@@ -1,4 +1,5 @@
-import { ButtonIcon, LucideIconProps } from '@alveole/components';
+import { ButtonIcon } from '../Button';
+import { LucideIconProps } from '../LucideIcon';
 
 type ToolbarButtonProps = {
   icon: LucideIconProps['name'];

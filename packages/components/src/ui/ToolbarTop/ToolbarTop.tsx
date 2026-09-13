@@ -1,5 +1,6 @@
 import React from 'react';
-import { Box, BoxProps, Typography } from '../../core';
+import { Box, BoxProps } from '../../core/Box';
+import { Typography } from '../../core/Typography';
 import { Avatar, AvatarProps } from '../Avatar';
 import { ButtonIcon } from '../Button';
 import { IconProps } from '../LucideIcon';

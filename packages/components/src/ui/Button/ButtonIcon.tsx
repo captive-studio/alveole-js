@@ -1,6 +1,6 @@
 import { CSSProperties } from 'react';
 import { Pressable, PressableProps, PressableStateCallbackType } from 'react-native';
-import { Typography } from '../../core';
+import { Typography } from '../../core/Typography';
 import { IconProps, LucideIcon } from '../LucideIcon';
 import { useStyles } from './Button.styles';
 

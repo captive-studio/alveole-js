@@ -1,5 +1,5 @@
-import { Box, type BoxProps } from '@alveole/components';
 import React from 'react';
+import { Box, type BoxProps } from '../../core/Box';
 import { useStyles } from './DocumentViewer.styles';
 import { DocumentViewerImage } from './DocumentViewerImage';
 import { DocumentViewerPDF } from './DocumentViewerPDF';

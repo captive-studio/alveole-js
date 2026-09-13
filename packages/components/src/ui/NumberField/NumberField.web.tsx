@@ -1,3 +1,4 @@
+import React from 'react';
 import {
   FormControl,
   FormControlCaption,
@@ -5,9 +6,8 @@ import {
   FormControlLabel,
   FormControlNumberInput,
   FormControlNumberInputElement,
-  InputHeading,
-} from '@alveole/components';
-import React from 'react';
+} from '../FormControl';
+import { InputHeading } from '../InputHeading';
 import { NumberFieldProps } from './NumberField';
 import { useStyles } from './NumberField.styles';
 import { NumberFieldControlButton } from './NumberFieldControlButton';

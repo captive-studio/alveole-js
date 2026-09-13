@@ -1,6 +1,6 @@
 import React from 'react';
-import { Typography } from '../../core';
 import { Box, BoxProps } from '../../core/Box/Box';
+import { Typography } from '../../core/Typography';
 import { isLucideIconName, LucideIcon, LucideIconProps } from '../LucideIcon';
 import { useStyles } from './EmptyState.styles';
 

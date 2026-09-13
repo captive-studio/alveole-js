@@ -1,6 +1,7 @@
 import React from 'react';
 import { ScrollView } from 'react-native';
-import { Box, Typography } from '../../core';
+import { Box } from '../../core/Box';
+import { Typography } from '../../core/Typography';
 import { CheckboxContainer, CheckboxIndicator } from '../Checkbox';
 import { useStyles } from './DataTable.styles';
 import { DataTableColumn, DataTableSize, DataTableSort } from './DataTable.types';

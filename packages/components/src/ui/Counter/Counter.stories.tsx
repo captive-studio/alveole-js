@@ -1,4 +1,4 @@
-import { Box } from '@alveole/components';
+import { Box } from '../../core/Box';
 import type { Story } from '../../type/Story';
 import { Counter } from './Counter';
 import { useStyles } from './Counter.styles';

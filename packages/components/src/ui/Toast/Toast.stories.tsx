@@ -1,6 +1,6 @@
-import { Button } from '@alveole/components';
-import { Box } from '../../core';
+import { Box } from '../../core/Box';
 import { Story } from '../../type';
+import { Button } from '../Button';
 import { Toast, ToastView } from './Toast';
 import { useStyles } from './Toast.styles';
 import { defaultDuration } from './ToastBridge';

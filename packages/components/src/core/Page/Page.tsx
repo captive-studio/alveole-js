@@ -1,7 +1,7 @@
 import React from 'react';
 import type { StatusBarStyle } from 'react-native';
-import { BoxProps } from '../../core';
 import { SidebarController } from '../../ui/Sidebar';
+import { BoxProps } from '../Box';
 import { PageContent } from './PageContent';
 import { PageHead } from './PageHead';
 

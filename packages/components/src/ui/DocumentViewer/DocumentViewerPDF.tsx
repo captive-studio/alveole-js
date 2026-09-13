@@ -1,9 +1,10 @@
-import { Box, BoxProps, Typography } from '@alveole/components';
 import type { PDFDocumentProxy } from 'pdfjs-dist';
 import * as pdfjs from 'pdfjs-dist';
 import 'pdfjs-dist/legacy/build/pdf.worker.min.mjs';
 import React from 'react';
 import { Platform } from 'react-native';
+import { Box, BoxProps } from '../../core/Box';
+import { Typography } from '../../core/Typography';
 import { DocumentViewerRotation } from './DocumentViewer';
 import { useStyles } from './DocumentViewer.styles';
 

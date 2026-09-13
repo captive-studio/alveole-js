@@ -1,4 +1,5 @@
-import { Box, Typography } from '@alveole/components';
+import { Box } from '../../core/Box';
+import { Typography } from '../../core/Typography';
 import { DocumentViewerProps } from './DocumentViewer';
 import { useStyles } from './DocumentViewer.styles';
 import { ToolbarButton } from './DocumentViewerToolbarButton';

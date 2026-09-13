@@ -1,6 +1,8 @@
-import { Box, LucideIcon, LucideIconProps, Typography } from '@alveole/components';
 import React, { CSSProperties, useId } from 'react';
 import { Label, TamaguiElement, RadioGroupItemProps as TamaguiRadioGroupCardProps } from 'tamagui';
+import { Box } from '../../core/Box';
+import { Typography } from '../../core/Typography';
+import { LucideIcon, LucideIconProps } from '../LucideIcon';
 import { useStyles } from './RadioGroup.styles';
 import { useRadioGroup } from './RadioGroupContext';
 import { RadioInput } from './RadioInput';

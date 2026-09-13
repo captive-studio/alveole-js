@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Box } from '../../core';
+import { Box } from '../../core/Box';
 import { Story } from '../../type';
 import { Autocomplete, AutocompleteOption, AutocompleteOptionWithGroup, AutocompleteProps } from './Autocomplete';
 import { useStyles } from './Autocomplete.styles';

@@ -1,5 +1,6 @@
-import { Box, Button } from '@alveole/components';
 import React, { useId } from 'react';
+import { Box } from '../../core/Box';
+import { Button } from '../Button';
 import { InputButtonAdornment } from '../InputButtonAdornment';
 import { TextField } from '../TextField';
 

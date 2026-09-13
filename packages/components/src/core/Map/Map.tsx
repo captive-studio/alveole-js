@@ -1,4 +1,5 @@
-import { Box, Typography } from '../../core';
+import { Box } from '../Box';
+import { Typography } from '../Typography';
 import { MapProps } from './Map.props';
 
 export const Map = (_: MapProps) => {
