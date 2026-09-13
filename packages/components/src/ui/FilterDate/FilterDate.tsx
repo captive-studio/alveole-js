@@ -129,7 +129,7 @@ export const FilterDate = (props: FilterDateProps) => {
         endIcon="ChevronDown"
         size="sm"
         selected={hasValues}
-        active={open}
+        expanded={open}
         onPress={() => setOpen(true)}
       />
 

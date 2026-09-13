@@ -106,7 +106,7 @@ export const Filters = () => {
                 endIcon="ChevronDown"
                 size="sm"
                 selected={hasSelection}
-                active={isOpen}
+                expanded={isOpen}
               />
             )}
           >
