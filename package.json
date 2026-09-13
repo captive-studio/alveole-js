@@ -15,10 +15,12 @@
     "start:ui-kit": "npm run start --workspace=apps/docs -- --clear",
     "doctor": "npm run doctor --workspace=apps/docs",
     "doctor:fix": "npm run doctor:fix --workspace=apps/docs && npm run doctor:fix --workspace=packages/components",
+    "check:packages": "scripts/check-packages",
     "publish:local": "scripts/publish-local",
     "publish:package": "scripts/publish-package"
   },
   "devDependencies": {
+    "@arethetypeswrong/cli": "0.18.5",
     "@swc/core": "1.16.2",
     "@swc/jest": "0.2.39",
     "@types/jest": "29.5.14",
@@ -27,6 +29,7 @@
     "jest": "29.7.0",
     "prettier": "3.9.6",
     "prettier-plugin-organize-imports": "4.3.0",
+    "publint": "0.3.24",
     "react-select": "5.10.2",
     "typescript": "6.0.3"
   }

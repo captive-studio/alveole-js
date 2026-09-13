@@ -1,0 +1,72 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+ROOT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
+cd "$ROOT_DIR"
+
+if [[ -t 1 ]]; then
+  COLOR_RESET=$'\033[0m'
+  COLOR_BOLD=$'\033[1m'
+  COLOR_RED=$'\033[31m'
+  COLOR_GREEN=$'\033[32m'
+  COLOR_CYAN=$'\033[36m'
+else
+  COLOR_RESET=''
+  COLOR_BOLD=''
+  COLOR_RED=''
+  COLOR_GREEN=''
+  COLOR_CYAN=''
+fi
+
+# unexpected-module-syntax : les packages émettent de l'ESM dans des .js sans "type":
+# "module", donc Node les interprète comme du CJS. Les consommateurs passent tous par un
+# bundler (Metro, webpack), pour qui la résolution est correcte. Retirer cette exclusion
+# demande de trancher le format de sortie des builds, ce qui n'est pas fait ici.
+ATTW_IGNORED_RULES='unexpected-module-syntax'
+
+# node10 : résolution antérieure au champ "exports", incompatible avec les sous-chemins
+# exposés par @alveole/components. Aucun consommateur de ce design system n'est concerné.
+ATTW_PROFILE='node16'
+
+# Script de post-installation exposé aux consommateurs, pas une API TypeScript : il n'a
+# pas de déclarations de types et n'a pas vocation à en avoir.
+ATTW_EXCLUDED_ENTRYPOINTS='sync-pdfjs-web-assets'
+
+failures=()
+
+for package_dir in packages/*/; do
+  package_name="$(basename "$package_dir")"
+  package_json="${package_dir}package.json"
+
+  [[ -f "$package_json" ]] || continue
+
+  if node -e "process.exit(require('./${package_json}').private === true ? 0 : 1)"; then
+    continue
+  fi
+
+  printf '%s\n' "${COLOR_BOLD}${COLOR_CYAN}==> ${package_name}${COLOR_RESET}"
+
+  if ! npx --no-install publint "./${package_dir}"; then
+    failures+=("${package_name} (publint)")
+  fi
+
+  # attw vérifie la cohérence entre les déclarations de types et chaque condition de
+  # résolution : sans champ "types", il n'y a rien à vérifier (cas de @alveole/eslint-config).
+  if node -e "const p = require('./${package_json}'); process.exit(p.types ? 0 : 1)"; then
+    if ! (cd "$package_dir" && npx --no-install attw \
+      --pack . \
+      --profile "$ATTW_PROFILE" \
+      --ignore-rules "$ATTW_IGNORED_RULES" \
+      --exclude-entrypoints "$ATTW_EXCLUDED_ENTRYPOINTS"); then
+      failures+=("${package_name} (attw)")
+    fi
+  fi
+done
+
+if [[ ${#failures[@]} -gt 0 ]]; then
+  printf '\n%s\n' "${COLOR_BOLD}${COLOR_RED}Paquets invalides :${COLOR_RESET}"
+  printf '  - %s\n' "${failures[@]}"
+  exit 1
+fi
+
+printf '\n%s\n' "${COLOR_BOLD}${COLOR_GREEN}Tous les paquets sont publiables.${COLOR_RESET}"
