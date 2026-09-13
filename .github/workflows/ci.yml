@@ -280,6 +280,35 @@ jobs:
 
           echo "Bundle web compilé avec succès (HTTP 200)."
 
+  dead-code:
+    name: Detect dead code and dependencies
+    if: github.event_name != 'push' || !startsWith(github.ref, 'refs/tags/')
+    needs: install
+    runs-on: [captive-small]
+    container: node:lts@sha256:6dac556d980b7f0e5498d08f08cee0ca67798b4ad6c23964a9214920e67758d0
+    steps:
+      - name: Checkout
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+
+      - name: Restore node_modules
+        uses: actions/cache@55cc8345863c7cc4c66a329aec7e433d2d1c52a9 # v6.1.0
+        with:
+          path: |
+            node_modules
+            packages/*/node_modules
+            apps/*/node_modules
+          key: npm-deps-${{ runner.os }}-${{ hashFiles('package-lock.json') }}
+
+      # Le cache peut se dire "hit" alors que le téléchargement s'est interrompu en cours de
+      # route (ex: "Premature close" côté runner self-hosted) : on vérifie qu'un binaire
+      # attendu existe réellement avant de faire confiance au cache, sinon on réinstalle.
+      - name: Ensure dependencies (cache fallback)
+        run: test -x node_modules/.bin/knip || npm ci
+
+      # knip part des sources, pas de dist/ : aucun build préalable n'est nécessaire.
+      - name: Run knip
+        run: npm run check:dead-code
+
   packages:
     name: Validate publishable packages
     if: github.event_name != 'push' || !startsWith(github.ref, 'refs/tags/')

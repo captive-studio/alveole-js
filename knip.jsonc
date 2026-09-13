@@ -1,0 +1,77 @@
+{
+  "$schema": "https://unpkg.com/knip@6/schema.json",
+
+  "ignore": [
+    // Généré par `npm run generate:sources`, jamais committé.
+    "**/*.stories.sources.ts",
+    // Artefacts de build : leurs imports ne sont pas des dépendances du source.
+    "**/dist/**",
+    // Déclaration de module ambiante, nécessaire au typecheck et importée par personne.
+    "packages/components/src/globals.ts",
+    // Chargé par packages/components/__tests__/mocks/theme.js via jest.requireActual(),
+    // un require dynamique et inter-paquets que knip ne résout pas.
+    "packages/theme/src/helpers/darkenColor.ts",
+    // Résolu par l'alias `canvas` de apps/docs/metro.config.js, que knip ne suit pas.
+    "apps/docs/shims/canvas.js",
+  ],
+
+  // L'API des paquets publiés est consommée hors de ce dépôt : un export qu'aucun fichier
+  // du monorepo n'utilise n'est pas mort pour autant. On garde les règles dont le faux
+  // négatif coûte cher : dépendance morte livrée aux consommateurs, fichier orphelin,
+  // import jamais déclaré.
+  "rules": {
+    "exports": "off",
+    "types": "off",
+    "nsExports": "off",
+    "nsTypes": "off",
+    "enumMembers": "off",
+    "duplicates": "off",
+  },
+
+  "ignoreDependencies": [
+    // Binaires invoqués depuis scripts/check-packages, un script bash que knip ne parse pas.
+    "publint",
+    "@arethetypeswrong/cli",
+    // Déduit par le plugin Expo à la lecture de apps/docs/app.json, alors que l'app de
+    // documentation ne fait pas d'OTA et qu'aucun fichier ne l'importe.
+    "expo-updates",
+    // Tirés du preset jest-expo que packages/components/jest.config.js étale.
+    "jest-watch-typeahead",
+    "@expo/vector-icons",
+    "babel-jest",
+  ],
+
+  "workspaces": {
+    ".": {
+      "entry": ["scripts/*"],
+      "project": ["scripts/*"],
+    },
+    "packages/components": {
+      // `./stories` est un point d'entrée public du paquet, au même titre que `.`.
+      // Les variantes de plateforme (.web, .native, .ios, .android) sont choisies par le
+      // bundler à la résolution : aucun fichier ne les importe par leur nom complet.
+      "entry": ["src/index.ts", "src/stories/index.ts", "src/**/*.{web,native,ios,android}.{ts,tsx}", "scripts/*.mjs"],
+      "project": ["src/**/*.{ts,tsx}", "scripts/*.mjs"],
+    },
+    "packages/core": {
+      "entry": ["src/index.ts"],
+      "project": ["src/**/*.ts"],
+    },
+    "packages/theme": {
+      "entry": ["src/index.ts", "src/**/*.{web,native,ios,android}.{ts,tsx}", "scripts/*.mjs"],
+      "project": ["src/**/*.{ts,tsx}", "scripts/*.mjs"],
+    },
+    "packages/storybook": {
+      "entry": ["src/index.ts"],
+      "project": ["src/**/*.{ts,tsx}"],
+    },
+    "packages/eslint-config": {
+      "entry": ["index.js"],
+      "project": ["index.js", "rules/*.js"],
+    },
+    "apps/docs": {
+      "entry": ["app/**/*.{ts,tsx}", "scripts/*.mjs", "metro.config.js", "babel.config.js", "tamagui.config.ts"],
+      "project": ["**/*.{ts,tsx,js,mjs}"],
+    },
+  },
+}
