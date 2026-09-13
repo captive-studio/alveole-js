@@ -11,7 +11,7 @@
   "sideEffects": false,
   "scripts": {
     "build": "tsc -p tsconfig.build.json && node scripts/build-css.mjs",
-    "lint": "eslint .",
+    "lint": "eslint . --cache --cache-strategy content",
     "test:unit": "jest",
     "typecheck": "tsc -p tsconfig.build.json --noEmit"
   },

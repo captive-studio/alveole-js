@@ -8,11 +8,20 @@ on:
       - 'v*'
   pull_request:
 
+# Renovate et les push successifs sur une PR empilaient jusqu'à 18 jobs simultanés sur le pool
+# self-hosted : chaque job devenait 3 à 4 fois plus lent par simple contention CPU/IO (un lint
+# mesuré à 71 s au calme montait à 297 s). On annule les runs devenus obsolètes d'une même PR,
+# mais jamais ceux de main : un push sur main doit toujours aller au bout.
+concurrency:
+  group: ci-${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: ${{ github.event_name == 'pull_request' }}
+
 jobs:
   install:
     name: Install dependencies
     if: github.event_name != 'push' || !startsWith(github.ref, 'refs/tags/')
     runs-on: [captive-small]
+    timeout-minutes: 15
     container: node:lts@sha256:6dac556d980b7f0e5498d08f08cee0ca67798b4ad6c23964a9214920e67758d0
     steps:
       - name: Checkout
@@ -40,6 +49,7 @@ jobs:
     if: github.event_name != 'push' || !startsWith(github.ref, 'refs/tags/')
     needs: install
     runs-on: [captive-small]
+    timeout-minutes: 20
     container: node:lts@sha256:6dac556d980b7f0e5498d08f08cee0ca67798b4ad6c23964a9214920e67758d0
     steps:
       - name: Checkout
@@ -60,6 +70,16 @@ jobs:
       - name: Ensure dependencies (cache fallback)
         run: test -x node_modules/.bin/eslint || npm ci
 
+      # `--cache-strategy content` côté scripts npm : la stratégie par défaut (metadata) compare
+      # les mtime, or actions/checkout les réécrit à chaque run, donc le cache ne servirait jamais.
+      - name: Restore ESLint cache
+        uses: actions/cache@55cc8345863c7cc4c66a329aec7e433d2d1c52a9 # v6.1.0
+        with:
+          path: packages/*/.eslintcache
+          key: eslint-cache-${{ runner.os }}-${{ github.sha }}
+          restore-keys: |
+            eslint-cache-${{ runner.os }}-
+
       - name: Run lint
         run: npm run lint
 
@@ -68,6 +88,7 @@ jobs:
     if: github.event_name != 'push' || !startsWith(github.ref, 'refs/tags/')
     needs: install
     runs-on: [captive-small]
+    timeout-minutes: 10
     container: node:lts@sha256:6dac556d980b7f0e5498d08f08cee0ca67798b4ad6c23964a9214920e67758d0
     steps:
       - name: Checkout
@@ -96,6 +117,7 @@ jobs:
     if: github.event_name != 'push' || !startsWith(github.ref, 'refs/tags/')
     needs: install
     runs-on: [captive-small]
+    timeout-minutes: 20
     container: node:lts@sha256:6dac556d980b7f0e5498d08f08cee0ca67798b4ad6c23964a9214920e67758d0
     steps:
       - name: Checkout
@@ -124,6 +146,7 @@ jobs:
     if: github.event_name != 'push' || !startsWith(github.ref, 'refs/tags/')
     needs: install
     runs-on: [self-hosted]
+    timeout-minutes: 25
     container: node:lts@sha256:6dac556d980b7f0e5498d08f08cee0ca67798b4ad6c23964a9214920e67758d0
     steps:
       - name: Checkout
@@ -160,6 +183,7 @@ jobs:
     if: github.event_name != 'push' || !startsWith(github.ref, 'refs/tags/')
     needs: install
     runs-on: [self-hosted]
+    timeout-minutes: 30
     container: node:lts@sha256:6dac556d980b7f0e5498d08f08cee0ca67798b4ad6c23964a9214920e67758d0
     steps:
       - name: Checkout
@@ -193,10 +217,26 @@ jobs:
         working-directory: apps/docs
         run: npx expo-doctor
 
+      # Metro range son cache de transformation et sa file-map dans os.tmpdir(), donc dans le
+      # /tmp d'un container recréé à chaque job : le graphe (6870 modules, 23 Mo de bundle) était
+      # donc intégralement retransformé à chaque run. Mesuré en local, cache vide vs cache chaud :
+      # démarrage 155 s -> 16 s, bundling 36 s -> 2 s. On fixe TMPDIR dans le workspace pour que
+      # actions/cache puisse le ramasser.
+      - name: Restore Metro cache
+        uses: actions/cache@55cc8345863c7cc4c66a329aec7e433d2d1c52a9 # v6.1.0
+        with:
+          path: apps/docs/.metro-tmp
+          key: metro-cache-${{ runner.os }}-${{ hashFiles('package-lock.json') }}-${{ github.sha }}
+          restore-keys: |
+            metro-cache-${{ runner.os }}-${{ hashFiles('package-lock.json') }}-
+            metro-cache-${{ runner.os }}-
+
       - name: Web smoke test
         working-directory: apps/docs
         run: |
           set -e
+          mkdir -p "$PWD/.metro-tmp"
+          export TMPDIR="$PWD/.metro-tmp"
           CI=1 npm run start -- --web > /tmp/web-smoke-test.log 2>&1 &
           SERVER_PID=$!
           trap 'kill $SERVER_PID 2>/dev/null || true' EXIT
@@ -204,13 +244,15 @@ jobs:
           # Le serveur Metro répond immédiatement sur "/" (coquille HTML statique) sans
           # jamais déclencher le vrai bundling : il faut requêter le bundle JS lui-même,
           # extrait du <script src="..."> de la page, pour forcer et valider la compilation.
+          # 60 s ne suffisaient pas : sur un cache Metro vide, le crawl du monorepo (123 371
+          # fichiers, watchFolders pointe la racine) a été mesuré à 155 s avant que "/" réponde.
           html=""
-          for i in $(seq 1 30); do
+          for i in $(seq 1 120); do
             html=$(curl -sf http://localhost:8081 2>/dev/null) && [ -n "$html" ] && break
             sleep 2
           done
           if [ -z "$html" ]; then
-            echo "::error::Le serveur web ne répond pas après 60s"
+            echo "::error::Le serveur web ne répond pas après 240s"
             cat /tmp/web-smoke-test.log
             exit 1
           fi
@@ -222,7 +264,14 @@ jobs:
             exit 1
           fi
 
-          http_code=$(curl -s -o /tmp/bundle-response.body -w "%{http_code}" "http://localhost:8081${bundle_path}")
+          # Sans --max-time, un Metro bloqué laissait ce curl attendre jusqu'au plafond du job.
+          # 600 s couvre largement le pire cas mesuré (bundling à froid + contention du pool).
+          http_code=$(curl -s --max-time 600 -o /tmp/bundle-response.body -w "%{http_code}" "http://localhost:8081${bundle_path}") || true
+          if [ "$http_code" = "000" ]; then
+            echo "::error::Le bundling n'a pas répondu en 600s"
+            cat /tmp/web-smoke-test.log
+            exit 1
+          fi
           if [ "$http_code" != "200" ]; then
             echo "::error::Le bundling a échoué (HTTP $http_code)"
             cat /tmp/bundle-response.body
