@@ -1,6 +1,8 @@
 import { focusRing } from './Focus';
 
-describe('focusRing', () => {
+jest.mock('react-native', () => ({ Platform: { OS: 'web' } }));
+
+describe('focusRing sur le web', () => {
   it('rend un anneau visible', () => {
     expect(focusRing('default').outlineWidth).toBeGreaterThan(0);
   });
