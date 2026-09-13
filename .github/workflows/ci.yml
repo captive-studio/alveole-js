@@ -222,13 +222,18 @@ jobs:
       # donc intégralement retransformé à chaque run. Mesuré en local, cache vide vs cache chaud :
       # démarrage 155 s -> 16 s, bundling 36 s -> 2 s. On fixe TMPDIR dans le workspace pour que
       # actions/cache puisse le ramasser.
+      # La clé ne contient volontairement pas github.sha : elle serait alors différente à chaque
+      # commit, le save ne serait jamais sauté et on réécrirait ces 197 Mo à chaque run (mesuré
+      # sur le cache node_modules : 91 s de tar + upload pour 278 Mo, soit plus que le npm ci
+      # qu'il évite). Sur clé identique, actions/cache saute la sauvegarde. Les 197 Mo sont de
+      # toute façon dominés par les transformations de node_modules, qui ne bougent qu'avec le
+      # lockfile ; les fichiers source modifiés se retransforment à la volée.
       - name: Restore Metro cache
         uses: actions/cache@55cc8345863c7cc4c66a329aec7e433d2d1c52a9 # v6.1.0
         with:
           path: apps/docs/.metro-tmp
-          key: metro-cache-${{ runner.os }}-${{ hashFiles('package-lock.json') }}-${{ github.sha }}
+          key: metro-cache-${{ runner.os }}-${{ hashFiles('package-lock.json') }}
           restore-keys: |
-            metro-cache-${{ runner.os }}-${{ hashFiles('package-lock.json') }}-
             metro-cache-${{ runner.os }}-
 
       - name: Web smoke test
