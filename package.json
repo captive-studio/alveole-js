@@ -15,7 +15,7 @@
     "start:ui-kit": "npm run start --workspace=apps/docs -- --clear",
     "doctor": "npm run doctor --workspace=apps/docs",
     "doctor:fix": "npm run doctor:fix --workspace=apps/docs && npm run doctor:fix --workspace=packages/components",
-    "check:dead-code": "knip",
+    "check:dead-code": "npm run generate:sources --workspace=packages/components && knip",
     "check:packages": "scripts/check-packages",
     "publish:local": "scripts/publish-local",
     "publish:package": "scripts/publish-package"
