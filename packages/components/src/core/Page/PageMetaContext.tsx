@@ -1,5 +1,5 @@
 import React from 'react';
-import type { MetaTagProps } from './Page';
+import type { MetaTagProps } from './Page.types';
 
 type PageMetaContextValue = {
   meta: MetaTagProps[];

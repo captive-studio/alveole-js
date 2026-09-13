@@ -1,6 +1,6 @@
 import { Asset } from 'expo-asset';
 import Head from 'expo-router/head';
-import type { PageProps } from './Page';
+import type { PageProps } from './Page.types';
 import { usePageMeta } from './PageMetaContext';
 
 const favicon = Asset.fromModule(require('@/assets/images/icon.png')).uri;

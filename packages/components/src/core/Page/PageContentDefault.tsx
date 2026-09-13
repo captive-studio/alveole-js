@@ -1,5 +1,5 @@
 import { Box } from '../../core/Box';
-import type { PageProps } from './Page';
+import type { PageProps } from './Page.types';
 
 export type PageContentDefaultProps = PageProps;
 

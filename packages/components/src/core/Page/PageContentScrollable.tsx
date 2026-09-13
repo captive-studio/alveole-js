@@ -2,7 +2,7 @@ import React, { useImperativeHandle, useRef } from 'react';
 import { NativeScrollEvent, NativeSyntheticEvent } from 'react-native';
 import { KeyboardAwareScrollView, KeyboardAwareScrollViewRef } from 'react-native-keyboard-controller';
 import { Box } from '../../core/Box';
-import type { PageProps } from './Page';
+import type { PageProps } from './Page.types';
 
 export type PageContentScrollableHandle = {
   scrollToTop: () => void;
