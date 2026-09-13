@@ -1,6 +1,6 @@
 import React from 'react';
 import { TextInput as ReactNativeTextInput } from 'react-native';
-import { Box, BoxProps } from '../../core';
+import { Box, BoxProps } from '../../core/Box';
 import { useStyles } from './FormControl.styles';
 
 export type FormControlProps = React.PropsWithChildren & { style?: BoxProps['style'] };

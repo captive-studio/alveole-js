@@ -1,6 +1,6 @@
 import React from 'react';
 import { Animated, Easing } from 'react-native';
-import { Box, BoxProps } from '../../core';
+import { Box, BoxProps } from '../../core/Box';
 import { Typography } from '../../core/Typography';
 import { PROGRESS_BAR_GAP, PROGRESS_BAR_HEIGHT, PROGRESS_DETERMINATE_DURATION } from './ProgressBar.constants';
 import { useStyles } from './ProgressBar.styles';

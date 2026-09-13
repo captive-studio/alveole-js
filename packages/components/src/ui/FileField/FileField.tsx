@@ -1,3 +1,4 @@
+import { Alert } from '../../core/Alert';
 import {
   FormControl,
   FormControlCaption,
@@ -9,9 +10,8 @@ import {
   FormControlHintProps,
   FormControlLabel,
   FormControlLabelProps,
-  InputHeading,
-} from '@alveole/components';
-import { Alert } from '../../core/Alert';
+} from '../FormControl';
+import { InputHeading } from '../InputHeading';
 import { useStyles } from './FileField.styles';
 
 export type FileFieldValue = FormControlFileInputValue;

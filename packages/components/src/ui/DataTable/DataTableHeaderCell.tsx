@@ -1,4 +1,4 @@
-import { Typography } from '../../core';
+import { Typography } from '../../core/Typography';
 import { LucideIcon } from '../LucideIcon';
 import { useStyles } from './DataTable.styles';
 import { DataTableColumn, DataTableSize, DataTableSortDirection } from './DataTable.types';

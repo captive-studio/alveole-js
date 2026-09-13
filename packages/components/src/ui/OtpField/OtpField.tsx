@@ -1,3 +1,5 @@
+import React from 'react';
+import { ViewStyle } from 'react-native';
 import {
   FormControl,
   FormControlCaption,
@@ -9,10 +11,8 @@ import {
   FormControlOtpInput,
   FormControlOtpInputElement,
   FormControlOtpInputProps,
-  InputHeading,
-} from '@alveole/components';
-import React from 'react';
-import { ViewStyle } from 'react-native';
+} from '../FormControl';
+import { InputHeading } from '../InputHeading';
 import { useStyles } from './OtpField.styles';
 
 export type OtpFieldProps = FormControlOtpInputProps &

@@ -1,5 +1,5 @@
 import React from 'react';
-import { Box } from '../../core';
+import { Box } from '../../core/Box';
 import { Story } from '../../type';
 import { Button } from './Button';
 import { useStyles } from './Button.styles';

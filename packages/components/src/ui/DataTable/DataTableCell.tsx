@@ -1,5 +1,5 @@
 import React from 'react';
-import { Box } from '../../core';
+import { Box } from '../../core/Box';
 import { useStyles } from './DataTable.styles';
 import { DataTableAlign, DataTableSize } from './DataTable.types';
 

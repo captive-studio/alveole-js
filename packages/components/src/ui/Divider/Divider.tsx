@@ -1,4 +1,4 @@
-import { Box, BoxProps } from '../../core';
+import { Box, BoxProps } from '../../core/Box';
 import { useStyles } from './Divider.styles';
 
 export type DividerProps = Omit<BoxProps, 'children'>;

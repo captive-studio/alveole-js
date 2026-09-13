@@ -1,19 +1,3 @@
-import {
-  Box,
-  Button,
-  ButtonIcon,
-  Divider,
-  FormControl,
-  FormControlCaption,
-  FormControlHint,
-  FormControlHintProps,
-  FormControlLabel,
-  FormControlLabelProps,
-  InputHeading,
-  LucideIcon,
-  TextInputElement,
-  Typography,
-} from '@alveole/components';
 import { FlashList } from '@shopify/flash-list';
 import React, { useCallback, useMemo, useRef, useState } from 'react';
 import {
@@ -26,6 +10,21 @@ import {
   ViewStyle,
 } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
+import { Box } from '../../core/Box';
+import { Typography } from '../../core/Typography';
+import { Button, ButtonIcon } from '../Button';
+import { Divider } from '../Divider';
+import {
+  FormControl,
+  FormControlCaption,
+  FormControlHint,
+  FormControlHintProps,
+  FormControlLabel,
+  FormControlLabelProps,
+  TextInputElement,
+} from '../FormControl';
+import { InputHeading } from '../InputHeading';
+import { LucideIcon } from '../LucideIcon';
 import { TextField } from '../TextField';
 import { useStyles } from './Autocomplete.styles';
 import { AutocompleteChip } from './AutocompleteChip';

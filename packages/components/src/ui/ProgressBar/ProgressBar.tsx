@@ -1,4 +1,4 @@
-import { BoxProps } from '../../core';
+import { BoxProps } from '../../core/Box';
 import { ProgressBarDeterminate } from './ProgressBarDeterminate';
 import { ProgressBarIndeterminate } from './ProgressBarIndeterminate';
 import { ProgressBarLoop } from './ProgressBarLoop';

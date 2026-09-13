@@ -1,6 +1,7 @@
 import { Toast as TamaguiToast, useToastController, useToastState } from '@tamagui/toast';
 import { Pressable } from 'react-native';
-import { Box, BoxProps, Typography } from '../../core';
+import { Box, BoxProps } from '../../core/Box';
+import { Typography } from '../../core/Typography';
 import { LucideIcon, LucideIconProps } from '../LucideIcon';
 import { useStyles } from './Toast.styles';
 import type { ToastAPIOptions } from './ToastContext';

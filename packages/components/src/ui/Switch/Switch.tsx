@@ -1,7 +1,9 @@
-import { Box, FormControlCaption, Typography } from '@alveole/components';
 import { useTheme } from '@alveole/theme';
 import React, { CSSProperties, useId } from 'react';
 import { Label, TamaguiElement, Switch as TamaguiSwitch, SwitchProps as TamaguiSwitchProps } from 'tamagui';
+import { Box } from '../../core/Box';
+import { Typography } from '../../core/Typography';
+import { FormControlCaption } from '../FormControl';
 import { useStyles } from './Switch.styles';
 
 export type SwitchElement = TamaguiElement;

@@ -1,7 +1,9 @@
 import { useTheme } from '@alveole/theme';
 import { usePathname } from 'expo-router';
 import React from 'react';
-import { A, AProps, Box, Typography } from '../../core';
+import { A, AProps } from '../../core/A';
+import { Box } from '../../core/Box';
+import { Typography } from '../../core/Typography';
 import { LucideIcon, LucideIconProps } from '../LucideIcon';
 import { useStyles } from './Sidebar.styles';
 

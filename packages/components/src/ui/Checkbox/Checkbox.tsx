@@ -1,6 +1,7 @@
-import { Box, FormControlCaption } from '@alveole/components';
 import { useTheme } from '@alveole/theme';
 import React, { useId } from 'react';
+import { Box } from '../../core/Box';
+import { FormControlCaption } from '../FormControl';
 import { useStyles } from './Checkbox.styles';
 import { CheckboxContainer, CheckboxContainerProps, CheckboxElement } from './CheckboxContainer';
 import { CheckboxIndicator, CheckboxIndicatorProps } from './CheckboxIndicator';

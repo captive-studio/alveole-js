@@ -1,4 +1,5 @@
-import { Box, Version } from '../../core';
+import { Box } from '../../core/Box';
+import { Version } from '../../core/Version';
 import { Divider } from '../Divider';
 
 import React from 'react';

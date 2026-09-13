@@ -1,5 +1,5 @@
-import { TextInput } from '@alveole/components';
 import React from 'react';
+import { TextInput } from '../FormControl';
 import { TextField, TextFieldProps } from '../TextField';
 
 export type TextareaInputProps = TextFieldProps & {

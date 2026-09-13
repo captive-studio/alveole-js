@@ -1,4 +1,6 @@
-import { Box, ButtonIcon, Typography } from '@alveole/components';
+import { Box } from '../../core/Box';
+import { Typography } from '../../core/Typography';
+import { ButtonIcon } from '../Button';
 import { useStyles } from './Autocomplete.styles';
 
 export type AutocompleteChipProps = {

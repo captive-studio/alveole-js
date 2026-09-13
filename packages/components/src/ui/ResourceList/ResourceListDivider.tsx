@@ -1,4 +1,4 @@
-import { Box } from '../../core';
+import { Box } from '../../core/Box';
 import { Divider } from '../Divider';
 
 export const ResourceListDivider = () => (

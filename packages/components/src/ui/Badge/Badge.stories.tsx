@@ -1,4 +1,4 @@
-import { Box } from '../../core';
+import { Box } from '../../core/Box';
 import type { Story } from '../../type/Story';
 import { Badge } from './Badge';
 import { useStyles } from './Badge.styles';

@@ -1,5 +1,7 @@
 import * as React from 'react';
-import { Box, Image, Typography } from '../../';
+import { Box } from '../../core/Box';
+import { Image } from '../../core/Image';
+import { Typography } from '../../core/Typography';
 import type { Story } from '../../type/Story';
 import { Signature } from './Signature';
 import { useStyles } from './Signature.styles';

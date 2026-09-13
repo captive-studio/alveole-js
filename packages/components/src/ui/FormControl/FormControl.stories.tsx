@@ -1,5 +1,6 @@
 import { useState } from 'react';
-import { Box, Typography } from '../../core';
+import { Box } from '../../core/Box';
+import { Typography } from '../../core/Typography';
 import { Story } from '../../type';
 import { Button } from '../Button';
 import { InputHeading } from '../InputHeading';

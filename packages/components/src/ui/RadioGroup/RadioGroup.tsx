@@ -1,14 +1,14 @@
+import React from 'react';
+import { TamaguiElement, RadioGroup as TamaguiRadioGroup, RadioGroupProps as TamaguiRadioGroupProps } from 'tamagui';
+import { Box } from '../../core/Box';
 import {
-  Box,
   FormControlCaption,
   FormControlCaptionProps,
   FormControlHint,
   FormControlHintProps,
   FormControlLabel,
   FormControlLabelProps,
-} from '@alveole/components';
-import React from 'react';
-import { TamaguiElement, RadioGroup as TamaguiRadioGroup, RadioGroupProps as TamaguiRadioGroupProps } from 'tamagui';
+} from '../FormControl';
 import { useStyles } from './RadioGroup.styles';
 import { RadioGroupContext } from './RadioGroupContext';
 

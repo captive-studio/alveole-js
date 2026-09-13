@@ -1,7 +1,7 @@
 import { useTheme } from '@alveole/theme';
 import { CSSProperties } from 'react';
 import { AvatarImageProps, Avatar as TamaguiAvatar } from 'tamagui';
-import { Typography } from '../../core';
+import { Typography } from '../../core/Typography';
 import { useStyles } from './Avatar.styles';
 
 export type AvatarProps = {

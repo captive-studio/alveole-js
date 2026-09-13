@@ -1,5 +1,6 @@
-import { Box, BoxProps, Image } from '@alveole/components';
 import React from 'react';
+import { Box, BoxProps } from '../../core/Box';
+import { Image } from '../../core/Image';
 import { DocumentViewerRotation } from './DocumentViewer';
 import { useStyles } from './DocumentViewer.styles';
 

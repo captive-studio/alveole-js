@@ -1,5 +1,6 @@
-import { Box, Typography } from '../../core';
 import { Story } from '../../type';
+import { Box } from '../Box';
+import { Typography } from '../Typography';
 import { Section } from './Section';
 import { useStyles } from './Section.styles';
 

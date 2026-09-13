@@ -1,3 +1,4 @@
+import React from 'react';
 import {
   FormControl,
   FormControlCaption,
@@ -6,11 +7,10 @@ import {
   FormControlHintProps,
   FormControlLabel,
   FormControlLabelProps,
-  InputHeading,
   TextInputElement,
   TextInputProps,
-} from '@alveole/components';
-import React from 'react';
+} from '../FormControl';
+import { InputHeading } from '../InputHeading';
 import { PhoneInput } from '../PhoneInput';
 
 export type PhoneFieldProps = TextInputProps &

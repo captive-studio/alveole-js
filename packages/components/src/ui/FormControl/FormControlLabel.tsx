@@ -1,5 +1,6 @@
 import React from 'react';
-import { Box, Typography } from '../../core';
+import { Box } from '../../core/Box';
+import { Typography } from '../../core/Typography';
 import { useStyles } from './FormControl.styles';
 import { FormControlCaptionProps } from './FormControlCaption';
 

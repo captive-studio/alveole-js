@@ -1,5 +1,5 @@
 import React from 'react';
-import { Box, BoxProps } from '../../core';
+import { Box, BoxProps } from '../../core/Box';
 import { useStyles } from './Card.styles';
 import { CardActions } from './CardActions';
 import { CardHeader } from './CardHeader';

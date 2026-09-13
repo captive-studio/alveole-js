@@ -1,15 +1,10 @@
-import {
-  Box,
-  FormControl,
-  FormControlCaption,
-  FormControlHint,
-  FormControlLabel,
-  InputHeading,
-  LucideIcon,
-} from '@alveole/components';
 import { useTheme } from '@alveole/theme';
 import React, { useEffect, useMemo, useState } from 'react';
 import ReactSelect, { components, GroupBase, StylesConfig } from 'react-select';
+import { Box } from '../../core/Box';
+import { FormControl, FormControlCaption, FormControlHint, FormControlLabel } from '../FormControl';
+import { InputHeading } from '../InputHeading';
+import { LucideIcon } from '../LucideIcon';
 import { AutocompleteOption, AutocompleteProps } from './Autocomplete';
 import { useStyles } from './Autocomplete.styles';
 

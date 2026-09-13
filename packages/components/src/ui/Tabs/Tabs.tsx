@@ -1,7 +1,10 @@
-import { Box, BoxProps, Counter, LucideIcon, LucideIconProps, Typography } from '@alveole/components';
 import React from 'react';
 import { ScrollView } from 'react-native';
 import { TabLayout, TabsTabProps, Tabs as TamaguiTabs } from 'tamagui';
+import { Box, BoxProps } from '../../core/Box';
+import { Typography } from '../../core/Typography';
+import { Counter } from '../Counter';
+import { LucideIcon, LucideIconProps } from '../LucideIcon';
 import { useStyles } from './Tabs.styles';
 
 export type TabsProps = Omit<BoxProps, 'children'> & {

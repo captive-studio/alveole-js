@@ -1,4 +1,4 @@
-import { Box } from '../../core';
+import { Box } from '../../core/Box';
 import { Story } from '../../type';
 import { FileField } from './FileField';
 import { useStyles } from './FileField.styles';

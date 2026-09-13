@@ -1,4 +1,5 @@
-import { Box, BoxProps, Typography } from '../../core';
+import { Box, BoxProps } from '../../core/Box';
+import { Typography } from '../../core/Typography';
 import { LucideIcon, LucideIconProps } from '../LucideIcon';
 import { useStyles } from '../Sidebar/Sidebar.styles';
 import { useStyles as useActionMenuItemStyles } from './ActionMenuItem.styles';

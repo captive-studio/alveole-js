@@ -1,6 +1,8 @@
 import { Href } from 'expo-router';
 import React from 'react';
-import { A, Box, Typography } from '../../core';
+import { A } from '../../core/A';
+import { Box } from '../../core/Box';
+import { Typography } from '../../core/Typography';
 import { useStyles } from './Header.styles';
 
 export type HeaderProps = {

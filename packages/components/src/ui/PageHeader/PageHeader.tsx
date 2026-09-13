@@ -1,5 +1,6 @@
 import React from 'react';
-import { Box, Typography } from '../../core';
+import { Box } from '../../core/Box';
+import { Typography } from '../../core/Typography';
 import { Breadcrumbs } from '../Breadcrumbs';
 import { useStyles } from './PageHeader.styles';
 

@@ -1,6 +1,6 @@
-import { LucideIcon } from '@alveole/components';
 import { useTheme } from '@alveole/theme';
 import { Checkbox as TamaguiCheckbox } from 'tamagui';
+import { LucideIcon } from '../LucideIcon';
 import { useStyles } from './Checkbox.styles';
 import { CheckboxSize, CheckboxVariant, resolveCheckboxSize } from './Checkbox.utils';
 

@@ -1,5 +1,8 @@
-import { Box, Button, Story, Typography } from '@alveole/components';
 import { useState } from 'react';
+import { Box } from '../../core/Box';
+import { Typography } from '../../core/Typography';
+import { Story } from '../../type';
+import { Button } from '../Button';
 import { BottomSheet } from './BottomSheet';
 import { useStyles } from './BottomSheet.styles';
 

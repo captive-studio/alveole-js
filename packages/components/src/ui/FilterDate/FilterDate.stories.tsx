@@ -1,5 +1,6 @@
-import { Box, Story } from '@alveole/components';
 import React from 'react';
+import { Box } from '../../core/Box';
+import { Story } from '../../type';
 import { FilterDate, FilterDateValue } from './FilterDate';
 import { useStyles } from './FilterDate.styles';
 

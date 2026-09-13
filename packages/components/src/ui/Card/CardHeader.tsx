@@ -1,5 +1,6 @@
 import React from 'react';
-import { Box, BoxProps, Typography } from '../../core';
+import { Box, BoxProps } from '../../core/Box';
+import { Typography } from '../../core/Typography';
 import { useStyles } from './CardHeader.styles';
 
 export type CardHeaderVariant = 'default' | 'disabled';

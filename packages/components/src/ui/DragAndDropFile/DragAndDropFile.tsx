@@ -1,5 +1,8 @@
+import React from 'react';
+import { Alert } from '../../core/Alert';
+import { Box } from '../../core/Box';
+import { Image } from '../../core/Image';
 import {
-  Box,
   FormControlCaption,
   FormControlCaptionProps,
   FormControlFileInput,
@@ -8,12 +11,8 @@ import {
   FormControlHint,
   FormControlHintProps,
   FormControlLabel,
-  Image,
-  LucideIcon,
-  LucideIconProps,
-} from '@alveole/components';
-import React from 'react';
-import { Alert } from '../../core/Alert';
+} from '../FormControl';
+import { LucideIcon, LucideIconProps } from '../LucideIcon';
 import { useStyles } from './DragAndDropFile.styles';
 
 export type DragAndDropFileValue = FormControlFileInputValue;

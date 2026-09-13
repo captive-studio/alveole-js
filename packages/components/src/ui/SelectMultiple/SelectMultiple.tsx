@@ -1,4 +1,5 @@
-import { FormControlCaptionProps, FormControlHintProps, FormControlLabelProps, Typography } from '@alveole/components';
+import { Typography } from '../../core/Typography';
+import { FormControlCaptionProps, FormControlHintProps, FormControlLabelProps } from '../FormControl';
 
 export type SelectMultipleOption = { label: string; value: string | number };
 

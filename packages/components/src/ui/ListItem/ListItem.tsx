@@ -1,6 +1,8 @@
 import React from 'react';
 import { GestureResponderEvent } from 'react-native';
-import { Box, BoxProps, Image, Typography } from '../../core';
+import { Box, BoxProps } from '../../core/Box';
+import { Image } from '../../core/Image';
+import { Typography } from '../../core/Typography';
 import { Avatar, AvatarProps } from '../Avatar';
 import { CheckboxContainer, CheckboxIndicator } from '../Checkbox';
 import { IconProps, LucideIcon } from '../LucideIcon';

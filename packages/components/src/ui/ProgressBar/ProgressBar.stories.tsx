@@ -1,6 +1,7 @@
-import { Box, Button } from '@alveole/components';
 import React from 'react';
+import { Box } from '../../core/Box';
 import { Story } from '../../type';
+import { Button } from '../Button';
 import { ProgressBar } from './ProgressBar';
 import { useStyles } from './ProgressBar.styles';
 

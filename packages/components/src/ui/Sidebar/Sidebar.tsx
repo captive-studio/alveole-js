@@ -1,7 +1,7 @@
 import { useTheme } from '@alveole/theme';
 import React from 'react';
 import { ScrollView, StyleProp, ViewStyle } from 'react-native';
-import { Box } from '../../core';
+import { Box } from '../../core/Box';
 import { useStyles } from './Sidebar.styles';
 import { SidebarFooter } from './SidebarFooter';
 import { SidebarHeader } from './SidebarHeader';

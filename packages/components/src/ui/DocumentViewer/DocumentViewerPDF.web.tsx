@@ -1,5 +1,6 @@
-import { Box, Typography, type BoxProps } from '@alveole/components';
 import React from 'react';
+import { Box, type BoxProps } from '../../core/Box';
+import { Typography } from '../../core/Typography';
 import { DocumentViewerRotation } from './DocumentViewer';
 import { useStyles } from './DocumentViewer.styles';
 

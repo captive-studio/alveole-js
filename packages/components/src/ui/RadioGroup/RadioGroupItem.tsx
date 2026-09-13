@@ -1,6 +1,7 @@
-import { Box, Typography } from '@alveole/components';
 import React, { useId } from 'react';
 import { Label, TamaguiElement, RadioGroupItemProps as TamaguiRadioGroupItemProps } from 'tamagui';
+import { Box } from '../../core/Box';
+import { Typography } from '../../core/Typography';
 import { useStyles } from './RadioGroupItem.styles';
 import { RadioInput } from './RadioInput';
 

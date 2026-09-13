@@ -1,5 +1,6 @@
+import React from 'react';
+import { ButtonIcon } from '../Button';
 import {
-  ButtonIcon,
   FormControl,
   FormControlCaption,
   FormControlCaptionProps,
@@ -10,8 +11,7 @@ import {
   TextInput,
   TextInputElement,
   TextInputProps,
-} from '@alveole/components';
-import React from 'react';
+} from '../FormControl';
 import { useStyles } from './PasswordField.styles';
 
 export type PasswordFieldProps = TextInputProps &

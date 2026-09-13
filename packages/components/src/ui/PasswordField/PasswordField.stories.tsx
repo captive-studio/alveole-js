@@ -1,4 +1,4 @@
-import { Box } from '../../core';
+import { Box } from '../../core/Box';
 import { Story } from '../../type';
 import { PasswordField } from './PasswordField';
 import { useStyles } from './PasswordField.styles';

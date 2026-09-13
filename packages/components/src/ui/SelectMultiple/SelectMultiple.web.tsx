@@ -1,15 +1,10 @@
-import {
-  Box,
-  FormControl,
-  FormControlCaption,
-  FormControlHint,
-  FormControlLabel,
-  InputHeading,
-  LucideIcon,
-} from '@alveole/components';
 import { useTheme } from '@alveole/theme';
 import React from 'react';
 import ReactSelect, { components, StylesConfig } from 'react-select';
+import { Box } from '../../core/Box';
+import { FormControl, FormControlCaption, FormControlHint, FormControlLabel } from '../FormControl';
+import { InputHeading } from '../InputHeading';
+import { LucideIcon } from '../LucideIcon';
 import type { SelectMultipleOption, SelectMultipleProps } from './SelectMultiple';
 import { useStyles } from './SelectMultiple.styles';
 

@@ -1,5 +1,8 @@
+import { Picker, PickerProps } from '@react-native-picker/picker';
+import React from 'react';
+import { NativeSyntheticEvent, Platform, StyleProp, TextStyle } from 'react-native';
+import { Box } from '../../core/Box';
 import {
-  Box,
   FormControl,
   FormControlCaption,
   FormControlCaptionProps,
@@ -7,12 +10,9 @@ import {
   FormControlHintProps,
   FormControlLabel,
   FormControlLabelProps,
-  InputHeading,
-  LucideIcon,
-} from '@alveole/components';
-import { Picker, PickerProps } from '@react-native-picker/picker';
-import React from 'react';
-import { NativeSyntheticEvent, Platform, StyleProp, TextStyle } from 'react-native';
+} from '../FormControl';
+import { InputHeading } from '../InputHeading';
+import { LucideIcon } from '../LucideIcon';
 import { useStyles } from './Select.styles';
 import { SelectInput } from './SelectInput';
 

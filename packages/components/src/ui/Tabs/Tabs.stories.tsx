@@ -1,5 +1,6 @@
-import { Box, Typography } from '@alveole/components';
 import React from 'react';
+import { Box } from '../../core/Box';
+import { Typography } from '../../core/Typography';
 import { Story } from '../../type/Story';
 import { Tabs } from './Tabs';
 import { useStyles } from './Tabs.styles';

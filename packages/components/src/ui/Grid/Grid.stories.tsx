@@ -1,4 +1,5 @@
-import { Box, Typography } from '../../core';
+import { Box } from '../../core/Box';
+import { Typography } from '../../core/Typography';
 import { Story } from '../../type';
 import { Grid } from './Grid';
 import { useStyles } from './Grid.styles';

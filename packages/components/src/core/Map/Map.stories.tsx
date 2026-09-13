@@ -1,5 +1,5 @@
-import { Box } from '../../core';
 import type { Story } from '../../type/Story';
+import { Box } from '../Box';
 import { Map } from './index';
 import { MapPropsJSON } from './Map.props';
 import { useStyles } from './Map.styles';

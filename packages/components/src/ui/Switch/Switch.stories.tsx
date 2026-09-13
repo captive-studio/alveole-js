@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { Box } from '../../core';
+import { Box } from '../../core/Box';
 import { Story } from '../../type';
 import { Switch } from './Switch';
 import { useStyles } from './Switch.styles';
