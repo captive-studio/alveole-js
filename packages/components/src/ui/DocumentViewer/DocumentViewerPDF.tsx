@@ -5,8 +5,8 @@ import React from 'react';
 import { Platform } from 'react-native';
 import { Box, BoxProps } from '../../core/Box';
 import { Typography } from '../../core/Typography';
-import { DocumentViewerRotation } from './DocumentViewer';
 import { useStyles } from './DocumentViewer.styles';
+import { DocumentViewerRotation } from './DocumentViewer.types';
 
 export type DocumentViewerPDFProps = {
   source: string;

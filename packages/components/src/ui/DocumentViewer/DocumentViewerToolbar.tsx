@@ -1,7 +1,7 @@
 import { Box } from '../../core/Box';
 import { Typography } from '../../core/Typography';
-import { DocumentViewerProps } from './DocumentViewer';
 import { useStyles } from './DocumentViewer.styles';
+import { DocumentViewerProps } from './DocumentViewer.types';
 import { ToolbarButton } from './DocumentViewerToolbarButton';
 
 export type DocumentViewerToolbarState = {

@@ -1,8 +1,8 @@
 import React from 'react';
 import { Box, BoxProps } from '../../core/Box';
 import { Image } from '../../core/Image';
-import { DocumentViewerRotation } from './DocumentViewer';
 import { useStyles } from './DocumentViewer.styles';
+import { DocumentViewerRotation } from './DocumentViewer.types';
 
 export type DocumentViewerImageProps = {
   source: string;

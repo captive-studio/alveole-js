@@ -1,7 +1,7 @@
 import { Box, type BoxProps } from '../../core/Box';
 import { Typography } from '../../core/Typography';
-import { DocumentViewerRotation } from './DocumentViewer';
 import { useStyles } from './DocumentViewer.styles';
+import { DocumentViewerRotation } from './DocumentViewer.types';
 
 export type DocumentViewerPDFProps = {
   source: string;
