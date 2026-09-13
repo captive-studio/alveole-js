@@ -24,7 +24,7 @@
   "sideEffects": false,
   "scripts": {
     "build": "npm run generate:sources && node ./scripts/generate-version.mjs && tsc -p tsconfig.build.json && node ./scripts/copy-assets.mjs && node ./scripts/prepare-pdfjs-web-assets.mjs",
-    "lint": "npm run generate:sources && eslint .",
+    "lint": "npm run generate:sources && eslint . --cache --cache-strategy content",
     "postinstall": "node ./scripts/postinstall.mjs",
     "test:unit": "NODE_OPTIONS=--max-old-space-size=4096 npx jest --maxWorkers=2 --ci",
     "typecheck": "npm run generate:sources && tsc -p tsconfig.typecheck.json --noEmit",
