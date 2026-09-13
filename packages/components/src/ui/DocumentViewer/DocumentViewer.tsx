@@ -1,22 +1,14 @@
 import React from 'react';
-import { Box, type BoxProps } from '../../core/Box';
+import { Box } from '../../core/Box';
 import { useStyles } from './DocumentViewer.styles';
+import {
+  isDocumentViewerRotation,
+  type DocumentViewerProps,
+  type DocumentViewerRotation,
+} from './DocumentViewer.types';
 import { DocumentViewerImage } from './DocumentViewerImage';
 import { DocumentViewerPDF } from './DocumentViewerPDF';
 import { DocumentViewerToolbar, DocumentViewerToolbarState } from './DocumentViewerToolbar';
-
-export type DocumentViewerRotation = 0 | 90 | 180 | 270;
-export const isDocumentViewerRotation = (value: number): value is DocumentViewerRotation =>
-  [0, 90, 180, 270].includes(value);
-
-export type DocumentViewerProps = BoxProps & {
-  type: 'image' | 'pdf';
-  title: string;
-  source: string;
-  height?: BoxProps['height'];
-  ChildrenProps?: Omit<BoxProps, 'children'>;
-  pdfErrorLabel?: string;
-};
 
 export const DocumentViewer = (props: DocumentViewerProps) => {
   const { children, title, source, type, height = '100%', ChildrenProps, pdfErrorLabel, ...boxProps } = props;
