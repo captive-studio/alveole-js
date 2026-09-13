@@ -1,6 +1,7 @@
 export * from './Breakpoint';
 export * from './Color';
 export * from './Elevation';
+export * from './Focus';
 export * from './Font';
 export * from './Grille';
 export * from './Palette';

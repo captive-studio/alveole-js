@@ -1,4 +1,5 @@
-import React, { CSSProperties } from 'react';
+import { focusRing } from '@alveole/theme';
+import React, { CSSProperties, useState } from 'react';
 import { Pressable, PressableProps, PressableStateCallbackType, View } from 'react-native';
 import { Box, BoxProps } from '../../core/Box';
 import { Typography } from '../../core/Typography';
@@ -53,6 +54,7 @@ export const Button = React.forwardRef<View, ButtonProps>(function Button(props,
 
   const isIconOnly = !title;
   const isInactive = !!disabled || !!isLoading;
+  const [isFocused, setIsFocused] = useState(false);
 
   const containerSize = isIconOnly
     ? size === 'sm'
@@ -249,6 +251,7 @@ export const Button = React.forwardRef<View, ButtonProps>(function Button(props,
       ...borderProps,
       overflow: 'hidden',
       ...(fullWidth ? { width: '100%' } : {}),
+      ...(isFocused ? focusRing('default') : {}),
     };
   };
 
@@ -260,6 +263,14 @@ export const Button = React.forwardRef<View, ButtonProps>(function Button(props,
       {...(type === 'submit' ? { 'aria-selected': true } : {})}
       {...buttonProps}
       accessibilityState={{ disabled: isInactive }}
+      onFocus={event => {
+        setIsFocused(true);
+        buttonProps.onFocus?.(event);
+      }}
+      onBlur={event => {
+        setIsFocused(false);
+        buttonProps.onBlur?.(event);
+      }}
       style={(state: CustomPressableState) => getPressableStyle(state)}
     >
       {(state: CustomPressableState) => (

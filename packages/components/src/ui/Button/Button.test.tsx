@@ -7,4 +7,5 @@ describe('Button', () => {
 
     expect(getByRole('button').props.accessibilityState).toEqual(expect.objectContaining({ disabled: true }));
   });
+
 });
