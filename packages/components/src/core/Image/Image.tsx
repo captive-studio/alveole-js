@@ -1,6 +1,6 @@
 import { Image as ExpoImage, ImageProps as ExpoImageProps, ImageLoadEventData } from 'expo-image';
 import React, { useState } from 'react';
-import { LucideIcon } from '../../ui';
+import { LucideIcon } from '../../ui/LucideIcon';
 import { Box } from '../Box';
 import { useStyles } from './Image.style';
 
