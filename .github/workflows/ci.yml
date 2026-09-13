@@ -305,7 +305,9 @@ jobs:
       - name: Ensure dependencies (cache fallback)
         run: test -x node_modules/.bin/knip || npm ci
 
-      # knip part des sources, pas de dist/ : aucun build préalable n'est nécessaire.
+      # knip part des sources, pas de dist/ : aucun build préalable n'est nécessaire. Le
+      # script régénère en revanche les *.stories.sources.ts, qui ne sont pas committés et
+      # sans lesquels knip voit autant d'imports non résolus qu'il y a de stories.
       - name: Run knip
         run: npm run check:dead-code
 

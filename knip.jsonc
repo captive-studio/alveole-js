@@ -2,8 +2,6 @@
   "$schema": "https://unpkg.com/knip@6/schema.json",
 
   "ignore": [
-    // Généré par `npm run generate:sources`, jamais committé.
-    "**/*.stories.sources.ts",
     // Artefacts de build : leurs imports ne sont pas des dépendances du source.
     "**/dist/**",
     // Déclaration de module ambiante, nécessaire au typecheck et importée par personne.
@@ -58,7 +56,7 @@
       "project": ["src/**/*.ts"],
     },
     "packages/theme": {
-      "entry": ["src/index.ts", "src/**/*.{web,native,ios,android}.{ts,tsx}", "scripts/*.mjs"],
+      "entry": ["src/**/*.{web,native,ios,android}.{ts,tsx}", "scripts/*.mjs"],
       "project": ["src/**/*.{ts,tsx}", "scripts/*.mjs"],
     },
     "packages/storybook": {
@@ -66,11 +64,10 @@
       "project": ["src/**/*.{ts,tsx}"],
     },
     "packages/eslint-config": {
-      "entry": ["index.js"],
-      "project": ["index.js", "rules/*.js"],
+      "project": ["rules/*.js"],
     },
     "apps/docs": {
-      "entry": ["app/**/*.{ts,tsx}", "scripts/*.mjs", "metro.config.js", "babel.config.js", "tamagui.config.ts"],
+      "entry": ["app/**/*.{ts,tsx}", "scripts/*.mjs", "tamagui.config.ts"],
       "project": ["**/*.{ts,tsx,js,mjs}"],
     },
   },
