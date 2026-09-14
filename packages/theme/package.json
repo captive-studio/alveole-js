@@ -12,7 +12,7 @@
   "scripts": {
     "build": "tsc -p tsconfig.build.json && node scripts/build-css.mjs",
     "lint": "eslint . --cache --cache-strategy content",
-    "test:unit": "jest",
+    "test:unit": "jest --coverage",
     "typecheck": "tsc -p tsconfig.build.json --noEmit"
   },
   "devDependencies": {

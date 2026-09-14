@@ -13,3 +13,4 @@ apps/**/dist/*
 *.stories.sources.ts
 packages/**/.eslintcache
 apps/docs/.metro-tmp/
+coverage/
