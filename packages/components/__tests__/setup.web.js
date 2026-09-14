@@ -1,4 +1,3 @@
-/* global window */
 require('./mocks/expo');
 require('./mocks/safeArea');
 
