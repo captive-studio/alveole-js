@@ -79,7 +79,7 @@ export const Breadcrumbs = (props: BreadcrumbsProps) => {
           key={`${item.href}-${index}`}
           style={{ flexDirection: 'row', alignItems: 'center' }}
         >
-          {index > 0 && <Typography style={styles.separator}> &gt; </Typography>}
+          {index > 0 && <Box tag="breadcrumbs-separator" aria-hidden style={styles.separator} />}
           {item.isCurrent || item.href === null ? (
             <Typography style={styles.current}>{item.label}</Typography>
           ) : (

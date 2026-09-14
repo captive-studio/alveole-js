@@ -9,20 +9,25 @@ export const useStyles = makeStyles(({ text, color, spacing }) => ({
     ...text['Corps de texte'].SM.Regular,
   },
   separator: {
-    color: color.light.text['mention-grey'],
+    width: 1.5,
+    height: 11,
+    marginLeft: spacing('1V'),
+    marginRight: spacing('1V'),
+    backgroundColor: color.light.text['mention-grey'],
+    transform: 'rotate(15deg)',
   },
   current: {
-    color: color.light.text['active-grey'],
+    color: color.light.text['default-grey'],
   },
   link: {
-    color: color.light.text['mention-grey'],
-    textDecoration: 'underline',
+    color: color.light.text['default-info'],
+    textDecoration: 'none',
     ...text['Corps de texte'].SM.Regular,
     transitionProperty: 'text-decoration',
     transitionDuration: '0.1s',
     transitionTimingFunction: 'ease-in-out',
   },
   linkHover: {
-    textDecoration: 'none',
+    textDecoration: 'underline',
   },
 }));
