@@ -14,3 +14,5 @@ apps/**/dist/*
 packages/**/.eslintcache
 apps/docs/.metro-tmp/
 coverage/
+apps/docs/test-results/
+apps/docs/playwright-report/
