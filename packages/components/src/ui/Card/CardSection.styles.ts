@@ -35,6 +35,9 @@ export const useStyles = makeStyles(({ spacing, color, text }) => ({
     ...text['Corps de texte'].SM.Regular,
     color: color.light.text['default-grey'],
   },
+  descriptionLink: {
+    textDecoration: 'underline',
+  },
   disabledText: {
     color: color.light.text['disabled-grey'],
   },

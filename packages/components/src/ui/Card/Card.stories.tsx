@@ -148,6 +148,18 @@ export const cardSectionDisabled = () => {
   );
 };
 
+export const cardSectionWithLink = () => {
+  return (
+    <Card.Section
+      titre="Titre de la carte"
+      description="Description de la carte"
+      descriptionLink="/"
+      titreIcone="Image"
+      descriptionIcone="Image"
+    />
+  );
+};
+
 export const cardHeader = () => {
   return (
     <Box display="flex" flexDirection="column" gap="100">
