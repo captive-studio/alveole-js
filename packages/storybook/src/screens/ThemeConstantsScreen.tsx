@@ -49,7 +49,10 @@ export const ThemeConstantsScreen = ({
           <Box display="flex" flexDirection="row" flexWrap="wrap" gap={16}>
             {entries.map(([name, value]) => (
               <Box key={name} width={columns === 1 ? '100%' : columns === 2 ? '48%' : '31%'}>
-                <Pressable onPress={onSelectConstant ? () => onSelectConstant({ name, value }) : undefined}>
+                <Pressable
+                  accessibilityRole="button"
+                  onPress={onSelectConstant ? () => onSelectConstant({ name, value }) : undefined}
+                >
                   <Card>
                     <Box p={'100'}>
                       <Typography style={text.Titres['H5 - XS']}>{name}</Typography>

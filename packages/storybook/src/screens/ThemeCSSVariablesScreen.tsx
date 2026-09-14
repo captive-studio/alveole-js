@@ -207,7 +207,7 @@ const VarRow = ({ entry }: { entry: CSSVarEntry }) => {
   };
 
   return (
-    <Pressable onPress={copy}>
+    <Pressable accessibilityRole="button" onPress={copy}>
       {({ pressed }) => (
         <Box
           style={{

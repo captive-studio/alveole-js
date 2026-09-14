@@ -26,7 +26,7 @@ export function ToastView({ title, message, variant = 'default', icon, onClose }
       <Box style={styles.contenu}>
         <Box style={styles.titleContainer}>
           <Typography style={styles.title}>{title}</Typography>
-          <Pressable onPress={onClose}>
+          <Pressable accessibilityRole="button" onPress={onClose}>
             <LucideIcon name="X" size="md" />
           </Pressable>
         </Box>

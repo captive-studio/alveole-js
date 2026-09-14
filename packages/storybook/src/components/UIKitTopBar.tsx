@@ -43,7 +43,7 @@ export const UIKitTopBar = ({ activeKey, items }: UIKitTopBarProps) => {
         <Header
           logo={<AlveoleLogo />}
           right={
-            <Pressable onPress={() => setMenuOpen(v => !v)} style={{ padding: 8 }}>
+            <Pressable accessibilityRole="button" onPress={() => setMenuOpen(v => !v)} style={{ padding: 8 }}>
               <LucideIcon name={menuOpen ? 'X' : 'Menu'} size="md" color={color.light.text['title-grey']} />
             </Pressable>
           }

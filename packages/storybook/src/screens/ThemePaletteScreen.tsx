@@ -82,7 +82,7 @@ const ColorSwatch = ({ entry }: { entry: ColorEntry }) => {
   };
 
   return (
-    <Pressable onPress={handleCopy} style={{ width: 120, marginBottom: 8 }}>
+    <Pressable accessibilityRole="button" onPress={handleCopy} style={{ width: 120, marginBottom: 8 }}>
       {({ pressed }) => (
         <Box
           style={{
