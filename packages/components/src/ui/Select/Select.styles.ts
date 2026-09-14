@@ -1,58 +1,54 @@
 import { makeStyles } from '@alveole/theme';
-import { Platform } from 'react-native';
 
 export const useStyles = makeStyles(({ text, color, spacing }) => ({
   pickerContainer: {},
-  picker: {
-    flex: 1,
-    outline: 'none',
-    padding: 0,
-    paddingTop: spacing('050'),
-    paddingBottom: spacing('050'),
-    paddingLeft: spacing('100'),
-    paddingRight: spacing('100'),
-    color: color.text['default-grey'],
-    ...text['Corps de texte'].MD.Regular,
-    width: '100%',
-    borderWidth: 0,
-    backgroundColor: 'transparent',
-    appearance: 'none',
-  },
   inputContainer: {
     width: '100%',
-    padding: 0,
   },
   inputInner: {
     display: 'flex',
     flexDirection: 'row',
-    gap: spacing('050'),
-    padding: 0,
+    alignItems: 'center',
+    gap: spacing('1W'),
+    paddingLeft: spacing('2W'),
+    paddingRight: spacing('2W'),
+    minHeight: 42,
     borderRadius: 8,
-    borderWidth: Platform.OS === 'ios' ? 0 : 1,
-    borderColor: Platform.OS === 'ios' ? undefined : color.border['default-grey'],
-    backgroundColor: '#FFFFFF',
-    overflow: 'hidden',
+    borderWidth: 1,
+    borderStyle: 'solid',
+    borderColor: color.light.border['default-grey'],
+    backgroundColor: color.light.background['default-grey'],
     width: '100%',
   },
   inputError: {
-    borderColor: color.border['plain-error'],
+    borderColor: color.light.border['plain-error'],
   },
   inputSuccess: {
-    borderColor: color.border['plain-success'],
+    borderColor: color.light.border['plain-success'],
   },
   inputDisabled: {
-    borderColor: color.border['disabled-grey'],
+    borderColor: color.light.border['disabled-grey'],
   },
+  /** Web uniquement : `cursor` n'appartient pas aux styles React Native. */
+  inputCursor: {
+    cursor: 'pointer',
+  },
+  inputCursorDisabled: {
+    cursor: 'not-allowed',
+  },
+  /** Sur natif l'anneau de focus n'existe pas : on marque le focus par la bordure. */
   inputFocused: {
-    outlineStyle: 'solid',
-    outlineWidth: 2,
-    outlineColor: color.system.focus,
-    outlineOffset: 2,
+    borderColor: color.light.system.focus,
   },
-  indicator: {
-    position: 'absolute',
-    right: spacing('100'),
-    top: spacing('075'),
+  value: {
+    ...text['Corps de texte'].SM.Regular,
+    color: color.light.text['default-grey'],
+    flex: 1,
   },
-  indicatorFocus: {},
+  valuePlaceholder: {
+    color: color.light.text['mention-grey'],
+  },
+  valueDisabled: {
+    color: color.light.text['disabled-grey'],
+  },
 }));

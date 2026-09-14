@@ -44,6 +44,11 @@ jest.mock('@alveole/theme', () => {
         Medium: { fontFamily: 'Inter-Medium', fontSize: 16, lineHeight: 24, letterSpacing: 0 },
         SemiBold: { fontFamily: 'Inter-Bold', fontSize: 16, lineHeight: 24, letterSpacing: 0 },
       },
+      LG: {
+        Regular: { fontFamily: 'Inter-Regular', fontSize: 18, lineHeight: 28, letterSpacing: 0 },
+        Medium: { fontFamily: 'Inter-Medium', fontSize: 18, lineHeight: 28, letterSpacing: 0 },
+        SemiBold: { fontFamily: 'Inter-Bold', fontSize: 18, lineHeight: 28, letterSpacing: 0 },
+      },
     },
     fontSize: Sizes,
     lineHeight: Heights,
@@ -69,5 +74,6 @@ jest.mock('@alveole/theme', () => {
     isSpacingKey,
     makeStyles: stylesFn => () => stylesFn(testTheme),
     Spacings,
+    useTheme: () => testTheme,
   };
 });
