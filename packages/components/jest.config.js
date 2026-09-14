@@ -1,17 +1,73 @@
 const path = require('path');
-const expoPreset = require('jest-expo/ios/jest-preset');
+const nativePreset = require('jest-expo/ios/jest-preset');
+const webPreset = require('jest-expo/web/jest-preset');
+
+const TEST_MATCH = '**/?(*.)+(spec|test).[tj]s?(x)';
+const WEB_TEST_MATCH = '**/?(*.)+(spec|test).web.[tj]s?(x)';
+
+const ignoredPaths = ['/dist/', '/build/', '/.expo/', '/coverage/'];
+
+const transformIgnorePatterns = [
+  'node_modules/(?!((jest-)?react-native|@react-native(-community)?)|expo(nent)?|@expo(nent)?/.*|@expo-google-fonts/.*|@testing-library/react-native|@tamagui/.*|tamagui|lucide-react-native|react-native-svg|standard-navigation)',
+];
+
+// Alias communs aux deux plateformes. Ils canonicalisent ces paquets sur la copie résolue
+// depuis ce package, quel que soit l'endroit où npm les hoiste (racine ou ici) : plusieurs
+// workspaces déclarent leurs propres copies pour leur typecheck/tests, et des instances
+// dupliquées cassent React ("Incompatible React versions", hooks invalides) ou la config
+// Jest elle-même.
+const sharedModuleNameMapper = {
+  '^@alveole/theme$': '<rootDir>/../theme/src/index.ts',
+  '^@/(.*)$': '<rootDir>/$1',
+  '^react$': require.resolve('react'),
+  '^react-dom$': require.resolve('react-dom'),
+  '^lucide-react-native$': require.resolve('lucide-react-native'),
+};
+
+// `watchPlugins` vient des presets Expo mais n'est pas une option de projet : Jest la
+// refuse avec un avertissement de validation à chaque exécution.
+const project = (preset, overrides) => {
+  const { watchPlugins, ...rest } = preset;
+  return { ...rest, transformIgnorePatterns, ...overrides };
+};
 
 /** @type {import('jest').Config} */
 module.exports = {
-  ...expoPreset,
-  testMatch: ['**/?(*.)+(spec|test).[tj]s?(x)'],
-  setupFilesAfterEnv: [...(expoPreset.setupFilesAfterEnv ?? []), '<rootDir>/__tests__/setup.js'],
-  transformIgnorePatterns: [
-    'node_modules/(?!((jest-)?react-native|@react-native(-community)?)|expo(nent)?|@expo(nent)?/.*|@expo-google-fonts/.*|@testing-library/react-native|@tamagui/.*|tamagui|lucide-react-native|react-native-svg|standard-navigation)',
+  projects: [
+    project(nativePreset, {
+      displayName: 'native',
+      testMatch: [TEST_MATCH],
+      setupFilesAfterEnv: [...(nativePreset.setupFilesAfterEnv ?? []), '<rootDir>/__tests__/setup.js'],
+      testPathIgnorePatterns: [...(nativePreset.testPathIgnorePatterns ?? []), ...ignoredPaths],
+      moduleNameMapper: {
+        ...(nativePreset.moduleNameMapper ?? {}),
+        ...sharedModuleNameMapper,
+        '^react-native$': require.resolve('react-native'),
+        '^react-native/(.*)$': path.join(path.dirname(require.resolve('react-native/package.json')), '$1'),
+        '^test-renderer$': require.resolve('test-renderer'),
+        '^expo-modules-core$': require.resolve('expo-modules-core'),
+        '^expo-modules-core/(.*)$': path.join(path.dirname(require.resolve('expo-modules-core/package.json')), '$1'),
+      },
+    }),
+    // Les composants ont des variantes `.web.tsx` que le preset natif ne résout jamais :
+    // leur comportement propre n'était couvert par aucun test unitaire, seulement par
+    // l'audit d'accessibilité de bout en bout. Ce projet les rend dans jsdom via
+    // react-native-web. Le preset web met les extensions `web.*` en tête de résolution.
+    project(webPreset, {
+      displayName: 'web',
+      testMatch: [WEB_TEST_MATCH],
+      setupFilesAfterEnv: [...(webPreset.setupFilesAfterEnv ?? []), '<rootDir>/__tests__/setup.web.js'],
+      testPathIgnorePatterns: [...(webPreset.testPathIgnorePatterns ?? []), ...ignoredPaths],
+      moduleNameMapper: {
+        ...(webPreset.moduleNameMapper ?? {}),
+        ...sharedModuleNameMapper,
+      },
+    }),
   ],
-  testPathIgnorePatterns: [...(expoPreset.testPathIgnorePatterns ?? []), '/dist/', '/build/', '/.expo/', '/coverage/'],
+
   // eslint-disable-next-line no-undef
   cacheDirectory: path.join(__dirname, '.jest-cache'),
+  watchman: false,
   collectCoverage: false,
 
   // Seuils en cliquet : ils valent la couverture mesurée au moment où ils ont été posés,
@@ -21,7 +77,7 @@ module.exports = {
   // les baisser demande une raison explicite.
   coverageThreshold: {
     global: {
-      statements: 10,
+      statements: 11,
       branches: 9,
       functions: 8,
       lines: 11,
@@ -34,22 +90,4 @@ module.exports = {
     '!src/**/*.stories.sources.ts',
     '!src/**/index.ts',
   ],
-  watchman: false,
-  moduleNameMapper: {
-    ...(expoPreset.moduleNameMapper ?? {}),
-    '^@alveole/theme$': '<rootDir>/../theme/src/index.ts',
-    '^@/(.*)$': '<rootDir>/$1',
-    // Canonicalise ces paquets sur la copie résolue depuis ce package, quel que soit
-    // l'endroit où npm les hoiste (racine ou ici) : plusieurs workspaces déclarent leurs
-    // propres copies pour leur typecheck/tests, et des instances dupliquées cassent React
-    // ("Incompatible React versions", hooks invalides) ou la config Jest elle-même.
-    '^react-native$': require.resolve('react-native'),
-    '^react-native/(.*)$': path.join(path.dirname(require.resolve('react-native/package.json')), '$1'),
-    '^react$': require.resolve('react'),
-    '^react-dom$': require.resolve('react-dom'),
-    '^test-renderer$': require.resolve('test-renderer'),
-    '^lucide-react-native$': require.resolve('lucide-react-native'),
-    '^expo-modules-core$': require.resolve('expo-modules-core'),
-    '^expo-modules-core/(.*)$': path.join(path.dirname(require.resolve('expo-modules-core/package.json')), '$1'),
-  },
 };
