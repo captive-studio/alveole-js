@@ -1,0 +1,182 @@
+{
+  "/components/Accordion": {
+    "link-name": 1
+  },
+  "/components/ActionMenu": {
+    "aria-allowed-attr": 1,
+    "link-name": 3
+  },
+  "/components/AnchorHeading": {
+    "link-name": 2
+  },
+  "/components/Autocomplete": {
+    "label-title-only": 5,
+    "label": 5,
+    "link-name": 5
+  },
+  "/components/AutocompleteAddress": {
+    "label-title-only": 1,
+    "label": 1,
+    "link-name": 1
+  },
+  "/components/Avatar": {
+    "link-name": 3
+  },
+  "/components/Badge": {
+    "link-name": 3
+  },
+  "/components/BottomSheet": {
+    "link-name": 3
+  },
+  "/components/Box": {
+    "link-name": 4
+  },
+  "/components/Breadcrumbs": {
+    "link-name": 6
+  },
+  "/components/Card": {
+    "link-name": 9
+  },
+  "/components/Checkbox": {
+    "link-name": 2
+  },
+  "/components/Code": {
+    "link-name": 2
+  },
+  "/components/Counter": {
+    "link-name": 1
+  },
+  "/components/DateInput": {
+    "label": 5,
+    "link-name": 2
+  },
+  "/components/DocumentViewer": {
+    "link-name": 4
+  },
+  "/components/DragAndDropFile": {
+    "link-name": 3
+  },
+  "/components/EmailField": {
+    "label": 2,
+    "link-name": 1
+  },
+  "/components/EmailInput": {
+    "link-name": 1
+  },
+  "/components/Empty State": {
+    "link-name": 5
+  },
+  "/components/FileField": {
+    "link-name": 2
+  },
+  "/components/FilterDate": {
+    "link-name": 1
+  },
+  "/components/FormControl": {
+    "label": 6,
+    "link-name": 13
+  },
+  "/components/Header": {
+    "link-name": 3
+  },
+  "/components/Highlight": {
+    "link-name": 5
+  },
+  "/components/InputButtonAdornment": {
+    "link-name": 2
+  },
+  "/components/InputHeading": {
+    "link-name": 2
+  },
+  "/components/Lottie": {
+    "link-name": 4
+  },
+  "/components/Map": {
+    "link-name": 3
+  },
+  "/components/Metabase": {
+    "frame-title": 1,
+    "link-name": 1
+  },
+  "/components/NumberField": {
+    "label": 2,
+    "link-name": 1
+  },
+  "/components/OtpField": {
+    "label": 3,
+    "link-name": 1
+  },
+  "/components/PageHeader": {
+    "link-name": 2
+  },
+  "/components/PasswordField": {
+    "autocomplete-valid": 2,
+    "label": 1,
+    "link-name": 1
+  },
+  "/components/PdfViewer": {
+    "link-name": 3
+  },
+  "/components/PhoneField": {
+    "label": 1,
+    "link-name": 1
+  },
+  "/components/PhoneInput": {
+    "link-name": 1
+  },
+  "/components/Popover": {
+    "link-name": 1
+  },
+  "/components/PriceInput": {
+    "link-name": 1
+  },
+  "/components/ProgressBar": {
+    "link-name": 6
+  },
+  "/components/RadioGroup": {
+    "button-name": 2,
+    "link-name": 4
+  },
+  "/components/Section": {
+    "link-name": 5
+  },
+  "/components/Select": {
+    "link-name": 2,
+    "select-name": 5
+  },
+  "/components/SelectMultiple": {
+    "label-title-only": 2,
+    "label": 3,
+    "link-name": 2
+  },
+  "/components/Switch": {
+    "link-name": 2
+  },
+  "/components/Tabs": {
+    "link-name": 1
+  },
+  "/components/Tag": {
+    "link-name": 2
+  },
+  "/components/TextField": {
+    "label": 2,
+    "link-name": 2
+  },
+  "/components/TextInputArray": {
+    "link-name": 2
+  },
+  "/components/TextareaField": {
+    "label": 1,
+    "link-name": 1
+  },
+  "/components/TextareaInput": {
+    "label": 1,
+    "link-name": 1
+  },
+  "/components/Typography": {
+    "link-name": 7
+  },
+  "/components/Version": {
+    "link-name": 1
+  }
+}

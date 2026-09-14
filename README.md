@@ -45,6 +45,24 @@ npm run publish:local -- /absolute/path/to/local-project
 - pour remettre les versions publiées dans le `node_modules` du projet cible, relancer une installation des dépendances avec `npm i`
 - les modifications poussées avec `publish:local` sont temporaires et locales ; pour les persister durablement dans les projets ciblés, il faut publier une nouvelle version d'Alveole puis réinstaller ou mettre à jour les dépendances du projet cible
 
+## Accessibilité
+
+Chaque page du catalogue est auditée par [axe](https://github.com/dequelabs/axe-core) dans un
+navigateur, sur le site de documentation compilé. La CI échoue dès qu'une violation nouvelle
+apparaît : les violations déjà connues sont figées dans `apps/docs/e2e/a11y-baseline.json`.
+Le raisonnement derrière ce cliquet est dans [l'ADR 0006](./docs/adr/0006-audit-accessibilite-en-cliquet.md).
+
+```bash
+npm run build --workspace=apps/docs   # le site auditable
+npm run test:a11y --workspace=apps/docs
+```
+
+Après avoir corrigé une violation, resserrer la référence, sinon la CI signale l'écart :
+
+```bash
+npm run test:a11y:baseline --workspace=apps/docs   # serveur sur http://localhost:4173 requis
+```
+
 ## Déployer (publication npm)
 
 La publication passe par le script du repo, puis la CI prends le relai

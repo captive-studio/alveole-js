@@ -29,6 +29,9 @@
   "ignoreDependencies": [
     // Binaires invoqués depuis scripts/check-packages, un script bash que knip ne parse pas.
     "publint",
+    // Serveur de fichiers lancé par le `webServer.command` de apps/docs/playwright.config.ts,
+    // une ligne de commande que knip ne parse pas.
+    "serve",
     "@arethetypeswrong/cli",
     // Déduit par le plugin Expo à la lecture de apps/docs/app.json, alors que l'app de
     // documentation ne fait pas d'OTA et qu'aucun fichier ne l'importe.

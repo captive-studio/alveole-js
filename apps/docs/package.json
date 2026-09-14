@@ -6,6 +6,8 @@
   "scripts": {
     "start": "node ./scripts/sync-pdfjs-web-assets.mjs && expo start --web",
     "build": "node ./scripts/sync-pdfjs-web-assets.mjs && node ./scripts/generate-sitemap.mjs && expo export --platform web",
+    "test:a11y": "playwright test",
+    "test:a11y:baseline": "node scripts/generate-a11y-baseline.mts",
     "doctor": "expo-doctor",
     "doctor:fix": "npx expo install --check"
   },
@@ -48,10 +50,14 @@
     "tamagui": "1.144.4"
   },
   "devDependencies": {
+    "@axe-core/playwright": "4.13.0",
+    "@playwright/test": "1.63.0",
     "@tamagui/babel-plugin": "1.144.4",
     "@types/react": "19.2.17",
+    "axe-core": "4.13.0",
     "babel-preset-expo": "57.0.11",
     "expo-doctor": "1.20.4",
+    "serve": "14.2.6",
     "typescript": "6.0.3"
   }
 }
