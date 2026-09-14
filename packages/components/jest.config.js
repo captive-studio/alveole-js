@@ -85,7 +85,7 @@ module.exports = {
   },
   collectCoverageFrom: [
     'src/**/*.{ts,tsx}',
-    '!src/**/*.test.{ts,tsx}',
+    '!src/**/*.test.*',
     '!src/**/*.stories.tsx',
     '!src/**/*.stories.sources.ts',
     '!src/**/index.ts',
