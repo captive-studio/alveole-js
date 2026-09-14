@@ -1,3 +1,5 @@
+import { Href } from 'expo-router';
+import { A } from '../../core/A';
 import { Box, BoxProps } from '../../core/Box';
 import { Typography } from '../../core/Typography';
 import { LucideIcon, LucideIconProps } from '../LucideIcon';
@@ -9,12 +11,23 @@ export type CardSectionProps = BoxProps & {
   variant?: CardSectionVariant;
   titre?: string;
   description?: string;
+  descriptionLink?: Href & string;
   titreIcone?: LucideIconProps['name'];
   descriptionIcone?: LucideIconProps['name'];
 };
 
 export const CardSection = (props: CardSectionProps) => {
-  const { variant = 'default', titre, description, titreIcone, descriptionIcone, style, children, ...boxProps } = props;
+  const {
+    variant = 'default',
+    titre,
+    description,
+    descriptionLink,
+    titreIcone,
+    descriptionIcone,
+    style,
+    children,
+    ...boxProps
+  } = props;
 
   const styles = useStyles();
 
@@ -24,6 +37,12 @@ export const CardSection = (props: CardSectionProps) => {
   if (!hasTitleRow && !hasDescriptionRow) {
     return null;
   }
+
+  const descriptionText = description && (
+    <Typography style={[styles.descriptionText, variant === 'disabled' ? styles.disabledText : {}]}>
+      {description}
+    </Typography>
+  );
 
   return (
     <Box tag="card-section" style={[styles.cardSection, style]} {...boxProps}>
@@ -59,10 +78,12 @@ export const CardSection = (props: CardSectionProps) => {
             </Box>
           )}
 
-          {description && (
-            <Typography style={[styles.descriptionText, variant === 'disabled' ? styles.disabledText : {}]}>
-              {description}
-            </Typography>
+          {descriptionText && descriptionLink ? (
+            <A href={descriptionLink} style={styles.descriptionLink}>
+              {descriptionText}
+            </A>
+          ) : (
+            descriptionText
           )}
         </Box>
       )}
