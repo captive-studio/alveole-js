@@ -3,6 +3,7 @@ const expoConfig = require('eslint-config-expo/flat');
 const sharedRules = require('./rules/_shared');
 const styleRules = require('./rules/styles');
 const serviceRules = require('./rules/services');
+const accessibilityRules = require('./rules/accessibility');
 
 /** @type {import('eslint').Linter.Config[]} */
 const config = defineConfig([
@@ -11,6 +12,7 @@ const config = defineConfig([
   sharedRules,
   styleRules,
   serviceRules,
+  accessibilityRules,
 ]);
 
 module.exports = config;
