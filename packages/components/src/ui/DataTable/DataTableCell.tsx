@@ -10,10 +10,11 @@ export type DataTableCellProps = {
   variant?: 'header' | 'body';
   size?: DataTableSize;
   onPress?: () => void;
+  noPadding?: boolean;
 };
 
 export const DataTableCell = (props: DataTableCellProps) => {
-  const { align = 'start', width, children, variant = 'body', size = 'sm', onPress } = props;
+  const { align = 'start', width, children, variant = 'body', size = 'sm', onPress, noPadding = false } = props;
   const styles = useStyles();
 
   const paddingStyles = {
@@ -28,7 +29,7 @@ export const DataTableCell = (props: DataTableCellProps) => {
       hoverStyle={onPress ? { opacity: 0.8 } : undefined}
       style={[
         variant === 'header' ? styles.headerCell : styles.cell,
-        paddingStyles,
+        noPadding ? {} : paddingStyles,
         align === 'end' ? styles.cellAlignEnd : {},
         width !== undefined ? { width, flex: 'none' as const } : { flex: 1 },
         onPress ? { cursor: 'pointer' } : {},
