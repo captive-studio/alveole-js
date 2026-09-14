@@ -21,5 +21,7 @@ const TestProvider = ({ children }: PropsWithChildren) => (
 const customRender = (ui: ReactElement, options?: Omit<RenderOptions, 'wrapper'>) =>
   render(ui, { wrapper: TestProvider, ...options });
 
-export * from '@testing-library/react';
+// Réexports explicites plutôt qu'un `export *` : la bibliothèque exporte elle-même un
+// `render`, que l'étoile mettrait en concurrence avec celui-ci.
+export { act, cleanup, fireEvent, screen, waitFor, within } from '@testing-library/react';
 export { customRender as render };
