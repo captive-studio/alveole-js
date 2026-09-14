@@ -6,7 +6,7 @@ export const useStyles = makeStyles(({ text, color, spacing }) => ({
     flexWrap: 'wrap',
     alignItems: 'center',
     gap: spacing('1V'),
-    ...text['Corps de texte'].XS.Regular,
+    ...text['Corps de texte'].SM.Regular,
   },
   separator: {
     color: color.light.text['mention-grey'],
@@ -17,7 +17,7 @@ export const useStyles = makeStyles(({ text, color, spacing }) => ({
   link: {
     color: color.light.text['mention-grey'],
     textDecoration: 'underline',
-    ...text['Corps de texte'].XS.Regular,
+    ...text['Corps de texte'].SM.Regular,
     transitionProperty: 'text-decoration',
     transitionDuration: '0.1s',
     transitionTimingFunction: 'ease-in-out',
