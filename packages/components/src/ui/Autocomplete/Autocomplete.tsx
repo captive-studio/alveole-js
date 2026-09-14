@@ -235,7 +235,7 @@ export const Autocomplete = (props: AutocompleteProps) => {
         {!!hint && <FormControlHint hint={hint} disabled={disabled} />}
       </InputHeading>
 
-      <Pressable onPress={onPressInput} disabled={disabled} style={styles.input}>
+      <Pressable accessibilityRole="button" onPress={onPressInput} disabled={disabled} style={styles.input}>
         <Box style={styles.inputInner}>
           {selected.length === 0 ? (
             <Typography style={styles.inputPlaceholder}>{placeholder}</Typography>
@@ -311,7 +311,11 @@ export const Autocomplete = (props: AutocompleteProps) => {
             )}
 
             {allowCreate && query.trim().length > 0 && !hasExactLabel && (
-              <Pressable onPress={handleCreateFromQuery} style={styles.nativeItem as StyleProp<ViewStyle>}>
+              <Pressable
+                accessibilityRole="button"
+                onPress={handleCreateFromQuery}
+                style={styles.nativeItem as StyleProp<ViewStyle>}
+              >
                 <Box display="flex" flexDirection="row" gap={'050'}>
                   <LucideIcon name="Plus" size="md" />
                   <Typography style={styles.nativeItemTextNew}>{createOptionLabel(query.trim())}</Typography>
@@ -342,6 +346,7 @@ export const Autocomplete = (props: AutocompleteProps) => {
                     <>
                       {showGroupHeader && <Typography style={styles.groupHeader}>{item.group}</Typography>}
                       <Pressable
+                        accessibilityRole="button"
                         onPress={() => toggleOption(item)}
                         style={{
                           ...(styles.nativeItem as ViewStyle),

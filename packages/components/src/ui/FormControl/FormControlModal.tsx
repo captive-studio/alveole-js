@@ -30,13 +30,13 @@ export const FormControlModal = (props: FormControlModalProps) => {
       onShow={onShow}
       onDismiss={onDismiss}
     >
-      <Pressable style={styles.modalOverlay} onPress={onClose}>
+      <Pressable accessible={false} style={styles.modalOverlay} onPress={onClose}>
         <KeyboardAvoidingView
           behavior={Platform.OS === 'ios' ? 'padding' : undefined}
           keyboardVerticalOffset={Platform.OS === 'ios' ? -8 : 0}
           style={{ ...styles.modalSheet, paddingTop: top }}
         >
-          <Pressable style={styles.modalContent as StyleProp<ViewStyle>} onPress={() => null}>
+          <Pressable accessible={false} style={styles.modalContent as StyleProp<ViewStyle>} onPress={() => null}>
             <Box style={styles.modalHeader}>
               <Box style={styles.modalHeaderLeft}></Box>
               <Box style={styles.modalHeaderRight}>

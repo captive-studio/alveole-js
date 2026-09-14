@@ -9,7 +9,7 @@ export const Form = (props: FormProps) => {
   const styles = useStyles();
 
   return (
-    <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
+    <TouchableWithoutFeedback accessible={false} onPress={Keyboard.dismiss}>
       <Box tag="form" style={[styles.form, style]} {...formProps} />
     </TouchableWithoutFeedback>
   );

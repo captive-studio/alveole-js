@@ -83,7 +83,7 @@ export const FormControlFileInput = (props: FormControlFileInputProps) => {
   if (hideButton) return null;
 
   return (
-    <Pressable onPress={handlePickFile}>
+    <Pressable accessibilityRole="button" onPress={handlePickFile}>
       <Box
         tag="form-control-file-input-inner"
         style={{

@@ -124,6 +124,7 @@ export const TextInput = React.forwardRef<TextInputElement, TextInputProps>(func
     >
       {shouldUseModal ? (
         <Pressable
+          accessibilityRole="button"
           style={{
             ...styles.inputInner,
             ...(disabled ? styles.inputDisabled : {}),
