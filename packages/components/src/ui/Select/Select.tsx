@@ -1,49 +1,66 @@
-import { Picker, PickerProps } from '@react-native-picker/picker';
+import { useTheme } from '@alveole/theme';
 import React from 'react';
-import { NativeSyntheticEvent, Platform, StyleProp, TextStyle } from 'react-native';
+import { Keyboard, Pressable, StyleProp, ViewStyle } from 'react-native';
 import { Box } from '../../core/Box';
-import {
-  FormControl,
-  FormControlCaption,
-  FormControlCaptionProps,
-  FormControlHint,
-  FormControlHintProps,
-  FormControlLabel,
-  FormControlLabelProps,
-} from '../FormControl';
+import { Typography } from '../../core/Typography';
+import { FormControl, FormControlCaption, FormControlHint, FormControlLabel } from '../FormControl';
 import { InputHeading } from '../InputHeading';
 import { LucideIcon } from '../LucideIcon';
 import { useStyles } from './Select.styles';
-import type { SelectOption } from './Select.types';
-import { SelectInput } from './SelectInput';
+import type { SelectProps, SelectRef } from './Select.types';
+import { SelectBottomSheet } from './SelectBottomSheet';
 
-export type SelectProps = Partial<Pick<PickerProps, 'onBlur' | 'onFocus'>> &
-  FormControlLabelProps &
-  FormControlHintProps &
-  FormControlCaptionProps & {
-    value: string | null;
-    placeholder?: string;
-    options: SelectOption[];
-    onChange?: (value: string | null) => void;
-  };
-
-export const Select = React.forwardRef<Picker<string | number | object>, SelectProps>(function Select(props, ref) {
-  const { value, label, labelRight, hint, error, success, disabled, options, placeholder, onChange, onBlur, onFocus } =
-    props;
+export const Select = React.forwardRef<SelectRef, SelectProps>(function Select(props, ref) {
+  const {
+    value,
+    label,
+    labelRight,
+    hint,
+    error,
+    success,
+    disabled,
+    options,
+    placeholder,
+    sheetTitle,
+    clearable,
+    onChange,
+    onBlur,
+    onFocus,
+  } = props;
 
   const styles = useStyles();
+  const { color } = useTheme();
 
-  const [focus, setFocus] = React.useState(false);
+  const [open, setOpen] = React.useState(false);
 
-  const handleFocus = (e: NativeSyntheticEvent<any>) => {
-    if (!disabled) setFocus(true);
-    onFocus?.(e);
-  };
+  const selectedOption = React.useMemo(() => options.find(option => option.value === value), [options, value]);
 
-  const handleBlur = (e: NativeSyntheticEvent<any>) => {
-    if (!disabled) setFocus(false);
-    onBlur?.(e);
-  };
+  const openSheet = React.useCallback(() => {
+    if (disabled) return;
+    if (Keyboard.isVisible()) Keyboard.dismiss();
+    setOpen(true);
+    onFocus?.();
+  }, [disabled, onFocus]);
+
+  const closeSheet = React.useCallback(() => {
+    setOpen(false);
+    onBlur?.();
+  }, [onBlur]);
+
+  const handleOpenChange = React.useCallback(
+    (nextOpen: boolean) => {
+      if (nextOpen) openSheet();
+      else closeSheet();
+    },
+    [closeSheet, openSheet],
+  );
+
+  React.useImperativeHandle(ref, () => ({ focus: openSheet, blur: closeSheet, open: openSheet, close: closeSheet }), [
+    closeSheet,
+    openSheet,
+  ]);
+
+  const iconColor = disabled ? color.light.text['disabled-grey'] : color.light.text['default-grey'];
 
   return (
     <FormControl style={styles.pickerContainer}>
@@ -54,40 +71,52 @@ export const Select = React.forwardRef<Picker<string | number | object>, SelectP
         {!!hint && <FormControlHint hint={hint} disabled={disabled} />}
       </InputHeading>
 
-      <Box tag="form-control-text-input" style={styles.inputContainer}>
-        <Box
-          tag="form-control-text-input-inner"
-          style={{
-            ...styles.inputInner,
-            ...(disabled ? styles.inputDisabled : {}),
-            ...(focus ? styles.inputFocused : {}),
-            ...(error ? styles.inputError : {}),
-            ...(success ? styles.inputSuccess : {}),
-          }}
+      <Box tag="form-control-select-input" style={styles.inputContainer}>
+        <Pressable
+          testID="select-trigger"
+          accessibilityRole="button"
+          accessibilityState={{ disabled: Boolean(disabled), expanded: open }}
+          disabled={disabled}
+          onPress={openSheet}
+          // `makeStyles` produit des CSSProperties (spacing renvoie une CSS var sur web) :
+          // le cast est le même que celui des autres champs, cf. FormControl/TextInput.
+          style={
+            {
+              ...styles.inputInner,
+              ...(disabled ? styles.inputDisabled : {}),
+              ...(open ? styles.inputFocused : {}),
+              ...(error ? styles.inputError : {}),
+              ...(success ? styles.inputSuccess : {}),
+            } as StyleProp<ViewStyle>
+          }
         >
-          <SelectInput
-            ref={ref}
-            value={value}
-            placeholder={placeholder}
-            options={options}
-            onChange={onChange}
-            disabled={disabled}
-            onFocus={handleFocus}
-            onBlur={handleBlur}
-            style={styles.picker as StyleProp<TextStyle>}
-          />
+          {selectedOption?.icon && <LucideIcon size="sm" name={selectedOption.icon} color={iconColor} />}
 
-          {Platform.OS === 'web' && (
-            <LucideIcon
-              style={{ ...styles.indicator, ...(focus ? styles.indicatorFocus : {}) }}
-              size="sm"
-              name="ChevronDown"
-            />
-          )}
-        </Box>
+          <Typography
+            style={{
+              ...styles.value,
+              ...(selectedOption ? {} : styles.valuePlaceholder),
+              ...(disabled ? styles.valueDisabled : {}),
+            }}
+          >
+            {selectedOption?.label ?? placeholder ?? ''}
+          </Typography>
+
+          <LucideIcon size="sm" name="ChevronDown" color={iconColor} />
+        </Pressable>
       </Box>
 
       {(error || success) && <FormControlCaption error={error} success={success} />}
+
+      <SelectBottomSheet
+        open={open}
+        setOpen={handleOpenChange}
+        title={sheetTitle ?? label}
+        options={options}
+        value={value}
+        onSelect={nextValue => onChange?.(nextValue)}
+        clearable={clearable}
+      />
     </FormControl>
   );
 });
