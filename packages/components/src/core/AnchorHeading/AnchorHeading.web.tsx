@@ -35,6 +35,7 @@ export const AnchorHeading = ({ children, style, scrollMarginTop }: AnchorHeadin
 
       <a
         href={`#${slug}`}
+        aria-label={`Lien vers la section ${children}`}
         style={{
           opacity: hovered ? 1 : 0,
           transition: 'opacity 0.15s',
