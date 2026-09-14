@@ -21,10 +21,10 @@ module.exports = {
   // les baisser demande une raison explicite.
   coverageThreshold: {
     global: {
-      statements: 6,
-      branches: 5,
-      functions: 4,
-      lines: 7,
+      statements: 10,
+      branches: 9,
+      functions: 8,
+      lines: 11,
     },
   },
   collectCoverageFrom: [
