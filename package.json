@@ -8,8 +8,8 @@
   "scripts": {
     "build": "npm run --workspaces --if-present build",
     "build:packages": "npm run build --workspace=packages/core --workspace=packages/theme --workspace=packages/components --workspace=packages/storybook",
-    "format": "prettier . --write",
-    "format:check": "prettier . --check",
+    "format": "node scripts/format.mjs --write",
+    "format:check": "node scripts/format.mjs --check",
     "test:unit": "npm run --workspaces --if-present test:unit",
     "test:dev": "npm run test:dev --workspace=packages/components --",
     "lint": "npm run --workspaces --if-present lint",
