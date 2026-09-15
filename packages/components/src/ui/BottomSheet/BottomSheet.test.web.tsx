@@ -1,4 +1,4 @@
-import { render, screen } from '@/__tests__/helpers/render.web';
+import { renderWeb, screen } from '@/__tests__/helpers/renderWeb';
 import { BottomSheet } from './BottomSheet';
 
 // Tamagui rend deux Frame par panneau, l'un porteur du contenu et l'autre vide : les deux
@@ -8,7 +8,7 @@ const dialogueVisible = (nom: string) =>
   screen.getAllByRole('dialog', { name: nom }).find(element => element.textContent?.includes('contenu'));
 
 test('expose le panneau comme un dialogue nommé par son titre', () => {
-  render(
+  renderWeb(
     <BottomSheet open title="Filtrer" setOpen={() => undefined} fitContent>
       <div>contenu</div>
     </BottomSheet>,

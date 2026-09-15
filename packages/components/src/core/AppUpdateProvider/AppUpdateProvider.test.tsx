@@ -1,4 +1,4 @@
-import { render, waitFor } from '@/__tests__/helpers';
+import { renderNative, waitFor } from '@/__tests__/helpers/renderNative';
 import { act, fireEvent } from '@testing-library/react-native';
 import { checkForUpdate, startUpdate } from 'expo-in-app-updates';
 import React from 'react';
@@ -59,7 +59,7 @@ describe('AppUpdateProvider', () => {
   it("affiche les enfants si aucune mise à jour n'est disponible", async () => {
     mockCheckForUpdate.mockResolvedValue({ updateAvailable: false, storeVersion: '2.0.0' });
 
-    const { getByText } = await render(
+    const { getByText } = await renderNative(
       <Wrapper>
         <Text>Contenu</Text>
       </Wrapper>,
@@ -71,7 +71,7 @@ describe('AppUpdateProvider', () => {
   it('affiche UpdateRequired si une mise à jour est disponible sur iOS', async () => {
     mockCheckForUpdate.mockResolvedValue({ updateAvailable: true, storeVersion: '2.0.0' });
 
-    const { getByText } = await render(
+    const { getByText } = await renderNative(
       <Wrapper>
         <Text>Contenu</Text>
       </Wrapper>,
@@ -85,7 +85,7 @@ describe('AppUpdateProvider', () => {
     mockCheckForUpdate.mockResolvedValue({ updateAvailable: true, storeVersion: '2.0.0' });
     mockStartUpdate.mockResolvedValue(true);
 
-    await render(
+    await renderNative(
       <Wrapper>
         <Text>Contenu</Text>
       </Wrapper>,
@@ -97,7 +97,7 @@ describe('AppUpdateProvider', () => {
   it('affiche les enfants si le check échoue', async () => {
     mockCheckForUpdate.mockRejectedValue(new Error('network error'));
 
-    const { getByText } = await render(
+    const { getByText } = await renderNative(
       <Wrapper>
         <Text>Contenu</Text>
       </Wrapper>,
@@ -109,7 +109,7 @@ describe('AppUpdateProvider', () => {
   it('affiche les enfants immédiatement sur web sans appeler checkForUpdate', async () => {
     Object.defineProperty(Platform, 'OS', { value: 'web', writable: true, configurable: true });
 
-    const { getByText } = await render(
+    const { getByText } = await renderNative(
       <Wrapper>
         <Text>Contenu</Text>
       </Wrapper>,
@@ -123,7 +123,7 @@ describe('AppUpdateProvider', () => {
     mockCheckForUpdate.mockResolvedValue({ updateAvailable: true, storeVersion: '2.0.0' });
     const openURL = jest.spyOn(Linking, 'openURL').mockResolvedValue(undefined);
 
-    const { getByText } = await render(
+    const { getByText } = await renderNative(
       <Wrapper>
         <Text>Contenu</Text>
       </Wrapper>,
@@ -144,7 +144,7 @@ describe('AppUpdateProvider', () => {
       return { remove: jest.fn() };
     });
 
-    await render(
+    await renderNative(
       <Wrapper>
         <Text>Contenu</Text>
       </Wrapper>,
@@ -169,7 +169,7 @@ describe('AppUpdateProvider', () => {
       return { remove: jest.fn() };
     });
 
-    await render(
+    await renderNative(
       <Wrapper>
         <Text>Contenu</Text>
       </Wrapper>,

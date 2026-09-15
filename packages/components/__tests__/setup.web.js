@@ -2,7 +2,7 @@ require('./mocks/expo');
 require('./mocks/safeArea');
 
 // Le mock de `@alveole/theme` du projet natif n'est délibérément pas chargé ici : le
-// helper de rendu web monte le vrai ThemeProvider. Voir __tests__/helpers/render.web.tsx.
+// helper de rendu web monte le vrai ThemeProvider. Voir __tests__/helpers/renderWeb.tsx.
 
 // jsdom n'implémente pas matchMedia, dont Tamagui se sert pour résoudre ses media queries
 // au premier rendu. Sans ce relais, toute suite web échoue avant le premier test.

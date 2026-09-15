@@ -6,6 +6,13 @@ import { createTamagui, TamaguiProvider } from 'tamagui';
 
 const tamaguiConfig = createTamagui(config);
 
+// Le nom de fichier ne porte volontairement pas d'extension `.web` : Jest résout ces
+// extensions, TypeScript non. Tant que ce helper s'appelait `render.web.tsx` et exportait
+// un `render`, un test web qui l'importait de travers obtenait le rendu web à l'exécution
+// et les types de React Native à la compilation, et le typecheck cassait dès qu'il touchait
+// au DOM. Sans extension et sous un nom qui ne rime avec aucun autre, les deux résolvent
+// le même fichier et la confusion n'est plus possible.
+//
 // Pendant du helper natif, pour les variantes `.web.tsx` : rendu dans le DOM via
 // @testing-library/react. Contrairement au natif, le thème n'est pas simulé mais monté
 // pour de vrai — le mock de `@alveole/theme` ne s'applique pas dans ce projet, et un
@@ -63,4 +70,4 @@ const renderHookOnDesktop = <T,>(hook: () => T) => {
 // Réexports explicites plutôt qu'un `export *` : la bibliothèque exporte elle-même un
 // `render`, que l'étoile mettrait en concurrence avec celui-ci.
 export { act, cleanup, fireEvent, screen, waitFor, within } from '@testing-library/react';
-export { customRender as render, renderHookOnDesktop, renderOnDesktop, renderOnMobile };
+export { customRender as renderWeb, renderHookOnDesktop, renderOnDesktop, renderOnMobile };

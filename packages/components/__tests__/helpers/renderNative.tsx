@@ -13,4 +13,4 @@ const customRender = (ui: ReactElement, options?: Omit<RenderOptions, 'wrapper'>
   render(ui, { wrapper: TestProvider, ...options });
 
 export * from '@testing-library/react-native';
-export { customRender as render };
+export { customRender as renderNative };

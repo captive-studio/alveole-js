@@ -1,8 +1,8 @@
-import { render, screen } from '@/__tests__/helpers/render.web';
+import { renderWeb, screen } from '@/__tests__/helpers/renderWeb';
 import { TimeInput } from './TimeInput';
 
 test('associe le libellé au champ', () => {
-  render(<TimeInput label="Heure de rendez-vous" />);
+  renderWeb(<TimeInput label="Heure de rendez-vous" />);
 
   expect(screen.getByLabelText('Heure de rendez-vous')).toBeTruthy();
 });

@@ -1,6 +1,4 @@
-// Import explicite de la variante web : `helpers/index.ts` réexporte `./render`, que
-// TypeScript résout sur le helper natif, lequel n'a pas de notion de bureau.
-import { renderHookOnDesktop } from '@/__tests__/helpers/render.web';
+import { renderHookOnDesktop } from '@/__tests__/helpers/renderWeb';
 import { useStyles } from './Sidebar.styles';
 
 // La ligne courante est un lien comme ses voisines, et se survole comme elles : un seul style

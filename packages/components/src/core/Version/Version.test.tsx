@@ -1,4 +1,4 @@
-import { render } from '@/__tests__/helpers';
+import { renderNative } from '@/__tests__/helpers/renderNative';
 import { displayVersion, Version } from './Version';
 
 describe('Version', () => {
@@ -10,7 +10,7 @@ describe('Version', () => {
   });
 
   it('rend la version Expo avec le build natif', async () => {
-    const { getByText } = await render(<Version />);
+    const { getByText } = await renderNative(<Version />);
 
     expect(getByText('App version 1.2.3 (build 42)')).toBeTruthy();
   });

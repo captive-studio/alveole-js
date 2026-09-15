@@ -1,8 +1,8 @@
-import { render, screen } from '@/__tests__/helpers/render.web';
+import { renderWeb, screen } from '@/__tests__/helpers/renderWeb';
 import { DateInput } from './DateInput';
 
 test('associe le libellé au champ', () => {
-  render(<DateInput label="Date de naissance" />);
+  renderWeb(<DateInput label="Date de naissance" />);
 
   expect(screen.getByLabelText('Date de naissance')).toBeTruthy();
 });
