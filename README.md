@@ -26,24 +26,24 @@ npm run publish:local -- /absolute/path/to/local-project
 
 ### Ce que fait le script
 
-- détecte les packages `@alveole/*` déjà installés dans le `node_modules` du projet cible
+- détecte les packages `@alveole/*` déjà installés dans le `node_modules` de l'application cliente
 - build les packages locaux dans l'ordre des dépendances
 - génère un tarball avec `npm pack` pour respecter le contenu réellement publiable
-- remplace le contenu des packages correspondants dans le `node_modules` du projet cible
+- remplace le contenu des packages correspondants dans le `node_modules` de l'application cliente
 
 ### Pré-requis
 
 - lancer la commande depuis la racine de ce repo
 - passer un chemin absolu vers un projet local existant
-- le projet cible doit déjà avoir ses `node_modules` installés
+- l'application cliente doit déjà avoir ses `node_modules` installés
 
 ### Notes
 
 - le script doit être lancé après chaque modification d'alveole, les changements ne sont pas écoutés
-- les modifications poussées doivent repasser par un lancement de Metro ; il faut couper le projet cible puis le relancer avec `npm run start:dev`
-- le script ne modifie pas le `package.json` ni le lockfile du projet cible
-- pour remettre les versions publiées dans le `node_modules` du projet cible, relancer une installation des dépendances avec `npm i`
-- les modifications poussées avec `publish:local` sont temporaires et locales ; pour les persister durablement dans les projets ciblés, il faut publier une nouvelle version d'Alveole puis réinstaller ou mettre à jour les dépendances du projet cible
+- les modifications poussées doivent repasser par un lancement de Metro ; il faut couper l'application cliente puis la relancer avec `npm run start:dev`
+- le script ne modifie pas le `package.json` ni le lockfile de l'application cliente
+- pour remettre les versions publiées dans le `node_modules` de l'application cliente, relancer une installation des dépendances avec `npm i`
+- les modifications poussées avec `publish:local` sont temporaires et locales ; pour les persister durablement dans les applications clientes, il faut publier une nouvelle version d'Alveole puis réinstaller ou mettre à jour les dépendances de l'application cliente
 
 ## Accessibilité
 

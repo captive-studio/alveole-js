@@ -153,13 +153,22 @@ export const generateFontFaceCSS = (): string => {
   return `@import url('https://fonts.googleapis.com/css2?${families}&display=swap');`;
 };
 
-export const generateFontSmoothingCSS = (): string =>
-  'body { -webkit-font-smoothing: antialiased; -moz-osx-font-smoothing: grayscale; text-rendering: optimizeLegibility; }';
+const DefaultTheme = {
+  color: {
+    _constants: Colors,
+    _rawLight: CustomPalette.light,
+  },
+} as Theme;
 
-export const generateDefaultThemeCSS = (): string =>
-  generateCSSVariables({
-    color: {
-      _constants: Colors,
-      _rawLight: CustomPalette.light,
-    },
-  } as Theme);
+export const generateDefaultThemeCSS = (): string => generateCSSVariables(DefaultTheme);
+
+/**
+ * Le CSS que le paquet emet sur le web, en morceaux ordonnes. Les deux assembleurs
+ * (le `<style>` de WebThemeStyles et le `dist/default.css` du script de build) passent
+ * par ici : sans ce point unique, la liste serait tenue en phase a la main dans deux
+ * fichiers dont l'un est un script que personne ne relit.
+ */
+export const generateThemeCSSParts = (theme: Theme = DefaultTheme): string[] => [
+  generateFontFaceCSS(),
+  generateCSSVariables(theme),
+];
