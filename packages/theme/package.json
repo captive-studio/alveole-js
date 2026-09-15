@@ -33,7 +33,6 @@
     "access": "public"
   },
   "dependencies": {
-    "@expo-google-fonts/geist": "0.4.2",
-    "@expo-google-fonts/inter": "0.4.2"
+    "@expo-google-fonts/geist": "0.4.2"
   }
 }
