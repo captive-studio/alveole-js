@@ -9,6 +9,9 @@ const ignoredPaths = ['/dist/', '/build/', '/.expo/', '/coverage/'];
 
 const transformIgnorePatterns = [
   'node_modules/(?!((jest-)?react-native|@react-native(-community)?)|expo(nent)?|@expo(nent)?/.*|@expo-google-fonts/.*|@testing-library/react-native|@tamagui/.*|tamagui|lucide-react-native|react-native-svg|standard-navigation)',
+  // Le mapper ci-dessous résout Lucide sur son entrée CommonJS, déjà compilée.
+  // Repasser ses milliers d'icônes dans Babel coûte cher à froid, sans changer leur code.
+  '/node_modules/lucide-react-native/dist/cjs/',
 ];
 
 // Alias communs aux deux plateformes. Ils canonicalisent ces paquets sur la copie résolue
