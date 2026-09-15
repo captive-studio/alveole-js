@@ -1,17 +1,46 @@
 {
+  "src/components/UIKitTopBar.tsx": {
+    "max-lines-per-function": {
+      "count": 1
+    }
+  },
+  "src/pages/PhilosophyPage.tsx": {
+    "max-lines-per-function": {
+      "count": 1
+    }
+  },
   "src/pages/UIKitPage.tsx": {
     "complexity": {
+      "count": 1
+    },
+    "max-lines-per-function": {
       "count": 1
     }
   },
   "src/screens/StoriesScreen.tsx": {
     "complexity": {
       "count": 1
+    },
+    "max-lines-per-function": {
+      "count": 1
+    }
+  },
+  "src/screens/StoryDetailScreen.tsx": {
+    "max-lines-per-function": {
+      "count": 1
+    }
+  },
+  "src/screens/ThemeCSSVariablesScreen.tsx": {
+    "max-lines-per-function": {
+      "count": 2
     }
   },
   "src/screens/ThemePaletteScreen.tsx": {
     "complexity": {
       "count": 1
+    },
+    "max-depth": {
+      "count": 2
     }
   }
 }

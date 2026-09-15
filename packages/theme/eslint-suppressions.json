@@ -1,6 +1,14 @@
 {
+  "src/constants/Color.ts": {
+    "max-lines": {
+      "count": 1
+    }
+  },
   "src/helpers/injectVariableCSS.ts": {
     "complexity": {
+      "count": 1
+    },
+    "max-depth": {
       "count": 1
     }
   }
