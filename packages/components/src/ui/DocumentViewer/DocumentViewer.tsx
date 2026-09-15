@@ -17,7 +17,7 @@ export const DocumentViewer = (props: DocumentViewerProps) => {
 
   const [rotation, setRotation] = React.useState<DocumentViewerRotation>(0);
   const [page, setPage] = React.useState(1);
-  const [totalPages, setTotalPages] = React.useState(type === 'image' ? 1 : 1);
+  const [totalPages, setTotalPages] = React.useState(1);
 
   const state = React.useMemo<DocumentViewerToolbarState>(() => {
     return {
