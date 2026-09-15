@@ -1,4 +1,4 @@
-import { render, screen } from '@/__tests__/helpers';
+import { render, screen } from '@/__tests__/helpers/render.web';
 import { ListItem } from './ListItem';
 
 test("nomme le bouton radio par le titre de l'élément", () => {

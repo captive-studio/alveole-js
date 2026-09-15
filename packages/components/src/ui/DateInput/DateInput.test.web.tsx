@@ -1,4 +1,4 @@
-import { render, screen } from '@/__tests__/helpers';
+import { render, screen } from '@/__tests__/helpers/render.web';
 import { DateInput } from './DateInput';
 
 test('associe le libellé au champ', () => {
