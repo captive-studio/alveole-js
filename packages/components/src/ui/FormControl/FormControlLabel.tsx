@@ -1,6 +1,7 @@
 import React from 'react';
 import { Box } from '../../core/Box';
 import { Typography } from '../../core/Typography';
+import { useFieldId } from './FieldId';
 import { useStyles } from './FormControl.styles';
 import { FormControlCaptionProps } from './FormControlCaption';
 
@@ -16,10 +17,13 @@ export const FormControlLabel = (props: FormControlLabelProps) => {
   const { label, labelRight, optional = false, optionalText = '(optionnel)', disabled, error, success } = props;
 
   const styles = useStyles();
+  const fieldId = useFieldId();
 
   return (
     <Box tag="form-control-label" style={styles.labelContainer}>
       <Typography
+        tag="label"
+        htmlFor={fieldId}
         style={{
           ...styles.label,
           ...(error ? styles.errorText : {}),

@@ -1,5 +1,6 @@
 import React from 'react';
 import { Box } from '../../core/Box';
+import { useFieldId } from './FieldId';
 import { useStyles } from './FormControl.styles';
 
 export type FormControlNumberInputElement = HTMLInputElement;
@@ -22,6 +23,7 @@ export const FormControlNumberInput = React.forwardRef<FormControlNumberInputEle
     const { value, onChange, startAdornment, endAdornment, ...inputProps } = props;
 
     const styles = useStyles();
+    const fieldId = useFieldId();
     const [focus, setFocus] = React.useState(false);
 
     const handleFocus = () => {
@@ -47,6 +49,7 @@ export const FormControlNumberInput = React.forwardRef<FormControlNumberInputEle
 
           <input
             ref={ref}
+            id={fieldId}
             value={value ?? ''}
             onChange={e => {
               const newValue = e.target.value;
