@@ -42,7 +42,28 @@ config.resolver.extraNodeModules = {
   'react-native': path.resolve(localNodeModules, 'react-native'),
   'react-native-web': path.resolve(localNodeModules, 'react-native-web'),
 };
+// En dev, les paquets du monorepo sont résolus sur leurs sources plutôt que sur leur `main`
+// compilé. Sans ça, toute modification d'un composant exige un `npm run build` du workspace
+// avant que Metro ne la voie : la boucle passe de 0,2 s à 8,2 s, et le fast refresh ne sert
+// à rien puisqu'il ne surveille que des dist/ régénérés à la main.
+// Activé uniquement par le script `start` : `expo export`, le job d'accessibilité et
+// docs.yml continuent de consommer les dist/. Le build de la doc reste ainsi la seule
+// vérification de bout en bout que les paquets publiés s'exécutent vraiment, ce que
+// publint et attw ne couvrent pas (ils valident les métadonnées, pas l'exécution).
+const liveSources = process.env.ALVEOLE_LIVE === '1';
+const sourceEntries = {
+  '@alveole/components': 'packages/components/src/index.ts',
+  '@alveole/components/stories': 'packages/components/src/stories/index.ts',
+  '@alveole/storybook': 'packages/storybook/src/index.ts',
+  '@alveole/theme': 'packages/theme/src/index.ts',
+  '@alveole/core': 'packages/core/src/index.ts',
+};
+
 config.resolver.resolveRequest = (context, moduleName, platform) => {
+  if (liveSources && sourceEntries[moduleName]) {
+    return { type: 'sourceFile', filePath: path.resolve(monorepoRoot, sourceEntries[moduleName]) };
+  }
+
   const isCanonical = canonicalPackages.some(pkg => moduleName === pkg || moduleName.startsWith(`${pkg}/`));
   if (isCanonical) {
     return { type: 'sourceFile', filePath: require.resolve(moduleName, { paths: [projectRoot] }) };
