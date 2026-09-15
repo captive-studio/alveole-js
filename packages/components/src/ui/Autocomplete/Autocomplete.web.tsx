@@ -162,6 +162,7 @@ export const Autocomplete = React.forwardRef<any, AutocompleteProps>(function Se
         <Box style={{ ...(disabled ? styles.inputDisabled : {}) }}>
           <ReactSelect
             ref={ref}
+            aria-label={label}
             value={selectedOptions}
             styles={selectStyles}
             isMulti

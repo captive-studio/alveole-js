@@ -79,6 +79,7 @@ export const SelectMultiple = React.forwardRef<any, SelectMultipleProps>(functio
         <Box style={{ ...(disabled ? styles.inputDisabled : {}) }}>
           <ReactSelect
             ref={ref}
+            aria-label={label}
             value={displayValue}
             styles={selectStyles}
             isMulti
