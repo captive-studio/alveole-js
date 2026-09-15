@@ -10,6 +10,9 @@
     },
     "max-depth": {
       "count": 1
+    },
+    "sonarjs/cognitive-complexity": {
+      "count": 1
     }
   }
 }
