@@ -54,6 +54,15 @@ export const Signature = (props: SignatureProps) => {
     };
   }, [signatureInstanceVersion, onChange]);
 
+  // Rappel de `ref` stable : défini en ligne, il changeait d'identité à chaque rendu, donc
+  // React le détachait et le rattachait, et chaque rattachement relançait un rendu. La
+  // fiche du catalogue ne s'affichait plus du tout (« Maximum update depth exceeded »).
+  const attacherSignature = React.useCallback((instance: SignatureRef | null) => {
+    if (!instance) return;
+    signatureRef.current = instance;
+    setSignatureInstanceVersion(version => version + 1);
+  }, []);
+
   const handleClear = () => {
     signatureRef.current?.clear();
     onChange(null);
@@ -71,12 +80,7 @@ export const Signature = (props: SignatureProps) => {
       </Box>
       <Box style={{ ...styles.signatureWeb, height }}>
         <ReactSignature
-          ref={(inst: SignatureRef | null) => {
-            if (inst) {
-              signatureRef.current = inst;
-              setSignatureInstanceVersion(version => version + 1);
-            }
-          }}
+          ref={attacherSignature}
           style={styles.signatureWeb}
           fill={styles.pen.color}
           options={{ size: 12, smoothing: 0.15, thinning: 0.73, streamline: 0.5 }}
