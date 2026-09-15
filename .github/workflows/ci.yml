@@ -22,7 +22,7 @@ jobs:
     if: github.event_name != 'push' || !startsWith(github.ref, 'refs/tags/')
     runs-on: [captive-small]
     timeout-minutes: 15
-    container: ghcr.io/captive-studio/node-ci:24.21.0
+    container: ghcr.io/captive-studio/node-ci:24.21.0@sha256:4c2bab78a71648bc9001d6fd839e7ff0eb9f891fd331bb7b04e1e957a1af11bd
     steps:
       - name: Checkout
         uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
@@ -50,7 +50,7 @@ jobs:
     needs: install
     runs-on: [captive-small]
     timeout-minutes: 20
-    container: ghcr.io/captive-studio/node-ci:24.21.0
+    container: ghcr.io/captive-studio/node-ci:24.21.0@sha256:4c2bab78a71648bc9001d6fd839e7ff0eb9f891fd331bb7b04e1e957a1af11bd
     steps:
       - name: Checkout
         uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
@@ -89,7 +89,7 @@ jobs:
     needs: install
     runs-on: [captive-small]
     timeout-minutes: 10
-    container: ghcr.io/captive-studio/node-ci:24.21.0
+    container: ghcr.io/captive-studio/node-ci:24.21.0@sha256:4c2bab78a71648bc9001d6fd839e7ff0eb9f891fd331bb7b04e1e957a1af11bd
     steps:
       - name: Checkout
         uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
@@ -118,7 +118,7 @@ jobs:
     needs: install
     runs-on: [captive-small]
     timeout-minutes: 20
-    container: ghcr.io/captive-studio/node-ci:24.21.0
+    container: ghcr.io/captive-studio/node-ci:24.21.0@sha256:4c2bab78a71648bc9001d6fd839e7ff0eb9f891fd331bb7b04e1e957a1af11bd
     steps:
       - name: Checkout
         uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
@@ -161,7 +161,7 @@ jobs:
     needs: install
     runs-on: [self-hosted]
     timeout-minutes: 25
-    container: ghcr.io/captive-studio/node-ci:24.21.0
+    container: ghcr.io/captive-studio/node-ci:24.21.0@sha256:4c2bab78a71648bc9001d6fd839e7ff0eb9f891fd331bb7b04e1e957a1af11bd
     steps:
       - name: Checkout
         uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
@@ -198,7 +198,7 @@ jobs:
     needs: install
     runs-on: [self-hosted]
     timeout-minutes: 30
-    container: ghcr.io/captive-studio/node-ci:24.21.0
+    container: ghcr.io/captive-studio/node-ci:24.21.0@sha256:4c2bab78a71648bc9001d6fd839e7ff0eb9f891fd331bb7b04e1e957a1af11bd
     steps:
       - name: Checkout
         uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
@@ -305,7 +305,7 @@ jobs:
     needs: install
     runs-on: [self-hosted]
     timeout-minutes: 45
-    container: ghcr.io/captive-studio/node-ci:24.21.0
+    container: ghcr.io/captive-studio/node-ci:24.21.0@sha256:4c2bab78a71648bc9001d6fd839e7ff0eb9f891fd331bb7b04e1e957a1af11bd
     # L'image définit déjà cette variable, mais la repréciser ici rend le workflow lisible
     # sans avoir à ouvrir le Dockerfile, et le met à l'abri d'une image qui ne la porterait
     # plus. Playwright cherche sinon ses navigateurs dans ~/.cache, où ils ne sont pas.
@@ -380,7 +380,7 @@ jobs:
     if: github.event_name != 'push' || !startsWith(github.ref, 'refs/tags/')
     needs: install
     runs-on: [captive-small]
-    container: ghcr.io/captive-studio/node-ci:24.21.0
+    container: ghcr.io/captive-studio/node-ci:24.21.0@sha256:4c2bab78a71648bc9001d6fd839e7ff0eb9f891fd331bb7b04e1e957a1af11bd
     steps:
       - name: Checkout
         uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
@@ -411,7 +411,7 @@ jobs:
     if: github.event_name != 'push' || !startsWith(github.ref, 'refs/tags/')
     needs: install
     runs-on: [self-hosted]
-    container: ghcr.io/captive-studio/node-ci:24.21.0
+    container: ghcr.io/captive-studio/node-ci:24.21.0@sha256:4c2bab78a71648bc9001d6fd839e7ff0eb9f891fd331bb7b04e1e957a1af11bd
     steps:
       - name: Checkout
         uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
