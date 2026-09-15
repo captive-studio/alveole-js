@@ -25,7 +25,7 @@ module.exports = function (api) {
       ...(!isDevelopment
         ? [
             [
-              '@tamagui/babel-plugin',
+              require.resolve('@tamagui/babel-plugin'),
               {
                 components: ['tamagui', '@alveole/components'],
                 config: './tamagui.config.ts',
