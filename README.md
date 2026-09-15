@@ -45,6 +45,20 @@ npm run publish:local -- /absolute/path/to/local-project
 - pour remettre les versions publiées dans le `node_modules` de l'application cliente, relancer une installation des dépendances avec `npm i`
 - les modifications poussées avec `publish:local` sont temporaires et locales ; pour les persister durablement dans les applications clientes, il faut publier une nouvelle version d'Alveole puis réinstaller ou mettre à jour les dépendances de l'application cliente
 
+## Duplication
+
+`npm run check:duplication` mesure la duplication de code avec
+[jscpd](https://github.com/kucherenko/jscpd), sur les sources des packages hors stories et
+tests. Le job CI `Detect duplication` échoue si le taux dépasse le seuil de `.jscpd.json`,
+posé juste au-dessus du taux mesuré : la duplication ne peut donc que baisser.
+
+Cette mesure complète `sonarjs/no-identical-functions`, qui ne compare qu'à l'intérieur d'un
+même fichier. Seul jscpd voit la duplication entre fichiers et entre packages.
+
+Une part de ce qu'il signale est assumée : les variantes de plateforme (`Composant.tsx` et
+`Composant.web.tsx`) se ressemblent par construction. Si un nouveau composant à variantes fait
+sauter le seuil, relever celui-ci est légitime, à condition de le dire dans le message de commit.
+
 ## Accessibilité
 
 Chaque page du catalogue est auditée par [axe](https://github.com/dequelabs/axe-core) dans un

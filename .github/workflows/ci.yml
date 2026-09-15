@@ -412,6 +412,35 @@ jobs:
       - name: Run knip
         run: npm run check:dead-code
 
+  duplication:
+    name: Detect duplication
+    if: github.event_name != 'push' || !startsWith(github.ref, 'refs/tags/')
+    needs: install
+    runs-on: [captive-small]
+    container: ghcr.io/captive-studio/node-ci:24.21.0@sha256:4c2bab78a71648bc9001d6fd839e7ff0eb9f891fd331bb7b04e1e957a1af11bd
+    steps:
+      - name: Checkout
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+
+      - name: Restore node_modules
+        uses: actions/cache@55cc8345863c7cc4c66a329aec7e433d2d1c52a9 # v6.1.0
+        with:
+          path: |
+            node_modules
+            packages/*/node_modules
+            apps/*/node_modules
+          key: npm-deps-${{ runner.os }}-${{ hashFiles('package-lock.json') }}
+
+      - name: Ensure dependencies (cache fallback)
+        run: test -x node_modules/.bin/jscpd || npm ci
+
+      # jscpd complète sonarjs/no-identical-functions, qui ne compare qu'à l'intérieur d'un
+      # même fichier : lui seul voit la duplication entre fichiers et entre workspaces.
+      # L'analyse elle-même prend moins de 100 ms, le job coûte donc sa seule installation,
+      # et tourne en parallèle du lint qui tient le chemin critique.
+      - name: Run jscpd
+        run: npm run check:duplication
+
   packages:
     name: Validate publishable packages
     if: github.event_name != 'push' || !startsWith(github.ref, 'refs/tags/')
