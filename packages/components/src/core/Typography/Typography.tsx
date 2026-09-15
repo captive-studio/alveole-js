@@ -30,7 +30,7 @@ export const Typography = React.forwardRef<TypographyElement, TypographyProps>(f
       style={style}
       textAlign={textAlign}
       // Le defaut vit ici et non dans une regle globale sur `body` : le paquet de theme
-      // n'emet que `:root` et les polices (voir docs/adr/0008). Sans cela, le texte
+      // n'emet que `:root` et les polices (voir docs/adr/0009). Sans cela, le texte
       // retombait sur le noir du theme tamagui au lieu du gris du design system.
       color={color ?? styles.text.color}
       {...textProps}
