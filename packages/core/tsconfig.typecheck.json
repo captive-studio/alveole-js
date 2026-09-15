@@ -6,7 +6,9 @@
       "@alveole/components": ["../components/src/index.ts"],
       "@alveole/storybook": ["./src/index.ts"]
     },
-    "types": ["jest"]
+    "types": ["jest"],
+    "incremental": true,
+    "tsBuildInfoFile": ".tsbuildinfo"
   },
   "include": ["src"]
 }
