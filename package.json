@@ -17,6 +17,7 @@
     "doctor:fix": "npm run doctor:fix --workspace=apps/docs && npm run doctor:fix --workspace=packages/components",
     "check:dead-code": "npm run generate:sources --workspace=packages/components && knip",
     "check:duplication": "jscpd",
+    "check:lint-docs": "npm run build --workspace=packages/core --workspace=packages/theme --workspace=packages/components --workspace=packages/storybook && npm run lint:app --workspace=apps/docs",
     "check:packages": "scripts/check-packages",
     "publish:local": "scripts/publish-local",
     "publish:package": "scripts/publish-package"

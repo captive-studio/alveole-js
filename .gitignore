@@ -12,6 +12,7 @@ apps/**/dist/*
 *.d.map.ts
 *.stories.sources.ts
 packages/**/.eslintcache
+apps/**/.eslintcache
 apps/docs/.metro-tmp/
 coverage/
 apps/docs/test-results/
