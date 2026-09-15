@@ -77,3 +77,10 @@ _Éviter_ : seuil, quota, budget.
 Un manquement d'accessibilité relevé par axe sur une page du catalogue, compté
 par élément fautif et non par règle.
 _Éviter_ : erreur, problème a11y.
+
+**Cliché** :
+L'image de référence du repère principal d'une fiche, contre laquelle la CI
+compare le rendu courant. N'est pas un cliquet : ce n'est pas une borne
+chiffrée, et une différence n'est ni une amélioration ni une dégradation mais un
+changement qui demande un jugement humain.
+_Éviter_ : capture, snapshot, screenshot de référence.
