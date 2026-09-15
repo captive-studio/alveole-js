@@ -113,6 +113,12 @@ export const CustomTypography = {
         letterSpacing: 0,
         textTransform: 'uppercase',
       },
+      /**
+       * @deprecated Utiliser `Bold`. `SemiBold` est un alias strict de `Bold` : les deux
+       * appliquent `fontStyle('Inter-Bold')`, qui charge `Inter_600SemiBold` et rend un
+       * `font-weight: 600`. Le nom laisse croire à une graisse intermédiaire qui n'existe
+       * pas dans la palette Inter du thème (300 / 400 / 500 / 600).
+       */
       SemiBold: {
         ...fontStyle('Inter-Bold'),
         fontSize: 12,
@@ -133,6 +139,12 @@ export const CustomTypography = {
         lineHeight: 20,
         letterSpacing: 0,
       },
+      /**
+       * @deprecated Utiliser `Bold`. `SemiBold` est un alias strict de `Bold` : les deux
+       * appliquent `fontStyle('Inter-Bold')`, qui charge `Inter_600SemiBold` et rend un
+       * `font-weight: 600`. Le nom laisse croire à une graisse intermédiaire qui n'existe
+       * pas dans la palette Inter du thème (300 / 400 / 500 / 600).
+       */
       SemiBold: {
         ...fontStyle('Inter-Bold'),
         fontSize: 14,
@@ -166,6 +178,12 @@ export const CustomTypography = {
         lineHeight: 24,
         letterSpacing: 0,
       },
+      /**
+       * @deprecated Utiliser `Bold`. `SemiBold` est un alias strict de `Bold` : les deux
+       * appliquent `fontStyle('Inter-Bold')`, qui charge `Inter_600SemiBold` et rend un
+       * `font-weight: 600`. Le nom laisse croire à une graisse intermédiaire qui n'existe
+       * pas dans la palette Inter du thème (300 / 400 / 500 / 600).
+       */
       SemiBold: {
         ...fontStyle('Inter-Bold'),
         fontSize: 16,
@@ -192,6 +210,12 @@ export const CustomTypography = {
         lineHeight: 28,
         letterSpacing: 0,
       },
+      /**
+       * @deprecated Utiliser `Bold`. `SemiBold` est un alias strict de `Bold` : les deux
+       * appliquent `fontStyle('Inter-Bold')`, qui charge `Inter_600SemiBold` et rend un
+       * `font-weight: 600`. Le nom laisse croire à une graisse intermédiaire qui n'existe
+       * pas dans la palette Inter du thème (300 / 400 / 500 / 600).
+       */
       SemiBold: {
         ...fontStyle('Inter-Bold'),
         fontSize: 18,
