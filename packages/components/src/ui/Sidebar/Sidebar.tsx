@@ -23,7 +23,7 @@ const SidebarDesktop = (props: SidebarProps) => {
   const styles = useStyles();
 
   return (
-    <Box tag="sidebar" width={SidebarWidth} style={styles.sidebar}>
+    <Box tag="nav" width={SidebarWidth} style={styles.sidebar}>
       <Box style={styles.sidebarContent}>
         <SidebarHeader controller={controller} logo={logo} />
         <ScrollView style={styles.scrollView as StyleProp<ViewStyle>}>{children}</ScrollView>
@@ -44,7 +44,7 @@ const SidebarMobile = (props: SidebarProps) => {
   }, [controller?.open]);
 
   return (
-    <Box tag="sidebar" width={navWidth} style={styles.sidebar}>
+    <Box tag="nav" width={navWidth} style={styles.sidebar}>
       <Box style={styles.sidebarContent} pb={'3V'} pr={'3V'} pl={'3V'}>
         <SidebarHeader controller={controller} logo={logo} />
         <ScrollView style={styles.scrollView as StyleProp<ViewStyle>}>{children}</ScrollView>
