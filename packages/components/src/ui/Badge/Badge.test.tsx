@@ -1,11 +1,11 @@
-import { render } from '@/__tests__/helpers';
+import { renderNative } from '@/__tests__/helpers/renderNative';
 import { Badge } from './Badge';
 
 describe('Badge', () => {
   it.each(['default', 'info', 'success', 'error', 'new', 'warning'] as const)(
     'rend le texte du badge %s',
     async variant => {
-      const { getByText } = await render(
+      const { getByText } = await renderNative(
         <Badge size="md" variant={variant}>
           Badge {variant}
         </Badge>,
@@ -16,7 +16,7 @@ describe('Badge', () => {
   );
 
   it('rend le texte avec une icone', async () => {
-    const { getByText, getByTestId, root } = await render(
+    const { getByText, getByTestId, root } = await renderNative(
       <Badge icon="Check" size="sm" variant="success">
         Badge icon
       </Badge>,

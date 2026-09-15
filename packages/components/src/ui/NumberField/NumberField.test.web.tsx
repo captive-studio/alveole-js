@@ -1,8 +1,8 @@
-import { render, screen } from '@/__tests__/helpers/render.web';
+import { renderWeb, screen } from '@/__tests__/helpers/renderWeb';
 import { NumberField } from './NumberField';
 
 test('associe le libellé au champ', () => {
-  render(<NumberField label="Quantité" />);
+  renderWeb(<NumberField label="Quantité" />);
 
   expect(screen.getByLabelText('Quantité')).toBeTruthy();
 });

@@ -1,4 +1,4 @@
-import { act, fireEvent, render, within } from '@/__tests__/helpers';
+import { act, fireEvent, renderNative, within } from '@/__tests__/helpers/renderNative';
 import React from 'react';
 import { ScrollView } from 'react-native';
 import { Select } from './Select';
@@ -51,7 +51,7 @@ const press = async (element: Parameters<typeof fireEvent.press>[0]) => {
 
 describe('Select', () => {
   it('affiche le placeholder tant qu’aucune option n’est sélectionnée', async () => {
-    const { getByTestId } = await render(
+    const { getByTestId } = await renderNative(
       <Select label="Sélection" placeholder="Choisir..." options={OPTIONS} value={null} />,
     );
 
@@ -59,13 +59,13 @@ describe('Select', () => {
   });
 
   it('affiche le libellé de l’option sélectionnée', async () => {
-    const { getByTestId } = await render(<Select label="Sélection" options={OPTIONS} value="b" />);
+    const { getByTestId } = await renderNative(<Select label="Sélection" options={OPTIONS} value="b" />);
 
     expect(within(getByTestId('select-trigger')).getByText('Option B')).toBeTruthy();
   });
 
   it('n’ouvre le panneau qu’au press du champ', async () => {
-    const { getByTestId, queryByTestId } = await render(<Select label="Sélection" options={OPTIONS} value={null} />);
+    const { getByTestId, queryByTestId } = await renderNative(<Select label="Sélection" options={OPTIONS} value={null} />);
 
     expect(queryByTestId('select-option-a')).toBeNull();
 
@@ -77,7 +77,7 @@ describe('Select', () => {
 
   it('remonte la valeur choisie puis referme le panneau', async () => {
     const onChange = jest.fn();
-    const { getByTestId, queryByTestId } = await render(
+    const { getByTestId, queryByTestId } = await renderNative(
       <Select label="Sélection" options={OPTIONS} value={null} onChange={onChange} />,
     );
 
@@ -91,7 +91,7 @@ describe('Select', () => {
   it('signale l’ouverture et la fermeture', async () => {
     const onFocus = jest.fn();
     const onBlur = jest.fn();
-    const { getByTestId } = await render(
+    const { getByTestId } = await renderNative(
       <Select label="Sélection" options={OPTIONS} value={null} onFocus={onFocus} onBlur={onBlur} />,
     );
 
@@ -105,7 +105,7 @@ describe('Select', () => {
 
   it('remonte null depuis l’entrée « Effacer »', async () => {
     const onChange = jest.fn();
-    const { getByTestId } = await render(
+    const { getByTestId } = await renderNative(
       <Select label="Sélection" options={OPTIONS} value="a" clearable onChange={onChange} />,
     );
 
@@ -116,7 +116,7 @@ describe('Select', () => {
   });
 
   it('n’expose pas « Effacer » quand la sélection est déjà vide', async () => {
-    const { getByTestId, queryByTestId } = await render(
+    const { getByTestId, queryByTestId } = await renderNative(
       <Select label="Sélection" options={OPTIONS} value={null} clearable />,
     );
 
@@ -128,7 +128,7 @@ describe('Select', () => {
   it('ignore le press sur une option désactivée', async () => {
     const onChange = jest.fn();
     const options: SelectOption[] = [...OPTIONS, { label: 'Option D', value: 'd', disabled: true }];
-    const { getByTestId } = await render(
+    const { getByTestId } = await renderNative(
       <Select label="Sélection" options={options} value={null} onChange={onChange} />,
     );
 
@@ -139,7 +139,7 @@ describe('Select', () => {
   });
 
   it('n’ouvre pas le panneau quand il est désactivé', async () => {
-    const { getByTestId, queryByTestId } = await render(
+    const { getByTestId, queryByTestId } = await renderNative(
       <Select label="Sélection" options={OPTIONS} value={null} disabled />,
     );
 
@@ -154,7 +154,7 @@ describe('Select', () => {
       { label: 'Option B', value: 'b', group: 'Contrats' },
       { label: 'Option C', value: 'c', group: 'Documents' },
     ];
-    const { getByTestId, getAllByText } = await render(<Select label="Sélection" options={options} value={null} />);
+    const { getByTestId, getAllByText } = await renderNative(<Select label="Sélection" options={options} value={null} />);
 
     await press(getByTestId('select-trigger'));
 
@@ -163,7 +163,7 @@ describe('Select', () => {
   });
 
   it('reflète un changement de value venant du parent', async () => {
-    const { getByTestId, rerender } = await render(<Select label="Sélection" options={OPTIONS} value="a" />);
+    const { getByTestId, rerender } = await renderNative(<Select label="Sélection" options={OPTIONS} value="a" />);
 
     expect(within(getByTestId('select-trigger')).getByText('Option A')).toBeTruthy();
 
