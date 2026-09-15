@@ -54,6 +54,13 @@ module.exports = {
     // leur comportement propre n'était couvert par aucun test unitaire, seulement par
     // l'audit d'accessibilité de bout en bout. Ce projet les rend dans jsdom via
     // react-native-web. Le preset web met les extensions `web.*` en tête de résolution.
+    //
+    // L'environnement est `jest-environment-jsdom` 30.5.1 alors que Jest est en 29.7.0, et
+    // cet écart de version majeure est voulu : la 30 embarque jsdom 26, la 29 embarque
+    // jsdom 20, qui ne résout pas les propriétés CSS personnalisées dans
+    // `getComputedStyle`. Les tests de style de la barre latérale y lisent `''` au lieu de
+    // `var(--…)`. Aligner les deux versions « pour faire propre » casse donc cinq tests,
+    // dans SidebarGroup et SidebarItem.
     project(webPreset, {
       displayName: 'web',
       testMatch: [WEB_TEST_MATCH],
