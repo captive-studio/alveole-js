@@ -2,7 +2,10 @@ import { makeStyles } from '@alveole/theme';
 
 export const useStyles = makeStyles(({ color, text, spacing, spacingValue, isVariant, shadows }) => ({
   container: {
-    backgroundColor: isVariant('mobile') ? color.light.background['default-grey'] : color.light.background['alt-grey'],
+    // Barre blanche, séparée du contenu par la seule hairline : c'est ce que font Primer
+    // et Atlassian. Un fond gris sur une page blanche ajoute un second séparateur au
+    // filet, et écrase tout ce qu'on pose dessus.
+    backgroundColor: color.light.background['default-grey'],
     ...(isVariant('mobile')
       ? shadows('raised')
       : { borderBottomWidth: 1, borderBottomColor: color.light.border['default-grey'] }),
@@ -28,7 +31,7 @@ export const useStyles = makeStyles(({ color, text, spacing, spacingValue, isVar
     gap: spacing('1W'),
   },
   titleText: {
-    ...text['Corps de texte'].SM.Bold,
+    ...text['Corps de texte'].MD.Bold,
     color: color.light.text['title-grey'],
     display: isVariant('mobile') ? ('none' as const) : ('flex' as const),
   },
