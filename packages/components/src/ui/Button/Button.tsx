@@ -44,6 +44,44 @@ type EtatCouleur = { repos: StyleCouleurKey; desactive: StyleCouleurKey; actif: 
 type StyleBordureKey = { [K in StyleKey]: Styles[K] extends { borderColor: string } ? K : never }[StyleKey];
 type EtatBordure = { repos: StyleBordureKey; desactive: StyleBordureKey; actif: StyleBordureKey };
 
+type Taille = NonNullable<ButtonProps['size']>;
+
+/** Le conteneur change de famille de styles selon que le bouton porte un libelle ou non. */
+const CONTENEUR_PAR_TAILLE: Record<Taille, { avecLibelle: StyleKey; iconeSeule: StyleKey }> = {
+  xs: { avecLibelle: 'xsContainer', iconeSeule: 'xsContainerIconOnly' },
+  sm: { avecLibelle: 'smContainer', iconeSeule: 'smContainerIconOnly' },
+  md: { avecLibelle: 'mdContainer', iconeSeule: 'mdContainerIconOnly' },
+  lg: { avecLibelle: 'lgContainer', iconeSeule: 'lgContainerIconOnly' },
+};
+
+const TITRE_PAR_TAILLE: Record<Taille, StyleKey> = {
+  xs: 'xsTitle',
+  sm: 'smTitle',
+  md: 'mdTitle',
+  lg: 'lgTitle',
+};
+
+// `disabled` vient de PressableProps, qui autorise `null` en plus de `undefined`.
+type EtatDeFond = {
+  variant: ButtonProps['variant'];
+  selected?: boolean;
+  disabled?: boolean | null;
+  isActivated: boolean;
+};
+
+/**
+ * Choisit le style de fond du conteneur. `selected` court-circuite la variante : un bouton
+ * selectionne a le meme fond quelle que soit sa variante et quel que soit son etat.
+ */
+const styleDeFond = (styles: Styles, { variant, selected, disabled, isActivated }: EtatDeFond) => {
+  if (selected) return styles.selectedContainer;
+
+  const etats = CONTENEUR_PAR_VARIANT[variant];
+  const etat = disabled ? etats.desactive : isActivated ? etats.actif : undefined;
+
+  return { ...styles[etats.repos], ...(etat ? styles[etat] : {}) };
+};
+
 /** `link` n'a pas de style desactive propre et emprunte celui de `tertiary`. */
 const CONTENEUR_PAR_VARIANT: Record<ButtonProps['variant'], EtatVisuel> = {
   primary: { repos: 'primaryContainer', desactive: 'primaryContainerDisabled', actif: 'primaryContainerPressed' },
@@ -118,54 +156,18 @@ export const Button = React.forwardRef<View, ButtonProps>(function Button(props,
   const isInactive = !!disabled || !!isLoading;
   const [isFocused, setIsFocused] = useState(false);
 
-  const containerSize = isIconOnly
-    ? size === 'sm'
-      ? styles.smContainerIconOnly
-      : size === 'lg'
-        ? styles.lgContainerIconOnly
-        : size === 'xs'
-          ? styles.xsContainerIconOnly
-          : styles.mdContainerIconOnly
-    : size === 'sm'
-      ? styles.smContainer
-      : size === 'lg'
-        ? styles.lgContainer
-        : size === 'xs'
-          ? styles.xsContainer
-          : styles.mdContainer;
-  const titleSize =
-    size === 'sm' ? styles.smTitle : size === 'lg' ? styles.lgTitle : size === 'xs' ? styles.xsTitle : styles.mdTitle;
+  const taille: Taille = size ?? 'md';
+  const containerSize = styles[CONTENEUR_PAR_TAILLE[taille][isIconOnly ? 'iconeSeule' : 'avecLibelle']];
+  const titleSize = styles[TITRE_PAR_TAILLE[taille]];
 
   const noPaddingStyle = { paddingTop: 0, paddingBottom: 0, paddingLeft: 0, paddingRight: 0 };
 
   const buttonContainerStyle = (state?: { pressed?: boolean }) => {
     const isActivated = !!state?.pressed || active || expanded;
-    let applicableStyles = {
-      ...styles.container,
-      ...(startIcon && !isIconOnly
-        ? size === 'sm'
-          ? styles.smContainerStartIcon
-          : size === 'lg'
-            ? styles.lgContainerStartIcon
-            : styles.mdContainerStartIcon
-        : {}),
-      ...(endIcon && !isIconOnly
-        ? size === 'sm'
-          ? styles.smContainerEndIcon
-          : size === 'lg'
-            ? styles.lgContainerEndIcon
-            : styles.mdContainerEndIcon
-        : {}),
-    };
-    if (selected) {
-      applicableStyles = { ...applicableStyles, ...styles.selectedContainer };
-    } else {
-      const etats = CONTENEUR_PAR_VARIANT[variant];
-      const etat = disabled ? etats.desactive : isActivated ? etats.actif : undefined;
-      applicableStyles = { ...applicableStyles, ...styles[etats.repos], ...(etat ? styles[etat] : {}) };
-    }
+
     return {
-      ...applicableStyles,
+      ...styles.container,
+      ...styleDeFond(styles, { variant, selected, disabled, isActivated }),
       ...containerSize,
       ...(noPadding ? noPaddingStyle : {}),
       ...(leftAlign ? { justifyContent: 'left' } : {}),
