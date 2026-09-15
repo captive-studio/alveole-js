@@ -1,9 +1,8 @@
 import React, { CSSProperties, ReactNode } from 'react';
 import { ScrollView, StyleSheet, Text, TextStyle, View } from 'react-native';
-import CodeHighlighter from 'react-native-code-highlighter';
 import { Prism, SyntaxHighlighterProps } from 'react-syntax-highlighter';
-import { monokai } from 'react-syntax-highlighter/dist/esm/styles/hljs';
-import { vscDarkPlus } from 'react-syntax-highlighter/dist/esm/styles/prism';
+// Importé par son fichier : l'index des thèmes Prism ne ré-exporte que `a11yDark`.
+import a11yOneLight from 'react-syntax-highlighter/dist/esm/styles/prism/a11y-one-light.js';
 import { useStyles } from './Highlight.styles';
 
 export type HighlightProps = Pick<SyntaxHighlighterProps, 'children'> & {
@@ -46,10 +45,19 @@ const getSyntaxStyleKeys = (selector: string): string[] => {
     .filter(Boolean);
 };
 
+// Le thème de coloration ne fournit que des couleurs de texte : les surfaces qu'il déclare
+// sur ses jetons sont écartées ici. Sans ça, chaque thème impose ses propres surlignages,
+// qui varient d'un thème à l'autre et recouvrent le fond posé par le design system.
+const getSyntaxTextStyle = (tokenStyle: CSSProperties): TextStyle => {
+  const { backgroundColor: _surfaceDuTheme, ...textStyle } = getNativeStyle(tokenStyle);
+
+  return textStyle;
+};
+
 const getNativeSyntaxStyle = (syntaxStyle: Record<string, CSSProperties>): NativeSyntaxStyle => {
   return Object.entries(syntaxStyle).reduce<NativeSyntaxStyle>((acc, [selector, tokenStyle]) => {
     for (const key of getSyntaxStyleKeys(selector)) {
-      acc[key] = { ...acc[key], ...getNativeStyle(tokenStyle) };
+      acc[key] = { ...acc[key], ...getSyntaxTextStyle(tokenStyle) };
     }
 
     return acc;
@@ -58,9 +66,9 @@ const getNativeSyntaxStyle = (syntaxStyle: Record<string, CSSProperties>): Nativ
 
 const trimEdgeNewlines = (value: string) => value.replace(/^\n+|\n+$/g, '');
 
-const PrismCodeHighlighter = ({ children, language, style }: HighlightProps) => {
+export const Highlight = ({ children, language, style }: HighlightProps) => {
   const styles = useStyles();
-  const stylesheet = React.useMemo(() => getNativeSyntaxStyle(vscDarkPlus), []);
+  const stylesheet = React.useMemo(() => getNativeSyntaxStyle(a11yOneLight), []);
   const customStyle = React.useMemo(() => getNativeStyle(style), [style]);
   const baseTextStyle = StyleSheet.flatten([{ color: stylesheet[BASE_STYLE_KEY]?.color }, stylesheet[BASE_STYLE_KEY]]);
 
@@ -102,7 +110,9 @@ const PrismCodeHighlighter = ({ children, language, style }: HighlightProps) => 
       // `styles.highlight` pose `overflow: scroll`, ce qui ferait défiler le conteneur de
       // contenu en doublon du `ScrollView` qui l'entoure. C'est ce doublon intérieur qu'axe
       // signalait : il défile sans pouvoir recevoir le focus, que porte l'extérieur.
-      contentContainerStyle={[styles.highlight, { overflow: 'visible' }, stylesheet[BASE_STYLE_KEY], customStyle]}
+      // Le thème de coloration ne fournit que les couleurs de jetons : la surface vient du
+      // design system, donc `styles.highlight` est posé après la base du thème.
+      contentContainerStyle={[stylesheet[BASE_STYLE_KEY], styles.highlight, { overflow: 'visible' }, customStyle]}
     >
       <View onStartShouldSetResponder={() => true}>{renderNode(rows)}</View>
     </ScrollView>
@@ -123,24 +133,3 @@ const PrismCodeHighlighter = ({ children, language, style }: HighlightProps) => 
   );
 };
 
-export const Highlight = (props: HighlightProps) => {
-  const { children, language, style } = props;
-
-  const styles = useStyles();
-
-  if (language === 'tsx') {
-    return <PrismCodeHighlighter {...props} />;
-  }
-
-  return (
-    <CodeHighlighter
-      hljsStyle={{ ...monokai }}
-      customStyle={{ ...styles.highlight, ...style, width: '100%', padding: 0 }}
-      containerStyle={{ ...styles.highlight }}
-      language={language}
-      wrapLongLines
-    >
-      {children}
-    </CodeHighlighter>
-  );
-};

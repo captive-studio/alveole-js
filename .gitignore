@@ -9,6 +9,9 @@ packages/**/public/**/*.mjs
 apps/**/public/**/*.mjs
 apps/**/dist/*
 *.d.ts
+# Les déclarations générées vivent dans `dist`, déjà ignoré : celles de `src` sont écrites
+# à la main, pour typer un module tiers qui n'expose rien.
+!packages/*/src/**/*.d.ts
 *.d.map.ts
 # Les shims de types sont écrits à la main, pas produits par un build.
 !apps/docs/shims/*.d.ts
