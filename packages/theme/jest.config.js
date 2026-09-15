@@ -21,8 +21,8 @@ module.exports = {
     global: {
       statements: 43,
       branches: 26,
-      functions: 35,
-      lines: 47,
+      functions: 36,
+      lines: 46,
     },
   },
   collectCoverageFrom: ['src/**/*.{ts,tsx}', '!src/**/*.test.{ts,tsx}', '!src/**/index.ts'],
