@@ -115,6 +115,7 @@ export const DataTable = <Row,>(props: DataTableProps<Row>) => {
               >
                 <CheckboxContainer
                   id="data-table--select-all"
+                  aria-label="Tout sélectionner"
                   variant="small"
                   checked={someSelected ? 'indeterminate' : allSelected}
                   onCheckedChange={toggleAll}

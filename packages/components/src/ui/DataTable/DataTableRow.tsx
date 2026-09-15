@@ -66,6 +66,7 @@ export const DataTableRow = <Row,>(props: DataTableRowProps<Row>) => {
         >
           <CheckboxContainer
             id={`${rowKey}--checkbox`}
+            aria-label={`Sélectionner la ligne ${rowIndex + 1}`}
             variant="small"
             checked={selected}
             onCheckedChange={checked => onSelectedChange?.(checked === true)}
