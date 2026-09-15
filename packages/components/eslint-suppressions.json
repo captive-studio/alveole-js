@@ -20,6 +20,9 @@
     },
     "max-lines-per-function": {
       "count": 1
+    },
+    "sonarjs/cognitive-complexity": {
+      "count": 1
     }
   },
   "src/core/Map/Map.web.tsx": {
@@ -95,6 +98,9 @@
     },
     "max-lines-per-function": {
       "count": 1
+    },
+    "sonarjs/cognitive-complexity": {
+      "count": 2
     }
   },
   "src/ui/Button/ButtonIcon.tsx": {
@@ -102,6 +108,9 @@
       "count": 2
     },
     "max-lines-per-function": {
+      "count": 1
+    },
+    "sonarjs/cognitive-complexity": {
       "count": 1
     }
   },
@@ -162,6 +171,9 @@
   "src/ui/DocumentViewer/DocumentViewer.tsx": {
     "max-lines-per-function": {
       "count": 1
+    },
+    "sonarjs/no-all-duplicated-branches": {
+      "count": 1
     }
   },
   "src/ui/DocumentViewer/DocumentViewerPDF.tsx": {
@@ -199,6 +211,9 @@
     },
     "max-lines-per-function": {
       "count": 1
+    },
+    "sonarjs/cognitive-complexity": {
+      "count": 1
     }
   },
   "src/ui/EmptyState/EmptyState.tsx": {
@@ -234,6 +249,9 @@
       "count": 1
     },
     "max-lines-per-function": {
+      "count": 1
+    },
+    "sonarjs/cognitive-complexity": {
       "count": 1
     }
   },
@@ -305,6 +323,11 @@
   },
   "src/ui/Sidebar/Sidebar.styles.ts": {
     "max-lines-per-function": {
+      "count": 1
+    }
+  },
+  "src/ui/Sidebar/SidebarItem.tsx": {
+    "sonarjs/no-identical-functions": {
       "count": 1
     }
   },
