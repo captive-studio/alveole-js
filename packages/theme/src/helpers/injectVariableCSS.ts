@@ -5,6 +5,7 @@ import { RadiusList } from '../constants/Radius';
 import { CustomTypography } from '../constants/Typography';
 import { Theme } from '../type';
 import { sanitizeCSSKey } from './sanitizeCSSKey';
+import { typographyVariableLines } from './typographyVariables';
 
 const buildColorVarMap = (constants: Theme['color']['_constants']): Map<string, string> => {
   const map = new Map<string, string>();
@@ -67,7 +68,7 @@ export const generateCSSVariables = (theme: Theme): string => {
   });
 
   // Semantic tokens typographiques (--typography-{...}-font-size, etc.)
-  collectTypographyLines([], CustomTypography, fontReverseMap, lines);
+  lines.push(...typographyVariableLines(CustomTypography, fontReverseMap));
 
   // Semantic tokens light (--{category}-{token}: var(--color-...))
   const light = theme.color._rawLight as Record<string, Record<string, unknown>>;
@@ -79,50 +80,6 @@ export const generateCSSVariables = (theme: Theme): string => {
   const rootBlock = `:root {\n${lines.join('\n')}\n}`;
 
   return rootBlock;
-};
-
-const collectTypographyLines = (
-  path: string[],
-  node: unknown,
-  fontReverseMap: Map<string, string>,
-  lines: string[],
-): void => {
-  if (typeof node !== 'object' || node === null) return;
-  const obj = node as Record<string, unknown>;
-
-  if (typeof obj.fontSize === 'number') {
-    const prefix = `  --typography-${path.map(sanitizeCSSKey).join('-')}`;
-
-    if (typeof obj.fontFamily === 'string') {
-      const weight = typeof obj.fontWeight === 'string' ? obj.fontWeight : '';
-      const fontKey =
-        fontReverseMap.get(`${obj.fontFamily}__${weight}`) ??
-        (obj.fontFamily in FontWeightMap ? obj.fontFamily : undefined);
-      if (fontKey) {
-        lines.push(`${prefix}-font-family: var(--font-${fontKey}-family);`);
-        lines.push(`${prefix}-font-weight: var(--font-${fontKey}-weight);`);
-      } else {
-        lines.push(`${prefix}-font-family: ${obj.fontFamily};`);
-        if (weight) lines.push(`${prefix}-font-weight: ${weight};`);
-      }
-    }
-
-    lines.push(`${prefix}-font-size: ${obj.fontSize}px;`);
-    if (typeof obj.lineHeight === 'number') {
-      lines.push(`${prefix}-line-height: ${obj.lineHeight}px;`);
-    }
-    if (typeof obj.letterSpacing === 'number' && obj.letterSpacing !== 0) {
-      lines.push(`${prefix}-letter-spacing: ${obj.letterSpacing}px;`);
-    }
-    if (typeof obj.textTransform === 'string') {
-      lines.push(`${prefix}-text-transform: ${obj.textTransform};`);
-    }
-    return;
-  }
-
-  Object.entries(obj).forEach(([key, value]) => {
-    collectTypographyLines([...path, key], value, fontReverseMap, lines);
-  });
 };
 
 export const injectVariableCSS = (theme: Theme) => {

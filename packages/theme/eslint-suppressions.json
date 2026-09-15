@@ -3,16 +3,5 @@
     "max-lines": {
       "count": 1
     }
-  },
-  "src/helpers/injectVariableCSS.ts": {
-    "complexity": {
-      "count": 1
-    },
-    "max-depth": {
-      "count": 1
-    },
-    "sonarjs/cognitive-complexity": {
-      "count": 1
-    }
   }
 }
