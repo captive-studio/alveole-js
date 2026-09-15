@@ -1,0 +1,17 @@
+{
+  "extends": "./tsconfig.json",
+  "compilerOptions": {
+    "noEmit": true,
+    "paths": {
+      "@alveole/core": ["../../packages/core/src/index.ts"],
+      "@alveole/theme": ["../../packages/theme/src/index.ts"],
+      "@alveole/components": ["../../packages/components/src/index.ts"],
+      "@alveole/components/stories": ["../../packages/components/src/stories/index.ts"],
+      "@alveole/storybook": ["../../packages/storybook/src/index.ts"]
+    },
+    "types": ["node"],
+    "incremental": true,
+    "tsBuildInfoFile": ".tsbuildinfo"
+  },
+  "include": ["app", "components", "shims", "e2e", "*.ts", "*.tsx"]
+}
