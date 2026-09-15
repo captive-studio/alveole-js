@@ -21,7 +21,24 @@ const TestProvider = ({ children }: PropsWithChildren) => (
 const customRender = (ui: ReactElement, options?: Omit<RenderOptions, 'wrapper'>) =>
   render(ui, { wrapper: TestProvider, ...options });
 
+// react-native-web calcule ses dimensions avec `document.documentElement.clientWidth`, que
+// jsdom laisse à 0 faute de moteur de rendu : `useWindowDimensions` rend donc une largeur
+// nulle, et le thème retombe en variante mobile. Sans cette couture, aucune branche desktop
+// d'un composant n'est atteignable par un test.
+const resizeTo = (width: number, height: number) => {
+  Object.defineProperty(document.documentElement, 'clientWidth', { configurable: true, value: width });
+  Object.defineProperty(document.documentElement, 'clientHeight', { configurable: true, value: height });
+  window.dispatchEvent(new Event('resize'));
+};
+
+/** Rend l'arbre en variante `desktop`. Par défaut les tests web rendent en `mobile`. */
+const renderOnDesktop = (ui: ReactElement, options?: Omit<RenderOptions, 'wrapper'>) => {
+  resizeTo(1440, 900);
+
+  return customRender(ui, options);
+};
+
 // Réexports explicites plutôt qu'un `export *` : la bibliothèque exporte elle-même un
 // `render`, que l'étoile mettrait en concurrence avec celui-ci.
 export { act, cleanup, fireEvent, screen, waitFor, within } from '@testing-library/react';
-export { customRender as render };
+export { customRender as render, renderOnDesktop };

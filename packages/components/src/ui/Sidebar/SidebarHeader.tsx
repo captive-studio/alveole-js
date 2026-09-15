@@ -10,12 +10,16 @@ import { SidebarController } from './useSidebar';
 
 export type SidebarHeaderProps = {
   controller?: SidebarController;
-  logo: React.ReactNode;
+  logo?: React.ReactNode;
 };
 
 const SidebarHeaderDesktop = (props: SidebarHeaderProps) => {
   const { logo } = props;
   const styles = useStyles();
+
+  // Sans logo, l'en-tête n'a plus rien à porter : le rendre laisserait un filet orphelin en
+  // haut de la barre. La variante mobile, elle, garde le sien : il porte la fermeture.
+  if (logo == null) return null;
 
   return (
     <Box tag="sidebar-header" style={styles.header}>
