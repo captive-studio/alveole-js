@@ -49,7 +49,7 @@ export const useStyles = makeStyles(({ text, color, spacing, spacingValue, isVar
     // Le titre de groupe recule derrière ses items, et ne se signale que par deux dimensions à
     // la fois : ici le gris de mention et la graisse. Les références divergent sur lesquelles
     // (Primer prend graisse et taille à couleur égale, Atlassian la couleur), mais aucune ne
-    // cumule couleur plus sombre et graisse supérieure à celles des items. Voir docs/adr/0007.
+    // cumule couleur plus sombre et graisse supérieure à celles des items. Voir docs/adr/0010.
     groupTitleDesktop: {
       ...text['Corps de texte'].XS.Bold,
       color: color.light.text['mention-grey'],
