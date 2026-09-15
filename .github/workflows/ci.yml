@@ -340,8 +340,15 @@ jobs:
           restore-keys: |
             metro-cache-${{ runner.os }}-
 
+      # `expo export` monte à 2,47 Gio de RSS laissé à lui-même, soit plus du double du
+      # budget mémoire par job sur lequel le pool est calibré : le kernel tuait le process
+      # (exit 137) et emportait le job. Plafonner le tas de V8 force un GC plus fréquent et
+      # ramène le pic à 1,62 Gio, tout en accélérant le build (18,6 s -> 12,4 s). La valeur
+      # n'est pas au plus juste : à 1024 Mio V8 abandonne (exit 134), 1536 garde la marge.
       - name: Build docs
         working-directory: apps/docs
+        env:
+          NODE_OPTIONS: --max-old-space-size=1536
         run: |
           mkdir -p "$PWD/.metro-tmp"
           export TMPDIR="$PWD/.metro-tmp"

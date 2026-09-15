@@ -37,7 +37,11 @@ jobs:
       - name: Build @alveole/storybook
         run: npm run build --workspace=packages/storybook
 
+      # Même plafond que le job d'accessibilité de ci.yml : `expo export` monte sinon à
+      # 2,47 Gio de RSS, plus du double du budget mémoire par job du pool.
       - name: Build docs
+        env:
+          NODE_OPTIONS: --max-old-space-size=1536
         run: npm run build --workspace=apps/docs
 
       - name: Disable Jekyll (allow _expo/ assets)
