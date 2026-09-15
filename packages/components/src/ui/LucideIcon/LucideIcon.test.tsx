@@ -1,5 +1,17 @@
 import { renderNative } from '@/__tests__/helpers/renderNative';
 import { LucideIcon, resolveShareIconName } from './LucideIcon';
+import { LucideIconPropsJSON } from './LucideIcon.props';
+
+test('décrit les tailles et les noms des icônes dans le schéma du catalogue', () => {
+  expect(LucideIconPropsJSON).toMatchObject({
+    type: 'object',
+    required: expect.arrayContaining(['size', 'name']),
+    properties: {
+      size: { type: 'string', enum: ['xs', 'sm', 'md', 'lg', 'xl'] },
+      name: { type: 'string', enum: expect.arrayContaining(['Check', 'Share', 'Share2', 'Forward']) },
+    },
+  });
+});
 
 describe('resolveShareIconName', () => {
   it.each([

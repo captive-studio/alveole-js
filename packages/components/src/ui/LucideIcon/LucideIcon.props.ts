@@ -15,7 +15,15 @@ export type IconName = LucideIconName | LabIconName;
 // un seul site d'appel suffisait à payer la facture.
 export const isLucideIconName = (name: string): boolean => Object.keys(LucideIcons).includes(name);
 
-const PublicPropsSchema = z.object({
+type PublicProps = {
+  size: (typeof IconSizes)[number];
+  name: IconName;
+};
+
+// L'inférence de Zod développe les milliers de noms d'icônes dans les déclarations
+// de ce module et de sa fiche. Le contrat explicite garde l'union nommée et vérifie
+// toujours les types d'entrée et de sortie du schéma.
+const PublicPropsSchema: z.ZodType<PublicProps, PublicProps> = z.object({
   size: z.enum(IconSizes).describe("Taille de l'icon"),
   name: z.enum<IconName[]>([...(Object.keys(LucideIcons) as IconName[])]).describe('Nom de l’icon Lucide'),
 });
