@@ -1,5 +1,6 @@
-import { format } from 'date-fns';
-import { enUS, fr } from 'date-fns/locale';
+import { format } from 'date-fns/format';
+import { enUS } from 'date-fns/locale/en-US';
+import { fr } from 'date-fns/locale/fr';
 import React from 'react';
 import { ScrollView } from 'react-native';
 import { Box, BoxProps } from '../../core/Box';

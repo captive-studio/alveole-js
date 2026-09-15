@@ -1,7 +1,10 @@
 import { DateFormats, displayDate, isValidDate } from '@alveole/core';
 import DateTimePicker from '@react-native-community/datetimepicker';
-import { getHours, getMinutes, setHours, setMinutes } from 'date-fns';
-import { fr } from 'date-fns/locale';
+import { getHours } from 'date-fns/getHours';
+import { getMinutes } from 'date-fns/getMinutes';
+import { fr } from 'date-fns/locale/fr';
+import { setHours } from 'date-fns/setHours';
+import { setMinutes } from 'date-fns/setMinutes';
 import React, { useCallback, useMemo, useState } from 'react';
 import { Keyboard } from 'react-native';
 import { Box } from '../../core/Box';

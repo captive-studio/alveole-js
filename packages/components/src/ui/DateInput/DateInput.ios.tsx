@@ -1,7 +1,7 @@
 import { DateFormats, displayDate, isValidDate } from '@alveole/core';
 import DateTimePicker from '@react-native-community/datetimepicker';
-import { toDate } from 'date-fns';
-import { fr } from 'date-fns/locale';
+import { fr } from 'date-fns/locale/fr';
+import { toDate } from 'date-fns/toDate';
 import React, { useCallback } from 'react';
 import { Keyboard, Platform } from 'react-native';
 import { Box } from '../../core/Box';

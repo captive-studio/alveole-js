@@ -1,4 +1,5 @@
-import { isValid, parseISO } from 'date-fns';
+import { isValid } from 'date-fns/isValid';
+import { parseISO } from 'date-fns/parseISO';
 
 /**
  * Vérifie si une valeur est une date valide (string ISO ou Date).
