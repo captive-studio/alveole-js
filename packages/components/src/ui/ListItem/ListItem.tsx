@@ -77,7 +77,7 @@ export const ListItem = (props: ListItemProps) => {
                   event.stopPropagation();
                 }}
               >
-                <RadioGroup.Input id={`${title}--radio`} size="md" {...RadioProps} />
+                <RadioGroup.Input id={`${title}--radio`} label={title} size="md" {...RadioProps} />
               </Box>
             )}
             {RadioProps && RadioProps.multiple === true && (
@@ -90,6 +90,7 @@ export const ListItem = (props: ListItemProps) => {
               >
                 <CheckboxContainer
                   id={`${title}--checkbox`}
+                  aria-label={title}
                   checked={RadioProps.checked}
                   onCheckedChange={() => RadioProps.onChange?.(RadioProps.value)}
                 >

@@ -8,10 +8,12 @@ export type RadioInputProps = {
   size: 'sm' | 'md';
   checked?: boolean;
   onChange?: (value: string) => void;
+  /** Nom accessible du bouton : le contrôle n'affiche aucun texte de lui-même. */
+  label?: string;
 };
 
 export const RadioInput = (props: RadioInputProps) => {
-  const { value, id, size = 'md', checked, onChange: onInputChange } = props;
+  const { value, id, size = 'md', checked, label, onChange: onInputChange } = props;
 
   const { value: selectedValue, onChange: onGroupChange } = useRadioGroup();
   const isSelected = checked ?? selectedValue === value;
@@ -30,6 +32,7 @@ export const RadioInput = (props: RadioInputProps) => {
     <TamaguiRadioGroup.Item
       value={value}
       id={id}
+      aria-label={label}
       style={itemStyles}
       focusStyle={styles.itemContainerActive}
       hoverStyle={indicatorStyle as any}
