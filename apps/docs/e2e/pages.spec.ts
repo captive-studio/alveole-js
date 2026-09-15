@@ -2,7 +2,7 @@ import { expect, test } from '@playwright/test';
 import { mkdirSync, mkdtempSync, writeFileSync } from 'node:fs';
 import { tmpdir } from 'node:os';
 import { join } from 'node:path';
-import { auditedRoutes } from './pages';
+import { auditedRoutes, matching } from './pages';
 
 // Un faux export, pour que ces tests ne dépendent pas d'un build présent : l'énumération
 // du vrai dist/ est exercée par accessibility.spec.ts, qui en a besoin pour exister.
@@ -30,4 +30,15 @@ test('refuse un build sans aucune page de composant', () => {
 
 test('refuse un build absent avec le même message qu’un build vide', () => {
   expect(() => auditedRoutes(join(tmpdir(), 'alveole-a11y-inexistant'))).toThrow(/aucune page de composant/i);
+});
+
+test('ne retient que les routes dont le nom contient le motif', () => {
+  expect(matching(['/components/Select', '/components/SelectMultiple', '/components/TextField'], 'Select')).toEqual([
+    '/components/Select',
+    '/components/SelectMultiple',
+  ]);
+});
+
+test('refuse un motif qui ne correspond à aucune route', () => {
+  expect(() => matching(['/components/Select'], 'Inexistant')).toThrow(/aucune page ne correspond/i);
 });

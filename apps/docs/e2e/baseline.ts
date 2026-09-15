@@ -33,3 +33,9 @@ export function load(path: string): Baseline {
 
   return JSON.parse(readFileSync(path, 'utf8')) as Baseline;
 }
+
+export function merge(existing: Baseline, fresh: Baseline, audited: string[]): Baseline {
+  const kept = Object.keys(existing).filter(route => !audited.includes(route));
+
+  return Object.fromEntries([...kept.map(route => [route, existing[route]]), ...Object.entries(fresh)]);
+}

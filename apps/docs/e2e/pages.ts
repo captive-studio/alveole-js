@@ -26,3 +26,15 @@ export function auditedRoutes(dist: string = DIST): string[] {
 
   return routes;
 }
+
+export function matching(routes: string[], pattern?: string): string[] {
+  if (!pattern) return routes;
+
+  const selected = routes.filter(route => route.toLowerCase().includes(pattern.toLowerCase()));
+
+  if (selected.length === 0) {
+    throw new Error(`Aucune page ne correspond à "${pattern}" parmi les ${routes.length} pages exportées.`);
+  }
+
+  return selected;
+}
