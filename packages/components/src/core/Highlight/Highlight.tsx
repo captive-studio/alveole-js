@@ -1,3 +1,7 @@
+// La déclaration du thème importé par fichier est portée par une référence explicite, et
+// non par le `include` du tsconfig : `@alveole/storybook` et `@alveole/docs` compilent ces
+// sources depuis leur propre projet, où ce `include` ne s'applique pas.
+/// <reference path="./a11y-one-light.d.ts" />
 import React, { CSSProperties, ReactNode } from 'react';
 import { ScrollView, StyleSheet, Text, TextStyle, View } from 'react-native';
 import { Prism, SyntaxHighlighterProps } from 'react-syntax-highlighter';
@@ -132,4 +136,3 @@ export const Highlight = ({ children, language, style }: HighlightProps) => {
     </Prism>
   );
 };
-
