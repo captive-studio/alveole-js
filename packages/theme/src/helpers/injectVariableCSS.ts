@@ -160,8 +160,6 @@ const DefaultTheme = {
   },
 } as Theme;
 
-export const generateDefaultThemeCSS = (): string => generateCSSVariables(DefaultTheme);
-
 /**
  * Le CSS que le paquet emet sur le web, en morceaux ordonnes. Les deux assembleurs
  * (le `<style>` de WebThemeStyles et le `dist/default.css` du script de build) passent
