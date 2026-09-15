@@ -9,7 +9,11 @@ const IconSizes = ['xs', 'sm', 'md', 'lg', 'xl'] as const;
 
 export type IconName = LucideIconName | LabIconName;
 
-export const isLucideIconName = (name: string): name is LucideIconName => Object.keys(LucideIcons).includes(name);
+// Volontairement `boolean` et non un prédicat `name is LucideIconName` : narrower l'union
+// des ~1950 noms d'icônes vers celle des ~1600 noms Lucide coûtait 8 s de typecheck à lui
+// seul, soit les deux tiers du paquet. Le résultat est mis en cache par TypeScript, donc
+// un seul site d'appel suffisait à payer la facture.
+export const isLucideIconName = (name: string): boolean => Object.keys(LucideIcons).includes(name);
 
 const PublicPropsSchema = z.object({
   size: z.enum(IconSizes).describe("Taille de l'icon"),

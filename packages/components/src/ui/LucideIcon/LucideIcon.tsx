@@ -2,7 +2,7 @@ import * as LabIcons from '@lucide/lab';
 import * as LucideIcons from 'lucide-react-native';
 import { Icon as BaseIcon, LucideIcon as Icon } from 'lucide-react-native';
 import { Platform, StyleProp, ViewStyle } from 'react-native';
-import { isLucideIconName, LucideIconName, LucideIconProps } from './LucideIcon.props';
+import { LucideIconName, LucideIconProps } from './LucideIcon.props';
 
 export const strokeWidth = 1.5;
 
@@ -32,7 +32,7 @@ export const LucideIcon = (props: IconProps) => {
     name = resolveShareIconName(_platformOverride ?? Platform.OS);
   }
 
-  const iconMap = LucideIcons as unknown as Record<LucideIconName, Icon>;
+  const iconMap = LucideIcons as unknown as Record<string, Icon | undefined>;
 
   const sizeMap: Record<IconProps['size'], number> = {
     xs: 12,
@@ -45,8 +45,9 @@ export const LucideIcon = (props: IconProps) => {
   const defaultStyle = { stroke: color ?? 'currentColor' };
   const mergedStyle = [defaultStyle, style];
 
-  if (isLucideIconName(name)) {
-    const IconComponent = iconMap[name];
+  const IconComponent = iconMap[name];
+
+  if (IconComponent) {
     return (
       <IconComponent
         style={mergedStyle as StyleProp<ViewStyle>}
