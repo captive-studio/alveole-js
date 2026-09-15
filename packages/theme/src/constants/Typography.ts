@@ -8,31 +8,31 @@ export const isMobile = Platform.OS !== 'web' || userAgent.includes('iPhone') ||
 export const CustomTypography = {
   'Titres alternatifs': {
     XS: {
-      ...fontStyle('Barlow-Bold'),
+      ...fontStyle('Geist-Bold'),
       fontSize: 48,
       lineHeight: 56,
       letterSpacing: 0,
     },
     SM: {
-      ...fontStyle('Barlow-Bold'),
+      ...fontStyle('Geist-Bold'),
       fontSize: 56,
       lineHeight: 64,
       letterSpacing: 0,
     },
     MD: {
-      ...fontStyle('Barlow-Bold'),
+      ...fontStyle('Geist-Bold'),
       fontSize: 64,
       lineHeight: 72,
       letterSpacing: 0,
     },
     LG: {
-      ...fontStyle('Barlow-Bold'),
+      ...fontStyle('Geist-Bold'),
       fontSize: 72,
       lineHeight: 80,
       letterSpacing: 0,
     },
     XL: {
-      ...fontStyle('Barlow-Bold'),
+      ...fontStyle('Geist-Bold'),
       fontSize: 80,
       lineHeight: 88,
       letterSpacing: 0,
@@ -43,42 +43,42 @@ export const CustomTypography = {
   Titres: {
     /** Font size: 18/20 */
     'H6 - XXS': {
-      ...fontStyle('Inter-Bold'),
+      ...fontStyle('Geist-Bold'),
       fontSize: !isMobile ? 20 : 18,
       lineHeight: !isMobile ? 28 : 24,
       letterSpacing: 0,
     },
     /** Font size: 20/22 */
     'H5 - XS': {
-      ...fontStyle('Inter-Bold'),
+      ...fontStyle('Geist-Bold'),
       fontSize: !isMobile ? 22 : 20,
       lineHeight: 28,
       letterSpacing: 0,
     },
     /** Font size: 22/24 */
     'H4 - SM': {
-      ...fontStyle('Inter-Bold'),
+      ...fontStyle('Geist-Bold'),
       fontSize: !isMobile ? 24 : 22,
       lineHeight: !isMobile ? 32 : 28,
       letterSpacing: 0,
     },
     /** Font size: 24/28 */
     'H3 - MD': {
-      ...fontStyle('Inter-Bold'),
+      ...fontStyle('Geist-Bold'),
       fontSize: !isMobile ? 28 : 24,
       lineHeight: !isMobile ? 36 : 32,
       letterSpacing: 0,
     },
     /** Font size: 28/32 */
     'H2 - LG': {
-      ...fontStyle('Inter-Bold'),
+      ...fontStyle('Geist-Bold'),
       fontSize: !isMobile ? 32 : 28,
       lineHeight: !isMobile ? 36 : 32,
       letterSpacing: 0,
     },
     /** Font size: 40/48 */
     'H1 - XL': {
-      ...fontStyle('Barlow-Bold'),
+      ...fontStyle('Geist-Bold'),
       fontSize: !isMobile ? 40 : 32,
       lineHeight: !isMobile ? 48 : 40,
       letterSpacing: 0,
