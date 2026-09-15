@@ -1,9 +1,11 @@
 const path = require('path');
 const nativePreset = require('jest-expo/ios/jest-preset');
+const androidPreset = require('jest-expo/android/jest-preset');
 const webPreset = require('jest-expo/web/jest-preset');
 
 const TEST_MATCH = '**/?(*.)+(spec|test).[tj]s?(x)';
 const WEB_TEST_MATCH = '**/?(*.)+(spec|test).web.[tj]s?(x)';
+const ANDROID_TEST_MATCH = '**/?(*.)+(spec|test).android.[tj]s?(x)';
 
 const ignoredPaths = ['/dist/', '/build/', '/.expo/', '/coverage/'];
 
@@ -48,6 +50,30 @@ module.exports = {
       testPathIgnorePatterns: [...(nativePreset.testPathIgnorePatterns ?? []), ...ignoredPaths],
       moduleNameMapper: {
         ...(nativePreset.moduleNameMapper ?? {}),
+        ...sharedModuleNameMapper,
+        '^react-native$': require.resolve('react-native'),
+        '^react-native/(.*)$': path.join(path.dirname(require.resolve('react-native/package.json')), '$1'),
+        '^test-renderer$': require.resolve('test-renderer'),
+        '^expo-modules-core$': require.resolve('expo-modules-core'),
+        '^expo-modules-core/(.*)$': path.join(path.dirname(require.resolve('expo-modules-core/package.json')), '$1'),
+      },
+    }),
+    // Le preset natif est celui d'iOS : quand un composant a une variante `.ios.tsx`, c'est
+    // elle qu'il résout, et le fichier `.tsx` générique, celui que voient Android et toutes
+    // les plateformes sans variante, n'est alors exercé par aucun projet. DateInput est le
+    // seul composant dans ce cas aujourd'hui, et une régression de locale y est passée
+    // inaperçue jusqu'à ce qu'on la cherche. Ce projet rend ce fichier atteignable.
+    project(androidPreset, {
+      displayName: 'android',
+      testMatch: [ANDROID_TEST_MATCH],
+      setupFilesAfterEnv: [
+        ...(androidPreset.setupFilesAfterEnv ?? []),
+        '<rootDir>/__tests__/setup.js',
+        '<rootDir>/__tests__/mocks/datetimepicker.js',
+      ],
+      testPathIgnorePatterns: [...(androidPreset.testPathIgnorePatterns ?? []), ...ignoredPaths],
+      moduleNameMapper: {
+        ...(androidPreset.moduleNameMapper ?? {}),
         ...sharedModuleNameMapper,
         '^react-native$': require.resolve('react-native'),
         '^react-native/(.*)$': path.join(path.dirname(require.resolve('react-native/package.json')), '$1'),

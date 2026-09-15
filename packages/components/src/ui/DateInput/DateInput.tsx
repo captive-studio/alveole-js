@@ -1,5 +1,7 @@
+import { DateFormats, displayDate, isValidDate } from '@alveole/core';
 import DateTimePicker from '@react-native-community/datetimepicker';
 import { getHours, getMinutes, setHours, setMinutes } from 'date-fns';
+import { fr } from 'date-fns/locale';
 import React, { useCallback, useMemo, useState } from 'react';
 import { Keyboard } from 'react-native';
 import { Box } from '../../core/Box';
@@ -15,7 +17,6 @@ import {
   TextInputProps,
 } from '../FormControl';
 import { InputHeading } from '../InputHeading';
-import { DateFormats, displayDate, isValidDate } from './dateUtils';
 
 type MinuteInterval = 1 | 2 | 3 | 4 | 5 | 6 | 10 | 12 | 15 | 20 | 30;
 
@@ -115,7 +116,7 @@ export const DateInput = React.forwardRef<any, DateInputProps>(function DateInpu
     (value: string | undefined) => {
       if (type === 'datetime') {
         if (value == null) return 'Sélectionnez une date';
-        return displayDate(selectedDate, { format: DateFormats.Datetime });
+        return displayDate(selectedDate, { format: DateFormats.Datetime, locale: fr });
       }
 
       if (value == null) return 'JJ/MM/AAAA';

@@ -1,5 +1,7 @@
+import { DateFormats, displayDate, isValidDate } from '@alveole/core';
 import DateTimePicker from '@react-native-community/datetimepicker';
 import { toDate } from 'date-fns';
+import { fr } from 'date-fns/locale';
 import React, { useCallback } from 'react';
 import { Keyboard, Platform } from 'react-native';
 import { Box } from '../../core/Box';
@@ -12,7 +14,6 @@ import {
   TextInput,
 } from '../FormControl';
 import { InputHeading } from '../InputHeading';
-import { DateFormats, displayDate, isValidDate } from './dateUtils';
 
 import type { DateInputProps } from './DateInput';
 
@@ -67,7 +68,7 @@ export const DateInput = React.forwardRef<any, DateInputProps>(function DateInpu
   const displayValue = useCallback(
     (currentValue: string | undefined) => {
       if (currentValue) {
-        if (type === 'datetime') return displayDate(toDate(currentValue), { format: DateFormats.Datetime });
+        if (type === 'datetime') return displayDate(toDate(currentValue), { format: DateFormats.Datetime, locale: fr });
         else return displayDate(toDate(currentValue), { format: DateFormats.DateSlash });
       }
       return '';
