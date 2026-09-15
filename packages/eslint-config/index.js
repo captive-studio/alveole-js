@@ -4,6 +4,7 @@ const sharedRules = require('./rules/_shared');
 const styleRules = require('./rules/styles');
 const serviceRules = require('./rules/services');
 const accessibilityRules = require('./rules/accessibility');
+const complexityRules = require('./rules/complexity');
 
 /** @type {import('eslint').Linter.Config[]} */
 const config = defineConfig([
@@ -13,6 +14,7 @@ const config = defineConfig([
   styleRules,
   serviceRules,
   accessibilityRules,
+  complexityRules,
 ]);
 
 module.exports = config;

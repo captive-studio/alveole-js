@@ -1,0 +1,117 @@
+{
+  "src/core/Box/Box.tsx": {
+    "complexity": {
+      "count": 1
+    }
+  },
+  "src/core/Image/Image.tsx": {
+    "complexity": {
+      "count": 1
+    }
+  },
+  "src/core/Map/Map.web.tsx": {
+    "complexity": {
+      "count": 1
+    }
+  },
+  "src/ui/Autocomplete/Autocomplete.tsx": {
+    "complexity": {
+      "count": 1
+    }
+  },
+  "src/ui/Autocomplete/Autocomplete.web.tsx": {
+    "complexity": {
+      "count": 1
+    }
+  },
+  "src/ui/Button/Button.tsx": {
+    "complexity": {
+      "count": 2
+    }
+  },
+  "src/ui/Button/ButtonIcon.tsx": {
+    "complexity": {
+      "count": 2
+    }
+  },
+  "src/ui/Card/CardSection.tsx": {
+    "complexity": {
+      "count": 1
+    }
+  },
+  "src/ui/DataTable/DataTable.tsx": {
+    "complexity": {
+      "count": 1
+    }
+  },
+  "src/ui/DataTable/DataTableCell.tsx": {
+    "complexity": {
+      "count": 1
+    }
+  },
+  "src/ui/DocumentViewer/DocumentViewerPDF.tsx": {
+    "complexity": {
+      "count": 1
+    }
+  },
+  "src/ui/DragAndDropFile/DragAndDropFile.tsx": {
+    "complexity": {
+      "count": 2
+    }
+  },
+  "src/ui/DragAndDropFile/DragAndDropFile.web.tsx": {
+    "complexity": {
+      "count": 4
+    }
+  },
+  "src/ui/EmptyState/EmptyState.tsx": {
+    "complexity": {
+      "count": 1
+    }
+  },
+  "src/ui/FileField/FileField.tsx": {
+    "complexity": {
+      "count": 1
+    }
+  },
+  "src/ui/FormControl/FormControlFileInput.tsx": {
+    "complexity": {
+      "count": 1
+    }
+  },
+  "src/ui/FormControl/TextInput.tsx": {
+    "complexity": {
+      "count": 1
+    }
+  },
+  "src/ui/ListItem/ListItem.tsx": {
+    "complexity": {
+      "count": 1
+    }
+  },
+  "src/ui/Popover/Popover.tsx": {
+    "complexity": {
+      "count": 1
+    }
+  },
+  "src/ui/Select/Select.tsx": {
+    "complexity": {
+      "count": 1
+    }
+  },
+  "src/ui/Select/SelectItem.tsx": {
+    "complexity": {
+      "count": 1
+    }
+  },
+  "src/ui/Switch/Switch.tsx": {
+    "complexity": {
+      "count": 1
+    }
+  },
+  "src/ui/ToolbarTop/ToolbarTop.tsx": {
+    "complexity": {
+      "count": 1
+    }
+  }
+}
