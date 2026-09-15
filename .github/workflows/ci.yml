@@ -350,10 +350,16 @@ jobs:
       # (exit 137) et emportait le job. Plafonner le tas de V8 force un GC plus fréquent et
       # ramène le pic à 1,62 Gio, tout en accélérant le build (18,6 s -> 12,4 s). La valeur
       # n'est pas au plus juste : à 1024 Mio V8 abandonne (exit 134), 1536 garde la marge.
+      # L'audit attend l'hydratation client avant de scanner (voir apps/docs/e2e/audit.ts) :
+      # il ne regarde jamais le HTML pré-rendu. Construire en SPA plutôt qu'en rendu statique
+      # ne lui retire donc rien, et fait tomber l'export de 12,2 s à 4,2 s et le dist de
+      # 339 Mo à 15 Mo (mesuré en local, cache Metro chaud), pour un jeu de violations
+      # strictement identique. Le site publié reste en rendu statique : c'est docs.yml.
       - name: Build docs
         working-directory: apps/docs
         env:
           NODE_OPTIONS: --max-old-space-size=1536
+          DOCS_OUTPUT: single
         run: |
           mkdir -p "$PWD/.metro-tmp"
           export TMPDIR="$PWD/.metro-tmp"
