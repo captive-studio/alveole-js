@@ -74,7 +74,7 @@ export const Signature = (props: SignatureProps) => {
         <Typography style={styles.date}>
           {dateLabel} {dateFormat}
         </Typography>
-        <Button size="xs" title={clearButtonLabel} variant="tertiary" onPress={() => ref.current?.clearSignature()} />
+        <Button size="sm" title={clearButtonLabel} variant="tertiary" onPress={() => ref.current?.clearSignature()} />
       </Box>
       <Box tag="signature" height={'100%'} onTouchEnd={onEnd} maxH={webviewHeightWithBorders} style={styles.container}>
         <SignatureCanvas
