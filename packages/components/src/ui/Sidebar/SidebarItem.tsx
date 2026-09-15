@@ -43,7 +43,10 @@ const SidebarItemDesktop = (props: SidebarItemProps) => {
     if (props.pressable) return <Box onPress={props.onPress}>{content}</Box>;
     else
       return (
-        <A href={props.href} direction={props.direction}>
+        // L'état courant se signalait par le fond, la graisse et le filet bleu : trois indices
+        // visuels et aucun sémantique. Sans `aria-current`, un lecteur d'écran annonce la page
+        // affichée comme un lien de navigation ordinaire.
+        <A href={props.href} direction={props.direction} ariaCurrent={isCurrentPage ? 'page' : undefined}>
           {content}
         </A>
       );
@@ -93,7 +96,7 @@ const SidebarItemMobile = (props: SidebarItemProps) => {
     if (props.pressable) return <Box onPress={props.onPress}>{content}</Box>;
     else
       return (
-        <A href={props.href} direction={props.direction}>
+        <A href={props.href} direction={props.direction} ariaCurrent={isCurrentPage ? 'page' : undefined}>
           {content}
         </A>
       );
