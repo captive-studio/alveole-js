@@ -63,6 +63,13 @@ Après avoir corrigé une violation, resserrer la référence, sinon la CI signa
 npm run test:a11y:baseline --workspace=apps/docs   # serveur sur http://localhost:4173 requis
 ```
 
+Parcourir les 77 pages coûte près de deux minutes. Un motif facultatif restreint l'audit
+aux pages dont le nom le contient, les autres gardant leur relevé précédent :
+
+```bash
+npm run test:a11y:baseline --workspace=apps/docs -- Select   # Select et SelectMultiple
+```
+
 ## Déployer (publication npm)
 
 La publication passe par le script du repo, puis la CI prends le relai
