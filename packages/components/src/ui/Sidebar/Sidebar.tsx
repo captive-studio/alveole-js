@@ -12,7 +12,8 @@ export const SidebarHeight = 58;
 
 export type SidebarProps = React.PropsWithChildren & {
   controller?: SidebarController;
-  logo: React.ReactNode;
+  /** Logo affiché en haut de la barre. Sans lui, la version bureau n'a pas d'en-tête. */
+  logo?: React.ReactNode;
   footer?: React.ReactNode;
 };
 

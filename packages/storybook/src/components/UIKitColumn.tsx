@@ -38,7 +38,7 @@ export const UIKitColumn = ({ groups }: UIKitColumnProps) => {
   if (groups.length === 0) return null;
 
   return (
-    <Sidebar logo={null}>
+    <Sidebar>
       {groups.map(group => (
         <SidebarGroup key={group.title} title={group.title}>
           {group.items.map(item => (
