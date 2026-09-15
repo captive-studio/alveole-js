@@ -4,7 +4,7 @@ export const useStyles = makeStyles(({ color, text, spacing }) => ({
   container: {
     display: 'flex',
     flexDirection: 'column',
-    gap: spacing('1W'),
+    gap: spacing('1V'),
   },
   row: {
     display: 'flex',
@@ -14,14 +14,14 @@ export const useStyles = makeStyles(({ color, text, spacing }) => ({
     gap: spacing('1V'),
   },
   title: {
-    ...text.Titres['H2 - LG'],
+    ...text.Titres['H3 - MD'],
     color: color.light.text['title-grey'],
   },
   actions: {
     display: 'flex',
     flexDirection: 'row',
     alignItems: 'center',
-    gap: spacing('050'),
+    gap: spacing('1W'),
     flexShrink: 0,
   },
 }));
