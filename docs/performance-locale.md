@@ -119,3 +119,39 @@ de la validation complète. La couverture ajoute du travail, mais les mêmes
 n'explique pas seule le coût de la suite. Comparer les changements sur des
 périmètres identiques, avec plusieurs essais alternés ; ne pas substituer les
 tests ciblés à la suite complète dans les mesures.
+
+## Transformations Jest de Tamagui
+
+Un nouveau relevé de la suite complète, avant cette modification, donne 17,64 s
+avec les caches présents, dont 13,18 s pour les composants. L'écart avec les
+90,93 s du relevé initial confirme que la charge concurrente et l'état des caches
+empêchent de comparer directement deux sessions.
+
+Les fichiers CommonJS publiés par Tamagui sont déjà compilés pour chaque
+plateforme. Les exclure de la transformation Babel de Jest évite un traitement
+supplémentaire lors de leur chargement. Les résolutions web, iOS et Android ainsi
+que les tests et les règles de couverture sont conservés.
+
+Comparaison des 32 suites / 103 tests des composants avec couverture, deux workers,
+avec deux répertoires de cache distincts et des essais alternés :
+
+| État du cache | Avant   | Après   |
+| ------------- | ------- | ------- |
+| Vide          | 32,24 s | 25,98 s |
+| Rempli        | 16,24 s | 13,19 s |
+
+Les résumés de couverture sont identiques pour chaque fichier. Un premier essai
+hors de cette comparaison a subi un crash V8 (`SIGSEGV` dans le ramasse-miettes) ;
+il n'a pas été reproduit dans les essais comparatifs et n'est pas compté dans
+les temps ci-dessus. Ces mesures ne constituent pas un diagnostic de ce crash.
+
+Après modification, la commande complète `npm run test:unit` passe avec 152 tests
+en 17,09 s, dont 12,81 s pour les composants. Face aux 17,64 s mesurées avant
+avec les caches existants, cet écart est trop faible pour revendiquer un gain
+stable sur toute la commande à chaud. Le bénéfice le plus net reste celui du
+parcours avec un cache de transformations vide.
+
+Le typecheck complet repasse aussi en 5,00 s, sans modification de sa commande.
+Les 18 s de la session précédente ne justifient donc pas à elles seules d'ajouter
+un ordonnanceur parallèle. Les prochains changements doivent être comparés
+à charge et état de cache similaires.

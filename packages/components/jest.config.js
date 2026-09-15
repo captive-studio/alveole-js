@@ -16,6 +16,8 @@ const transformIgnorePatterns = [
   // Le mapper ci-dessous résout Lucide sur son entrée CommonJS, déjà compilée.
   // Repasser ses milliers d'icônes dans Babel coûte cher à froid, sans changer leur code.
   '/node_modules/lucide-react-native/dist/cjs/',
+  // Les distributions CommonJS de Tamagui sont déjà compilées pour chaque plateforme.
+  '/node_modules/(?:@tamagui/[^/]+|tamagui)/dist/cjs/',
 ];
 
 // Alias communs aux deux plateformes. Ils canonicalisent ces paquets sur la copie résolue
