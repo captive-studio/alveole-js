@@ -2,9 +2,6 @@
   "/components/ActionMenu": {
     "aria-allowed-attr": 1
   },
-  "/components/DataTable": {
-    "button-name": 30
-  },
   "/components/FormControl": {
     "label": 1
   },
