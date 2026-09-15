@@ -1,8 +1,11 @@
 import React from 'react';
-import { TextInput } from '../FormControl';
-import { TextField, TextFieldProps } from '../TextField';
+import { TextInput, TextInputProps } from '../FormControl';
+import { TextField } from '../TextField';
 
-export type TextareaInputProps = TextFieldProps & {
+// Champ nu, sans libellé : c'est FormControl qui porte le libellé et le relie au champ,
+// et TextareaField qui fait cette composition. Hériter de TextFieldProps exposait ici un
+// `label` que rien ne rendait, et qui finissait en attribut DOM inerte.
+export type TextareaInputProps = TextInputProps & {
   numberOfLines?: number;
   onModalSubmit?: () => void;
 };

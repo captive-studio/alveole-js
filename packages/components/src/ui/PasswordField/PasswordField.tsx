@@ -49,7 +49,7 @@ export const PasswordField = React.forwardRef<TextInputElement, PasswordFieldPro
         }
         onChangeText={onChange}
         textContentType="password"
-        autoComplete="password"
+        autoComplete="current-password"
         autoCapitalize="none"
         inputMode="text"
         {...props}

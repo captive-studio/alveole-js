@@ -22,6 +22,7 @@ export const Metabase = (props: MetabaseProps) => {
   const scriptLoadedRef = useRef(false);
   const configLoadedRef = useRef(false);
 
+  const title = props.title ?? 'Tableau de bord Metabase';
   const isSourceFormat = 'source' in props && props.source;
   const token = 'token' in props ? props.token : undefined;
   const instanceUrl = 'instanceUrl' in props ? props.instanceUrl : undefined;
@@ -63,7 +64,7 @@ export const Metabase = (props: MetabaseProps) => {
   }, [instanceUrl]);
 
   if (isSourceFormat) {
-    return <iframe src={props.source} style={styles.metabase} frameBorder="0" />;
+    return <iframe src={props.source} title={title} style={styles.metabase} frameBorder="0" />;
   }
 
   if (!token || !instanceUrl) {

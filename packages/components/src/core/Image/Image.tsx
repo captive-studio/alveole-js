@@ -16,7 +16,12 @@ export type ImageProps = ExpoImageProps & {
 };
 
 export const Image = (props: ImageProps) => {
-  const { source, width, height, maxWidth, maxHeight, style, ...rest } = props;
+  const { source, width, height, maxWidth, maxHeight, style, alt, accessibilityLabel, ...rest } = props;
+
+  // expo-image documente `alt` comme alias d'`accessibilityLabel`, mais ne l'applique que
+  // dans l'une de ses deux branches de rendu web (ExpoImage.web.tsx) : selon le chemin
+  // emprunté, l'attribut `alt` du <img> disparaît. On résout l'alias ici, une fois.
+  const label = accessibilityLabel ?? alt;
 
   const maxWidthNumber = maxWidth ?? (isNumericDimension(width) ? width : undefined);
   const maxHeightNumber = maxHeight ?? (isNumericDimension(height) ? height : undefined);
@@ -102,6 +107,7 @@ export const Image = (props: ImageProps) => {
         height: height === '100%' ? '100%' : imageStyle.height,
       }}
       source={imageSource}
+      accessibilityLabel={label}
       onLoad={handleLoad}
       onError={handleError}
       {...rest}
