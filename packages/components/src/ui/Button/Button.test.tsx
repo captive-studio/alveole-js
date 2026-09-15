@@ -41,15 +41,6 @@ describe('Button', () => {
     expect(conteneur(view)?.props.style.paddingTop).toBe(12); // spacing('3V')
   });
 
-  // `xs` a un rembourrage vertical de 8 alors que `sm` est a 6 : la taille censee etre la
-  // plus petite est la deuxieme plus grande. L'anomalie est anterieure et volontairement
-  // laissee telle quelle ici, le code notant deja que `xs` « n'est pas cense exister ».
-  it('applique le rembourrage de la taille xs', async () => {
-    const view = await renderNative(<Button variant="primary" title="Enregistrer" size="xs" />);
-
-    expect(conteneur(view)?.props.style.paddingTop).toBe(8); // spacing('050')
-  });
-
   // Sans `title`, le bouton passe en mode icone seule : la chaine de ternaires sur `size`
   // bascule sur une seconde famille de styles, qui pose un `padding` uniforme la ou le mode
   // avec libelle pose des rembourrages asymetriques.

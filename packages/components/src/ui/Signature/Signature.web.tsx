@@ -76,7 +76,7 @@ export const Signature = (props: SignatureProps) => {
         <Typography style={styles.date}>
           {dateLabel} {dateFormat}
         </Typography>
-        <Button title={clearButtonLabel} variant="tertiary" size="xs" onPress={handleClear} />
+        <Button title={clearButtonLabel} variant="tertiary" size="sm" onPress={handleClear} />
       </Box>
       <Box style={{ ...styles.signatureWeb, height }}>
         <ReactSignature

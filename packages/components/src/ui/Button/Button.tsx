@@ -14,7 +14,7 @@ type CustomPressableState = PressableStateCallbackType & {
 export type ButtonProps = Omit<PressableProps, 'children' | 'style'> & {
   /** Sans `title`, le bouton passe en mode icône seule (nécessite `startIcon` ou `endIcon`). */
   title?: string;
-  size?: 'xs' | 'sm' | 'md' | 'lg'; // xs n'est pas censé exister
+  size?: 'sm' | 'md' | 'lg';
   variant: 'primary' | 'secondary' | 'tertiary' | 'danger' | 'link'; // link n'est pas censé exister
   startIcon?: IconProps['name'];
   endIcon?: IconProps['name'];
@@ -48,14 +48,12 @@ type Taille = NonNullable<ButtonProps['size']>;
 
 /** Le conteneur change de famille de styles selon que le bouton porte un libelle ou non. */
 const CONTENEUR_PAR_TAILLE: Record<Taille, { avecLibelle: StyleKey; iconeSeule: StyleKey }> = {
-  xs: { avecLibelle: 'xsContainer', iconeSeule: 'xsContainerIconOnly' },
   sm: { avecLibelle: 'smContainer', iconeSeule: 'smContainerIconOnly' },
   md: { avecLibelle: 'mdContainer', iconeSeule: 'mdContainerIconOnly' },
   lg: { avecLibelle: 'lgContainer', iconeSeule: 'lgContainerIconOnly' },
 };
 
 const TITRE_PAR_TAILLE: Record<Taille, StyleKey> = {
-  xs: 'xsTitle',
   sm: 'smTitle',
   md: 'mdTitle',
   lg: 'lgTitle',
@@ -221,12 +219,12 @@ export const Button = React.forwardRef<View, ButtonProps>(function Button(props,
 
   const getPressableStyle = (state: CustomPressableState) => {
     const sizeRadii =
-      size === 'xs' || size === 'sm'
+      size === 'sm'
         ? {
-            borderTopLeftRadius: styles.xsContainer.borderTopLeftRadius,
-            borderBottomLeftRadius: styles.xsContainer.borderBottomLeftRadius,
-            borderTopRightRadius: styles.xsContainer.borderTopRightRadius,
-            borderBottomRightRadius: styles.xsContainer.borderBottomRightRadius,
+            borderTopLeftRadius: styles.smContainer.borderTopLeftRadius,
+            borderBottomLeftRadius: styles.smContainer.borderBottomLeftRadius,
+            borderTopRightRadius: styles.smContainer.borderTopRightRadius,
+            borderBottomRightRadius: styles.smContainer.borderBottomRightRadius,
           }
         : {
             borderTopLeftRadius: styles.container.borderTopLeftRadius,

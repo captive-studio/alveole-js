@@ -129,17 +129,6 @@ export const useStyles = makeStyles(({ text, color, spacing, spacingValue, radiu
   },
 
   // Sizes
-  xsContainer: {
-    paddingLeft: spacing('075'),
-    paddingRight: spacing('075'),
-    paddingTop: spacing('050'),
-    paddingBottom: spacing('050'),
-
-    borderTopLeftRadius: radius('sm'),
-    borderBottomLeftRadius: radius('sm'),
-    borderTopRightRadius: radius('sm'),
-    borderBottomRightRadius: radius('sm'),
-  },
   smContainer: {
     paddingLeft: spacing('3V'),
     paddingRight: spacing('3V'),
@@ -163,9 +152,6 @@ export const useStyles = makeStyles(({ text, color, spacing, spacingValue, radiu
     paddingTop: spacing('3V'),
     paddingBottom: spacing('3V'),
   },
-  xsContainerIconOnly: {
-    padding: spacing('050'),
-  },
   smContainerIconOnly: {
     padding: spacing('1W'),
   },
@@ -175,7 +161,6 @@ export const useStyles = makeStyles(({ text, color, spacing, spacingValue, radiu
   lgContainerIconOnly: {
     padding: spacing('3V'),
   },
-  xsTitle: text['Corps de texte'].XS.Regular,
   smTitle: text['Corps de texte'].SM.Medium,
   mdTitle: text['Corps de texte'].SM.Medium,
   lgTitle: text['Corps de texte'].MD.Medium,
