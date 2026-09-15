@@ -12,6 +12,7 @@ import {
   TextStyle,
 } from 'react-native';
 import { Box } from '../../core/Box';
+import { useFieldId } from './FieldId';
 import { useStyles } from './FormControl.styles';
 import { FormControlModal } from './FormControlModal';
 
@@ -42,6 +43,7 @@ export const TextInput = React.forwardRef<TextInputElement, TextInputProps>(func
 
   const { color } = useTheme();
   const styles = useStyles();
+  const fieldId = useFieldId();
 
   const shouldUseModal = Boolean(openModal && inputProps.multiline && Platform.OS !== 'web');
   const [isModalOpen, setIsModalOpen] = React.useState(false);
@@ -139,6 +141,7 @@ export const TextInput = React.forwardRef<TextInputElement, TextInputProps>(func
 
           <ReactNativeTextInput
             ref={inputRef}
+            id={inputProps.id ?? fieldId}
             style={
               {
                 ...styles.input,
@@ -176,6 +179,7 @@ export const TextInput = React.forwardRef<TextInputElement, TextInputProps>(func
 
           <ReactNativeTextInput
             ref={inputRef}
+            id={inputProps.id ?? fieldId}
             style={
               {
                 ...styles.input,

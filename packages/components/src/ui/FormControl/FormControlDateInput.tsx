@@ -1,5 +1,6 @@
 import React from 'react';
 import { Box } from '../../core/Box';
+import { useFieldId } from './FieldId';
 import { useStyles } from './FormControl.styles';
 
 export type FormControlDateInputElement = HTMLInputElement;
@@ -27,6 +28,7 @@ export const FormControlDateInput = React.forwardRef<FormControlDateInputElement
     const { value, type, onChange, ...inputProps } = props;
 
     const styles = useStyles();
+    const fieldId = useFieldId();
     const [focus, setFocus] = React.useState(false);
 
     const handleFocus = () => {
@@ -61,6 +63,7 @@ export const FormControlDateInput = React.forwardRef<FormControlDateInputElement
         >
           <input
             ref={ref}
+            id={fieldId}
             onChange={e => {
               const newDate = e.target.value;
               if (type === 'month') return onChange?.(newDate + '-01');
