@@ -4,10 +4,11 @@
 /// <reference path="./a11y-one-light.d.ts" />
 import React, { CSSProperties, ReactNode } from 'react';
 import { ScrollView, StyleSheet, Text, TextStyle, View } from 'react-native';
-import { Prism, SyntaxHighlighterProps } from 'react-syntax-highlighter';
+import type { SyntaxHighlighterProps } from 'react-syntax-highlighter';
 // Importé par son fichier : l'index des thèmes Prism ne ré-exporte que `a11yDark`.
 import a11yOneLight from 'react-syntax-highlighter/dist/esm/styles/prism/a11y-one-light.js';
 import { useStyles } from './Highlight.styles';
+import Prism from './Highlight.syntax';
 
 export type HighlightProps = Pick<SyntaxHighlighterProps, 'children'> & {
   language: 'json' | 'typescript' | 'tsx' | 'ruby' | 'bash' | 'plaintext' | 'html';
