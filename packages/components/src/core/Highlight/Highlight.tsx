@@ -92,7 +92,18 @@ const PrismCodeHighlighter = ({ children, language, style }: HighlightProps) => 
     }, []);
 
   const renderer = ({ rows }: RendererProps) => (
-    <ScrollView horizontal contentContainerStyle={[styles.highlight, stylesheet[BASE_STYLE_KEY], customStyle]}>
+    // Un extrait plus large que sa colonne défile horizontalement. Sans point d'arrêt au
+    // clavier, la fin de la ligne n'est atteignable qu'à la souris : c'est la règle
+    // `scrollable-region-focusable` d'axe. Le cas s'est révélé quand la colonne de navigation
+    // du catalogue a rétréci la zone de contenu, mais le défaut lui préexistait.
+    <ScrollView
+      horizontal
+      focusable
+      // `styles.highlight` pose `overflow: scroll`, ce qui ferait défiler le conteneur de
+      // contenu en doublon du `ScrollView` qui l'entoure. C'est ce doublon intérieur qu'axe
+      // signalait : il défile sans pouvoir recevoir le focus, que porte l'extérieur.
+      contentContainerStyle={[styles.highlight, { overflow: 'visible' }, stylesheet[BASE_STYLE_KEY], customStyle]}
+    >
       <View onStartShouldSetResponder={() => true}>{renderNode(rows)}</View>
     </ScrollView>
   );

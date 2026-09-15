@@ -7,6 +7,7 @@ import {
   getAllStoryTags,
   getConstantEntries,
   groupStoriesByTag,
+  groupTitleForTag,
   sortStoriesByTitle,
   toStoryModules,
   type StorybookModule,
@@ -43,7 +44,7 @@ const THEME_PAGES: UIKitColumnItem[] = [
 
 const componentGroups = (): UIKitColumnGroup[] =>
   groupStoriesByTag(storyList, getAllStoryTags(storyList)).map(([tag, stories]) => ({
-    title: tag,
+    title: groupTitleForTag(tag),
     // Le tri alphabétique est propre à la colonne : la grille de l'index garde son ordre et
     // ses filtres. Une colonne sert à retrouver, l'ordre d'un fichier d'index ne se parcourt pas.
     items: sortStoriesByTitle(stories).map(story => ({
