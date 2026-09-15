@@ -33,6 +33,15 @@ export async function auditRoute(page: Page, route: string): Promise<Result[]> {
     .waitFor({ timeout: 10_000 })
     .catch(() => undefined);
 
+  // Le titre rendu ne dit rien des images. expo-image passe par un placeholder puis une
+  // transition avant de poser son <img> définitif, et le nombre d'éléments présents dans le
+  // DOM dépend donc de l'avancement du chargement : la fiche Image comptait 5 violations
+  // image-alt en local et 8 en CI. `complete` passe à vrai aussi bien sur une image chargée
+  // que sur une image en échec, ce qui rend l'attente sûre malgré le trafic tiers coupé.
+  await page
+    .waitForFunction(() => Array.from(document.images).every(image => image.complete), null, { timeout: 15_000 })
+    .catch(() => undefined);
+
   const { violations } = await new AxeBuilder({ page }).disableRules(PAGE_STRUCTURE_RULES).analyze();
 
   return violations;
