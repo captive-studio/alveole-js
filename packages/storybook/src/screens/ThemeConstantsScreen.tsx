@@ -3,12 +3,14 @@ import { useTheme } from '@alveole/theme';
 import React from 'react';
 import { Pressable, useWindowDimensions } from 'react-native';
 import { screenContent } from '../styles';
+import { getConstantEntries } from '../utils';
 
 export type ThemeConstantsScreenProps = {
   constants: Record<string, unknown>;
   title?: string;
   description?: string;
   beforeContent?: React.ReactNode;
+  sidebar?: React.ReactNode;
   footerContent?: React.ReactNode;
   onSelectConstant?: (entry: { name: string; value: unknown }) => void;
 };
@@ -18,6 +20,7 @@ export const ThemeConstantsScreen = ({
   title = 'UI Kit - Constants',
   description = 'Theme constants',
   beforeContent,
+  sidebar,
   footerContent,
   onSelectConstant,
 }: ThemeConstantsScreenProps) => {
@@ -25,19 +28,14 @@ export const ThemeConstantsScreen = ({
   const { width } = useWindowDimensions();
   const columns = width >= 1200 ? 3 : width >= 768 ? 2 : 1;
 
-  const entries = React.useMemo(
-    () =>
-      Object.entries(constants)
-        .filter(([, value]) => typeof value === 'object' && value != null)
-        .sort((left, right) => left[0].localeCompare(right[0])),
-    [constants],
-  );
+  const entries = React.useMemo(() => getConstantEntries(constants), [constants]);
 
   return (
     <Page
       scrollable
       title={title}
       description={description}
+      sidebar={sidebar}
       beforeContent={beforeContent}
       footerContent={footerContent}
     >

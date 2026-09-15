@@ -1,8 +1,8 @@
 import { ThemeCSSVariablesScreen } from '@alveole/storybook';
-import { DocFooter, useUIKitTopBar } from '../../components/uiKitNavigation';
+import { DocFooter, useUIKitColumn } from '../../components/uiKitNavigation';
 
 export default function ThemeCSSVariablesRoute() {
-  const topBar = useUIKitTopBar('css-variables');
+  const column = useUIKitColumn();
 
-  return <ThemeCSSVariablesScreen beforeContent={topBar} footerContent={<DocFooter />} />;
+  return <ThemeCSSVariablesScreen sidebar={column} footerContent={<DocFooter />} />;
 }

@@ -131,6 +131,7 @@ export type ThemePaletteScreenProps = {
   title?: string;
   description?: string;
   beforeContent?: React.ReactNode;
+  sidebar?: React.ReactNode;
   footerContent?: React.ReactNode;
 };
 
@@ -139,6 +140,7 @@ export const ThemePaletteScreen = ({
   title = 'UI Kit - Couleurs du thème',
   description = 'Palette et couleurs du thème',
   beforeContent,
+  sidebar,
   footerContent,
 }: ThemePaletteScreenProps) => {
   const { color } = useTheme();
@@ -152,6 +154,7 @@ export const ThemePaletteScreen = ({
       scrollable
       title={title}
       description={description}
+      sidebar={sidebar}
       beforeContent={beforeContent}
       footerContent={footerContent}
     >

@@ -1,7 +1,8 @@
-import { A, Box, Header, LucideIcon, Typography } from '@alveole/components';
+import { A, Box, Divider, Header, LucideIcon, SidebarGroup, SidebarItem, Typography } from '@alveole/components';
 import { makeStyles, useTheme } from '@alveole/theme';
 import React from 'react';
 import { Pressable } from 'react-native';
+import type { UIKitColumnGroup } from './UIKitColumn';
 
 export type UIKitTopBarItem = {
   key: string;
@@ -13,6 +14,12 @@ export type UIKitTopBarItem = {
 export type UIKitTopBarProps = {
   activeKey: string;
   items: UIKitTopBarItem[];
+  /**
+   * Niveau 2 de la rubrique courante. Sur desktop il est rendu par la colonne ; sous 992px
+   * la colonne se replie et son contenu descend ici, pour que le menu de la barre reste la
+   * seule commande de navigation. Voir docs/adr/0007.
+   */
+  columnGroups?: UIKitColumnGroup[];
 };
 
 const AlveoleLogo = () => {
@@ -99,7 +106,7 @@ const NavItem = ({ label, href, current, block = false }: NavItemProps) => {
   );
 };
 
-export const UIKitTopBar = ({ activeKey, items }: UIKitTopBarProps) => {
+export const UIKitTopBar = ({ activeKey, items, columnGroups = [] }: UIKitTopBarProps) => {
   const { color, isVariant, spacing } = useTheme();
   // Les items sont des ancres : la navigation ne passe plus par un callback qui pourrait
   // refermer le menu au clic. On retient donc la page pour laquelle le menu a été ouvert,
@@ -141,6 +148,16 @@ export const UIKitTopBar = ({ activeKey, items }: UIKitTopBarProps) => {
           >
             {items.map(({ key, ...item }) => (
               <NavItem key={key} {...item} current={activeKey === key} block />
+            ))}
+
+            {columnGroups.length > 0 && <Divider />}
+
+            {columnGroups.map(group => (
+              <SidebarGroup key={group.title} title={group.title}>
+                {group.items.map(item => (
+                  <SidebarItem key={item.key} title={item.title} href={item.href} />
+                ))}
+              </SidebarGroup>
             ))}
           </Box>
         )}

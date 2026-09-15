@@ -1,8 +1,8 @@
 import { PhilosophyPage } from '@alveole/storybook';
-import { DocFooter, useUIKitTopBar } from '../components/uiKitNavigation';
+import { DocFooter, useUIKitColumn } from '../components/uiKitNavigation';
 
 export default function PhilosophyRoute() {
-  const topBar = useUIKitTopBar('philosophy');
+  const column = useUIKitColumn();
 
-  return <PhilosophyPage beforeContent={topBar} footerContent={<DocFooter />} />;
+  return <PhilosophyPage sidebar={column} footerContent={<DocFooter />} />;
 }

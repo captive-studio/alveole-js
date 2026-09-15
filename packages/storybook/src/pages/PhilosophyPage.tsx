@@ -21,10 +21,11 @@ const PhilosophySection = ({ title, children }: PhilosophySectionProps) => {
 
 export type PhilosophyPageProps = {
   beforeContent?: React.ReactNode;
+  sidebar?: React.ReactNode;
   footerContent?: React.ReactNode;
 };
 
-export const PhilosophyPage = ({ beforeContent, footerContent }: PhilosophyPageProps) => {
+export const PhilosophyPage = ({ beforeContent, sidebar, footerContent }: PhilosophyPageProps) => {
   const { text } = useTheme();
 
   return (
@@ -32,6 +33,7 @@ export const PhilosophyPage = ({ beforeContent, footerContent }: PhilosophyPageP
       scrollable
       title="Philosophie"
       description="Les principes qui guident Alveole"
+      sidebar={sidebar}
       beforeContent={beforeContent}
       footerContent={footerContent}
     >

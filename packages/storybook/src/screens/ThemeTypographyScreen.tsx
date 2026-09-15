@@ -8,6 +8,7 @@ export type ThemeTypographyScreenProps = {
   title?: string;
   description?: string;
   beforeContent?: React.ReactNode;
+  sidebar?: React.ReactNode;
   footerContent?: React.ReactNode;
 };
 
@@ -118,6 +119,7 @@ export const ThemeTypographyScreen = ({
   title = 'UI Kit - Theme typography',
   description = 'Theme text styles',
   beforeContent,
+  sidebar,
   footerContent,
 }: ThemeTypographyScreenProps) => {
   const { text } = useTheme();
@@ -135,6 +137,7 @@ export const ThemeTypographyScreen = ({
       scrollable
       title={title}
       description={description}
+      sidebar={sidebar}
       beforeContent={beforeContent}
       footerContent={footerContent}
     >

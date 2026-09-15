@@ -1,15 +1,15 @@
 import { ThemeConstantsScreen } from '@alveole/storybook';
 import * as ThemeConstants from '@alveole/theme';
 import { useRouter } from 'expo-router';
-import { DocFooter, useUIKitTopBar } from '../../components/uiKitNavigation';
+import { DocFooter, useUIKitColumn } from '../../components/uiKitNavigation';
 
 export default function ConstantsRoute() {
   const router = useRouter();
-  const topBar = useUIKitTopBar('constants');
+  const column = useUIKitColumn();
 
   return (
     <ThemeConstantsScreen
-      beforeContent={topBar}
+      sidebar={column}
       footerContent={<DocFooter />}
       constants={ThemeConstants}
       title="UI Kit - Constantes"

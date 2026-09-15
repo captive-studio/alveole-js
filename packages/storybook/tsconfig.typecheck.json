@@ -9,7 +9,8 @@
       "react-native": ["./node_modules/react-native"]
     },
     "incremental": true,
-    "tsBuildInfoFile": ".tsbuildinfo"
+    "tsBuildInfoFile": ".tsbuildinfo",
+    "types": ["jest"]
   },
   "include": ["src"]
 }
