@@ -156,7 +156,9 @@ async function ensureSourcesExport(inputFilePath, outputFilePath) {
 }
 
 async function main() {
-  const files = await findStoryFiles(rootDir);
+  // Les exemples vivent dans src ; les caches de tests peuvent contenir des
+  // dizaines de milliers de fichiers et ne font pas partie du catalogue.
+  const files = await findStoryFiles(path.join(rootDir, 'src'));
 
   for (const filePath of files) {
     const code = await fs.readFile(filePath, 'utf8');
@@ -167,10 +169,17 @@ async function main() {
     const outputPath = filePath.replace(/\.stories\.(tsx|ts)$/, '.stories.sources.ts');
     const output = buildOutput(stories, filePath);
 
-    await fs.writeFile(outputPath, output, 'utf8');
+    const previous = await fs.readFile(outputPath, 'utf8').catch(error => {
+      if (error.code === 'ENOENT') return null;
+      throw error;
+    });
+    // Préserver les dates des fichiers identiques pour ne pas réveiller Metro
+    // ni les autres outils qui surveillent les sources.
+    if (previous !== output) {
+      await fs.writeFile(outputPath, output, 'utf8');
+      console.log(`Generated ${path.relative(rootDir, outputPath)} with ${stories.length} source(s)`);
+    }
     await ensureSourcesExport(filePath, outputPath);
-
-    console.log(`Generated ${path.relative(rootDir, outputPath)} with ${stories.length} source(s)`);
   }
 }
 
