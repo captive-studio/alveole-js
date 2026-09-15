@@ -78,10 +78,10 @@ module.exports = {
   // les baisser demande une raison explicite.
   coverageThreshold: {
     global: {
-      statements: 25,
-      branches: 21,
-      functions: 22,
-      lines: 26,
+      statements: 26,
+      branches: 22,
+      functions: 23,
+      lines: 27,
     },
   },
   collectCoverageFrom: [
