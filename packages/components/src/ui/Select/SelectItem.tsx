@@ -28,24 +28,22 @@ export const SelectItem = (props: SelectItemProps) => {
   const iconColor = disabled ? color.light.text['disabled-grey'] : color.light.text['default-grey'];
 
   return (
-    <Box
-      tag="select-item"
-      style={{
-        ...styles.item,
-        ...(selected || highlighted ? styles.itemHighlighted : {}),
-        ...(disabled ? styles.itemDisabled : {}),
-      }}
-      hoverStyle={disabled ? undefined : styles.itemHighlighted}
-    >
+    <Box tag="select-item" style={{ ...styles.item, ...(disabled ? styles.itemDisabled : {}) }}>
       {selected && (
         <Box tag="select-item-indicator" style={styles.indicator}>
           <Box style={styles.indicatorContent} />
         </Box>
       )}
 
-      {icon && <LucideIcon size="sm" name={icon} color={iconColor} />}
+      <Box
+        tag="select-item-band"
+        style={{ ...styles.band, ...(selected || highlighted ? styles.bandHighlighted : {}) }}
+        hoverStyle={disabled ? undefined : styles.bandHighlighted}
+      >
+        {icon && <LucideIcon size="sm" name={icon} color={iconColor} />}
 
-      <Typography style={{ ...styles.itemLabel, ...(disabled ? styles.itemLabelDisabled : {}) }}>{label}</Typography>
+        <Typography style={{ ...styles.itemLabel, ...(disabled ? styles.itemLabelDisabled : {}) }}>{label}</Typography>
+      </Box>
     </Box>
   );
 };
