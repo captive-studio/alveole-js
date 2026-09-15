@@ -88,26 +88,26 @@ export const CustomTypography = {
   'Corps de texte': {
     XS: {
       Regular: {
-        ...fontStyle('Inter-Regular'),
+        ...fontStyle('Geist-Regular'),
         fontSize: 12,
         lineHeight: 20,
         letterSpacing: 0,
       },
       Bold: {
-        ...fontStyle('Inter-Bold'),
+        ...fontStyle('Geist-Bold'),
         fontSize: 12,
         lineHeight: 20,
         letterSpacing: 0,
       },
       Caps: {
-        ...fontStyle('Inter-Regular'),
+        ...fontStyle('Geist-Regular'),
         fontSize: 12,
         lineHeight: 20,
         letterSpacing: 0,
         textTransform: 'uppercase',
       },
       CapsBold: {
-        ...fontStyle('Inter-Bold'),
+        ...fontStyle('Geist-Bold'),
         fontSize: 12,
         lineHeight: 20,
         letterSpacing: 0,
@@ -115,12 +115,12 @@ export const CustomTypography = {
       },
       /**
        * @deprecated Utiliser `Bold`. `SemiBold` est un alias strict de `Bold` : les deux
-       * appliquent `fontStyle('Inter-Bold')`, qui charge `Inter_600SemiBold` et rend un
+       * appliquent `fontStyle('Geist-Bold')`, qui charge `Geist_600SemiBold` et rend un
        * `font-weight: 600`. Le nom laisse croire à une graisse intermédiaire qui n'existe
-       * pas dans la palette Inter du thème (300 / 400 / 500 / 600).
+       * pas dans la palette Geist du thème (300 / 400 / 500 / 600).
        */
       SemiBold: {
-        ...fontStyle('Inter-Bold'),
+        ...fontStyle('Geist-Bold'),
         fontSize: 12,
         lineHeight: 20,
         letterSpacing: 0,
@@ -128,37 +128,37 @@ export const CustomTypography = {
     },
     SM: {
       Regular: {
-        ...fontStyle('Inter-Regular'),
+        ...fontStyle('Geist-Regular'),
         fontSize: 14,
         lineHeight: 20,
         letterSpacing: 0,
       },
       Medium: {
-        ...fontStyle('Inter-Medium'),
+        ...fontStyle('Geist-Medium'),
         fontSize: 14,
         lineHeight: 20,
         letterSpacing: 0,
       },
       /**
        * @deprecated Utiliser `Bold`. `SemiBold` est un alias strict de `Bold` : les deux
-       * appliquent `fontStyle('Inter-Bold')`, qui charge `Inter_600SemiBold` et rend un
+       * appliquent `fontStyle('Geist-Bold')`, qui charge `Geist_600SemiBold` et rend un
        * `font-weight: 600`. Le nom laisse croire à une graisse intermédiaire qui n'existe
-       * pas dans la palette Inter du thème (300 / 400 / 500 / 600).
+       * pas dans la palette Geist du thème (300 / 400 / 500 / 600).
        */
       SemiBold: {
-        ...fontStyle('Inter-Bold'),
+        ...fontStyle('Geist-Bold'),
         fontSize: 14,
         lineHeight: 20,
         letterSpacing: 0,
       },
       Bold: {
-        ...fontStyle('Inter-Bold'),
+        ...fontStyle('Geist-Bold'),
         fontSize: 14,
         lineHeight: 20,
         letterSpacing: 0,
       },
       CapsBold: {
-        ...fontStyle('Inter-Bold'),
+        ...fontStyle('Geist-Bold'),
         fontSize: 14,
         lineHeight: 20,
         letterSpacing: 0,
@@ -167,31 +167,31 @@ export const CustomTypography = {
     },
     MD: {
       Regular: {
-        ...fontStyle('Inter-Regular'),
+        ...fontStyle('Geist-Regular'),
         fontSize: 16,
         lineHeight: 24,
         letterSpacing: 0,
       },
       Medium: {
-        ...fontStyle('Inter-Medium'),
+        ...fontStyle('Geist-Medium'),
         fontSize: 16,
         lineHeight: 24,
         letterSpacing: 0,
       },
       /**
        * @deprecated Utiliser `Bold`. `SemiBold` est un alias strict de `Bold` : les deux
-       * appliquent `fontStyle('Inter-Bold')`, qui charge `Inter_600SemiBold` et rend un
+       * appliquent `fontStyle('Geist-Bold')`, qui charge `Geist_600SemiBold` et rend un
        * `font-weight: 600`. Le nom laisse croire à une graisse intermédiaire qui n'existe
-       * pas dans la palette Inter du thème (300 / 400 / 500 / 600).
+       * pas dans la palette Geist du thème (300 / 400 / 500 / 600).
        */
       SemiBold: {
-        ...fontStyle('Inter-Bold'),
+        ...fontStyle('Geist-Bold'),
         fontSize: 16,
         lineHeight: 24,
         letterSpacing: 0,
       },
       Bold: {
-        ...fontStyle('Inter-Bold'),
+        ...fontStyle('Geist-Bold'),
         fontSize: 16,
         lineHeight: 24,
         letterSpacing: 0,
@@ -199,25 +199,25 @@ export const CustomTypography = {
     },
     LG: {
       Regular: {
-        ...fontStyle('Inter-Regular'),
+        ...fontStyle('Geist-Regular'),
         fontSize: 18,
         lineHeight: 28,
         letterSpacing: 0,
       },
       Medium: {
-        ...fontStyle('Inter-Medium'),
+        ...fontStyle('Geist-Medium'),
         fontSize: 18,
         lineHeight: 28,
         letterSpacing: 0,
       },
       /**
        * @deprecated Utiliser `Bold`. `SemiBold` est un alias strict de `Bold` : les deux
-       * appliquent `fontStyle('Inter-Bold')`, qui charge `Inter_600SemiBold` et rend un
+       * appliquent `fontStyle('Geist-Bold')`, qui charge `Geist_600SemiBold` et rend un
        * `font-weight: 600`. Le nom laisse croire à une graisse intermédiaire qui n'existe
-       * pas dans la palette Inter du thème (300 / 400 / 500 / 600).
+       * pas dans la palette Geist du thème (300 / 400 / 500 / 600).
        */
       SemiBold: {
-        ...fontStyle('Inter-Bold'),
+        ...fontStyle('Geist-Bold'),
         fontSize: 18,
         lineHeight: 28,
         letterSpacing: 0,

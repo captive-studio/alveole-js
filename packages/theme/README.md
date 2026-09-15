@@ -97,21 +97,21 @@ text.Titres['H3 - MD']; // 28px desktop / 24px mobile
 text.Titres['H6 - XXS']; // 20px desktop / 18px mobile
 
 // Corps de texte
-text['Corps de texte'].SM.Regular; // Inter Regular, 14px
-text['Corps de texte'].MD.SemiBold; // Inter SemiBold, 16px
-text['Corps de texte'].LG.Medium; // Inter Medium, 18px
+text['Corps de texte'].SM.Regular; // Geist Regular, 14px
+text['Corps de texte'].MD.SemiBold; // Geist SemiBold, 16px
+text['Corps de texte'].LG.Medium; // Geist Medium, 18px
 ```
 
 ## Fonts
 
-Les fonts sont chargées automatiquement par `ThemeProvider`. Deux familles sont disponibles : **Inter** (corps de texte) et **Geist** (titres).
+Les fonts sont chargées automatiquement par `ThemeProvider`. Une seule famille est utilisée : **Geist** (titres et corps de texte).
 
-Sur le web, les fonts sont injectées via des `@font-face` CSS standards (`font-family: Inter; font-weight: 500`). Sur native, elles utilisent le système expo-font.
+Sur le web, les fonts sont injectées via des `@font-face` CSS standards (`font-family: Geist; font-weight: 500`). Sur native, elles utilisent le système expo-font.
 
 ```tsx
 const { font } = useTheme();
 
-font['Inter-Regular']; // 'Inter-Regular' (native) ou utilisé via font-weight (web)
+font['Geist-Regular']; // 'Geist-Regular' (native) ou utilisé via font-weight (web)
 font['Geist-Bold'];
 ```
 
@@ -123,8 +123,8 @@ Pour créer des styles typés avec la bonne font selon la plateforme :
 import { fontStyle } from '@alveole/theme';
 
 const style = {
-  ...fontStyle('Inter-Bold'), // { fontFamily: 'Inter', fontWeight: '600' } sur web
-  fontSize: 16, // { fontFamily: 'Inter-Bold' } sur native
+  ...fontStyle('Geist-Bold'), // { fontFamily: 'Geist', fontWeight: '600' } sur web
+  fontSize: 16, // { fontFamily: 'Geist-Bold' } sur native
 };
 ```
 
