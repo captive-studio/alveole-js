@@ -17,13 +17,12 @@ await build({
   tsconfig: join(__dirname, '../tsconfig.build.json'),
   plugins: [
     {
+      // Les .ttf de @expo-google-fonts n'ont pas de loader esbuild et feraient echouer le
+      // bundle. Le CSS web ne sert pourtant aucune police locale : generateFontFaceCSS emet
+      // un @import Google Fonts. Ces modules peuvent donc etre neutralises.
       name: 'ttf-loader',
       setup(b) {
-        b.onLoad({ filter: /\.ttf$/ }, ({ path }) => {
-          const match = path.match(/[/\\]assets[/\\](fonts[/\\].+\.ttf)$/);
-          const url = match ? `../assets/${match[1].replace(/\\/g, '/')}` : path;
-          return { contents: `module.exports = ${JSON.stringify(url)}`, loader: 'js' };
-        });
+        b.onLoad({ filter: /\.ttf$/ }, () => ({ contents: 'module.exports = undefined', loader: 'js' }));
       },
     },
     {
