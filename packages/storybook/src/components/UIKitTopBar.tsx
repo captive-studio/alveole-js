@@ -1,7 +1,7 @@
-import { Box, Button, Header, LucideIcon, Typography } from '@alveole/components';
-import { useTheme } from '@alveole/theme';
+import { Box, Header, LucideIcon, Typography } from '@alveole/components';
+import { makeStyles, useTheme } from '@alveole/theme';
 import React from 'react';
-import { Pressable } from 'react-native';
+import { Pressable, PressableStateCallbackType } from 'react-native';
 
 export type UIKitTopBarItem = {
   key: string;
@@ -30,6 +30,75 @@ const AlveoleLogo = () => {
     >
       <Typography style={{ ...text['Corps de texte'].XS.Bold, color: '#fff' }}>A</Typography>
     </Box>
+  );
+};
+
+type NavItemState = PressableStateCallbackType & { hovered?: boolean };
+
+type NavItemProps = {
+  label: string;
+  current: boolean;
+  block?: boolean;
+  onPress: () => void;
+};
+
+const useNavItemStyles = makeStyles(({ color, radius, spacingValue, text }) => ({
+  container: {
+    height: 32,
+    paddingLeft: spacingValue('3V'),
+    paddingRight: spacingValue('3V'),
+    borderRadius: radius('md'),
+    display: 'flex',
+    flexDirection: 'column',
+    justifyContent: 'center',
+    transitionProperty: 'background-color',
+    transitionDuration: '0.12s',
+    transitionTimingFunction: 'ease-out',
+  },
+  containerHover: {
+    backgroundColor: color.light.background['transparent-hover'],
+  },
+  label: {
+    ...text['Corps de texte'].MD.Medium,
+    color: color.light.text['mention-grey'],
+  },
+  labelCurrent: {
+    ...text['Corps de texte'].MD.Bold,
+    color: color.light.text['title-grey'],
+  },
+  // Copie invisible du libellé en gras : elle réserve la largeur que prendra l'item
+  // une fois courant, sinon toute la barre se décale au changement de page. Repris de
+  // UnderlineTabbedInterface, chez Primer.
+  labelGhost: {
+    ...text['Corps de texte'].MD.Bold,
+    height: 0,
+    overflow: 'hidden',
+  },
+}));
+
+/**
+ * Item de navigation de la barre : aucun remplissage à l'état courant, qui se signale
+ * par le contraste et la graisse seuls. Le fond neutre est réservé au survol.
+ */
+const NavItem = ({ label, current, block = false, onPress }: NavItemProps) => {
+  const styles = useNavItemStyles();
+
+  return (
+    <Pressable
+      accessibilityRole="link"
+      aria-current={current ? 'page' : undefined}
+      onPress={onPress}
+      style={({ hovered }: NavItemState) => ({
+        ...styles.container,
+        alignItems: block ? 'flex-start' : 'center',
+        ...(hovered ? styles.containerHover : {}),
+      })}
+    >
+      <Typography style={current ? styles.labelCurrent : styles.label}>{label}</Typography>
+      <Box aria-hidden>
+        <Typography style={styles.labelGhost}>{label}</Typography>
+      </Box>
+    </Pressable>
   );
 };
 
@@ -69,11 +138,11 @@ export const UIKitTopBar = ({ activeKey, items }: UIKitTopBarProps) => {
             }}
           >
             {items.map(item => (
-              <Button
+              <NavItem
                 key={item.key}
-                variant={activeKey === item.key ? 'primary' : 'tertiary'}
-                title={item.label}
-                size="sm"
+                label={item.label}
+                current={activeKey === item.key}
+                block
                 onPress={() => {
                   item.onPress();
                   setMenuOpen(false);
@@ -89,13 +158,7 @@ export const UIKitTopBar = ({ activeKey, items }: UIKitTopBarProps) => {
   const right = (
     <Box display="flex" flexDirection="row" flexWrap="wrap" gap={8}>
       {items.map(item => (
-        <Button
-          key={item.key}
-          variant={activeKey === item.key ? 'primary' : 'tertiary'}
-          title={item.label}
-          size="sm"
-          onPress={item.onPress}
-        />
+        <NavItem key={item.key} label={item.label} current={activeKey === item.key} onPress={item.onPress} />
       ))}
     </Box>
   );
