@@ -8,6 +8,7 @@ export default {
   title: 'PageHeader',
   tags: ['ui'],
   experimental: false,
+  figmaURL: 'https://www.figma.com/design/xJz8Z6vfrnZPKTtRbuT2W8/Alveole---Composants?node-id=1860-3740',
   description: 'En-tête de page : fil d’Ariane, puis titre à gauche et actions à droite. Le titre est est H1.',
   component: PageHeader,
   styleFn: useStyles,
