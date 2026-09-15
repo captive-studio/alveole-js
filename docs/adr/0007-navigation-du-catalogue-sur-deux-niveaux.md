@@ -67,3 +67,9 @@ Monter `Sidebar` sans logo laisse un `Divider` orphelin en haut de colonne, et
 barre indicatrice — là où les références n'en gardent qu'un ou deux. Ces défauts
 sont assumés à la livraison : ils se corrigent dans le paquet publié, pour les
 applications clientes, et en chantier séparé.
+
+Ce chantier a eu lieu : c'est
+[0010](0010-echelle-et-etats-de-la-barre-laterale.md), qui règle l'échelle et
+les états de la barre sur des références mesurées. Le présent document ne porte
+que sur la structure de navigation du catalogue ; aucune décision de style ne
+s'y trouve.
