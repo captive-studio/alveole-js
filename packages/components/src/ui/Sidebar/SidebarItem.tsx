@@ -36,7 +36,6 @@ const SidebarItemDesktop = (props: SidebarItemProps) => {
   const itemStyleSelected = isCurrentPage ? styles.sidebarItemSelectedDesktop : {};
   const titleStyleSelected = isCurrentPage ? styles.sidebarItemTitleSelectedDesktop : {};
 
-  const sidebarItemHover = isCurrentPage ? styles.sidebarItemCurrentHover : styles.sidebarItemHover;
   const sidebarItemTitleDesktop = isCurrentPage ? styles.sidebarItemTitleCurrentHoverDesktop : {};
 
   const renderItem = (content: React.ReactNode) => {
@@ -62,7 +61,10 @@ const SidebarItemDesktop = (props: SidebarItemProps) => {
       <Box
         tag="sidebar-item"
         style={{ ...styles.sidebarItemDesktop, ...itemStyleSelected }}
-        hoverStyle={{ ...sidebarItemHover }}
+        // La ligne courante se survole comme ses voisines : elle est un lien au même titre, et
+        // lui réserver une teinte propre n'ajoutait qu'un cas particulier. Son fond de repos
+        // étant plus sombre, le survol commun l'éclaircit - la direction que prend Primer.
+        hoverStyle={{ ...styles.sidebarItemHover }}
       >
         {/* 16px et non 24 : c'est l'icône qui fixerait la hauteur de la ligne, et une icône de
             24 rendrait l'item à 36px là où la maquette le veut à 32. */}
@@ -89,7 +91,6 @@ const SidebarItemMobile = (props: SidebarItemProps) => {
   const itemStyleSelected = isCurrentPage ? styles.sidebarItemSelectedMobile : {};
   const titleStyleSelected = isCurrentPage ? styles.sidebarItemTitleSelectedMobile : {};
 
-  const sidebarItemHover = isCurrentPage ? styles.sidebarItemCurrentHover : styles.sidebarItemHover;
   const sidebarItemTitleMobile = isCurrentPage ? styles.sidebarItemTitleCurrentHoverMobile : {};
 
   const renderItem = (content: React.ReactNode) => {
@@ -112,7 +113,7 @@ const SidebarItemMobile = (props: SidebarItemProps) => {
       <Box
         tag="sidebar-item"
         style={{ ...styles.sidebarItemMobile, ...itemStyleSelected }}
-        hoverStyle={{ ...sidebarItemHover }}
+        hoverStyle={{ ...styles.sidebarItemHover }}
       >
         {icon && (
           <LucideIcon

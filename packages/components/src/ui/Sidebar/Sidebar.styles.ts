@@ -1,4 +1,4 @@
-import { Colors, makeStyles } from '@alveole/theme';
+import { makeStyles } from '@alveole/theme';
 
 export const useStyles = makeStyles(({ text, color, spacing, spacingValue, isVariant, radius }) => {
   // Titre de groupe et libellé d'item partent de la même verticale, comme chez Primer qui les
@@ -96,7 +96,7 @@ export const useStyles = makeStyles(({ text, color, spacing, spacingValue, isVar
       stroke: color.light.text['title-grey'],
     },
     sidebarItemSelectedDesktop: {
-      backgroundColor: color.background.badge.default,
+      backgroundColor: color.light.background['contrast-grey'],
     },
     sidebarItemSelectedMobile: {
       borderRadius: radius('lg'),
@@ -104,9 +104,6 @@ export const useStyles = makeStyles(({ text, color, spacing, spacingValue, isVar
     },
     sidebarItemHover: {
       backgroundColor: color.light.background['default-grey-hover'],
-    },
-    sidebarItemCurrentHover: {
-      backgroundColor: Colors.Neutre[950],
     },
     sidebarItemContainerDesktop: {
       paddingLeft: spacing('050'),

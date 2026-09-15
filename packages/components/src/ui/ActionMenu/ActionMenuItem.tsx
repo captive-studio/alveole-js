@@ -19,7 +19,6 @@ export const ActionMenuItem = (props: ActionMenuItemProps) => {
 
   const itemStyleSelected = selected ? styles.sidebarItemSelectedDesktop : {};
   const titleStyleSelected = selected ? styles.sidebarItemTitleSelectedDesktop : {};
-  const sidebarItemHover = selected ? styles.sidebarItemCurrentHover : styles.sidebarItemHover;
   const sidebarItemTitleDesktop = selected ? styles.sidebarItemTitleCurrentHoverDesktop : {};
 
   return (
@@ -33,7 +32,10 @@ export const ActionMenuItem = (props: ActionMenuItemProps) => {
         <Box
           tag="sidebar-item"
           style={{ ...styles.sidebarItemDesktop, ...itemStyleSelected }}
-          hoverStyle={{ ...sidebarItemHover }}
+          // L'entrée sélectionnée se survole comme les autres. Lui réserver une teinte propre
+          // n'ajoutait qu'un cas particulier, et celle qui était posée valait son fond de repos :
+          // le survol ne produisait rien.
+          hoverStyle={{ ...styles.sidebarItemHover }}
         >
           {icon && (
             <LucideIcon

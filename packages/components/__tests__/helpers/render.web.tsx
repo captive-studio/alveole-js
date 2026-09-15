@@ -1,6 +1,6 @@
 import { ThemeProvider } from '@alveole/theme';
 import { config } from '@tamagui/config/v3';
-import { render, RenderOptions } from '@testing-library/react';
+import { render, renderHook, RenderOptions } from '@testing-library/react';
 import { PropsWithChildren, ReactElement } from 'react';
 import { createTamagui, TamaguiProvider } from 'tamagui';
 
@@ -49,7 +49,18 @@ const renderOnMobile = (ui: ReactElement, options?: Omit<RenderOptions, 'wrapper
   return customRender(ui, options);
 };
 
+// jsdom n'évalue pas les pseudo-classes : un `hoverStyle` n'est jamais calculé sur l'élément,
+// et rien dans le DOM rendu ne dit de quelle couleur une ligne se teinte au survol. Monter le
+// hook de styles donne accès aux valeurs que le composant consomme réellement, sur un thème
+// monté pour de vrai.
+/** Monte un hook dans le thème, en variante `desktop`. */
+const renderHookOnDesktop = <T,>(hook: () => T) => {
+  resizeTo(1440, 900);
+
+  return renderHook(hook, { wrapper: TestProvider });
+};
+
 // Réexports explicites plutôt qu'un `export *` : la bibliothèque exporte elle-même un
 // `render`, que l'étoile mettrait en concurrence avec celui-ci.
 export { act, cleanup, fireEvent, screen, waitFor, within } from '@testing-library/react';
-export { customRender as render, renderOnDesktop, renderOnMobile };
+export { customRender as render, renderHookOnDesktop, renderOnDesktop, renderOnMobile };
