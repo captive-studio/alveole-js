@@ -1,6 +1,6 @@
 // Import explicite de la variante web : `helpers/index.ts` réexporte `./render`, que
 // TypeScript résout sur le helper natif, lequel n'a pas de notion de bureau.
-import { renderOnDesktop } from '@/__tests__/helpers/render.web';
+import { renderOnDesktop, renderOnMobile } from '@/__tests__/helpers/render.web';
 import { SidebarItem } from './SidebarItem';
 
 const titleOf = (container: HTMLElement) => container.querySelector('sidebar-item typography');
@@ -41,4 +41,26 @@ test('garde litem courant à la taille de ses voisins', () => {
   const { container } = renderOnDesktop(<SidebarItem title="Accueil" href="/" />);
 
   expect(getComputedStyle(titleOf(container)!).fontSize).toBe('var(--typography-corps-de-texte-sm-bold-font-size)');
+});
+
+// La page courante ne se signalait que par le fond, la graisse et le filet bleu : trois indices
+// visuels, aucun sémantique. Un lecteur d'écran annonçait un lien de navigation ordinaire.
+test("annonce la page courante aux lecteurs d'ecran", () => {
+  const { container } = renderOnDesktop(<SidebarItem title="Accueil" href="/" />);
+
+  expect(container.querySelector('[aria-current="page"]')).not.toBeNull();
+});
+
+test('ne marque pas les autres entrees comme courantes', () => {
+  const { container } = renderOnDesktop(<SidebarItem title="Button" href="/components/Button" />);
+
+  expect(container.querySelector('[aria-current]')).toBeNull();
+});
+
+// Sous 992px la colonne se replie dans le menu de la barre, qui monte les memes `SidebarItem`
+// en variante mobile : l'annonce doit y valoir autant, c'est le seul controle qui reste.
+test('annonce aussi la page courante dans le tiroir mobile', () => {
+  const { container } = renderOnMobile(<SidebarItem title="Accueil" href="/" />);
+
+  expect(container.querySelector('[aria-current="page"]')).not.toBeNull();
 });
