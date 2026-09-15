@@ -1,6 +1,13 @@
 {
   "extends": "expo/tsconfig.base",
   "compilerOptions": {
-    "strict": true
+    "strict": true,
+    // @alveole/components fait `require('@/assets/images/icon.png')` dans PageHead.web.tsx :
+    // le design system compte sur l'alias déclaré par l'application qui le consomme, et Metro
+    // le résout à partir de ce baseUrl. Le retirer casse le build web, pas le typecheck.
+    "baseUrl": ".",
+    "paths": {
+      "@/*": ["./*"]
+    }
   }
 }
