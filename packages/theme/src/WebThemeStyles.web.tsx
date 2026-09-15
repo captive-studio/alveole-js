@@ -1,18 +1,16 @@
 import { useMemo } from 'react';
-import { generateCSSVariables, generateFontFaceCSS, generateFontSmoothingCSS } from './helpers/injectVariableCSS';
+import { generateThemeCSSParts } from './helpers/injectVariableCSS';
 import type { Theme } from './type';
 
-const fontFaceCSS = generateFontFaceCSS();
-const fontSmoothingCSS = generateFontSmoothingCSS();
-
 export function WebThemeStyles({ theme }: { theme: Theme }) {
-  const cssVariables = useMemo(() => generateCSSVariables(theme), [theme]);
+  const parts = useMemo(() => generateThemeCSSParts(theme), [theme]);
 
   return (
     <>
-      <style precedence="default" dangerouslySetInnerHTML={{ __html: cssVariables }} />
-      <style precedence="default" dangerouslySetInnerHTML={{ __html: fontFaceCSS }} />
-      <style precedence="default" dangerouslySetInnerHTML={{ __html: fontSmoothingCSS }} />
+      {parts.map((css, index) => (
+        // La liste est de taille et d'ordre fixes : l'index est une cle stable.
+        <style key={index} precedence="default" dangerouslySetInnerHTML={{ __html: css }} />
+      ))}
     </>
   );
 }

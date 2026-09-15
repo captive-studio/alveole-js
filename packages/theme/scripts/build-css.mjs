@@ -38,9 +38,9 @@ await build({
   ],
 });
 
-const { generateDefaultThemeCSS, generateFontFaceCSS, generateFontSmoothingCSS } = require(tmpFile);
+const { generateThemeCSSParts } = require(tmpFile);
 
-const css = [generateFontFaceCSS(), generateFontSmoothingCSS(), generateDefaultThemeCSS()].join('\n\n');
+const css = generateThemeCSSParts().join('\n\n');
 
 writeFileSync(join(__dirname, '../dist/default.css'), css);
 unlinkSync(tmpFile);

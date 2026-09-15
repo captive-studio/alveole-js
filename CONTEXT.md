@@ -6,6 +6,16 @@ l'architecture ni les choix techniques, qui relèvent de [docs/adr/](./docs/adr/
 
 ## Langage
 
+### Périmètre
+
+**Application cliente** :
+Une application de Captive qui installe les paquets `@alveole/*` et s'en sert
+pour construire ses écrans. C'est le destinataire de tout ce que le dépôt
+produit.
+_Éviter_ : projet cible, application hôte, consommateur. « Projet cible » décrit
+la mécanique du script `publish:local`, qui copie des fichiers vers une cible,
+et non l'objet dont on parle.
+
 ### Catalogue
 
 **Catalogue** :
