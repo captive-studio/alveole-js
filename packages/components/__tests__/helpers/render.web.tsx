@@ -38,7 +38,18 @@ const renderOnDesktop = (ui: ReactElement, options?: Omit<RenderOptions, 'wrappe
   return customRender(ui, options);
 };
 
+// `resizeTo` écrit sur `document.documentElement`, que jsdom partage entre les tests d'un
+// même fichier : après un `renderOnDesktop`, la largeur reste à 1440 et un rendu « par
+// défaut » est en réalité un rendu bureau. Un test mobile qui suit un test bureau passait
+// donc sans rien vérifier. D'où cette variante explicite, qui repose la largeur.
+/** Rend l'arbre en variante `mobile`, quelle que soit la largeur laissée par un test précédent. */
+const renderOnMobile = (ui: ReactElement, options?: Omit<RenderOptions, 'wrapper'>) => {
+  resizeTo(390, 844);
+
+  return customRender(ui, options);
+};
+
 // Réexports explicites plutôt qu'un `export *` : la bibliothèque exporte elle-même un
 // `render`, que l'étoile mettrait en concurrence avec celui-ci.
 export { act, cleanup, fireEvent, screen, waitFor, within } from '@testing-library/react';
-export { customRender as render, renderOnDesktop };
+export { customRender as render, renderOnDesktop, renderOnMobile };
