@@ -29,7 +29,10 @@ const sharedModuleNameMapper = {
 // refuse avec un avertissement de validation à chaque exécution.
 const project = (preset, overrides) => {
   const { watchPlugins, ...rest } = preset;
-  return { ...rest, transformIgnorePatterns, ...overrides };
+  // Les options de projet ne sont pas héritées de la config racine de Jest.
+  // Sans ce chemin ici, les deux plateformes utilisent os.tmpdir() malgré le cache déclaré.
+  // eslint-disable-next-line no-undef
+  return { ...rest, cacheDirectory: path.join(__dirname, '.jest-cache'), transformIgnorePatterns, ...overrides };
 };
 
 /** @type {import('jest').Config} */
@@ -73,8 +76,6 @@ module.exports = {
     }),
   ],
 
-  // eslint-disable-next-line no-undef
-  cacheDirectory: path.join(__dirname, '.jest-cache'),
   watchman: false,
   collectCoverage: false,
 
