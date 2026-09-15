@@ -141,6 +141,7 @@ export const Select = React.forwardRef<SelectRef, SelectProps>(function Select(p
       <Box tag="form-control-select-input" style={selectStyles.inputContainer}>
         <ReactSelect<SelectOption, false, Group>
           ref={instanceRef}
+          aria-label={label}
           value={selectedOption}
           options={groupedOptions}
           styles={styles}
