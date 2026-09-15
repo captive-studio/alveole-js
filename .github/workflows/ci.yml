@@ -138,6 +138,20 @@ jobs:
       - name: Ensure dependencies (cache fallback)
         run: test -x node_modules/.bin/tsc || npm ci
 
+      # Le typecheck complet coûte 44 s à froid, dont 42 s de vérification de types : le
+      # code du dépôt ne fait que 24 000 lignes, mais il en instancie 480 000 à travers les
+      # types de Tamagui. Le mode incrémental de TypeScript ramène le total à 6 s dès lors
+      # que les .tsbuildinfo survivent d'un run à l'autre. Même stratégie de clé que le cache
+      # ESLint : la clé au sha n'est jamais réutilisée telle quelle, elle force une
+      # sauvegarde à chaque commit, et le restore-keys fait repartir du cache le plus récent.
+      - name: Restore TypeScript build info
+        uses: actions/cache@55cc8345863c7cc4c66a329aec7e433d2d1c52a9 # v6.1.0
+        with:
+          path: packages/*/.tsbuildinfo
+          key: tsbuildinfo-${{ runner.os }}-${{ github.sha }}
+          restore-keys: |
+            tsbuildinfo-${{ runner.os }}-
+
       - name: Run typecheck
         run: npm run typecheck
 

@@ -7,7 +7,9 @@
       "@alveole/components": ["../components/src/index.ts"],
       "@alveole/storybook": ["./src/index.ts"],
       "react-native": ["./node_modules/react-native"]
-    }
+    },
+    "incremental": true,
+    "tsBuildInfoFile": ".tsbuildinfo"
   },
   "include": ["src"]
 }

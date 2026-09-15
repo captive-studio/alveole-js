@@ -16,3 +16,4 @@ apps/docs/.metro-tmp/
 coverage/
 apps/docs/test-results/
 apps/docs/playwright-report/
+packages/*/.tsbuildinfo
