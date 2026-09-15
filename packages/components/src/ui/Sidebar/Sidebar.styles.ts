@@ -57,13 +57,20 @@ export const useStyles = makeStyles(({ text, color, spacing, spacingValue, isVar
       paddingTop: spacing('050'),
       paddingBottom: spacing('050'),
     },
+    // Même rapport que sur bureau, décalé d'un cran vers le haut de l'échelle puisque les items
+    // du tiroir sont plus grands : le titre se pose un cran sous eux, en gris et plus gras.
+    // À corps et graisse égaux, il se lisait comme une entrée cliquable de plus.
     groupTitleMobile: {
-      ...text['Corps de texte'].MD.Medium,
+      ...text['Corps de texte'].SM.Bold,
       color: color.light.text['mention-grey'],
-      paddingLeft: spacing('3V'),
-      paddingRight: spacing('3V'),
-      paddingTop: spacing('2W'),
-      paddingBottom: spacing('2W'),
+      // `2W` et non `3V` : c'est le retrait de l'item du tiroir, et quatre pixels d'écart ne
+      // se lisent ni comme une indentation voulue ni comme un alignement.
+      paddingLeft: spacing('2W'),
+      paddingRight: spacing('2W'),
+      // Moins haut qu'un item : un libellé qui occupe la hauteur d'une cible tactile se lit
+      // comme cliquable, et coûte cette hauteur à chaque groupe d'une liste qu'on fait défiler.
+      paddingTop: spacing('3V'),
+      paddingBottom: spacing('3V'),
     },
     // 32px de haut en tout : 20 de hauteur de ligne plus 6 de part et d'autre, comme dans la
     // maquette. Le retrait horizontal reste à 8, c'est lui qui porte la verticale du contenu.
