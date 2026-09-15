@@ -52,7 +52,9 @@ export const BottomSheet = (props: BottomSheetProps) => {
         animation="medium"
       >
         <TamaguiSheet.Overlay style={styles.overlay} />
-        <TamaguiSheet.Frame style={styles.frame}>
+        {/* Un panneau glissant est un dialogue : sans ce rôle, son ouverture n'est pas
+            annoncée et son contenu compte comme hors de tout repère de page. */}
+        <TamaguiSheet.Frame role="dialog" aria-modal aria-label={title} style={styles.frame}>
           <TamaguiSheet.Handle style={styles.handle} />
 
           <Box tag="sheet-header" style={styles.header}>
