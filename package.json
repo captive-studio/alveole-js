@@ -23,7 +23,10 @@
     "check:lint-docs": "npm run build --workspace=packages/core --workspace=packages/theme --workspace=packages/components --workspace=packages/storybook && npm run lint:app --workspace=apps/docs",
     "check:packages": "scripts/check-packages",
     "publish:local": "scripts/publish-local",
-    "publish:package": "scripts/publish-package"
+    "publish:package": "scripts/publish-package",
+    "check": "node scripts/check.mjs",
+    "test:scripts": "node --test scripts/check.test.mjs",
+    "pretest:unit": "npm run test:scripts"
   },
   "devDependencies": {
     "@arethetypeswrong/cli": "0.18.5",

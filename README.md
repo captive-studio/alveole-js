@@ -37,6 +37,25 @@ Les chemins de tests sont relatifs à `packages/components`. Utiliser `--selectP
 pour les tests natifs. `npm run test:unit` reste la vérification complète avec couverture
 et cliquets ; elle n'est pas adaptée à un fichier isolé.
 
+### Validation complète
+
+```bash
+npm run check                 # format, typecheck, tests avec couverture et lint
+npm run check -- --fix         # applique le formatage avant les contrôles
+npm run check -- --serial      # exécute les contrôles l'un après l'autre
+```
+
+La commande vérifie le format et prépare les sources générées, puis lance les
+scripts `test:unit`, `typecheck` et `lint` avec deux tâches simultanées au maximum.
+`--fix` remplace la vérification du format par sa correction, terminée avant les
+contrôles. Les tests conservent leur propre limite de workers.
+
+Chaque sortie porte le nom de son contrôle et un résumé indique les durées et
+les échecs. Une erreur de format n'empêche pas les autres contrôles de terminer ;
+une erreur de génération arrête les contrôles qui en dépendent. La commande
+échoue si un contrôle échoue ou est interrompu. Sur macOS et Linux, Ctrl+C
+interrompt aussi les processus descendants.
+
 ### Exemple
 
 ```bash

@@ -155,3 +155,41 @@ Le typecheck complet repasse aussi en 5,00 s, sans modification de sa commande.
 Les 18 s de la session précédente ne justifient donc pas à elles seules d'ajouter
 un ordonnanceur parallèle. Les prochains changements doivent être comparés
 à charge et état de cache similaires.
+
+## Commande de validation complète
+
+`npm run check` rassemble les contrôles existants : vérification du format,
+génération des sources, puis tests avec couverture, typecheck et lint. Les trois
+derniers scripts tournent avec deux tâches simultanées au maximum. L'option
+`--fix` applique le formatage avant les contrôles ; `--serial` les lance un par
+un. Les limites internes des workers Jest restent identiques.
+
+Sur une modification temporaire de `Box` (renommage d'une variable locale) et du
+type partagé `DateFormat` (ajout d'un format dans `DateFormats`), avec des caches
+existants sous Node 24.21.0 :
+
+| Commande                                | Durée totale |
+| --------------------------------------- | ------------ |
+| `npm run check -- --fix --serial`       | 31,66 s      |
+| `npm run check -- --fix`, premier essai | 20,13 s      |
+| `npm run check -- --fix`, second essai  | 20,59 s      |
+
+Chaque essai utilise une nouvelle modification des deux fichiers et exécute les
+158 tests des workspaces, les sept tests du lanceur, le typecheck, le lint et le
+format. Les modifications temporaires sont ensuite retirées. Le gain observé
+sur cette comparaison est d'environ 11 secondes, soit 35 %. Les 43–45 secondes
+d'une série séquentielle précédente ne servent pas de référence à ce gain : la
+charge de la machine varie entre les séries.
+
+### État du crash Node
+
+Un crash intermittent V8 a été observé précédemment, y compris pendant une suite
+lancée seule. Huit répétitions des tests core seuls passent, puis les validations
+ci-dessus passent également. Cela ne démontre ni la cause ni la disparition du
+crash ; aucune modification de version Node ou de ses options n'est faite.
+
+La commande traite un processus interrompu par un signal comme un échec et
+termine les autres contrôles indépendants. Les tests du lanceur vérifient cette
+propagation, la remontée de plusieurs erreurs, la barrière de génération, le
+mode séquentiel et l'arrêt des descendants sur interruption sous macOS/Linux.
+`--serial` permet de comparer le comportement en cas de nouveau crash.
