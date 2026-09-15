@@ -16,7 +16,26 @@
 Pour itérer localement sur les packages sans publier de version npm, le repo expose un script `publish:local`.
 
 Pour lancer l'ui-kit en local sans passer par un autre projet :
-`npm run start:ui-kit` (Il est nécessaire de lancer un npm run build pour appliquer les changements venant des packages, sans avoir besoin de couper le serveur de l'ui-kit)
+`npm run start:ui-kit`. Le catalogue utilise directement les sources des packages : les
+changements sont repris par Fast Refresh, sans rebuild. Le cache Metro est conservé et
+le rendu se fait côté client. `npm run start:ui-kit:clear` vide le cache en cas de besoin ;
+`DOCS_OUTPUT=static npm run start:ui-kit` permet de vérifier le rendu serveur.
+
+Pour construire les packages sans exporter tout le catalogue : `npm run build:packages`.
+Les builds TypeScript sont incrémentaux et continuent de vérifier les types. Leur cache
+se trouve dans `dist/.tsbuildinfo` : supprimer `dist` force un build complet, et ce cache
+n'est pas publié. `npm run build` conserve le build complet, catalogue compris.
+
+Pour travailler sur les tests de composants, sans calculer la couverture globale :
+
+```bash
+npm run test:dev -- --selectProjects web --runTestsByPath src/ui/Sidebar/SidebarItem.test.web.tsx
+npm run test:dev -- --selectProjects web --watch
+```
+
+Les chemins de tests sont relatifs à `packages/components`. Utiliser `--selectProjects native`
+pour les tests natifs. `npm run test:unit` reste la vérification complète avec couverture
+et cliquets ; elle n'est pas adaptée à un fichier isolé.
 
 ### Exemple
 
