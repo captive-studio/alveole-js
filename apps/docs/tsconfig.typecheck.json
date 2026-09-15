@@ -2,7 +2,13 @@
   "extends": "./tsconfig.json",
   "compilerOptions": {
     "noEmit": true,
+    // Le baseUrl hérité de tsconfig.json est imposé par Metro, qui en a besoin pour résoudre
+    // l'alias @/ (voir le commentaire là-bas). TypeScript 6 le déprécie et refuse de compiler
+    // sans cette prise d'acte explicite. À retirer le jour où Expo saura résoudre paths sans
+    // baseUrl, pas avant : le build web en dépend.
+    "ignoreDeprecations": "6.0",
     "paths": {
+      "@/*": ["./*"],
       "@alveole/core": ["../../packages/core/src/index.ts"],
       "@alveole/theme": ["../../packages/theme/src/index.ts"],
       "@alveole/components": ["../../packages/components/src/index.ts"],
