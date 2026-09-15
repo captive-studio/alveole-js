@@ -21,3 +21,17 @@ describe('generateThemeCSSParts', () => {
     expect(parts.every(part => part.startsWith('@import') || part.startsWith(':root {'))).toBe(true);
   });
 });
+
+// Filet du refactoring de `collectTypographyLines`. Chaque ligne manquante ici est une
+// variable CSS que le navigateur ne trouvera plus : la regle qui l'utilise retombe en
+// silence sur son heritage, sans erreur ni avertissement nulle part.
+describe('variables de typographie', () => {
+  const typographyLines = () =>
+    generateThemeCSSParts()[1]
+      .split('\n')
+      .filter(line => line.includes('--typography-'));
+
+  it('emet exactement les memes variables qu avant le refactoring', () => {
+    expect(typographyLines()).toMatchSnapshot();
+  });
+});
