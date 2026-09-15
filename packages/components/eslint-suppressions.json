@@ -171,9 +171,6 @@
   "src/ui/DocumentViewer/DocumentViewer.tsx": {
     "max-lines-per-function": {
       "count": 1
-    },
-    "sonarjs/no-all-duplicated-branches": {
-      "count": 1
     }
   },
   "src/ui/DocumentViewer/DocumentViewerPDF.tsx": {
