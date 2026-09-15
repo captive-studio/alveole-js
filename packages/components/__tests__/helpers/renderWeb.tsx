@@ -70,4 +70,4 @@ const renderHookOnDesktop = <T,>(hook: () => T) => {
 // Réexports explicites plutôt qu'un `export *` : la bibliothèque exporte elle-même un
 // `render`, que l'étoile mettrait en concurrence avec celui-ci.
 export { act, cleanup, fireEvent, screen, waitFor, within } from '@testing-library/react';
-export { customRender as renderWeb, renderHookOnDesktop, renderOnDesktop, renderOnMobile };
+export { renderHookOnDesktop, renderOnDesktop, renderOnMobile, customRender as renderWeb };
