@@ -15,7 +15,9 @@ describe('resolveShareIconName', () => {
 
 describe('LucideIcon _platformOverride', () => {
   it.each(['ios', 'android', 'web'] as const)('rend sans erreur pour _platformOverride=%s', async platform => {
-    await expect(renderNative(<LucideIcon name="Share" size="md" _platformOverride={platform} />)).resolves.toBeTruthy();
+    await expect(
+      renderNative(<LucideIcon name="Share" size="md" _platformOverride={platform} />),
+    ).resolves.toBeTruthy();
   });
 });
 

@@ -65,7 +65,9 @@ describe('Select', () => {
   });
 
   it('n’ouvre le panneau qu’au press du champ', async () => {
-    const { getByTestId, queryByTestId } = await renderNative(<Select label="Sélection" options={OPTIONS} value={null} />);
+    const { getByTestId, queryByTestId } = await renderNative(
+      <Select label="Sélection" options={OPTIONS} value={null} />,
+    );
 
     expect(queryByTestId('select-option-a')).toBeNull();
 
@@ -154,7 +156,9 @@ describe('Select', () => {
       { label: 'Option B', value: 'b', group: 'Contrats' },
       { label: 'Option C', value: 'c', group: 'Documents' },
     ];
-    const { getByTestId, getAllByText } = await renderNative(<Select label="Sélection" options={options} value={null} />);
+    const { getByTestId, getAllByText } = await renderNative(
+      <Select label="Sélection" options={options} value={null} />,
+    );
 
     await press(getByTestId('select-trigger'));
 
