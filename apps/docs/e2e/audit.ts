@@ -2,12 +2,6 @@ import AxeBuilder from '@axe-core/playwright';
 import type { Page } from '@playwright/test';
 import type { Result } from 'axe-core';
 
-// Ces règles portent sur la structure du document qui héberge un composant : un unique
-// <main>, un <h1>, tout le contenu dans une région. C'est la responsabilité de l'app qui
-// consomme le design system, pas celle des composants publiés ; les laisser actives
-// noierait les violations réelles sous des centaines d'occurrences propres au catalogue.
-export const PAGE_STRUCTURE_RULES = ['region', 'landmark-one-main', 'page-has-heading-one', 'landmark-unique'];
-
 const LOCAL_HOSTS = new Set(['localhost', '127.0.0.1']);
 
 // axe descend dans les iframes. Les stories qui en embarquent une vers un service tiers
@@ -42,7 +36,7 @@ export async function auditRoute(page: Page, route: string): Promise<Result[]> {
     .waitForFunction(() => Array.from(document.images).every(image => image.complete), null, { timeout: 15_000 })
     .catch(() => undefined);
 
-  const { violations } = await new AxeBuilder({ page }).disableRules(PAGE_STRUCTURE_RULES).analyze();
+  const { violations } = await new AxeBuilder({ page }).analyze();
 
   return violations;
 }
