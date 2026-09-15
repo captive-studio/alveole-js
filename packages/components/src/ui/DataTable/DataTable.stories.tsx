@@ -1,6 +1,7 @@
 import { useTheme } from '@alveole/theme';
-import { format, formatDistanceToNowStrict } from 'date-fns';
-import { fr } from 'date-fns/locale';
+import { format } from 'date-fns/format';
+import { formatDistanceToNowStrict } from 'date-fns/formatDistanceToNowStrict';
+import { fr } from 'date-fns/locale/fr';
 import React from 'react';
 import { Box } from '../../core/Box';
 import { Typography } from '../../core/Typography';

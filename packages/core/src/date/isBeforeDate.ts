@@ -1,4 +1,5 @@
-import { isBefore, toDate } from 'date-fns';
+import { isBefore } from 'date-fns/isBefore';
+import { toDate } from 'date-fns/toDate';
 
 /**
  * Vérifie si une date est avant une date de référence.

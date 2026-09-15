@@ -1,4 +1,5 @@
-import { differenceInMinutes, parse } from 'date-fns';
+import { differenceInMinutes } from 'date-fns/differenceInMinutes';
+import { parse } from 'date-fns/parse';
 
 const parseTime = (time: string): Date => parse(time, 'HH:mm', new Date(0));
 
