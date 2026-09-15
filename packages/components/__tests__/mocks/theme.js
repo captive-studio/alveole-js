@@ -70,6 +70,7 @@ jest.mock('@alveole/theme', () => {
 
   return {
     Colors,
+    CustomPalette,
     focusRing,
     isSpacingKey,
     makeStyles: stylesFn => () => stylesFn(testTheme),
