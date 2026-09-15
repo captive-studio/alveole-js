@@ -17,6 +17,7 @@ const transformIgnorePatterns = [
 // dupliquées cassent React ("Incompatible React versions", hooks invalides) ou la config
 // Jest elle-même.
 const sharedModuleNameMapper = {
+  '^@alveole/core$': '<rootDir>/../core/src/index.ts',
   '^@alveole/theme$': '<rootDir>/../theme/src/index.ts',
   '^@/(.*)$': '<rootDir>/$1',
   '^react$': require.resolve('react'),
