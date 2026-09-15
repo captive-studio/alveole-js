@@ -1,12 +1,12 @@
 import { StoriesScreen } from '@alveole/storybook';
-import { DocFooter, storyList, useUIKitTopBar } from '../components/uiKitNavigation';
+import { DocFooter, storyList, useUIKitColumn } from '../components/uiKitNavigation';
 
 export default function IndexRoute() {
-  const topBar = useUIKitTopBar('components');
+  const column = useUIKitColumn();
 
   return (
     <StoriesScreen
-      beforeContent={topBar}
+      sidebar={column}
       footerContent={<DocFooter />}
       stories={storyList}
       title="UI Kit - Composants"

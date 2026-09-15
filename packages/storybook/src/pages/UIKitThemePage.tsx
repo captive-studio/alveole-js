@@ -1,5 +1,6 @@
 import { Box, Card, Page, Section, Typography } from '@alveole/components';
 import { useTheme } from '@alveole/theme';
+import React from 'react';
 
 type ThemeCardProps = {
   title: string;
@@ -25,6 +26,9 @@ export type UIKitThemePageProps = {
   description?: string;
   onOpenColors: () => void;
   onOpenTypography: () => void;
+  onOpenCSSVariables?: () => void;
+  sidebar?: React.ReactNode;
+  footerContent?: React.ReactNode;
 };
 
 export const UIKitThemePage = ({
@@ -32,9 +36,12 @@ export const UIKitThemePage = ({
   description = 'Tokens du thème',
   onOpenColors,
   onOpenTypography,
+  onOpenCSSVariables,
+  sidebar,
+  footerContent,
 }: UIKitThemePageProps) => {
   return (
-    <Page scrollable title={title} description={description}>
+    <Page scrollable title={title} description={description} sidebar={sidebar} footerContent={footerContent}>
       <Section withPaddingY>
         <Box display="flex" gap={16}>
           <ThemeCard title="Couleurs" description="Palette et couleurs du thème." onPress={onOpenColors} />
@@ -43,6 +50,13 @@ export const UIKitThemePage = ({
             description="Styles de texte et hiérarchie typographique."
             onPress={onOpenTypography}
           />
+          {onOpenCSSVariables ? (
+            <ThemeCard
+              title="Variables CSS"
+              description="Les jetons du thème exposés en variables CSS."
+              onPress={onOpenCSSVariables}
+            />
+          ) : null}
         </Box>
       </Section>
     </Page>

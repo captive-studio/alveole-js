@@ -72,6 +72,13 @@ export const toStoryModules = (stories: Record<string, unknown>) => Object.value
 export const findStoryByTitle = (stories: StorybookModule[], title: string | undefined | null) =>
   stories.find(story => story.default.title === title) ?? null;
 
+// Une constante du thème n'est présentée que si elle est structurée : les scalaires exportés
+// par `@alveole/theme` (numéro de version, drapeaux) ne sont pas des jetons à parcourir.
+export const getConstantEntries = (constants: Record<string, unknown>) =>
+  Object.entries(constants)
+    .filter(([, value]) => typeof value === 'object' && value != null)
+    .sort((left, right) => left[0].localeCompare(right[0]));
+
 export const findConstantByName = (constants: Record<string, unknown>, name: string | undefined | null) =>
   Object.entries(constants).find(([key]) => key === name) ?? null;
 

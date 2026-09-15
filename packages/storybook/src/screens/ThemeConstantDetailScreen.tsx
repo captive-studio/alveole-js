@@ -8,6 +8,7 @@ export type ThemeConstantDetailScreenProps = {
   name: string;
   value: unknown;
   beforeContent?: React.ReactNode;
+  sidebar?: React.ReactNode;
   footerContent?: React.ReactNode;
 };
 
@@ -15,13 +16,21 @@ export const ThemeConstantDetailScreen = ({
   name,
   value,
   beforeContent,
+  sidebar,
   footerContent,
 }: ThemeConstantDetailScreenProps) => {
   const { text } = useTheme();
   const entries = typeof value === 'object' && value != null ? Object.entries(value) : [];
 
   return (
-    <Page scrollable title={name} description={name} beforeContent={beforeContent} footerContent={footerContent}>
+    <Page
+      scrollable
+      title={name}
+      description={name}
+      sidebar={sidebar}
+      beforeContent={beforeContent}
+      footerContent={footerContent}
+    >
       <Box {...screenContent}>
         <Section withPaddingY={false}>
           <PageHeader title={name} />

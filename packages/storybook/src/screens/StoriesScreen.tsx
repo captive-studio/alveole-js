@@ -22,6 +22,7 @@ export type StoriesScreenProps = {
   description?: string;
   emptyMessage?: string;
   beforeContent?: React.ReactNode;
+  sidebar?: React.ReactNode;
   footerContent?: React.ReactNode;
   createLabel?: string;
   onCreatePress?: () => void;
@@ -34,6 +35,7 @@ export const StoriesScreen = ({
   description = 'Shared component catalog',
   emptyMessage = 'No story found.',
   beforeContent,
+  sidebar,
   footerContent,
   createLabel,
   onCreatePress,
@@ -71,6 +73,7 @@ export const StoriesScreen = ({
       scrollable
       title={title}
       description={description}
+      sidebar={sidebar}
       beforeContent={
         <>
           {beforeContent}

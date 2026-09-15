@@ -1,13 +1,13 @@
 import { ThemeTypographyScreen } from '@alveole/storybook';
 import { CustomTypography } from '@alveole/theme';
-import { DocFooter, useUIKitTopBar } from '../../components/uiKitNavigation';
+import { DocFooter, useUIKitColumn } from '../../components/uiKitNavigation';
 
 export default function ThemeTypographiesRoute() {
-  const topBar = useUIKitTopBar('typography');
+  const column = useUIKitColumn();
 
   return (
     <ThemeTypographyScreen
-      beforeContent={topBar}
+      sidebar={column}
       footerContent={<DocFooter />}
       typography={CustomTypography}
       title="UI Kit - Textes du thème"

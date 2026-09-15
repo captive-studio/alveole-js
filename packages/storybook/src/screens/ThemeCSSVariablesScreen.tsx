@@ -262,12 +262,13 @@ const VarRow = ({ entry }: { entry: CSSVarEntry }) => {
 
 export type ThemeCSSVariablesScreenProps = {
   beforeContent?: React.ReactNode;
+  sidebar?: React.ReactNode;
   footerContent?: React.ReactNode;
 };
 
 const COLLAPSED_BY_DEFAULT = ['Typographies', 'Fonts', 'Couleurs palette'];
 
-export const ThemeCSSVariablesScreen = ({ beforeContent, footerContent }: ThemeCSSVariablesScreenProps) => {
+export const ThemeCSSVariablesScreen = ({ beforeContent, sidebar, footerContent }: ThemeCSSVariablesScreenProps) => {
   const { color } = useTheme();
   const groups = React.useMemo(() => buildGroups(), []);
   const total = groups.reduce((sum, g) => sum + g.vars.length, 0);
@@ -283,6 +284,7 @@ export const ThemeCSSVariablesScreen = ({ beforeContent, footerContent }: ThemeC
       scrollable
       title="Variables CSS"
       description="Toutes les variables CSS injectées par le ThemeProvider"
+      sidebar={sidebar}
       beforeContent={beforeContent}
       footerContent={footerContent}
     >

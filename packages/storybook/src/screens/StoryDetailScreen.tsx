@@ -22,6 +22,7 @@ export type StoryDetailScreenProps = {
   story?: StorybookModule | null;
   notFoundMessage?: string;
   beforeContent?: React.ReactNode;
+  sidebar?: React.ReactNode;
   footerContent?: React.ReactNode;
 };
 
@@ -129,6 +130,7 @@ export const StoryDetailScreen = ({
   story,
   notFoundMessage = 'Story not found.',
   beforeContent,
+  sidebar,
   footerContent,
 }: StoryDetailScreenProps) => {
   const { text, color, radius } = useTheme();
@@ -138,6 +140,7 @@ export const StoryDetailScreen = ({
       <Page
         title="Story not found"
         description={notFoundMessage}
+        sidebar={sidebar}
         beforeContent={beforeContent}
         footerContent={footerContent}
       >
@@ -204,6 +207,7 @@ export const StoryDetailScreen = ({
       scrollable
       title={meta.title}
       description={meta.shortDescription ?? stripMarkdown(meta.description)}
+      sidebar={sidebar}
       beforeContent={beforeContent}
       footerContent={footerContent}
     >
