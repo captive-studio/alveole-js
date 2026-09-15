@@ -13,7 +13,7 @@ export default {
 
 À ne pas confondre avec **DurationInput**, qui représente une **durée écoulée** (ex. \`06:15\` pour 6 heures 15 minutes).
 
-| | TimeInput |
+| Propriété | TimeInput |
 |---|---|
 | Sémantique | Heure du jour |
 | Exemple | \`09:30\` (9h30 le matin) |

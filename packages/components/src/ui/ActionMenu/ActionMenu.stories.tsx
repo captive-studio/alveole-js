@@ -158,6 +158,8 @@ export const AvatarMenu = () => {
         placement="bottom-end"
         renderTrigger={({ open }) => (
           <Pressable
+            accessibilityRole="button"
+            accessibilityLabel="Menu du compte"
             style={
               {
                 borderRadius: radius('sm'),
