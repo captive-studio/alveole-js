@@ -63,7 +63,7 @@ const useNavItemStyles = makeStyles(({ color, radius, spacingValue, text }) => (
     backgroundColor: color.light.background['transparent-hover'],
   },
   label: {
-    ...text['Corps de texte'].MD.Medium,
+    ...text['Corps de texte'].MD.Regular,
     color: color.light.text['mention-grey'],
   },
   labelCurrent: {
