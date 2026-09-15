@@ -74,6 +74,7 @@ jest.mock('@alveole/theme', () => {
     focusRing,
     isSpacingKey,
     makeStyles: stylesFn => () => stylesFn(testTheme),
+    RadiusList,
     Spacings,
     useTheme: () => testTheme,
   };

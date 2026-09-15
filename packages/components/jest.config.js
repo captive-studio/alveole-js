@@ -9,8 +9,10 @@ const ANDROID_TEST_MATCH = '**/?(*.)+(spec|test).android.[tj]s?(x)';
 
 const ignoredPaths = ['/dist/', '/build/', '/.expo/', '/coverage/'];
 
+// `react-syntax-highlighter` et sa chaîne `refractor` / `hast` sont publiés en ESM. Sans
+// transformation, tout test qui importe `Highlight` casse à l'import au lieu de s'exécuter.
 const transformIgnorePatterns = [
-  'node_modules/(?!((jest-)?react-native|@react-native(-community)?)|expo(nent)?|@expo(nent)?/.*|@expo-google-fonts/.*|@testing-library/react-native|@tamagui/.*|tamagui|lucide-react-native|react-native-svg|standard-navigation)',
+  'node_modules/(?!((jest-)?react-native|@react-native(-community)?)|expo(nent)?|@expo(nent)?/.*|@expo-google-fonts/.*|@testing-library/react-native|@tamagui/.*|tamagui|lucide-react-native|react-native-svg|standard-navigation|react-syntax-highlighter|refractor|hastscript|property-information|space-separated-tokens|comma-separated-tokens|character-[a-z-]+|parse-entities|stringify-entities|decode-named-character-reference|is-[a-z-]+|web-namespaces|zwitch|html-void-elements|devlop|ccount|bail|trough|unified|vfile[a-z-]*|unist-util-[a-z-]+|hast-util-[a-z-]+)',
   // Le mapper ci-dessous résout Lucide sur son entrée CommonJS, déjà compilée.
   // Repasser ses milliers d'icônes dans Babel coûte cher à froid, sans changer leur code.
   '/node_modules/lucide-react-native/dist/cjs/',
