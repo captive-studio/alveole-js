@@ -1,5 +1,5 @@
 import type { StorybookModule } from './types';
-import { getConstantEntries, sortStoriesByTitle } from './utils';
+import { getConstantEntries, groupTitleForTag, sortStoriesByTitle } from './utils';
 
 const story = (title: string) =>
   ({
@@ -19,5 +19,15 @@ describe('getConstantEntries', () => {
     const constants = { Spacings: { '1W': 8 }, version: '1.2.3', Colors: { Neutre: {} }, missing: null };
 
     expect(getConstantEntries(constants).map(([name]) => name)).toEqual(['Colors', 'Spacings']);
+  });
+});
+
+describe('groupTitleForTag', () => {
+  it('met une capitale initiale au tag qui sert de titre de groupe', () => {
+    expect(groupTitleForTag('core')).toBe('Core');
+  });
+
+  it('garde ses deux capitales à un sigle, que la règle générale abîmerait', () => {
+    expect(groupTitleForTag('ui')).toBe('UI');
   });
 });

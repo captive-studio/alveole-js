@@ -94,3 +94,11 @@ export const stripMarkdown = (markdown: string): string =>
     .replace(/^\s*\d+\.\s+/gm, '')
     .replace(/\[([^\]]+)\]\([^)]+\)/g, '$1')
     .trim();
+
+// Les tags de fiches sont écrits comme les répertoires du dépôt (`core`, `ui`), mais servent de
+// titre de groupe dans la colonne, où ils doivent se lire comme des mots. Un sigle n'obéit pas
+// à la règle générale : `ui` donne `UI` et non `Ui`, d'où la table d'exceptions.
+const ACRONYM_GROUP_TITLES: Record<string, string> = { ui: 'UI' };
+
+export const groupTitleForTag = (tag: string) =>
+  ACRONYM_GROUP_TITLES[tag] ?? tag.charAt(0).toUpperCase() + tag.slice(1);

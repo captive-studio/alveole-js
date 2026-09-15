@@ -64,6 +64,12 @@
     "packages/storybook": {
       "entry": ["src/index.ts"],
       "project": ["src/**/*.{ts,tsx}"],
+      // Référencé par le seul `babel.config.js`, qui donne à jest de quoi transpiler les tests
+      // TypeScript. Knip n'active pas son greffon babel dans ce paquet : contrairement à
+      // `packages/components`, dont le `jest.config.js` étale le preset `jest-expo` qui le
+      // tire, rien ici ne le lui signale. L'ignorance est portée par ce workspace seul, pour
+      // que la même dépendance reste surveillée ailleurs.
+      "ignoreDependencies": ["babel-preset-expo"],
     },
     "packages/eslint-config": {
       "project": ["rules/*.js"],

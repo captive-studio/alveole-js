@@ -61,7 +61,9 @@ const SidebarItemDesktop = (props: SidebarItemProps) => {
         style={{ ...styles.sidebarItemDesktop, ...itemStyleSelected }}
         hoverStyle={{ ...sidebarItemHover }}
       >
-        {icon && <LucideIcon size="md" name={icon} />}
+        {/* 16px et non 24 : c'est l'icône qui fixerait la hauteur de la ligne, et une icône de
+            24 rendrait l'item à 36px là où la maquette le veut à 32. */}
+        {icon && <LucideIcon size="sm" name={icon} />}
         <Typography
           style={{ ...styles.sidebarItemTitleDesktop, ...titleStyleSelected }}
           hoverStyle={{ ...sidebarItemTitleDesktop }}

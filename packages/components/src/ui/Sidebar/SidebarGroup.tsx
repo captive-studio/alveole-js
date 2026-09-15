@@ -14,7 +14,7 @@ const SidebarGroupDesktop = (props: SidebarGroupProps) => {
   const styles = useStyles();
 
   return (
-    <Box tag="sidebar-group">
+    <Box tag="sidebar-group" style={styles.groupDesktop}>
       <Typography style={styles.groupTitleDesktop}>{title}</Typography>
       {children}
     </Box>
