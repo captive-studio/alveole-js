@@ -6,6 +6,10 @@ module.exports = {
     '^.+\\.(t|j)sx?$': ['@swc/jest', { jsc: { parser: { syntax: 'typescript', tsx: true } } }],
   },
   testPathIgnorePatterns: ['/node_modules/', '/dist/'],
+  // Les paquets @expo-google-fonts sont publies en ESM et referencent des .ttf :
+  // sans transformation ni substitution, tout test qui touche Font.ts casse a l'import.
+  transformIgnorePatterns: ['node_modules/(?!@expo-google-fonts)'],
+  moduleNameMapper: { '\\.(ttf|otf|woff2?)$': '<rootDir>/src/test/fontFileMock.js' },
   watchman: false,
 
   // Seuils en cliquet : ils valent la couverture mesurée au moment où ils ont été posés,
@@ -15,10 +19,10 @@ module.exports = {
   // les baisser demande une raison explicite.
   coverageThreshold: {
     global: {
-      statements: 3,
-      branches: 1,
-      functions: 1,
-      lines: 2,
+      statements: 12,
+      branches: 12,
+      functions: 4,
+      lines: 11,
     },
   },
   collectCoverageFrom: ['src/**/*.{ts,tsx}', '!src/**/*.test.{ts,tsx}', '!src/**/index.ts'],

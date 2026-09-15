@@ -87,12 +87,12 @@ Les styles de texte sont organisés en trois catégories :
 ```tsx
 const { text } = useTheme();
 
-// Titres alternatifs (Barlow Bold)
+// Titres alternatifs (Geist SemiBold)
 text['Titres alternatifs'].XS; // 48px
 text['Titres alternatifs'].XL; // 80px
 
-// Titres (Inter Bold — tailles adaptées mobile/desktop)
-text.Titres['H1 - XL']; // Barlow SemiBold, 40px desktop / 32px mobile
+// Titres (Geist SemiBold — tailles adaptées mobile/desktop)
+text.Titres['H1 - XL']; // Geist SemiBold, 40px desktop / 32px mobile
 text.Titres['H3 - MD']; // 28px desktop / 24px mobile
 text.Titres['H6 - XXS']; // 20px desktop / 18px mobile
 
@@ -104,7 +104,7 @@ text['Corps de texte'].LG.Medium; // Inter Medium, 18px
 
 ## Fonts
 
-Les fonts sont chargées automatiquement par `ThemeProvider`. Deux familles sont disponibles : **Inter** (corps de texte) et **Barlow** (titres).
+Les fonts sont chargées automatiquement par `ThemeProvider`. Deux familles sont disponibles : **Inter** (corps de texte) et **Geist** (titres).
 
 Sur le web, les fonts sont injectées via des `@font-face` CSS standards (`font-family: Inter; font-weight: 500`). Sur native, elles utilisent le système expo-font.
 
@@ -112,7 +112,7 @@ Sur le web, les fonts sont injectées via des `@font-face` CSS standards (`font-
 const { font } = useTheme();
 
 font['Inter-Regular']; // 'Inter-Regular' (native) ou utilisé via font-weight (web)
-font['Barlow-Bold'];
+font['Geist-Bold'];
 ```
 
 ### fontStyle helper

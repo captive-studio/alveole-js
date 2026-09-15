@@ -33,7 +33,7 @@
     "access": "public"
   },
   "dependencies": {
-    "@expo-google-fonts/barlow": "0.4.1",
+    "@expo-google-fonts/geist": "0.4.2",
     "@expo-google-fonts/inter": "0.4.2"
   }
 }

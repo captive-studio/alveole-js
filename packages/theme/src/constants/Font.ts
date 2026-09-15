@@ -1,7 +1,7 @@
-import { Barlow_300Light } from '@expo-google-fonts/barlow/300Light';
-import { Barlow_400Regular } from '@expo-google-fonts/barlow/400Regular';
-import { Barlow_500Medium } from '@expo-google-fonts/barlow/500Medium';
-import { Barlow_600SemiBold } from '@expo-google-fonts/barlow/600SemiBold';
+import { Geist_300Light } from '@expo-google-fonts/geist/300Light';
+import { Geist_400Regular } from '@expo-google-fonts/geist/400Regular';
+import { Geist_500Medium } from '@expo-google-fonts/geist/500Medium';
+import { Geist_600SemiBold } from '@expo-google-fonts/geist/600SemiBold';
 import { Inter_300Light } from '@expo-google-fonts/inter/300Light';
 import { Inter_400Regular } from '@expo-google-fonts/inter/400Regular';
 import { Inter_500Medium } from '@expo-google-fonts/inter/500Medium';
@@ -9,11 +9,11 @@ import { Inter_600SemiBold } from '@expo-google-fonts/inter/600SemiBold';
 import { Platform, TextStyle } from 'react-native';
 
 export const FontsMap = {
-  // Barlow
-  'Barlow-Light': Barlow_300Light,
-  'Barlow-Regular': Barlow_400Regular,
-  'Barlow-Medium': Barlow_500Medium,
-  'Barlow-Bold': Barlow_600SemiBold,
+  // Geist
+  'Geist-Light': Geist_300Light,
+  'Geist-Regular': Geist_400Regular,
+  'Geist-Medium': Geist_500Medium,
+  'Geist-Bold': Geist_600SemiBold,
   // Inter
   'Inter-Light': Inter_300Light,
   'Inter-Regular': Inter_400Regular,
@@ -31,10 +31,10 @@ export const FontWeightMap: Record<
   Font,
   { family: string; familyWithFallback: string; weight: NonNullable<TextStyle['fontWeight']> }
 > = {
-  'Barlow-Light': { family: 'Barlow', familyWithFallback: `Barlow, ${SANS_SERIF_FALLBACK}`, weight: '300' },
-  'Barlow-Regular': { family: 'Barlow', familyWithFallback: `Barlow, ${SANS_SERIF_FALLBACK}`, weight: '400' },
-  'Barlow-Medium': { family: 'Barlow', familyWithFallback: `Barlow, ${SANS_SERIF_FALLBACK}`, weight: '500' },
-  'Barlow-Bold': { family: 'Barlow', familyWithFallback: `Barlow, ${SANS_SERIF_FALLBACK}`, weight: '600' },
+  'Geist-Light': { family: 'Geist', familyWithFallback: `Geist, ${SANS_SERIF_FALLBACK}`, weight: '300' },
+  'Geist-Regular': { family: 'Geist', familyWithFallback: `Geist, ${SANS_SERIF_FALLBACK}`, weight: '400' },
+  'Geist-Medium': { family: 'Geist', familyWithFallback: `Geist, ${SANS_SERIF_FALLBACK}`, weight: '500' },
+  'Geist-Bold': { family: 'Geist', familyWithFallback: `Geist, ${SANS_SERIF_FALLBACK}`, weight: '600' },
   'Inter-Light': { family: 'Inter', familyWithFallback: `Inter, ${SANS_SERIF_FALLBACK}`, weight: '300' },
   'Inter-Regular': { family: 'Inter', familyWithFallback: `Inter, ${SANS_SERIF_FALLBACK}`, weight: '400' },
   'Inter-Medium': { family: 'Inter', familyWithFallback: `Inter, ${SANS_SERIF_FALLBACK}`, weight: '500' },
