@@ -4,7 +4,7 @@
   "version": "0.0.1",
   "main": "expo-router/entry",
   "scripts": {
-    "start": "node ./scripts/sync-pdfjs-web-assets.mjs && expo start --web",
+    "start": "node ./scripts/sync-pdfjs-web-assets.mjs && ALVEOLE_LIVE=1 expo start --web",
     "build": "node ./scripts/sync-pdfjs-web-assets.mjs && node ./scripts/generate-sitemap.mjs && expo export --platform web",
     "test:a11y": "playwright test",
     "test:a11y:baseline": "node scripts/generate-a11y-baseline.mts",
