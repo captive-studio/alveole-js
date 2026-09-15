@@ -180,25 +180,6 @@ export const useStyles = makeStyles(({ text, color, spacing, spacingValue, radiu
   mdTitle: text['Corps de texte'].SM.Medium,
   lgTitle: text['Corps de texte'].MD.Medium,
 
-  smContainerStartIcon: {
-    paddingLeft: spacing('050'),
-  },
-  mdContainerStartIcon: {
-    paddingLeft: spacing('075'),
-  },
-  lgContainerStartIcon: {
-    paddingLeft: spacing('100'),
-  },
-  smContainerEndIcon: {
-    paddingRight: spacing('050'),
-  },
-  mdContainerEndIcon: {
-    paddingRight: spacing('075'),
-  },
-  lgContainerEndIcon: {
-    paddingRight: spacing('100'),
-  },
-
   // Disabled
   primaryTitleDisabled: {
     cursor: 'not-allowed',
