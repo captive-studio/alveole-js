@@ -8,9 +8,6 @@
   "/components/Image": {
     "image-alt": 5
   },
-  "/components/ListItem": {
-    "button-name": 3
-  },
   "/components/Metabase": {
     "frame-title": 1
   },
@@ -20,16 +17,10 @@
   "/components/PasswordField": {
     "autocomplete-valid": 2
   },
-  "/components/RadioGroup": {
-    "button-name": 2
-  },
   "/components/TextareaInput": {
     "label": 1
   },
   "/components/TimeInput": {
     "empty-table-header": 1
-  },
-  "/components/Toast": {
-    "button-name": 7
   }
 }

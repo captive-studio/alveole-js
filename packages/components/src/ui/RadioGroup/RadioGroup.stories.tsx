@@ -48,8 +48,22 @@ export const RadioInput = () => {
 
   return (
     <Box display="flex" flexDirection="column" gap={24}>
-      <RadioGroup.Input id="exemple-input" size="sm" value="tutu" checked={value === 'tutu'} onChange={setValue} />
-      <RadioGroup.Input id="exemple-input-md" size="md" value="toto" checked={value === 'toto'} onChange={setValue} />
+      <RadioGroup.Input
+        id="exemple-input"
+        label="Petit"
+        size="sm"
+        value="tutu"
+        checked={value === 'tutu'}
+        onChange={setValue}
+      />
+      <RadioGroup.Input
+        id="exemple-input-md"
+        label="Moyen"
+        size="md"
+        value="toto"
+        checked={value === 'toto'}
+        onChange={setValue}
+      />
     </Box>
   );
 };
