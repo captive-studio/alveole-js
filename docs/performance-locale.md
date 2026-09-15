@@ -74,16 +74,48 @@ ne doivent pas être additionnées pour expliquer le temps total. Il s'agit d'un
 export avec cache existant, sans mesure à froid ni comparaison du nombre de
 workers.
 
-## Priorité du prochain diagnostic
+## Boucle complète de validation locale
 
-La suite des composants est le coût récurrent dominant parmi les commandes de
-développement mesurées. La couverture ajoute du travail, mais sa suppression
-laisse encore près de 50 secondes pour 103 tests. Un test ciblé réduit déjà le
-délai à environ 7 secondes.
+Le démarrage et les tests ciblés ne représentent pas toute la boucle de travail :
+`typecheck`, la suite complète, `lint` et `format` sont aussi des commandes
+fréquentes. Le diagnostic doit conserver leur périmètre.
 
-Prochaine comparaison utile : profiler l'initialisation d'une suite web et d'une
-suite native, puis distinguer le chargement des modules, la préparation des
-providers et l'exécution des assertions. Comparer chaque modification sur les
-mêmes suites, avec caches identiques et plusieurs essais alternés. Les présents
-chiffres ne justifient pas encore de modifier les mocks ou de réduire la
-couverture.
+| Commande                            | Premier essai | Relance sans modification     |
+| ----------------------------------- | ------------- | ----------------------------- |
+| `npm run typecheck`                 | 18,46 s       | 18,15 s                       |
+| `npm run lint`                      | 83,29 s       | 11,15 s                       |
+| `npm run format:check`, avant cache | 27,99 s       | 19,35 s                       |
+| `npm run test:unit`                 | 90,93 s       | Non remesuré dans cette série |
+
+La suite avec couverture passe avec 152 tests. Typecheck et format passent ;
+le lint passe avec des avertissements existants. Le cache du lint réduit déjà
+fortement les relances. Le typecheck reste coûteux malgré l'incrémental.
+
+### Cache de format
+
+`format` et `format:check` utilisent désormais le même cache Prettier par contenu.
+La première vérification prend 15,43 s, puis les relances 2,89 et 2,74 s.
+Le temps du premier passage varie avec la charge ; le gain recherché concerne
+les relances, qui ne réorganisent plus les imports des fichiers inchangés.
+
+Prettier tient compte du contenu, de ses options et de ses propres versions
+(Node compris). Le script ajoute une empreinte du lockfile et des tsconfig à la
+racine et dans les workspaces : le plugin d'organisation des imports dépend
+également de TypeScript et de la configuration JSX. Un changement de ces entrées
+sélectionne un nouveau cache. Les caches restent dans `node_modules/.cache` et
+sont donc supprimés par `npm ci`. `npm run format:check -- --no-cache` permet un
+contrôle sans cache.
+
+Vérification sur une fixture : un fichier modifié et mal formaté est refusé,
+`--write` le corrige, `--check` partage le résultat ; changer `jsx: react` en
+`react-jsx` fait bien retirer l'import React devenu inutile. Un changement des
+options Prettier est également pris en compte.
+
+## Suite du diagnostic
+
+Profiler le typecheck et l'initialisation des suites Jest pour réduire le temps
+de la validation complète. La couverture ajoute du travail, mais les mêmes
+103 tests de composants coûtent encore 48 s dans Jest sans couverture : elle
+n'explique pas seule le coût de la suite. Comparer les changements sur des
+périmètres identiques, avec plusieurs essais alternés ; ne pas substituer les
+tests ciblés à la suite complète dans les mesures.
