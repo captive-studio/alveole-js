@@ -1,12 +1,13 @@
-import { Box, Header, LucideIcon, Typography } from '@alveole/components';
+import { A, Box, Header, LucideIcon, Typography } from '@alveole/components';
 import { makeStyles, useTheme } from '@alveole/theme';
 import React from 'react';
-import { Pressable, PressableStateCallbackType } from 'react-native';
+import { Pressable } from 'react-native';
 
 export type UIKitTopBarItem = {
   key: string;
   label: string;
-  onPress: () => void;
+  /** Typé depuis `A` pour ne pas dépendre d'expo-router ici. */
+  href: React.ComponentProps<typeof A>['href'];
 };
 
 export type UIKitTopBarProps = {
@@ -33,13 +34,9 @@ const AlveoleLogo = () => {
   );
 };
 
-type NavItemState = PressableStateCallbackType & { hovered?: boolean };
-
-type NavItemProps = {
-  label: string;
+type NavItemProps = Omit<UIKitTopBarItem, 'key'> & {
   current: boolean;
   block?: boolean;
-  onPress: () => void;
 };
 
 const useNavItemStyles = makeStyles(({ color, radius, spacingValue, text }) => ({
@@ -79,32 +76,37 @@ const useNavItemStyles = makeStyles(({ color, radius, spacingValue, text }) => (
 /**
  * Item de navigation de la barre : aucun remplissage à l'état courant, qui se signale
  * par le contraste et la graisse seuls. Le fond neutre est réservé au survol.
+ *
+ * Bâti sur `A` pour obtenir une vraie ancre : clic milieu, ouverture en nouvel onglet et
+ * aperçu de la cible dans la barre d'état ne s'obtiennent pas avec un `Pressable` seul.
  */
-const NavItem = ({ label, current, block = false, onPress }: NavItemProps) => {
+const NavItem = ({ label, href, current, block = false }: NavItemProps) => {
   const styles = useNavItemStyles();
 
   return (
-    <Pressable
-      accessibilityRole="link"
-      aria-current={current ? 'page' : undefined}
-      onPress={onPress}
-      style={({ hovered }: NavItemState) => ({
-        ...styles.container,
-        alignItems: block ? 'flex-start' : 'center',
-        ...(hovered ? styles.containerHover : {}),
-      })}
+    <A
+      href={href}
+      direction="replace"
+      ariaCurrent={current ? 'page' : undefined}
+      style={{ ...styles.container, alignItems: block ? 'flex-start' : 'center' }}
+      hoverStyle={styles.containerHover}
     >
       <Typography style={current ? styles.labelCurrent : styles.label}>{label}</Typography>
       <Box aria-hidden>
         <Typography style={styles.labelGhost}>{label}</Typography>
       </Box>
-    </Pressable>
+    </A>
   );
 };
 
 export const UIKitTopBar = ({ activeKey, items }: UIKitTopBarProps) => {
   const { color, isVariant, spacing } = useTheme();
-  const [menuOpen, setMenuOpen] = React.useState(false);
+  // Les items sont des ancres : la navigation ne passe plus par un callback qui pourrait
+  // refermer le menu au clic. On retient donc la page pour laquelle le menu a été ouvert,
+  // et il se referme de lui-même dès qu'on arrive ailleurs, sans effet de synchronisation.
+  const [openedFor, setOpenedFor] = React.useState<string | null>(null);
+  const menuOpen = openedFor === activeKey;
+  const toggleMenu = () => setOpenedFor(menuOpen ? null : activeKey);
 
   if (isVariant('mobile')) {
     return (
@@ -112,7 +114,7 @@ export const UIKitTopBar = ({ activeKey, items }: UIKitTopBarProps) => {
         <Header
           logo={<AlveoleLogo />}
           right={
-            <Pressable accessibilityRole="button" onPress={() => setMenuOpen(v => !v)} style={{ padding: 8 }}>
+            <Pressable accessibilityRole="button" onPress={toggleMenu} style={{ padding: 8 }}>
               <LucideIcon name={menuOpen ? 'X' : 'Menu'} size="md" color={color.light.text['title-grey']} />
             </Pressable>
           }
@@ -137,17 +139,8 @@ export const UIKitTopBar = ({ activeKey, items }: UIKitTopBarProps) => {
               gap: spacing('050'),
             }}
           >
-            {items.map(item => (
-              <NavItem
-                key={item.key}
-                label={item.label}
-                current={activeKey === item.key}
-                block
-                onPress={() => {
-                  item.onPress();
-                  setMenuOpen(false);
-                }}
-              />
+            {items.map(({ key, ...item }) => (
+              <NavItem key={key} {...item} current={activeKey === key} block />
             ))}
           </Box>
         )}
@@ -157,8 +150,8 @@ export const UIKitTopBar = ({ activeKey, items }: UIKitTopBarProps) => {
 
   const right = (
     <Box display="flex" flexDirection="row" flexWrap="wrap" gap={8}>
-      {items.map(item => (
-        <NavItem key={item.key} label={item.label} current={activeKey === item.key} onPress={item.onPress} />
+      {items.map(({ key, ...item }) => (
+        <NavItem key={key} {...item} current={activeKey === key} />
       ))}
     </Box>
   );

@@ -17,10 +17,12 @@ export type AProps = React.PropsWithChildren<{
   hoverStyle?: CSSProperties;
   /** Override la logique d'accès (sinon utilise LinkAccessContext si fourni, sinon accès autorisé). */
   canAccessHref?: CanAccessHref;
+  /** Marque le lien comme représentant l'emplacement courant. "page" pour la page affichée. */
+  ariaCurrent?: 'page' | 'step' | 'location' | 'date' | 'time';
 }>;
 
 export const A = (props: AProps) => {
-  const { children, href, direction = 'push', style, hoverStyle, canAccessHref: canAccessProp } = props;
+  const { children, href, direction = 'push', style, hoverStyle, ariaCurrent, canAccessHref: canAccessProp } = props;
 
   const styles = useStyles();
   const canAccessFromContext = useContext(LinkAccessContext);
@@ -34,7 +36,7 @@ export const A = (props: AProps) => {
       push={direction === 'push'}
       dismissTo={direction === 'dismiss'}
     >
-      <Pressable accessibilityRole="link" style={styles.link as any}>
+      <Pressable accessibilityRole="link" aria-current={ariaCurrent} style={styles.link as any}>
         <Box tag="a-pressable" style={{ ...styles.pressable, ...style }} hoverStyle={hoverStyle}>
           {children}
         </Box>
