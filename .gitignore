@@ -10,6 +10,8 @@ apps/**/public/**/*.mjs
 apps/**/dist/*
 *.d.ts
 *.d.map.ts
+# Les shims de types sont écrits à la main, pas produits par un build.
+!apps/docs/shims/*.d.ts
 *.stories.sources.ts
 packages/**/.eslintcache
 apps/**/.eslintcache
@@ -18,3 +20,4 @@ coverage/
 apps/docs/test-results/
 apps/docs/playwright-report/
 packages/*/.tsbuildinfo
+apps/*/.tsbuildinfo
