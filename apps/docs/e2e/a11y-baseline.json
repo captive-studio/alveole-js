@@ -47,10 +47,6 @@
   "/components/RadioGroup": {
     "button-name": 2
   },
-  "/components/Select": {
-    "label-title-only": 3,
-    "label": 9
-  },
   "/components/SelectMultiple": {
     "label-title-only": 2,
     "label": 3
