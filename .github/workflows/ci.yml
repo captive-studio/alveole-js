@@ -30,10 +30,17 @@ jobs:
             node_modules
             packages/*/node_modules
             apps/*/node_modules
-          key: npm-deps-${{ runner.os }}-${{ hashFiles('package-lock.json') }}
+          key: npm-deps-linux-validation-v2-${{ runner.os }}-${{ hashFiles('package-lock.json') }}
       - name: Install dependencies
         if: steps.npm-cache.outputs.cache-hit != 'true'
         run: npm ci
+      # Ces XCFrameworks Apple ne sont utilisés ni par les tests JS/native mockés,
+      # ni par le build web. Les installations locales et la publication restent complètes.
+      # Ce cache est réservé à la validation Linux, jamais à une compilation iOS.
+      - name: Remove Apple prebuilds from the validation cache
+        if: runner.os == 'Linux' && steps.npm-cache.outputs.cache-hit != 'true'
+        run: |
+          rm -rf node_modules/expo-image/prebuilds node_modules/expo-modules-core/prebuilds
       - name: Validate install
         run: npm list --depth=0
   # Les contrôles indépendants continuent après une erreur grâce à !cancelled().
@@ -57,7 +64,7 @@ jobs:
             node_modules
             packages/*/node_modules
             apps/*/node_modules
-          key: npm-deps-${{ runner.os }}-${{ hashFiles('package-lock.json') }}
+          key: npm-deps-linux-validation-v2-${{ runner.os }}-${{ hashFiles('package-lock.json') }}
       # Un transfert interrompu laisse cache-hit vide : réessayer une seule fois.
       - name: Retry node_modules restore
         id: dependencies-cache-retry
@@ -68,7 +75,7 @@ jobs:
             node_modules
             packages/*/node_modules
             apps/*/node_modules
-          key: npm-deps-${{ runner.os }}-${{ hashFiles('package-lock.json') }}
+          key: npm-deps-linux-validation-v2-${{ runner.os }}-${{ hashFiles('package-lock.json') }}
       - name: Ensure dependencies (cache fallback)
         run: |
           if [ "${{ steps.dependencies-cache.outputs.cache-hit }}" != "true" ] && [ "${{ steps.dependencies-cache-retry.outputs.cache-hit }}" != "true" ]; then
@@ -127,7 +134,7 @@ jobs:
             node_modules
             packages/*/node_modules
             apps/*/node_modules
-          key: npm-deps-${{ runner.os }}-${{ hashFiles('package-lock.json') }}
+          key: npm-deps-linux-validation-v2-${{ runner.os }}-${{ hashFiles('package-lock.json') }}
       # Un transfert interrompu laisse cache-hit vide : réessayer une seule fois.
       - name: Retry node_modules restore
         id: dependencies-cache-retry
@@ -138,7 +145,7 @@ jobs:
             node_modules
             packages/*/node_modules
             apps/*/node_modules
-          key: npm-deps-${{ runner.os }}-${{ hashFiles('package-lock.json') }}
+          key: npm-deps-linux-validation-v2-${{ runner.os }}-${{ hashFiles('package-lock.json') }}
       - name: Ensure dependencies (cache fallback)
         run: |
           if [ "${{ steps.dependencies-cache.outputs.cache-hit }}" != "true" ] && [ "${{ steps.dependencies-cache-retry.outputs.cache-hit }}" != "true" ]; then
@@ -176,7 +183,7 @@ jobs:
             node_modules
             packages/*/node_modules
             apps/*/node_modules
-          key: npm-deps-${{ runner.os }}-${{ hashFiles('package-lock.json') }}
+          key: npm-deps-linux-validation-v2-${{ runner.os }}-${{ hashFiles('package-lock.json') }}
       # Un transfert interrompu laisse cache-hit vide : réessayer une seule fois.
       - name: Retry node_modules restore
         id: dependencies-cache-retry
@@ -187,7 +194,7 @@ jobs:
             node_modules
             packages/*/node_modules
             apps/*/node_modules
-          key: npm-deps-${{ runner.os }}-${{ hashFiles('package-lock.json') }}
+          key: npm-deps-linux-validation-v2-${{ runner.os }}-${{ hashFiles('package-lock.json') }}
       - name: Ensure dependencies (cache fallback)
         run: |
           if [ "${{ steps.dependencies-cache.outputs.cache-hit }}" != "true" ] && [ "${{ steps.dependencies-cache-retry.outputs.cache-hit }}" != "true" ]; then
