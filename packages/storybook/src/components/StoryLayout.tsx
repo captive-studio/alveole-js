@@ -16,12 +16,17 @@ export type StoryLayoutProps = {
  * à droite, comme le fait le thème de documentation de Primer.
  */
 export const StoryLayout = ({ children, sommaire }: StoryLayoutProps) => {
-  const { grilles, spacingValue } = useTheme();
+  const { grilles, isVariant, spacingValue } = useTheme();
+
+  // Le sommaire ne cède pas ses deux colonnes : sous la largeur bureau il ne resterait pas
+  // assez pour ce que la fiche documente, des blocs de code. Primer retire sa table des
+  // matières plutôt que de la comprimer, et rend la largeur à la lecture.
+  const voletVisible = sommaire != null && isVariant('desktop');
 
   return (
     <ScreenZone largeur={grilles['9 colonnes']}>
       <Box style={{ flexDirection: 'row-reverse', gap: spacingValue('3W') }}>
-        {sommaire ? <Box style={{ flexShrink: 0, width: grilles['2 colonnes'] }}>{sommaire}</Box> : null}
+        {voletVisible ? <Box style={{ flexShrink: 0, width: grilles['2 colonnes'] }}>{sommaire}</Box> : null}
         <Box style={{ flexGrow: 1, flexShrink: 1, minWidth: 0 }}>{children}</Box>
       </Box>
     </ScreenZone>
