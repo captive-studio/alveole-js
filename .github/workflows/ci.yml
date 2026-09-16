@@ -18,7 +18,7 @@ jobs:
     runs-on:
       - captive-small
     timeout-minutes: 15
-    container: ghcr.io/captive-studio/node-ci:24.21.0@sha256:4c2bab78a71648bc9001d6fd839e7ff0eb9f891fd331bb7b04e1e957a1af11bd
+    container: ghcr.io/captive-studio/node-ci:24.21.0@sha256:54cbd1d0e53e1d43548d4b08222edb4163c24f37cddcc7bef0e1d90a647db4c7
     steps:
       - name: Checkout
         uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
@@ -45,7 +45,7 @@ jobs:
     runs-on:
       - captive-small
     timeout-minutes: 20
-    container: ghcr.io/captive-studio/node-ci:24.21.0@sha256:4c2bab78a71648bc9001d6fd839e7ff0eb9f891fd331bb7b04e1e957a1af11bd
+    container: ghcr.io/captive-studio/node-ci:24.21.0@sha256:54cbd1d0e53e1d43548d4b08222edb4163c24f37cddcc7bef0e1d90a647db4c7
     steps:
       - name: Checkout
         uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
@@ -115,7 +115,7 @@ jobs:
     runs-on:
       - self-hosted
     timeout-minutes: 25
-    container: ghcr.io/captive-studio/node-ci:24.21.0@sha256:4c2bab78a71648bc9001d6fd839e7ff0eb9f891fd331bb7b04e1e957a1af11bd
+    container: ghcr.io/captive-studio/node-ci:24.21.0@sha256:54cbd1d0e53e1d43548d4b08222edb4163c24f37cddcc7bef0e1d90a647db4c7
     steps:
       - name: Checkout
         uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
@@ -164,7 +164,7 @@ jobs:
     runs-on:
       - self-hosted
     timeout-minutes: 45
-    container: ghcr.io/captive-studio/node-ci:24.21.0@sha256:4c2bab78a71648bc9001d6fd839e7ff0eb9f891fd331bb7b04e1e957a1af11bd
+    container: ghcr.io/captive-studio/node-ci:24.21.0@sha256:54cbd1d0e53e1d43548d4b08222edb4163c24f37cddcc7bef0e1d90a647db4c7
     steps:
       - name: Checkout
         uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
