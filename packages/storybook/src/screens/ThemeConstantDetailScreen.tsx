@@ -1,8 +1,8 @@
-import { Box, Page, PageHeader, Section, Typography } from '@alveole/components';
+import { Box, Page, PageHeader, Typography } from '@alveole/components';
 import { useTheme } from '@alveole/theme';
 import React from 'react';
 import { JsonBlock } from '../components/JsonBlock';
-import { screenContent } from '../styles';
+import { ScreenZone } from '../components/ScreenZone';
 
 export type ThemeConstantDetailScreenProps = {
   name: string;
@@ -19,7 +19,7 @@ export const ThemeConstantDetailScreen = ({
   sidebar,
   footerContent,
 }: ThemeConstantDetailScreenProps) => {
-  const { text } = useTheme();
+  const { grilles, text } = useTheme();
   const entries = typeof value === 'object' && value != null ? Object.entries(value) : [];
 
   return (
@@ -31,25 +31,21 @@ export const ThemeConstantDetailScreen = ({
       beforeContent={beforeContent}
       footerContent={footerContent}
     >
-      <Box {...screenContent}>
-        <Section withPaddingY={false}>
-          <PageHeader title={name} />
-        </Section>
-        <Section withPaddingY={false}>
-          <Box display="flex" gap={16}>
-            {entries.length === 0 ? (
-              <JsonBlock value={value} />
-            ) : (
-              entries.map(([entryName, entryValue]) => (
-                <Box key={entryName} display="flex" gap={8}>
-                  <Typography style={text.Titres['H6 - XXS']}>{entryName}</Typography>
-                  <JsonBlock value={entryValue} />
-                </Box>
-              ))
-            )}
-          </Box>
-        </Section>
-      </Box>
+      <ScreenZone largeur={grilles['12 colonnes']}>
+        <PageHeader title={name} />
+        <Box display="flex" gap={16}>
+          {entries.length === 0 ? (
+            <JsonBlock value={value} />
+          ) : (
+            entries.map(([entryName, entryValue]) => (
+              <Box key={entryName} display="flex" gap={8}>
+                <Typography style={text.Titres['H6 - XXS']}>{entryName}</Typography>
+                <JsonBlock value={entryValue} />
+              </Box>
+            ))
+          )}
+        </Box>
+      </ScreenZone>
     </Page>
   );
 };

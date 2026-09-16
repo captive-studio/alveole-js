@@ -1,7 +1,7 @@
-import { Box, Card, Page, PageHeader, Section, Typography } from '@alveole/components';
+import { Box, Card, Page, PageHeader, Typography } from '@alveole/components';
 import { useTheme } from '@alveole/theme';
 import { TextStyle, View } from 'react-native';
-import { screenContent } from '../styles';
+import { ScreenZone } from '../components/ScreenZone';
 
 export type ThemeTypographyScreenProps = {
   typography: Record<string, unknown>;
@@ -122,7 +122,7 @@ export const ThemeTypographyScreen = ({
   sidebar,
   footerContent,
 }: ThemeTypographyScreenProps) => {
-  const { text } = useTheme();
+  const { grilles, text } = useTheme();
 
   const labelStyle = text['Corps de texte'].XS.SemiBold;
   const valueStyle = text['Corps de texte'].SM.Regular;
@@ -141,31 +141,27 @@ export const ThemeTypographyScreen = ({
       beforeContent={beforeContent}
       footerContent={footerContent}
     >
-      <Box {...screenContent}>
-        <Section withPaddingY={false}>
-          <PageHeader
-            title={title}
-            breadcrumbsProps={{ getHref: (segment, _index, path) => (segment === 'theme' ? null : path) }}
-          />
-        </Section>
-        <Section withPaddingY={false}>
-          <Box display="flex" gap={16}>
-            {categories.map(({ key, entries }) => (
-              <Card key={key}>
-                <Box display="flex" gap={16} p="150">
-                  <Typography style={text.Titres['H4 - SM']}>{key}</Typography>
-                  <Box display="flex" gap={0}>
-                    <TableHeader labelStyle={labelStyle} />
-                    {entries.map(entry => (
-                      <TableRow key={entry.label} entry={entry} valueStyle={valueStyle} />
-                    ))}
-                  </Box>
+      <ScreenZone largeur={grilles['12 colonnes']}>
+        <PageHeader
+          title={title}
+          breadcrumbsProps={{ getHref: (segment, _index, path) => (segment === 'theme' ? null : path) }}
+        />
+        <Box display="flex" gap={16}>
+          {categories.map(({ key, entries }) => (
+            <Card key={key}>
+              <Box display="flex" gap={16} p="150">
+                <Typography style={text.Titres['H4 - SM']}>{key}</Typography>
+                <Box display="flex" gap={0}>
+                  <TableHeader labelStyle={labelStyle} />
+                  {entries.map(entry => (
+                    <TableRow key={entry.label} entry={entry} valueStyle={valueStyle} />
+                  ))}
                 </Box>
-              </Card>
-            ))}
-          </Box>
-        </Section>
-      </Box>
+              </Box>
+            </Card>
+          ))}
+        </Box>
+      </ScreenZone>
     </Page>
   );
 };
