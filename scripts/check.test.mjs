@@ -17,13 +17,24 @@ async function fixture(t, args = [], fail = '', env = {}) {
   const npm = join(root, 'npm.mjs');
   await writeFile(
     npm,
-    `import { appendFileSync } from 'node:fs';
+    `import { appendFileSync, existsSync, writeFileSync } from 'node:fs';
+import { setTimeout as delay } from 'node:timers/promises';
 import { spawn } from 'node:child_process';
 if (process.cwd() !== process.env.FIXTURE_ROOT) throw new Error('wrong cwd');
 const task = process.argv[3];
 if (process.env.FAIL === 'signal' && task === 'test:unit') process.kill(process.pid, 'SIGTERM');
 const record = event => appendFileSync(process.env.EVENTS, JSON.stringify({ task, event }) + '\\n');
+if (task === 'typecheck') await delay(Number(process.env.START_DELAY || 0));
 record('start');
+if (process.env.SYNC_WORKERS === '1' && ['test:unit', 'typecheck'].includes(task)) {
+  writeFileSync(process.env.FIXTURE_ROOT + '/' + task + '.ready', '');
+  const other = task === 'test:unit' ? 'typecheck' : 'test:unit';
+  const deadline = Date.now() + 5000;
+  while (!existsSync(process.env.FIXTURE_ROOT + '/' + other + '.ready')) {
+    if (Date.now() >= deadline) throw new Error('second worker did not start');
+    await delay(10);
+  }
+}
 if (process.env.DESCENDANT === '1' && task === 'test:unit') {
   spawn(process.execPath, ['--input-type=module', '-e', \`
     import { appendFileSync } from 'node:fs';
@@ -68,7 +79,9 @@ function peak(events) {
 }
 
 test('prépare les sources avant les trois contrôles, avec deux tâches au maximum', async t => {
-  const { done, readEvents } = await fixture(t);
+  // Le chevauchement dépend d'un rendez-vous explicite, pas de la vitesse du runner.
+  // Retarder un worker au-delà des 80 ms de travail reproduit l'ordonnancement CI.
+  const { done, readEvents } = await fixture(t, [], '', { SYNC_WORKERS: '1', START_DELAY: '1000' });
   assert.equal((await done).code, 0);
   const events = await readEvents();
   assert.deepEqual(events.slice(0, 4), [
