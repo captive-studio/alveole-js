@@ -1,8 +1,8 @@
-import * as LabIcons from '@lucide/lab';
-import * as LucideIcons from 'lucide-react-native';
-import { Icon as BaseIcon, LucideIcon as Icon } from 'lucide-react-native';
 import { Platform, StyleProp, ViewStyle } from 'react-native';
 import { LucideIconName, LucideIconProps } from './LucideIcon.props';
+import * as LabIcons from './vendor/lab';
+import * as LucideIcons from './vendor/lucide';
+import { Icon as BaseIcon, LucideIcon as Icon } from './vendor/lucide';
 
 export const strokeWidth = 1.5;
 

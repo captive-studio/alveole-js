@@ -25,7 +25,7 @@
     "publish:local": "scripts/publish-local",
     "publish:package": "scripts/publish-package",
     "check": "node scripts/check.mjs",
-    "test:scripts": "node --test scripts/check.test.mjs",
+    "test:scripts": "node --test scripts/check.test.mjs scripts/compact-icons.test.mjs",
     "pretest:unit": "npm run test:scripts"
   },
   "devDependencies": {

@@ -15,3 +15,5 @@ packages/components/src/generated/version.ts
 **/**/*.hbs
 **/*.stories.sources.ts
 **/eslint-suppressions.json
+
+packages/components/src/ui/LucideIcon/vendor/

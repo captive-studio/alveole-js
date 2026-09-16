@@ -1,0 +1,14 @@
+{
+  "name": "alveole-compact-icons-generator",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "generate": "node generate.mjs",
+    "verify": "node verify.mjs"
+  },
+  "dependencies": {
+    "@lucide/lab": "0.7.0",
+    "esbuild": "0.28.2",
+    "lucide-react-native": "1.46.0"
+  }
+}

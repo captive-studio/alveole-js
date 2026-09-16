@@ -7,7 +7,8 @@
     "**/*.test.*",
     "**/__tests__/**",
     "**/node_modules/**",
-    "**/dist/**"
+    "**/dist/**",
+    "**/LucideIcon/vendor/**"
   ],
   "minLines": 5,
   "minTokens": 50,

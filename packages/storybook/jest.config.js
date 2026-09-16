@@ -9,7 +9,7 @@ const ignoredPaths = ['/node_modules/', '/dist/'];
 // rend dès qu'il affiche la source d'un exemple. Sans transformation, tout test qui rend une
 // fiche casse à l'import. Même liste que dans `@alveole/components`, pour la même raison.
 const transformIgnorePatterns = [
-  'node_modules/(?!((jest-)?react-native|@react-native(-community)?)|expo(nent)?|@expo(nent)?/.*|@expo-google-fonts/.*|@testing-library/react-native|@tamagui/.*|tamagui|lucide-react-native|lottie-react-native|@lottiefiles/.*|pdfjs-dist|react-native-maps|react-native-signature-canvas|react-native-webview|react-native-svg|standard-navigation|react-syntax-highlighter|highlight.js|lowlight|refractor|hastscript|property-information|space-separated-tokens|comma-separated-tokens|character-[a-z-]+|parse-entities|stringify-entities|decode-named-character-reference|is-[a-z-]+|web-namespaces|zwitch|html-void-elements|devlop|ccount|bail|trough|unified|vfile[a-z-]*|unist-util-[a-z-]+|hast-util-[a-z-]+|react-markdown|remark-[a-z-]+|rehype-[a-z-]+|micromark[a-z-]*|mdast-util-[a-z-]+|estree-util-[a-z-]+|html-url-attributes|trim-lines|style-to-[a-z]+|inline-style-parser|markdown-table|longest-streak|escape-string-regexp)',
+  'node_modules/(?!((jest-)?react-native|@react-native(-community)?)|expo(nent)?|@expo(nent)?/.*|@expo-google-fonts/.*|@testing-library/react-native|@tamagui/.*|tamagui|lottie-react-native|@lottiefiles/.*|pdfjs-dist|react-native-maps|react-native-signature-canvas|react-native-webview|react-native-svg|standard-navigation|react-syntax-highlighter|highlight.js|lowlight|refractor|hastscript|property-information|space-separated-tokens|comma-separated-tokens|character-[a-z-]+|parse-entities|stringify-entities|decode-named-character-reference|is-[a-z-]+|web-namespaces|zwitch|html-void-elements|devlop|ccount|bail|trough|unified|vfile[a-z-]*|unist-util-[a-z-]+|hast-util-[a-z-]+|react-markdown|remark-[a-z-]+|rehype-[a-z-]+|micromark[a-z-]*|mdast-util-[a-z-]+|estree-util-[a-z-]+|html-url-attributes|trim-lines|style-to-[a-z]+|inline-style-parser|markdown-table|longest-streak|escape-string-regexp)',
 ];
 
 // Les paquets du dépôt sont résolus sur leurs sources, pas sur leur `dist` : les tests
@@ -21,7 +21,6 @@ const moduleNameMapper = {
   '^@alveole/components$': '<rootDir>/../components/src/index.ts',
   '^react$': require.resolve('react'),
   '^react-dom$': require.resolve('react-dom'),
-  '^lucide-react-native$': require.resolve('lucide-react-native'),
   '^(react-native-webview|@shopify/flash-list|expo-router/head)$': '<rootDir>/__tests__/stubs/nativeModule.js',
   '^react-native-keyboard-controller$': '<rootDir>/__tests__/stubs/passthrough.js',
   '^@/assets/(.*)$': '<rootDir>/__tests__/stubs/asset.js',
