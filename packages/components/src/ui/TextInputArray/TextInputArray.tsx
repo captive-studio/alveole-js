@@ -107,7 +107,7 @@ export const TextInputArray = (props: TextInputArrayProps) => {
 
   return (
     <Box tag="text-input-array">
-      {items.map(item => (
+      {items.map((item, index) => (
         <TextField
           key={item.id}
           label=""
@@ -118,7 +118,12 @@ export const TextInputArray = (props: TextInputArrayProps) => {
           onChangeText={(txt: string) => updateItem(item.id, txt)}
           endAdornment={
             item._original != null && disabledDeleteForOriginals.includes(item._original) ? undefined : (
-              <InputButtonAdornment icon="X" position="end" onPress={() => removeItem(item.id)} />
+              <InputButtonAdornment
+                icon="X"
+                position="end"
+                accessibilityLabel={`Retirer la ligne ${index + 1}`}
+                onPress={() => removeItem(item.id)}
+              />
             )
           }
           onBlur={() => emit(items)}

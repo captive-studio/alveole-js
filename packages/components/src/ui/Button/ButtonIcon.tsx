@@ -19,7 +19,12 @@ type CustomPressableState = PressableStateCallbackType & {
   hovered?: boolean;
 };
 
-export type ButtonIconProps = Omit<PressableProps, 'children' | 'style'> & {
+export type ButtonIconProps = Omit<PressableProps, 'children' | 'style' | 'accessibilityLabel'> & {
+  /**
+   * Obligatoire : un bouton sans libelle n'a rien d'autre pour se decrire. Le rendre optionnel
+   * laissait passer dix appels muets, qu'aucun audit ne pouvait signaler.
+   */
+  accessibilityLabel: string;
   size?: ButtonTaille;
   iconSize?: 'xs' | 'sm' | 'md' | 'lg' | 'xl';
   variant: 'primary' | 'secondary' | 'tertiary';
@@ -91,7 +96,12 @@ export const ButtonIcon = (props: ButtonIconProps) => {
     // `ViewStyle` : les deux se recouvrent sans se confondre, `backgroundColor` par exemple n'y
     // a pas le meme type. La conversion est explicite ici parce que c'est la frontiere. Le code
     // precedent l'effacait en typant son accumulateur `any`, ce qui masquait aussi le reste.
-    <Pressable style={containerStyle as PressableProps['style']} disabled={disabled} {...buttonProps}>
+    <Pressable
+      accessibilityRole="button"
+      style={containerStyle as PressableProps['style']}
+      disabled={disabled}
+      {...buttonProps}
+    >
       {(state: CustomPressableState) =>
         typeof props.icon === 'number' ? (
           <Typography style={{ ...textStyle({ hovered: !!state.hovered }) }}>{props.icon}</Typography>

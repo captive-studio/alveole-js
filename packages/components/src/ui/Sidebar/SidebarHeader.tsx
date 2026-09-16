@@ -41,7 +41,12 @@ const SidebarHeaderMobile = (props: SidebarHeaderProps) => {
     <Box tag="sidebar-header" style={styles.header}>
       <Box style={styles.headerContent} pt={(Platform.OS === 'android' ? top : 0) + styles.headerContent.padding}>
         <Box flex={1} />
-        <ButtonIcon icon="X" variant="tertiary" onPress={() => controller?.setOpen(false)} />
+        <ButtonIcon
+          icon="X"
+          variant="tertiary"
+          accessibilityLabel="Fermer le menu"
+          onPress={() => controller?.setOpen(false)}
+        />
       </Box>
       <Divider />
     </Box>

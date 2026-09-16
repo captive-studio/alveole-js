@@ -20,7 +20,12 @@ export default {
 export const Default = () => <ToolbarTop title="Titre" sousTitre="Sous-titre" />;
 
 export const AvecRetourArriere = () => (
-  <ToolbarTop title="Titre" sousTitre="Sous-titre" onNavigate={() => router.back()} />
+  <ToolbarTop
+    title="Titre"
+    sousTitre="Sous-titre"
+    onNavigate={() => router.back()}
+    navigationLabel="Revenir en arriere"
+  />
 );
 
 export const SansAvatarEtAvecActions = () => (
@@ -28,7 +33,17 @@ export const SansAvatarEtAvecActions = () => (
     title="Titre"
     sousTitre="Sous-titre"
     onNavigate={console.log}
-    actions={<ButtonIcon variant="tertiary" size="lg" iconSize="md" icon={'Plus'} onPress={console.log} />}
+    navigationLabel="Revenir en arriere"
+    actions={
+      <ButtonIcon
+        variant="tertiary"
+        size="lg"
+        iconSize="md"
+        icon={'Plus'}
+        accessibilityLabel="Ajouter"
+        onPress={console.log}
+      />
+    }
   />
 );
 
@@ -41,8 +56,18 @@ export const AvecAvatarEtActions = () => (
     title="Titre"
     sousTitre="Sous-titre"
     onNavigate={console.log}
+    navigationLabel="Revenir en arriere"
     AvatarProps={{ src: 'https://picsum.photos/100/200' }}
-    actions={<ButtonIcon variant="tertiary" size="lg" iconSize="md" icon={'Plus'} onPress={console.log} />}
+    actions={
+      <ButtonIcon
+        variant="tertiary"
+        size="lg"
+        iconSize="md"
+        icon={'Plus'}
+        accessibilityLabel="Ajouter"
+        onPress={console.log}
+      />
+    }
   />
 );
 
@@ -51,11 +76,26 @@ export const AvecPlusieursActions = () => (
     title="Titre"
     sousTitre="Sous-titre"
     onNavigate={console.log}
+    navigationLabel="Revenir en arriere"
     AvatarProps={{ src: 'https://picsum.photos/100/200' }}
     actions={
       <>
-        <ButtonIcon variant="tertiary" size="lg" iconSize="md" icon={'Plus'} onPress={console.log} />
-        <ButtonIcon variant="tertiary" size="lg" iconSize="md" icon={'Download'} onPress={console.log} />
+        <ButtonIcon
+          variant="tertiary"
+          size="lg"
+          iconSize="md"
+          icon={'Plus'}
+          accessibilityLabel="Ajouter"
+          onPress={console.log}
+        />
+        <ButtonIcon
+          variant="tertiary"
+          size="lg"
+          iconSize="md"
+          icon={'Download'}
+          accessibilityLabel="Telecharger"
+          onPress={console.log}
+        />
       </>
     }
   />
@@ -65,11 +105,26 @@ export const AvecTitreEtSansSousTitre = () => (
   <ToolbarTop
     title="Titre"
     onNavigate={console.log}
+    navigationLabel="Revenir en arriere"
     AvatarProps={{ src: 'https://picsum.photos/100/200' }}
     actions={
       <>
-        <ButtonIcon variant="tertiary" size="lg" iconSize="md" icon={'Plus'} onPress={console.log} />
-        <ButtonIcon variant="tertiary" size="lg" iconSize="md" icon={'Download'} onPress={console.log} />
+        <ButtonIcon
+          variant="tertiary"
+          size="lg"
+          iconSize="md"
+          icon={'Plus'}
+          accessibilityLabel="Ajouter"
+          onPress={console.log}
+        />
+        <ButtonIcon
+          variant="tertiary"
+          size="lg"
+          iconSize="md"
+          icon={'Download'}
+          accessibilityLabel="Telecharger"
+          onPress={console.log}
+        />
       </>
     }
   />
@@ -84,7 +139,13 @@ export const AvecBorder = () => <ToolbarTop title="Titre" sousTitre="Sous-titre"
 export const CompactLarge = () => <ToolbarTop title="Titre compact large" variant="compactLarge" />;
 
 export const Large = () => (
-  <ToolbarTop title="Titre large" variant="large" onNavigate={console.log} sousTitre="Sous-titre" />
+  <ToolbarTop
+    title="Titre large"
+    variant="large"
+    onNavigate={console.log}
+    navigationLabel="Revenir en arriere"
+    sousTitre="Sous-titre"
+  />
 );
 
 export * as Sources from './ToolbarTop.stories.sources';

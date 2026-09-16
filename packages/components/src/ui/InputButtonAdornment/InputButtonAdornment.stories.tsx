@@ -16,17 +16,17 @@ export default {
 export const End = () => (
   <Box display="flex" flexDirection="column" gap={24}>
     <FormControl>
-      <InputButtonAdornment icon="Eye" position="end" onPress={() => {}} />
+      <InputButtonAdornment icon="Eye" position="end" accessibilityLabel="Afficher" onPress={() => {}} />
     </FormControl>
     <FormControl>
-      <InputButtonAdornment icon="X" position="end" onPress={() => {}} />
+      <InputButtonAdornment icon="X" position="end" accessibilityLabel="Effacer" onPress={() => {}} />
     </FormControl>
   </Box>
 );
 
 export const Start = () => (
   <FormControl>
-    <InputButtonAdornment icon="Plus" position="start" onPress={() => {}} />
+    <InputButtonAdornment icon="Plus" position="start" accessibilityLabel="Ajouter" onPress={() => {}} />
   </FormControl>
 );
 

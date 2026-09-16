@@ -28,7 +28,15 @@ export const AutocompleteChip = (props: AutocompleteChipProps) => {
             {label}
           </Typography>
         </Box>
-        {isMulti && <ButtonIcon size="sm" icon={'X'} variant="tertiary" onPress={onToggle} />}
+        {isMulti && (
+          <ButtonIcon
+            size="sm"
+            icon={'X'}
+            variant="tertiary"
+            accessibilityLabel={`Retirer ${label}`}
+            onPress={onToggle}
+          />
+        )}
       </Box>
     </Box>
   );

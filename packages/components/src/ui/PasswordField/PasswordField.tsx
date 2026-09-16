@@ -44,6 +44,7 @@ export const PasswordField = React.forwardRef<TextInputElement, PasswordFieldPro
             variant="tertiary"
             style={styles.visibilityButton}
             icon={visibilityOff ? 'EyeClosed' : 'Eye'}
+            accessibilityLabel={visibilityOff ? 'Afficher le mot de passe' : 'Masquer le mot de passe'}
             onPress={() => setVisibilityOff(initial => !initial)}
           />
         }
