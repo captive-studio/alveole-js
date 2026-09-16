@@ -1,248 +1,30 @@
-import { useTheme } from '@alveole/theme';
 import React from 'react';
-import {
-  BlurEvent,
-  FocusEvent,
-  Keyboard,
-  Platform,
-  Pressable,
-  TextInput as ReactNativeTextInput,
-  TextInputProps as ReactNativeTextInputProps,
-  StyleProp,
-  TextStyle,
-} from 'react-native';
+import { Platform } from 'react-native';
 import { Box } from '../../core/Box';
-import { useFieldId } from './FieldId';
 import { useStyles } from './FormControl.styles';
-import { FormControlModal } from './FormControlModal';
+import { TextInputElement, TextInputProps } from './TextInput.types';
+import { TextInputInline } from './TextInputInline';
+import { TextInputModal } from './TextInputModal';
 
-export type TextInputElement = ReactNativeTextInput;
-export type TextInputProps = Omit<ReactNativeTextInputProps, 'style'> & {
-  disabled?: boolean;
-  startAdornment?: React.ReactNode;
-  endAdornment?: React.ReactNode;
-  openModal?: boolean;
-  modalSubmitLabel?: string;
-  onModalSubmit?: () => void;
-};
+export type { TextInputElement, TextInputProps };
 
+/**
+ * Aiguillage entre les deux facons de saisir. Le web sait deja agrandir une zone de texte,
+ * la modale n'y aurait rien a apporter : `openModal` n'y est pas suivi.
+ */
 export const TextInput = React.forwardRef<TextInputElement, TextInputProps>(function TextInput(props, ref) {
-  const {
-    disabled,
-    readOnly,
-    startAdornment,
-    endAdornment,
-    onFocus,
-    onBlur,
-    onPressIn,
-    openModal,
-    modalSubmitLabel,
-    onModalSubmit,
-    ...inputProps
-  } = props;
-
-  const { color } = useTheme();
   const styles = useStyles();
-  const fieldId = useFieldId();
-
-  const shouldUseModal = Boolean(openModal && inputProps.multiline && Platform.OS !== 'web');
-  const [isModalOpen, setIsModalOpen] = React.useState(false);
-  const [isModalReady, setIsModalReady] = React.useState(false);
-  const [focus, setFocus] = React.useState(false);
-  const inputRef = React.useRef<ReactNativeTextInput>(null);
-  const modalInputRef = React.useRef<ReactNativeTextInput>(null);
-  const pendingFocusEventRef = React.useRef<FocusEvent | null>(null);
-
-  React.useImperativeHandle(ref, () => inputRef.current as ReactNativeTextInput);
-
-  React.useEffect(() => {
-    if (!shouldUseModal) return;
-    setFocus(isModalOpen);
-  }, [isModalOpen, shouldUseModal]);
-
-  // Appeler onFocus une fois que la modale est prête
-  React.useEffect(() => {
-    if (isModalReady && pendingFocusEventRef.current) {
-      const event = pendingFocusEventRef.current;
-      pendingFocusEventRef.current = null;
-      requestAnimationFrame(() => {
-        onFocus?.(event);
-      });
-    }
-  }, [isModalReady, onFocus]);
-
-  const focusModalInput = React.useCallback(() => {
-    if (!shouldUseModal) return;
-    requestAnimationFrame(() => {
-      modalInputRef.current?.focus();
-    });
-  }, [shouldUseModal]);
-
-  const handleFocus = (e: FocusEvent) => {
-    if (shouldUseModal) {
-      inputRef.current?.blur();
-      onFocus?.(e);
-      return;
-    }
-    if (!disabled && !readOnly) setFocus(true);
-    onFocus?.(e);
-  };
-
-  const handleBlur = (e: BlurEvent) => {
-    if (shouldUseModal) {
-      onBlur?.(e);
-      return;
-    }
-    if (!disabled && !readOnly) setFocus(false);
-    onBlur?.(e);
-  };
-
-  const handleOpenModal = () => {
-    if (!shouldUseModal || disabled || readOnly || isModalOpen) return;
-    setIsModalOpen(true);
-  };
-
-  const closeModal = () => {
-    if (!isModalReady) return;
-    Keyboard.dismiss();
-    modalInputRef.current?.blur();
-    setIsModalOpen(false);
-    inputRef.current?.blur();
-  };
-
-  const handleModalSubmit = () => {
-    if (!isModalReady) return;
-    onModalSubmit?.();
-    closeModal();
-  };
+  const shouldUseModal = Boolean(props.openModal && props.multiline && Platform.OS !== 'web');
 
   return (
     <Box
       tag="form-control-text-input"
       style={{
         ...styles.inputContainer,
-        ...(inputProps.multiline ? { height: 'auto' } : {}),
+        ...(props.multiline ? { height: 'auto' } : {}),
       }}
     >
-      {shouldUseModal ? (
-        <Pressable
-          accessibilityRole="button"
-          style={{
-            ...styles.inputInner,
-            ...(disabled ? styles.inputDisabled : {}),
-            ...(focus ? styles.inputFocused : {}),
-            ...(endAdornment ? { paddingRight: 0 } : {}),
-            ...(startAdornment ? { paddingLeft: 0 } : {}),
-            ...(inputProps.multiline ? { paddingTop: 8 } : {}),
-          }}
-          onPress={handleOpenModal}
-        >
-          {startAdornment}
-
-          <ReactNativeTextInput
-            ref={inputRef}
-            id={inputProps.id ?? fieldId}
-            style={
-              {
-                ...styles.input,
-                ...(startAdornment && endAdornment ? { textAlign: 'center' } : {}),
-              } as StyleProp<TextStyle>
-            }
-            readOnly
-            editable={false}
-            focusable={false}
-            pointerEvents="none"
-            showSoftInputOnFocus={false}
-            caretHidden
-            selectTextOnFocus={false}
-            contextMenuHidden
-            selectionColor="transparent"
-            placeholderTextColor={color.text.inverse.muted}
-            {...inputProps}
-          />
-
-          {endAdornment}
-        </Pressable>
-      ) : (
-        <Box
-          tag="form-control-text-input-inner"
-          style={{
-            ...styles.inputInner,
-            ...(disabled ? styles.inputDisabled : {}),
-            ...(focus ? styles.inputFocused : {}),
-            ...(endAdornment ? { paddingRight: 0 } : {}),
-            ...(startAdornment ? { paddingLeft: 0 } : {}),
-            ...(inputProps.multiline ? { paddingTop: 8 } : {}),
-          }}
-        >
-          {startAdornment}
-
-          <ReactNativeTextInput
-            ref={inputRef}
-            id={inputProps.id ?? fieldId}
-            style={
-              {
-                ...styles.input,
-                ...(startAdornment && endAdornment ? { textAlign: 'center' } : {}),
-              } as StyleProp<TextStyle>
-            }
-            readOnly={disabled === true || readOnly === true}
-            editable={inputProps.editable}
-            onFocus={handleFocus}
-            onBlur={handleBlur}
-            onPressIn={onPressIn}
-            showSoftInputOnFocus={inputProps.showSoftInputOnFocus}
-            caretHidden={inputProps.caretHidden}
-            selectTextOnFocus={inputProps.selectTextOnFocus}
-            contextMenuHidden={inputProps.contextMenuHidden}
-            selectionColor={inputProps.selectionColor}
-            placeholderTextColor={color.text.inverse.muted}
-            {...inputProps}
-          />
-
-          {endAdornment}
-        </Box>
-      )}
-
-      {shouldUseModal && (
-        <FormControlModal
-          open={isModalOpen}
-          onClose={closeModal}
-          onShow={() => {
-            setIsModalReady(true);
-            focusModalInput();
-          }}
-          onDismiss={() => {
-            setIsModalReady(false);
-            pendingFocusEventRef.current = null;
-            Keyboard.dismiss();
-          }}
-          submitLabel={modalSubmitLabel}
-          onSubmit={onModalSubmit ? handleModalSubmit : undefined}
-        >
-          <Box style={styles.modalInputContainer}>
-            <ReactNativeTextInput
-              ref={modalInputRef}
-              style={styles.modalInput as StyleProp<TextStyle>}
-              readOnly={disabled === true || readOnly === true}
-              onFocus={e => {
-                if (!isModalReady) {
-                  pendingFocusEventRef.current = e;
-                } else {
-                  onFocus?.(e);
-                }
-              }}
-              onBlur={onBlur}
-              placeholderTextColor={color.text.inverse.muted}
-              {...inputProps}
-              multiline
-              textAlignVertical="top"
-              autoFocus
-              showSoftInputOnFocus
-            />
-          </Box>
-        </FormControlModal>
-      )}
+      {shouldUseModal ? <TextInputModal {...props} ref={ref} /> : <TextInputInline {...props} ref={ref} />}
     </Box>
   );
 });

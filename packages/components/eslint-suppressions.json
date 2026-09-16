@@ -235,17 +235,6 @@
       "count": 1
     }
   },
-  "src/ui/FormControl/TextInput.tsx": {
-    "complexity": {
-      "count": 1
-    },
-    "max-lines-per-function": {
-      "count": 1
-    },
-    "sonarjs/cognitive-complexity": {
-      "count": 1
-    }
-  },
   "src/ui/ListItem/ListItem.styles.ts": {
     "max-lines-per-function": {
       "count": 1
