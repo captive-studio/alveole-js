@@ -69,4 +69,14 @@ describe('Button', () => {
 
     expect(conteneur(deplie)?.props.style.backgroundColor).not.toBe(conteneur(repos)?.props.style.backgroundColor);
   });
+
+  // Les deux etats peuvent etre vrais ensemble, et `cleDEtat` tranche en faveur du desactive.
+  // Sans ce test, inverser cette priorite ne casse rien : aucun autre test ne les combine, et
+  // un bouton desactive prendrait alors l'apparence d'un bouton appuye, donc actionnable.
+  it('garde l apparence desactivee quand un menu deplie est aussi desactive', async () => {
+    const desactive = await renderNative(<Button variant="primary" title="Filtres" disabled />);
+    const lesDeux = await renderNative(<Button variant="primary" title="Filtres" disabled expanded />);
+
+    expect(conteneur(lesDeux)?.props.style.backgroundColor).toBe(conteneur(desactive)?.props.style.backgroundColor);
+  });
 });

@@ -3,7 +3,8 @@ import { ButtonIcon } from './ButtonIcon';
 
 // `ButtonIcon` pose son style directement sur le Pressable, sans Box intermediaire, et
 // n'expose aucun role : la racine rendue est donc la seule vue, et porte le style resolu.
-const cadre = (view: RenderResult) => (view.toJSON() as unknown as { props: { style: Record<string, unknown> } }).props.style;
+const cadre = (view: RenderResult) =>
+  (view.toJSON() as unknown as { props: { style: Record<string, unknown> } }).props.style;
 
 // La couleur et la taille demandees a `LucideIcon` ressortent sur le SVG en `stroke` et
 // `width` : c'est la seule trace observable du second bloc de decision du composant.
