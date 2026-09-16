@@ -19,10 +19,10 @@ module.exports = {
   // les baisser demande une raison explicite.
   coverageThreshold: {
     global: {
-      statements: 43,
-      branches: 26,
-      functions: 36,
-      lines: 46,
+      statements: 50,
+      branches: 34,
+      functions: 47,
+      lines: 51,
     },
   },
   collectCoverageFrom: ['src/**/*.{ts,tsx}', '!src/**/*.test.{ts,tsx}', '!src/**/index.ts'],
