@@ -16,4 +16,10 @@ packages/components/src/generated/version.ts
 **/*.stories.sources.ts
 **/eslint-suppressions.json
 
+# Verrou généré, réécrit à son propre format par chaque `pnpm install` : le formater
+# le salirait à l'installation suivante, et ferait des conflits sur 17 000 lignes que
+# personne ne relit. package-lock.json n'y figurait pas parce que le format de npm
+# coïncidait déjà avec celui de Prettier.
+pnpm-lock.yaml
+
 packages/components/src/ui/LucideIcon/vendor/
