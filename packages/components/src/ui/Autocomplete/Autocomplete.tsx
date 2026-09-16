@@ -260,7 +260,12 @@ export const Autocomplete = (props: AutocompleteProps) => {
             <Box tag="modal-header" style={styles.modalHeader}>
               <Typography style={styles.nativeLabel}>{label ?? 'Sélection'}</Typography>
               <Box ml={'auto'} mr="100">
-                <ButtonIcon icon="Check" variant="primary" onPress={() => setOpen(false)} />
+                <ButtonIcon
+                  icon="Check"
+                  variant="primary"
+                  accessibilityLabel="Valider la selection"
+                  onPress={() => setOpen(false)}
+                />
               </Box>
             </Box>
 

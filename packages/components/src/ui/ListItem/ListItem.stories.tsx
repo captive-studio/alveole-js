@@ -31,7 +31,14 @@ export const WithTrailing = () => (
   <ListItem
     title="Titre"
     description="Description"
-    trailing={() => <ButtonIcon variant="tertiary" icon="CircleX" onPress={() => console.log('remove')} />}
+    trailing={() => (
+      <ButtonIcon
+        variant="tertiary"
+        icon="CircleX"
+        accessibilityLabel="Retirer"
+        onPress={() => console.log('remove')}
+      />
+    )}
     onPress={() => {
       window.alert('click !');
     }}

@@ -40,7 +40,7 @@ export const FormControlModal = (props: FormControlModalProps) => {
             <Box style={styles.modalHeader}>
               <Box style={styles.modalHeaderLeft}></Box>
               <Box style={styles.modalHeaderRight}>
-                <ButtonIcon icon="Check" variant="primary" onPress={onClose} />
+                <ButtonIcon icon="Check" variant="primary" accessibilityLabel="Valider" onPress={onClose} />
               </Box>
             </Box>
 

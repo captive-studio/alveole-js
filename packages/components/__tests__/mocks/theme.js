@@ -52,6 +52,16 @@ jest.mock('@alveole/theme', () => {
         SemiBold: { fontFamily: 'Inter-Bold', fontSize: 18, lineHeight: 28, letterSpacing: 0 },
       },
     },
+    // Les titres manquaient : tout composant qui en pose un plantait au rendu, ce qui
+    // rendait `Autocomplete` et ses voisins intestables. Tailles reprises du theme web.
+    Titres: {
+      'H6 - XXS': { fontFamily: 'Geist-Bold', fontSize: 20, lineHeight: 28, letterSpacing: 0 },
+      'H5 - XS': { fontFamily: 'Geist-Bold', fontSize: 22, lineHeight: 30, letterSpacing: 0 },
+      'H4 - SM': { fontFamily: 'Geist-Bold', fontSize: 24, lineHeight: 32, letterSpacing: 0 },
+      'H3 - MD': { fontFamily: 'Geist-Bold', fontSize: 28, lineHeight: 36, letterSpacing: 0 },
+      'H2 - LG': { fontFamily: 'Geist-Bold', fontSize: 32, lineHeight: 40, letterSpacing: 0 },
+      'H1 - XL': { fontFamily: 'Geist-Bold', fontSize: 40, lineHeight: 48, letterSpacing: 0 },
+    },
     fontSize: Sizes,
     lineHeight: Heights,
   };

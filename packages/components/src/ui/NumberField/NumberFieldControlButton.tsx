@@ -13,6 +13,7 @@ export const NumberFieldControlButton = (props: NumberFieldControlButtonProps) =
   return (
     <InputButtonAdornment
       icon={action === 'plus' ? 'Plus' : 'Minus'}
+      accessibilityLabel={action === 'plus' ? `Augmenter de ${step}` : `Diminuer de ${step}`}
       position={action === 'moins' ? 'start' : 'end'}
       disabled={disabled}
       onPress={() => onPress(action === 'plus' ? step : -step)}

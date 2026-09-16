@@ -65,8 +65,8 @@ export const Icons = () => (
     <Button variant="primary" title="Start Icon" startIcon="Plus" />
     <Button variant="primary" title="End Icon" endIcon="Plus" />
     <Button variant="primary" title="End Icon" endIcon="Plus" />
-    <ButtonIcon variant="primary" icon="CircleUser" />
-    <ButtonIcon variant="primary" icon="CircleUser" />
+    <ButtonIcon variant="primary" icon="CircleUser" accessibilityLabel="Voir le profil" />
+    <ButtonIcon variant="primary" icon="CircleUser" accessibilityLabel="Voir le profil" />
   </Box>
 );
 

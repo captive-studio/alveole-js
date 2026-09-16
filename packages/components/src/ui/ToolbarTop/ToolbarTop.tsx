@@ -6,19 +6,28 @@ import { ButtonIcon } from '../Button';
 import { IconProps } from '../LucideIcon';
 import { useStyles } from './ToolbarTop.styles';
 
-export type ToolbarTopProps = BoxProps & {
-  variant?: 'default' | 'large' | 'compactLarge';
-  title: string;
-  AvatarProps?: Omit<AvatarProps, 'size'>;
-  withBorder?: boolean;
-  onNavigate?: () => void;
-  navigationIcon?: IconProps['name'];
-  sousTitre?: string;
-  onActions?: () => void;
-  actionsIcon?: IconProps['name'];
-  actions?: React.ReactNode;
-  typographyStyle?: React.CSSProperties;
-};
+/**
+ * La navigation va par trois : le geste, son icone et son nom. Les separer laissait passer une
+ * fleche muette. Le type les lie donc, et `navigationLabel` devient exigible des qu'il y a un
+ * geste : la meme fleche sert a revenir, a replier ou a ouvrir, et seul l'appelant sait
+ * laquelle des trois.
+ */
+type Navigation =
+  | { onNavigate?: undefined; navigationIcon?: undefined; navigationLabel?: undefined }
+  | { onNavigate: () => void; navigationIcon?: IconProps['name']; navigationLabel: string };
+
+export type ToolbarTopProps = BoxProps &
+  Navigation & {
+    variant?: 'default' | 'large' | 'compactLarge';
+    title: string;
+    AvatarProps?: Omit<AvatarProps, 'size'>;
+    withBorder?: boolean;
+    sousTitre?: string;
+    onActions?: () => void;
+    actionsIcon?: IconProps['name'];
+    actions?: React.ReactNode;
+    typographyStyle?: React.CSSProperties;
+  };
 
 export const ToolbarTop = (props: ToolbarTopProps) => {
   const {
@@ -27,6 +36,7 @@ export const ToolbarTop = (props: ToolbarTopProps) => {
     title,
     onNavigate,
     navigationIcon = 'ChevronLeft',
+    navigationLabel,
     AvatarProps,
     sousTitre,
     actions,
@@ -39,7 +49,14 @@ export const ToolbarTop = (props: ToolbarTopProps) => {
 
   const toolbarNavigation = onNavigate ? (
     <Box tag="toolbar-navigation" style={styles.toolbarNavigation}>
-      <ButtonIcon variant="tertiary" size="lg" iconSize="md" icon={navigationIcon} onPress={onNavigate} />
+      <ButtonIcon
+        variant="tertiary"
+        size="lg"
+        iconSize="md"
+        icon={navigationIcon}
+        accessibilityLabel={navigationLabel}
+        onPress={onNavigate}
+      />
     </Box>
   ) : (
     <></>

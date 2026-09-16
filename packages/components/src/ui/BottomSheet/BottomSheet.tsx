@@ -59,7 +59,13 @@ export const BottomSheet = (props: BottomSheetProps) => {
 
           <Box tag="sheet-header" style={styles.header}>
             <Box>
-              <ButtonIcon icon="X" variant="tertiary" size="md" onPress={() => setOpen(false)} />
+              <ButtonIcon
+                icon="X"
+                variant="tertiary"
+                size="md"
+                accessibilityLabel="Fermer"
+                onPress={() => setOpen(false)}
+              />
             </Box>
 
             <Box flex={1}>

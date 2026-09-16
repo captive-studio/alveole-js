@@ -5,13 +5,15 @@ import { useStyles } from './InputButtonAdornment.styles';
 
 export type InputButtonAdornmentProps = {
   icon: IconProps['name'];
+  /** Exige de l'appelant : accole a un champ, ce bouton n'a aucun texte a lui. */
+  accessibilityLabel: string;
   position: 'start' | 'end';
   disabled?: boolean;
   onPress?: () => void;
 };
 
 export const InputButtonAdornment = (props: InputButtonAdornmentProps) => {
-  const { icon, position, disabled, onPress } = props;
+  const { icon, accessibilityLabel, position, disabled, onPress } = props;
 
   const styles = useStyles();
 
@@ -27,6 +29,7 @@ export const InputButtonAdornment = (props: InputButtonAdornmentProps) => {
           borderTopRightRadius: 0,
         }}
         icon={icon}
+        accessibilityLabel={accessibilityLabel}
         onPress={onPress}
       />
     </Box>

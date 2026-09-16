@@ -45,14 +45,19 @@ export const DocumentViewerToolbar = (props: DocumentViewerToolbarProps) => {
 
       <Box tag="document-viewer-toolbar-actions" style={styles.toolbarAction}>
         <Box display="flex" flexDirection="row" gap="1,5V">
-          <ToolbarButton onPress={onRotateLeft} icon="RotateCcwSquare" />
-          <ToolbarButton onPress={onRotateRight} icon="RotateCwSquare" />
+          <ToolbarButton onPress={onRotateLeft} icon="RotateCcwSquare" accessibilityLabel="Pivoter vers la gauche" />
+          <ToolbarButton onPress={onRotateRight} icon="RotateCwSquare" accessibilityLabel="Pivoter vers la droite" />
         </Box>
 
         <Box style={styles.toolbarDivider} />
 
         <Box display="flex" flexDirection="row" gap="1,5V">
-          <ToolbarButton onPress={onPreviousPage} disabled={isFirstPage || !hasPagination} icon="SquareChevronLeft" />
+          <ToolbarButton
+            onPress={onPreviousPage}
+            disabled={isFirstPage || !hasPagination}
+            icon="SquareChevronLeft"
+            accessibilityLabel="Page precedente"
+          />
 
           <Box mt={'auto'} mb={'auto'}>
             <Typography style={styles.toolbarState}>
@@ -60,7 +65,12 @@ export const DocumentViewerToolbar = (props: DocumentViewerToolbarProps) => {
             </Typography>
           </Box>
 
-          <ToolbarButton onPress={onNextPage} disabled={isLastPage || !hasPagination} icon="SquareChevronRight" />
+          <ToolbarButton
+            onPress={onNextPage}
+            disabled={isLastPage || !hasPagination}
+            icon="SquareChevronRight"
+            accessibilityLabel="Page suivante"
+          />
         </Box>
       </Box>
     </Box>
