@@ -1,32 +1,27 @@
 name: CI
-
 on:
   push:
     branches:
       - main
     tags:
-      - 'v*'
-  pull_request:
-
-# Renovate et les push successifs sur une PR empilaient jusqu'à 18 jobs simultanés sur le pool
-# self-hosted : chaque job devenait 3 à 4 fois plus lent par simple contention CPU/IO (un lint
-# mesuré à 71 s au calme montait à 297 s). On annule les runs devenus obsolètes d'une même PR,
-# mais jamais ceux de main : un push sur main doit toujours aller au bout.
+      - v*
+  pull_request: null
 concurrency:
   group: ci-${{ github.workflow }}-${{ github.ref }}
   cancel-in-progress: ${{ github.event_name == 'pull_request' }}
-
+# Chaque environnement restaure les dépendances une fois. Le job install est
+# le seul écrivain du cache node_modules ; les autres gardent le repli npm ci.
 jobs:
   install:
     name: Install dependencies
     if: github.event_name != 'push' || !startsWith(github.ref, 'refs/tags/')
-    runs-on: [captive-small]
+    runs-on:
+      - captive-small
     timeout-minutes: 15
     container: ghcr.io/captive-studio/node-ci:24.21.0@sha256:4c2bab78a71648bc9001d6fd839e7ff0eb9f891fd331bb7b04e1e957a1af11bd
     steps:
       - name: Checkout
         uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
-
       - name: Cache node_modules
         uses: actions/cache@55cc8345863c7cc4c66a329aec7e433d2d1c52a9 # v6.1.0
         id: npm-cache
@@ -36,27 +31,24 @@ jobs:
             packages/*/node_modules
             apps/*/node_modules
           key: npm-deps-${{ runner.os }}-${{ hashFiles('package-lock.json') }}
-
       - name: Install dependencies
         if: steps.npm-cache.outputs.cache-hit != 'true'
         run: npm ci
-
       - name: Validate install
         run: npm list --depth=0
-
-  lint:
-    name: Lint workspaces
+  # Les contrôles indépendants continuent après une erreur grâce à !cancelled().
+  # Un échec de l'un d'eux conserve le job en échec.
+  source-checks:
+    name: Source checks (lint, format, types, dependencies)
     if: github.event_name != 'push' || !startsWith(github.ref, 'refs/tags/')
     needs: install
-    runs-on: [captive-small]
+    runs-on:
+      - captive-small
     timeout-minutes: 20
     container: ghcr.io/captive-studio/node-ci:24.21.0@sha256:4c2bab78a71648bc9001d6fd839e7ff0eb9f891fd331bb7b04e1e957a1af11bd
     steps:
       - name: Checkout
         uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
-
-      # Le job install est le seul écrivain de ce cache. Un repli npm ci local
-      # ne doit pas déclencher une compression et un upload concurrents du même contenu.
       - name: Restore node_modules
         uses: actions/cache/restore@55cc8345863c7cc4c66a329aec7e433d2d1c52a9 # v6.1.0
         with:
@@ -65,15 +57,9 @@ jobs:
             packages/*/node_modules
             apps/*/node_modules
           key: npm-deps-${{ runner.os }}-${{ hashFiles('package-lock.json') }}
-
-      # Le cache peut se dire "hit" alors que le téléchargement s'est interrompu en cours de
-      # route (ex: "Premature close" côté runner self-hosted) : on vérifie qu'un binaire
-      # attendu existe réellement avant de faire confiance au cache, sinon on réinstalle.
       - name: Ensure dependencies (cache fallback)
-        run: test -x node_modules/.bin/eslint || npm ci
-
-      # `--cache-strategy content` côté scripts npm : la stratégie par défaut (metadata) compare
-      # les mtime, or actions/checkout les réécrit à chaque run, donc le cache ne servirait jamais.
+        run: test -x node_modules/.bin/eslint && test -x node_modules/.bin/prettier && test -x node_modules/.bin/tsc && test -x node_modules/.bin/knip && test -x node_modules/.bin/jscpd || npm ci
+        id: dependencies
       - name: Restore ESLint cache
         uses: actions/cache@55cc8345863c7cc4c66a329aec7e433d2d1c52a9 # v6.1.0
         with:
@@ -81,75 +67,6 @@ jobs:
           key: eslint-cache-${{ runner.os }}-${{ github.sha }}
           restore-keys: |
             eslint-cache-${{ runner.os }}-
-
-      - name: Run lint
-        run: npm run lint
-
-  format-check:
-    name: Check formatting
-    if: github.event_name != 'push' || !startsWith(github.ref, 'refs/tags/')
-    needs: install
-    runs-on: [captive-small]
-    timeout-minutes: 10
-    container: ghcr.io/captive-studio/node-ci:24.21.0@sha256:4c2bab78a71648bc9001d6fd839e7ff0eb9f891fd331bb7b04e1e957a1af11bd
-    steps:
-      - name: Checkout
-        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
-
-      # Le job install est le seul écrivain de ce cache. Un repli npm ci local
-      # ne doit pas déclencher une compression et un upload concurrents du même contenu.
-      - name: Restore node_modules
-        uses: actions/cache/restore@55cc8345863c7cc4c66a329aec7e433d2d1c52a9 # v6.1.0
-        with:
-          path: |
-            node_modules
-            packages/*/node_modules
-            apps/*/node_modules
-          key: npm-deps-${{ runner.os }}-${{ hashFiles('package-lock.json') }}
-
-      # Le cache peut se dire "hit" alors que le téléchargement s'est interrompu en cours de
-      # route (ex: "Premature close" côté runner self-hosted) : on vérifie qu'un binaire
-      # attendu existe réellement avant de faire confiance au cache, sinon on réinstalle.
-      - name: Ensure dependencies (cache fallback)
-        run: test -x node_modules/.bin/prettier || npm ci
-
-      - name: Run format check
-        run: npm run format:check
-
-  typecheck:
-    name: Typecheck workspaces
-    if: github.event_name != 'push' || !startsWith(github.ref, 'refs/tags/')
-    needs: install
-    runs-on: [captive-small]
-    timeout-minutes: 20
-    container: ghcr.io/captive-studio/node-ci:24.21.0@sha256:4c2bab78a71648bc9001d6fd839e7ff0eb9f891fd331bb7b04e1e957a1af11bd
-    steps:
-      - name: Checkout
-        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
-
-      # Le job install est le seul écrivain de ce cache. Un repli npm ci local
-      # ne doit pas déclencher une compression et un upload concurrents du même contenu.
-      - name: Restore node_modules
-        uses: actions/cache/restore@55cc8345863c7cc4c66a329aec7e433d2d1c52a9 # v6.1.0
-        with:
-          path: |
-            node_modules
-            packages/*/node_modules
-            apps/*/node_modules
-          key: npm-deps-${{ runner.os }}-${{ hashFiles('package-lock.json') }}
-
-      # Le cache peut se dire "hit" alors que le téléchargement s'est interrompu en cours de
-      # route (ex: "Premature close" côté runner self-hosted) : on vérifie qu'un binaire
-      # attendu existe réellement avant de faire confiance au cache, sinon on réinstalle.
-      - name: Ensure dependencies (cache fallback)
-        run: test -x node_modules/.bin/tsc || npm ci
-
-      # Le typecheck complet coûte 44 s à froid, dont 42 s de vérification de types : le
-      # code du dépôt ne fait que 24 000 lignes, mais il en instancie 480 000 à travers les
-      # types de Tamagui. Le mode incrémental de TypeScript ramène le total à 6 s dès lors
-      # que les .tsbuildinfo survivent d'un run à l'autre. Même stratégie de clé que le cache
-      # ESLint : la clé au sha n'est jamais réutilisée telle quelle, elle force une
-      # sauvegarde à chaque commit, et le restore-keys fait repartir du cache le plus récent.
       - name: Restore TypeScript build info
         uses: actions/cache@55cc8345863c7cc4c66a329aec7e433d2d1c52a9 # v6.1.0
         with:
@@ -159,23 +76,32 @@ jobs:
           key: tsbuildinfo-${{ runner.os }}-${{ github.sha }}
           restore-keys: |
             tsbuildinfo-${{ runner.os }}-
-
+      - name: Run lint
+        run: npm run lint
+        if: ${{ !cancelled() && steps.dependencies.outcome == 'success' }}
+      - name: Run format check
+        run: npm run format:check
+        if: ${{ !cancelled() && steps.dependencies.outcome == 'success' }}
       - name: Run typecheck
         run: npm run typecheck
-
+        if: ${{ !cancelled() && steps.dependencies.outcome == 'success' }}
+      - name: Run knip
+        run: npm run check:dead-code
+        if: ${{ !cancelled() && steps.dependencies.outcome == 'success' }}
+      - name: Run jscpd
+        run: npm run check:duplication
+        if: ${{ !cancelled() && steps.dependencies.outcome == 'success' }}
   test-unit:
     name: Test Unit workspaces
     if: github.event_name != 'push' || !startsWith(github.ref, 'refs/tags/')
     needs: install
-    runs-on: [self-hosted]
+    runs-on:
+      - self-hosted
     timeout-minutes: 25
     container: ghcr.io/captive-studio/node-ci:24.21.0@sha256:4c2bab78a71648bc9001d6fd839e7ff0eb9f891fd331bb7b04e1e957a1af11bd
     steps:
       - name: Checkout
         uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
-
-      # Le job install est le seul écrivain de ce cache. Un repli npm ci local
-      # ne doit pas déclencher une compression et un upload concurrents du même contenu.
       - name: Restore node_modules
         uses: actions/cache/restore@55cc8345863c7cc4c66a329aec7e433d2d1c52a9 # v6.1.0
         with:
@@ -184,13 +110,8 @@ jobs:
             packages/*/node_modules
             apps/*/node_modules
           key: npm-deps-${{ runner.os }}-${{ hashFiles('package-lock.json') }}
-
-      # Le cache peut se dire "hit" alors que le téléchargement s'est interrompu en cours de
-      # route (ex: "Premature close" côté runner self-hosted) : on vérifie qu'un binaire
-      # attendu existe réellement avant de faire confiance au cache, sinon on réinstalle.
       - name: Ensure dependencies (cache fallback)
         run: test -x node_modules/.bin/jest || npm ci
-
       - name: Restore Jest cache
         uses: actions/cache@55cc8345863c7cc4c66a329aec7e433d2d1c52a9 # v6.1.0
         with:
@@ -198,23 +119,21 @@ jobs:
           key: jest-cache-${{ runner.os }}-${{ github.sha }}
           restore-keys: |
             jest-cache-${{ runner.os }}-
-
       - name: Unit tests (Jest)
         run: npm run test:unit
-
-  health:
-    name: Health (Expo doctor + Web smoke test)
+  # Les quatre anciens jobs partagent le build du commit courant. Aucun cache
+  # de dist : publint, le lint docs et le navigateur vérifient bien ce build.
+  web-and-packages:
+    name: Web, accessibility and publishable packages
     if: github.event_name != 'push' || !startsWith(github.ref, 'refs/tags/')
     needs: install
-    runs-on: [self-hosted]
-    timeout-minutes: 30
+    runs-on:
+      - self-hosted
+    timeout-minutes: 45
     container: ghcr.io/captive-studio/node-ci:24.21.0@sha256:4c2bab78a71648bc9001d6fd839e7ff0eb9f891fd331bb7b04e1e957a1af11bd
     steps:
       - name: Checkout
         uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
-
-      # Le job install est le seul écrivain de ce cache. Un repli npm ci local
-      # ne doit pas déclencher une compression et un upload concurrents du même contenu.
       - name: Restore node_modules
         uses: actions/cache/restore@55cc8345863c7cc4c66a329aec7e433d2d1c52a9 # v6.1.0
         with:
@@ -223,37 +142,23 @@ jobs:
             packages/*/node_modules
             apps/*/node_modules
           key: npm-deps-${{ runner.os }}-${{ hashFiles('package-lock.json') }}
-
-      # Le cache peut se dire "hit" alors que le téléchargement s'est interrompu en cours de
-      # route (ex: "Premature close" côté runner self-hosted) : on vérifie qu'un binaire
-      # attendu existe réellement avant de faire confiance au cache, sinon on réinstalle.
       - name: Ensure dependencies (cache fallback)
-        run: test -x node_modules/.bin/tsc || npm ci
-
-      # apps/docs consomme les packages du monorepo via leur `main` compilé (dist/), jamais
-      # généré automatiquement à l'install : sans ce build, Metro échoue à résoudre
-      # @alveole/components, @alveole/storybook, etc. au premier import.
-      # On cible uniquement packages/* : `npm run build` sans filtre lancerait aussi le
-      # build "build" d'apps/docs (expo export complet, ~100s), inutile ici puisqu'on
-      # démarre un serveur de dev juste après.
+        run: test -x node_modules/.bin/tsc && test -x node_modules/.bin/eslint && test -x node_modules/.bin/publint && test -x node_modules/.bin/playwright || npm ci
+        id: dependencies
       - name: Build workspace packages
         run: npm run build --workspace=packages/core --workspace=packages/theme --workspace=packages/components --workspace=packages/storybook
-
+        id: packages
+        if: ${{ !cancelled() && steps.dependencies.outcome == 'success' }}
+      - name: Validate packages (publint + attw)
+        run: npm run check:packages
+        if: ${{ !cancelled() && steps.packages.outcome == 'success' }}
+      - name: Run lint on apps/docs
+        run: npm run lint:app --workspace=apps/docs
+        if: ${{ !cancelled() && steps.packages.outcome == 'success' }}
       - name: Expo doctor
         working-directory: apps/docs
         run: npx expo-doctor
-
-      # Metro range son cache de transformation et sa file-map dans os.tmpdir(), donc dans le
-      # /tmp d'un container recréé à chaque job : le graphe (6870 modules, 23 Mo de bundle) était
-      # donc intégralement retransformé à chaque run. Mesuré en local, cache vide vs cache chaud :
-      # démarrage 155 s -> 16 s, bundling 36 s -> 2 s. On fixe TMPDIR dans le workspace pour que
-      # actions/cache puisse le ramasser.
-      # La clé ne contient volontairement pas github.sha : elle serait alors différente à chaque
-      # commit, le save ne serait jamais sauté et on réécrirait ces 197 Mo à chaque run (mesuré
-      # sur le cache node_modules : 91 s de tar + upload pour 278 Mo, soit plus que le npm ci
-      # qu'il évite). Sur clé identique, actions/cache saute la sauvegarde. Les 197 Mo sont de
-      # toute façon dominés par les transformations de node_modules, qui ne bougent qu'avec le
-      # lockfile ; les fichiers source modifiés se retransforment à la volée.
+        if: ${{ !cancelled() && steps.dependencies.outcome == 'success' }}
       - name: Restore Metro cache
         uses: actions/cache@55cc8345863c7cc4c66a329aec7e433d2d1c52a9 # v6.1.0
         with:
@@ -261,7 +166,24 @@ jobs:
           key: metro-cache-${{ runner.os }}-${{ hashFiles('package-lock.json') }}
           restore-keys: |
             metro-cache-${{ runner.os }}-
-
+        if: ${{ !cancelled() && steps.packages.outcome == 'success' }}
+      - name: Build docs
+        working-directory: apps/docs
+        env:
+          NODE_OPTIONS: --max-old-space-size=1536
+          DOCS_OUTPUT: single
+        run: |
+          mkdir -p "$PWD/.metro-tmp"
+          export TMPDIR="$PWD/.metro-tmp"
+          npm run build
+        id: docs
+        if: ${{ !cancelled() && steps.packages.outcome == 'success' }}
+      - name: Run axe audit
+        working-directory: apps/docs
+        run: npm run test:a11y
+        if: ${{ !cancelled() && steps.docs.outcome == 'success' }}
+      # Garder le serveur de développement en dernier pour éviter qu'un éventuel
+      # descendant encore actif ne concurrence l'export et l'audit navigateur.
       - name: Web smoke test
         working-directory: apps/docs
         run: |
@@ -310,82 +232,7 @@ jobs:
           fi
 
           echo "Bundle web compilé avec succès (HTTP 200)."
-
-  accessibility:
-    name: Accessibility (axe on docs)
-    if: github.event_name != 'push' || !startsWith(github.ref, 'refs/tags/')
-    needs: install
-    runs-on: [self-hosted]
-    timeout-minutes: 45
-    container: ghcr.io/captive-studio/node-ci:24.21.0@sha256:4c2bab78a71648bc9001d6fd839e7ff0eb9f891fd331bb7b04e1e957a1af11bd
-    # L'image définit déjà cette variable, mais la repréciser ici rend le workflow lisible
-    # sans avoir à ouvrir le Dockerfile, et le met à l'abri d'une image qui ne la porterait
-    # plus. Playwright cherche sinon ses navigateurs dans ~/.cache, où ils ne sont pas.
-    env:
-      PLAYWRIGHT_BROWSERS_PATH: /ms-playwright
-    steps:
-      - name: Checkout
-        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
-
-      # Le job install est le seul écrivain de ce cache. Un repli npm ci local
-      # ne doit pas déclencher une compression et un upload concurrents du même contenu.
-      - name: Restore node_modules
-        uses: actions/cache/restore@55cc8345863c7cc4c66a329aec7e433d2d1c52a9 # v6.1.0
-        with:
-          path: |
-            node_modules
-            packages/*/node_modules
-            apps/*/node_modules
-          key: npm-deps-${{ runner.os }}-${{ hashFiles('package-lock.json') }}
-
-      # Le cache peut se dire "hit" alors que le téléchargement s'est interrompu en cours de
-      # route (ex: "Premature close" côté runner self-hosted) : on vérifie qu'un binaire
-      # attendu existe réellement avant de faire confiance au cache, sinon on réinstalle.
-      - name: Ensure dependencies (cache fallback)
-        run: test -x node_modules/.bin/playwright || npm ci
-
-      # L'audit porte sur le site de documentation compilé : apps/docs consomme les paquets
-      # du monorepo via leur `main` compilé, jamais généré automatiquement à l'install.
-      - name: Build workspace packages
-        run: npm run build --workspace=packages/core --workspace=packages/theme --workspace=packages/components --workspace=packages/storybook
-
-      # Même cache Metro que le job health : `expo export` retransforme sinon les 6870
-      # modules du graphe à chaque run. Voir le commentaire détaillé dans ce job.
-      - name: Restore Metro cache
-        uses: actions/cache@55cc8345863c7cc4c66a329aec7e433d2d1c52a9 # v6.1.0
-        with:
-          path: apps/docs/.metro-tmp
-          key: metro-cache-${{ runner.os }}-${{ hashFiles('package-lock.json') }}
-          restore-keys: |
-            metro-cache-${{ runner.os }}-
-
-      # `expo export` monte à 2,47 Gio de RSS laissé à lui-même, soit plus du double du
-      # budget mémoire par job sur lequel le pool est calibré : le kernel tuait le process
-      # (exit 137) et emportait le job. Plafonner le tas de V8 force un GC plus fréquent et
-      # ramène le pic à 1,62 Gio, tout en accélérant le build (18,6 s -> 12,4 s). La valeur
-      # n'est pas au plus juste : à 1024 Mio V8 abandonne (exit 134), 1536 garde la marge.
-      # L'audit attend l'hydratation client avant de scanner (voir apps/docs/e2e/audit.ts) :
-      # il ne regarde jamais le HTML pré-rendu. Construire en SPA plutôt qu'en rendu statique
-      # ne lui retire donc rien, et fait tomber l'export de 12,2 s à 4,2 s et le dist de
-      # 339 Mo à 15 Mo (mesuré en local, cache Metro chaud), pour un jeu de violations
-      # strictement identique. Le site publié reste en rendu statique : c'est docs.yml.
-      - name: Build docs
-        working-directory: apps/docs
-        env:
-          NODE_OPTIONS: --max-old-space-size=1536
-          DOCS_OUTPUT: single
-        run: |
-          mkdir -p "$PWD/.metro-tmp"
-          export TMPDIR="$PWD/.metro-tmp"
-          npm run build
-
-      # Le cliquet : apps/docs/e2e/a11y-baseline.json fige les violations connues, page par
-      # page et règle par règle. Toute violation nouvelle échoue, et toute violation corrigée
-      # échoue aussi tant que la baseline n'a pas été resserrée (npm run test:a11y:baseline).
-      - name: Run axe audit
-        working-directory: apps/docs
-        run: npm run test:a11y
-
+        if: ${{ !cancelled() && steps.packages.outcome == 'success' }}
       - name: Upload report
         if: ${{ always() }}
         uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
@@ -394,144 +241,14 @@ jobs:
           path: apps/docs/playwright-report
           retention-days: 7
           if-no-files-found: ignore
-
-  dead-code:
-    name: Detect dead code and dependencies
-    if: github.event_name != 'push' || !startsWith(github.ref, 'refs/tags/')
-    needs: install
-    runs-on: [captive-small]
-    container: ghcr.io/captive-studio/node-ci:24.21.0@sha256:4c2bab78a71648bc9001d6fd839e7ff0eb9f891fd331bb7b04e1e957a1af11bd
-    steps:
-      - name: Checkout
-        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
-
-      # Le job install est le seul écrivain de ce cache. Un repli npm ci local
-      # ne doit pas déclencher une compression et un upload concurrents du même contenu.
-      - name: Restore node_modules
-        uses: actions/cache/restore@55cc8345863c7cc4c66a329aec7e433d2d1c52a9 # v6.1.0
-        with:
-          path: |
-            node_modules
-            packages/*/node_modules
-            apps/*/node_modules
-          key: npm-deps-${{ runner.os }}-${{ hashFiles('package-lock.json') }}
-
-      # Le cache peut se dire "hit" alors que le téléchargement s'est interrompu en cours de
-      # route (ex: "Premature close" côté runner self-hosted) : on vérifie qu'un binaire
-      # attendu existe réellement avant de faire confiance au cache, sinon on réinstalle.
-      - name: Ensure dependencies (cache fallback)
-        run: test -x node_modules/.bin/knip || npm ci
-
-      # knip part des sources, pas de dist/ : aucun build préalable n'est nécessaire. Le
-      # script régénère en revanche les *.stories.sources.ts, qui ne sont pas committés et
-      # sans lesquels knip voit autant d'imports non résolus qu'il y a de stories.
-      - name: Run knip
-        run: npm run check:dead-code
-
-  lint-docs:
-    name: Lint docs
-    if: github.event_name != 'push' || !startsWith(github.ref, 'refs/tags/')
-    needs: install
-    runs-on: [captive-small]
-    timeout-minutes: 20
-    container: ghcr.io/captive-studio/node-ci:24.21.0@sha256:4c2bab78a71648bc9001d6fd839e7ff0eb9f891fd331bb7b04e1e957a1af11bd
-    steps:
-      - name: Checkout
-        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
-
-      # Le job install est le seul écrivain de ce cache. Un repli npm ci local
-      # ne doit pas déclencher une compression et un upload concurrents du même contenu.
-      - name: Restore node_modules
-        uses: actions/cache/restore@55cc8345863c7cc4c66a329aec7e433d2d1c52a9 # v6.1.0
-        with:
-          path: |
-            node_modules
-            packages/*/node_modules
-            apps/*/node_modules
-          key: npm-deps-${{ runner.os }}-${{ hashFiles('package-lock.json') }}
-
-      - name: Ensure dependencies (cache fallback)
-        run: test -x node_modules/.bin/eslint || npm ci
-
-      # apps/docs consomme le design system par ses dist, jamais par ses src : sans build
-      # préalable, import/no-unresolved échoue sur chaque import de @alveole/*. C'est
-      # pourquoi ce workspace a son propre job plutôt que de rejoindre "Lint workspaces",
-      # qui tient le chemin critique à 9 min et n'a pas à payer ce build.
-      - name: Run lint on apps/docs
-        run: npm run check:lint-docs
-
-  duplication:
-    name: Detect duplication
-    if: github.event_name != 'push' || !startsWith(github.ref, 'refs/tags/')
-    needs: install
-    runs-on: [captive-small]
-    container: ghcr.io/captive-studio/node-ci:24.21.0@sha256:4c2bab78a71648bc9001d6fd839e7ff0eb9f891fd331bb7b04e1e957a1af11bd
-    steps:
-      - name: Checkout
-        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
-
-      # Le job install est le seul écrivain de ce cache. Un repli npm ci local
-      # ne doit pas déclencher une compression et un upload concurrents du même contenu.
-      - name: Restore node_modules
-        uses: actions/cache/restore@55cc8345863c7cc4c66a329aec7e433d2d1c52a9 # v6.1.0
-        with:
-          path: |
-            node_modules
-            packages/*/node_modules
-            apps/*/node_modules
-          key: npm-deps-${{ runner.os }}-${{ hashFiles('package-lock.json') }}
-
-      - name: Ensure dependencies (cache fallback)
-        run: test -x node_modules/.bin/jscpd || npm ci
-
-      # jscpd complète sonarjs/no-identical-functions, qui ne compare qu'à l'intérieur d'un
-      # même fichier : lui seul voit la duplication entre fichiers et entre workspaces.
-      # L'analyse elle-même prend moins de 100 ms, le job coûte donc sa seule installation,
-      # et tourne en parallèle du lint qui tient le chemin critique.
-      - name: Run jscpd
-        run: npm run check:duplication
-
-  packages:
-    name: Validate publishable packages
-    if: github.event_name != 'push' || !startsWith(github.ref, 'refs/tags/')
-    needs: install
-    runs-on: [self-hosted]
-    container: ghcr.io/captive-studio/node-ci:24.21.0@sha256:4c2bab78a71648bc9001d6fd839e7ff0eb9f891fd331bb7b04e1e957a1af11bd
-    steps:
-      - name: Checkout
-        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
-
-      # Le job install est le seul écrivain de ce cache. Un repli npm ci local
-      # ne doit pas déclencher une compression et un upload concurrents du même contenu.
-      - name: Restore node_modules
-        uses: actions/cache/restore@55cc8345863c7cc4c66a329aec7e433d2d1c52a9 # v6.1.0
-        with:
-          path: |
-            node_modules
-            packages/*/node_modules
-            apps/*/node_modules
-          key: npm-deps-${{ runner.os }}-${{ hashFiles('package-lock.json') }}
-
-      # Le cache peut se dire "hit" alors que le téléchargement s'est interrompu en cours de
-      # route (ex: "Premature close" côté runner self-hosted) : on vérifie qu'un binaire
-      # attendu existe réellement avant de faire confiance au cache, sinon on réinstalle.
-      - name: Ensure dependencies (cache fallback)
-        run: test -x node_modules/.bin/publint || npm ci
-
-      # publint et attw inspectent le contenu de dist/ et la cohérence des champs
-      # main/types/exports : sans build préalable, ils valideraient un paquet vide.
-      - name: Build workspace packages
-        run: npm run build --workspace=packages/core --workspace=packages/theme --workspace=packages/components --workspace=packages/storybook
-
-      - name: Validate packages (publint + attw)
-        run: npm run check:packages
-
+    env:
+      PLAYWRIGHT_BROWSERS_PATH: /ms-playwright
   publish-packages:
     name: Publish packages to npm
     if: github.event_name == 'push' && startsWith(github.ref, 'refs/tags/v')
     uses: captive-studio/captive-ci/.github/workflows/release-npm.yml@329c06f8eac5365a98e1193f10b7c07fe25f36ac # main
     with:
       node-version: '24'
-      packages-dir: 'packages'
+      packages-dir: packages
     secrets:
       NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
