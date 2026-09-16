@@ -1,6 +1,6 @@
 import { useTheme } from '@alveole/theme';
 import React from 'react';
-import { BlurEvent, FocusEvent, TextInput as ReactNativeTextInput } from 'react-native';
+import { BlurEvent, FocusEvent, Platform, TextInput as ReactNativeTextInput } from 'react-native';
 import { Box } from '../../core/Box';
 import { useFieldId } from './FieldId';
 import { useStyles } from './FormControl.styles';
@@ -17,6 +17,12 @@ export const TextInputInline = React.forwardRef<TextInputElement, TextInputProps
   const { color } = useTheme();
   const styles = useStyles();
   const fieldId = useFieldId();
+
+  // Chaque plateforme a son mot pour « ce champ ne participe pas ». Le web a l'attribut
+  // `disabled`, que React Native ne connait pas et que TypeScript refuse sur son `TextInput` ;
+  // le natif a `editable={false}`. `readOnly` ne conviendrait ni a l'un ni a l'autre : il
+  // laisse le champ focusable au clavier et soumis avec le formulaire.
+  const desactivation = disabled !== true ? null : Platform.OS === 'web' ? { disabled: true } : { editable: false };
 
   const [focus, setFocus] = React.useState(false);
   const inputRef = React.useRef<ReactNativeTextInput>(null);
@@ -50,7 +56,7 @@ export const TextInputInline = React.forwardRef<TextInputElement, TextInputProps
         ref={inputRef}
         id={inputProps.id ?? fieldId}
         style={inputTextStyle(styles, { startAdornment, endAdornment })}
-        readOnly={disabled === true || readOnly === true}
+        readOnly={readOnly === true}
         editable={inputProps.editable}
         onFocus={handleFocus}
         onBlur={handleBlur}
@@ -62,6 +68,7 @@ export const TextInputInline = React.forwardRef<TextInputElement, TextInputProps
         selectionColor={inputProps.selectionColor}
         placeholderTextColor={color.text.inverse.muted}
         {...inputProps}
+        {...desactivation}
       />
 
       {endAdornment}
