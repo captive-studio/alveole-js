@@ -61,7 +61,7 @@ export const StoryDetailScreen = ({
   sidebar,
   footerContent,
 }: StoryDetailScreenProps) => {
-  const { color, text } = useTheme();
+  const { color, spacingValue, text } = useTheme();
 
   if (!story) {
     return (
@@ -128,9 +128,12 @@ export const StoryDetailScreen = ({
         `Section` n'a plus rien a border ici : son padding s'ajouterait a celui de la zone.
       */}
       <StoryLayout sommaire={examples.length > 0 ? <StorySummary exemples={examples.map(([key]) => key)} /> : null}>
-        <Box display="flex" gap={20}>
-          <PageHeader title={meta.title} />
+        {/* Ce que la fiche annonce d'un cote, ce qu'elle montre de l'autre : les trois
+            references laissent 55 a 75 px entre les deux, et rien ne separe les lignes de
+            l'annonce, qui se lisent d'affilee. */}
+        <Box display="flex" gap={spacingValue('6W')}>
           <Box display="flex" gap={16}>
+            <PageHeader title={meta.title} />
             <Box
               display="flex"
               gap={12}

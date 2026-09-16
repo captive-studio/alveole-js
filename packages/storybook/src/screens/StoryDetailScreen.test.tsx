@@ -34,6 +34,15 @@ const cadresAutourDe = (element: HTMLElement | null) => {
 /** La rangee qui porte un badge : un `Tag` est une boite autour de son texte. */
 const rangeeDuBadge = (badge: HTMLElement) => badge.parentElement!.parentElement!;
 
+/** Ce qui separe deux elements de la page : leur premier ancetre commun. */
+const separationEntre = (premier: HTMLElement, second: HTMLElement) => {
+  for (let courant = premier.parentElement; courant; courant = courant.parentElement) {
+    if (courant.contains(second)) return window.getComputedStyle(courant);
+  }
+
+  throw new Error('aucun ancetre commun');
+};
+
 describe('StoryDetailScreen', () => {
   // La colonne de lecture n'est etroite que parce qu'un sommaire occupe le reste de la zone :
   // sans lui, la fiche perdrait deux colonnes pour du vide.
@@ -98,5 +107,15 @@ describe('StoryDetailScreen', () => {
       onglet: getByRole('tab', { name: 'Examples' }).textContent,
       bouton: queryByRole('button', { name: 'Examples' }),
     }).toEqual({ onglet: 'Examples', bouton: null });
+  });
+  // Primer, Atlassian et Uber laissent 55 a 75 px entre ce que la page annonce et ce qu'elle
+  // montre. A 20 px, le titre, la description, les badges et les onglets se touchent tous et
+  // se lisent comme un seul paquet.
+  it('detache les onglets de ce que la fiche annonce', () => {
+    const { getByRole } = renderScreen(<StoryDetailScreen story={fiche} />);
+    const titre = getByRole('heading', { level: 1 });
+    const onglet = getByRole('tab', { name: 'Examples' });
+
+    expect(separationEntre(titre, onglet).gap).toBe('48px');
   });
 });
