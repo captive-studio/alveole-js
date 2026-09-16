@@ -61,7 +61,7 @@
     "react": "19.2.3",
     "react-dom": "19.2.3",
     "react-native": "0.86.3",
-    "react-native-keyboard-controller": "1.21.9",
+    "react-native-keyboard-controller": "1.22.5",
     "react-native-otp-entry": "1.8.6",
     "react-native-web": "0.21.2",
     "react-select": "5.10.2",
