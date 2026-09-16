@@ -50,6 +50,18 @@ jobs:
       - name: Checkout
         uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
       - name: Restore node_modules
+        id: dependencies-cache
+        uses: actions/cache/restore@55cc8345863c7cc4c66a329aec7e433d2d1c52a9 # v6.1.0
+        with:
+          path: |
+            node_modules
+            packages/*/node_modules
+            apps/*/node_modules
+          key: npm-deps-${{ runner.os }}-${{ hashFiles('package-lock.json') }}
+      # Un transfert interrompu laisse cache-hit vide : réessayer une seule fois.
+      - name: Retry node_modules restore
+        id: dependencies-cache-retry
+        if: steps.dependencies-cache.outputs.cache-hit != 'true'
         uses: actions/cache/restore@55cc8345863c7cc4c66a329aec7e433d2d1c52a9 # v6.1.0
         with:
           path: |
@@ -58,7 +70,12 @@ jobs:
             apps/*/node_modules
           key: npm-deps-${{ runner.os }}-${{ hashFiles('package-lock.json') }}
       - name: Ensure dependencies (cache fallback)
-        run: test -x node_modules/.bin/eslint && test -x node_modules/.bin/prettier && test -x node_modules/.bin/tsc && test -x node_modules/.bin/knip && test -x node_modules/.bin/jscpd || npm ci
+        run: |
+          if [ "${{ steps.dependencies-cache.outputs.cache-hit }}" != "true" ] && [ "${{ steps.dependencies-cache-retry.outputs.cache-hit }}" != "true" ]; then
+            npm ci
+          else
+            test -x node_modules/.bin/eslint && test -x node_modules/.bin/prettier && test -x node_modules/.bin/tsc && test -x node_modules/.bin/knip && test -x node_modules/.bin/jscpd || npm ci
+          fi
         id: dependencies
       - name: Restore ESLint cache
         uses: actions/cache@55cc8345863c7cc4c66a329aec7e433d2d1c52a9 # v6.1.0
@@ -103,6 +120,18 @@ jobs:
       - name: Checkout
         uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
       - name: Restore node_modules
+        id: dependencies-cache
+        uses: actions/cache/restore@55cc8345863c7cc4c66a329aec7e433d2d1c52a9 # v6.1.0
+        with:
+          path: |
+            node_modules
+            packages/*/node_modules
+            apps/*/node_modules
+          key: npm-deps-${{ runner.os }}-${{ hashFiles('package-lock.json') }}
+      # Un transfert interrompu laisse cache-hit vide : réessayer une seule fois.
+      - name: Retry node_modules restore
+        id: dependencies-cache-retry
+        if: steps.dependencies-cache.outputs.cache-hit != 'true'
         uses: actions/cache/restore@55cc8345863c7cc4c66a329aec7e433d2d1c52a9 # v6.1.0
         with:
           path: |
@@ -111,7 +140,12 @@ jobs:
             apps/*/node_modules
           key: npm-deps-${{ runner.os }}-${{ hashFiles('package-lock.json') }}
       - name: Ensure dependencies (cache fallback)
-        run: test -x node_modules/.bin/jest || npm ci
+        run: |
+          if [ "${{ steps.dependencies-cache.outputs.cache-hit }}" != "true" ] && [ "${{ steps.dependencies-cache-retry.outputs.cache-hit }}" != "true" ]; then
+            npm ci
+          else
+            test -x node_modules/.bin/jest || npm ci
+          fi
       - name: Restore Jest cache
         uses: actions/cache@55cc8345863c7cc4c66a329aec7e433d2d1c52a9 # v6.1.0
         with:
@@ -135,6 +169,18 @@ jobs:
       - name: Checkout
         uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
       - name: Restore node_modules
+        id: dependencies-cache
+        uses: actions/cache/restore@55cc8345863c7cc4c66a329aec7e433d2d1c52a9 # v6.1.0
+        with:
+          path: |
+            node_modules
+            packages/*/node_modules
+            apps/*/node_modules
+          key: npm-deps-${{ runner.os }}-${{ hashFiles('package-lock.json') }}
+      # Un transfert interrompu laisse cache-hit vide : réessayer une seule fois.
+      - name: Retry node_modules restore
+        id: dependencies-cache-retry
+        if: steps.dependencies-cache.outputs.cache-hit != 'true'
         uses: actions/cache/restore@55cc8345863c7cc4c66a329aec7e433d2d1c52a9 # v6.1.0
         with:
           path: |
@@ -143,7 +189,12 @@ jobs:
             apps/*/node_modules
           key: npm-deps-${{ runner.os }}-${{ hashFiles('package-lock.json') }}
       - name: Ensure dependencies (cache fallback)
-        run: test -x node_modules/.bin/tsc && test -x node_modules/.bin/eslint && test -x node_modules/.bin/publint && test -x node_modules/.bin/playwright || npm ci
+        run: |
+          if [ "${{ steps.dependencies-cache.outputs.cache-hit }}" != "true" ] && [ "${{ steps.dependencies-cache-retry.outputs.cache-hit }}" != "true" ]; then
+            npm ci
+          else
+            test -x node_modules/.bin/tsc && test -x node_modules/.bin/eslint && test -x node_modules/.bin/publint && test -x node_modules/.bin/playwright || npm ci
+          fi
         id: dependencies
       - name: Build workspace packages
         run: npm run build --workspace=packages/core --workspace=packages/theme --workspace=packages/components --workspace=packages/storybook
