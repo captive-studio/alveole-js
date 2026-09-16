@@ -42,3 +42,10 @@ export function matching(routes: string[], pattern?: string): string[] {
 
   return selected;
 }
+
+// La colonne est auditée une fois, depuis une fiche pour couvrir le marquage de l'entrée
+// courante. Laquelle importe peu : c'est la première, pour que l'audit ne dépende pas d'un
+// nom de composant écrit en dur, qu'un renommage ferait disparaître en silence.
+export function navigationRoute(dist: string = DIST): string {
+  return auditedRoutes(dist).filter(route => route !== '/components')[0];
+}

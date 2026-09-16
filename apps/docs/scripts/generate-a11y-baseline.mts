@@ -1,8 +1,8 @@
 import { chromium } from '@playwright/test';
 import { writeFileSync } from 'node:fs';
-import { auditRoute, blockThirdParties } from '../e2e/audit.ts';
-import { BASELINE_PATH, type Baseline, load, merge } from '../e2e/baseline.ts';
-import { auditedRoutes, matching } from '../e2e/pages.ts';
+import { auditNavigation, auditRoute, blockThirdParties, openRoute } from '../e2e/audit.ts';
+import { BASELINE_PATH, load, merge, NAVIGATION_KEY, type Baseline } from '../e2e/baseline.ts';
+import { auditedRoutes, matching, navigationRoute } from '../e2e/pages.ts';
 import { countByRule } from '../e2e/violations.ts';
 
 // Génère le fichier de référence du cliquet d'accessibilité. Volontairement séparé du
@@ -30,9 +30,20 @@ for (const route of routes) {
   console.log(`${route} : ${Object.values(counts).reduce((a, b) => a + b, 0)}`);
 }
 
+// La colonne n'est pas une route : elle est relevée à part, sous sa propre clé, et
+// seulement si la fiche depuis laquelle on la regarde fait partie du parcours demandé.
+const audited = [...routes];
+if (routes.includes(navigationRoute())) {
+  await openRoute(page, navigationRoute());
+  const counts = countByRule(await auditNavigation(page));
+  audited.push(NAVIGATION_KEY);
+  if (Object.keys(counts).length > 0) baseline[NAVIGATION_KEY] = counts;
+  console.log(`colonne : ${Object.values(counts).reduce((a, b) => a + b, 0)}`);
+}
+
 await browser.close();
 
-const merged = merge(load(BASELINE_PATH), baseline, routes);
+const merged = merge(load(BASELINE_PATH), baseline, audited);
 
 // Clés triées pour que deux régénérations successives produisent le même diff.
 const sorted = Object.fromEntries(
@@ -42,4 +53,4 @@ const sorted = Object.fromEntries(
 );
 
 writeFileSync(BASELINE_PATH, `${JSON.stringify(sorted, null, 2)}\n`);
-console.log(`baseline écrite : ${Object.keys(sorted).length} routes avec violations, ${routes.length} auditées`);
+console.log(`baseline écrite : ${Object.keys(sorted).length} entrées avec violations, ${audited.length} auditées`);
