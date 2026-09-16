@@ -34,9 +34,6 @@ export const Variants = () => (
       <Badge size="md" variant="warning">
         Badge warning
       </Badge>
-      <Badge size="md" variant="disabled">
-        Badge disabled
-      </Badge>
     </Box>
   </Box>
 );
