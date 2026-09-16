@@ -2,13 +2,6 @@
   "name": "@alveole/root",
   "private": true,
   "packageManager": "pnpm@10.34.5",
-  "pnpm": {
-    "onlyBuiltDependencies": [
-      "@swc/core",
-      "esbuild",
-      "unrs-resolver"
-    ]
-  },
   "scripts": {
     "build": "pnpm -r --if-present run build",
     "build:packages": "pnpm --filter @alveole/core --filter @alveole/theme --filter @alveole/components --filter @alveole/storybook run build",

@@ -1,3 +1,11 @@
 packages:
   - 'packages/*'
   - 'apps/*'
+
+# Les scripts d'installation sont bloqués par défaut depuis pnpm 10 : ces trois paquets
+# compilent un binaire natif dont dépendent Jest, Metro et le résolveur ESLint. La liste
+# vivait dans le champ `pnpm` de package.json, que pnpm 11 ne lit plus du tout.
+onlyBuiltDependencies:
+  - '@swc/core'
+  - 'esbuild'
+  - 'unrs-resolver'
