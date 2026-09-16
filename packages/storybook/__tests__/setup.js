@@ -52,3 +52,14 @@ window.matchMedia =
     removeListener: () => {},
     dispatchEvent: () => false,
   }));
+
+// Même lacune pour ResizeObserver, dont Tamagui se sert pour mesurer l'onglet actif et y
+// poser son indicateur. L'observateur ne mesure rien ici : jsdom ne met de toute façon aucune
+// dimension dans le layout, et ce qui est vérifié en test est le style, pas la mesure.
+window.ResizeObserver =
+  window.ResizeObserver ||
+  class {
+    observe() {}
+    unobserve() {}
+    disconnect() {}
+  };

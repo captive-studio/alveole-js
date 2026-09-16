@@ -1,17 +1,16 @@
 import {
   AnchorHeading,
   Box,
-  Button,
   MarkdownDescription,
   Page,
   PageHeader,
   Section,
+  Tabs,
   Tag,
   Typography,
 } from '@alveole/components';
 import { useTheme } from '@alveole/theme';
 import React from 'react';
-import { Linking, ScrollView } from 'react-native';
 import { ExampleBlock } from '../components/ExampleBlock';
 import { JsonBlock } from '../components/JsonBlock';
 import { StoryLayout } from '../components/StoryLayout';
@@ -25,37 +24,6 @@ export type StoryDetailScreenProps = {
   beforeContent?: React.ReactNode;
   sidebar?: React.ReactNode;
   footerContent?: React.ReactNode;
-};
-
-type MetaCardProps = {
-  label: string;
-  value: string;
-};
-
-const MetaCard = ({ label, value }: MetaCardProps) => {
-  const { color, radius, text } = useTheme();
-
-  return (
-    <Box
-      borderColor={color.light.border['default-grey']}
-      borderRadius={radius('md')}
-      borderWidth={1}
-      display="flex"
-      gap={4}
-      p={'100'}
-      style={{ backgroundColor: color.light.background['alt-grey'], minWidth: 160 }}
-    >
-      <Typography style={text['Corps de texte'].XS.CapsBold}>{label}</Typography>
-      <Typography style={text['Corps de texte'].SM.SemiBold}>{value}</Typography>
-    </Box>
-  );
-};
-
-type DetailTab = {
-  value: string;
-  label: string;
-  content: React.ReactNode;
-  scrollable?: boolean;
 };
 
 type StorySourceValue = string | (() => string);
@@ -86,47 +54,6 @@ const getStoryExampleDescription = (story: StorybookModule, exampleName: string)
   return typeof description === 'string' ? description : null;
 };
 
-type DetailTabsProps = {
-  tabs: DetailTab[];
-  defaultValue?: string;
-};
-
-const DetailTabs = ({ tabs, defaultValue }: DetailTabsProps) => {
-  const initialValue = defaultValue || tabs[0]?.value || '';
-  const [activeValue, setActiveValue] = React.useState(initialValue);
-  const activeTab = tabs.find(tab => tab.value === activeValue) ?? tabs[0];
-
-  return (
-    <Box display="flex" gap={16}>
-      <Box display="flex" flexDirection="row" flexWrap="wrap" gap={8}>
-        {tabs.map(tab => (
-          <Button
-            key={tab.value}
-            title={tab.label}
-            size="sm"
-            variant="tertiary"
-            selected={tab.value === activeTab?.value}
-            onPress={() => setActiveValue(tab.value)}
-          />
-        ))}
-      </Box>
-
-      {activeTab?.scrollable ? (
-        <ScrollView
-          style={{ flex: 1 }}
-          contentContainerStyle={{ paddingBottom: 16 }}
-          keyboardShouldPersistTaps="handled"
-          showsVerticalScrollIndicator
-        >
-          {activeTab.content}
-        </ScrollView>
-      ) : (
-        activeTab?.content
-      )}
-    </Box>
-  );
-};
-
 export const StoryDetailScreen = ({
   story,
   notFoundMessage = 'Story not found.',
@@ -134,7 +61,7 @@ export const StoryDetailScreen = ({
   sidebar,
   footerContent,
 }: StoryDetailScreenProps) => {
-  const { text, color, radius } = useTheme();
+  const { color, text } = useTheme();
 
   if (!story) {
     return (
@@ -203,15 +130,7 @@ export const StoryDetailScreen = ({
       <StoryLayout sommaire={examples.length > 0 ? <StorySummary exemples={examples.map(([key]) => key)} /> : null}>
         <Box display="flex" gap={20}>
           <PageHeader title={meta.title} />
-          <Box
-            borderColor={color.light.border['default-grey']}
-            borderRadius={radius('lg')}
-            borderWidth={1}
-            display="flex"
-            gap={16}
-            p={'150'}
-            style={{ backgroundColor: color.light.background['alt-grey'] }}
-          >
+          <Box display="flex" gap={16}>
             <Box
               display="flex"
               gap={12}
@@ -221,60 +140,52 @@ export const StoryDetailScreen = ({
                 justifyContent: 'space-between',
               }}
             >
-              <Box display="flex" gap={6} style={{ flex: 1 }}>
+              <Box display="flex" style={{ flex: 1 }}>
                 <MarkdownDescription>{meta.description}</MarkdownDescription>
               </Box>
 
+              {/* Sortie laterale, pas action de la page : un lien, comme le « View in Figma »
+                  de Primer. Le bleu plein d'un bouton ferait passer Figma avant la lecture. */}
               {meta.figmaURL ? (
-                <Button title="Ouvrir Figma" variant="primary" onPress={() => Linking.openURL(meta.figmaURL!)} />
+                <a href={meta.figmaURL} rel="noreferrer" style={{ textDecoration: 'none' }} target="_blank">
+                  <Typography
+                    style={{ ...text['Corps de texte'].SM.SemiBold, color: color.light.text['action-high-primary'] }}
+                  >
+                    Ouvrir Figma
+                  </Typography>
+                </a>
               ) : null}
             </Box>
 
-            <Box display="flex" gap={10}>
-              <Typography style={text['Corps de texte'].XS.CapsBold}>Tags</Typography>
-              <Box display="flex" flexDirection="row" flexWrap="wrap" gap={8}>
-                {meta.tags.map(tag => (
-                  <Tag key={tag} color="action" size="md">
-                    {tag}
-                  </Tag>
-                ))}
-              </Box>
-            </Box>
-
-            {flags.length > 0 ? (
-              <Box display="flex" gap={10}>
-                <Typography style={text['Corps de texte'].XS.CapsBold}>Informations</Typography>
-                <Box display="flex" flexDirection="row" flexWrap="wrap" gap={8}>
-                  {flags.map(flag => (
-                    <Tag key={flag.key} color="default" size="md">
-                      {flag.label}
-                    </Tag>
-                  ))}
-                </Box>
-              </Box>
-            ) : null}
-
-            <Box display="flex" flexDirection="row" flexWrap="wrap" gap={12}>
-              <MetaCard label="Exemples" value={String(examples.length)} />
-              <MetaCard label="Styles" value="Disponibles" />
-              {meta.props != null ? <MetaCard label="Props" value="Documentées" /> : null}
+            {/* Une seule rangee : les deux familles se lisent pareil, et un libelle pose
+                au-dessus de trois badges pese plus que ce qu'il explique. Le bleu d'action
+                des tags et le gris des informations suffisent a les distinguer. */}
+            <Box display="flex" flexDirection="row" flexWrap="wrap" gap={8}>
+              {meta.tags.map(tag => (
+                <Tag key={tag} color="action" size="md">
+                  {tag}
+                </Tag>
+              ))}
+              {flags.map(flag => (
+                <Tag key={flag.key} color="default" size="md">
+                  {flag.label}
+                </Tag>
+              ))}
             </Box>
           </Box>
 
-          <DetailTabs
+          <Tabs
             defaultValue="examples"
             tabs={[
               {
                 value: 'examples',
                 label: 'Examples',
                 content: examplesContent,
-                scrollable: true,
               },
               {
                 value: 'styles',
                 label: 'Styles',
                 content: <JsonBlock value={meta.styleFn()} />,
-                scrollable: true,
               },
               ...(meta.props != null
                 ? [
@@ -282,7 +193,6 @@ export const StoryDetailScreen = ({
                       value: 'props',
                       label: 'Props',
                       content: <JsonBlock value={meta.props} />,
-                      scrollable: true,
                     },
                   ]
                 : []),
