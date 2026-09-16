@@ -1,4 +1,3 @@
-const path = require('path');
 // Preset web et non natif : le catalogue est une application web, et c'est aussi ce qui
 // permet de le rendre sans module natif. Les paquets qui publient une variante web la
 // voient choisie ici, là où le preset iOS exigerait un binaire absent de tout test.
@@ -43,7 +42,7 @@ module.exports = {
       testEnvironment: 'node',
       testMatch: ['**/?(*.)+(spec|test).[tj]s'],
       testPathIgnorePatterns: ignoredPaths,
-      cacheDirectory: path.join(__dirname, '.jest-cache'),
+      cacheDirectory: '<rootDir>/.jest-cache',
     },
     // Les écrans du catalogue, rendus pour de vrai. Le découpage se fait sur l'extension :
     // `.test.ts` pour le pur, `.test.tsx` pour ce qui rend.
@@ -52,7 +51,7 @@ module.exports = {
       displayName: 'render',
       testMatch: ['**/?(*.)+(spec|test).tsx'],
       testPathIgnorePatterns: [...(webPreset.testPathIgnorePatterns ?? []), ...ignoredPaths],
-      cacheDirectory: path.join(__dirname, '.jest-cache'),
+      cacheDirectory: '<rootDir>/.jest-cache',
       setupFilesAfterEnv: [...(webPreset.setupFilesAfterEnv ?? []), '<rootDir>/__tests__/setup.js'],
       transformIgnorePatterns,
       moduleNameMapper: { ...(webPreset.moduleNameMapper ?? {}), ...moduleNameMapper },
