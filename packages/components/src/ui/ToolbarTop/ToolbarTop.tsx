@@ -1,144 +1,71 @@
-import React from 'react';
-import { Box, BoxProps } from '../../core/Box';
-import { Typography } from '../../core/Typography';
-import { Avatar, AvatarProps } from '../Avatar';
-import { ButtonIcon } from '../Button';
-import { IconProps } from '../LucideIcon';
+import { Box } from '../../core/Box';
 import { useStyles } from './ToolbarTop.styles';
+import { ToolbarTopProps } from './ToolbarTop.types';
+import { ToolbarTopInformation } from './ToolbarTopInformation';
+import { ToolbarTopNavigation } from './ToolbarTopNavigation';
 
-/**
- * La navigation va par trois : le geste, son icone et son nom. Les separer laissait passer une
- * fleche muette. Le type les lie donc, et `navigationLabel` devient exigible des qu'il y a un
- * geste : la meme fleche sert a revenir, a replier ou a ouvrir, et seul l'appelant sait
- * laquelle des trois.
- */
-type Navigation =
-  | { onNavigate?: undefined; navigationIcon?: undefined; navigationLabel?: undefined }
-  | { onNavigate: () => void; navigationIcon?: IconProps['name']; navigationLabel: string };
-
-export type ToolbarTopProps = BoxProps &
-  Navigation & {
-    variant?: 'default' | 'large' | 'compactLarge';
-    title: string;
-    AvatarProps?: Omit<AvatarProps, 'size'>;
-    withBorder?: boolean;
-    sousTitre?: string;
-    onActions?: () => void;
-    actionsIcon?: IconProps['name'];
-    actions?: React.ReactNode;
-    typographyStyle?: React.CSSProperties;
-  };
+export * from './ToolbarTop.types';
 
 export const ToolbarTop = (props: ToolbarTopProps) => {
   const {
     variant = 'default',
     style,
     title,
-    onNavigate,
-    navigationIcon = 'ChevronLeft',
-    navigationLabel,
+    onNavigate: _onNavigate,
+    navigationIcon: _navigationIcon,
+    navigationLabel: _navigationLabel,
     AvatarProps,
     sousTitre,
     actions,
     withBorder = false,
-    typographyStyle = {},
+    typographyStyle,
     ...toolbarProps
   } = props;
 
   const styles = useStyles();
+  const empilee = variant === 'large';
+  const disposition = {
+    default: {},
+    large: styles.largeToolbarContainer,
+    compactLarge: styles.compactLargetoolbarContainer,
+  };
 
-  const toolbarNavigation = onNavigate ? (
-    <Box tag="toolbar-navigation" style={styles.toolbarNavigation}>
-      <ButtonIcon
-        variant="tertiary"
-        size="lg"
-        iconSize="md"
-        icon={navigationIcon}
-        accessibilityLabel={navigationLabel}
-        onPress={onNavigate}
+  // Les props sont transmises entieres, et non recomposees champ par champ : reassembler les
+  // trois separerait le geste de son nom, et il faudrait un cast pour recoller l'union.
+  const navigation = <ToolbarTopNavigation {...props} />;
+  const contenu = (
+    <>
+      <ToolbarTopInformation
+        title={title}
+        sousTitre={sousTitre}
+        AvatarProps={AvatarProps}
+        typographyStyle={typographyStyle}
+        grandTitre={variant !== 'default'}
+        compact={variant === 'compactLarge'}
       />
-    </Box>
-  ) : (
-    <></>
-  );
-
-  const toolbarInformation = (
-    <Box
-      tag="toolbar-information"
-      style={{
-        ...styles.toolbarInformation,
-        ...(variant === 'compactLarge' ? styles.compactLargeInformations : {}),
-      }}
-    >
-      {AvatarProps && <Avatar {...AvatarProps} size="md" carre />}
-      <Box tag="toolbar-information-title" style={styles.toolbarInformationTitle}>
-        <Typography
-          style={{
-            ...styles.toolbarInformationTitleText,
-            ...(variant === 'compactLarge' || variant === 'large' ? styles.largeInformationTitleText : {}),
-            ...typographyStyle,
-          }}
-        >
-          {title}
-        </Typography>
-        {sousTitre && (
-          <Typography
-            style={{
-              ...styles.toolbarInformationTitleSubText,
-              ...(variant === 'compactLarge' || variant === 'large' ? styles.largeToolbarInformationTitleSubText : {}),
-              ...typographyStyle,
-            }}
-          >
-            {sousTitre}
-          </Typography>
-        )}
-      </Box>
-    </Box>
-  );
-
-  const toolbarActions = actions ? (
-    <Box tag="toolbar-actions" style={styles.toolbarActions}>
-      {actions}
-    </Box>
-  ) : (
-    <></>
-  );
-
-  if (variant === 'large') {
-    return (
-      <Box
-        tag="toolbar"
-        style={[
-          styles.toolbarContainer,
-          styles.largeToolbarContainer,
-          style,
-          withBorder ? styles.toolbarInformationWithBorder : {},
-        ]}
-        {...toolbarProps}
-      >
-        {toolbarNavigation}
-        <Box tag="toolbar-bas">
-          {toolbarInformation}
-          {toolbarActions}
+      {actions && (
+        <Box tag="toolbar-actions" style={styles.toolbarActions}>
+          {actions}
         </Box>
-      </Box>
-    );
-  }
+      )}
+    </>
+  );
 
   return (
     <Box
       tag="toolbar"
       style={[
         styles.toolbarContainer,
-        variant === 'compactLarge' ? styles.compactLargetoolbarContainer : {},
+        disposition[variant],
         style,
         withBorder ? styles.toolbarInformationWithBorder : {},
       ]}
       {...toolbarProps}
     >
-      {toolbarNavigation}
-      {toolbarInformation}
-      {toolbarActions}
+      {navigation}
+      {/* La variante `large` passe le titre sous la fleche : les deux ne sont plus cote a cote,
+          et c'est le seul point ou la structure change. */}
+      {empilee ? <Box tag="toolbar-bas">{contenu}</Box> : contenu}
     </Box>
   );
 };

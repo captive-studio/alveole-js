@@ -295,18 +295,5 @@
     "max-lines-per-function": {
       "count": 1
     }
-  },
-  "src/ui/ToolbarTop/ToolbarTop.styles.ts": {
-    "max-lines-per-function": {
-      "count": 1
-    }
-  },
-  "src/ui/ToolbarTop/ToolbarTop.tsx": {
-    "complexity": {
-      "count": 1
-    },
-    "max-lines-per-function": {
-      "count": 1
-    }
   }
 }
