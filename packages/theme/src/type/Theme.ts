@@ -1,4 +1,5 @@
 import type { Colors, CustomTypography, Fonts, Grilles, Palette, Spacing, SpacingKey, Variant } from '../constants';
+import type { ControlSize, ControlSizeKey } from '../constants/Control';
 import { Radius, RadiusKey } from '../constants/Radius';
 import { alpha } from '../helpers/alphaColor';
 import { elevationStyle } from '../helpers/elevationStyle';
@@ -22,6 +23,9 @@ export interface Theme {
 
   // Radius
   radius: (key: RadiusKey) => Radius;
+
+  // Dimensions des controles, selon la densite d'ecran
+  control: (key: ControlSizeKey) => ControlSize;
 
   // Grilles
   grilles: typeof Grilles;

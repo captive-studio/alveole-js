@@ -1,3 +1,5 @@
+import type { Variant } from './Variant';
+
 /**
  * Dimensions partagees par tous les controles (bouton, champ, selecteur, puce).
  *
@@ -28,4 +30,9 @@ const MOBILE = {
 export const ControlSizes = { desktop: DESKTOP, mobile: MOBILE } as const;
 
 export type ControlDensite = keyof typeof ControlSizes;
+export type ControlSize = { height: number; paddingInline: number; gap: number };
 export type ControlSizeKey = keyof typeof DESKTOP;
+
+/** Une tablette est tactile : elle suit la densite mobile, jamais celle du desktop. */
+export const controlSizesFor = (variant: Variant): Record<ControlSizeKey, ControlSize> =>
+  variant === 'desktop' ? ControlSizes.desktop : ControlSizes.mobile;
