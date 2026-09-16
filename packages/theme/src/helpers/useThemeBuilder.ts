@@ -17,6 +17,7 @@ import {
   Sizes,
   Spacings,
 } from '../constants';
+import { controlSizesFor } from '../constants/Control';
 import { Radius, RadiusList } from '../constants/Radius';
 import { alpha } from './alphaColor';
 import { deepMerge } from './deepMerge';
@@ -120,6 +121,9 @@ export function useThemeBuilder(params: CustomBuilder): Theme & { isReady: boole
 
     // Radius
     radius: key => (Platform.OS === 'web' ? `var(--radius-${key})` : RadiusList[key]) as Radius,
+
+    // Dimensions des controles : la densite suit la largeur d'ecran, comme externalPadding
+    control: key => controlSizesFor(variant)[key],
 
     // Grilles
     grilles: Grilles,

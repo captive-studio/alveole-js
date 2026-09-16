@@ -1,4 +1,4 @@
-import { ControlSizes } from './Control';
+import { ControlSizes, controlSizesFor } from './Control';
 
 const CRANS = ['xs', 'sm', 'md', 'lg', 'xl'] as const;
 
@@ -25,4 +25,10 @@ describe.each(['desktop', 'mobile'] as const)('ControlSizes %s', densite => {
 // trancherait arbitrairement en faveur d'un des deux usages (ADR 0013).
 it('est plus compacte sur desktop que sur mobile', () => {
   expect(ControlSizes.desktop.md.height).toBeLessThan(ControlSizes.mobile.md.height);
+});
+
+// Une tablette est tactile : la compter comme un desktop lui imposerait une densite
+// d'outil pro au doigt (ADR 0013).
+it('range la tablette avec le mobile, pas avec le desktop', () => {
+  expect(controlSizesFor('tablet')).toBe(ControlSizes.mobile);
 });
