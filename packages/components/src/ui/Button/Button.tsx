@@ -6,6 +6,19 @@ import { Typography } from '../../core/Typography';
 import { IconProps, LucideIcon } from '../LucideIcon';
 import { Spinner } from '../Spinner';
 import { useStyles } from './Button.styles';
+import {
+  BORDURE_PAR_VARIANT,
+  ButtonTaille,
+  ButtonVariant,
+  cleDEtat,
+  CONTENEUR_PAR_TAILLE,
+  CONTENEUR_PAR_VARIANT,
+  ICONE_PAR_VARIANT,
+  styleDe,
+  SURVOL_PAR_VARIANT,
+  TEXTE_PAR_VARIANT,
+  TITRE_PAR_TAILLE,
+} from './buttonVariants';
 
 type CustomPressableState = PressableStateCallbackType & {
   hovered?: boolean;
@@ -14,8 +27,8 @@ type CustomPressableState = PressableStateCallbackType & {
 export type ButtonProps = Omit<PressableProps, 'children' | 'style'> & {
   /** Sans `title`, le bouton passe en mode icône seule (nécessite `startIcon` ou `endIcon`). */
   title?: string;
-  size?: 'sm' | 'md' | 'lg';
-  variant: 'primary' | 'secondary' | 'tertiary' | 'danger' | 'link'; // link n'est pas censé exister
+  size?: ButtonTaille;
+  variant: ButtonVariant;
   startIcon?: IconProps['name'];
   endIcon?: IconProps['name'];
   selected?: boolean;
@@ -33,35 +46,10 @@ export type ButtonProps = Omit<PressableProps, 'children' | 'style'> & {
 };
 
 type Styles = ReturnType<typeof useStyles>;
-type StyleKey = keyof Styles;
-type EtatVisuel = { repos: StyleKey; desactive: StyleKey; actif: StyleKey };
-
-/** Styles porteurs d'une couleur, seuls utilisables pour teinter une icone. */
-type StyleCouleurKey = { [K in StyleKey]: Styles[K] extends { color: string } ? K : never }[StyleKey];
-type EtatCouleur = { repos: StyleCouleurKey; desactive: StyleCouleurKey; actif: StyleCouleurKey };
-
-/** Styles porteurs d'une bordure. Seuls `secondary` et `danger` en ont une. */
-type StyleBordureKey = { [K in StyleKey]: Styles[K] extends { borderColor: string } ? K : never }[StyleKey];
-type EtatBordure = { repos: StyleBordureKey; desactive: StyleBordureKey; actif: StyleBordureKey };
-
-type Taille = NonNullable<ButtonProps['size']>;
-
-/** Le conteneur change de famille de styles selon que le bouton porte un libelle ou non. */
-const CONTENEUR_PAR_TAILLE: Record<Taille, { avecLibelle: StyleKey; iconeSeule: StyleKey }> = {
-  sm: { avecLibelle: 'smContainer', iconeSeule: 'smContainerIconOnly' },
-  md: { avecLibelle: 'mdContainer', iconeSeule: 'mdContainerIconOnly' },
-  lg: { avecLibelle: 'lgContainer', iconeSeule: 'lgContainerIconOnly' },
-};
-
-const TITRE_PAR_TAILLE: Record<Taille, StyleKey> = {
-  sm: 'smTitle',
-  md: 'mdTitle',
-  lg: 'lgTitle',
-};
 
 // `disabled` vient de PressableProps, qui autorise `null` en plus de `undefined`.
 type EtatDeFond = {
-  variant: ButtonProps['variant'];
+  variant: ButtonVariant;
   selected?: boolean;
   disabled?: boolean | null;
   isActivated: boolean;
@@ -75,55 +63,8 @@ const styleDeFond = (styles: Styles, { variant, selected, disabled, isActivated 
   if (selected) return styles.selectedContainer;
 
   const etats = CONTENEUR_PAR_VARIANT[variant];
-  const etat = disabled ? etats.desactive : isActivated ? etats.actif : undefined;
 
-  return { ...styles[etats.repos], ...(etat ? styles[etat] : {}) };
-};
-
-/** `link` n'a pas de style desactive propre et emprunte celui de `tertiary`. */
-const CONTENEUR_PAR_VARIANT: Record<ButtonProps['variant'], EtatVisuel> = {
-  primary: { repos: 'primaryContainer', desactive: 'primaryContainerDisabled', actif: 'primaryContainerPressed' },
-  secondary: {
-    repos: 'secondaryContainer',
-    desactive: 'secondaryContainerDisabled',
-    actif: 'secondaryContainerPressed',
-  },
-  tertiary: { repos: 'tertiaryContainer', desactive: 'tertiaryContainerDisabled', actif: 'tertiaryContainerPressed' },
-  danger: { repos: 'dangerContainer', desactive: 'dangerContainerDisabled', actif: 'dangerContainerPressed' },
-  link: { repos: 'linkContainer', desactive: 'tertiaryContainerDisabled', actif: 'linkContainerPressed' },
-};
-
-const BORDURE_PAR_VARIANT: Partial<Record<ButtonProps['variant'], EtatBordure>> = {
-  secondary: {
-    repos: 'secondaryContainer',
-    desactive: 'secondaryContainerDisabled',
-    actif: 'secondaryContainerHover',
-  },
-  danger: { repos: 'dangerContainer', desactive: 'dangerContainerDisabled', actif: 'dangerContainerHover' },
-};
-
-const SURVOL_PAR_VARIANT: Record<ButtonProps['variant'], StyleKey> = {
-  primary: 'primaryContainerHover',
-  secondary: 'secondaryContainerHover',
-  tertiary: 'tertiaryContainerHover',
-  danger: 'dangerContainerHover',
-  link: 'linkContainerHover',
-};
-
-const TEXTE_PAR_VARIANT: Record<ButtonProps['variant'], EtatVisuel> = {
-  primary: { repos: 'primaryTitle', desactive: 'primaryTitleDisabled', actif: 'primaryTitleHover' },
-  secondary: { repos: 'secondaryTitle', desactive: 'secondaryTitleDisabled', actif: 'secondaryTitleHover' },
-  tertiary: { repos: 'tertiaryTitle', desactive: 'tertiaryTitleDisabled', actif: 'tertiaryTitleHover' },
-  danger: { repos: 'dangerTitle', desactive: 'dangerTitleDisabled', actif: 'dangerTitleHover' },
-  link: { repos: 'linkTitle', desactive: 'tertiaryTitleDisabled', actif: 'linkTitleHover' },
-};
-
-const ICONE_PAR_VARIANT: Record<ButtonProps['variant'], EtatCouleur> = {
-  primary: { repos: 'primaryIcon', desactive: 'primaryIconDisabled', actif: 'primaryIconHover' },
-  secondary: { repos: 'secondaryIcon', desactive: 'secondaryIconDisabled', actif: 'secondaryIconHover' },
-  tertiary: { repos: 'tertiaryIcon', desactive: 'tertiaryIconDisabled', actif: 'tertiaryIconHover' },
-  danger: { repos: 'dangerIcon', desactive: 'dangerIconDisabled', actif: 'dangerIconHover' },
-  link: { repos: 'linkIcon', desactive: 'linkIconDisabled', actif: 'linkTitleHover' },
+  return { ...styles[etats.repos], ...styleDe(styles, cleDEtat(etats, { disabled, actif: isActivated })) };
 };
 
 export const Button = React.forwardRef<View, ButtonProps>(function Button(props, ref) {
@@ -154,7 +95,7 @@ export const Button = React.forwardRef<View, ButtonProps>(function Button(props,
   const isInactive = !!disabled || !!isLoading;
   const [isFocused, setIsFocused] = useState(false);
 
-  const taille: Taille = size ?? 'md';
+  const taille: ButtonTaille = size ?? 'md';
   const containerSize = styles[CONTENEUR_PAR_TAILLE[taille][isIconOnly ? 'iconeSeule' : 'avecLibelle']];
   const titleSize = styles[TITRE_PAR_TAILLE[taille]];
 
@@ -196,8 +137,8 @@ export const Button = React.forwardRef<View, ButtonProps>(function Button(props,
       applicableStyles = { ...applicableStyles, ...styles.selectedTitle };
     } else {
       const etats = TEXTE_PAR_VARIANT[variant];
-      const etat = disabled ? etats.desactive : state.hovered ? etats.actif : undefined;
-      applicableStyles = { ...applicableStyles, ...styles[etats.repos], ...(etat ? styles[etat] : {}) };
+      const etat = cleDEtat(etats, { disabled, actif: state.hovered });
+      applicableStyles = { ...applicableStyles, ...styles[etats.repos], ...styleDe(styles, etat) };
       // Seul `danger` distingue l'appui du survol sur son libelle.
       if (variant === 'danger' && !disabled && !state.hovered && state.pressed) {
         applicableStyles = { ...applicableStyles, ...styles.dangerTitlePressed };
@@ -212,8 +153,8 @@ export const Button = React.forwardRef<View, ButtonProps>(function Button(props,
 
     if (selected) return { size: iconSize, color: styles.selectedIcon.color };
 
-    const etats = ICONE_PAR_VARIANT[variant];
-    const etat = disabled ? etats.desactive : state.hovered ? etats.actif : etats.repos;
+    const etat = cleDEtat(ICONE_PAR_VARIANT[variant], { disabled, actif: state.hovered });
+
     return { size: iconSize, color: styles[etat].color };
   };
 
@@ -243,7 +184,7 @@ export const Button = React.forwardRef<View, ButtonProps>(function Button(props,
     const borderProps = selected
       ? bordure(styles.selectedContainer.borderColor)
       : etats
-        ? bordure(styles[disabled ? etats.desactive : state.hovered ? etats.actif : etats.repos].borderColor)
+        ? bordure(styles[cleDEtat(etats, { disabled, actif: state.hovered })].borderColor)
         : {};
 
     return {

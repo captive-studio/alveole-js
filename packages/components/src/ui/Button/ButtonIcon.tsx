@@ -3,13 +3,24 @@ import { Pressable, PressableProps, PressableStateCallbackType } from 'react-nat
 import { Typography } from '../../core/Typography';
 import { IconProps, LucideIcon } from '../LucideIcon';
 import { useStyles } from './Button.styles';
+import {
+  ButtonTaille,
+  cleDEtat,
+  CONTENEUR_PAR_TAILLE,
+  CONTENEUR_PAR_VARIANT,
+  EtatVisuel,
+  ICONE_PAR_VARIANT,
+  styleDe,
+  SURVOL_PAR_VARIANT,
+  TEXTE_PAR_VARIANT,
+} from './buttonVariants';
 
 type CustomPressableState = PressableStateCallbackType & {
   hovered?: boolean;
 };
 
 export type ButtonIconProps = Omit<PressableProps, 'children' | 'style'> & {
-  size?: 'sm' | 'md' | 'lg';
+  size?: ButtonTaille;
   iconSize?: 'xs' | 'sm' | 'md' | 'lg' | 'xl';
   variant: 'primary' | 'secondary' | 'tertiary';
 } & {
@@ -30,82 +41,57 @@ export type ButtonIconProps = Omit<PressableProps, 'children' | 'style'> & {
   };
 } & { icon: IconProps['name'] | number };
 
+/** Faute d'`iconSize`, l'icone suit la taille du bouton, en repliant `md` sur elle-meme. */
+const ICONE_PAR_TAILLE: Record<ButtonTaille, NonNullable<ButtonIconProps['iconSize']>> = {
+  sm: 'sm',
+  md: 'md',
+  lg: 'lg',
+};
+
 export const ButtonIcon = (props: ButtonIconProps) => {
   const { size, variant, disabled, style, iconSize: iconSizeProp, ...buttonProps } = props;
-  const iconSize = iconSizeProp ?? (size === 'lg' ? 'lg' : size === 'sm' ? 'sm' : 'md');
+  const taille: ButtonTaille = size ?? 'md';
+  const iconSize = iconSizeProp ?? ICONE_PAR_TAILLE[taille];
 
   const styles = useStyles();
 
-  const containerSize =
-    size === 'sm'
-      ? styles.smContainerIconOnly
-      : size === 'lg'
-        ? styles.lgContainerIconOnly
-        : styles.mdContainerIconOnly;
+  const containerSize = styleDe(styles, CONTENEUR_PAR_TAILLE[taille].iconeSeule);
 
-  const containerStyle: PressableProps['style'] = (state: CustomPressableState) => {
-    let applicableStyles: any = styles.container;
+  // Le survol tient ici le role que l'appui tient sur `Button` : c'est le seul etat actif
+  // qu'un bouton sans libelle connaisse. D'ou l'etat actif emprunte a la table de survol,
+  // le repos et le desactive restant ceux du conteneur.
+  const etatsDuFond: EtatVisuel = { ...CONTENEUR_PAR_VARIANT[variant], actif: SURVOL_PAR_VARIANT[variant] };
 
-    if (variant === 'primary') {
-      applicableStyles = { ...applicableStyles, ...styles.primaryContainer };
-      if (disabled) applicableStyles = { ...applicableStyles, ...styles.primaryContainerDisabled };
-      else if (!!state.hovered) applicableStyles = { ...applicableStyles, ...styles.primaryContainerHover };
-    } else if (variant === 'secondary') {
-      applicableStyles = { ...applicableStyles, ...styles.secondaryContainer };
-      if (disabled) applicableStyles = { ...applicableStyles, ...styles.secondaryContainerDisabled };
-      else if (!!state.hovered) applicableStyles = { ...applicableStyles, ...styles.secondaryContainerHover };
-    } else if (variant === 'tertiary') {
-      applicableStyles = { ...applicableStyles, ...styles.tertiaryContainer };
-      if (disabled) applicableStyles = { ...applicableStyles, ...styles.tertiaryContainerDisabled };
-      else if (!!state.hovered) applicableStyles = { ...applicableStyles, ...styles.tertiaryContainerHover };
-    }
+  const containerStyle = (state: CustomPressableState) => ({
+    ...styles.container,
+    ...styles[etatsDuFond.repos],
+    ...styleDe(styles, cleDEtat(etatsDuFond, { disabled, actif: state.hovered })),
+    ...containerSize,
+    ...(style ?? {}),
+  });
 
-    return { ...applicableStyles, ...containerSize, ...(style ?? {}) };
-  };
+  const iconStyle = (state: { hovered: boolean }): Omit<IconProps, 'name'> => ({
+    size: iconSize,
+    color: styles[cleDEtat(ICONE_PAR_VARIANT[variant], { disabled, actif: state.hovered })].color,
+  });
 
-  const iconStyle = (state: { hovered: boolean }): Omit<IconProps, 'name'> => {
-    if (variant === 'primary') {
-      if (disabled) return { size: iconSize, color: styles.primaryIconDisabled.color };
-      else if (state.hovered) return { size: iconSize, color: styles.primaryIconHover.color };
-      return { size: iconSize, color: styles.primaryIcon.color };
-    } else if (variant === 'secondary') {
-      if (disabled) return { size: iconSize, color: styles.secondaryIconDisabled.color };
-      else if (state.hovered) return { size: iconSize, color: styles.secondaryIconHover.color };
-      return { size: iconSize, color: styles.secondaryIcon.color };
-    } else if (variant === 'tertiary') {
-      if (disabled) return { size: iconSize, color: styles.tertiaryIconDisabled.color };
-      else if (state.hovered) return { size: iconSize, color: styles.tertiaryIconHover.color };
-      return { size: iconSize, color: styles.tertiaryIcon.color };
-    }
-    return { size: iconSize };
-  };
+  const textStyle = (state: { hovered: boolean }): CSSProperties => {
+    const etats = TEXTE_PAR_VARIANT[variant];
 
-  const textStyle = (state: { hovered: boolean }) => {
-    let applicableStyles: CSSProperties = styles.title;
-
-    if (variant === 'primary') {
-      applicableStyles = { ...applicableStyles, ...styles.primaryTitle };
-      if (disabled) applicableStyles = { ...applicableStyles, ...styles.primaryTitleDisabled };
-      else if (state.hovered) applicableStyles = { ...applicableStyles, ...styles.primaryTitleHover };
-    } else if (variant === 'secondary') {
-      applicableStyles = { ...applicableStyles, ...styles.secondaryTitle };
-      if (disabled) applicableStyles = { ...applicableStyles, ...styles.secondaryTitleDisabled };
-      else if (state.hovered) applicableStyles = { ...applicableStyles, ...styles.secondaryTitleHover };
-    } else if (variant === 'tertiary') {
-      applicableStyles = { ...applicableStyles, ...styles.tertiaryTitle };
-      if (disabled) applicableStyles = { ...applicableStyles, ...styles.tertiaryTitleDisabled };
-      else if (state.hovered) applicableStyles = { ...applicableStyles, ...styles.tertiaryTitleHover };
-    } else if (variant === 'link') {
-      applicableStyles = { ...applicableStyles, ...styles.linkTitle };
-      if (disabled) applicableStyles = { ...applicableStyles, ...styles.tertiaryTitleDisabled };
-      else if (state.hovered) applicableStyles = { ...applicableStyles, ...styles.linkTitleHover };
-    }
-
-    return { ...applicableStyles, minWidth: 16 };
+    return {
+      ...styles.title,
+      ...styles[etats.repos],
+      ...styleDe(styles, cleDEtat(etats, { disabled, actif: state.hovered })),
+      minWidth: 16,
+    };
   };
 
   return (
-    <Pressable style={containerStyle} disabled={disabled} {...buttonProps}>
+    // Le systeme de design decrit ses styles en vocabulaire CSS, la ou `Pressable` attend un
+    // `ViewStyle` : les deux se recouvrent sans se confondre, `backgroundColor` par exemple n'y
+    // a pas le meme type. La conversion est explicite ici parce que c'est la frontiere. Le code
+    // precedent l'effacait en typant son accumulateur `any`, ce qui masquait aussi le reste.
+    <Pressable style={containerStyle as PressableProps['style']} disabled={disabled} {...buttonProps}>
       {(state: CustomPressableState) =>
         typeof props.icon === 'number' ? (
           <Typography style={{ ...textStyle({ hovered: !!state.hovered }) }}>{props.icon}</Typography>

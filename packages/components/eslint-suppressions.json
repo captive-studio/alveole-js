@@ -97,17 +97,6 @@
       "count": 1
     }
   },
-  "src/ui/Button/ButtonIcon.tsx": {
-    "complexity": {
-      "count": 2
-    },
-    "max-lines-per-function": {
-      "count": 1
-    },
-    "sonarjs/cognitive-complexity": {
-      "count": 1
-    }
-  },
   "src/ui/Card/CardSection.tsx": {
     "complexity": {
       "count": 1
