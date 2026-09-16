@@ -57,7 +57,7 @@ jobs:
             node_modules
             packages/*/node_modules
             apps/*/node_modules
-          key: npm-deps-${{ runner.os }}-${{ hashFiles('package-lock.json') }}
+          key: ci-retry-probe-${{ github.run_id }}-${{ github.run_attempt }}
       # Un transfert interrompu laisse cache-hit vide : réessayer une seule fois.
       - name: Retry node_modules restore
         id: dependencies-cache-retry
@@ -127,7 +127,7 @@ jobs:
             node_modules
             packages/*/node_modules
             apps/*/node_modules
-          key: npm-deps-${{ runner.os }}-${{ hashFiles('package-lock.json') }}
+          key: ci-retry-probe-${{ github.run_id }}-${{ github.run_attempt }}
       # Un transfert interrompu laisse cache-hit vide : réessayer une seule fois.
       - name: Retry node_modules restore
         id: dependencies-cache-retry
@@ -176,7 +176,7 @@ jobs:
             node_modules
             packages/*/node_modules
             apps/*/node_modules
-          key: npm-deps-${{ runner.os }}-${{ hashFiles('package-lock.json') }}
+          key: ci-retry-probe-${{ github.run_id }}-${{ github.run_attempt }}
       # Un transfert interrompu laisse cache-hit vide : réessayer une seule fois.
       - name: Retry node_modules restore
         id: dependencies-cache-retry
