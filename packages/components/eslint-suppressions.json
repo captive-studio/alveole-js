@@ -68,16 +68,6 @@
       "count": 1
     }
   },
-  "src/ui/Button/Button.styles.ts": {
-    "max-lines-per-function": {
-      "count": 1
-    }
-  },
-  "src/ui/Button/Button.tsx": {
-    "max-lines-per-function": {
-      "count": 1
-    }
-  },
   "src/ui/Card/CardSection.tsx": {
     "complexity": {
       "count": 1
