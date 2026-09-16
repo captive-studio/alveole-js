@@ -2,7 +2,7 @@ import assert from 'node:assert/strict';
 import { spawnSync } from 'node:child_process';
 import test from 'node:test';
 import { fileURLToPath } from 'node:url';
-import { allocatedCpus } from './allocated-cpus.mjs';
+import { CFS_PERIOD, CFS_QUOTA, allocatedCpus, allocation } from './allocated-cpus.mjs';
 
 test('déduit les cœurs alloués du quota cgroup', () => {
   assert.equal(
@@ -11,19 +11,19 @@ test('déduit les cœurs alloués du quota cgroup', () => {
   );
 });
 
-test('retombe sur les cœurs de l’hôte quand le conteneur n’a aucun quota', () => {
+test('prend la moitié des cœurs du nœud quand aucun quota n’est déclaré', () => {
   assert.equal(
     allocatedCpus(() => 'max 100000', 16),
-    16,
+    8,
   );
 });
 
-test('retombe sur les cœurs de l’hôte hors cgroup v2', () => {
+test('prend la moitié aussi quand le quota est illisible', () => {
   assert.equal(
     allocatedCpus(() => {
       throw new Error('ENOENT');
     }, 10),
-    10,
+    5,
   );
 });
 
@@ -51,4 +51,48 @@ test('imprime le compte alloué, pour les outils qui ne se dimensionnent qu’en
   );
 
   assert.match(stdout.trim(), /^[1-9][0-9]*$/);
+});
+
+test('lit le quota d’un cgroup v1, où cpu.max n’existe pas', () => {
+  const files = { [CFS_QUOTA]: '400000', [CFS_PERIOD]: '100000' };
+
+  assert.equal(
+    allocatedCpus(path => {
+      if (files[path] === undefined) throw new Error('ENOENT');
+      return files[path];
+    }, 16),
+    4,
+  );
+});
+
+test('traite le -1 d’un cgroup v1 comme une absence de plafond', () => {
+  const files = { [CFS_QUOTA]: '-1', [CFS_PERIOD]: '100000' };
+
+  assert.equal(
+    allocatedCpus(path => {
+      if (files[path] === undefined) throw new Error('ENOENT');
+      return files[path];
+    }, 16),
+    8,
+  );
+});
+
+test('dit d’où vient le compte, pour qu’un pod sans plafond se voie dans les logs', () => {
+  assert.deepEqual(
+    allocation(() => 'max 100000', 16),
+    { cpus: 8, source: 'aucun plafond déclaré' },
+  );
+});
+
+test('annonce sur la sortie d’erreur d’où vient le compte, sans polluer la substitution', () => {
+  const { stdout, stderr } = spawnSync(
+    process.execPath,
+    [fileURLToPath(new URL('print-allocated-cpus.mjs', import.meta.url))],
+    {
+      encoding: 'utf8',
+    },
+  );
+
+  assert.match(stdout.trim(), /^[1-9][0-9]*$/);
+  assert.match(stderr, /cgroup v1|cgroup v2|aucun plafond déclaré/);
 });
