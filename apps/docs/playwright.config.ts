@@ -1,4 +1,5 @@
 import { defineConfig, devices } from '@playwright/test';
+import { currentAllocatedCpus } from '../../scripts/allocated-cpus.mjs';
 
 const PORT = 4173;
 const BASE_URL = `http://localhost:${PORT}`;
@@ -18,6 +19,11 @@ export default defineConfig({
   use: {
     baseURL: BASE_URL,
   },
+  // Playwright compte ses workers à partir d'`os.cpus()`, qui dans un conteneur rapporte les
+  // cœurs du nœud Kubernetes et non le quota du pod : le compte était donc juste par hasard.
+  // Et son défaut de 50 % vise des tests qui attendent du réseau ; ici chaque worker parse
+  // 7,4 Mo de JS puis fait tourner axe, c'est du calcul pur, donc un worker par cœur alloué.
+  workers: currentAllocatedCpus(),
   projects: [{ name: 'chromium', use: { ...devices['Desktop Chrome'] } }],
   // `expo export` produit un site statique : un simple serveur de fichiers suffit, et
   // réutiliser un serveur déjà lancé évite un rebuild à chaque itération en local.
