@@ -195,19 +195,6 @@
       "count": 1
     }
   },
-  "src/ui/ListItem/ListItem.styles.ts": {
-    "max-lines-per-function": {
-      "count": 1
-    }
-  },
-  "src/ui/ListItem/ListItem.tsx": {
-    "complexity": {
-      "count": 1
-    },
-    "max-lines-per-function": {
-      "count": 1
-    }
-  },
   "src/ui/Popover/Popover.tsx": {
     "complexity": {
       "count": 1
