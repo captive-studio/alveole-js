@@ -1,18 +1,22 @@
-// La déclaration du thème importé par fichier est portée par une référence explicite, et
-// non par le `include` du tsconfig : `@alveole/storybook` et `@alveole/docs` compilent ces
-// sources depuis leur propre projet, où ce `include` ne s'applique pas.
-/// <reference path="./a11y-one-light.d.ts" />
 import React, { CSSProperties, ReactNode } from 'react';
 import { ScrollView, StyleSheet, Text, TextStyle, View } from 'react-native';
+// Le type est importé en `import type` : il est effacé à l'exécution, donc l'index du
+// paquet, qui charge aussi toute la moitié highlight.js, n'est jamais évalué.
+import { CustomPalette, MonospaceFont, withMinimumContrast } from '@alveole/theme';
 import type { SyntaxHighlighterProps } from 'react-syntax-highlighter';
-// Importé par son fichier : l'index des thèmes Prism ne ré-exporte que `a11yDark`.
-import a11yOneLight from 'react-syntax-highlighter/dist/esm/styles/prism/a11y-one-light.js';
+import { ghcolors } from 'react-syntax-highlighter/dist/esm/styles/prism';
 import { useStyles } from './Highlight.styles';
 import Prism from './Highlight.syntax';
 
 export type HighlightProps = Pick<SyntaxHighlighterProps, 'children'> & {
   language: 'json' | 'typescript' | 'tsx' | 'ruby' | 'bash' | 'plaintext' | 'html';
   style?: CSSProperties;
+  /**
+   * `standalone` : le bloc se délimite lui-même, quelle que soit la surface derrière lui.
+   * `embedded` : il est composé dans un cadre qui le délimite déjà, et renonce au sien pour
+   * ne pas emboîter deux bordures. Voir docs/adr/0011.
+   */
+  variant?: 'standalone' | 'embedded';
 };
 
 type RendererProps = Parameters<NonNullable<SyntaxHighlighterProps['renderer']>>[0];
@@ -59,10 +63,24 @@ const getSyntaxTextStyle = (tokenStyle: CSSProperties): TextStyle => {
   return textStyle;
 };
 
-const getNativeSyntaxStyle = (syntaxStyle: Record<string, CSSProperties>): NativeSyntaxStyle => {
+/** Le seuil WCAG AA pour du texte de taille courante. */
+const SEUIL_DE_CONTRASTE = 4.5;
+
+// Les palettes de coloration sont écrites pour des éditeurs, pas pour WCAG : celle retenue
+// descendait à 2,56 sur les noms de propriétés, contre 4,5 exigés. Chaque teinte est ramenée
+// au seuil sur la surface du bloc, ce qui reste vrai si l'on change de thème un jour.
+const getNativeSyntaxStyle = (syntaxStyle: Record<string, CSSProperties>, fond: string): NativeSyntaxStyle => {
   return Object.entries(syntaxStyle).reduce<NativeSyntaxStyle>((acc, [selector, tokenStyle]) => {
+    const style = getSyntaxTextStyle(tokenStyle);
+    // `getSyntaxTextStyle` ne retient une couleur que si le thème l'a donnée en chaîne : le
+    // type large de React Native ne le sait pas, d'où la vérification.
+    const lisible =
+      typeof style.color === 'string'
+        ? { ...style, color: withMinimumContrast(style.color, fond, SEUIL_DE_CONTRASTE) }
+        : style;
+
     for (const key of getSyntaxStyleKeys(selector)) {
-      acc[key] = { ...acc[key], ...getSyntaxTextStyle(tokenStyle) };
+      acc[key] = { ...acc[key], ...lisible };
     }
 
     return acc;
@@ -71,11 +89,20 @@ const getNativeSyntaxStyle = (syntaxStyle: Record<string, CSSProperties>): Nativ
 
 const trimEdgeNewlines = (value: string) => value.replace(/^\n+|\n+$/g, '');
 
-export const Highlight = ({ children, language, style }: HighlightProps) => {
+export const Highlight = ({ children, language, style, variant = 'standalone' }: HighlightProps) => {
   const styles = useStyles();
-  const stylesheet = React.useMemo(() => getNativeSyntaxStyle(a11yOneLight), []);
+  const surface = variant === 'embedded' ? styles.highlightEmbedded : styles.highlight;
+
+  // La valeur, pas la variable CSS que le thème rend sur le web : le calcul de contraste a
+  // besoin d'une couleur lisible, et `useTheme` renvoie ici `var(--background-alt-grey)`.
+  const fondDuBloc = CustomPalette.light.background['alt-grey'];
+  const stylesheet = React.useMemo(() => getNativeSyntaxStyle(ghcolors, fondDuBloc), [fondDuBloc]);
   const customStyle = React.useMemo(() => getNativeStyle(style), [style]);
-  const baseTextStyle = StyleSheet.flatten([{ color: stylesheet[BASE_STYLE_KEY]?.color }, stylesheet[BASE_STYLE_KEY]]);
+  const baseTextStyle = StyleSheet.flatten([
+    { color: stylesheet[BASE_STYLE_KEY]?.color },
+    stylesheet[BASE_STYLE_KEY],
+    MonospaceFont,
+  ]);
 
   const getStylesForNode = (node: RendererNode): TextStyle[] => {
     const classes = node.properties?.className ?? [];
@@ -117,7 +144,7 @@ export const Highlight = ({ children, language, style }: HighlightProps) => {
       // signalait : il défile sans pouvoir recevoir le focus, que porte l'extérieur.
       // Le thème de coloration ne fournit que les couleurs de jetons : la surface vient du
       // design system, donc `styles.highlight` est posé après la base du thème.
-      contentContainerStyle={[stylesheet[BASE_STYLE_KEY], styles.highlight, { overflow: 'visible' }, customStyle]}
+      contentContainerStyle={[stylesheet[BASE_STYLE_KEY], surface, { overflow: 'visible' }, customStyle]}
     >
       <View onStartShouldSetResponder={() => true}>{renderNode(rows)}</View>
     </ScrollView>

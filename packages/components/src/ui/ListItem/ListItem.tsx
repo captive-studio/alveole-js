@@ -60,7 +60,11 @@ export const ListItem = (props: ListItemProps) => {
       >
         {preview_url ? (
           <Box style={styles.previewContainer}>
+            {/* Alternative vide et non absente : l'aperçu est décoratif, le titre et la
+                description portent déjà l'information. Sans attribut `alt`, axe compte une
+                violation `image-alt`. */}
             <Image
+              alt=""
               source={{ uri: preview_url }}
               width={styles.preview.width}
               height={styles.preview.height}

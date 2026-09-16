@@ -1,7 +1,7 @@
 import { makeStyles } from '@alveole/theme';
 
 export const useStyles = makeStyles(() => ({
-  gradientBackground: {
+  pageBackground: {
     flex: 1,
     width: '100%',
   },

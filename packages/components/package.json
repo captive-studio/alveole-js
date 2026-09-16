@@ -103,7 +103,6 @@
     "expo-document-picker": "*",
     "expo-image": "*",
     "expo-in-app-updates": "*",
-    "expo-linear-gradient": "*",
     "expo-router": "*",
     "lottie-react-native": "*",
     "lucide-react-native": ">=0.570.0",
