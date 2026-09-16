@@ -14,3 +14,13 @@ describe('la typographie des titres sur le web', () => {
     expect(famillesDe(CustomTypography['Titres alternatifs']).every(famille => famille.includes('Geist'))).toBe(true);
   });
 });
+
+// Le gras existe a 12, 14 et 16 px mais pas a 18 : rien ne le justifie, c'est un trou de
+// l'echelle. Il s'est vu le jour ou une page a pose sa premiere phrase au cran 18.
+test('offre le gras a chaque cran du corps de texte', () => {
+  const sansGras = Object.entries(CustomTypography['Corps de texte'])
+    .filter(([, graisses]) => !('Bold' in graisses))
+    .map(([cran]) => cran);
+
+  expect(sansGras).toEqual([]);
+});
