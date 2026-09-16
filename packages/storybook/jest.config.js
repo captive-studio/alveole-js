@@ -59,5 +59,22 @@ module.exports = {
 
   watchman: false,
   collectCoverage: false,
+
+  // Seuils en cliquet : ils valent la couverture mesurée au moment où ils ont été posés,
+  // arrondie à l'entier inférieur. Ils ne sont pas un objectif de qualité mais un garde-fou
+  // contre l'érosion : une modification qui ajoute du code non testé fait baisser le taux
+  // et échoue. Les relever après avoir gagné de la couverture fait partie du travail ;
+  // les baisser demande une raison explicite.
+  //
+  // Ils se posent à la racine et non dans `projects` : la couverture est agrégée sur les deux
+  // projets, et un seuil par projet ne verrait chacun que la moitié du catalogue.
+  coverageThreshold: {
+    global: {
+      statements: 20,
+      branches: 11,
+      functions: 21,
+      lines: 21,
+    },
+  },
   collectCoverageFrom: ['src/**/*.{ts,tsx}', '!src/**/*.test.*', '!src/**/index.ts'],
 };
