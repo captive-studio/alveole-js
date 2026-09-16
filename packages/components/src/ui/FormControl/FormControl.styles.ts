@@ -75,6 +75,9 @@ export const useStyles = makeStyles(({ text, color, spacing }) => ({
     borderColor: color.border['plain-success'],
   },
   inputDisabled: {
+    // La bordure seule ne suffisait pas : elle ne differe de celle d'un champ actif que d'un
+    // cran de la rampe de gris. C'est le fond qui dit qu'on n'ecrit pas ici.
+    backgroundColor: color.background['disabled-grey'],
     borderColor: color.border['disabled-grey'],
   },
   inputFocused: {
