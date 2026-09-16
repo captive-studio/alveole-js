@@ -1,8 +1,8 @@
-import { Box, Card, Page, PageHeader, Section, Typography } from '@alveole/components';
+import { Box, Card, Page, PageHeader, Typography } from '@alveole/components';
 import { useTheme } from '@alveole/theme';
 import React from 'react';
 import { Pressable, useWindowDimensions } from 'react-native';
-import { screenContent } from '../styles';
+import { ScreenZone } from '../components/ScreenZone';
 import { getConstantEntries } from '../utils';
 
 export type ThemeConstantsScreenProps = {
@@ -24,7 +24,7 @@ export const ThemeConstantsScreen = ({
   footerContent,
   onSelectConstant,
 }: ThemeConstantsScreenProps) => {
-  const { text } = useTheme();
+  const { grilles, text } = useTheme();
   const { width } = useWindowDimensions();
   const columns = width >= 1200 ? 3 : width >= 768 ? 2 : 1;
 
@@ -39,29 +39,25 @@ export const ThemeConstantsScreen = ({
       beforeContent={beforeContent}
       footerContent={footerContent}
     >
-      <Box {...screenContent}>
-        <Section withPaddingY={false}>
-          <PageHeader title={title} />
-        </Section>
-        <Section withPaddingY={false}>
-          <Box display="flex" flexDirection="row" flexWrap="wrap" gap={16}>
-            {entries.map(([name, value]) => (
-              <Box key={name} width={columns === 1 ? '100%' : columns === 2 ? '48%' : '31%'}>
-                <Pressable
-                  accessibilityRole="button"
-                  onPress={onSelectConstant ? () => onSelectConstant({ name, value }) : undefined}
-                >
-                  <Card>
-                    <Box p={'100'}>
-                      <Typography style={text.Titres['H5 - XS']}>{name}</Typography>
-                    </Box>
-                  </Card>
-                </Pressable>
-              </Box>
-            ))}
-          </Box>
-        </Section>
-      </Box>
+      <ScreenZone largeur={grilles['12 colonnes']}>
+        <PageHeader title={title} />
+        <Box display="flex" flexDirection="row" flexWrap="wrap" gap={16}>
+          {entries.map(([name, value]) => (
+            <Box key={name} width={columns === 1 ? '100%' : columns === 2 ? '48%' : '31%'}>
+              <Pressable
+                accessibilityRole="button"
+                onPress={onSelectConstant ? () => onSelectConstant({ name, value }) : undefined}
+              >
+                <Card>
+                  <Box p={'100'}>
+                    <Typography style={text.Titres['H5 - XS']}>{name}</Typography>
+                  </Box>
+                </Card>
+              </Pressable>
+            </Box>
+          ))}
+        </Box>
+      </ScreenZone>
     </Page>
   );
 };

@@ -3,14 +3,7 @@ import { useState } from 'react';
 import { LucideIcon } from '../../ui/LucideIcon';
 import { Typography } from '../Typography';
 import type { AnchorHeadingProps } from './AnchorHeading';
-
-const toSlug = (value: string) =>
-  value
-    .toLowerCase()
-    .normalize('NFD')
-    .replace(/[̀-ͯ]/g, '')
-    .replace(/\s+/g, '-')
-    .replace(/[^a-z0-9-]/g, '');
+import { toSlug } from './slug';
 
 export const AnchorHeading = ({ children, style, scrollMarginTop }: AnchorHeadingProps) => {
   const { color } = useTheme();

@@ -14,7 +14,8 @@ import React from 'react';
 import { Linking, ScrollView } from 'react-native';
 import { ExampleBlock } from '../components/ExampleBlock';
 import { JsonBlock } from '../components/JsonBlock';
-import { screenContent } from '../styles';
+import { StoryLayout } from '../components/StoryLayout';
+import { StorySummary } from '../components/StorySummary';
 import { StorybookModule } from '../types';
 import { getStoryExamples, getStoryFlags, stripMarkdown } from '../utils';
 
@@ -192,100 +193,103 @@ export const StoryDetailScreen = ({
       beforeContent={beforeContent}
       footerContent={footerContent}
     >
-      <Box {...screenContent}>
-        <Section withPaddingY={false}>
+      {/*
+        La fiche declare une zone et un sommaire ; sa colonne de lecture est ce qui reste.
+        C'est la construction des catalogues de reference : aucun des deux ne choisit la
+        largeur de son texte. Le titre entre dans la zone avec le reste, sinon il garde le
+        bord gauche de la page pendant que le corps se centre.
+        `Section` n'a plus rien a border ici : son padding s'ajouterait a celui de la zone.
+      */}
+      <StoryLayout sommaire={examples.length > 0 ? <StorySummary exemples={examples.map(([key]) => key)} /> : null}>
+        <Box display="flex" gap={20}>
           <PageHeader title={meta.title} />
-        </Section>
-        <Section withPaddingY={false}>
-          <Box display="flex" gap={20}>
+          <Box
+            borderColor={color.light.border['default-grey']}
+            borderRadius={radius('lg')}
+            borderWidth={1}
+            display="flex"
+            gap={16}
+            p={'150'}
+            style={{ backgroundColor: color.light.background['alt-grey'] }}
+          >
             <Box
-              borderColor={color.light.border['default-grey']}
-              borderRadius={radius('lg')}
-              borderWidth={1}
               display="flex"
-              gap={16}
-              p={'150'}
-              style={{ backgroundColor: color.light.background['alt-grey'] }}
+              gap={12}
+              style={{
+                alignItems: 'flex-start',
+                flexDirection: 'row',
+                justifyContent: 'space-between',
+              }}
             >
-              <Box
-                display="flex"
-                gap={12}
-                style={{
-                  alignItems: 'flex-start',
-                  flexDirection: 'row',
-                  justifyContent: 'space-between',
-                }}
-              >
-                <Box display="flex" gap={6} style={{ flex: 1 }}>
-                  <MarkdownDescription>{meta.description}</MarkdownDescription>
-                </Box>
-
-                {meta.figmaURL ? (
-                  <Button title="Ouvrir Figma" variant="primary" onPress={() => Linking.openURL(meta.figmaURL!)} />
-                ) : null}
+              <Box display="flex" gap={6} style={{ flex: 1 }}>
+                <MarkdownDescription>{meta.description}</MarkdownDescription>
               </Box>
 
+              {meta.figmaURL ? (
+                <Button title="Ouvrir Figma" variant="primary" onPress={() => Linking.openURL(meta.figmaURL!)} />
+              ) : null}
+            </Box>
+
+            <Box display="flex" gap={10}>
+              <Typography style={text['Corps de texte'].XS.CapsBold}>Tags</Typography>
+              <Box display="flex" flexDirection="row" flexWrap="wrap" gap={8}>
+                {meta.tags.map(tag => (
+                  <Tag key={tag} color="action" size="md">
+                    {tag}
+                  </Tag>
+                ))}
+              </Box>
+            </Box>
+
+            {flags.length > 0 ? (
               <Box display="flex" gap={10}>
-                <Typography style={text['Corps de texte'].XS.CapsBold}>Tags</Typography>
+                <Typography style={text['Corps de texte'].XS.CapsBold}>Informations</Typography>
                 <Box display="flex" flexDirection="row" flexWrap="wrap" gap={8}>
-                  {meta.tags.map(tag => (
-                    <Tag key={tag} color="action" size="md">
-                      {tag}
+                  {flags.map(flag => (
+                    <Tag key={flag.key} color="default" size="md">
+                      {flag.label}
                     </Tag>
                   ))}
                 </Box>
               </Box>
+            ) : null}
 
-              {flags.length > 0 ? (
-                <Box display="flex" gap={10}>
-                  <Typography style={text['Corps de texte'].XS.CapsBold}>Informations</Typography>
-                  <Box display="flex" flexDirection="row" flexWrap="wrap" gap={8}>
-                    {flags.map(flag => (
-                      <Tag key={flag.key} color="default" size="md">
-                        {flag.label}
-                      </Tag>
-                    ))}
-                  </Box>
-                </Box>
-              ) : null}
-
-              <Box display="flex" flexDirection="row" flexWrap="wrap" gap={12}>
-                <MetaCard label="Exemples" value={String(examples.length)} />
-                <MetaCard label="Styles" value="Disponibles" />
-                {meta.props != null ? <MetaCard label="Props" value="Documentées" /> : null}
-              </Box>
+            <Box display="flex" flexDirection="row" flexWrap="wrap" gap={12}>
+              <MetaCard label="Exemples" value={String(examples.length)} />
+              <MetaCard label="Styles" value="Disponibles" />
+              {meta.props != null ? <MetaCard label="Props" value="Documentées" /> : null}
             </Box>
-
-            <DetailTabs
-              defaultValue="examples"
-              tabs={[
-                {
-                  value: 'examples',
-                  label: 'Examples',
-                  content: examplesContent,
-                  scrollable: true,
-                },
-                {
-                  value: 'styles',
-                  label: 'Styles',
-                  content: <JsonBlock value={meta.styleFn()} />,
-                  scrollable: true,
-                },
-                ...(meta.props != null
-                  ? [
-                      {
-                        value: 'props',
-                        label: 'Props',
-                        content: <JsonBlock value={meta.props} />,
-                        scrollable: true,
-                      },
-                    ]
-                  : []),
-              ]}
-            />
           </Box>
-        </Section>
-      </Box>
+
+          <DetailTabs
+            defaultValue="examples"
+            tabs={[
+              {
+                value: 'examples',
+                label: 'Examples',
+                content: examplesContent,
+                scrollable: true,
+              },
+              {
+                value: 'styles',
+                label: 'Styles',
+                content: <JsonBlock value={meta.styleFn()} />,
+                scrollable: true,
+              },
+              ...(meta.props != null
+                ? [
+                    {
+                      value: 'props',
+                      label: 'Props',
+                      content: <JsonBlock value={meta.props} />,
+                      scrollable: true,
+                    },
+                  ]
+                : []),
+            ]}
+          />
+        </Box>
+      </StoryLayout>
     </Page>
   );
 };

@@ -31,11 +31,21 @@ const cadresAutourDe = (element: HTMLElement | null) => {
 };
 
 describe('StoryDetailScreen', () => {
+  // La colonne de lecture n'est etroite que parce qu'un sommaire occupe le reste de la zone :
+  // sans lui, la fiche perdrait deux colonnes pour du vide.
+  it('liste les exemples de la fiche dans son sommaire', async () => {
+    const { getByRole } = renderScreen(<StoryDetailScreen story={fiche} />);
+
+    expect(getByRole('link', { name: 'Tailles' }).getAttribute('href')).toBe('#tailles');
+  });
+
   // Le titre d'un exemple appartient au document, pas a la demonstration : il doit pouvoir
   // etre ancre et repris dans un sommaire. Seul ce qui est montre entre dans le cadre.
   it('laisse le titre de l exemple hors du cadre', async () => {
-    const { getByText } = renderScreen(<StoryDetailScreen story={fiche} />);
+    const { getAllByText } = renderScreen(<StoryDetailScreen story={fiche} />);
+    // Le nom de l'exemple parait deux fois : dans le sommaire, en lien, et en titre.
+    const titre = getAllByText('Tailles').find(element => element.closest('a') == null);
 
-    expect(cadresAutourDe(getByText('Tailles'))).toEqual([]);
+    expect(cadresAutourDe(titre ?? null)).toEqual([]);
   });
 });

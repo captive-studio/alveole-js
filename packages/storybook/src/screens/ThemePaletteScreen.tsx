@@ -1,8 +1,8 @@
-import { Accordion, Box, Page, PageHeader, Section, Typography, useToast } from '@alveole/components';
+import { Accordion, Box, Page, PageHeader, Typography, useToast } from '@alveole/components';
 import { useTheme } from '@alveole/theme';
 import React from 'react';
 import { Pressable } from 'react-native';
-import { screenContent } from '../styles';
+import { ScreenZone } from '../components/ScreenZone';
 
 type ColorEntry = { path: string; value: string };
 type ColorSection = { title: string; entries: ColorEntry[]; deprecated?: boolean };
@@ -143,7 +143,7 @@ export const ThemePaletteScreen = ({
   sidebar,
   footerContent,
 }: ThemePaletteScreenProps) => {
-  const { color } = useTheme();
+  const { grilles, color } = useTheme();
   const sections = React.useMemo(() => buildSections(palette), [palette]);
 
   const initialOpen = React.useMemo(() => sections.filter(s => !s.deprecated).map(s => s.title), [sections]);
@@ -158,41 +158,37 @@ export const ThemePaletteScreen = ({
       beforeContent={beforeContent}
       footerContent={footerContent}
     >
-      <Box {...screenContent}>
-        <Section withPaddingY={false}>
-          <PageHeader
-            title={title}
-            breadcrumbsProps={{ getHref: (segment, _index, path) => (segment === 'theme' ? null : path) }}
-          />
-        </Section>
-        <Section withPaddingY={false}>
-          <Typography style={{ fontSize: 14, color: color.light.text['mention-grey'], marginBottom: 24 }}>
-            {'Cliquez sur un swatch pour copier sa valeur dans le presse-papiers.'}
-          </Typography>
-          <Accordion type="multiple" value={openSections} onValueChange={setOpenSections}>
-            {sections.map(section => (
-              <Accordion.Item
-                key={section.title}
-                value={section.title}
-                label={section.title}
-                variant="alt"
-                labelChildren={
-                  <Typography style={{ fontSize: 11, color: color.light.text['mention-grey'] }}>
-                    {`${section.entries.length} token${section.entries.length > 1 ? 's' : ''}`}
-                  </Typography>
-                }
-                noPadding
-              >
-                <Box style={{ flexDirection: 'row', flexWrap: 'wrap', gap: 8, padding: 8 }}>
-                  {section.entries.map(entry => (
-                    <ColorSwatch key={entry.path} entry={entry} />
-                  ))}
-                </Box>
-              </Accordion.Item>
-            ))}
-          </Accordion>
-        </Section>
-      </Box>
+      <ScreenZone largeur={grilles['12 colonnes']}>
+        <PageHeader
+          title={title}
+          breadcrumbsProps={{ getHref: (segment, _index, path) => (segment === 'theme' ? null : path) }}
+        />
+        <Typography style={{ fontSize: 14, color: color.light.text['mention-grey'], marginBottom: 24 }}>
+          {'Cliquez sur un swatch pour copier sa valeur dans le presse-papiers.'}
+        </Typography>
+        <Accordion type="multiple" value={openSections} onValueChange={setOpenSections}>
+          {sections.map(section => (
+            <Accordion.Item
+              key={section.title}
+              value={section.title}
+              label={section.title}
+              variant="alt"
+              labelChildren={
+                <Typography style={{ fontSize: 11, color: color.light.text['mention-grey'] }}>
+                  {`${section.entries.length} token${section.entries.length > 1 ? 's' : ''}`}
+                </Typography>
+              }
+              noPadding
+            >
+              <Box style={{ flexDirection: 'row', flexWrap: 'wrap', gap: 8, padding: 8 }}>
+                {section.entries.map(entry => (
+                  <ColorSwatch key={entry.path} entry={entry} />
+                ))}
+              </Box>
+            </Accordion.Item>
+          ))}
+        </Accordion>
+      </ScreenZone>
     </Page>
   );
 };

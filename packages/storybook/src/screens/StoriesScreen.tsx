@@ -2,9 +2,9 @@ import { ActionMenu, Box, Button, Page, PageHeader, Section, Typography } from '
 import { useTheme } from '@alveole/theme';
 import React from 'react';
 import { Platform, ScrollView, useWindowDimensions } from 'react-native';
+import { ScreenZone } from '../components/ScreenZone';
 import { SearchField } from '../components/SearchField';
 import { StoryCard } from '../components/StoryCard';
-import { screenContent } from '../styles';
 import { StorybookFlag, StorybookModule } from '../types';
 import { filterStories, getAllStoryTags, groupStoriesByTag } from '../utils';
 
@@ -41,7 +41,7 @@ export const StoriesScreen = ({
   onCreatePress,
   getStoryHref,
 }: StoriesScreenProps) => {
-  const { text } = useTheme();
+  const { grilles, text } = useTheme();
   const { width } = useWindowDimensions();
   const columns = width >= 1200 ? 3 : width >= 768 ? 2 : 1;
   const columnStyle =
@@ -87,103 +87,95 @@ export const StoriesScreen = ({
         </>
       }
     >
-      <Box {...screenContent}>
-        <Section withPaddingY={false}>
-          <PageHeader title={title} />
-        </Section>
-        <Section withPaddingY={false}>
-          <ScrollView
-            horizontal
-            nestedScrollEnabled
-            directionalLockEnabled={Platform.OS === 'ios'}
-            showsHorizontalScrollIndicator={false}
-            contentContainerStyle={{ flexDirection: 'row', gap: 8, alignItems: 'center' }}
+      <ScreenZone largeur={grilles['12 colonnes']}>
+        <PageHeader title={title} />
+        <ScrollView
+          horizontal
+          nestedScrollEnabled
+          directionalLockEnabled={Platform.OS === 'ios'}
+          showsHorizontalScrollIndicator={false}
+          contentContainerStyle={{ flexDirection: 'row', gap: 8, alignItems: 'center' }}
+        >
+          <Box style={{ minWidth: 200 }}>
+            <SearchField placeholder="Button, Tabs, Card..." value={query} onChangeText={setQuery} size="sm" />
+          </Box>
+
+          <ActionMenu
+            placement="bottom-start"
+            scrollable={false}
+            open={openFilter === 'tags'}
+            setOpen={open => setOpenFilter(open ? 'tags' : null)}
+            renderTrigger={() => (
+              <Button
+                variant="secondary"
+                title={selectedTag ?? 'Tags'}
+                endIcon="ChevronDown"
+                size="sm"
+                selected={selectedTag !== null}
+                active={openFilter === 'tags'}
+              />
+            )}
           >
-            <Box style={{ minWidth: 200 }}>
-              <SearchField placeholder="Button, Tabs, Card..." value={query} onChangeText={setQuery} size="sm" />
-            </Box>
+            {allTags.map(tag => (
+              <ActionMenu.Item
+                key={tag}
+                title={tag}
+                selected={selectedTag === tag}
+                onPress={() => {
+                  setSelectedTag(prev => (prev === tag ? null : tag));
+                  setOpenFilter(null);
+                }}
+              />
+            ))}
+          </ActionMenu>
 
-            <ActionMenu
-              placement="bottom-start"
-              scrollable={false}
-              open={openFilter === 'tags'}
-              setOpen={open => setOpenFilter(open ? 'tags' : null)}
-              renderTrigger={() => (
-                <Button
-                  variant="secondary"
-                  title={selectedTag ?? 'Tags'}
-                  endIcon="ChevronDown"
-                  size="sm"
-                  selected={selectedTag !== null}
-                  active={openFilter === 'tags'}
-                />
-              )}
-            >
-              {allTags.map(tag => (
-                <ActionMenu.Item
-                  key={tag}
-                  title={tag}
-                  selected={selectedTag === tag}
-                  onPress={() => {
-                    setSelectedTag(prev => (prev === tag ? null : tag));
-                    setOpenFilter(null);
-                  }}
-                />
-              ))}
-            </ActionMenu>
-
-            <ActionMenu
-              placement="bottom-start"
-              scrollable={false}
-              open={openFilter === 'indicateurs'}
-              setOpen={open => setOpenFilter(open ? 'indicateurs' : null)}
-              renderTrigger={() => (
-                <Button
-                  variant="secondary"
-                  title={AVAILABLE_FLAGS.find(f => f.key === selectedFlag)?.label ?? 'Indicateurs'}
-                  endIcon="ChevronDown"
-                  size="sm"
-                  selected={selectedFlag !== null}
-                  active={openFilter === 'indicateurs'}
-                />
-              )}
-            >
-              {AVAILABLE_FLAGS.map(flag => (
-                <ActionMenu.Item
-                  key={flag.key}
-                  title={flag.label}
-                  selected={selectedFlag === flag.key}
-                  onPress={() => {
-                    setSelectedFlag(prev => (prev === flag.key ? null : flag.key));
-                    setOpenFilter(null);
-                  }}
-                />
-              ))}
-            </ActionMenu>
-          </ScrollView>
-        </Section>
+          <ActionMenu
+            placement="bottom-start"
+            scrollable={false}
+            open={openFilter === 'indicateurs'}
+            setOpen={open => setOpenFilter(open ? 'indicateurs' : null)}
+            renderTrigger={() => (
+              <Button
+                variant="secondary"
+                title={AVAILABLE_FLAGS.find(f => f.key === selectedFlag)?.label ?? 'Indicateurs'}
+                endIcon="ChevronDown"
+                size="sm"
+                selected={selectedFlag !== null}
+                active={openFilter === 'indicateurs'}
+              />
+            )}
+          >
+            {AVAILABLE_FLAGS.map(flag => (
+              <ActionMenu.Item
+                key={flag.key}
+                title={flag.label}
+                selected={selectedFlag === flag.key}
+                onPress={() => {
+                  setSelectedFlag(prev => (prev === flag.key ? null : flag.key));
+                  setOpenFilter(null);
+                }}
+              />
+            ))}
+          </ActionMenu>
+        </ScrollView>
 
         {groupedStories.length === 0 ? (
-          <Section withPaddingY={false}>
-            <Typography style={text['Corps de texte'].MD.Regular}>{emptyMessage}</Typography>
-          </Section>
+          <Typography style={text['Corps de texte'].MD.Regular}>{emptyMessage}</Typography>
         ) : (
           groupedStories.map(([tag, taggedStories]) => (
-            <Section key={tag} withPaddingY={false}>
-              <Box display="flex" gap={16}>
-                <Typography style={text.Titres['H4 - SM']}>{tag}</Typography>
-                <Box display="flex" flexDirection="row" flexWrap="wrap" gap={16}>
-                  {taggedStories.map(story => (
-                    <Box key={story.default.title} style={{ alignSelf: 'stretch', width: columnStyle.width }}>
-                      <StoryCard story={story} href={getStoryHref(story)} />
-                    </Box>
-                  ))}
-                </Box>
+            <Box key={tag} display="flex" gap={16}>
+              <Typography style={text.Titres['H4 - SM']}>{tag}</Typography>
+              <Box display="flex" flexDirection="row" flexWrap="wrap" gap={16}>
+                {taggedStories.map(story => (
+                  <Box key={story.default.title} style={{ alignSelf: 'stretch', width: columnStyle.width }}>
+                    <StoryCard story={story} href={getStoryHref(story)} />
+                  </Box>
+                ))}
               </Box>
-            </Section>
+            </Box>
           ))
         )}
-      </Box>
+      </ScreenZone>
       {footerContent}
     </Page>
   );
