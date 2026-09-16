@@ -59,7 +59,7 @@ export const All = () => {
 
   return (
     <Box display="flex" flexDirection="column" gap={8}>
-      <Box display="flex" flexDirection="row" gap={4} flexWrap="wrap">
+      <Box display="flex" flexDirection="row" gap={24} flexWrap="wrap">
         <Button title="Default toast" variant="secondary" onPress={defaultToast} />
         <Button title="Success toast" variant="secondary" onPress={successToast} />
         <Button title="Error toast" variant="secondary" onPress={errorToast} />

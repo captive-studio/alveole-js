@@ -17,6 +17,16 @@ export const Fonts = Object.fromEntries(Object.keys(FontsMap).map(font => [font,
 
 const SANS_SERIF_FALLBACK = "-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Noto Sans', sans-serif";
 
+/**
+ * La police du code, partout où le design system en affiche : en ligne dans du texte comme
+ * en bloc. Aucune fonte n'est embarquée, on prend celle du système : une chasse fixe est
+ * attendue lisible par l'utilisateur avant d'être conforme à une identité, et charger une
+ * fonte de plus pour du code coûterait plus qu'elle ne rapporte.
+ */
+export const MonospaceFont = {
+  fontFamily: "ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas, 'Liberation Mono', monospace",
+} as const;
+
 export const FontWeightMap: Record<
   Font,
   { family: string; familyWithFallback: string; weight: NonNullable<TextStyle['fontWeight']> }

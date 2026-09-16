@@ -2,7 +2,6 @@ import {
   AnchorHeading,
   Box,
   Button,
-  Divider,
   MarkdownDescription,
   Page,
   PageHeader,
@@ -13,6 +12,7 @@ import {
 import { useTheme } from '@alveole/theme';
 import React from 'react';
 import { Linking, ScrollView } from 'react-native';
+import { ExampleBlock } from '../components/ExampleBlock';
 import { JsonBlock } from '../components/JsonBlock';
 import { screenContent } from '../styles';
 import { StorybookModule } from '../types';
@@ -157,22 +157,16 @@ export const StoryDetailScreen = ({
   const isTemplate = meta.tags.includes('Template');
 
   const examplesContent = (
-    <Box display="flex" gap={24} mt={'1,5V'}>
+    <Box display="flex" gap={40} mt={'1,5V'}>
       {examples.map(([key, Example]) => {
         const source = getStoryExampleSource(story, key);
         const description = getStoryExampleDescription(story, key);
 
+        // Le titre et la description appartiennent au document : ils restent dans le flux de
+        // la page, hors de tout cadre, pour pouvoir être ancrés et repris dans un sommaire.
+        // Le cadre n'entoure que ce qui est démontré.
         return (
-          <Box
-            key={key}
-            borderColor={color.light.border['default-grey']}
-            borderRadius={radius('lg')}
-            borderWidth={1}
-            display="flex"
-            gap={16}
-            p={'150'}
-            style={{ backgroundColor: color.light.background['alt-grey'] }}
-          >
+          <Box key={key} display="flex" gap={12}>
             {!isTemplate ? (
               <Box display="flex" gap={6}>
                 <AnchorHeading style={text.Titres['H5 - XS']}>{key}</AnchorHeading>
@@ -180,22 +174,9 @@ export const StoryDetailScreen = ({
               </Box>
             ) : null}
 
-            <Box
-              borderColor={color.light.border['default-grey']}
-              borderWidth={1}
-              borderRadius={radius('md')}
-              p={'100'}
-              style={{
-                backgroundColor: color.light.background['default-grey'],
-                minHeight: isTemplate ? 420 : undefined,
-              }}
-            >
+            <ExampleBlock source={source} pleinEcran={isTemplate}>
               <Example />
-            </Box>
-
-            <Divider mt="1W" mb="1,5V" />
-
-            {source ? <JsonBlock language="tsx" value={source} /> : null}
+            </ExampleBlock>
           </Box>
         );
       })}

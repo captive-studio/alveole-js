@@ -16,7 +16,7 @@ export default {
 } satisfies Story;
 
 export const Sizes = () => (
-  <Box display="flex" flexDirection="row" style={{ alignItems: 'flex-start' }} gap={4}>
+  <Box display="flex" flexDirection="row" style={{ alignItems: 'center' }} gap={24}>
     <Button variant="secondary" size="sm" title="Bouton sm" />
     <Button variant="secondary" size="md" title="Bouton md" />
     <Button variant="secondary" size="lg" title="Bouton lg" />
@@ -24,28 +24,28 @@ export const Sizes = () => (
 );
 
 export const Primary = () => (
-  <Box display="flex" flexDirection="row" gap={4}>
+  <Box display="flex" flexDirection="row" gap={24}>
     <Button variant="primary" title="Bouton primary" />
     <Button variant="primary" title="Disabled" disabled />
   </Box>
 );
 
 export const Secondary = () => (
-  <Box display="flex" flexDirection="row" gap={4}>
+  <Box display="flex" flexDirection="row" gap={24}>
     <Button variant="secondary" title="Bouton secondary" />
     <Button variant="secondary" title="Disabled" disabled />
   </Box>
 );
 
 export const Tertiary = () => (
-  <Box display="flex" flexDirection="row" gap={4}>
+  <Box display="flex" flexDirection="row" gap={24}>
     <Button variant="tertiary" title="Bouton tertiary" />
     <Button variant="tertiary" title="Disabled" disabled />
   </Box>
 );
 
 export const Danger = () => (
-  <Box display="flex" flexDirection="row" gap={4}>
+  <Box display="flex" flexDirection="row" gap={24}>
     <Button variant="danger" title="Bouton danger" />
     <Button variant="danger" title="Disabled" disabled />
   </Box>
@@ -53,7 +53,7 @@ export const Danger = () => (
 
 /** @deprecated Préférer les variants `primary`, `secondary` ou `tertiary`. */
 export const Link = () => (
-  <Box display="flex" flexDirection="row" gap={4}>
+  <Box display="flex" flexDirection="row" gap={24}>
     <Button variant="link" title="Bouton link" />
     <Button variant="link" title="Disabled" disabled />
     <Button variant="link" title="Disabled" disabled startIcon="Pen" />
@@ -61,7 +61,7 @@ export const Link = () => (
 );
 
 export const Icons = () => (
-  <Box display="flex" flexDirection="row" gap={4}>
+  <Box display="flex" flexDirection="row" gap={24}>
     <Button variant="primary" title="Start Icon" startIcon="Plus" />
     <Button variant="primary" title="End Icon" endIcon="Plus" />
     <Button variant="primary" title="End Icon" endIcon="Plus" />
@@ -72,7 +72,7 @@ export const Icons = () => (
 
 /** Sans `title`, le bouton passe en mode icône seule (padding carré, pas de texte). */
 export const IconOnly = () => (
-  <Box display="flex" flexDirection="row" gap={4} style={{ alignItems: 'center' }}>
+  <Box display="flex" flexDirection="row" gap={24} style={{ alignItems: 'center' }}>
     <Button variant="tertiary" size="sm" startIcon="MoreHorizontal" accessibilityLabel="Plus d'actions" />
     <Button variant="tertiary" size="md" startIcon="MoreHorizontal" accessibilityLabel="Plus d'actions" />
     <Button variant="tertiary" size="lg" startIcon="MoreHorizontal" accessibilityLabel="Plus d'actions" />
@@ -84,7 +84,7 @@ export const IconOnly = () => (
 export const FullWidth = () => <Button variant="primary" title="Full Width" fullWidth />;
 
 export const Selected = () => (
-  <Box display="flex" flexDirection="row" gap={4}>
+  <Box display="flex" flexDirection="row" gap={24}>
     <Button variant="secondary" title="Selected" selected />
   </Box>
 );

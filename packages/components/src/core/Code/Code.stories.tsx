@@ -23,7 +23,7 @@ export const Basic = () => (
 
 export const InText = () => (
   <Box>
-    <Box display="flex" flexDirection="column" gap={4}>
+    <Box display="flex" flexDirection="column" gap={24}>
       <Typography>
         Le fichier CSV doit avoir une <Code>,</Code> comme séparateur de colonnes.
       </Typography>

@@ -1,5 +1,5 @@
 import { renderNative } from '@/__tests__/helpers/renderNative';
-import a11yOneLight from 'react-syntax-highlighter/dist/esm/styles/prism/a11y-one-light.js';
+import { ghcolors } from 'react-syntax-highlighter/dist/esm/styles/prism';
 import { Highlight, HighlightProps } from './Highlight';
 
 const cases: { language: HighlightProps['language']; code: string; token: string }[] = [
@@ -23,7 +23,7 @@ describe('langages de Highlight', () => {
     // Un langage non enregistré retombe silencieusement en texte brut : vérifier
     // la couleur du jeton permet de détecter cette régression malgré un rendu réussi.
     expect(view.getAllByText(token)[0]).not.toHaveStyle({
-      color: a11yOneLight['code[class*="language-"]'].color,
+      color: ghcolors['code[class*="language-"]'].color,
     });
   });
 

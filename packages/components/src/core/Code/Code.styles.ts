@@ -1,8 +1,8 @@
-import { makeStyles } from '@alveole/theme';
+import { makeStyles, MonospaceFont } from '@alveole/theme';
 
 export const useStyles = makeStyles(({ color, radius }) => ({
   code: {
-    fontFamily: 'monospace',
+    ...MonospaceFont,
     color: color.light.text['default-error'],
     backgroundColor: 'rgba(135, 131, 120, 0.12)',
     paddingLeft: 4,
