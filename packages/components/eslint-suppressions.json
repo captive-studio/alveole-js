@@ -68,25 +68,6 @@
       "count": 1
     }
   },
-  "src/ui/Autocomplete/Autocomplete.tsx": {
-    "complexity": {
-      "count": 1
-    },
-    "max-lines": {
-      "count": 1
-    },
-    "max-lines-per-function": {
-      "count": 1
-    }
-  },
-  "src/ui/Autocomplete/Autocomplete.web.tsx": {
-    "complexity": {
-      "count": 1
-    },
-    "max-lines-per-function": {
-      "count": 1
-    }
-  },
   "src/ui/Button/Button.styles.ts": {
     "max-lines-per-function": {
       "count": 1
