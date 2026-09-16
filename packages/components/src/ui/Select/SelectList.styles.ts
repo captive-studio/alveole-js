@@ -1,4 +1,4 @@
-import { makeStyles } from '@alveole/theme';
+import { makeStyles, StyleValue, useTheme } from '@alveole/theme';
 import { Platform } from 'react-native';
 
 /**
@@ -13,95 +13,108 @@ export const SELECT_ROW_HEIGHT = Platform.OS === 'web' ? 32 : 44;
  * une bande arrondie en retrait de 16 px, et la barre de sélection vit dans la gouttière
  * ainsi dégagée : 8 px de marge, 4 px de barre, 4 px d'écart avant la bande.
  */
-export const useStyles = makeStyles(({ text, color, spacing, spacingValue, radius, shadows }) => ({
-  // Panneau
-  panel: {
-    paddingTop: spacing('1W'),
-    paddingBottom: spacing('1W'),
-    borderRadius: radius('md'),
-    borderWidth: 1,
-    borderStyle: 'solid',
-    borderColor: color.light.border['default-grey'],
-    backgroundColor: color.light.background['default-grey'],
-    overflow: 'hidden',
-    ...shadows('lifted'),
-  },
 
-  // Option : conteneur pleine largeur, sans fond propre
-  item: {
-    position: 'relative',
-    display: 'flex',
-    flexDirection: 'row',
-    alignItems: 'stretch',
-    paddingLeft: spacing('2W'),
-    paddingRight: spacing('2W'),
-    minHeight: SELECT_ROW_HEIGHT,
-    width: '100%',
-    cursor: 'pointer',
-  },
-  itemDisabled: {
-    cursor: 'not-allowed',
-  },
+type Theme = ReturnType<typeof useTheme>;
 
-  // Bande arrondie portant le fond de survol et de sélection
-  band: {
-    flex: 1,
-    display: 'flex',
-    flexDirection: 'row',
-    alignItems: 'center',
-    gap: spacing('1W'),
-    paddingLeft: spacing('1W'),
-    paddingRight: spacing('1W'),
-    borderRadius: radius('sm'),
-  },
-  bandHighlighted: {
-    backgroundColor: color.light.background['transparent-hover'],
-  },
+// `satisfies` plutot qu'une annotation de retour : il redonne a chaque table le typage
+// contextuel que `makeStyles` fournissait quand tout tenait dans un seul litteral. Une
+// annotation, elle, effacerait les cles.
+type Table = Record<string, StyleValue>;
 
-  itemLabel: {
-    ...text['Corps de texte'].MD.Regular,
-    color: color.light.text['default-grey'],
-    flex: 1,
-  },
-  itemLabelDisabled: {
-    color: color.light.text['disabled-grey'],
-  },
+const panneau = ({ text, color, spacing, radius, shadows }: Theme) =>
+  ({
+    // Panneau
+    panel: {
+      paddingTop: spacing('1W'),
+      paddingBottom: spacing('1W'),
+      borderRadius: radius('md'),
+      borderWidth: 1,
+      borderStyle: 'solid',
+      borderColor: color.light.border['default-grey'],
+      backgroundColor: color.light.background['default-grey'],
+      overflow: 'hidden',
+      ...shadows('lifted'),
+    },
+    // Message liste vide
+    emptyMessage: {
+      ...text['Corps de texte'].SM.Regular,
+      color: color.light.text['mention-grey'],
+      paddingTop: spacing('1W'),
+      paddingBottom: spacing('1W'),
+      paddingLeft: spacing('3W'),
+      paddingRight: spacing('3W'),
+    },
+    // En-tête de groupe
+    groupHeader: {
+      ...text['Corps de texte'].XS.SemiBold,
+      color: color.light.text['mention-grey'],
+      textTransform: 'uppercase',
+      paddingTop: spacing('3V'),
+      paddingBottom: spacing('1V'),
+      paddingLeft: spacing('3W'),
+      paddingRight: spacing('3W'),
+    },
+  }) satisfies Table;
 
-  // Indicateur de sélection : barre verticale dans la gouttière, à gauche de la bande
-  indicator: {
-    position: 'absolute',
-    left: spacing('1W'),
-    top: 0,
-    bottom: 0,
-    width: spacingValue('1V'),
-    display: 'flex',
-    justifyContent: 'center',
-  },
-  indicatorContent: {
-    width: '100%',
-    height: spacingValue('3W'),
-    borderRadius: radius('sm'),
-    backgroundColor: color.light.border['default-primary'],
-  },
+const ligne = ({ color, spacing, radius }: Theme) =>
+  ({
+    // Option : conteneur pleine largeur, sans fond propre
+    item: {
+      position: 'relative',
+      display: 'flex',
+      flexDirection: 'row',
+      alignItems: 'stretch',
+      paddingLeft: spacing('2W'),
+      paddingRight: spacing('2W'),
+      minHeight: SELECT_ROW_HEIGHT,
+      width: '100%',
+      cursor: 'pointer',
+    },
+    itemDisabled: {
+      cursor: 'not-allowed',
+    },
+    // Bande arrondie portant le fond de survol et de sélection
+    band: {
+      flex: 1,
+      display: 'flex',
+      flexDirection: 'row',
+      alignItems: 'center',
+      gap: spacing('1W'),
+      paddingLeft: spacing('1W'),
+      paddingRight: spacing('1W'),
+      borderRadius: radius('sm'),
+    },
+    bandHighlighted: {
+      backgroundColor: color.light.background['transparent-hover'],
+    },
+  }) satisfies Table;
 
-  // En-tête de groupe
-  groupHeader: {
-    ...text['Corps de texte'].XS.SemiBold,
-    color: color.light.text['mention-grey'],
-    textTransform: 'uppercase',
-    paddingTop: spacing('3V'),
-    paddingBottom: spacing('1V'),
-    paddingLeft: spacing('3W'),
-    paddingRight: spacing('3W'),
-  },
+const contenuDeLaLigne = ({ text, color, spacing, spacingValue, radius }: Theme) =>
+  ({
+    itemLabel: {
+      ...text['Corps de texte'].MD.Regular,
+      color: color.light.text['default-grey'],
+      flex: 1,
+    },
+    itemLabelDisabled: {
+      color: color.light.text['disabled-grey'],
+    },
+    // Indicateur de sélection : barre verticale dans la gouttière, à gauche de la bande
+    indicator: {
+      position: 'absolute',
+      left: spacing('1W'),
+      top: 0,
+      bottom: 0,
+      width: spacingValue('1V'),
+      display: 'flex',
+      justifyContent: 'center',
+    },
+    indicatorContent: {
+      width: '100%',
+      height: spacingValue('3W'),
+      borderRadius: radius('sm'),
+      backgroundColor: color.light.border['default-primary'],
+    },
+  }) satisfies Table;
 
-  // Message liste vide
-  emptyMessage: {
-    ...text['Corps de texte'].SM.Regular,
-    color: color.light.text['mention-grey'],
-    paddingTop: spacing('1W'),
-    paddingBottom: spacing('1W'),
-    paddingLeft: spacing('3W'),
-    paddingRight: spacing('3W'),
-  },
-}));
+export const useStyles = makeStyles(theme => ({ ...panneau(theme), ...ligne(theme), ...contenuDeLaLigne(theme) }));

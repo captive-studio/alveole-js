@@ -53,17 +53,7 @@
       "count": 1
     }
   },
-  "src/ui/Accordion/Accordion.styles.ts": {
-    "max-lines-per-function": {
-      "count": 1
-    }
-  },
   "src/ui/ActionMenu/ActionMenu.stories.tsx": {
-    "max-lines-per-function": {
-      "count": 1
-    }
-  },
-  "src/ui/Autocomplete/Autocomplete.styles.ts": {
     "max-lines-per-function": {
       "count": 1
     }
@@ -76,20 +66,10 @@
       "count": 1
     }
   },
-  "src/ui/Checkbox/Checkbox.styles.ts": {
-    "max-lines-per-function": {
-      "count": 1
-    }
-  },
   "src/ui/DataTable/DataTable.stories.tsx": {
     "max-lines": {
       "count": 1
     },
-    "max-lines-per-function": {
-      "count": 1
-    }
-  },
-  "src/ui/DataTable/DataTable.styles.ts": {
     "max-lines-per-function": {
       "count": 1
     }
@@ -117,11 +97,6 @@
       "count": 1
     }
   },
-  "src/ui/DocumentViewer/DocumentViewer.styles.ts": {
-    "max-lines-per-function": {
-      "count": 1
-    }
-  },
   "src/ui/DocumentViewer/DocumentViewer.tsx": {
     "max-lines-per-function": {
       "count": 1
@@ -136,11 +111,6 @@
     }
   },
   "src/ui/DocumentViewer/DocumentViewerPDF.web.tsx": {
-    "max-lines-per-function": {
-      "count": 1
-    }
-  },
-  "src/ui/DragAndDropFile/DragAndDropFile.styles.ts": {
     "max-lines-per-function": {
       "count": 1
     }
@@ -182,11 +152,6 @@
       "count": 1
     }
   },
-  "src/ui/FormControl/FormControl.styles.ts": {
-    "max-lines-per-function": {
-      "count": 1
-    }
-  },
   "src/ui/FormControl/FormControlFileInput.tsx": {
     "complexity": {
       "count": 1
@@ -197,16 +162,6 @@
   },
   "src/ui/Popover/Popover.tsx": {
     "complexity": {
-      "count": 1
-    }
-  },
-  "src/ui/ProgressBar/ProgressBar.styles.ts": {
-    "max-lines-per-function": {
-      "count": 1
-    }
-  },
-  "src/ui/RadioGroup/RadioGroup.styles.ts": {
-    "max-lines-per-function": {
       "count": 1
     }
   },
@@ -238,17 +193,7 @@
       "count": 1
     }
   },
-  "src/ui/Select/SelectList.styles.ts": {
-    "max-lines-per-function": {
-      "count": 1
-    }
-  },
   "src/ui/SelectMultiple/SelectMultiple.web.tsx": {
-    "max-lines-per-function": {
-      "count": 1
-    }
-  },
-  "src/ui/Sidebar/Sidebar.styles.ts": {
     "max-lines-per-function": {
       "count": 1
     }
@@ -276,22 +221,12 @@
       "count": 1
     }
   },
-  "src/ui/Tabs/Tabs.styles.ts": {
-    "max-lines-per-function": {
-      "count": 1
-    }
-  },
   "src/ui/Tabs/Tabs.tsx": {
     "max-lines-per-function": {
       "count": 1
     }
   },
   "src/ui/TextInputArray/TextInputArray.tsx": {
-    "max-lines-per-function": {
-      "count": 1
-    }
-  },
-  "src/ui/Toast/Toast.styles.ts": {
     "max-lines-per-function": {
       "count": 1
     }

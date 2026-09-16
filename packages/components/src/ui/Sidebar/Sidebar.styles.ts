@@ -1,13 +1,21 @@
-import { makeStyles } from '@alveole/theme';
+import { makeStyles, StyleValue, useTheme } from '@alveole/theme';
 
-export const useStyles = makeStyles(({ text, color, spacing, spacingValue, isVariant, radius }) => {
-  // Titre de groupe et libellé d'item partent de la même verticale, comme chez Primer qui les
-  // aligne au pixel. L'item y arrive par trois retraits emboîtés : la marge de son conteneur,
-  // le padding de ce conteneur, puis celui de la pastille qui porte le texte. Le titre n'en a
-  // qu'un seul, d'où cette somme explicite : sans elle les deux dérivent au premier réglage.
-  const desktopContentInset = spacingValue('075') + spacingValue('050') + spacingValue('050');
+type Theme = ReturnType<typeof useTheme>;
 
-  return {
+// `satisfies` plutot qu'une annotation de retour : il redonne a chaque table le typage
+// contextuel que `makeStyles` fournissait quand tout tenait dans un seul litteral. Une
+// annotation, elle, effacerait les cles.
+type Table = Record<string, StyleValue>;
+
+// Titre de groupe et libellé d'item partent de la même verticale, comme chez Primer qui les
+// aligne au pixel. L'item y arrive par trois retraits emboîtés : la marge de son conteneur,
+// le padding de ce conteneur, puis celui de la pastille qui porte le texte. Le titre n'en a
+// qu'un seul, d'où cette somme explicite : sans elle les deux dérivent au premier réglage.
+const retraitDuContenu = (spacingValue: Theme['spacingValue']) =>
+  spacingValue('075') + spacingValue('050') + spacingValue('050');
+
+const coque = ({ color, spacing, spacingValue, isVariant }: Theme) =>
+  ({
     sidebar: {
       backgroundColor: '#FFFFFF',
       borderRightWidth: 1,
@@ -38,6 +46,10 @@ export const useStyles = makeStyles(({ text, color, spacing, spacingValue, isVar
       zIndex: 1000,
       backgroundColor: '#FFFFFF',
     },
+  }) satisfies Table;
+
+const groupe = ({ text, color, spacing, spacingValue }: Theme) =>
+  ({
     // L'écart qui détache deux groupes appartient au groupe, pas à son titre : porté par le
     // titre, il le collerait à sa propre liste tout en le faisant flotter sous la précédente.
     groupDesktop: {
@@ -53,7 +65,7 @@ export const useStyles = makeStyles(({ text, color, spacing, spacingValue, isVar
     groupTitleDesktop: {
       ...text['Corps de texte'].XS.Bold,
       color: color.light.text['mention-grey'],
-      paddingLeft: desktopContentInset,
+      paddingLeft: retraitDuContenu(spacingValue),
       paddingTop: spacing('050'),
       paddingBottom: spacing('050'),
     },
@@ -72,6 +84,10 @@ export const useStyles = makeStyles(({ text, color, spacing, spacingValue, isVar
       paddingTop: spacing('3V'),
       paddingBottom: spacing('3V'),
     },
+  }) satisfies Table;
+
+const item = ({ color, spacing }: Theme) =>
+  ({
     // 32px de haut en tout : 20 de hauteur de ligne plus 6 de part et d'autre, comme dans la
     // maquette. Le retrait horizontal reste à 8, c'est lui qui porte la verticale du contenu.
     sidebarItemDesktop: {
@@ -102,15 +118,19 @@ export const useStyles = makeStyles(({ text, color, spacing, spacingValue, isVar
       color: color.light.text['title-grey'],
       stroke: color.light.text['title-grey'],
     },
+    sidebarItemHover: {
+      backgroundColor: color.light.background['default-grey-hover'],
+    },
+  }) satisfies Table;
+
+const etatDeLItem = ({ color, spacing, radius }: Theme) =>
+  ({
     sidebarItemSelectedDesktop: {
       backgroundColor: color.light.background['contrast-grey'],
     },
     sidebarItemSelectedMobile: {
       borderRadius: radius('lg'),
       backgroundColor: color.light.background['alt-primary'],
-    },
-    sidebarItemHover: {
-      backgroundColor: color.light.background['default-grey-hover'],
     },
     sidebarItemContainerDesktop: {
       paddingLeft: spacing('050'),
@@ -134,6 +154,10 @@ export const useStyles = makeStyles(({ text, color, spacing, spacingValue, isVar
       marginLeft: spacing('075'),
       marginRight: spacing('025'),
     },
+  }) satisfies Table;
+
+const titreDeLItem = ({ text, color }: Theme) =>
+  ({
     sidebarItemTitleSelectedDesktop: {
       ...text['Corps de texte'].SM.Bold,
       color: color.light.text['default-grey'],
@@ -162,6 +186,10 @@ export const useStyles = makeStyles(({ text, color, spacing, spacingValue, isVar
       ...text['Corps de texte'].MD.Medium,
       color: color.light.background['action-high-primary'],
     },
+  }) satisfies Table;
+
+const indicateur = ({ color, spacing, spacingValue }: Theme) =>
+  ({
     sidebarItemSelectedIndicator: {
       height: '100%',
       width: spacingValue('025'),
@@ -175,5 +203,13 @@ export const useStyles = makeStyles(({ text, color, spacing, spacingValue, isVar
       margin: 'auto',
       borderRadius: spacing('050'),
     },
-  };
-});
+  }) satisfies Table;
+
+export const useStyles = makeStyles(theme => ({
+  ...coque(theme),
+  ...groupe(theme),
+  ...item(theme),
+  ...etatDeLItem(theme),
+  ...titreDeLItem(theme),
+  ...indicateur(theme),
+}));

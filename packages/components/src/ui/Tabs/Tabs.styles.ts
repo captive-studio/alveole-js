@@ -1,83 +1,101 @@
-import { makeStyles } from '@alveole/theme';
+import { makeStyles, StyleValue, useTheme } from '@alveole/theme';
 
-export const useStyles = makeStyles(({ color, spacing, text, radius }) => ({
-  container: {
-    flex: 1,
-    minHeight: 0,
-    display: 'flex',
-    flexDirection: 'column',
-    gap: spacing('075'),
-  },
-  tabs: {
-    flex: 1,
-    minHeight: 0,
-    flexDirection: 'column',
-  },
-  tabsList: {
-    borderBottomLeftRadius: spacing('000'),
-    borderBottomRightRadius: spacing('000'),
-    gap: spacing('075'),
-    boxSizing: 'border-box',
-    borderColor: color.light.border['default-grey'],
-    borderBottomWidth: 1,
-    backgroundColor: 'transparent',
-    overflowX: 'scroll', // On ajoute un scroll horizontal pour les petits écrans
-  },
-  tabsTab: {
-    appearance: 'none',
-    backgroundColor: 'transparent',
-    cursor: 'pointer',
-    paddingTop: spacing('1W'),
-    paddingBottom: spacing('1W'),
-    paddingLeft: 0,
-    paddingRight: 0,
-    boxSizing: 'border-box',
-    borderWidth: 0,
-    borderBottomWidth: 2,
-    borderBottomColor: 'transparent',
-    display: 'flex',
-    alignItems: 'center',
-    gap: spacing('1W'),
-  },
-  tabsTabActive: {
-    borderBottomColor: color.light.border['default-primary'],
-    borderBottomWidth: 2,
-  },
-  wrapperHover: {
-    display: 'flex',
-    flexDirection: 'row',
-    alignItems: 'center',
-    backgroundColor: color.light.background['transparent-hover'],
-  },
-  wrapper: {
-    display: 'flex',
-    flexDirection: 'row',
-    alignItems: 'center',
-    transitionProperty: 'all',
-    transitionDuration: '0.1s',
-    transitionTimingFunction: 'ease-in-out',
-    gap: spacing('1W'),
-    paddingTop: spacing('025'),
-    paddingBottom: spacing('025'),
-    paddingLeft: spacing('050'),
-    paddingRight: spacing('050'),
-    borderRadius: radius('md'),
-  },
-  tabIcon: {
-    color: color.light.text['mention-grey'],
-  },
-  tabIconHover: {
-    color: color.light.text['default-grey'],
-  },
-  tabsLabel: {
-    ...text['Corps de texte'].SM.Regular,
-  },
-  tabsLabelActive: {
-    ...text['Corps de texte'].SM.Bold,
-  },
-  tabsContent: {
-    flex: 1,
-    minHeight: 0,
-    overflow: 'hidden',
-  },
-}));
+type Theme = ReturnType<typeof useTheme>;
+
+// `satisfies` plutot qu'une annotation de retour : il redonne a chaque table le typage
+// contextuel que `makeStyles` fournissait quand tout tenait dans un seul litteral. Une
+// annotation, elle, effacerait les cles.
+type Table = Record<string, StyleValue>;
+
+const coque = ({ color, spacing }: Theme) =>
+  ({
+    container: {
+      flex: 1,
+      minHeight: 0,
+      display: 'flex',
+      flexDirection: 'column',
+      gap: spacing('075'),
+    },
+    tabs: {
+      flex: 1,
+      minHeight: 0,
+      flexDirection: 'column',
+    },
+    tabsList: {
+      borderBottomLeftRadius: spacing('000'),
+      borderBottomRightRadius: spacing('000'),
+      gap: spacing('075'),
+      boxSizing: 'border-box',
+      borderColor: color.light.border['default-grey'],
+      borderBottomWidth: 1,
+      backgroundColor: 'transparent',
+      overflowX: 'scroll', // On ajoute un scroll horizontal pour les petits écrans
+    },
+    tabsContent: {
+      flex: 1,
+      minHeight: 0,
+      overflow: 'hidden',
+    },
+  }) satisfies Table;
+
+const onglet = ({ color, spacing, radius }: Theme) =>
+  ({
+    tabsTab: {
+      appearance: 'none',
+      backgroundColor: 'transparent',
+      cursor: 'pointer',
+      paddingTop: spacing('1W'),
+      paddingBottom: spacing('1W'),
+      paddingLeft: 0,
+      paddingRight: 0,
+      boxSizing: 'border-box',
+      borderWidth: 0,
+      borderBottomWidth: 2,
+      borderBottomColor: 'transparent',
+      display: 'flex',
+      alignItems: 'center',
+      gap: spacing('1W'),
+    },
+    tabsTabActive: {
+      borderBottomColor: color.light.border['default-primary'],
+      borderBottomWidth: 2,
+    },
+    wrapper: {
+      display: 'flex',
+      flexDirection: 'row',
+      alignItems: 'center',
+      transitionProperty: 'all',
+      transitionDuration: '0.1s',
+      transitionTimingFunction: 'ease-in-out',
+      gap: spacing('1W'),
+      paddingTop: spacing('025'),
+      paddingBottom: spacing('025'),
+      paddingLeft: spacing('050'),
+      paddingRight: spacing('050'),
+      borderRadius: radius('md'),
+    },
+    wrapperHover: {
+      display: 'flex',
+      flexDirection: 'row',
+      alignItems: 'center',
+      backgroundColor: color.light.background['transparent-hover'],
+    },
+  }) satisfies Table;
+
+const contenuDeLOnglet = ({ color, text }: Theme) =>
+  ({
+    tabIcon: {
+      color: color.light.text['mention-grey'],
+    },
+    tabIconHover: {
+      color: color.light.text['default-grey'],
+    },
+    tabsLabel: {
+      ...text['Corps de texte'].SM.Regular,
+    },
+    tabsLabelActive: {
+      ...text['Corps de texte'].SM.Bold,
+    },
+  }) satisfies Table;
+
+export const useStyles = makeStyles(theme => ({ ...coque(theme), ...onglet(theme), ...contenuDeLOnglet(theme) }));
