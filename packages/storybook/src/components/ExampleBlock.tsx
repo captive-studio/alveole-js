@@ -6,7 +6,16 @@ import { decouperSource } from '../storySource';
 /** Au delà, la source prend plus de place que ce qu'elle documente. */
 const LIGNES_VISIBLES = 12;
 
-/** La scène de la démonstration : le composant y est posé comme dans une application. */
+/** L'écart entre deux points de la trame : assez lâche pour rester un fond, pas une texture. */
+const PAS_DE_LA_TRAME = 16;
+
+/**
+ * La scène de la démonstration : le composant y est posé comme dans une application.
+ *
+ * Son fond reste celui de la page : le gris appartient au bloc de code juste en dessous, et
+ * le reprendre ici effacerait la frontière entre ce qu'on montre et la façon de l'écrire. La
+ * trame dit « surface de démonstration » sans dépenser une seconde valeur de fond.
+ */
 const Scene = ({ children, pleinEcran }: { children: React.ReactNode; pleinEcran: boolean }) => {
   const { color } = useTheme();
 
@@ -15,6 +24,8 @@ const Scene = ({ children, pleinEcran }: { children: React.ReactNode; pleinEcran
       p={'150'}
       style={{
         backgroundColor: color.light.background['default-grey'],
+        backgroundImage: `radial-gradient(circle, ${color.light.border['default-grey']} 1px, transparent 1px)`,
+        backgroundSize: `${PAS_DE_LA_TRAME}px ${PAS_DE_LA_TRAME}px`,
         alignItems: pleinEcran ? undefined : 'center',
         justifyContent: 'center',
         minHeight: pleinEcran ? 420 : 160,
