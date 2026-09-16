@@ -1,7 +1,8 @@
-import { Box, Card, Page, PageHeader, Typography } from '@alveole/components';
+import { Box, Card, Page, Typography } from '@alveole/components';
 import { useTheme } from '@alveole/theme';
 import React from 'react';
 import { Pressable, useWindowDimensions } from 'react-native';
+import { PageTitle } from '../components/PageTitle';
 import { ScreenZone } from '../components/ScreenZone';
 import { getConstantEntries } from '../utils';
 
@@ -40,7 +41,7 @@ export const ThemeConstantsScreen = ({
       footerContent={footerContent}
     >
       <ScreenZone largeur={grilles['12 colonnes']}>
-        <PageHeader title={title} />
+        <PageTitle title={title} />
         <Box display="flex" flexDirection="row" flexWrap="wrap" gap={16}>
           {entries.map(([name, value]) => (
             <Box key={name} width={columns === 1 ? '100%' : columns === 2 ? '48%' : '31%'}>

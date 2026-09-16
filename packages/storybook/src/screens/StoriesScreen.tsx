@@ -1,7 +1,8 @@
-import { ActionMenu, Box, Button, Page, PageHeader, Section, Typography } from '@alveole/components';
+import { ActionMenu, Box, Button, Page, Section, Typography } from '@alveole/components';
 import { useTheme } from '@alveole/theme';
 import React from 'react';
 import { Platform, ScrollView, useWindowDimensions } from 'react-native';
+import { PageTitle } from '../components/PageTitle';
 import { ScreenZone } from '../components/ScreenZone';
 import { SearchField } from '../components/SearchField';
 import { StoryCard } from '../components/StoryCard';
@@ -88,7 +89,7 @@ export const StoriesScreen = ({
       }
     >
       <ScreenZone largeur={grilles['12 colonnes']}>
-        <PageHeader title={title} />
+        <PageTitle title={title} />
         <ScrollView
           horizontal
           nestedScrollEnabled

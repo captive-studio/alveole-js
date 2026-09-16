@@ -1,18 +1,9 @@
-import {
-  AnchorHeading,
-  Box,
-  MarkdownDescription,
-  Page,
-  PageHeader,
-  Section,
-  Tabs,
-  Tag,
-  Typography,
-} from '@alveole/components';
+import { AnchorHeading, Box, MarkdownDescription, Page, Section, Tabs, Tag, Typography } from '@alveole/components';
 import { useTheme } from '@alveole/theme';
 import React from 'react';
 import { ExampleBlock } from '../components/ExampleBlock';
 import { JsonBlock } from '../components/JsonBlock';
+import { PageTitle } from '../components/PageTitle';
 import { StoryLayout } from '../components/StoryLayout';
 import { StorySummary } from '../components/StorySummary';
 import { StorybookModule } from '../types';
@@ -133,7 +124,7 @@ export const StoryDetailScreen = ({
             l'annonce, qui se lisent d'affilee. */}
         <Box display="flex" gap={spacingValue('6W')}>
           <Box display="flex" gap={16}>
-            <PageHeader title={meta.title} />
+            <PageTitle title={meta.title} />
             <Box
               display="flex"
               gap={12}

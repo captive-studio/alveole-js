@@ -1,7 +1,8 @@
-import { Box, Page, PageHeader, Typography } from '@alveole/components';
+import { Box, Page, Typography } from '@alveole/components';
 import { useTheme } from '@alveole/theme';
 import React from 'react';
 import { JsonBlock } from '../components/JsonBlock';
+import { PageTitle } from '../components/PageTitle';
 import { ScreenZone } from '../components/ScreenZone';
 
 export type ThemeConstantDetailScreenProps = {
@@ -32,7 +33,7 @@ export const ThemeConstantDetailScreen = ({
       footerContent={footerContent}
     >
       <ScreenZone largeur={grilles['12 colonnes']}>
-        <PageHeader title={name} />
+        <PageTitle title={name} />
         <Box display="flex" gap={16}>
           {entries.length === 0 ? (
             <JsonBlock value={value} />

@@ -80,6 +80,15 @@ describe('StoryDetailScreen', () => {
       styles: null,
     });
   });
+  // Le catalogue est un site de documentation, pas une application : son titre de page se lit
+  // dans un autre registre que celui de `PageHeader`, qui titre les ecrans des applications
+  // clientes. Primer sert sa doc avec un paquet a part, Atlassian avec un style hors de son
+  // echelle, Uber avec son echelle mais sans passer par un en-tete d'application.
+  it('titre la fiche dans le registre du catalogue, pas dans celui des applications', () => {
+    const { getByText } = renderScreen(<StoryDetailScreen story={fiche} />);
+
+    expect(window.getComputedStyle(getByText('Bouton')).fontSize).toBe('var(--typography-titres-h1-xl-font-size)');
+  });
   // Le bleu plein appelle l'action principale d'une page. Une fiche n'en a pas : elle a de la
   // lecture, et Figma en est une sortie laterale. Primer ecrit « View in Figma » en lien.
   it('ouvre Figma par un lien plutot que par un bouton', () => {

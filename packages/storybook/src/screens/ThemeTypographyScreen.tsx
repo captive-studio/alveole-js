@@ -1,6 +1,7 @@
-import { Box, Card, Page, PageHeader, Typography } from '@alveole/components';
+import { Box, Card, Page, Typography } from '@alveole/components';
 import { useTheme } from '@alveole/theme';
 import { TextStyle, View } from 'react-native';
+import { PageTitle } from '../components/PageTitle';
 import { ScreenZone } from '../components/ScreenZone';
 
 export type ThemeTypographyScreenProps = {
@@ -142,7 +143,7 @@ export const ThemeTypographyScreen = ({
       footerContent={footerContent}
     >
       <ScreenZone largeur={grilles['12 colonnes']}>
-        <PageHeader
+        <PageTitle
           title={title}
           breadcrumbsProps={{ getHref: (segment, _index, path) => (segment === 'theme' ? null : path) }}
         />
