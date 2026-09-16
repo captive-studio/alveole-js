@@ -2,7 +2,7 @@ import { expect, test } from '@playwright/test';
 import { mkdtempSync, writeFileSync } from 'node:fs';
 import { tmpdir } from 'node:os';
 import { join } from 'node:path';
-import { auditedRoutes, matching } from './pages';
+import { auditedRoutes, matching, navigationRoute } from './pages';
 
 // Un faux export, pour que ces tests ne dépendent pas d'un build présent : la lecture du
 // vrai dist/ est exercée par accessibility.spec.ts, qui en a besoin pour exister.
@@ -52,4 +52,8 @@ test('ne retient que les routes dont le nom contient le motif', () => {
 
 test('refuse un motif qui ne correspond à aucune route', () => {
   expect(() => matching(['/components/Select'], 'Inexistant')).toThrow(/aucune page ne correspond/i);
+});
+
+test('audite la colonne depuis une fiche, jamais depuis l’index', () => {
+  expect(navigationRoute(fakeSitemap('/components/TextField', '/components/Select'))).toBe('/components/Select');
 });

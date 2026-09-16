@@ -24,6 +24,10 @@ export function compare(actual: RuleCounts, expected: RuleCounts): string[] {
   });
 }
 
+// La colonne est auditée à part des fiches, donc relevée sous une clé à elle. Ce n'est pas
+// une route : aucun sitemap ne la produira jamais, et rien ne peut donc la percuter.
+export const NAVIGATION_KEY = 'colonne';
+
 export type Baseline = Record<string, RuleCounts>;
 
 // Absence de fichier et baseline vide sont le même cas : un dépôt qui n'a jamais figé de

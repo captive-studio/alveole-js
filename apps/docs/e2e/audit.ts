@@ -4,6 +4,9 @@ import type { Result } from 'axe-core';
 
 const LOCAL_HOSTS = new Set(['localhost', '127.0.0.1']);
 
+// La colonne du catalogue, identique d'une fiche à l'autre.
+const NAVIGATION = 'nav';
+
 // axe descend dans les iframes. Les stories qui en embarquent une vers un service tiers
 // (Metabase) faisaient donc auditer du HTML distant : des violations qui ne sont pas les
 // nôtres, et intermittentes selon que le chargement distant avait abouti avant le scan.
@@ -19,7 +22,7 @@ export async function blockThirdParties(page: Page): Promise<void> {
 // coquille, et auditer là ne verrait aucun composant. On attend le premier titre rendu
 // plutôt qu'un délai fixe. Les pages d'index n'en ont pas : leur absence n'est pas une
 // erreur, l'audit qui suit se chargera de constater ce qui est effectivement rendu.
-export async function auditRoute(page: Page, route: string): Promise<Result[]> {
+export async function openRoute(page: Page, route: string): Promise<void> {
   await page.goto(route);
   await page
     .getByRole('heading')
@@ -35,8 +38,26 @@ export async function auditRoute(page: Page, route: string): Promise<Result[]> {
   await page
     .waitForFunction(() => Array.from(document.images).every(image => image.complete), null, { timeout: 15_000 })
     .catch(() => undefined);
+}
 
-  const { violations } = await new AxeBuilder({ page }).analyze();
+// La colonne liste les 75 fiches et pèse les deux tiers du DOM d'une fiche simple : la
+// relire à chaque page revenait à payer 75 fois le même audit. Elle est auditée à part.
+export async function auditPage(page: Page): Promise<Result[]> {
+  const { violations } = await new AxeBuilder({ page }).exclude(NAVIGATION).analyze();
 
   return violations;
+}
+
+// La colonne n'est pas la même selon la page : elle marque l'entrée courante. L'auditer
+// depuis une fiche couvre donc un état que la page d'index ne montre jamais.
+export async function auditNavigation(page: Page): Promise<Result[]> {
+  const { violations } = await new AxeBuilder({ page }).include(NAVIGATION).analyze();
+
+  return violations;
+}
+
+export async function auditRoute(page: Page, route: string): Promise<Result[]> {
+  await openRoute(page, route);
+
+  return auditPage(page);
 }
