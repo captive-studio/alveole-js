@@ -7,7 +7,7 @@
     "start": "node ./scripts/sync-pdfjs-web-assets.mjs && ALVEOLE_LIVE=1 expo start --web",
     "build": "node ./scripts/sync-pdfjs-web-assets.mjs && node ./scripts/generate-sitemap.mjs && expo export --platform web",
     "lint:app": "eslint . --cache --cache-strategy content",
-    "typecheck": "npm run generate:sources --prefix ../../packages/components && tsc -p tsconfig.typecheck.json --noEmit",
+    "typecheck": "pnpm --filter @alveole/components run generate:sources && tsc -p tsconfig.typecheck.json --noEmit",
     "test:a11y": "playwright test",
     "test:a11y:baseline": "node scripts/generate-a11y-baseline.mts",
     "doctor": "expo-doctor",

@@ -1,32 +1,36 @@
 {
   "name": "@alveole/root",
   "private": true,
-  "workspaces": [
-    "packages/*",
-    "apps/*"
-  ],
+  "packageManager": "pnpm@10.34.5",
+  "pnpm": {
+    "onlyBuiltDependencies": [
+      "@swc/core",
+      "esbuild",
+      "unrs-resolver"
+    ]
+  },
   "scripts": {
-    "build": "npm run --workspaces --if-present build",
-    "build:packages": "npm run build --workspace=packages/core --workspace=packages/theme --workspace=packages/components --workspace=packages/storybook",
+    "build": "pnpm -r --if-present run build",
+    "build:packages": "pnpm --filter @alveole/core --filter @alveole/theme --filter @alveole/components --filter @alveole/storybook run build",
     "format": "node scripts/format.mjs --write",
     "format:check": "node scripts/format.mjs --check",
-    "test:unit": "npm run --workspaces --if-present test:unit",
-    "test:dev": "npm run test:dev --workspace=packages/components --",
-    "lint": "npm run --workspaces --if-present lint",
-    "typecheck": "npm run --workspaces --if-present typecheck",
-    "start:ui-kit": "npm run start --workspace=apps/docs --",
-    "start:ui-kit:clear": "npm run start:ui-kit -- --clear",
-    "doctor": "npm run doctor --workspace=apps/docs",
-    "doctor:fix": "npm run doctor:fix --workspace=apps/docs && npm run doctor:fix --workspace=packages/components",
-    "check:dead-code": "npm run generate:sources --workspace=packages/components && knip",
+    "test:unit": "pnpm -r --if-present run test:unit",
+    "test:dev": "pnpm --filter @alveole/components run test:dev --",
+    "lint": "pnpm -r --if-present run lint",
+    "typecheck": "pnpm -r --if-present run typecheck",
+    "start:ui-kit": "pnpm --filter @alveole/docs run start --",
+    "start:ui-kit:clear": "pnpm run start:ui-kit -- --clear",
+    "doctor": "pnpm --filter @alveole/docs run doctor",
+    "doctor:fix": "pnpm --filter @alveole/docs run doctor:fix && pnpm --filter @alveole/components run doctor:fix",
+    "check:dead-code": "pnpm --filter @alveole/components run generate:sources && knip",
     "check:duplication": "jscpd",
-    "check:lint-docs": "npm run build --workspace=packages/core --workspace=packages/theme --workspace=packages/components --workspace=packages/storybook && npm run lint:app --workspace=apps/docs",
+    "check:lint-docs": "pnpm run build:packages && pnpm --filter @alveole/docs run lint:app",
     "check:packages": "scripts/check-packages",
     "publish:local": "scripts/publish-local",
     "publish:package": "scripts/publish-package",
     "check": "node scripts/check.mjs",
     "test:scripts": "node --test scripts/allocated-cpus.test.mjs scripts/check.test.mjs scripts/compact-icons.test.mjs",
-    "pretest:unit": "npm run test:scripts"
+    "pretest:unit": "pnpm run test:scripts"
   },
   "devDependencies": {
     "@arethetypeswrong/cli": "0.18.5",

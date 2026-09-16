@@ -9,9 +9,13 @@ const require = createRequire(import.meta.url);
 
 // Prettier invalide son cache selon le contenu, ses options et sa version, mais
 // pas selon les versions des plugins ni les tsconfig lus par organize-imports.
+// Le verrou est nommé par glob et non en dur : il s'appelle pnpm-lock.yaml depuis la
+// migration, et un nom codé en dur faisait échouer la commande au lieu de simplement
+// changer de cache.
 const inputs = [
-  'package-lock.json',
-  ...globSync(['tsconfig*.json', '{packages,apps}/*/tsconfig*.json'], { cwd: root }),
+  ...globSync(['pnpm-lock.yaml', 'package-lock.json', 'tsconfig*.json', '{packages,apps}/*/tsconfig*.json'], {
+    cwd: root,
+  }),
 ];
 const hash = createHash('sha256');
 for (const file of inputs.sort()) {
