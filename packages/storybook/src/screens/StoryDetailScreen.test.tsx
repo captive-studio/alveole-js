@@ -9,6 +9,7 @@ const fiche = {
     tags: ['Composant'],
     experimental: false,
     description: 'Un bouton.',
+    figmaURL: 'https://figma.com/fiche',
     styleFn: () => ({}),
   },
   Tailles: () => <Typography>Trois tailles</Typography>,
@@ -30,6 +31,9 @@ const cadresAutourDe = (element: HTMLElement | null) => {
   return cadres;
 };
 
+/** La rangee qui porte un badge : un `Tag` est une boite autour de son texte. */
+const rangeeDuBadge = (badge: HTMLElement) => badge.parentElement!.parentElement!;
+
 describe('StoryDetailScreen', () => {
   // La colonne de lecture n'est etroite que parce qu'un sommaire occupe le reste de la zone :
   // sans lui, la fiche perdrait deux colonnes pour du vide.
@@ -47,5 +51,52 @@ describe('StoryDetailScreen', () => {
     const titre = getAllByText('Tailles').find(element => element.closest('a') == null);
 
     expect(cadresAutourDe(titre ?? null)).toEqual([]);
+  });
+  // Ni Primer ni Atlassian n'encadrent le haut d'une fiche : la description y est du texte
+  // courant. Un cadre gris autour d'elle la donne pour un aparte, alors qu'elle est la
+  // premiere phrase de la page.
+  it('laisse la description en texte courant, hors de tout cadre', () => {
+    const { getByText } = renderScreen(<StoryDetailScreen story={fiche} />);
+
+    expect(cadresAutourDe(getByText('Un bouton.'))).toEqual([]);
+  });
+  // Les trois cartes « Exemples / Styles / Props » annoncent les trois onglets qui les
+  // suivent immediatement, et deux portent une valeur vraie sur toutes les fiches. Ni Primer
+  // ni Atlassian n'affichent de tableau de metadonnees avant les exemples.
+  it('n annonce pas par des cartes les onglets qui suivent', () => {
+    const { queryByText } = renderScreen(<StoryDetailScreen story={fiche} />);
+
+    expect({ exemples: queryByText('Exemples'), styles: queryByText('Disponibles') }).toEqual({
+      exemples: null,
+      styles: null,
+    });
+  });
+  // Le bleu plein appelle l'action principale d'une page. Une fiche n'en a pas : elle a de la
+  // lecture, et Figma en est une sortie laterale. Primer ecrit « View in Figma » en lien.
+  it('ouvre Figma par un lien plutot que par un bouton', () => {
+    const { getByRole, queryByRole } = renderScreen(<StoryDetailScreen story={fiche} />);
+
+    expect({
+      lien: getByRole('link', { name: 'Ouvrir Figma' }).getAttribute('href'),
+      bouton: queryByRole('button', { name: 'Ouvrir Figma' }),
+    }).toEqual({ lien: 'https://figma.com/fiche', bouton: null });
+  });
+  // « Tags » et « Informations » posent deux niveaux de titraille sur deux rangees de badges
+  // qui se lisent pareil. Primer aligne ses badges de statut sur une seule ligne.
+  it('aligne tags et informations sur une seule rangee', () => {
+    const { getByText } = renderScreen(<StoryDetailScreen story={fiche} />);
+
+    expect(rangeeDuBadge(getByText('Composant'))).toBe(rangeeDuBadge(getByText('Figma')));
+  });
+  // Les onglets d'une fiche sont une navigation de page, pas un groupe de boutons : chez
+  // Primer comme chez Atlassian, une rangee de libelles posee sur un filet, l'actif souligne.
+  // Le design system publie deja ces onglets ; le catalogue les redessinait avec des boutons.
+  it('monte les onglets du design system plutot que des boutons', () => {
+    const { getByRole, queryByRole } = renderScreen(<StoryDetailScreen story={fiche} />);
+
+    expect({
+      onglet: getByRole('tab', { name: 'Examples' }).textContent,
+      bouton: queryByRole('button', { name: 'Examples' }),
+    }).toEqual({ onglet: 'Examples', bouton: null });
   });
 });
