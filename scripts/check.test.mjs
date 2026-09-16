@@ -33,6 +33,9 @@ if (process.env.DESCENDANT === '1' && task === 'test:unit') {
     setInterval(() => {}, 1000);
   \`], { stdio: 'inherit' });
   setInterval(() => {}, 1000);
+} else if (process.env.DESCENDANT === '1' && task === 'typecheck') {
+  // Garder le second worker occupé jusqu'au signal, même sur un runner chargé.
+  setInterval(() => {}, 1000);
 } else {
   setTimeout(() => {
     record('end');
