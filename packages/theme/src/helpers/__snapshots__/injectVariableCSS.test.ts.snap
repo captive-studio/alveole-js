@@ -113,9 +113,9 @@ exports[`variables de typographie emet exactement les memes variables qu avant l
   "  --typography-corps-de-texte-lg-medium-font-weight: var(--font-Geist-Medium-weight);",
   "  --typography-corps-de-texte-lg-medium-font-size: 18px;",
   "  --typography-corps-de-texte-lg-medium-line-height: 28px;",
-  "  --typography-corps-de-texte-lg-semibold-font-family: var(--font-Geist-Bold-family);",
-  "  --typography-corps-de-texte-lg-semibold-font-weight: var(--font-Geist-Bold-weight);",
-  "  --typography-corps-de-texte-lg-semibold-font-size: 18px;",
-  "  --typography-corps-de-texte-lg-semibold-line-height: 28px;",
+  "  --typography-corps-de-texte-lg-bold-font-family: var(--font-Geist-Bold-family);",
+  "  --typography-corps-de-texte-lg-bold-font-weight: var(--font-Geist-Bold-weight);",
+  "  --typography-corps-de-texte-lg-bold-font-size: 18px;",
+  "  --typography-corps-de-texte-lg-bold-line-height: 28px;",
 ]
 `;

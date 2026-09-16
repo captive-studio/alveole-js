@@ -125,18 +125,10 @@ export const StoryDetailScreen = ({
         <Box display="flex" gap={spacingValue('6W')}>
           <Box display="flex" gap={16}>
             <PageTitle title={meta.title} />
-            <Box
-              display="flex"
-              gap={12}
-              style={{
-                alignItems: 'flex-start',
-                flexDirection: 'row',
-                justifyContent: 'space-between',
-              }}
-            >
-              <Box display="flex" style={{ flex: 1 }}>
-                <MarkdownDescription>{meta.description}</MarkdownDescription>
-              </Box>
+            {/* La premiere phrase va au bout de la colonne de lecture : c'est ce que la page
+                annonce, et le lien qui la suit ne doit pas lui prendre de largeur. */}
+            <Box display="flex" gap={12} style={{ alignItems: 'flex-start' }}>
+              <MarkdownDescription taille="LG">{meta.description}</MarkdownDescription>
 
               {/* Sortie laterale, pas action de la page : un lien, comme le « View in Figma »
                   de Primer. Le bleu plein d'un bouton ferait passer Figma avant la lecture. */}

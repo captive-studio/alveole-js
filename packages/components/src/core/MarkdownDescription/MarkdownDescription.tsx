@@ -8,6 +8,11 @@ import { Typography } from '../Typography';
 
 export type MarkdownDescriptionProps = {
   children: string;
+  /**
+   * Le cran de texte du corps. `LG` sert la phrase qui presente une page : elle n'est pas un
+   * paragraphe parmi d'autres, et Primer comme Base la posent un cran au-dessus du courant.
+   */
+  taille?: 'MD' | 'LG';
 };
 
 const HIGHLIGHT_LANGUAGES: HighlightProps['language'][] = [
@@ -25,11 +30,11 @@ const extractLanguage = (className?: string): HighlightProps['language'] => {
   return HIGHLIGHT_LANGUAGES.find(l => l === match?.[1]) ?? 'plaintext';
 };
 
-export const MarkdownDescription = ({ children }: MarkdownDescriptionProps) => {
+export const MarkdownDescription = ({ children, taille = 'MD' }: MarkdownDescriptionProps) => {
   const { text, color } = useTheme();
 
-  const bodyStyle = text['Corps de texte'].MD.Regular;
-  const boldStyle = text['Corps de texte'].MD.Bold;
+  const bodyStyle = text['Corps de texte'][taille].Regular;
+  const boldStyle = text['Corps de texte'][taille].Bold;
 
   if (Platform.OS !== 'web') {
     return <Typography style={bodyStyle}>{children}</Typography>;

@@ -1,66 +1,8 @@
-import { Typography } from '@alveole/components';
+import { cadresAutourDe, fiche, rangeeDuBadge, separationEntre } from '../../__tests__/helpers/fiche';
 import { renderScreen } from '../../__tests__/helpers/renderScreen';
-import { StorybookModule } from '../types';
 import { StoryDetailScreen } from './StoryDetailScreen';
 
-const fiche = {
-  default: {
-    title: 'Bouton',
-    tags: ['Composant'],
-    experimental: false,
-    description: 'Un bouton.',
-    figmaURL: 'https://figma.com/fiche',
-    styleFn: () => ({}),
-  },
-  Tailles: () => <Typography>Trois tailles</Typography>,
-} as unknown as StorybookModule;
-
-const aUneBordure = (element: HTMLElement) => {
-  const largeur = window.getComputedStyle(element).borderTopWidth;
-
-  return largeur !== '' && largeur !== '0px' && largeur !== 'medium';
-};
-
-const cadresAutourDe = (element: HTMLElement | null) => {
-  const cadres: HTMLElement[] = [];
-
-  for (let courant = element?.parentElement ?? null; courant; courant = courant.parentElement) {
-    if (aUneBordure(courant)) cadres.push(courant);
-  }
-
-  return cadres;
-};
-
-/** La rangee qui porte un badge : un `Tag` est une boite autour de son texte. */
-const rangeeDuBadge = (badge: HTMLElement) => badge.parentElement!.parentElement!;
-
-/** Ce qui separe deux elements de la page : leur premier ancetre commun. */
-const separationEntre = (premier: HTMLElement, second: HTMLElement) => {
-  for (let courant = premier.parentElement; courant; courant = courant.parentElement) {
-    if (courant.contains(second)) return window.getComputedStyle(courant);
-  }
-
-  throw new Error('aucun ancetre commun');
-};
-
-describe('StoryDetailScreen', () => {
-  // La colonne de lecture n'est etroite que parce qu'un sommaire occupe le reste de la zone :
-  // sans lui, la fiche perdrait deux colonnes pour du vide.
-  it('liste les exemples de la fiche dans son sommaire', async () => {
-    const { getByRole } = renderScreen(<StoryDetailScreen story={fiche} />);
-
-    expect(getByRole('link', { name: 'Tailles' }).getAttribute('href')).toBe('#tailles');
-  });
-
-  // Le titre d'un exemple appartient au document, pas a la demonstration : il doit pouvoir
-  // etre ancre et repris dans un sommaire. Seul ce qui est montre entre dans le cadre.
-  it('laisse le titre de l exemple hors du cadre', async () => {
-    const { getAllByText } = renderScreen(<StoryDetailScreen story={fiche} />);
-    // Le nom de l'exemple parait deux fois : dans le sommaire, en lien, et en titre.
-    const titre = getAllByText('Tailles').find(element => element.closest('a') == null);
-
-    expect(cadresAutourDe(titre ?? null)).toEqual([]);
-  });
+describe('ce que la fiche annonce', () => {
   // Ni Primer ni Atlassian n'encadrent le haut d'une fiche : la description y est du texte
   // courant. Un cadre gris autour d'elle la donne pour un aparte, alors qu'elle est la
   // premiere phrase de la page.
@@ -68,17 +10,6 @@ describe('StoryDetailScreen', () => {
     const { getByText } = renderScreen(<StoryDetailScreen story={fiche} />);
 
     expect(cadresAutourDe(getByText('Un bouton.'))).toEqual([]);
-  });
-  // Les trois cartes « Exemples / Styles / Props » annoncent les trois onglets qui les
-  // suivent immediatement, et deux portent une valeur vraie sur toutes les fiches. Ni Primer
-  // ni Atlassian n'affichent de tableau de metadonnees avant les exemples.
-  it('n annonce pas par des cartes les onglets qui suivent', () => {
-    const { queryByText } = renderScreen(<StoryDetailScreen story={fiche} />);
-
-    expect({ exemples: queryByText('Exemples'), styles: queryByText('Disponibles') }).toEqual({
-      exemples: null,
-      styles: null,
-    });
   });
   // Le catalogue est un site de documentation, pas une application : son titre de page se lit
   // dans un autre registre que celui de `PageHeader`, qui titre les ecrans des applications
@@ -88,6 +19,25 @@ describe('StoryDetailScreen', () => {
     const { getByText } = renderScreen(<StoryDetailScreen story={fiche} />);
 
     expect(window.getComputedStyle(getByText('Bouton')).fontSize).toBe('var(--typography-titres-h1-xl-font-size)');
+  });
+  // La premiere phrase de la fiche presente le composant : elle n'est pas un paragraphe parmi
+  // d'autres. Primer et Base la posent tous les deux a 18/27, un cran au-dessus de leur texte
+  // courant. Chez nous elle se lisait exactement comme n'importe quel paragraphe.
+  it('pose la premiere phrase un cran au-dessus du texte courant', () => {
+    const { getByText } = renderScreen(<StoryDetailScreen story={fiche} />);
+
+    expect(window.getComputedStyle(getByText('Un bouton.')).fontSize).toBe(
+      'var(--typography-corps-de-texte-lg-regular-font-size)',
+    );
+  });
+  // Le lien Figma partageait la ligne de la description : il lui prenait 99 px sur 690, et la
+  // premiere phrase de la page n'allait jamais au bout de sa colonne. Chez Primer, titre et
+  // description font tous les deux la largeur de la colonne de lecture.
+  it('ne pose pas le lien Figma sur la ligne de la description', () => {
+    const { getByText, getByRole } = renderScreen(<StoryDetailScreen story={fiche} />);
+    const lien = getByRole('link', { name: 'Ouvrir Figma' });
+
+    expect(separationEntre(getByText('Un bouton.'), lien).flexDirection).toBe('column');
   });
   // Le bleu plein appelle l'action principale d'une page. Une fiche n'en a pas : elle a de la
   // lecture, et Figma en est une sortie laterale. Primer ecrit « View in Figma » en lien.
@@ -105,17 +55,6 @@ describe('StoryDetailScreen', () => {
     const { getByText } = renderScreen(<StoryDetailScreen story={fiche} />);
 
     expect(rangeeDuBadge(getByText('Composant'))).toBe(rangeeDuBadge(getByText('Figma')));
-  });
-  // Les onglets d'une fiche sont une navigation de page, pas un groupe de boutons : chez
-  // Primer comme chez Atlassian, une rangee de libelles posee sur un filet, l'actif souligne.
-  // Le design system publie deja ces onglets ; le catalogue les redessinait avec des boutons.
-  it('monte les onglets du design system plutot que des boutons', () => {
-    const { getByRole, queryByRole } = renderScreen(<StoryDetailScreen story={fiche} />);
-
-    expect({
-      onglet: getByRole('tab', { name: 'Examples' }).textContent,
-      bouton: queryByRole('button', { name: 'Examples' }),
-    }).toEqual({ onglet: 'Examples', bouton: null });
   });
   // Primer, Atlassian et Uber laissent 55 a 75 px entre ce que la page annonce et ce qu'elle
   // montre. A 20 px, le titre, la description, les badges et les onglets se touchent tous et

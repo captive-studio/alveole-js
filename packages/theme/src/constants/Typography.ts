@@ -216,7 +216,7 @@ export const CustomTypography = {
        * `font-weight: 600`. Le nom laisse croire à une graisse intermédiaire qui n'existe
        * pas dans la palette Geist du thème (300 / 400 / 500 / 600).
        */
-      SemiBold: {
+      Bold: {
         ...fontStyle('Geist-Bold'),
         fontSize: 18,
         lineHeight: 28,
