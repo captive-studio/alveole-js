@@ -14,3 +14,6 @@ for (const file of files) {
   cpSync(join(srcDir, file), dest);
   console.log(`Copied ${file}`);
 }
+
+// Distribution compacte des icônes : runtime, déclarations et licences amont.
+cpSync(join(srcDir, 'ui/LucideIcon/vendor'), join(distDir, 'ui/LucideIcon/vendor'), { recursive: true });
