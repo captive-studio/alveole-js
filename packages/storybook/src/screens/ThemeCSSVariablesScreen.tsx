@@ -1,4 +1,4 @@
-import { Accordion, Box, Page, PageHeader, Typography, useToast } from '@alveole/components';
+import { Accordion, Box, Page, Typography, useToast } from '@alveole/components';
 import {
   Colors,
   CustomPalette,
@@ -12,6 +12,7 @@ import {
 } from '@alveole/theme';
 import React from 'react';
 import { Platform, Pressable } from 'react-native';
+import { PageTitle } from '../components/PageTitle';
 import { ScreenZone } from '../components/ScreenZone';
 
 // ─── Types ────────────────────────────────────────────────────────────────────
@@ -289,7 +290,7 @@ export const ThemeCSSVariablesScreen = ({ beforeContent, sidebar, footerContent 
       footerContent={footerContent}
     >
       <ScreenZone largeur={grilles['12 colonnes']}>
-        <PageHeader
+        <PageTitle
           title="Variables CSS"
           breadcrumbsProps={{ getHref: (segment, _index, path) => (segment === 'theme' ? null : path) }}
         />

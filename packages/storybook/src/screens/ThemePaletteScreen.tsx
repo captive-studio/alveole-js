@@ -1,7 +1,8 @@
-import { Accordion, Box, Page, PageHeader, Typography, useToast } from '@alveole/components';
+import { Accordion, Box, Page, Typography, useToast } from '@alveole/components';
 import { useTheme } from '@alveole/theme';
 import React from 'react';
 import { Pressable } from 'react-native';
+import { PageTitle } from '../components/PageTitle';
 import { ScreenZone } from '../components/ScreenZone';
 
 type ColorEntry = { path: string; value: string };
@@ -159,7 +160,7 @@ export const ThemePaletteScreen = ({
       footerContent={footerContent}
     >
       <ScreenZone largeur={grilles['12 colonnes']}>
-        <PageHeader
+        <PageTitle
           title={title}
           breadcrumbsProps={{ getHref: (segment, _index, path) => (segment === 'theme' ? null : path) }}
         />

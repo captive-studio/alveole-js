@@ -9,7 +9,10 @@ export default {
   tags: ['ui'],
   experimental: false,
   figmaURL: 'https://www.figma.com/design/xJz8Z6vfrnZPKTtRbuT2W8/Alveole---Composants?node-id=1860-3740',
-  description: 'En-tête de page : fil d’Ariane, puis titre à gauche et actions à droite. Le titre est est H1.',
+  description:
+    'En-tête d’un écran d’application : fil d’Ariane, puis titre à gauche et actions à droite. ' +
+    'Le titre est le h1 de la page, dans le registre applicatif : 24, comme Atlassian. Un site de ' +
+    'documentation ou une vitrine se titrent dans un autre registre et n’empruntent pas ce composant.',
   component: PageHeader,
   styleFn: useStyles,
 } satisfies Story;

@@ -1,6 +1,7 @@
-import { Box, Page, PageHeader, Typography } from '@alveole/components';
+import { Box, Page, Typography } from '@alveole/components';
 import { useTheme } from '@alveole/theme';
 import React from 'react';
+import { PageTitle } from '../components/PageTitle';
 import { ScreenZone } from '../components/ScreenZone';
 
 type PhilosophySectionProps = {
@@ -38,7 +39,7 @@ export const PhilosophyPage = ({ beforeContent, sidebar, footerContent }: Philos
       footerContent={footerContent}
     >
       <ScreenZone largeur={grilles['12 colonnes']}>
-        <PageHeader title="Philosophie" />
+        <PageTitle title="Philosophie" />
         <Box display="flex" gap={0} style={{ maxWidth: 720 }}>
           <PhilosophySection title="Objectif">
             <Typography style={text['Corps de texte'].MD.Regular}>
@@ -90,13 +91,34 @@ export const PhilosophyPage = ({ beforeContent, sidebar, footerContent }: Philos
             </Typography>
           </PhilosophySection>
 
+          <PhilosophySection title="Le catalogue n'est pas une application">
+            <Typography style={text['Corps de texte'].MD.Regular}>
+              {"Ce site ne titre pas ses pages avec PageHeader, et c'est volontaire. PageHeader est l'en-tête des"}
+              {" écrans d'une application cliente : son titre se lit dans le registre d'un outil de travail, à 24."}
+              {' Un site de documentation se lit dans un autre registre, à 40, celui que Primer et Atlassian emploient'}
+              {' tous deux pour leur propre documentation.'}
+            </Typography>
+            <Typography style={text['Corps de texte'].MD.Regular}>
+              {'Les trois références séparent les deux, chacune à sa façon : Primer publie un paquet distinct,'}
+              {' @primer/react-brand, pour sa documentation et sa vitrine ; Atlassian titre la sienne avec un style'}
+              {" local au site, à une taille qui n'existe dans aucun de ses jetons, leur échelle s'arrêtant à 32 ;"}
+              {' Uber reste dans son échelle publiée mais ne livre aucun PageHeader, son site composant son titre'}
+              {' directement.'}
+            </Typography>
+            <Typography style={text['Corps de texte'].MD.Regular}>
+              {"C'est la voie d'Uber qui est suivie ici, parce que c'est celle du design system dont la portée"}
+              {' ressemble le plus à la nôtre, natif et web à la fois : une seule échelle de titres, et un site de'}
+              {" documentation qui compose son titre avec, sans emprunter un composant d'application. La conséquence"}
+              {' pratique : dans une application, un titre de page passe par PageHeader ; nulle part ailleurs.'}
+            </Typography>
+          </PhilosophySection>
+
           <PhilosophySection title="Inspirations">
             <Typography style={text['Corps de texte'].MD.Regular}>
-              {"Alveole s'inspire de deux systèmes de design de référence dans l'écosystème B2B et open source :"}
-              {
-                " l'Atlassian Design System, reconnu pour sa rigueur dans les outils professionnels, et Primer, le design"
-              }
-              {' system de GitHub, apprécié pour sa clarté et sa cohérence à grande échelle.'}
+              {"Alveole s'inspire de trois systèmes de design de référence dans l'écosystème B2B et open source :"}
+              {" l'Atlassian Design System, reconnu pour sa rigueur dans les outils professionnels, Primer, le design"}
+              {" system de GitHub, apprécié pour sa clarté et sa cohérence à grande échelle, et Base, celui d'Uber,"}
+              {' dont la portée couvre comme la nôtre le natif et le web.'}
             </Typography>
           </PhilosophySection>
 
