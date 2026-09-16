@@ -6,14 +6,11 @@ const monorepoRoot = path.resolve(projectRoot, '../..');
 
 const config = getDefaultConfig(projectRoot);
 
-// Watch all packages in the monorepo
-config.watchFolders = [monorepoRoot];
-
-// Resolve modules from monorepo root first, then project root
-config.resolver.nodeModulesPaths = [
-  path.resolve(projectRoot, 'node_modules'),
-  path.resolve(monorepoRoot, 'node_modules'),
-];
+// `watchFolders` et `nodeModulesPaths` ne sont pas déclarés : depuis le SDK 52, expo/metro-config
+// les déduit seul du monorepo (racine + chaque workspace déclaré dans `workspaces`). Les valeurs
+// écrites à la main ici étaient soit identiques au défaut (`nodeModulesPaths`), soit plus larges
+// pour 41 fichiers sur 107 949 (`watchFolders` sur la racine) : aucun gain, et une dérive garantie
+// à chaque workspace ajouté.
 
 // Alias @ to the docs app root
 config.resolver.alias = {
@@ -71,13 +68,20 @@ config.resolver.resolveRequest = (context, moduleName, platform) => {
   return context.resolveRequest(context, moduleName, platform);
 };
 
-// Désactiver watchman (macOS Full Disk Access requis) — utiliser le watcher Node
-process.env.WATCHMAN_DISABLE_CACHING = '1';
-config.watcher = {
-  watchman: {
-    deferStates: [],
-  },
-  healthCheck: { enabled: false },
-};
+// Le crawl remonte tout ce qui vit sous un workspace, y compris les répertoires que seuls nos
+// outils produisent : `packages/components/.jest-cache` pèse à lui seul ~94 000 fichiers en local.
+// Metro applique `blockList` dès la phase de crawl, donc les exclure les retire de l'inventaire
+// au lieu de simplement les rendre non résolvables. Limité aux workspaces : un `coverage/` niché
+// dans node_modules peut être du code légitime.
+const generatedDirs = ['\\.jest-cache', 'coverage'];
+const workspacesPrefix = path.join(monorepoRoot, 'packages').replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+config.resolver.blockList = [
+  ...config.resolver.blockList,
+  new RegExp(`^${workspacesPrefix}[\\\\/][^\\\\/]+[\\\\/](?:${generatedDirs.join('|')})[\\\\/]`),
+];
+
+// Watchman n'est pas utilisé : expo/metro-config force déjà `resolver.useWatchman = null` pour
+// éviter le codepath "native find". Ne pas réassigner `config.watcher` en entier : cela écrasait
+// `unstable_lazySha1` et `unstable_autoSaveCache`, deux optimisations de crawl activées par défaut.
 
 module.exports = config;
