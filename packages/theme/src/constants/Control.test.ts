@@ -18,7 +18,6 @@ describe.each(['desktop', 'mobile'] as const)('ControlSizes %s', densite => {
       expect(ControlSizes[densite][cran].gap).toBeGreaterThan(0);
     });
   });
-
 });
 
 // Les outils pros (Primer, Atlassian) sont compacts, le grand public tactile (Base) est
