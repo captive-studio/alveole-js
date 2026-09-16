@@ -14,6 +14,11 @@ async function fixture(t, args = [], fail = '', env = {}) {
   await copyFile(new URL('./check.mjs', import.meta.url), script);
   const events = join(root, 'events.jsonl');
   await writeFile(events, '');
+  // Les arguments passés au gestionnaire de paquets sont relevés à part : les tests
+  // d'ordonnancement comparent les événements un par un, et y mêler l'argv les rendrait
+  // illisibles pour une question qui ne les concerne pas.
+  const argv = join(root, 'argv.jsonl');
+  await writeFile(argv, '');
   const npm = join(root, 'npm.mjs');
   await writeFile(
     npm,
@@ -21,9 +26,11 @@ async function fixture(t, args = [], fail = '', env = {}) {
 import { setTimeout as delay } from 'node:timers/promises';
 import { spawn } from 'node:child_process';
 if (process.cwd() !== process.env.FIXTURE_ROOT) throw new Error('wrong cwd');
-const task = process.argv[3];
+const args = process.argv.slice(2);
+const task = args[args.indexOf('run') + 1];
 if (process.env.FAIL === 'signal' && task === 'test:unit') process.kill(process.pid, 'SIGTERM');
 const record = event => appendFileSync(process.env.EVENTS, JSON.stringify({ task, event }) + '\\n');
+appendFileSync(process.env.ARGS, JSON.stringify(args) + '\\n');
 if (task === 'typecheck') await delay(Number(process.env.START_DELAY || 0));
 record('start');
 if (process.env.SYNC_WORKERS === '1' && ['test:unit', 'typecheck'].includes(task)) {
@@ -57,7 +64,7 @@ if (process.env.DESCENDANT === '1' && task === 'test:unit') {
 `,
   );
   const child = spawn(process.execPath, [script, ...args], {
-    env: { ...process.env, ...env, npm_execpath: npm, EVENTS: events, FAIL: fail, FIXTURE_ROOT: root },
+    env: { ...process.env, ...env, npm_execpath: npm, EVENTS: events, ARGS: argv, FAIL: fail, FIXTURE_ROOT: root },
     stdio: ['ignore', 'pipe', 'pipe'],
   });
   let output = '';
@@ -65,7 +72,8 @@ if (process.env.DESCENDANT === '1' && task === 'test:unit') {
   child.stderr.on('data', chunk => (output += chunk));
   const done = new Promise(resolve => child.on('close', code => resolve({ code, output })));
   const readEvents = async () => (await readFile(events, 'utf8')).trim().split('\n').filter(Boolean).map(JSON.parse);
-  return { child, done, readEvents };
+  const readArgv = async () => (await readFile(argv, 'utf8')).trim().split('\n').filter(Boolean).map(JSON.parse);
+  return { child, done, readEvents, readArgv };
 }
 
 function peak(events) {
@@ -155,4 +163,17 @@ test('un processus terminé par un signal fait échouer la validation', async t 
   assert.equal(result.code, 1);
   assert.match(result.output, /ÉCHEC test:unit/);
   assert.ok((await readEvents()).some(e => e.task === 'lint' && e.event === 'end'));
+});
+
+// pnpm veut ses options avant la sous-commande : `pnpm run x --filter y` passerait
+// `--filter` au script au lieu de sélectionner le workspace, et la génération tournerait
+// à la racine, où il n'y a rien à générer.
+test('place les options du gestionnaire avant la sous-commande', async t => {
+  const { done, readArgv } = await fixture(t);
+  await done;
+
+  assert.deepEqual(
+    (await readArgv()).find(argv => argv.includes('generate:sources')),
+    ['--filter', '@alveole/components', 'run', 'generate:sources'],
+  );
 });

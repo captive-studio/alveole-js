@@ -4,11 +4,11 @@ import { createInterface } from 'node:readline';
 
 const args = process.argv.slice(2);
 if (args.some(arg => !['--fix', '--serial'].includes(arg))) {
-  console.error('Usage : npm run check -- [--fix] [--serial]');
+  console.error('Usage : pnpm run check -- [--fix] [--serial]');
   process.exit(1);
 }
 if (!process.env.npm_execpath) {
-  console.error('Lancer ce script avec npm run check.');
+  console.error('Lancer ce script avec pnpm run check.');
   process.exit(1);
 }
 
@@ -37,11 +37,13 @@ const onTerminate = () => interrupt('SIGTERM');
 process.on('SIGINT', onInterrupt);
 process.on('SIGTERM', onTerminate);
 
-function run(name, extraArgs = []) {
+// Les options qui sélectionnent un workspace précèdent `run` : c'est la forme qu'attend
+// pnpm, et les placer après enverrait l'option au script plutôt qu'au gestionnaire.
+function run(name, managerArgs = []) {
   const start = performance.now();
   console.log(`[check] Début : ${name}`);
   return new Promise(resolveResult => {
-    const child = spawn(process.execPath, [process.env.npm_execpath, 'run', name, ...extraArgs], {
+    const child = spawn(process.execPath, [process.env.npm_execpath, ...managerArgs, 'run', name], {
       cwd: root,
       detached: process.platform !== 'win32',
       stdio: ['ignore', 'pipe', 'pipe'],
@@ -66,7 +68,7 @@ try {
   // de workspace peuvent alors régénérer les sources sans réécrire leur contenu.
   await run(args.includes('--fix') ? 'format' : 'format:check');
   if (!interrupted) {
-    const generated = await run('generate:sources', ['--workspace=packages/components']);
+    const generated = await run('generate:sources', ['--filter', '@alveole/components']);
     if (generated.ok && !interrupted) {
       const pending = ['test:unit', 'typecheck', 'lint'];
       const worker = async () => {

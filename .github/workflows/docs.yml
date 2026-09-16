@@ -30,29 +30,25 @@ jobs:
         uses: actions/setup-node@820762786026740c76f36085b0efc47a31fe5020 # v7.0.0
         with:
           node-version: lts/*
-          cache: npm
+
+      # Ni `cache: npm` ni `npm ci` : ce job déballait un node_modules complet sur le même
+      # NVMe que les runners, en plus des trois déballages de ci.yml. pnpm le matérialise
+      # par liens durs depuis le store du nœud.
+      - name: Enable corepack
+        run: corepack enable
 
       - name: Install dependencies
-        run: npm ci
+        run: pnpm install --frozen-lockfile
 
-      - name: Build @alveole/core
-        run: npm run build --workspace=packages/core
-
-      - name: Build @alveole/theme
-        run: npm run build --workspace=packages/theme
-
-      - name: Build @alveole/components
-        run: npm run build --workspace=packages/components
-
-      - name: Build @alveole/storybook
-        run: npm run build --workspace=packages/storybook
+      - name: Build workspace packages
+        run: pnpm run build:packages
 
       # Même plafond que le job d'accessibilité de ci.yml : `expo export` monte sinon à
       # 2,47 Gio de RSS, plus du double du budget mémoire par job du pool.
       - name: Build docs
         env:
           NODE_OPTIONS: --max-old-space-size=1536
-        run: npm run build --workspace=apps/docs
+        run: pnpm --filter @alveole/docs run build
 
       - name: Disable Jekyll (allow _expo/ assets)
         run: touch apps/docs/dist/.nojekyll

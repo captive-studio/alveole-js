@@ -9,46 +9,15 @@ on:
 concurrency:
   group: ci-${{ github.workflow }}-${{ github.ref }}
   cancel-in-progress: ${{ github.event_name == 'pull_request' }}
-# Chaque environnement restaure les dépendances une fois. Le job install est
-# le seul écrivain du cache node_modules ; les autres gardent le repli npm ci.
+# Chaque job installe ses dépendances lui-même : avec un store pnpm partagé par le nœud,
+# matérialiser node_modules ne coûte plus rien, et le job install qui n'existait que pour
+# remplir un cache commun disparaît, avec les 30 s qu'il mettait en tête du chemin critique.
 jobs:
-  install:
-    name: Install dependencies
-    if: github.event_name != 'push' || !startsWith(github.ref, 'refs/tags/')
-    runs-on:
-      - captive-small
-    timeout-minutes: 15
-    container: ghcr.io/captive-studio/node-ci:24.21.0@sha256:a8729ea83ad487616de71c70ce944dc1a2e50ed8f1821c3911ce603f9dcd4cc7
-    steps:
-      - name: Checkout
-        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
-      - name: Cache node_modules
-        uses: actions/cache@55cc8345863c7cc4c66a329aec7e433d2d1c52a9 # v6.1.0
-        id: npm-cache
-        with:
-          path: |
-            node_modules
-            packages/*/node_modules
-            apps/*/node_modules
-          key: npm-deps-linux-validation-v2-${{ runner.os }}-${{ hashFiles('package-lock.json') }}
-      - name: Install dependencies
-        if: steps.npm-cache.outputs.cache-hit != 'true'
-        run: npm ci
-      # Ces XCFrameworks Apple ne sont utilisés ni par les tests JS/native mockés,
-      # ni par le build web. Les installations locales et la publication restent complètes.
-      # Ce cache est réservé à la validation Linux, jamais à une compilation iOS.
-      - name: Remove Apple prebuilds from the validation cache
-        if: runner.os == 'Linux' && steps.npm-cache.outputs.cache-hit != 'true'
-        run: |
-          rm -rf node_modules/expo-image/prebuilds node_modules/expo-modules-core/prebuilds
-      - name: Validate install
-        run: npm list --depth=0
   # Les contrôles indépendants continuent après une erreur grâce à !cancelled().
   # Un échec de l'un d'eux conserve le job en échec.
   source-checks:
     name: Source checks (lint, format, types, dependencies)
     if: github.event_name != 'push' || !startsWith(github.ref, 'refs/tags/')
-    needs: install
     runs-on:
       - captive-small
     timeout-minutes: 20
@@ -56,34 +25,15 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
-      - name: Restore node_modules
-        id: dependencies-cache
-        uses: actions/cache/restore@55cc8345863c7cc4c66a329aec7e433d2d1c52a9 # v6.1.0
-        with:
-          path: |
-            node_modules
-            packages/*/node_modules
-            apps/*/node_modules
-          key: npm-deps-linux-validation-v2-${{ runner.os }}-${{ hashFiles('package-lock.json') }}
-      # Un transfert interrompu laisse cache-hit vide : réessayer une seule fois.
-      - name: Retry node_modules restore
-        id: dependencies-cache-retry
-        if: steps.dependencies-cache.outputs.cache-hit != 'true'
-        uses: actions/cache/restore@55cc8345863c7cc4c66a329aec7e433d2d1c52a9 # v6.1.0
-        with:
-          path: |
-            node_modules
-            packages/*/node_modules
-            apps/*/node_modules
-          key: npm-deps-linux-validation-v2-${{ runner.os }}-${{ hashFiles('package-lock.json') }}
-      - name: Ensure dependencies (cache fallback)
-        run: |
-          if [ "${{ steps.dependencies-cache.outputs.cache-hit }}" != "true" ] && [ "${{ steps.dependencies-cache-retry.outputs.cache-hit }}" != "true" ]; then
-            npm ci
-          else
-            test -x node_modules/.bin/eslint && test -x node_modules/.bin/prettier && test -x node_modules/.bin/tsc && test -x node_modules/.bin/knip && test -x node_modules/.bin/jscpd || npm ci
-          fi
+      # Plus de cache de node_modules : pnpm matérialise l'arbre par liens durs depuis un
+      # store partagé par le nœud, et n'écrit donc quasiment aucun octet. L'archive qu'on
+      # restaurait ici pesait 178 Mo, se dépliait en 1,1 Go et 91 000 fichiers, et ce
+      # déballage répété par chaque job saturait le NVMe partagé par toute la CI.
+      - name: Enable corepack
+        run: corepack enable
+      - name: Install dependencies
         id: dependencies
+        run: pnpm install --frozen-lockfile
       - name: Restore ESLint cache
         uses: actions/cache@55cc8345863c7cc4c66a329aec7e433d2d1c52a9 # v6.1.0
         with:
@@ -101,24 +51,23 @@ jobs:
           restore-keys: |
             tsbuildinfo-${{ runner.os }}-
       - name: Run lint
-        run: npm run lint
+        run: pnpm run lint
         if: ${{ !cancelled() && steps.dependencies.outcome == 'success' }}
       - name: Run format check
-        run: npm run format:check
+        run: pnpm run format:check
         if: ${{ !cancelled() && steps.dependencies.outcome == 'success' }}
       - name: Run typecheck
-        run: npm run typecheck
+        run: pnpm run typecheck
         if: ${{ !cancelled() && steps.dependencies.outcome == 'success' }}
       - name: Run knip
-        run: npm run check:dead-code
+        run: pnpm run check:dead-code
         if: ${{ !cancelled() && steps.dependencies.outcome == 'success' }}
       - name: Run jscpd
-        run: npm run check:duplication
+        run: pnpm run check:duplication
         if: ${{ !cancelled() && steps.dependencies.outcome == 'success' }}
   test-unit:
     name: Test Unit workspaces
     if: github.event_name != 'push' || !startsWith(github.ref, 'refs/tags/')
-    needs: install
     runs-on:
       - self-hosted
     timeout-minutes: 25
@@ -126,33 +75,15 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
-      - name: Restore node_modules
-        id: dependencies-cache
-        uses: actions/cache/restore@55cc8345863c7cc4c66a329aec7e433d2d1c52a9 # v6.1.0
-        with:
-          path: |
-            node_modules
-            packages/*/node_modules
-            apps/*/node_modules
-          key: npm-deps-linux-validation-v2-${{ runner.os }}-${{ hashFiles('package-lock.json') }}
-      # Un transfert interrompu laisse cache-hit vide : réessayer une seule fois.
-      - name: Retry node_modules restore
-        id: dependencies-cache-retry
-        if: steps.dependencies-cache.outputs.cache-hit != 'true'
-        uses: actions/cache/restore@55cc8345863c7cc4c66a329aec7e433d2d1c52a9 # v6.1.0
-        with:
-          path: |
-            node_modules
-            packages/*/node_modules
-            apps/*/node_modules
-          key: npm-deps-linux-validation-v2-${{ runner.os }}-${{ hashFiles('package-lock.json') }}
-      - name: Ensure dependencies (cache fallback)
-        run: |
-          if [ "${{ steps.dependencies-cache.outputs.cache-hit }}" != "true" ] && [ "${{ steps.dependencies-cache-retry.outputs.cache-hit }}" != "true" ]; then
-            npm ci
-          else
-            test -x node_modules/.bin/jest || npm ci
-          fi
+      # Plus de cache de node_modules : pnpm matérialise l'arbre par liens durs depuis un
+      # store partagé par le nœud, et n'écrit donc quasiment aucun octet. L'archive qu'on
+      # restaurait ici pesait 178 Mo, se dépliait en 1,1 Go et 91 000 fichiers, et ce
+      # déballage répété par chaque job saturait le NVMe partagé par toute la CI.
+      - name: Enable corepack
+        run: corepack enable
+      - name: Install dependencies
+        id: dependencies
+        run: pnpm install --frozen-lockfile
       - name: Restore Jest cache
         uses: actions/cache@55cc8345863c7cc4c66a329aec7e433d2d1c52a9 # v6.1.0
         with:
@@ -161,13 +92,12 @@ jobs:
           restore-keys: |
             jest-cache-${{ runner.os }}-
       - name: Unit tests (Jest)
-        run: npm run test:unit
+        run: pnpm run test:unit
   # Les quatre anciens jobs partagent le build du commit courant. Aucun cache
   # de dist : publint, le lint docs et le navigateur vérifient bien ce build.
   web-and-packages:
     name: Web, accessibility and publishable packages
     if: github.event_name != 'push' || !startsWith(github.ref, 'refs/tags/')
-    needs: install
     runs-on:
       - self-hosted
     timeout-minutes: 45
@@ -175,43 +105,24 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
-      - name: Restore node_modules
-        id: dependencies-cache
-        uses: actions/cache/restore@55cc8345863c7cc4c66a329aec7e433d2d1c52a9 # v6.1.0
-        with:
-          path: |
-            node_modules
-            packages/*/node_modules
-            apps/*/node_modules
-          key: npm-deps-linux-validation-v2-${{ runner.os }}-${{ hashFiles('package-lock.json') }}
-      # Un transfert interrompu laisse cache-hit vide : réessayer une seule fois.
-      - name: Retry node_modules restore
-        id: dependencies-cache-retry
-        if: steps.dependencies-cache.outputs.cache-hit != 'true'
-        uses: actions/cache/restore@55cc8345863c7cc4c66a329aec7e433d2d1c52a9 # v6.1.0
-        with:
-          path: |
-            node_modules
-            packages/*/node_modules
-            apps/*/node_modules
-          key: npm-deps-linux-validation-v2-${{ runner.os }}-${{ hashFiles('package-lock.json') }}
-      - name: Ensure dependencies (cache fallback)
-        run: |
-          if [ "${{ steps.dependencies-cache.outputs.cache-hit }}" != "true" ] && [ "${{ steps.dependencies-cache-retry.outputs.cache-hit }}" != "true" ]; then
-            npm ci
-          else
-            test -x node_modules/.bin/tsc && test -x node_modules/.bin/eslint && test -x node_modules/.bin/publint && test -x node_modules/.bin/playwright || npm ci
-          fi
+      # Plus de cache de node_modules : pnpm matérialise l'arbre par liens durs depuis un
+      # store partagé par le nœud, et n'écrit donc quasiment aucun octet. L'archive qu'on
+      # restaurait ici pesait 178 Mo, se dépliait en 1,1 Go et 91 000 fichiers, et ce
+      # déballage répété par chaque job saturait le NVMe partagé par toute la CI.
+      - name: Enable corepack
+        run: corepack enable
+      - name: Install dependencies
         id: dependencies
+        run: pnpm install --frozen-lockfile
       - name: Build workspace packages
-        run: npm run build --workspace=packages/core --workspace=packages/theme --workspace=packages/components --workspace=packages/storybook
+        run: pnpm run build:packages
         id: packages
         if: ${{ !cancelled() && steps.dependencies.outcome == 'success' }}
       - name: Validate packages (publint + attw)
-        run: npm run check:packages
+        run: pnpm run check:packages
         if: ${{ !cancelled() && steps.packages.outcome == 'success' }}
       - name: Run lint on apps/docs
-        run: npm run lint:app --workspace=apps/docs
+        run: pnpm --filter @alveole/docs run lint:app
         if: ${{ !cancelled() && steps.packages.outcome == 'success' }}
       - name: Expo doctor
         working-directory: apps/docs
@@ -233,12 +144,12 @@ jobs:
         run: |
           mkdir -p "$PWD/.metro-tmp"
           export TMPDIR="$PWD/.metro-tmp"
-          npm run build
+          pnpm run build
         id: docs
         if: ${{ !cancelled() && steps.packages.outcome == 'success' }}
       - name: Run axe audit
         working-directory: apps/docs
-        run: npm run test:a11y
+        run: pnpm run test:a11y
         if: ${{ !cancelled() && steps.docs.outcome == 'success' }}
       # Garder le serveur de développement en dernier pour éviter qu'un éventuel
       # descendant encore actif ne concurrence l'export et l'audit navigateur.
@@ -248,7 +159,7 @@ jobs:
           set -e
           mkdir -p "$PWD/.metro-tmp"
           export TMPDIR="$PWD/.metro-tmp"
-          CI=1 npm run start -- --web > /tmp/web-smoke-test.log 2>&1 &
+          CI=1 pnpm run start -- --web > /tmp/web-smoke-test.log 2>&1 &
           SERVER_PID=$!
           trap 'kill $SERVER_PID 2>/dev/null || true' EXIT
 
@@ -308,5 +219,6 @@ jobs:
     with:
       node-version: '24'
       packages-dir: packages
+      package-manager: pnpm
     secrets:
       NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
