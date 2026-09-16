@@ -4,7 +4,7 @@ import { LucideIcon, LucideIconProps } from '../LucideIcon';
 import { useStyles } from './Badge.styles';
 
 export type BadgeProps = TypographyProps & {
-  variant: 'default' | 'info' | 'success' | 'error' | 'new' | 'warning' | 'disabled';
+  variant: 'default' | 'info' | 'success' | 'error' | 'new' | 'warning';
   size: 'sm' | 'md';
   icon?: LucideIconProps['name'];
 };
@@ -28,8 +28,6 @@ export const Badge = (props: BadgeProps) => {
         return styles.badgeInfo;
       case 'new':
         return styles.badgeNew;
-      case 'disabled':
-        return styles.badgeDisabled;
       default:
         ((_: never) => {})(variant);
     }
