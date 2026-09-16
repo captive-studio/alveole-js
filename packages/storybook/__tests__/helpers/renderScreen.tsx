@@ -26,8 +26,11 @@ const resizeTo = (width: number, height: number) => {
   window.dispatchEvent(new Event('resize'));
 };
 
-const customRender = (ui: ReactElement, options?: Omit<RenderOptions, 'wrapper'>) => {
-  resizeTo(1440, 900);
+/** La largeur du rendu : elle décide de la variante du thème, donc des branches atteignables. */
+type ScreenRenderOptions = Omit<RenderOptions, 'wrapper'> & { largeur?: number };
+
+const customRender = (ui: ReactElement, { largeur = 1440, ...options }: ScreenRenderOptions = {}) => {
+  resizeTo(largeur, 900);
 
   return render(ui, { wrapper: TestProvider, ...options });
 };

@@ -20,7 +20,15 @@ export type ScreenZoneProps = {
  * directement au contenu ; une <section> sans nom accessible n'en est pas un, d'où <main>.
  */
 export const ScreenZone = ({ children, largeur }: ScreenZoneProps) => {
-  const { spacingValue } = useTheme();
+  const { isVariant, spacingValue } = useTheme();
+
+  // Les marges d'une page de documentation valent le double du padding qu'`externalPadding`
+  // pose dans une application cliente : la page n'a que du texte à porter. Sur un téléphone
+  // il n'y a plus de vide à répartir, et la même bascule que le thème rend la largeur à la
+  // lecture plutôt qu'aux côtés.
+  const marge = isVariant('mobile')
+    ? { cote: spacingValue('3W'), haut: spacingValue('6W') }
+    : { cote: spacingValue('6W'), haut: spacingValue('12W') };
 
   return (
     <Box
@@ -28,9 +36,9 @@ export const ScreenZone = ({ children, largeur }: ScreenZoneProps) => {
       style={{
         display: 'flex',
         paddingBottom: spacingValue('3W'),
-        paddingLeft: spacingValue('6W'),
-        paddingRight: spacingValue('6W'),
-        paddingTop: spacingValue('12W'),
+        paddingLeft: marge.cote,
+        paddingRight: marge.cote,
+        paddingTop: marge.haut,
       }}
     >
       <Box
