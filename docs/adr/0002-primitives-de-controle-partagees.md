@@ -4,6 +4,10 @@ status: accepted
 
 # Primitives de contrôle partagées et alignement de l'échelle sur Primer
 
+> **Partiellement révisé par [ADR 0013](./0013-echelle-des-controles-selon-la-densite-d-ecran.md).**
+> La couche `control.*` et le token de focus restent valides. L'échelle unique alignée sur
+> Primer, elle, est abandonnée au profit de deux échelles selon la densité d'écran.
+
 Les dimensions étaient décidées composant par composant, ce qui produisait des
 désaccords mesurables : bouton `md` à 40 px contre champ de saisie à 42 px,
 rayon 6 pour le bouton contre 8 en dur pour le champ, échelle non monotone
