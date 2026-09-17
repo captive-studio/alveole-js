@@ -11,8 +11,11 @@ const ignoredPaths = ['/dist/', '/build/', '/.expo/', '/coverage/'];
 
 // `react-syntax-highlighter` et sa chaîne `refractor` / `hast` sont publiés en ESM. Sans
 // transformation, tout test qui importe `Highlight` casse à l'import au lieu de s'exécuter.
+// `react-markdown` et sa chaîne `remark` / `mdast-util` / `micromark` le sont tout autant :
+// sans ces entrées, tout test qui importe `MarkdownDescription` échoue au chargement du
+// module sur un `SyntaxError: Unexpected token 'export'`, avant même de rendre quoi que ce soit.
 const transformIgnorePatterns = [
-  'node_modules/(?!((jest-)?react-native|@react-native(-community)?)|expo(nent)?|@expo(nent)?/.*|@expo-google-fonts/.*|@testing-library/react-native|@tamagui/.*|tamagui|react-native-svg|standard-navigation|react-syntax-highlighter|refractor|hastscript|property-information|space-separated-tokens|comma-separated-tokens|character-[a-z-]+|parse-entities|stringify-entities|decode-named-character-reference|is-[a-z-]+|web-namespaces|zwitch|html-void-elements|devlop|ccount|bail|trough|unified|vfile[a-z-]*|unist-util-[a-z-]+|hast-util-[a-z-]+)',
+  'node_modules/(?!((jest-)?react-native|@react-native(-community)?)|expo(nent)?|@expo(nent)?/.*|@expo-google-fonts/.*|@testing-library/react-native|@tamagui/.*|tamagui|react-native-svg|standard-navigation|react-syntax-highlighter|refractor|hastscript|property-information|space-separated-tokens|comma-separated-tokens|character-[a-z-]+|parse-entities|stringify-entities|decode-named-character-reference|is-[a-z-]+|web-namespaces|zwitch|html-void-elements|devlop|ccount|bail|trough|unified|vfile[a-z-]*|unist-util-[a-z-]+|hast-util-[a-z-]+|react-markdown|remark-[a-z-]+|mdast-util-[a-z-]+|micromark[a-z-]*|markdown-table|trim-lines|longest-streak|html-url-attributes|estree-util-is-identifier-name|escape-string-regexp|@ungap/structured-clone)',
   // Les distributions CommonJS de Tamagui sont déjà compilées pour chaque plateforme.
   '/node_modules/(?:@tamagui/[^/]+|tamagui)/dist/cjs/',
 ];

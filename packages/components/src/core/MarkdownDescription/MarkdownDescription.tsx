@@ -93,12 +93,14 @@ export const MarkdownDescription = ({ children, taille = 'MD' }: MarkdownDescrip
             </Box>
           ),
           pre: ({ children: c }: { children: React.ReactNode }) => <Box display="flex">{c}</Box>,
-          // react-markdown ne passe plus de prop `inline` depuis la v9 : seul un bloc
-          // porte une classe `language-*`, posée par le parseur d'après la clôture du
-          // bloc. Sans ce départage, le code inline était rendu en bloc coloré, et un
-          // bloc coloré dans une cellule de tableau faisait échouer le rendu.
+          // react-markdown ne passe plus de prop `inline` depuis la v9, et un bloc sans
+          // langage ne porte pas non plus de classe `language-*` : la classe seule ne
+          // départage donc pas un bloc de code inline. mdast-util-to-hast, lui, ajoute
+          // toujours un `\n` de fin à un bloc (avec ou sans langage) et n'en met jamais à
+          // de l'inline, où les retours à la ligne sont remplacés par des espaces : c'est
+          // cette marque qui distingue fiablement les deux.
           code: ({ className, children: c }: { className?: string; children: React.ReactNode }) => {
-            if (!className?.includes('language-')) return <Code>{c}</Code>;
+            if (!String(c).endsWith('\n')) return <Code>{c}</Code>;
 
             return <Highlight language={extractLanguage(className)}>{String(c).replace(/\n$/, '')}</Highlight>;
           },
