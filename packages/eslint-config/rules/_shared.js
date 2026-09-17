@@ -129,6 +129,19 @@ const config = {
           'JSXAttribute[name.name=/^(justifyContent|justifyItems|justifySelf|alignItems|alignContent|alignSelf)$/]',
         message: "Cette prop CSS ne fonctionne pas directement sur Box. Passer par style={{ justifyContent: '...' }}.",
       },
+      {
+        // Une double assertion `x as unknown as T` (ou `as any as T`) passe par un type qui
+        // accepte tout, donc TypeScript ne verifie plus rien entre `x` et `T` : on peut lui
+        // faire affirmer n'importe quoi. C'est exactement ce qui a laisse passer un faux
+        // `ResizeObserver` a la signature fausse sans que le typecheck bronche. La regle ne
+        // l'interdit pas absolument - elle le fait remonter en revue : chaque contournement du
+        // typage doit etre un choix visible, jamais un reflexe. Cas legitime (mock partiel,
+        // interop non typee) : geler l'occurrence dans eslint-suppressions plutot que la cacher
+        // derriere un disable inline.
+        selector: 'TSAsExpression > TSAsExpression[typeAnnotation.type=/^TS(Unknown|Any)Keyword$/]',
+        message:
+          'Double assertion `as unknown as` / `as any as` : elle desactive la verification de type sur cette expression. Preferer une valeur correctement typee ; si le contournement est indispensable, le justifier en revue (et le geler dans eslint-suppressions).',
+      },
     ],
     'no-redeclare': 'off',
     '@typescript-eslint/no-redeclare': ['error', { ignoreDeclarationMerge: true }],
