@@ -22,12 +22,14 @@ export type BottomSheetProps = React.PropsWithChildren<
     open: TamaguiSheetProps['open'];
     title: string;
     action?: React.ReactNode | undefined;
+    /** Remonte le sheet avec le clavier. Réservé aux sheets portant un champ de saisie. */
+    moveOnKeyboardChange?: boolean;
     setOpen: (value: boolean) => void;
   } & (BottomSheetWithoutPoints | BottomSheetWithPoints)
 >;
 
 export const BottomSheet = (props: BottomSheetProps) => {
-  const { children, open, title, points, fitContent, action, setOpen } = props;
+  const { children, open, title, points, fitContent, action, moveOnKeyboardChange, setOpen } = props;
 
   const [position, setPosition] = React.useState(0);
 
@@ -50,6 +52,7 @@ export const BottomSheet = (props: BottomSheetProps) => {
         onPositionChange={setPosition}
         zIndex={100_000}
         animation="medium"
+        moveOnKeyboardChange={moveOnKeyboardChange}
       >
         <TamaguiSheet.Overlay style={styles.overlay} />
         {/* Un panneau glissant est un dialogue : sans ce rôle, son ouverture n'est pas

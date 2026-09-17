@@ -1,53 +1,9 @@
-import { act, fireEvent, renderNative, within } from '@/__tests__/helpers/renderNative';
-import React from 'react';
-import { ScrollView } from 'react-native';
+import { act, renderNative, within } from '@/__tests__/helpers/renderNative';
+import { OPTIONS, press } from '@/__tests__/helpers/selectHarness';
 import { Select } from './Select';
 import type { SelectOption } from './Select.types';
 
-// Le Sheet Tamagui s'anime : dans l'environnement de test il reste monté mais avec
-// `pointerEvents: 'none'`, ce qui rend ses options impossibles à presser. On le remplace
-// par un rendu conditionnel simple pour éprouver la logique du Select, pas l'animation.
-// Le comportement réel du sheet (drag, overlay, retour Android) se vérifie sur appareil.
-jest.mock('tamagui', () => {
-  const actual = jest.requireActual('tamagui');
-  const { View } = jest.requireActual('react-native');
-  const ReactActual = jest.requireActual('react');
-
-  const Sheet = (props: { children: React.ReactNode; open?: boolean }) =>
-    props.open ? ReactActual.createElement(View, null, props.children) : null;
-  const Overlay = () => null;
-  Overlay.displayName = 'SheetOverlay';
-  Sheet.Overlay = Overlay;
-
-  const Handle = () => null;
-  Handle.displayName = 'SheetHandle';
-  Sheet.Handle = Handle;
-
-  const Frame = (props: { children: React.ReactNode }) => ReactActual.createElement(View, null, props.children);
-  Frame.displayName = 'SheetFrame';
-  Sheet.Frame = Frame;
-
-  const SheetScrollView = ReactActual.forwardRef((props: object, ref: React.Ref<ScrollView>) =>
-    ReactActual.createElement(View, { ref, ...props }),
-  );
-  SheetScrollView.displayName = 'SheetScrollView';
-  Sheet.ScrollView = SheetScrollView;
-
-  return { ...actual, Sheet };
-});
-
-const OPTIONS: SelectOption[] = [
-  { label: 'Option A', value: 'a' },
-  { label: 'Option B', value: 'b' },
-  { label: 'Option C', value: 'c' },
-];
-
-/** L'ouverture et la fermeture du panneau passent par un état : il faut laisser React le propager. */
-const press = async (element: Parameters<typeof fireEvent.press>[0]) => {
-  await act(async () => {
-    fireEvent.press(element);
-  });
-};
+jest.mock('tamagui', () => jest.requireActual('@/__tests__/helpers/selectHarness').mockTamaguiSheet());
 
 describe('Select', () => {
   it('affiche le placeholder tant qu’aucune option n’est sélectionnée', async () => {
