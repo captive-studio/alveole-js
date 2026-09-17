@@ -22,7 +22,7 @@ export const PageTitle = ({ title, breadcrumbsProps }: PageTitleProps) => {
   const { spacingValue, text, color } = useTheme();
 
   return (
-    <Box display="flex" gap={spacingValue('1V')}>
+    <Box display="flex" gap={spacingValue('4W')}>
       <Breadcrumbs {...breadcrumbsProps} />
       <Typography tag="h1" style={{ ...text.Titres['H1 - XL'], color: color.light.text['title-grey'] }}>
         {title}

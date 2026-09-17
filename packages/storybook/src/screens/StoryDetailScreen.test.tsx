@@ -77,6 +77,15 @@ describe('ce que la fiche annonce', () => {
 
     expect(separationEntre(titre, onglet).gap).toBe('48px');
   });
+  // A 4 px, le fil d'Ariane se lit comme un sous-titre colle au H1 plutot que comme une
+  // navigation autonome au-dessus. Chez Primer, 47 px optiques les separent.
+  it('detache le fil d ariane du titre', () => {
+    const { getByText } = renderScreen(<StoryDetailScreen story={fiche} />);
+    const filDAriane = getByText('Accueil');
+    const titre = getByText('Bouton');
+
+    expect(separationEntre(filDAriane, titre).gap).toBe('32px');
+  });
 });
 
 /** La fiche par defaut, dotee de ce que le test veut lui donner. */
