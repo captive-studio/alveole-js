@@ -46,39 +46,43 @@ type NavItemProps = Omit<UIKitTopBarItem, 'key'> & {
   block?: boolean;
 };
 
-const useNavItemStyles = makeStyles(({ color, radius, spacingValue, text }) => ({
-  container: {
-    height: 32,
-    paddingLeft: spacingValue('3V'),
-    paddingRight: spacingValue('3V'),
-    borderRadius: radius('md'),
-    display: 'flex',
-    flexDirection: 'column',
-    justifyContent: 'center',
-    transitionProperty: 'background-color',
-    transitionDuration: '0.12s',
-    transitionTimingFunction: 'ease-out',
-  },
-  containerHover: {
-    backgroundColor: color.light.background['transparent-hover'],
-  },
-  label: {
-    ...text['Corps de texte'].MD.Regular,
-    color: color.light.text['mention-grey'],
-  },
-  labelCurrent: {
-    ...text['Corps de texte'].MD.Bold,
-    color: color.light.text['title-grey'],
-  },
-  // Copie invisible du libellé en gras : elle réserve la largeur que prendra l'item
-  // une fois courant, sinon toute la barre se décale au changement de page. Repris de
-  // UnderlineTabbedInterface, chez Primer.
-  labelGhost: {
-    ...text['Corps de texte'].MD.Bold,
-    height: 0,
-    overflow: 'hidden',
-  },
-}));
+const useNavItemStyles = makeStyles(({ color, radius, spacingValue, text }) => {
+  const activeLabelTypography = text['Corps de texte'].MD.Medium;
+
+  return {
+    container: {
+      height: 32,
+      paddingLeft: spacingValue('3V'),
+      paddingRight: spacingValue('3V'),
+      borderRadius: radius('md'),
+      display: 'flex',
+      flexDirection: 'column',
+      justifyContent: 'center',
+      transitionProperty: 'background-color',
+      transitionDuration: '0.12s',
+      transitionTimingFunction: 'ease-out',
+    },
+    containerHover: {
+      backgroundColor: color.light.background['transparent-hover'],
+    },
+    label: {
+      ...text['Corps de texte'].MD.Regular,
+      color: color.light.text['mention-grey'],
+    },
+    labelCurrent: {
+      ...activeLabelTypography,
+      color: color.light.text['title-grey'],
+    },
+    // Copie invisible du libellé actif : elle réserve la largeur que prendra l'item
+    // une fois courant, sinon toute la barre se décale au changement de page. Repris de
+    // UnderlineTabbedInterface, chez Primer.
+    labelGhost: {
+      ...activeLabelTypography,
+      height: 0,
+      overflow: 'hidden',
+    },
+  };
+});
 
 /**
  * Item de navigation de la barre : aucun remplissage à l'état courant, qui se signale
