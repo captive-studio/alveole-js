@@ -6,6 +6,7 @@ import {
   cleDEtat,
   CONTENEUR_PAR_TAILLE,
   CONTENEUR_PAR_VARIANT,
+  HAUTEUR_PAR_TAILLE,
   ICONE_PAR_VARIANT,
   styleDe,
   Styles,
@@ -78,9 +79,14 @@ export const styleDeLIcone = (styles: Styles, etat: EtatDuBouton, hovered: boole
 
 /** Les rayons, la bordure et l'anneau de focus : tout ce qui se pose sur le Pressable. */
 export const styleDuPressable = (styles: Styles, etat: EtatDuBouton, state: { hovered: boolean; focus: boolean }) => {
-  const { variant, selected, disabled, taille, borderNone, fullWidth } = etat;
+  const { variant, selected, disabled, taille, iconeSeule, borderNone, fullWidth } = etat;
   // `sm` est la seule taille qui redefinit ses rayons ; les deux autres gardent ceux du conteneur.
   const source = taille === 'sm' ? styles.smContainer : styles.container;
+  // Sans hauteur posee ici, le Pressable s'auto-dimensionnait autour du Box interieur : une
+  // variante bordee (secondary, danger) devenait alors plus haute qu'une variante pleine, la
+  // bordure s'ajoutant au-dela des 32/28/40 px voulus. boxSizing absorbe la bordure dans cette
+  // hauteur au lieu de l'ajouter par-dessus.
+  const hauteur = styles[HAUTEUR_PAR_TAILLE[taille]].height;
   const rayons = borderNone
     ? SANS_RAYON
     : {
@@ -99,6 +105,10 @@ export const styleDuPressable = (styles: Styles, etat: EtatDuBouton, state: { ho
       : {};
 
   return {
+    height: hauteur,
+    // Icone seule : carre, donc la meme valeur sert de largeur.
+    ...(iconeSeule ? { width: hauteur } : {}),
+    boxSizing: 'border-box' as const,
     ...rayons,
     ...contour,
     overflow: 'hidden' as const,

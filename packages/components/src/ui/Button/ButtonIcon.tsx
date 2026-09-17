@@ -6,9 +6,9 @@ import { useStyles } from './Button.styles';
 import {
   ButtonTaille,
   cleDEtat,
-  CONTENEUR_PAR_TAILLE,
   CONTENEUR_PAR_VARIANT,
   EtatVisuel,
+  HAUTEUR_PAR_TAILLE,
   ICONE_PAR_VARIANT,
   styleDe,
   SURVOL_PAR_VARIANT,
@@ -60,7 +60,10 @@ export const ButtonIcon = (props: ButtonIconProps) => {
 
   const styles = useStyles();
 
-  const containerSize = styleDe(styles, CONTENEUR_PAR_TAILLE[taille].iconeSeule);
+  // Vue unique, contrairement a Button : rien n'existe pour remplir a 100 %, la valeur
+  // litterale du cran de controle est donc necessaire ici, pas seulement pour le Pressable.
+  const hauteur = styles[HAUTEUR_PAR_TAILLE[taille]].height;
+  const containerSize = { height: hauteur, width: hauteur };
 
   // Le survol tient ici le role que l'appui tient sur `Button` : c'est le seul etat actif
   // qu'un bouton sans libelle connaisse. D'ou l'etat actif emprunte a la table de survol,
@@ -72,6 +75,9 @@ export const ButtonIcon = (props: ButtonIconProps) => {
     ...styles[etatsDuFond.repos],
     ...styleDe(styles, cleDEtat(etatsDuFond, { disabled, actif: state.hovered })),
     ...containerSize,
+    // Sans ca, la bordure de secondary s'ajouterait par-dessus la hauteur/largeur
+    // declarees : ce bouton serait alors 2 px plus grand que primary ou tertiary.
+    boxSizing: 'border-box' as const,
     ...(style ?? {}),
   });
 

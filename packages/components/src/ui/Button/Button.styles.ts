@@ -43,7 +43,7 @@ const commun = ({ spacing, spacingValue, radius }: Theme) =>
 const tailles = ({ text, spacing, radius, control }: Theme) =>
   ({
     smContainer: {
-      height: control('sm').height,
+      height: '100%',
       paddingLeft: spacing('3V'),
       paddingRight: spacing('3V'),
 
@@ -53,29 +53,36 @@ const tailles = ({ text, spacing, radius, control }: Theme) =>
       borderBottomRightRadius: radius('sm'),
     },
     mdContainer: {
-      height: control('md').height,
+      height: '100%',
       paddingLeft: spacing('2W'),
       paddingRight: spacing('2W'),
     },
     lgContainer: {
-      height: control('lg').height,
+      height: '100%',
       paddingLeft: spacing('3W'),
       paddingRight: spacing('3W'),
     },
     // `sm` et `md` sont volontairement identiques : le Figma ne distingue pas les deux en mode
     // icone seule. Les garder separes laisse la porte ouverte sans changer l'apparence.
     smContainerIconOnly: {
-      height: control('sm').height,
-      width: control('sm').height,
+      height: '100%',
+      width: '100%',
     },
     mdContainerIconOnly: {
-      height: control('md').height,
-      width: control('md').height,
+      height: '100%',
+      width: '100%',
     },
     lgContainerIconOnly: {
-      height: control('lg').height,
-      width: control('lg').height,
+      height: '100%',
+      width: '100%',
     },
+
+    // Litteraux dedies au Pressable : lui seul doit connaitre la hauteur en pixels, pour
+    // l'absorber dans sa propre bordure via boxSizing. Le conteneur interieur, lui, se
+    // contente de remplir cet espace (cf. smContainer et consorts, height: '100%').
+    hauteurSm: { height: control('sm').height },
+    hauteurMd: { height: control('md').height },
+    hauteurLg: { height: control('lg').height },
     smTitle: text['Corps de texte'].SM.Medium,
     mdTitle: text['Corps de texte'].SM.Medium,
     lgTitle: text['Corps de texte'].MD.Medium,

@@ -28,7 +28,7 @@ it('expose l etat deplie quand le bouton ouvre un menu', async () => {
 it('applique la hauteur de la taille md par defaut', async () => {
   const view = await renderNative(<Button variant="primary" title="Enregistrer" />);
 
-  expect(conteneur(view)?.props.style.height).toBe(32);
+  expect(view.getByRole('button').props.style.height).toBe(32);
 });
 
 it('applique le rembourrage horizontal de la taille sm', async () => {
@@ -48,7 +48,7 @@ it('applique le rembourrage horizontal de la taille lg', async () => {
 // (bouton carre) la ou le mode avec libelle pose des rembourrages asymetriques.
 it('applique un cadre carre en mode icone seule', async () => {
   const view = await renderNative(<Button variant="primary" startIcon="Check" />);
-  const style = conteneur(view)?.props.style;
+  const style = view.getByRole('button').props.style;
 
   expect(style.height).toBe(32);
   expect(style.width).toBe(style.height);
@@ -158,7 +158,7 @@ it('ne pose pas de rembourrage vertical quand la hauteur est fixe', async () => 
   const view = await renderNative(<Button variant="primary" title="Enregistrer" />);
   const style = conteneur(view)?.props.style;
 
-  expect(style.height).toBe(32);
+  expect(view.getByRole('button').props.style.height).toBe(32);
   expect(style.paddingTop ?? 0).toBe(0);
   expect(style.paddingBottom ?? 0).toBe(0);
 });
@@ -168,7 +168,7 @@ it('ne pose pas de rembourrage vertical quand la hauteur est fixe', async () => 
 it('applique la hauteur de la taille sm', async () => {
   const view = await renderNative(<Button variant="primary" title="Enregistrer" size="sm" />);
 
-  expect(conteneur(view)?.props.style.height).toBe(28);
+  expect(view.getByRole('button').props.style.height).toBe(28);
 });
 
 // Meme correction que sur sm et md : la hauteur de lg etait une consequence des
@@ -176,7 +176,7 @@ it('applique la hauteur de la taille sm', async () => {
 it('applique la hauteur de la taille lg', async () => {
   const view = await renderNative(<Button variant="primary" title="Enregistrer" size="lg" />);
 
-  expect(conteneur(view)?.props.style.height).toBe(40);
+  expect(view.getByRole('button').props.style.height).toBe(40);
 });
 
 // Les trois tailles d'icone seule rendaient toutes 30 px de hauteur (ADR 0002/0013) :
@@ -186,7 +186,32 @@ it('distingue les hauteurs en mode icone seule', async () => {
   const moyen = await renderNative(<Button variant="primary" startIcon="Check" />);
   const grand = await renderNative(<Button variant="primary" startIcon="Check" size="lg" />);
 
-  expect(conteneur(petit)?.props.style.height).toBe(28);
-  expect(conteneur(moyen)?.props.style.height).toBe(32);
-  expect(conteneur(grand)?.props.style.height).toBe(40);
+  expect(petit.getByRole('button').props.style.height).toBe(28);
+  expect(moyen.getByRole('button').props.style.height).toBe(32);
+  expect(grand.getByRole('button').props.style.height).toBe(40);
+});
+
+// Le Pressable (la coque visible) n'avait aucune hauteur posee : il s'auto-dimensionnait
+// autour du Box interieur (32 px) plus sa propre bordure, ce qui rendait secondary et danger
+// 2 px plus hauts que primary. La hauteur doit etre la meme quelle que soit la bordure.
+// La hauteur declaree est la meme pour toutes les variantes, bordees ou non : comparer ces
+// valeurs ne peut donc rien reveler par elle-meme. C'est boxSizing: 'border-box' qui absorbe
+// la bordure dans cette hauteur au lieu de l'ajouter par-dessus au rendu.
+it('pose une hauteur explicite qui absorbe sa bordure', async () => {
+  const view = await renderNative(<Button variant="secondary" title="Annuler" />);
+  const style = view.getByRole('button').props.style;
+
+  expect(style.height).toBe(32);
+  expect(style.boxSizing).toBe('border-box');
+});
+
+// Le Pressable porte desormais la hauteur autoritaire (boxSizing absorbe sa bordure
+// dedans) : si le Box interieur portait sa propre valeur litterale, une variante bordee
+// verrait sa zone de contenu reduite par la bordure (32 - 2*1 = 30) sans que le Box ne le
+// sache, et deborderait de 2 px, rogne par overflow: hidden du Pressable. En remplissant a
+// 100 %, il epouse exactement l espace restant, borde ou non.
+it('remplit l espace laisse par le pressable plutot que de porter sa propre hauteur', async () => {
+  const view = await renderNative(<Button variant="primary" title="Enregistrer" />);
+
+  expect(conteneur(view)?.props.style.height).toBe('100%');
 });

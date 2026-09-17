@@ -126,3 +126,13 @@ it('s annonce comme un bouton portant son nom', async () => {
 
   expect(getByRole('button', { name: 'Fermer' })).toBeTruthy();
 });
+
+// La hauteur et la largeur declarees sont les memes pour toutes les variantes (32x32) :
+// comparer ces valeurs ne peut donc rien reveler. Le defaut est que la bordure de secondary
+// s'ajoute PAR-DESSUS ce gabarit au rendu au lieu d'y etre absorbee (le style ne le dit pas,
+// le modele de boite CSS si) : seul boxSizing: 'border-box' corrige ca.
+it('absorbe sa bordure dans son gabarit plutot que de l ajouter par-dessus', async () => {
+  const view = await renderNative(<ButtonIcon accessibilityLabel="Valider" variant="secondary" icon="Check" />);
+
+  expect(cadre(view).boxSizing).toBe('border-box');
+});

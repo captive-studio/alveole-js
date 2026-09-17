@@ -13,6 +13,8 @@ export type StyleCouleurKey = { [K in StyleKey]: Styles[K] extends { color: stri
 /** Styles porteurs d'une bordure. Seuls `secondary` et `danger` en ont une. */
 export type StyleBordureKey = { [K in StyleKey]: Styles[K] extends { borderColor: string } ? K : never }[StyleKey];
 
+export type StyleHauteurKey = { [K in StyleKey]: Styles[K] extends { height: number } ? K : never }[StyleKey];
+
 /** Les trois etats qu'une variante distingue, quel que soit l'aspect qu'on teinte. */
 export type EtatVisuel<K = StyleKey> = { repos: K; desactive: K; actif: K };
 export type EtatCouleur = EtatVisuel<StyleCouleurKey>;
@@ -38,6 +40,12 @@ export const cleDEtat = <K>(
 export const styleDe = (styles: Styles, cle: StyleKey): StyleValue => styles[cle];
 
 /** Le conteneur change de famille de styles selon que le bouton porte un libelle ou non. */
+export const HAUTEUR_PAR_TAILLE: Record<ButtonTaille, StyleHauteurKey> = {
+  sm: 'hauteurSm',
+  md: 'hauteurMd',
+  lg: 'hauteurLg',
+};
+
 export const CONTENEUR_PAR_TAILLE: Record<ButtonTaille, { avecLibelle: StyleKey; iconeSeule: StyleKey }> = {
   sm: { avecLibelle: 'smContainer', iconeSeule: 'smContainerIconOnly' },
   md: { avecLibelle: 'mdContainer', iconeSeule: 'mdContainerIconOnly' },
