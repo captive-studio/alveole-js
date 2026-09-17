@@ -35,4 +35,27 @@ describe('MarkdownDescription', () => {
     expect(container.querySelector('code')).toBeNull();
     expect(highlightContainer(container)).not.toBeNull();
   });
+
+  test('rend un tableau GFM valide en <table>', () => {
+    const { container } = renderWeb(<MarkdownDescription>{'| Colonne |\n|---|\n| Valeur |'}</MarkdownDescription>);
+
+    expect(container.querySelector('table')).not.toBeNull();
+  });
+
+  // remark-gfm exige autant de colonnes dans la ligne de séparation que dans l'en-tête :
+  // sinon il n'y voit pas un tableau et laisse les `|` tels quels dans le texte.
+  test("ne rend pas de <table> quand la ligne de séparation n'a pas le même nombre de colonnes que l'en-tête", () => {
+    const { container } = renderWeb(<MarkdownDescription>{'| Colonne |\n|---|---|\n| Valeur |'}</MarkdownDescription>);
+
+    expect(container.querySelector('table')).toBeNull();
+  });
+
+  test('rend une citation avec une bordure gauche de 2px, pas un blockquote nu', () => {
+    const { container } = renderWeb(<MarkdownDescription>{'> Une citation.'}</MarkdownDescription>);
+
+    const blockquote = container.querySelector('blockquote');
+
+    expect(blockquote?.textContent?.trim()).toBe('Une citation.');
+    expect(blockquote?.getAttribute('style')).toContain('border-left-width: 2px');
+  });
 });

@@ -93,6 +93,16 @@ export const MarkdownDescription = ({ children, taille = 'MD' }: MarkdownDescrip
             </Box>
           ),
           pre: ({ children: c }: { children: React.ReactNode }) => <Box display="flex">{c}</Box>,
+          blockquote: ({ children: c }: { children: React.ReactNode }) => (
+            <Box
+              tag="blockquote"
+              display="flex"
+              pl={12}
+              style={{ borderLeftWidth: 2, borderLeftColor: borderColor } as any}
+            >
+              {c}
+            </Box>
+          ),
           // react-markdown ne passe plus de prop `inline` depuis la v9, et un bloc sans
           // langage ne porte pas non plus de classe `language-*` : la classe seule ne
           // départage donc pas un bloc de code inline. mdast-util-to-hast, lui, ajoute
