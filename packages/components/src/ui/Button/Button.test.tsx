@@ -22,13 +22,13 @@ it('expose l etat deplie quand le bouton ouvre un menu', async () => {
 
 // La taille est choisie par une chaine de ternaires imbriques sur `size`, dont aucune
 // branche n'etait observee : la couverture de branches de ce fichier etait a 46 %.
-// `md` est la taille par defaut et la seule dont le rembourrage soit une valeur litterale
-// dans les styles, ce qui en fait l'ancre : elle distingue une table juste d'une table
-// permutee, ce qu'une simple comparaison entre tailles ne ferait pas.
-it('applique le rembourrage de la taille md par defaut', async () => {
+// `md` est la taille par defaut, et sa hauteur est desormais l'ancre : depuis que les crans
+// viennent de control (ADR 0013), c'est elle la valeur distinctive. Elle separe une table
+// juste d'une table permutee, ce qu'une simple comparaison entre tailles ne ferait pas.
+it('applique la hauteur de la taille md par defaut', async () => {
   const view = await renderNative(<Button variant="primary" title="Enregistrer" />);
 
-  expect(conteneur(view)?.props.style.paddingTop).toBe(10);
+  expect(conteneur(view)?.props.style.height).toBe(32);
 });
 
 it('applique le rembourrage de la taille sm', async () => {
@@ -148,4 +148,15 @@ it('aligne le contenu a gauche quand leftAlign est demande', async () => {
   const view = await renderNative(<Button variant="primary" title="Enregistrer" leftAlign />);
 
   expect(conteneur(view)?.props.style.justifyContent).toBe('left');
+});
+
+// Avec une hauteur fixe, un rembourrage vertical ne fait que comprimer le contenu : le
+// centrage du conteneur suffit a positionner libelle et icone.
+it('ne pose pas de rembourrage vertical quand la hauteur est fixe', async () => {
+  const view = await renderNative(<Button variant="primary" title="Enregistrer" />);
+  const style = conteneur(view)?.props.style;
+
+  expect(style.height).toBe(32);
+  expect(style.paddingTop ?? 0).toBe(0);
+  expect(style.paddingBottom ?? 0).toBe(0);
 });

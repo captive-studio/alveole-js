@@ -5,6 +5,7 @@ jest.mock('@alveole/theme', () => {
   const { MonospaceFont } = jest.requireActual('../../../theme/src/constants/Font');
   const { contrastRatio, withMinimumContrast } = jest.requireActual('../../../theme/src/helpers/contrastColor');
   const { CustomPalette } = jest.requireActual('../../../theme/src/constants/Palette');
+  const { controlSizesFor } = jest.requireActual('../../../theme/src/constants/Control');
   const { RadiusList } = jest.requireActual('../../../theme/src/constants/Radius');
   const { Grilles } = jest.requireActual('../../../theme/src/constants/Grille');
   const { focusRing } = jest.requireActual('../../../theme/src/constants/Focus');
@@ -72,6 +73,7 @@ jest.mock('@alveole/theme', () => {
     font: {},
     grilles: Grilles,
     isVariant: variant => variant === 'desktop',
+    control: key => controlSizesFor('desktop')[key],
     radius: key => RadiusList[key],
     shadows: () => ({}),
     spacing: key => Spacings[key],
