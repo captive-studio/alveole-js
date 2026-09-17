@@ -41,4 +41,14 @@ describe('ce que la fiche montre', () => {
       bouton: queryByRole('button', { name: 'Examples' }),
     }).toEqual({ onglet: 'Examples', bouton: null });
   });
+  // Le trait des onglets et le premier titre d'exemple se touchent a 6 px : le titre se lit
+  // comme le libelle de l'onglet actif, pas comme le premier exemple. Primer laisse 71 px
+  // entre son intertitre « React examples » et « Default ». Le premier exemple se detache
+  // de la barre comme les exemples se detachent entre eux.
+  it('detache le premier exemple de la barre d onglets', () => {
+    const { getByRole } = renderScreen(<StoryDetailScreen story={fiche} />);
+    const exemples = getByRole('tabpanel').firstElementChild as HTMLElement;
+
+    expect(window.getComputedStyle(exemples).marginTop).toBe('40px');
+  });
 });
