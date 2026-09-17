@@ -1,7 +1,5 @@
 export * from './Accordion';
 export * from './ActionMenu';
-export * from './Autocomplete';
-export * from './AutocompleteAddress';
 export * from './Avatar';
 export * from './Badge';
 export * from './BottomSheet';
