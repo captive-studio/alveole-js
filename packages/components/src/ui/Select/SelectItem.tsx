@@ -12,6 +12,8 @@ export type SelectItemProps = {
   /** Option survolée ou active au clavier : fond seul. */
   highlighted?: boolean;
   disabled?: boolean;
+  /** Multi-sélection : la sélection se marque par une coche en fin de bande, pas par la barre. */
+  multiple?: boolean;
 };
 
 /**
@@ -20,7 +22,7 @@ export type SelectItemProps = {
  * de react-select) est fourni par l'appelant.
  */
 export const SelectItem = (props: SelectItemProps) => {
-  const { label, icon, selected = false, highlighted = false, disabled = false } = props;
+  const { label, icon, selected = false, highlighted = false, disabled = false, multiple = false } = props;
 
   const styles = useStyles();
   const { color } = useTheme();
@@ -29,7 +31,7 @@ export const SelectItem = (props: SelectItemProps) => {
 
   return (
     <Box tag="select-item" style={{ ...styles.item, ...(disabled ? styles.itemDisabled : {}) }}>
-      {selected && (
+      {selected && !multiple && (
         <Box tag="select-item-indicator" style={styles.indicator}>
           <Box style={styles.indicatorContent} />
         </Box>
@@ -43,6 +45,8 @@ export const SelectItem = (props: SelectItemProps) => {
         {icon && <LucideIcon size="sm" name={icon} color={iconColor} />}
 
         <Typography style={{ ...styles.itemLabel, ...(disabled ? styles.itemLabelDisabled : {}) }}>{label}</Typography>
+
+        {multiple && selected && <LucideIcon size="sm" name="Check" color={color.light.text['action-high-primary']} />}
       </Box>
     </Box>
   );

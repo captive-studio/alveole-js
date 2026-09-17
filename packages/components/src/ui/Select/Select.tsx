@@ -9,10 +9,15 @@ import { LucideIcon } from '../LucideIcon';
 import { useStyles } from './Select.styles';
 import type { SelectProps, SelectRef } from './Select.types';
 import { SelectBottomSheet } from './SelectBottomSheet';
+import { SelectTag } from './SelectTag';
+import { emitSelectChange, toSelectedValues, toggleSelectedValue } from './selectValue';
+import { useDebouncedCallback } from './useDebouncedCallback';
+
+/** Nombre de puces affichées avant de résumer le reste par « +N ». */
+const MAX_VISIBLE_TAGS = 3;
 
 export const Select = React.forwardRef<SelectRef, SelectProps>(function Select(props, ref) {
   const {
-    value,
     label,
     labelRight,
     hint,
@@ -23,21 +28,42 @@ export const Select = React.forwardRef<SelectRef, SelectProps>(function Select(p
     placeholder,
     sheetTitle,
     clearable,
-    onChange,
+    searchable,
+    searchPlaceholder,
+    onSearchChange,
+    localFilter,
+    creatable,
+    onCreateOption,
+    createLabel,
+    loading,
+    loadingMessage,
+    emptyMessage,
     onBlur,
     onFocus,
   } = props;
+
+  // `multiple`, `value` et `onChange` ne sont jamais déstructurés : l'union
+  // n'est discriminée que sur l'objet `props` entier.
+  const values = toSelectedValues(props);
 
   const styles = useStyles();
   const { color } = useTheme();
 
   const [open, setOpen] = React.useState(false);
+  const [query, setQuery] = React.useState('');
 
-  const selectedOption = React.useMemo(() => options.find(option => option.value === value), [options, value]);
+  const debouncedSearchChange = useDebouncedCallback((text: string) => onSearchChange?.(text));
+
+  // L'ordre suit celui de `value`, pas celui d'`options` : c'est la sélection
+  // que l'appelant a construite.
+  const selectedOptions = values
+    .map(value => options.find(option => option.value === value))
+    .filter(option => option != null);
 
   const openSheet = React.useCallback(() => {
     if (disabled) return;
     if (Keyboard.isVisible()) Keyboard.dismiss();
+    setQuery('');
     setOpen(true);
     onFocus?.();
   }, [disabled, onFocus]);
@@ -60,7 +86,21 @@ export const Select = React.forwardRef<SelectRef, SelectProps>(function Select(p
     openSheet,
   ]);
 
+  const handleQueryChange = (text: string) => {
+    setQuery(text);
+    debouncedSearchChange(text);
+  };
+
+  const removeValue = (value: string) =>
+    emitSelectChange(
+      props,
+      values.filter(selected => selected !== value),
+    );
+
   const iconColor = disabled ? color.light.text['disabled-grey'] : color.light.text['default-grey'];
+
+  const visibleTags = selectedOptions.slice(0, MAX_VISIBLE_TAGS);
+  const hiddenTagCount = selectedOptions.length - visibleTags.length;
 
   return (
     <FormControl style={styles.pickerContainer}>
@@ -75,6 +115,10 @@ export const Select = React.forwardRef<SelectRef, SelectProps>(function Select(p
         <Pressable
           testID="select-trigger"
           accessibilityRole="button"
+          // Le lecteur d'écran annonce la sélection entière, que les puces résument.
+          accessibilityLabel={
+            selectedOptions.length > 0 ? `${label} : ${selectedOptions.map(o => o.label).join(', ')}` : label
+          }
           accessibilityState={{ disabled: Boolean(disabled), expanded: open }}
           disabled={disabled}
           onPress={openSheet}
@@ -83,6 +127,7 @@ export const Select = React.forwardRef<SelectRef, SelectProps>(function Select(p
           style={
             {
               ...styles.inputInner,
+              ...(props.multiple ? styles.inputInnerMultiple : {}),
               ...(disabled ? styles.inputDisabled : {}),
               ...(open ? styles.inputFocused : {}),
               ...(error ? styles.inputError : {}),
@@ -90,17 +135,37 @@ export const Select = React.forwardRef<SelectRef, SelectProps>(function Select(p
             } as StyleProp<ViewStyle>
           }
         >
-          {selectedOption?.icon && <LucideIcon size="sm" name={selectedOption.icon} color={iconColor} />}
+          {props.multiple ? (
+            selectedOptions.length === 0 ? (
+              <Typography style={{ ...styles.value, ...styles.valuePlaceholder }}>{placeholder ?? ''}</Typography>
+            ) : (
+              <Box style={styles.tagList}>
+                {visibleTags.map(option => (
+                  <SelectTag
+                    key={option.value}
+                    label={option.label}
+                    icon={option.icon}
+                    onRemove={disabled ? undefined : () => removeValue(option.value)}
+                  />
+                ))}
+                {hiddenTagCount > 0 && <SelectTag label={`+${hiddenTagCount}`} />}
+              </Box>
+            )
+          ) : (
+            <>
+              {selectedOptions[0]?.icon && <LucideIcon size="sm" name={selectedOptions[0].icon} color={iconColor} />}
 
-          <Typography
-            style={{
-              ...styles.value,
-              ...(selectedOption ? {} : styles.valuePlaceholder),
-              ...(disabled ? styles.valueDisabled : {}),
-            }}
-          >
-            {selectedOption?.label ?? placeholder ?? ''}
-          </Typography>
+              <Typography
+                style={{
+                  ...styles.value,
+                  ...(selectedOptions[0] ? {} : styles.valuePlaceholder),
+                  ...(disabled ? styles.valueDisabled : {}),
+                }}
+              >
+                {selectedOptions[0]?.label ?? placeholder ?? ''}
+              </Typography>
+            </>
+          )}
 
           <LucideIcon size="sm" name="ChevronDown" color={iconColor} />
         </Pressable>
@@ -113,9 +178,22 @@ export const Select = React.forwardRef<SelectRef, SelectProps>(function Select(p
         setOpen={handleOpenChange}
         title={sheetTitle ?? label}
         options={options}
-        value={value}
-        onSelect={nextValue => onChange?.(nextValue)}
+        values={values}
+        multiple={props.multiple}
+        onSelect={value => emitSelectChange(props, toggleSelectedValue(props, value))}
+        onClear={() => emitSelectChange(props, [])}
         clearable={clearable}
+        searchable={searchable}
+        searchPlaceholder={searchPlaceholder}
+        query={query}
+        onQueryChange={handleQueryChange}
+        localFilter={localFilter}
+        creatable={creatable}
+        onCreate={onCreateOption}
+        createLabel={createLabel}
+        loading={loading}
+        loadingMessage={loadingMessage}
+        emptyMessage={emptyMessage}
       />
     </FormControl>
   );
