@@ -102,7 +102,7 @@ export const styleDuPressable = (styles: Styles, etat: EtatDuBouton, state: { ho
     ? bordure(styles.selectedContainer.borderColor)
     : etats
       ? bordure(styles[cleDEtat(etats, { disabled, actif: state.hovered })].borderColor)
-      : {};
+      : bordure(styles.container.borderColor);
 
   return {
     height: hauteur,

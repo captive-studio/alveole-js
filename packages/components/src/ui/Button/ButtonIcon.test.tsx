@@ -102,11 +102,21 @@ it('affiche le nombre lui-meme quand icon est numerique', async () => {
 });
 
 // Les trois variantes sont ecrites en trois blocs jumeaux. Sans ancrage sur chacune, une
-// permutation de la table ne se verrait pas : `secondary` est la seule a porter une bordure.
-it('donne une bordure a la variante secondary', async () => {
+// permutation de la table ne se verrait pas : `secondary` est la seule a montrer sa bordure.
+it('donne une bordure visible a la variante secondary', async () => {
   const view = await renderNative(<ButtonIcon accessibilityLabel="Valider" variant="secondary" icon="Check" />);
 
   expect(cadre(view).borderWidth).toBe(1);
+  expect(cadre(view).borderColor).not.toBe('transparent');
+});
+
+// Meme reserve que sur Button : le contour transparent donne a `tertiary` le meme modele
+// de boite que les variantes bordees sans rendre de trait au repos.
+it('reserve une bordure transparente a la variante tertiary', async () => {
+  const view = await renderNative(<ButtonIcon accessibilityLabel="Valider" variant="tertiary" icon="Check" />);
+
+  expect(cadre(view).borderWidth).toBe(1);
+  expect(cadre(view).borderColor).toBe('transparent');
 });
 
 // `tertiaryContainer` est un objet vide : la variante tertiary est la seule sans fond au
@@ -128,9 +138,8 @@ it('s annonce comme un bouton portant son nom', async () => {
 });
 
 // La hauteur et la largeur declarees sont les memes pour toutes les variantes (32x32) :
-// comparer ces valeurs ne peut donc rien reveler. Le defaut est que la bordure de secondary
-// s'ajoute PAR-DESSUS ce gabarit au rendu au lieu d'y etre absorbee (le style ne le dit pas,
-// le modele de boite CSS si) : seul boxSizing: 'border-box' corrige ca.
+// comparer ces valeurs ne peut donc rien reveler. boxSizing absorbe la bordure structurelle
+// dans ce gabarit au lieu de l'ajouter par-dessus au rendu.
 it('absorbe sa bordure dans son gabarit plutot que de l ajouter par-dessus', async () => {
   const view = await renderNative(<ButtonIcon accessibilityLabel="Valider" variant="secondary" icon="Check" />);
 
