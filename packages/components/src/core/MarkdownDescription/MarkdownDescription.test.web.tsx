@@ -58,4 +58,18 @@ describe('MarkdownDescription', () => {
     expect(blockquote?.textContent?.trim()).toBe('Une citation.');
     expect(blockquote?.getAttribute('style')).toContain('border-left-width: 2px');
   });
+
+  // Même couleur et même comportement de survol que le lien du fil d'Ariane
+  // (Breadcrumbs.styles.ts), pour que les liens de contenu Markdown s'y fondent.
+  test('rend les liens dans la couleur du fil d’Ariane, sans soulignement au repos', () => {
+    const { container } = renderWeb(
+      <MarkdownDescription>{'[whatwg/html#5488](https://github.com/whatwg/html/issues/5488)'}</MarkdownDescription>,
+    );
+
+    const link = container.querySelector('a');
+
+    expect(link?.getAttribute('href')).toBe('https://github.com/whatwg/html/issues/5488');
+    expect(getComputedStyle(link!).color).toBe('var(--text-default-info)');
+    expect(getComputedStyle(link!).textDecoration).toBe('none');
+  });
 });

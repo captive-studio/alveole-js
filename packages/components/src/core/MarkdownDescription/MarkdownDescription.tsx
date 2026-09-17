@@ -53,6 +53,12 @@ export const MarkdownDescription = ({ children, taille = 'MD' }: MarkdownDescrip
 
   const borderColor = color.light.border['default-grey'];
   const headerBg = color.light.background['alt-grey'];
+  // Mêmes valeurs que le lien du fil d'Ariane (`Breadcrumbs.styles.ts`), pour que les liens
+  // de contenu Markdown se fondent dans le reste du catalogue. La couleur passe par la prop
+  // dédiée de Typography, pas par `style` : c'est elle qui a le dernier mot sur `color`.
+  const linkColor = color.light.text['default-info'];
+  const linkStyle = { textDecoration: 'none' as const };
+  const linkHoverStyle = { textDecoration: 'underline' as const };
 
   return (
     <Box tag="markdown-description" display="flex" gap={8}>
@@ -93,6 +99,11 @@ export const MarkdownDescription = ({ children, taille = 'MD' }: MarkdownDescrip
             </Box>
           ),
           pre: ({ children: c }: { children: React.ReactNode }) => <Box display="flex">{c}</Box>,
+          a: ({ href, children: c }: { href?: string; children: React.ReactNode }) => (
+            <Typography tag="a" href={href} color={linkColor} style={linkStyle} hoverStyle={linkHoverStyle}>
+              {c}
+            </Typography>
+          ),
           // `tag="blockquote"` pose un vrai `<blockquote>` DOM, qui garde la marge par
           // défaut du user-agent (`margin: 1em 40px`) tant qu'on ne la remet pas à zéro.
           blockquote: ({ children: c }: { children: React.ReactNode }) => (
