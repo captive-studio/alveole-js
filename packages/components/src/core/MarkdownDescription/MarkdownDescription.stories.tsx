@@ -40,6 +40,12 @@ const greet = (name: string): string => {
 |-----------|-----------|-----------|
 | Cellule 1 | Cellule 2 | Cellule 3 |
 | Cellule 4 | Cellule 5 | Cellule 6 |
+
+## Liens et citations
+
+Voir la [documentation Markdown](https://www.markdownguide.org/) pour la syntaxe complète.
+
+> Une citation met en avant un point important, comme cet avertissement.
 `;
 
 export const Default = () => <MarkdownDescription>{FULL_MARKDOWN}</MarkdownDescription>;
@@ -60,6 +66,18 @@ export const WithTable = () => (
   <MarkdownDescription>{`| Nom | Type | Description |
 |-----|------|-------------|
 | children | string | Contenu Markdown à afficher |`}</MarkdownDescription>
+);
+
+export const WithLink = () => (
+  <MarkdownDescription>
+    {'Voir la [documentation Markdown](https://www.markdownguide.org/) pour la syntaxe complète.'}
+  </MarkdownDescription>
+);
+
+export const WithBlockquote = () => (
+  <MarkdownDescription>
+    {'> Une citation met en avant un point important, comme cet avertissement.'}
+  </MarkdownDescription>
 );
 
 export * as Sources from './MarkdownDescription.stories.sources';
