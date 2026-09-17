@@ -140,7 +140,9 @@ jobs:
         working-directory: apps/docs
         env:
           NODE_OPTIONS: --max-old-space-size=1536
-          DOCS_OUTPUT: single
+          # Le déploiement exporte toutes les routes statiques. Garder exactement ce mode
+          # ici pour détecter les dépendances qui ne supportent pas le rendu Node/SSR.
+          DOCS_OUTPUT: static
         run: |
           mkdir -p "$PWD/.metro-tmp"
           export TMPDIR="$PWD/.metro-tmp"
