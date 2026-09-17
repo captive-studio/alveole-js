@@ -1,7 +1,8 @@
-import { AnchorHeading, Box, MarkdownDescription } from '@alveole/components';
+import { AnchorHeading, Box, MarkdownDescription, Tag, Typography } from '@alveole/components';
 import { useTheme } from '@alveole/theme';
 import { descriptionDeLExemple, sourceDeLExemple } from '../screens/sourcesDExemples';
-import { StorybookModule } from '../types';
+import { StorybookMeta, StorybookModule } from '../types';
+import { getStoryFlags } from '../utils';
 import { ExampleBlock } from './ExampleBlock';
 
 export type Exemple = [nom: string, Rendu: () => React.ReactNode];
@@ -33,6 +34,40 @@ const UnExemple = ({ story, nom, Rendu, gabarit }: UnExempleProps) => {
   );
 };
 
+/**
+ * Les tags et le lien Figma : ils documentent l'onglet Examples qu'on regarde, pas la fiche en
+ * general, et vivent sous la barre d'onglets comme chez Primer plutot qu'au-dessus, dans un
+ * en-tete commun a tous les onglets.
+ */
+const StatutDeLaFiche = ({ meta }: { meta: StorybookMeta }) => {
+  const { color, text } = useTheme();
+
+  return (
+    <Box display="flex" flexDirection="row" style={{ alignItems: 'center', justifyContent: 'space-between' }}>
+      <Box display="flex" flexDirection="row" flexWrap="wrap" gap={8}>
+        {meta.tags.map(tag => (
+          <Tag key={tag} color="action" size="md">
+            {tag}
+          </Tag>
+        ))}
+        {getStoryFlags(meta).map(flag => (
+          <Tag key={flag.key} color="default" size="md">
+            {flag.label}
+          </Tag>
+        ))}
+      </Box>
+
+      {meta.figmaURL ? (
+        <a href={meta.figmaURL} rel="noreferrer" style={{ textDecoration: 'none' }} target="_blank">
+          <Typography style={{ ...text['Corps de texte'].SM.Bold, color: color.light.text['action-high-primary'] }}>
+            Ouvrir Figma
+          </Typography>
+        </a>
+      ) : null}
+    </Box>
+  );
+};
+
 export type ExemplesDeLaStoryProps = {
   story: StorybookModule;
   exemples: Exemple[];
@@ -40,11 +75,13 @@ export type ExemplesDeLaStoryProps = {
   gabarit: boolean;
 };
 
-/** Les demonstrations d'une fiche, les unes sous les autres. */
+/** Les demonstrations d'une fiche, les unes sous les autres, sous le statut de la fiche. */
 export const ExemplesDeLaStory = ({ story, exemples, gabarit }: ExemplesDeLaStoryProps) => (
   // Le premier exemple se detache de la barre d'onglets comme les exemples se detachent
   // entre eux : a 6 px son titre se lisait comme le libelle de l'onglet actif.
   <Box display="flex" gap={40} mt={'5W'}>
+    <StatutDeLaFiche meta={story.default} />
+
     {exemples.map(([nom, Rendu]) => (
       <UnExemple key={nom} story={story} nom={nom} Rendu={Rendu} gabarit={gabarit} />
     ))}
