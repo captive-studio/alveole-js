@@ -93,18 +93,12 @@ export const MarkdownDescription = ({ children, taille = 'MD' }: MarkdownDescrip
             </Box>
           ),
           pre: ({ children: c }: { children: React.ReactNode }) => <Box display="flex">{c}</Box>,
-          code: ({
-            inline,
-            className,
-            children: c,
-          }: {
-            inline?: boolean;
-            className?: string;
-            children: React.ReactNode;
-          }) => {
-            if (inline) {
-              return <Code>{c}</Code>;
-            }
+          // react-markdown ne passe plus de prop `inline` depuis la v9 : seul un bloc
+          // porte une classe `language-*`, posée par le parseur d'après la clôture du
+          // bloc. Sans ce départage, le code inline était rendu en bloc coloré, et un
+          // bloc coloré dans une cellule de tableau faisait échouer le rendu.
+          code: ({ className, children: c }: { className?: string; children: React.ReactNode }) => {
+            if (!className?.includes('language-')) return <Code>{c}</Code>;
 
             return <Highlight language={extractLanguage(className)}>{String(c).replace(/\n$/, '')}</Highlight>;
           },
