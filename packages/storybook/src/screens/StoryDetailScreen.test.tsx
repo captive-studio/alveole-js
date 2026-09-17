@@ -1,5 +1,6 @@
 import { cadresAutourDe, fiche, rangeeDuBadge, separationEntre } from '../../__tests__/helpers/fiche';
 import { renderScreen } from '../../__tests__/helpers/renderScreen';
+import { StorybookModule } from '../types';
 import { StoryDetailScreen } from './StoryDetailScreen';
 
 describe('ce que la fiche annonce', () => {
@@ -65,5 +66,83 @@ describe('ce que la fiche annonce', () => {
     const onglet = getByRole('tab', { name: 'Examples' });
 
     expect(separationEntre(titre, onglet).gap).toBe('48px');
+  });
+});
+
+/** La fiche par defaut, dotee de ce que le test veut lui donner. */
+const ficheAvec = (meta: Record<string, unknown>, exemples: Record<string, unknown> = {}) =>
+  ({ ...fiche, ...exemples, default: { ...fiche.default, ...meta } }) as unknown as StorybookModule;
+
+describe('StoryDetailScreen, ce qu il montre de la fiche', () => {
+  // L'URL peut nommer une fiche disparue : la page se charge quand meme et le dit, plutot que
+  // de rendre un ecran vide.
+  it('dit que la fiche est introuvable', () => {
+    const { getByText } = renderScreen(<StoryDetailScreen story={null} notFoundMessage="Fiche disparue." />);
+
+    expect(getByText('Fiche disparue.')).toBeTruthy();
+  });
+
+  it('nomme chaque exemple au-dessus de sa demonstration', () => {
+    const { getAllByText } = renderScreen(<StoryDetailScreen story={fiche} />);
+
+    expect(getAllByText('Tailles').length).toBeGreaterThan(1);
+  });
+
+  // Une fiche sans exemple n'a rien a sommaire : un sommaire vide prendrait deux colonnes
+  // pour du vide.
+  it('ne pose pas de sommaire sur une fiche sans exemple', () => {
+    const { queryByText } = renderScreen(<StoryDetailScreen story={ficheAvec({}, { Tailles: undefined })} />);
+
+    expect(queryByText('Sur cette page')).toBeNull();
+  });
+
+  // Un gabarit se montre seul, en pleine page : son nom d'export est un detail d'implantation,
+  // pas un titre de section. Il reste dans le sommaire, qui enumere les exemples.
+  it('ne titre pas l exemple d un gabarit', () => {
+    const { queryAllByText } = renderScreen(<StoryDetailScreen story={ficheAvec({ tags: ['Template'] })} />);
+
+    expect(queryAllByText('Tailles').filter(noeud => noeud.closest('a') === null)).toHaveLength(0);
+  });
+
+  it('n ouvre pas Figma quand la fiche ne le renseigne pas', () => {
+    const { queryByText } = renderScreen(<StoryDetailScreen story={ficheAvec({ figmaURL: undefined })} />);
+
+    expect(queryByText('Ouvrir Figma')).toBeNull();
+  });
+
+  // L'onglet des props n'a de contenu que si la fiche en declare : vide, il promet une
+  // documentation qui n'existe pas.
+  it('n ouvre pas d onglet de props sur une fiche qui n en declare pas', () => {
+    const { queryByRole } = renderScreen(<StoryDetailScreen story={fiche} />);
+
+    expect(queryByRole('tab', { name: 'Props' })).toBeNull();
+  });
+
+  it('ouvre un onglet de props des que la fiche en declare', () => {
+    const { getByRole } = renderScreen(<StoryDetailScreen story={ficheAvec({ props: { title: 'string' } })} />);
+
+    expect(getByRole('tab', { name: 'Props' })).toBeTruthy();
+  });
+
+  it('montre la description que la fiche donne a l exemple', () => {
+    const story = {
+      ...fiche,
+      Sources: { storyDescriptions: { Tailles: 'Trois tailles.' } },
+    } as unknown as StorybookModule;
+    const { getByText } = renderScreen(<StoryDetailScreen story={story} />);
+
+    expect(getByText('Trois tailles.')).toBeTruthy();
+  });
+
+  // Le surlignage decoupe le code en un noeud par jeton : c'est le texte de la page entiere
+  // qu'il faut lire pour retrouver la ligne.
+  it('montre le code que la fiche donne a l exemple', () => {
+    const story = {
+      ...fiche,
+      Sources: { storySources: { Tailles: '<Bouton taille="sm" />' } },
+    } as unknown as StorybookModule;
+    const { container } = renderScreen(<StoryDetailScreen story={story} />);
+
+    expect(container.textContent).toContain('<Bouton taille="sm" />');
   });
 });

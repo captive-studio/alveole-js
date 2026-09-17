@@ -1,13 +1,14 @@
-import { AnchorHeading, Box, MarkdownDescription, Page, Section, Tabs, Tag, Typography } from '@alveole/components';
+import { Box, Page, Section, Tabs, Typography } from '@alveole/components';
 import { useTheme } from '@alveole/theme';
 import React from 'react';
-import { ExampleBlock } from '../components/ExampleBlock';
+import { EnTeteDeFiche } from '../components/EnTeteDeFiche';
+import { Exemple, ExemplesDeLaStory } from '../components/ExemplesDeLaStory';
 import { JsonBlock } from '../components/JsonBlock';
-import { PageTitle } from '../components/PageTitle';
 import { StoryLayout } from '../components/StoryLayout';
 import { StorySummary } from '../components/StorySummary';
 import { StorybookModule } from '../types';
-import { getStoryExamples, getStoryFlags, stripMarkdown } from '../utils';
+import { getStoryExamples } from '../utils';
+import { resumeDeLaFiche } from './sourcesDExemples';
 
 export type StoryDetailScreenProps = {
   story?: StorybookModule | null;
@@ -17,100 +18,43 @@ export type StoryDetailScreenProps = {
   footerContent?: React.ReactNode;
 };
 
-type StorySourceValue = string | (() => string);
+type CadreProps = Omit<StoryDetailScreenProps, 'story' | 'notFoundMessage'>;
 
-type StorySourcesExport = {
-  storySources?: Record<string, StorySourceValue>;
-  storyDescriptions?: Record<string, string>;
-} & Record<string, unknown>;
+/** L'URL peut nommer une fiche disparue : la page se charge quand meme et le dit. */
+const FicheIntrouvable = ({ message, ...cadre }: { message: string } & CadreProps) => {
+  const { text } = useTheme();
 
-const getSources = (story: StorybookModule): StorySourcesExport | undefined =>
-  (story as unknown as { Sources?: StorySourcesExport }).Sources;
-
-const getStoryExampleSource = (story: StorybookModule, exampleName: string): string | null => {
-  const sources = getSources(story);
-  const source = sources?.storySources?.[exampleName] ?? sources?.[exampleName];
-
-  if (typeof source === 'string') return source;
-  if (typeof source === 'function') {
-    const value = source();
-    return typeof value === 'string' ? value : null;
-  }
-
-  return null;
+  return (
+    <Page title="Story not found" description={message} {...cadre}>
+      <Section withPaddingY>
+        <Typography style={text['Corps de texte'].MD.Regular}>{message}</Typography>
+      </Section>
+    </Page>
+  );
 };
 
-const getStoryExampleDescription = (story: StorybookModule, exampleName: string): string | null => {
-  const description = getSources(story)?.storyDescriptions?.[exampleName];
-  return typeof description === 'string' ? description : null;
-};
+/** Les onglets de la fiche. Les props n'ont d'onglet que si la fiche en declare. */
+const ongletsDeLaFiche = (meta: StorybookModule['default'], exemples: React.ReactNode) => [
+  { value: 'examples', label: 'Examples', content: exemples },
+  { value: 'styles', label: 'Styles', content: <JsonBlock value={meta.styleFn()} /> },
+  ...(meta.props != null ? [{ value: 'props', label: 'Props', content: <JsonBlock value={meta.props} /> }] : []),
+];
 
 export const StoryDetailScreen = ({
   story,
   notFoundMessage = 'Story not found.',
-  beforeContent,
-  sidebar,
-  footerContent,
+  ...cadre
 }: StoryDetailScreenProps) => {
-  const { color, spacingValue, text } = useTheme();
+  const { spacingValue } = useTheme();
 
-  if (!story) {
-    return (
-      <Page
-        title="Story not found"
-        description={notFoundMessage}
-        sidebar={sidebar}
-        beforeContent={beforeContent}
-        footerContent={footerContent}
-      >
-        <Section withPaddingY>
-          <Typography style={text['Corps de texte'].MD.Regular}>{notFoundMessage}</Typography>
-        </Section>
-      </Page>
-    );
-  }
+  if (!story) return <FicheIntrouvable message={notFoundMessage} {...cadre} />;
 
   const meta = story.default;
-  const flags = getStoryFlags(meta);
-  const examples = getStoryExamples(story);
-  const isTemplate = meta.tags.includes('Template');
-
-  const examplesContent = (
-    <Box display="flex" gap={40} mt={'1,5V'}>
-      {examples.map(([key, Example]) => {
-        const source = getStoryExampleSource(story, key);
-        const description = getStoryExampleDescription(story, key);
-
-        // Le titre et la description appartiennent au document : ils restent dans le flux de
-        // la page, hors de tout cadre, pour pouvoir être ancrés et repris dans un sommaire.
-        // Le cadre n'entoure que ce qui est démontré.
-        return (
-          <Box key={key} display="flex" gap={12}>
-            {!isTemplate ? (
-              <Box display="flex" gap={6}>
-                <AnchorHeading style={text.Titres['H5 - XS']}>{key}</AnchorHeading>
-                {description ? <MarkdownDescription>{description}</MarkdownDescription> : null}
-              </Box>
-            ) : null}
-
-            <ExampleBlock source={source} pleinEcran={isTemplate}>
-              <Example />
-            </ExampleBlock>
-          </Box>
-        );
-      })}
-    </Box>
-  );
+  const exemples = getStoryExamples(story) as Exemple[];
+  const gabarit = meta.tags.includes('Template');
 
   return (
-    <Page
-      scrollable
-      title={meta.title}
-      description={meta.shortDescription ?? stripMarkdown(meta.description)}
-      sidebar={sidebar}
-      beforeContent={beforeContent}
-      footerContent={footerContent}
-    >
+    <Page scrollable title={meta.title} description={resumeDeLaFiche(meta)} {...cadre}>
       {/*
         La fiche declare une zone et un sommaire ; sa colonne de lecture est ce qui reste.
         C'est la construction des catalogues de reference : aucun des deux ne choisit la
@@ -118,71 +62,14 @@ export const StoryDetailScreen = ({
         bord gauche de la page pendant que le corps se centre.
         `Section` n'a plus rien a border ici : son padding s'ajouterait a celui de la zone.
       */}
-      <StoryLayout sommaire={examples.length > 0 ? <StorySummary exemples={examples.map(([key]) => key)} /> : null}>
+      <StoryLayout sommaire={exemples.length > 0 ? <StorySummary exemples={exemples.map(([nom]) => nom)} /> : null}>
         {/* Ce que la fiche annonce d'un cote, ce qu'elle montre de l'autre : les trois
-            references laissent 55 a 75 px entre les deux, et rien ne separe les lignes de
-            l'annonce, qui se lisent d'affilee. */}
+            references laissent 55 a 75 px entre les deux. */}
         <Box display="flex" gap={spacingValue('6W')}>
-          <Box display="flex" gap={16}>
-            <PageTitle title={meta.title} />
-            {/* La premiere phrase va au bout de la colonne de lecture : c'est ce que la page
-                annonce, et le lien qui la suit ne doit pas lui prendre de largeur. */}
-            <Box display="flex" gap={12} style={{ alignItems: 'flex-start' }}>
-              <MarkdownDescription taille="LG">{meta.description}</MarkdownDescription>
-
-              {/* Sortie laterale, pas action de la page : un lien, comme le « View in Figma »
-                  de Primer. Le bleu plein d'un bouton ferait passer Figma avant la lecture. */}
-              {meta.figmaURL ? (
-                <a href={meta.figmaURL} rel="noreferrer" style={{ textDecoration: 'none' }} target="_blank">
-                  <Typography
-                    style={{ ...text['Corps de texte'].SM.SemiBold, color: color.light.text['action-high-primary'] }}
-                  >
-                    Ouvrir Figma
-                  </Typography>
-                </a>
-              ) : null}
-            </Box>
-
-            {/* Une seule rangee : les deux familles se lisent pareil, et un libelle pose
-                au-dessus de trois badges pese plus que ce qu'il explique. Le bleu d'action
-                des tags et le gris des informations suffisent a les distinguer. */}
-            <Box display="flex" flexDirection="row" flexWrap="wrap" gap={8}>
-              {meta.tags.map(tag => (
-                <Tag key={tag} color="action" size="md">
-                  {tag}
-                </Tag>
-              ))}
-              {flags.map(flag => (
-                <Tag key={flag.key} color="default" size="md">
-                  {flag.label}
-                </Tag>
-              ))}
-            </Box>
-          </Box>
-
+          <EnTeteDeFiche meta={meta} />
           <Tabs
             defaultValue="examples"
-            tabs={[
-              {
-                value: 'examples',
-                label: 'Examples',
-                content: examplesContent,
-              },
-              {
-                value: 'styles',
-                label: 'Styles',
-                content: <JsonBlock value={meta.styleFn()} />,
-              },
-              ...(meta.props != null
-                ? [
-                    {
-                      value: 'props',
-                      label: 'Props',
-                      content: <JsonBlock value={meta.props} />,
-                    },
-                  ]
-                : []),
-            ]}
+            tabs={ongletsDeLaFiche(meta, <ExemplesDeLaStory story={story} exemples={exemples} gabarit={gabarit} />)}
           />
         </Box>
       </StoryLayout>

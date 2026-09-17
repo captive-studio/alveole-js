@@ -14,6 +14,13 @@ export const normalizeText = (value: string) =>
     .normalize('NFD')
     .replace(/[\u0300-\u036f]/g, '');
 
+/**
+ * Tous les indicateurs qu'une fiche peut porter, dans l'ordre ou le catalogue les propose.
+ * Ils se deduisent des definitions plutot que d'etre recopies : un indicateur ajoute ici
+ * devient filtrable sans autre geste.
+ */
+export const ALL_STORY_FLAGS: StorybookFlag[] = FLAG_DEFINITIONS.map(({ key, label }) => ({ key, label }));
+
 export const getStoryFlags = (meta: StorybookMeta): StorybookFlag[] =>
   FLAG_DEFINITIONS.filter(flag => flag.isActive(meta)).map(({ key, label }) => ({ key, label }));
 
@@ -37,10 +44,10 @@ export const filterStories = (params: {
 
   return stories.filter(story => {
     const meta = story.default;
+    // Une recherche vide n'a pas besoin d'etre traitee a part : toute chaine contient la
+    // chaine vide, donc le titre suffit a laisser passer la fiche.
     const matchesQuery =
-      normalizedQuery.length === 0 ||
-      normalizeText(meta.title).includes(normalizedQuery) ||
-      normalizeText(meta.description).includes(normalizedQuery);
+      normalizeText(meta.title).includes(normalizedQuery) || normalizeText(meta.description).includes(normalizedQuery);
 
     if (!matchesQuery) return false;
     if (selectedTag && !meta.tags.includes(selectedTag)) return false;
