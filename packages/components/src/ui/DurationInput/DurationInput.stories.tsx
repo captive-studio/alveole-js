@@ -14,7 +14,7 @@ export default {
 
 À ne pas confondre avec **TimeInput**, qui représente une **heure d'horloge** (ex. \`09:30\` du matin).
 
-| | DurationInput |
+| Critère | DurationInput |
 |---|---|
 | Sémantique | Durée écoulée |
 | Exemple | \`35:00\` (35h00 de travail) |
