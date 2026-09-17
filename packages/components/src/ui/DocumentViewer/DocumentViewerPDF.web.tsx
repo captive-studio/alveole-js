@@ -1,30 +1,14 @@
 import React from 'react';
 import { Box, type BoxProps } from '../../core/Box';
 import { Typography } from '../../core/Typography';
+import type { PDFDocumentProxyLike } from './chargementDePdfJs';
 import { useStyles } from './DocumentViewer.styles';
 import { DocumentViewerRotation } from './DocumentViewer.types';
-
-type PDFDocumentProxyLike = {
-  destroy?: () => void | Promise<void>;
-  getPage: (page: number) => Promise<{
-    getViewport: (options: { scale: number; rotation: DocumentViewerRotation }) => { width: number; height: number };
-    render: (options: {
-      canvasContext: CanvasRenderingContext2D;
-      viewport: { width: number; height: number };
-      transform?: [number, number, number, number, number, number];
-    }) => { promise: Promise<void>; cancel?: () => void } | null;
-    cleanup?: () => void;
-  }>;
-  numPages: number;
-};
-
-type PdfJsModule = {
-  GlobalWorkerOptions: { workerSrc: string };
-  getDocument: (source: string | { url: string }) => {
-    promise: Promise<PDFDocumentProxyLike>;
-    destroy: () => void;
-  };
-};
+import { useDocumentPdfCharge } from './useDocumentPdfCharge';
+import { useEtatReinitialiseParCle } from './useEtatReinitialiseParCle';
+import { useRenduDePage } from './useRenduDePage';
+import { useSurvolAvecZoom } from './useSurvolAvecZoom';
+import { useTailleParResizeObserver } from './useTailleParResizeObserver';
 
 export type DocumentViewerPDFProps = {
   source: string;
@@ -36,240 +20,45 @@ export type DocumentViewerPDFProps = {
   errorLabel?: string;
 };
 
-const isPdfCancellationError = (error: unknown) => {
-  if (!(error instanceof Error)) return false;
-
-  return (
-    ['RenderingCancelledException', 'AbortException'].includes(error.name) ||
-    error.message.includes('Worker was terminated') ||
-    error.message.includes("Cannot read properties of null (reading 'sendWithPromise')")
-  );
+type ZonePdfProps = {
+  mesureRef: React.RefObject<HTMLDivElement | null>;
+  canvasRef: React.RefObject<HTMLCanvasElement | null>;
+  tailleRendue: { width: number; height: number };
+  survol: ReturnType<typeof useSurvolAvecZoom>;
+  hasError: boolean;
+  errorLabel: string;
+  height: BoxProps['height'];
 };
 
-const getPdfJsAssetUrl = (filename: string) => {
-  const expoScript = document.querySelector<HTMLScriptElement>('script[src*="/_expo/"]');
-  const scriptUrl = expoScript?.src ? new URL(expoScript.src, window.location.href) : null;
-  const basePath = scriptUrl?.pathname.split('/_expo/')[0] ?? '';
-  const normalizedBasePath = basePath === '/' ? '' : basePath;
-
-  return `${window.location.origin}${normalizedBasePath}/${filename}`;
-};
-
-const loadPdfJs = (() => {
-  let promise: Promise<PdfJsModule> | null = null;
-
-  return () => {
-    if (typeof window === 'undefined') {
-      return Promise.reject(new Error('PDF.js is only available in the browser.'));
-    }
-
-    if (promise) return promise;
-
-    const dynamicImport = new Function('url', 'return import(url);') as (
-      url: string,
-    ) => Promise<{ default?: PdfJsModule }>;
-
-    promise = dynamicImport(getPdfJsAssetUrl('pdf.min.mjs')).then(module => {
-      const pdfjs = (module.default ?? module) as PdfJsModule;
-      pdfjs.GlobalWorkerOptions.workerSrc = getPdfJsAssetUrl('pdf.worker.min.mjs');
-      return pdfjs;
-    });
-
-    return promise;
-  };
-})();
-
-export const DocumentViewerPDF = (props: DocumentViewerPDFProps) => {
-  const {
-    source,
-    page,
-    rotation,
-    height = '100%',
-    scale = 1,
-    onReady,
-    errorLabel = 'Le PDF ne peut pas être affiché',
-  } = props;
-
+/** Le cadre du visualiseur : la mesure invisible, le canvas a l'echelle du survol, et
+ *  l'incrustation d'erreur quand le document ou la page n'a pas pu se rendre. */
+const ZonePdf = ({ mesureRef, canvasRef, tailleRendue, survol, hasError, errorLabel, height }: ZonePdfProps) => {
   const styles = useStyles();
-
-  const [pdf, setPdf] = React.useState<PDFDocumentProxyLike | null>(null);
-  const [hasError, setHasError] = React.useState(false);
-  const [prevSource, setPrevSource] = React.useState(source);
-  if (prevSource !== source) {
-    setPrevSource(source);
-    setHasError(false);
-  }
-  const [viewerSize, setViewerSize] = React.useState({ width: 0, height: 0 });
-  const [isHovered, setIsHovered] = React.useState(false);
-  const [transformOrigin, setTransformOrigin] = React.useState('50% 50%');
-  const [renderedPageSize, setRenderedPageSize] = React.useState({ width: 0, height: 0 });
-  const canvasRef = React.useRef<HTMLCanvasElement | null>(null);
-  const measureRef = React.useRef<HTMLDivElement | null>(null);
-  const onReadyRef = React.useRef(onReady);
-  const hoveredScale = isHovered ? 2 : 1;
-
-  React.useEffect(() => {
-    onReadyRef.current = onReady;
-  }, [onReady]);
-
-  const onPdfLoadedSuccess = React.useCallback((documentPdf: PDFDocumentProxyLike, active: boolean) => {
-    if (!active) return void documentPdf.destroy?.();
-    setPdf(currentPdf => {
-      void currentPdf?.destroy?.();
-      return documentPdf;
-    });
-    onReadyRef.current?.(documentPdf);
-  }, []);
-
-  const onPdfLoadedError = React.useCallback((active: boolean) => {
-    if (!active) return;
-    setPdf(null);
-    setHasError(true);
-  }, []);
-
-  const onPageLoadedSuccess = React.useCallback(
-    async (pagePdf: Awaited<ReturnType<PDFDocumentProxyLike['getPage']>>, active: boolean) => {
-      if (!active || !canvasRef.current) return null;
-
-      const baseViewport = pagePdf.getViewport({ scale: 1, rotation });
-      const fittedScale = Math.min(viewerSize.width / baseViewport.width, viewerSize.height / baseViewport.height);
-      const viewport = pagePdf.getViewport({ scale: fittedScale * scale, rotation });
-
-      const canvas = canvasRef.current;
-      const context = canvas.getContext('2d');
-
-      if (context == null) return null;
-
-      const pixelRatio = window.devicePixelRatio || 1;
-      canvas.width = Math.floor(viewport.width * pixelRatio);
-      canvas.height = Math.floor(viewport.height * pixelRatio);
-      canvas.style.width = `${viewport.width}px`;
-      canvas.style.height = `${viewport.height}px`;
-      setRenderedPageSize({ width: viewport.width, height: viewport.height });
-      context.setTransform(1, 0, 0, 1, 0, 0);
-      context.clearRect(0, 0, canvas.width, canvas.height);
-
-      return pagePdf.render({
-        canvasContext: context,
-        viewport,
-        transform: pixelRatio === 1 ? undefined : [pixelRatio, 0, 0, pixelRatio, 0, 0],
-      });
-    },
-    [rotation, scale, viewerSize.height, viewerSize.width],
-  );
-
-  // ResizeObserver pour mesurer le conteneur — onLayout React Native for Web
-  // ne fonctionne pas avec les custom HTML tags (tag="document-viewer-pdf").
-  React.useEffect(() => {
-    const el = measureRef.current;
-    if (!el) return;
-
-    const update = (width: number, height: number) => {
-      if (width > 0 && height > 0) {
-        setViewerSize({ width, height });
-      }
-    };
-
-    const observer = new ResizeObserver(entries => {
-      const entry = entries[0];
-      if (entry) update(entry.contentRect.width, entry.contentRect.height);
-    });
-
-    observer.observe(el);
-
-    const rect = el.getBoundingClientRect();
-    update(rect.width, rect.height);
-
-    return () => observer.disconnect();
-  }, []);
-
-  React.useEffect(() => {
-    let isActive = true;
-    let loadingTask: ReturnType<PdfJsModule['getDocument']> | null = null;
-
-    loadPdfJs()
-      .then(pdfjs => {
-        if (!isActive) return;
-
-        loadingTask = pdfjs.getDocument({ url: source });
-
-        return loadingTask.promise
-          .then(nextPdf => onPdfLoadedSuccess(nextPdf, isActive))
-          .catch(error => {
-            if (!isActive || isPdfCancellationError(error)) return;
-            onPdfLoadedError(true);
-          });
-      })
-      .catch(error => {
-        if (!isActive || isPdfCancellationError(error)) return;
-        onPdfLoadedError(true);
-      });
-
-    return () => {
-      isActive = false;
-      loadingTask?.destroy();
-    };
-  }, [source, onPdfLoadedError, onPdfLoadedSuccess]);
-
-  React.useEffect(() => {
-    if (!pdf || !canvasRef.current || viewerSize.width <= 0 || viewerSize.height <= 0) return;
-
-    let isActive = true;
-    let renderTask: Awaited<ReturnType<typeof onPageLoadedSuccess>> = null;
-
-    Promise.resolve()
-      .then(() => pdf.getPage(page))
-      .then(async pdfPage => {
-        renderTask = await onPageLoadedSuccess(pdfPage, isActive);
-        return renderTask?.promise.then(() => {
-          if (!isActive) return;
-          pdfPage.cleanup?.();
-        });
-      })
-      .catch(error => {
-        if (!isActive || isPdfCancellationError(error)) return;
-        onPdfLoadedError(true);
-      });
-
-    return () => {
-      isActive = false;
-      renderTask?.cancel?.();
-    };
-  }, [pdf, page, rotation, scale, viewerSize, onPageLoadedSuccess, onPdfLoadedError]);
-
-  const handlePointerMove = React.useCallback((event: any) => {
-    const rect = event.currentTarget?.getBoundingClientRect?.();
-    if (!rect) return;
-
-    const x = ((event.clientX - rect.left) / rect.width) * 100;
-    const y = ((event.clientY - rect.top) / rect.height) * 100;
-    setTransformOrigin(`${Math.max(0, Math.min(100, x))}% ${Math.max(0, Math.min(100, y))}%`);
-  }, []);
-
-  React.useEffect(() => () => void pdf?.destroy?.(), [pdf]);
 
   return (
     <Box
       tag="document-viewer-pdf"
       width={'100%'}
       height={height}
-      onMouseEnter={() => setIsHovered(true)}
-      onMouseLeave={() => setIsHovered(false)}
-      onPointerEnter={() => setIsHovered(true)}
-      onPointerLeave={() => setIsHovered(false)}
-      onPointerMove={handlePointerMove}
+      onMouseEnter={survol.onEntree}
+      onMouseLeave={survol.onSortie}
+      onPointerEnter={survol.onEntree}
+      onPointerLeave={survol.onSortie}
+      onPointerMove={survol.onDeplacement}
       style={[styles.viewerPdfContent, { position: 'relative' }]}
     >
-      <div ref={measureRef} style={{ position: 'absolute', inset: 0, pointerEvents: 'none' }} />
+      {/* React Native for Web ne declenche pas `onLayout` sur cette balise personnalisee :
+          ce calque invisible est mesure par `ResizeObserver` a sa place. */}
+      <div ref={mesureRef} style={{ position: 'absolute', inset: 0, pointerEvents: 'none' }} />
       <Box width={'100%'} height={'100%'} p={'1V'} style={styles.viewerPdfStage}>
         <Box
           style={[
             styles.viewerPdfCanvasWrapper,
             {
-              width: renderedPageSize.width,
-              height: renderedPageSize.height,
-              transformOrigin,
-              transform: [{ scale: hoveredScale }],
+              width: tailleRendue.width,
+              height: tailleRendue.height,
+              transformOrigin: survol.origine,
+              transform: [{ scale: survol.echelle }],
             },
           ]}
         >
@@ -282,5 +71,41 @@ export const DocumentViewerPDF = (props: DocumentViewerPDFProps) => {
         )}
       </Box>
     </Box>
+  );
+};
+
+export const DocumentViewerPDF = (props: DocumentViewerPDFProps) => {
+  const {
+    source,
+    page,
+    rotation,
+    height = '100%',
+    scale = 1,
+    onReady,
+    errorLabel = 'Le PDF ne peut pas être affiché',
+  } = props;
+
+  const canvasRef = React.useRef<HTMLCanvasElement | null>(null);
+
+  const { pdf, hasError: erreurDeChargement } = useDocumentPdfCharge(source, onReady);
+  const { mesureRef, taille: cadre } = useTailleParResizeObserver();
+  // L'erreur de rendu se remet a zero des le changement de source, avant meme qu'un nouveau
+  // rendu ne commence : sinon l'erreur de l'ancienne source resterait un instant affichee
+  // sur la nouvelle.
+  const [erreurDeRendu, setErreurDeRendu] = useEtatReinitialiseParCle(source);
+  const onErreurDeRendu = React.useCallback(() => setErreurDeRendu(true), [setErreurDeRendu]);
+  const tailleRendue = useRenduDePage({ pdf, page, rotation, scale, cadre, canvasRef, onErreur: onErreurDeRendu });
+  const survol = useSurvolAvecZoom();
+
+  return (
+    <ZonePdf
+      mesureRef={mesureRef}
+      canvasRef={canvasRef}
+      tailleRendue={tailleRendue}
+      survol={survol}
+      hasError={erreurDeChargement || erreurDeRendu}
+      errorLabel={errorLabel}
+      height={height}
+    />
   );
 };

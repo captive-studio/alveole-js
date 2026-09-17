@@ -102,19 +102,6 @@
       "count": 1
     }
   },
-  "src/ui/DocumentViewer/DocumentViewerPDF.tsx": {
-    "complexity": {
-      "count": 1
-    },
-    "max-lines-per-function": {
-      "count": 1
-    }
-  },
-  "src/ui/DocumentViewer/DocumentViewerPDF.web.tsx": {
-    "max-lines-per-function": {
-      "count": 1
-    }
-  },
   "src/ui/DragAndDropFile/DragAndDropFile.tsx": {
     "complexity": {
       "count": 2

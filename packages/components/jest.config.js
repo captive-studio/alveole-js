@@ -9,6 +9,11 @@ const ANDROID_TEST_MATCH = '**/?(*.)+(spec|test).android.[tj]s?(x)';
 
 const ignoredPaths = ['/dist/', '/build/', '/.expo/', '/coverage/'];
 
+// `TEST_MATCH` ne restreint pas l'infixe de plateforme : un `Truc.web.test.tsx` lui correspond
+// aussi bien qu'un `Truc.test.tsx`. Sans cette exclusion, le projet natif rendrait un test qui
+// suppose le DOM avec `@testing-library/react`, et casserait sur `document is not defined`.
+const nonNatif = ['\\.web\\.test\\.[tj]sx?$', '\\.android\\.test\\.[tj]sx?$'];
+
 // `react-syntax-highlighter` et sa chaîne `refractor` / `hast` sont publiés en ESM. Sans
 // transformation, tout test qui importe `Highlight` casse à l'import au lieu de s'exécuter.
 // `react-markdown` et sa chaîne `remark` / `mdast-util` / `micromark` le sont tout autant :
@@ -50,7 +55,7 @@ module.exports = {
       displayName: 'native',
       testMatch: [TEST_MATCH],
       setupFilesAfterEnv: [...(nativePreset.setupFilesAfterEnv ?? []), '<rootDir>/__tests__/setup.js'],
-      testPathIgnorePatterns: [...(nativePreset.testPathIgnorePatterns ?? []), ...ignoredPaths],
+      testPathIgnorePatterns: [...(nativePreset.testPathIgnorePatterns ?? []), ...ignoredPaths, ...nonNatif],
       moduleNameMapper: {
         ...(nativePreset.moduleNameMapper ?? {}),
         ...sharedModuleNameMapper,
@@ -74,7 +79,7 @@ module.exports = {
         '<rootDir>/__tests__/setup.js',
         '<rootDir>/__tests__/mocks/datetimepicker.js',
       ],
-      testPathIgnorePatterns: [...(androidPreset.testPathIgnorePatterns ?? []), ...ignoredPaths],
+      testPathIgnorePatterns: [...(androidPreset.testPathIgnorePatterns ?? []), ...ignoredPaths, ...nonNatif],
       moduleNameMapper: {
         ...(androidPreset.moduleNameMapper ?? {}),
         ...sharedModuleNameMapper,
@@ -118,10 +123,10 @@ module.exports = {
   // les baisser demande une raison explicite.
   coverageThreshold: {
     global: {
-      statements: 41,
-      branches: 33,
-      functions: 41,
-      lines: 42,
+      statements: 47,
+      branches: 37,
+      functions: 48,
+      lines: 48,
     },
   },
   collectCoverageFrom: [

@@ -39,6 +39,10 @@
     // Tirés du preset jest-expo que packages/components/jest.config.js étale.
     "@expo/vector-icons",
     "babel-jest",
+    // Le visualiseur PDF web ne l'importe plus statiquement : ses assets sont copies au build
+    // par scripts/prepare-pdfjs-web-assets.mjs (chemin dans node_modules, que knip ne suit pas)
+    // puis charges dynamiquement a l'execution. La dependance reste bien reelle.
+    "pdfjs-dist",
   ],
 
   "workspaces": {
