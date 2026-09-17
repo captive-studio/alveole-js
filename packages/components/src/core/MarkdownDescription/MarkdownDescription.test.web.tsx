@@ -59,9 +59,11 @@ describe('MarkdownDescription', () => {
     expect(blockquote?.getAttribute('style')).toContain('border-left-width: 2px');
   });
 
-  // Même couleur et même comportement de survol que le lien du fil d'Ariane
-  // (Breadcrumbs.styles.ts), pour que les liens de contenu Markdown s'y fondent.
-  test('rend les liens dans la couleur du fil d’Ariane, sans soulignement au repos', () => {
+  // Même bleu que le lien du fil d'Ariane (Breadcrumbs.styles.ts). Le soulignement, lui, est
+  // permanent au repos : la règle d'accessibilité `link-in-text-block` (WCAG 1.4.1) exige
+  // qu'un lien noyé dans un paragraphe se distingue du texte par autre chose que sa couleur.
+  // Il disparaît au survol, où le curseur suffit déjà à distinguer le lien.
+  test('rend les liens dans la couleur du fil d’Ariane, avec un soulignement permanent au repos, retiré au survol', () => {
     const { container } = renderWeb(
       <MarkdownDescription>{'[whatwg/html#5488](https://github.com/whatwg/html/issues/5488)'}</MarkdownDescription>,
     );
@@ -70,6 +72,7 @@ describe('MarkdownDescription', () => {
 
     expect(link?.getAttribute('href')).toBe('https://github.com/whatwg/html/issues/5488');
     expect(getComputedStyle(link!).color).toBe('var(--text-default-info)');
-    expect(getComputedStyle(link!).textDecoration).toBe('none');
+    expect(getComputedStyle(link!).textDecoration).toBe('underline');
+    expect(link?.className).toContain('hover-none');
   });
 });

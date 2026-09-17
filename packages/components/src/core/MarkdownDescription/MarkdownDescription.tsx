@@ -53,12 +53,16 @@ export const MarkdownDescription = ({ children, taille = 'MD' }: MarkdownDescrip
 
   const borderColor = color.light.border['default-grey'];
   const headerBg = color.light.background['alt-grey'];
-  // Mêmes valeurs que le lien du fil d'Ariane (`Breadcrumbs.styles.ts`), pour que les liens
-  // de contenu Markdown se fondent dans le reste du catalogue. La couleur passe par la prop
+  // Même bleu que le lien du fil d'Ariane (`Breadcrumbs.styles.ts`), pour que les liens de
+  // contenu Markdown se fondent dans le reste du catalogue. La couleur passe par la prop
   // dédiée de Typography, pas par `style` : c'est elle qui a le dernier mot sur `color`.
+  // Le soulignement, lui, reste permanent : contrairement au fil d'Ariane, ce lien est noyé
+  // dans un paragraphe, et la règle d'accessibilité `link-in-text-block` (WCAG 1.4.1, usage
+  // de la couleur) exige qu'un lien au milieu d'un bloc de texte se distingue de son
+  // entourage par autre chose que sa seule couleur.
   const linkColor = color.light.text['default-info'];
-  const linkStyle = { textDecoration: 'none' as const };
-  const linkHoverStyle = { textDecoration: 'underline' as const };
+  const linkStyle = { textDecoration: 'underline' as const };
+  const linkHoverStyle = { textDecoration: 'none' as const };
 
   return (
     <Box tag="markdown-description" display="flex" gap={8}>
