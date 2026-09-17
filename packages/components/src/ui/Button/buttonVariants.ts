@@ -10,7 +10,7 @@ export type StyleKey = keyof Styles;
 /** Styles porteurs d'une couleur, seuls utilisables pour teinter une icone. */
 export type StyleCouleurKey = { [K in StyleKey]: Styles[K] extends { color: string } ? K : never }[StyleKey];
 
-/** Styles porteurs d'une bordure. Seuls `secondary` et `danger` en ont une. */
+/** Styles porteurs d'une couleur de bordure visible, pour `secondary` et `danger`. */
 export type StyleBordureKey = { [K in StyleKey]: Styles[K] extends { borderColor: string } ? K : never }[StyleKey];
 
 export type StyleHauteurKey = { [K in StyleKey]: Styles[K] extends { height: number } ? K : never }[StyleKey];

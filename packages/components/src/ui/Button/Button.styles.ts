@@ -17,6 +17,12 @@ type Table = Record<string, StyleValue>;
 const commun = ({ spacing, spacingValue, radius }: Theme) =>
   ({
     container: {
+      // Reserve le meme contour sur chaque variante : avec une largeur automatique, une
+      // bordure presente seulement sur secondary/danger ajouterait 2 px a leur gabarit.
+      // Les variantes sans contour visible la gardent transparente, comme Primer.
+      borderStyle: 'solid',
+      borderWidth: 1,
+      borderColor: 'transparent',
       borderTopLeftRadius: radius('md'),
       borderBottomLeftRadius: radius('md'),
       borderTopRightRadius: radius('md'),

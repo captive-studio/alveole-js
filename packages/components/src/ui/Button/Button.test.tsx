@@ -103,16 +103,23 @@ it('donne la meme couleur de libelle a deux variantes selectionnees', async () =
 
   expect(libelle(danger)?.props.style.color).toBe(libelle(primaire)?.props.style.color);
 });
-// Seules `secondary` et `danger` ont une bordure, et elle est posee sur le Pressable, pas
-// sur le Box : c'est le seul style que les deux vues ne partagent pas. Comparer une
-// variante bordee a une variante qui ne l'est pas prouve la table, la ou verifier la seule
-// presence d'une largeur ne dirait pas qu'elle est conditionnelle.
-it('pose une bordure sur les variantes qui en ont une, pas sur les autres', async () => {
-  const bordee = await renderNative(<Button variant="secondary" title="Annuler" />);
-  const pleine = await renderNative(<Button variant="primary" title="Enregistrer" />);
+// Une largeur automatique inclut la bordure dans sa mesure : si seuls `secondary` et
+// `danger` en portent une, ils rendent 2 px plus larges que les variantes sans contour a
+// contenu et rembourrage identiques. Toutes gardent donc la meme bordure structurelle ; sa
+// couleur transparente la rend invisible sur les variantes pleines ou discretes.
+it.each(['primary', 'secondary', 'tertiary', 'danger', 'link'] as const)(
+  'reserve la meme bordure structurelle sur la variante %s',
+  async variant => {
+    const view = await renderNative(<Button variant={variant} title="Action" />);
 
-  expect(bordee.getByRole('button').props.style.borderWidth).toBe(1);
-  expect(pleine.getByRole('button').props.style.borderWidth).toBeUndefined();
+    expect(view.getByRole('button').props.style.borderWidth).toBe(1);
+  },
+);
+
+it('rend invisible la bordure structurelle du tertiary', async () => {
+  const view = await renderNative(<Button variant="tertiary" title="Action" />);
+
+  expect(view.getByRole('button').props.style.borderColor).toBe('transparent');
 });
 // Les rayons vivent sur le Pressable, pas sur le Box, et `sm` est la seule taille qui
 // emprunte les siens a `smContainer` plutot qu'au conteneur commun.
