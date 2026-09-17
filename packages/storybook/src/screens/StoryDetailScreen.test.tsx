@@ -57,6 +57,16 @@ describe('ce que la fiche annonce', () => {
 
     expect(rangeeDuBadge(getByText('Composant'))).toBe(rangeeDuBadge(getByText('Figma')));
   });
+  // Chez Primer, la rangee de badges et de liens (Ready to use, GitHub, Figma...) vit sous la
+  // barre d'onglets, dans le contenu de l'onglet actif : elle documente ce qu'on regarde, pas
+  // la fiche en general. Chez nous elle etait dans l'en-tete, au-dessus des onglets.
+  it('pose les tags et le lien Figma sous la barre d onglets', () => {
+    const { getByText, getByRole } = renderScreen(<StoryDetailScreen story={fiche} />);
+    const tabpanel = getByRole('tabpanel');
+
+    expect(tabpanel.contains(getByText('Composant'))).toBe(true);
+    expect(tabpanel.contains(getByRole('link', { name: 'Ouvrir Figma' }))).toBe(true);
+  });
   // Primer, Atlassian et Uber laissent 55 a 75 px entre ce que la page annonce et ce qu'elle
   // montre. A 20 px, le titre, la description, les badges et les onglets se touchent tous et
   // se lisent comme un seul paquet.
