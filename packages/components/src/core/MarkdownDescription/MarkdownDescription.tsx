@@ -93,12 +93,14 @@ export const MarkdownDescription = ({ children, taille = 'MD' }: MarkdownDescrip
             </Box>
           ),
           pre: ({ children: c }: { children: React.ReactNode }) => <Box display="flex">{c}</Box>,
+          // `tag="blockquote"` pose un vrai `<blockquote>` DOM, qui garde la marge par
+          // défaut du user-agent (`margin: 1em 40px`) tant qu'on ne la remet pas à zéro.
           blockquote: ({ children: c }: { children: React.ReactNode }) => (
             <Box
               tag="blockquote"
               display="flex"
               pl={12}
-              style={{ borderLeftWidth: 2, borderLeftColor: borderColor } as any}
+              style={{ margin: 0, borderLeftWidth: 2, borderLeftColor: borderColor } as any}
             >
               {c}
             </Box>
