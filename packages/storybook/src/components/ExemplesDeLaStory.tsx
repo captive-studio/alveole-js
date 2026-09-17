@@ -42,7 +42,9 @@ export type ExemplesDeLaStoryProps = {
 
 /** Les demonstrations d'une fiche, les unes sous les autres. */
 export const ExemplesDeLaStory = ({ story, exemples, gabarit }: ExemplesDeLaStoryProps) => (
-  <Box display="flex" gap={40} mt={'1,5V'}>
+  // Le premier exemple se detache de la barre d'onglets comme les exemples se detachent
+  // entre eux : a 6 px son titre se lisait comme le libelle de l'onglet actif.
+  <Box display="flex" gap={40} mt={'5W'}>
     {exemples.map(([nom, Rendu]) => (
       <UnExemple key={nom} story={story} nom={nom} Rendu={Rendu} gabarit={gabarit} />
     ))}
