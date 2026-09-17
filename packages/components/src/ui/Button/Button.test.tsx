@@ -31,25 +31,27 @@ it('applique la hauteur de la taille md par defaut', async () => {
   expect(conteneur(view)?.props.style.height).toBe(32);
 });
 
-it('applique le rembourrage de la taille sm', async () => {
+it('applique le rembourrage horizontal de la taille sm', async () => {
   const view = await renderNative(<Button variant="primary" title="Enregistrer" size="sm" />);
 
-  expect(conteneur(view)?.props.style.paddingTop).toBe(6); // spacing('1,5V')
+  expect(conteneur(view)?.props.style.paddingLeft).toBe(12); // spacing('3V')
 });
 
-it('applique le rembourrage de la taille lg', async () => {
+it('applique le rembourrage horizontal de la taille lg', async () => {
   const view = await renderNative(<Button variant="primary" title="Enregistrer" size="lg" />);
 
-  expect(conteneur(view)?.props.style.paddingTop).toBe(12); // spacing('3V')
+  expect(conteneur(view)?.props.style.paddingLeft).toBe(24); // spacing('3W')
 });
 
 // Sans `title`, le bouton passe en mode icone seule : la chaine de ternaires sur `size`
-// bascule sur une seconde famille de styles, qui pose un `padding` uniforme la ou le mode
-// avec libelle pose des rembourrages asymetriques.
-it('applique le rembourrage uniforme du mode icone seule', async () => {
+// bascule sur une seconde famille de styles, qui pose une hauteur et une largeur egales
+// (bouton carre) la ou le mode avec libelle pose des rembourrages asymetriques.
+it('applique un cadre carre en mode icone seule', async () => {
   const view = await renderNative(<Button variant="primary" startIcon="Check" />);
+  const style = conteneur(view)?.props.style;
 
-  expect(conteneur(view)?.props.style.padding).toBe(8); // spacing('1W')
+  expect(style.height).toBe(32);
+  expect(style.width).toBe(style.height);
 });
 
 // Le design prevoyait qu'une icone resserre le rembourrage de son cote, 16 -> 12 en md.
@@ -159,4 +161,32 @@ it('ne pose pas de rembourrage vertical quand la hauteur est fixe', async () => 
   expect(style.height).toBe(32);
   expect(style.paddingTop ?? 0).toBe(0);
   expect(style.paddingBottom ?? 0).toBe(0);
+});
+
+// `sm` avait le meme defaut que `md` avant lui : la hauteur etait derivee des rembourrages
+// au lieu d'etre posee, ce qui produisait une echelle incoherente entre crans (ADR 0013).
+it('applique la hauteur de la taille sm', async () => {
+  const view = await renderNative(<Button variant="primary" title="Enregistrer" size="sm" />);
+
+  expect(conteneur(view)?.props.style.height).toBe(28);
+});
+
+// Meme correction que sur sm et md : la hauteur de lg etait une consequence des
+// rembourrages, pas une valeur posee (ADR 0013).
+it('applique la hauteur de la taille lg', async () => {
+  const view = await renderNative(<Button variant="primary" title="Enregistrer" size="lg" />);
+
+  expect(conteneur(view)?.props.style.height).toBe(40);
+});
+
+// Les trois tailles d'icone seule rendaient toutes 30 px de hauteur (ADR 0002/0013) :
+// meme padding uniforme, meme icone. La hauteur posee restaure l'echelle.
+it('distingue les hauteurs en mode icone seule', async () => {
+  const petit = await renderNative(<Button variant="primary" startIcon="Check" size="sm" />);
+  const moyen = await renderNative(<Button variant="primary" startIcon="Check" />);
+  const grand = await renderNative(<Button variant="primary" startIcon="Check" size="lg" />);
+
+  expect(conteneur(petit)?.props.style.height).toBe(28);
+  expect(conteneur(moyen)?.props.style.height).toBe(32);
+  expect(conteneur(grand)?.props.style.height).toBe(40);
 });

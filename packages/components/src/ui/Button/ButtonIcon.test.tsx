@@ -28,19 +28,18 @@ it('remplace le fond par celui de l etat desactive', async () => {
 });
 
 // La taille est choisie par des ternaires imbriques, dont aucune branche n'etait observee.
-// `smContainerIconOnly` et `mdContainerIconOnly` sont identiques au caractere pres dans les
-// styles : aucun test ne peut donc distinguer sm de md. Seule `lg` a un rembourrage propre,
-// ce qui fait de la paire defaut / lg le seul ancrage possible de cette table.
-it('applique le rembourrage de la taille md par defaut', async () => {
-  const view = await renderNative(<ButtonIcon accessibilityLabel="Valider" variant="primary" icon="Check" />);
+// Les trois crans posent desormais une hauteur (ADR 0013), ce qui les distingue tous les
+// trois, la ou seul le rembourrage de `lg` differait auparavant.
+it.each([
+  ['sm', 28],
+  ['md', 32],
+  ['lg', 40],
+] as const)('applique la hauteur de la taille %s', async (size, height) => {
+  const view = await renderNative(
+    <ButtonIcon accessibilityLabel="Valider" variant="primary" icon="Check" size={size} />,
+  );
 
-  expect(cadre(view).padding).toBe(8); // spacing('1W')
-});
-
-it('applique le rembourrage de la taille lg', async () => {
-  const view = await renderNative(<ButtonIcon accessibilityLabel="Valider" variant="primary" icon="Check" size="lg" />);
-
-  expect(cadre(view).padding).toBe(12); // spacing('3V')
+  expect(cadre(view).height).toBe(height);
 });
 
 // `iconStyle` rejoue la table des variantes pour la couleur, independamment de celle du
