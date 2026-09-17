@@ -10,6 +10,7 @@ export default {
   tags: ['ui'],
   experimental: false,
   figmaURL: 'https://www.figma.com/design/xJz8Z6vfrnZPKTtRbuT2W8/Alveole---Composants?node-id=3663-520',
+  shortDescription: "Sélecteur d'une ou plusieurs options, avec label, hint et états d'erreur/succès.",
   description: [
     "Sélecteur d'une ou plusieurs options, avec label, hint et états d'erreur/succès.",
     '',
