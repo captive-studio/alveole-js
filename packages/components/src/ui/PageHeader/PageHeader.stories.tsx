@@ -17,12 +17,10 @@ export default {
   styleFn: useStyles,
 } satisfies Story;
 
-export const Default = () => (
-  <PageHeader title="Titre de la page" />
-);
+export const Default = () => <PageHeader title="Titre de la page" />;
 
 export const WithActions = () => (
-  <Box width='100%'>
+  <Box width="100%">
     <PageHeader
       title="Détail de la mission"
       actions={
