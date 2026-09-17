@@ -9,6 +9,7 @@ export * from './Breadcrumbs';
 export * from './Button';
 export * from './Card';
 export * from './Checkbox';
+export * from './CopyToClipboard';
 export * from './Counter';
 export * from './DataTable';
 export * from './DateInput';

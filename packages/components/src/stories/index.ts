@@ -30,6 +30,7 @@ export * as BreadcrumbsStory from '../ui/Breadcrumbs/Breadcrumbs.stories';
 export * as ButtonStory from '../ui/Button/Button.stories';
 export * as CardStory from '../ui/Card/Card.stories';
 export * as CheckboxStory from '../ui/Checkbox/Checkbox.stories';
+export * as CopyToClipboardStory from '../ui/CopyToClipboard/CopyToClipboard.stories';
 export * as CounterStory from '../ui/Counter/Counter.stories';
 export * as DataTableStory from '../ui/DataTable/DataTable.stories';
 export * as DateInputStory from '../ui/DateInput/DateInput.stories';
