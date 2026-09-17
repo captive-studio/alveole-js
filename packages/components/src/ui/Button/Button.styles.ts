@@ -40,7 +40,7 @@ const commun = ({ spacing, spacingValue, radius }: Theme) =>
     },
   }) satisfies Table;
 
-const tailles = ({ text, spacing, radius }: Theme) =>
+const tailles = ({ text, spacing, radius, control }: Theme) =>
   ({
     smContainer: {
       paddingLeft: spacing('3V'),
@@ -54,10 +54,9 @@ const tailles = ({ text, spacing, radius }: Theme) =>
       borderBottomRightRadius: radius('sm'),
     },
     mdContainer: {
+      height: control('md').height,
       paddingLeft: spacing('2W'),
       paddingRight: spacing('2W'),
-      paddingTop: 10, // valeur mise en dure dans le Figma
-      paddingBottom: 10, // valeur mise en dure dans le Figma
     },
     lgContainer: {
       paddingLeft: spacing('3W'),
