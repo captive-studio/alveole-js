@@ -1,4 +1,9 @@
 {
+  "__tests__/helpers/fiche.tsx": {
+    "no-restricted-syntax": {
+      "count": 1
+    }
+  },
   "src/components/UIKitTopBar.tsx": {
     "max-lines-per-function": {
       "count": 1
@@ -20,8 +25,31 @@
       "count": 1
     }
   },
+  "src/screens/StoriesScreen.test.tsx": {
+    "no-restricted-syntax": {
+      "count": 1
+    }
+  },
+  "src/screens/StoryDetailScreen.test.tsx": {
+    "no-restricted-syntax": {
+      "count": 3
+    }
+  },
   "src/screens/ThemeCSSVariablesScreen.tsx": {
     "max-lines-per-function": {
+      "count": 1
+    },
+    "no-restricted-syntax": {
+      "count": 2
+    }
+  },
+  "src/screens/sourcesDExemples.test.ts": {
+    "no-restricted-syntax": {
+      "count": 1
+    }
+  },
+  "src/screens/sourcesDExemples.ts": {
+    "no-restricted-syntax": {
       "count": 1
     }
   }

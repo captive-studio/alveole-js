@@ -58,6 +58,11 @@
       "count": 1
     }
   },
+  "src/ui/Button/ButtonIcon.test.tsx": {
+    "no-restricted-syntax": {
+      "count": 1
+    }
+  },
   "src/ui/Card/CardSection.tsx": {
     "complexity": {
       "count": 1
@@ -144,6 +149,11 @@
       "count": 1
     },
     "max-lines-per-function": {
+      "count": 1
+    }
+  },
+  "src/ui/LucideIcon/LucideIcon.tsx": {
+    "no-restricted-syntax": {
       "count": 1
     }
   },
