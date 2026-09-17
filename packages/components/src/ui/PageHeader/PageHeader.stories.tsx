@@ -18,13 +18,11 @@ export default {
 } satisfies Story;
 
 export const Default = () => (
-  <Box p={4}>
-    <PageHeader title="Titre de la page" />
-  </Box>
+  <PageHeader title="Titre de la page" />
 );
 
 export const WithActions = () => (
-  <Box p={4}>
+  <Box width='100%'>
     <PageHeader
       title="Détail de la mission"
       actions={
