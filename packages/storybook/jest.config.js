@@ -70,10 +70,10 @@ module.exports = {
   // projets, et un seuil par projet ne verrait chacun que la moitié du catalogue.
   coverageThreshold: {
     global: {
-      statements: 31,
-      branches: 20,
-      functions: 30,
-      lines: 31,
+      statements: 51,
+      branches: 39,
+      functions: 52,
+      lines: 50,
     },
   },
   collectCoverageFrom: ['src/**/*.{ts,tsx}', '!src/**/*.test.*', '!src/**/index.ts'],
