@@ -43,10 +43,9 @@ const commun = ({ spacing, spacingValue, radius }: Theme) =>
 const tailles = ({ text, spacing, radius, control }: Theme) =>
   ({
     smContainer: {
+      height: control('sm').height,
       paddingLeft: spacing('3V'),
       paddingRight: spacing('3V'),
-      paddingTop: spacing('1,5V'),
-      paddingBottom: spacing('1,5V'),
 
       borderTopLeftRadius: radius('sm'),
       borderBottomLeftRadius: radius('sm'),
@@ -59,21 +58,23 @@ const tailles = ({ text, spacing, radius, control }: Theme) =>
       paddingRight: spacing('2W'),
     },
     lgContainer: {
+      height: control('lg').height,
       paddingLeft: spacing('3W'),
       paddingRight: spacing('3W'),
-      paddingTop: spacing('3V'),
-      paddingBottom: spacing('3V'),
     },
     // `sm` et `md` sont volontairement identiques : le Figma ne distingue pas les deux en mode
     // icone seule. Les garder separes laisse la porte ouverte sans changer l'apparence.
     smContainerIconOnly: {
-      padding: spacing('1W'),
+      height: control('sm').height,
+      width: control('sm').height,
     },
     mdContainerIconOnly: {
-      padding: spacing('1W'),
+      height: control('md').height,
+      width: control('md').height,
     },
     lgContainerIconOnly: {
-      padding: spacing('3V'),
+      height: control('lg').height,
+      width: control('lg').height,
     },
     smTitle: text['Corps de texte'].SM.Medium,
     mdTitle: text['Corps de texte'].SM.Medium,
