@@ -4,6 +4,7 @@ import { Keyboard, Pressable, StyleProp, ViewStyle } from 'react-native';
 import { Box } from '../../core/Box';
 import { Typography } from '../../core/Typography';
 import { FormControl, FormControlCaption, FormControlHint, FormControlLabel } from '../FormControl';
+import { fieldBorderState } from '../FormControl/fieldBorderState';
 import { InputHeading } from '../InputHeading';
 import { LucideIcon } from '../LucideIcon';
 import { useStyles } from './Select.styles';
@@ -128,10 +129,9 @@ export const Select = React.forwardRef<SelectRef, SelectProps>(function Select(p
             {
               ...styles.inputInner,
               ...(props.multiple ? styles.inputInnerMultiple : {}),
-              ...(disabled ? styles.inputDisabled : {}),
-              ...(open ? styles.inputFocused : {}),
-              ...(error ? styles.inputError : {}),
-              ...(success ? styles.inputSuccess : {}),
+              // Le panneau ouvert est l'etat actif du selecteur : c'est lui qui joue le
+              // role du focus, et qui passe donc devant l'erreur et le succes.
+              ...fieldBorderState(styles, { disabled, focus: open, error, success }),
             } as StyleProp<ViewStyle>
           }
         >

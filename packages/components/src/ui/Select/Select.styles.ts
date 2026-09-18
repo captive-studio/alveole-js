@@ -1,4 +1,4 @@
-import { makeStyles, StyleValue, useTheme } from '@alveole/theme';
+import { focusBorder, makeStyles, StyleValue, useTheme } from '@alveole/theme';
 
 type Theme = ReturnType<typeof useTheme>;
 
@@ -45,10 +45,12 @@ const champ = ({ color, spacing }: Theme) =>
     inputCursorDisabled: {
       cursor: 'not-allowed',
     },
-    /** Sur natif l'anneau de focus n'existe pas : on marque le focus par la bordure. */
-    inputFocused: {
-      borderColor: color.light.system.focus,
-    },
+    /**
+     * Le selecteur actif ne recoit pas d'anneau : c'est sa propre bordure qui change de
+     * couleur, selon la definition commune du theme (ADR 0012). Web et natif la partagent,
+     * et react-select n'en pose aucune autre par-dessus.
+     */
+    inputFocused: focusBorder(),
   }) satisfies Table;
 
 /** Ce que le champ fermé affiche : une valeur en mono, une trame de puces en multi. */
