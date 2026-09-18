@@ -2,15 +2,9 @@
   "name": "@alveole/root",
   "private": true,
   "packageManager": "pnpm@11.26.0",
-  "pnpm": {
-    "overrides": {
-      "react-native-reanimated": "4.5.1",
-      "react-native-worklets": "0.10.1"
-    }
-  },
   "scripts": {
     "build": "pnpm -r --if-present run build",
-    "build:packages": "pnpm --filter @alveole/core --filter @alveole/theme --filter @alveole/components --filter @alveole/storybook run build",
+    "build:packages": "node scripts/build-packages.mjs",
     "format": "node scripts/format.mjs --write",
     "format:check": "node scripts/format.mjs --check",
     "test:unit": "pnpm -r --if-present run test:unit",
