@@ -25,6 +25,11 @@ linkWorkspacePackages: true
 overrides:
   react-native-reanimated: 4.5.1
   react-native-worklets: 0.10.1
+  # Modules natifs Expo : forcés en version unique. Les pins directs de apps/docs ne suffisent
+  # pas, des peers (`*`) et expo-router en tiraient encore le patch précédent, ce qu'expo-doctor
+  # refuse (un module natif ne doit exister qu'en une version).
+  expo-asset: 57.0.18
+  expo-constants: 57.0.19
 
 # Les scripts d'installation sont bloqués par défaut : ces trois paquets compilent un binaire
 # natif dont dépendent Jest, Metro et le résolveur ESLint. pnpm 11 a supprimé
