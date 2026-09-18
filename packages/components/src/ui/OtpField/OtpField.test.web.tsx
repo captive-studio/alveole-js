@@ -13,6 +13,10 @@ test('associe le libellé au champ', () => {
 // La bibliotheque cache la vraie saisie derriere les cellules : c'est elle qui recoit le
 // focus, et les cellules ne font que le refleter.
 //
+// `hideStick` : le curseur clignotant de la cellule active monte une animation en boucle,
+// que `act` attend. Le curseur n.est pas ce qu.on mesure, et ne pas le monter retire
+// l.attente au lieu de l.allonger.
+//
 // `autoFocus={false}` partout ou un etat de repos est lu : la bibliotheque focalise le
 // champ au montage par defaut, et la premiere cellule serait deja active. Sans ce reglage,
 // « au repos » et « au focus » designent la meme chose et les assertions ne prouvent rien.
@@ -22,7 +26,7 @@ const cellule = (index = 0) => screen.getAllByTestId('otp-input')[index]!;
 const couleurDeLaCellule = (index = 0) => window.getComputedStyle(cellule(index)).borderTopColor;
 
 test('colore la bordure de la cellule active avec le token de focus, sans l epaissir', () => {
-  renderWeb(<OtpField label="Code" numberOfDigits={4} autoFocus={false} />);
+  renderWeb(<OtpField label="Code" numberOfDigits={4} autoFocus={false} hideStick />);
   const repos = couleurDeLaCellule();
 
   act(() => fireEvent.focus(champ()));
@@ -39,7 +43,7 @@ test('colore la bordure de la cellule active avec le token de focus, sans l epai
 // Seule la cellule ou l'on ecrit s'allume : le deplacement automatique entre cellules
 // resterait illisible si tout le champ changeait de couleur.
 test('ne colore que la cellule active', () => {
-  renderWeb(<OtpField label="Code" numberOfDigits={4} autoFocus={false} />);
+  renderWeb(<OtpField label="Code" numberOfDigits={4} autoFocus={false} hideStick />);
   const repos = couleurDeLaCellule(1);
 
   act(() => fireEvent.focus(champ()));
@@ -48,7 +52,7 @@ test('ne colore que la cellule active', () => {
 });
 
 test('rend la couleur de repos a la cellule quand le champ perd le focus', () => {
-  renderWeb(<OtpField label="Code" numberOfDigits={4} autoFocus={false} />);
+  renderWeb(<OtpField label="Code" numberOfDigits={4} autoFocus={false} hideStick />);
   const repos = couleurDeLaCellule();
 
   act(() => fireEvent.focus(champ()));
@@ -58,11 +62,11 @@ test('rend la couleur de repos a la cellule quand le champ perd le focus', () =>
 });
 
 test('colore la bordure des cellules en erreur', () => {
-  const { unmount } = renderWeb(<OtpField label="Code" numberOfDigits={4} autoFocus={false} />);
+  const { unmount } = renderWeb(<OtpField label="Code" numberOfDigits={4} autoFocus={false} hideStick />);
   const repos = couleurDeLaCellule();
   unmount();
 
-  renderWeb(<OtpField label="Code" numberOfDigits={4} autoFocus={false} error="Code invalide" />);
+  renderWeb(<OtpField label="Code" numberOfDigits={4} autoFocus={false} hideStick error="Code invalide" />);
 
   expect(couleurDeLaCellule()).not.toBe(repos);
 });
@@ -70,7 +74,7 @@ test('colore la bordure des cellules en erreur', () => {
 // Pendant la saisie, c'est la cellule active qu'il faut pouvoir designer sans ambiguite ;
 // le verdict de validation reprend la main au blur.
 test('couvre la couleur d erreur tant que la cellule est active, puis la restitue', () => {
-  renderWeb(<OtpField label="Code" numberOfDigits={4} autoFocus={false} error="Code invalide" />);
+  renderWeb(<OtpField label="Code" numberOfDigits={4} autoFocus={false} hideStick error="Code invalide" />);
   const erreur = couleurDeLaCellule();
 
   act(() => fireEvent.focus(champ()));
@@ -86,7 +90,7 @@ test('couvre la couleur d erreur tant que la cellule est active, puis la restitu
 // Desactive, la bibliotheque refuse le focus a la saisie cachee : les cellules gardent en
 // toutes circonstances leur apparence hors d'usage.
 test('ne colore pas la bordure des cellules d un champ desactive', () => {
-  renderWeb(<OtpField label="Code" numberOfDigits={4} autoFocus={false} disabled />);
+  renderWeb(<OtpField label="Code" numberOfDigits={4} autoFocus={false} hideStick disabled />);
   const desactive = couleurDeLaCellule();
 
   act(() => fireEvent.focus(champ()));
