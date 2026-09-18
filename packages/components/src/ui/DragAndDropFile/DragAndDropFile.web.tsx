@@ -1,4 +1,3 @@
-import * as DocumentPicker from 'expo-document-picker';
 import React from 'react';
 import { Alert } from '../../core/Alert';
 import { Box } from '../../core/Box';
@@ -12,18 +11,7 @@ import {
 import { LucideIcon } from '../LucideIcon';
 import { DragAndDropFileProps } from './DragAndDropFile';
 import { useStyles } from './DragAndDropFile.styles';
-
-function fileMatchesType(file: File, types?: DocumentPicker.DocumentPickerOptions['type']) {
-  if (!types || types.length === 0) return true;
-  const mime = file.type || '';
-  const wantsImage = types.includes('image');
-  const wantsPdf = types.includes('pdf');
-  const wantsCsv = types.includes('csv');
-  if (wantsImage && mime.startsWith('image/')) return true;
-  if (wantsPdf && (mime === 'application/pdf' || mime.endsWith('/pdf'))) return true;
-  if (wantsCsv && (mime === 'text/csv' || mime === 'application/csv' || file.name?.endsWith('.csv'))) return true;
-  return false;
-}
+import { fichierCorrespondAuType } from './fichierCorrespondAuType';
 
 function fileToDocumentPickerAsset(file: File): FormControlFileInputValue {
   const uri = URL.createObjectURL(file);
@@ -54,14 +42,7 @@ export const DragAndDropFile = (props: DragAndDropFileProps) => {
     if (multiple && Array.isArray(v)) {
       const invalidFiles = v.filter(file => {
         const mimeType = (file as any)?.mimeType;
-        const fileName = (file as any)?.name;
-        if (mimeType == null) return true;
-        return !(
-          (type.includes('image') && mimeType.startsWith('image')) ||
-          (type.includes('pdf') && mimeType.endsWith('pdf')) ||
-          (type.includes('csv') &&
-            (mimeType === 'text/csv' || mimeType === 'application/csv' || fileName?.endsWith('.csv')))
-        );
+        return mimeType == null || !fichierCorrespondAuType(mimeType, (file as any)?.name, type);
       });
 
       if (invalidFiles.length > 0) {
@@ -74,20 +55,13 @@ export const DragAndDropFile = (props: DragAndDropFileProps) => {
     const mimeType = (v as any)?.mimeType;
     if (mimeType == null) return onChange(v);
 
-    const fileName = (v as any)?.name;
-    if (
-      (type.includes('image') && mimeType.startsWith('image')) ||
-      (type.includes('pdf') && mimeType.endsWith('pdf')) ||
-      (type.includes('csv') &&
-        (mimeType === 'text/csv' || mimeType === 'application/csv' || fileName?.endsWith('.csv')))
-    )
-      return onChange(v);
+    if (fichierCorrespondAuType(mimeType, (v as any)?.name, type)) return onChange(v);
     Alert.alert({ title: 'Type de fichier incorrect', message: `Le format du fichier n'est pas pris en charge` });
   };
 
   const emitFile = React.useCallback(
     (file: File) => {
-      if (!fileMatchesType(file, type)) {
+      if (!fichierCorrespondAuType(file.type || '', file.name, type)) {
         Alert.alert({ title: 'Type de fichier incorrect', message: `Le format du fichier n'est pas pris en charge` });
         return;
       }
@@ -100,8 +74,8 @@ export const DragAndDropFile = (props: DragAndDropFileProps) => {
 
   const emitFiles = React.useCallback(
     (files: File[]) => {
-      const validFiles = files.filter(file => fileMatchesType(file, type));
-      const invalidFiles = files.filter(file => !fileMatchesType(file, type));
+      const validFiles = files.filter(file => fichierCorrespondAuType(file.type || '', file.name, type));
+      const invalidFiles = files.filter(file => !fichierCorrespondAuType(file.type || '', file.name, type));
 
       if (invalidFiles.length > 0) {
         Alert.alert({ title: 'Type de fichier incorrect', message: `Certains fichiers ne sont pas pris en charge` });
