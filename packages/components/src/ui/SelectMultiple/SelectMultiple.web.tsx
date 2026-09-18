@@ -7,6 +7,7 @@ import { InputHeading } from '../InputHeading';
 import { LucideIcon } from '../LucideIcon';
 import type { SelectMultipleOption, SelectMultipleProps } from './SelectMultiple';
 import { useStyles } from './SelectMultiple.styles';
+import { selectMultipleControlStyle } from './selectMultipleControlStyle';
 
 export const SelectMultiple = React.forwardRef<any, SelectMultipleProps>(function SelectMultiple(props, ref) {
   const { value, label, labelRight, hint, error, success, placeholder = '', disabled, options, onChange } = props;
@@ -17,12 +18,12 @@ export const SelectMultiple = React.forwardRef<any, SelectMultipleProps>(functio
   const selectStyles: StylesConfig<SelectMultipleOption, true> = {
     control: (s, p) => ({
       ...s,
-      ...styles.control,
-      ...(p.isDisabled ? styles.controlDisabled : {}),
-      boxShadow: 'none',
-      outline: p.isFocused ? `2px solid ${color.light.system.focus}` : 'none',
-      outlineOffset: 2,
-      ':hover': { borderColor: styles.control.borderColor },
+      ...selectMultipleControlStyle(styles, {
+        isDisabled: p.isDisabled,
+        isFocused: p.isFocused,
+        error,
+        success,
+      }),
     }),
     valueContainer: s => ({
       ...s,
