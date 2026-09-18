@@ -1,5 +1,6 @@
 ---
 status: proposed
+area: button
 ---
 
 # Variants du Button nommés par rang, renommage par rôle reporté

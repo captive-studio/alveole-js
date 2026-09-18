@@ -1,5 +1,6 @@
 ---
 status: accepted
+area: controls
 ---
 
 # L'échelle des contrôles dépend de la densité d'écran, pas d'une valeur unique

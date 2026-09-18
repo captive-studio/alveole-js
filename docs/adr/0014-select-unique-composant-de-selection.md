@@ -1,5 +1,6 @@
 ---
 status: accepted
+area: select
 ---
 
 # `Select` absorbe `Autocomplete` et devient l'unique composant de sélection

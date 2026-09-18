@@ -1,5 +1,6 @@
 ---
 status: accepted
+area: button
 ---
 
 # La famille Button repose sur des composants distincts, pas sur un composant polymorphe

@@ -1,5 +1,6 @@
 ---
 status: accepted
+area: button
 ---
 
 # Les états de survol et d'appui restent définis au cas par cas

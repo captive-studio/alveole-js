@@ -1,5 +1,6 @@
 ---
 status: proposed
+area: quality
 ---
 
 # La régression visuelle du catalogue se greffe sur l'audit d'accessibilité

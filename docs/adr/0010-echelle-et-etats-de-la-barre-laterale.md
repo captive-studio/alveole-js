@@ -1,5 +1,6 @@
 ---
 status: accepted
+area: sidebar
 ---
 
 # L'échelle et les états de la barre latérale se règlent sur des références mesurées

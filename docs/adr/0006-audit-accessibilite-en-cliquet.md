@@ -1,5 +1,6 @@
 ---
 status: accepted
+area: quality
 ---
 
 # L'audit d'accessibilité avance par cliquet, aujourd'hui posé sur zéro

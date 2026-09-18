@@ -1,5 +1,6 @@
 ---
 status: accepted
+area: theme
 ---
 
 # Le design system n'applique aucun style global

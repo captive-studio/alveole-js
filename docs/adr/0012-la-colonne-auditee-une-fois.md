@@ -1,5 +1,6 @@
 ---
 status: accepted
+area: quality
 ---
 
 # La colonne est auditée une fois, pas soixante-seize
