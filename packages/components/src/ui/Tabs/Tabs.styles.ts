@@ -68,10 +68,13 @@ const onglet = ({ color, spacing, radius }: Theme) =>
       transitionDuration: '0.1s',
       transitionTimingFunction: 'ease-in-out',
       gap: spacing('1W'),
-      paddingTop: spacing('025'),
-      paddingBottom: spacing('025'),
-      paddingLeft: spacing('050'),
-      paddingRight: spacing('050'),
+      // Meme gabarit qu'un bouton tertiaire md (`control('md')` : hauteur 32, paddingInline 12).
+      // A '025'/'050', l'onglet inactif tombait sur la hauteur sm (28) : a cote d'un bouton md
+      // il se lisait comme un cran plus petit que les autres commandes de la page.
+      paddingTop: spacing('1,5V'),
+      paddingBottom: spacing('1,5V'),
+      paddingLeft: spacing('3V'),
+      paddingRight: spacing('3V'),
       borderRadius: radius('md'),
     },
     wrapperHover: {
