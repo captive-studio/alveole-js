@@ -1,5 +1,6 @@
 import { act, renderNative, within } from '@/__tests__/helpers/renderNative';
 import { OPTIONS, press } from '@/__tests__/helpers/selectHarness';
+import { focusBorder } from '@alveole/theme';
 import { Select } from './Select';
 import type { SelectOption } from './Select.types';
 
@@ -133,5 +134,75 @@ describe('Select', () => {
 
     expect(within(getByTestId('select-trigger')).getByText('Option C')).toBeTruthy();
     expect(within(getByTestId('select-trigger')).queryByText('Option A')).toBeNull();
+  });
+});
+
+// Hors web, le selecteur n'a ni focus clavier ni anneau : c'est le panneau ouvert qui dit
+// « c'est ici que ca se passe », et le cadre le signale par sa bordure comme les champs.
+describe('Select, bordure de focus', () => {
+  const contour = (view: Awaited<ReturnType<typeof renderNative>>) =>
+    view.getByTestId('select-trigger').props.style.borderColor;
+
+  it('colore la bordure du cadre avec le token de focus a l ouverture', async () => {
+    const view = await renderNative(<Select label="Sélection" options={OPTIONS} value={null} />);
+
+    await press(view.getByTestId('select-trigger'));
+
+    expect(contour(view)).toBe(focusBorder().borderColor);
+  });
+
+  it('n entoure le cadre ouvert d aucun contour ni ombre', async () => {
+    const view = await renderNative(<Select label="Sélection" options={OPTIONS} value={null} />);
+
+    await press(view.getByTestId('select-trigger'));
+
+    const { outlineWidth, outlineStyle, outlineColor, boxShadow } = view.getByTestId('select-trigger').props.style;
+    expect({ outlineWidth, outlineStyle, outlineColor, boxShadow }).toEqual({
+      outlineWidth: undefined,
+      outlineStyle: undefined,
+      outlineColor: undefined,
+      boxShadow: undefined,
+    });
+  });
+
+  it('couvre la couleur d erreur tant que le panneau est ouvert', async () => {
+    const view = await renderNative(<Select label="Sélection" options={OPTIONS} value={null} error="Champ requis" />);
+    const erreur = contour(view);
+
+    await press(view.getByTestId('select-trigger'));
+
+    expect(contour(view)).toBe(focusBorder().borderColor);
+    expect(contour(view)).not.toBe(erreur);
+  });
+
+  it('rend la couleur d erreur au cadre a la fermeture du panneau', async () => {
+    const view = await renderNative(<Select label="Sélection" options={OPTIONS} value={null} error="Champ requis" />);
+    const erreur = contour(view);
+    await press(view.getByTestId('select-trigger'));
+
+    await press(view.getByTestId('select-option-a'));
+
+    expect(contour(view)).toBe(erreur);
+  });
+
+  it('rend la couleur de succes au cadre a la fermeture du panneau', async () => {
+    const view = await renderNative(<Select label="Sélection" options={OPTIONS} value={null} success="Enregistré" />);
+    const succes = contour(view);
+    await press(view.getByTestId('select-trigger'));
+
+    await press(view.getByTestId('select-option-a'));
+
+    expect(contour(view)).toBe(succes);
+  });
+
+  // Le panneau ne s'ouvre pas quand le selecteur est desactive : son cadre garde donc
+  // l'apparence hors d'usage, et surtout ne prend pas celle d'un controle actif.
+  it('ne colore pas la bordure d un selecteur desactive', async () => {
+    const view = await renderNative(<Select label="Sélection" options={OPTIONS} value={null} disabled />);
+    const desactive = contour(view);
+
+    await press(view.getByTestId('select-trigger'));
+
+    expect(contour(view)).toBe(desactive);
   });
 });

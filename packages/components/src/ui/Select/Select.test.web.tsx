@@ -1,6 +1,8 @@
-import { fireEvent, renderWeb, screen } from '@/__tests__/helpers/renderWeb';
+import { fireEvent, renderHookOnDesktop, renderWeb, screen } from '@/__tests__/helpers/renderWeb';
 import { Select } from './Select';
+import { useStyles as useSelectStyles } from './Select.styles';
 import type { SelectOption } from './Select.types';
+import { selectControlStyle, type SelectControlState } from './selectControlStyle';
 
 const OPTIONS: SelectOption[] = [
   { value: 'a', label: 'Option A' },
@@ -87,4 +89,90 @@ test('propose la création d’une option absente de la liste', () => {
   fireEvent.click(screen.getByText('Ajouter « Andorre »'));
 
   expect(onCreateOption).toHaveBeenCalledWith('Andorre');
+});
+
+// react-select compose ses styles lui-meme : la bordure se lit sur le `control` qu'il rend,
+// et non sur une classe du kit. C'est l'element qui contient le combobox.
+const cadre = () => screen.getByRole('combobox').closest('div[class*="control"]')!;
+
+const styleDuCadre = () => {
+  const s = window.getComputedStyle(cadre());
+  return { couleur: s.borderTopColor, epaisseur: s.borderTopWidth };
+};
+
+const focaliser = () => fireEvent.focus(screen.getByRole('combobox'));
+const flouter = () => fireEvent.blur(screen.getByRole('combobox'));
+
+test('colore la bordure avec le token de focus, sans l epaissir', () => {
+  renderWeb(<Select label="Pays" value={null} options={OPTIONS} />);
+
+  focaliser();
+
+  expect(styleDuCadre()).toEqual({ couleur: 'rgb(10, 118, 246)', epaisseur: '1px' });
+});
+
+// Pendant que le selecteur est actif, c'est lui qu'il faut pouvoir designer sans ambiguite ;
+// le verdict de validation reprend la main a la fermeture.
+test('couvre la couleur d erreur tant que le selecteur a le focus, puis la restitue', () => {
+  renderWeb(<Select label="Pays" value={null} options={OPTIONS} error="Champ requis" />);
+  const erreur = styleDuCadre().couleur;
+
+  focaliser();
+  const pendantLeFocus = styleDuCadre().couleur;
+  flouter();
+
+  expect({ erreur, pendantLeFocus, apresLeBlur: styleDuCadre().couleur }).toEqual({
+    erreur,
+    pendantLeFocus: 'rgb(10, 118, 246)',
+    apresLeBlur: erreur,
+  });
+});
+
+test('rend la couleur de succes au selecteur quand il perd le focus', () => {
+  renderWeb(<Select label="Pays" value={null} options={OPTIONS} success="Enregistré" />);
+  const succes = styleDuCadre().couleur;
+
+  focaliser();
+  flouter();
+
+  expect(styleDuCadre().couleur).toBe(succes);
+});
+
+// Un selecteur desactive garde son apparence hors d'usage : react-select ne lui donne pas
+// le focus, et la bordure ne doit pas s'allumer meme si l'evenement survenait.
+test('ne colore pas la bordure d un selecteur desactive', () => {
+  renderWeb(<Select label="Pays" value={null} options={OPTIONS} disabled />);
+  const desactive = styleDuCadre().couleur;
+
+  focaliser();
+
+  expect(styleDuCadre().couleur).toBe(desactive);
+});
+
+// jsdom ne resout ni les pseudo-classes emises par react-select ni le raccourci `outline`
+// de ses classes : un survol declenche dans le DOM ne change rien au style calcule, et un
+// contour remis reste invisible a `getComputedStyle`. Un test de rendu passerait donc quoi
+// qu'il arrive. Ces deux regles se verifient sur la donnee que la bibliotheque recoit.
+describe('le cadre remis a react-select', () => {
+  const cadreCalcule = (state: Partial<SelectControlState>) =>
+    renderHookOnDesktop(() => selectControlStyle(useSelectStyles(), { isDisabled: false, isFocused: false, ...state }))
+      .result.current;
+
+  it('n entoure le selecteur actif d aucun contour ni ombre', () => {
+    const actif = cadreCalcule({ isFocused: true });
+
+    expect({ outline: actif.outline, ombre: actif.boxShadow }).toEqual({ outline: 'none', ombre: 'none' });
+  });
+
+  it('reprend la couleur de l etat au survol, au lieu de reposer celle du repos', () => {
+    const actif = cadreCalcule({ isFocused: true });
+
+    expect(actif[':hover'].borderColor).toBe(actif.borderColor);
+  });
+
+  it('garde la couleur d erreur au survol d un selecteur au repos', () => {
+    const enErreur = cadreCalcule({ error: 'Champ requis' });
+
+    expect(enErreur[':hover'].borderColor).toBe(enErreur.borderColor);
+  });
 });

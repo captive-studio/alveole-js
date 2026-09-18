@@ -1,4 +1,3 @@
-import { useTheme } from '@alveole/theme';
 import React from 'react';
 import ReactSelect, { GroupBase, SelectInstance, StylesConfig } from 'react-select';
 import CreatableSelect from 'react-select/creatable';
@@ -8,6 +7,7 @@ import { InputHeading } from '../InputHeading';
 import { useStyles as useSelectStyles } from './Select.styles';
 import type { SelectOption, SelectProps, SelectRef } from './Select.types';
 import { useSelectComponents } from './selectComponents';
+import { selectControlStyle } from './selectControlStyle';
 import { selectFieldProps } from './selectFieldProps';
 import { SELECT_ROW_HEIGHT, useStyles as useListStyles } from './SelectList.styles';
 import { textesDuPanneau } from './selectReglages';
@@ -44,7 +44,6 @@ export const Select = React.forwardRef<SelectRef, SelectProps>(function Select(p
 
   const selectStyles = useSelectStyles();
   const listStyles = useListStyles();
-  const { color } = useTheme();
 
   const instanceRef = React.useRef<SelectInstance<SelectOption, boolean, Group>>(null);
 
@@ -70,16 +69,12 @@ export const Select = React.forwardRef<SelectRef, SelectProps>(function Select(p
   const styles: StylesConfig<SelectOption, boolean, Group> = {
     control: (base, state) => ({
       ...base,
-      ...selectStyles.inputInner,
-      ...(state.isDisabled
-        ? { ...selectStyles.inputDisabled, ...selectStyles.inputCursorDisabled }
-        : selectStyles.inputCursor),
-      ...(error ? selectStyles.inputError : {}),
-      ...(success ? selectStyles.inputSuccess : {}),
-      boxShadow: 'none',
-      outline: state.isFocused ? `2px solid ${color.light.system.focus}` : 'none',
-      outlineOffset: 2,
-      ':hover': { borderColor: selectStyles.inputInner.borderColor },
+      ...selectControlStyle(selectStyles, {
+        isDisabled: state.isDisabled,
+        isFocused: state.isFocused,
+        error,
+        success,
+      }),
     }),
     valueContainer: base => ({ ...base, padding: 0, gap: 4, flexWrap: 'wrap' }),
     singleValue: base => ({ ...base, ...selectStyles.value, margin: 0 }),
