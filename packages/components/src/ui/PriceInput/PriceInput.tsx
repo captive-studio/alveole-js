@@ -15,11 +15,12 @@ export const PriceInput = React.forwardRef<TextInputElement, PriceInputProps>(fu
   const { value, devise, onChange, ...inputProps } = props;
 
   const styles = useStyles();
+  const [focus, setFocus] = React.useState(false);
 
   const numberLength = value ? String(value).length : 1;
 
   return (
-    <FormControl style={styles.container}>
+    <FormControl style={{ ...styles.container, ...(focus ? styles.containerFocused : {}) }}>
       <Box tag="price-input-container" style={styles.priceInputContainer}>
         <ReactNativeTextInput
           ref={ref}
@@ -31,6 +32,12 @@ export const PriceInput = React.forwardRef<TextInputElement, PriceInputProps>(fu
           value={Number.isNaN(value) || value == null ? '' : String(value)}
           onChangeText={e => {
             onChange?.(e === '' ? null : Number(e));
+          }}
+          onFocus={() => {
+            if (!props.disabled && !props.readOnly) setFocus(true);
+          }}
+          onBlur={() => {
+            if (!props.disabled && !props.readOnly) setFocus(false);
           }}
           placeholder="0"
           placeholderTextColor={styles.inputPlaceholder.color}
