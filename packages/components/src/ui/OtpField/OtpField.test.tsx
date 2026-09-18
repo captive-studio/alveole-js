@@ -9,6 +9,11 @@ import { OtpField } from './OtpField';
 // `autoFocus={false}` : la bibliotheque focalise le champ au montage par defaut, et la
 // premiere cellule serait deja active. « Au repos » et « au focus » designeraient la meme
 // chose.
+//
+// `hideStick` : le curseur clignotant de la cellule active monte une animation en boucle,
+// que `act` attend. En local elle se vide en quelques millisecondes, sur une machine de CI
+// chargee elle a fait depasser le delai de 5 s au premier test. Le curseur n'est pas ce
+// qu'on mesure ici, et ne pas le monter retire l'attente au lieu de l'allonger.
 const bordureDeLaCellule = (view: Awaited<ReturnType<typeof renderNative>>, index = 0) => {
   const style = view.getAllByTestId('otp-input')[index]!.props.style;
   return (Array.isArray(style) ? Object.assign({}, ...style.filter(Boolean)) : style).borderColor;
@@ -21,7 +26,7 @@ const focaliser = async (view: Awaited<ReturnType<typeof renderNative>>) => {
 };
 
 it('colore la bordure de la cellule active avec le token de focus', async () => {
-  const view = await renderNative(<OtpField label="Code" numberOfDigits={4} autoFocus={false} />);
+  const view = await renderNative(<OtpField label="Code" numberOfDigits={4} autoFocus={false} hideStick />);
   const repos = bordureDeLaCellule(view);
 
   await focaliser(view);
@@ -33,7 +38,7 @@ it('colore la bordure de la cellule active avec le token de focus', async () => 
 });
 
 it('ne colore que la cellule active', async () => {
-  const view = await renderNative(<OtpField label="Code" numberOfDigits={4} autoFocus={false} />);
+  const view = await renderNative(<OtpField label="Code" numberOfDigits={4} autoFocus={false} hideStick />);
   const repos = bordureDeLaCellule(view, 1);
 
   await focaliser(view);
@@ -44,7 +49,9 @@ it('ne colore que la cellule active', async () => {
 // Pendant la saisie, c'est la cellule active qu'il faut pouvoir designer sans ambiguite ;
 // le verdict de validation reprend la main au blur.
 it('couvre la couleur d erreur tant que la cellule est active, puis la restitue', async () => {
-  const view = await renderNative(<OtpField label="Code" numberOfDigits={4} autoFocus={false} error="Code invalide" />);
+  const view = await renderNative(
+    <OtpField label="Code" numberOfDigits={4} autoFocus={false} hideStick error="Code invalide" />,
+  );
   const erreur = bordureDeLaCellule(view);
 
   await focaliser(view);
@@ -60,7 +67,7 @@ it('couvre la couleur d erreur tant que la cellule est active, puis la restitue'
 });
 
 it('ne colore pas la bordure des cellules d un champ desactive', async () => {
-  const view = await renderNative(<OtpField label="Code" numberOfDigits={4} autoFocus={false} disabled />);
+  const view = await renderNative(<OtpField label="Code" numberOfDigits={4} autoFocus={false} hideStick disabled />);
   const desactive = bordureDeLaCellule(view);
 
   await focaliser(view);
