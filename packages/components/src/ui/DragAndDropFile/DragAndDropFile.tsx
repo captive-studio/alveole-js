@@ -14,6 +14,7 @@ import {
 } from '../FormControl';
 import { LucideIcon, LucideIconProps } from '../LucideIcon';
 import { useStyles } from './DragAndDropFile.styles';
+import { fichierCorrespondAuType } from './fichierCorrespondAuType';
 
 export type DragAndDropFileValue = FormControlFileInputValue;
 export type DragAndDropFileProps = FormControlHintProps &
@@ -36,14 +37,7 @@ export const DragAndDropFile = (props: DragAndDropFileProps) => {
     if (multiple && Array.isArray(value)) {
       const invalidFiles = value.filter(file => {
         const mimeType = file?.mimeType;
-        const fileName = file?.name;
-        if (mimeType == null) return true;
-        return !(
-          (type.includes('image') && mimeType.startsWith('image')) ||
-          (type.includes('pdf') && mimeType.endsWith('pdf')) ||
-          (type.includes('csv') &&
-            (mimeType === 'text/csv' || mimeType === 'application/csv' || fileName?.endsWith('.csv')))
-        );
+        return mimeType == null || !fichierCorrespondAuType(mimeType, file?.name, type);
       });
 
       if (invalidFiles.length > 0) {
@@ -59,14 +53,7 @@ export const DragAndDropFile = (props: DragAndDropFileProps) => {
     const mimeType = (value as any)?.mimeType;
     if (mimeType == null) return onChange(value);
 
-    const fileName = (value as any)?.name;
-    if (
-      (type.includes('image') && mimeType.startsWith('image')) ||
-      (type.includes('pdf') && mimeType.endsWith('pdf')) ||
-      (type.includes('csv') &&
-        (mimeType === 'text/csv' || mimeType === 'application/csv' || fileName?.endsWith('.csv')))
-    )
-      return onChange(value);
+    if (fichierCorrespondAuType(mimeType, (value as any)?.name, type)) return onChange(value);
     else {
       Alert.alert({
         title: 'Type de fichier incorrect',
