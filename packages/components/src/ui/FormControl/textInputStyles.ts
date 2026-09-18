@@ -9,16 +9,32 @@ export type InputFrameState = {
   // de `undefined`.
   disabled?: boolean | null;
   focus: boolean;
+  error?: string;
+  success?: string;
   startAdornment?: React.ReactNode;
   endAdornment?: React.ReactNode;
   multiline?: boolean | null;
 };
 
 /**
- * Le cadre visible du champ : bordure, fond, et contour de focus. Les deux composants de
- * saisie, celui qui ecrit sur place et le miroir qui ouvre une modale, doivent presenter
- * exactement le meme cadre : sans ce point unique, la modale et la saisie inline
- * divergeraient au premier ajustement.
+ * La couleur de la bordure du cadre, un seul etat a la fois. Un champ desactive le reste
+ * quoi qu'il arrive ; sinon le focus passe devant l'erreur et le succes, pour que le champ
+ * ou l'on ecrit soit identifiable sans ambiguite, et le verdict de validation revient au
+ * blur (ADR 0012).
+ */
+const etatDuCadre = (styles: Styles, state: InputFrameState) => {
+  if (state.disabled) return styles.inputDisabled;
+  if (state.focus) return styles.inputFocused;
+  if (state.error) return styles.inputError;
+  if (state.success) return styles.inputSuccess;
+  return {};
+};
+
+/**
+ * Le cadre visible du champ : bordure, fond, et etat. Les deux composants de saisie, celui
+ * qui ecrit sur place et le miroir qui ouvre une modale, doivent presenter exactement le
+ * meme cadre : sans ce point unique, la modale et la saisie inline divergeraient au premier
+ * ajustement.
  *
  * Les deux annulations de rembourrage liees aux ornements n'ont aucun effet visible, le
  * cadre portant deja `padding: 0` et les 16 px reels vivant sur le champ enfant. Elles
@@ -27,8 +43,7 @@ export type InputFrameState = {
  */
 export const inputFrameStyle = (styles: Styles, state: InputFrameState) => ({
   ...styles.inputInner,
-  ...(state.disabled ? styles.inputDisabled : {}),
-  ...(state.focus ? styles.inputFocused : {}),
+  ...etatDuCadre(styles, state),
   ...(state.endAdornment ? { paddingRight: 0 } : {}),
   ...(state.startAdornment ? { paddingLeft: 0 } : {}),
   ...(state.multiline ? { paddingTop: 8 } : {}),

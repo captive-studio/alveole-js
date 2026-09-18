@@ -1,4 +1,5 @@
 import { act, fireEvent, renderNative, userEvent, waitFor } from '@/__tests__/helpers/renderNative';
+import { focusBorder } from '@alveole/theme';
 import { Box } from '../../core/Box';
 import { TextInput } from './TextInput';
 
@@ -145,4 +146,88 @@ it('ignore la validation tant que la modale n est pas affichee', async () => {
   await user.press(view.getByText('Valider'));
 
   expect(onModalSubmit).not.toHaveBeenCalled();
+});
+
+// Le cadre entier, et non sa seule couleur : l'epaisseur et l'absence de contour exterieur
+// se lisent sur les memes proprietes.
+const cadre = (view: Awaited<ReturnType<typeof renderNative>>) =>
+  view.root?.queryAll(i => i.type === 'View')[0]?.props.style;
+
+// Une bordure qui s'epaissirait au focus pousserait le texte du champ d'un pixel a chaque
+// fois que le curseur y entre.
+it('garde la bordure a 1 px quand le champ prend le focus', async () => {
+  const view = await renderNative(<TextInput value="Bonjour" onChangeText={() => undefined} />);
+
+  await focaliser(view, 'Bonjour');
+
+  expect(cadre(view).borderWidth).toBe(1);
+});
+
+// Le focus se lit sur la bordure du cadre, pas autour de lui : c'est le double contour que
+// l'ADR 0012 supprime. Un `outline` ou une ombre qui reviendrait ici le ferait reapparaitre.
+it('n entoure le champ focalise d aucun contour ni ombre', async () => {
+  const view = await renderNative(<TextInput value="Bonjour" onChangeText={() => undefined} />);
+
+  await focaliser(view, 'Bonjour');
+
+  const { outlineWidth, outlineStyle, outlineColor, boxShadow } = cadre(view);
+  expect({ outlineWidth, outlineStyle, outlineColor, boxShadow }).toEqual({
+    outlineWidth: undefined,
+    outlineStyle: undefined,
+    outlineColor: undefined,
+    boxShadow: undefined,
+  });
+});
+
+it('colore la bordure du champ en erreur', async () => {
+  const repos = contour(await renderNative(<TextInput value="Bonjour" onChangeText={() => undefined} />));
+  const view = await renderNative(<TextInput value="Bonjour" error="Trop court" onChangeText={() => undefined} />);
+
+  expect(contour(view)).not.toBe(repos);
+});
+
+// Pendant la saisie, c'est le champ actif qu'il faut pouvoir designer sans ambiguite : le
+// verdict de validation attend le blur pour reprendre la main.
+it('couvre la couleur d erreur tant que le champ a le focus', async () => {
+  const view = await renderNative(<TextInput value="Bonjour" error="Trop court" onChangeText={() => undefined} />);
+  const erreur = contour(view);
+
+  await focaliser(view, 'Bonjour');
+
+  expect(contour(view)).toBe(focusBorder().borderColor);
+  expect(contour(view)).not.toBe(erreur);
+});
+
+it('rend la couleur d erreur au champ quand il perd le focus', async () => {
+  const view = await renderNative(<TextInput value="Bonjour" error="Trop court" onChangeText={() => undefined} />);
+  const erreur = contour(view);
+  await focaliser(view, 'Bonjour');
+
+  await act(async () => {
+    fireEvent(view.getByDisplayValue('Bonjour'), 'blur');
+  });
+
+  expect(contour(view)).toBe(erreur);
+});
+
+it('rend la couleur de succes au champ quand il perd le focus', async () => {
+  const view = await renderNative(<TextInput value="Bonjour" success="Parfait" onChangeText={() => undefined} />);
+  const succes = contour(view);
+  await focaliser(view, 'Bonjour');
+
+  await act(async () => {
+    fireEvent(view.getByDisplayValue('Bonjour'), 'blur');
+  });
+
+  expect(contour(view)).toBe(succes);
+});
+
+// Un champ desactive garde son apparence de champ hors d'usage : le focus ne la recouvre pas.
+it('ne colore pas la bordure quand le champ est desactive', async () => {
+  const view = await renderNative(<TextInput value="Fige" disabled onChangeText={() => undefined} />);
+  const desactive = contour(view);
+
+  await focaliser(view, 'Fige');
+
+  expect(contour(view)).toBe(desactive);
 });

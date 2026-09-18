@@ -15,7 +15,7 @@ import { useTextInputModal } from './useTextInputModal';
  * modale lui donne la hauteur sans deranger la page.
  */
 export const TextInputModal = React.forwardRef<TextInputElement, TextInputProps>(function TextInputModal(props, ref) {
-  const { disabled, readOnly, onFocus, onBlur, modalSubmitLabel, onModalSubmit, ...rest } = props;
+  const { disabled, readOnly, error, success, onFocus, onBlur, modalSubmitLabel, onModalSubmit, ...rest } = props;
 
   const { color } = useTheme();
   const styles = useStyles();
@@ -25,7 +25,15 @@ export const TextInputModal = React.forwardRef<TextInputElement, TextInputProps>
 
   return (
     <>
-      <TextInputMirror ref={modal.inputRef} disabled={disabled} isOpen={modal.isOpen} onOpen={modal.open} {...rest} />
+      <TextInputMirror
+        ref={modal.inputRef}
+        disabled={disabled}
+        error={error}
+        success={success}
+        isOpen={modal.isOpen}
+        onOpen={modal.open}
+        {...rest}
+      />
 
       <FormControlModal
         open={modal.isOpen}

@@ -1,4 +1,4 @@
-import { renderWeb, screen } from '@/__tests__/helpers/renderWeb';
+import { act, renderWeb, screen } from '@/__tests__/helpers/renderWeb';
 import { TextInput } from './TextInput';
 
 // `openModal` ne vaut que hors web : le navigateur sait deja agrandir une zone de texte,
@@ -29,4 +29,64 @@ test('grise le fond d un champ desactive', () => {
   const cadre = screen.getByDisplayValue('Fige').parentElement!;
 
   expect(window.getComputedStyle(cadre).backgroundColor).toBe('rgb(230, 234, 241)');
+});
+
+// Le cadre porte la bordure ; le champ lui-meme n'est qu'un texte sans contour.
+const cadre = (valeur: string) => screen.getByDisplayValue(valeur).parentElement!;
+
+// `HTMLElement.focus()` est exactement ce que produisent le clic, le toucher et la touche
+// Tab : le navigateur les fait tous converger vers le meme evenement, et le composant n'en
+// ecoute qu'un. Distinguer les trois ici ne testerait que jsdom.
+const focaliser = (valeur: string) => act(() => screen.getByDisplayValue(valeur).focus());
+
+const flouter = (valeur: string) => act(() => screen.getByDisplayValue(valeur).blur());
+
+test('colore la bordure du cadre avec le token de focus, sans l epaissir', () => {
+  renderWeb(<TextInput value="Bonjour" onChangeText={() => undefined} />);
+
+  focaliser('Bonjour');
+
+  const style = window.getComputedStyle(cadre('Bonjour'));
+  expect({ couleur: style.borderTopColor, epaisseur: style.borderTopWidth }).toEqual({
+    couleur: 'rgb(10, 118, 246)',
+    epaisseur: '1px',
+  });
+});
+
+// Le focus se lit sur la bordure du cadre, pas autour de lui : le double contour est
+// justement ce que l'ADR 0012 supprime.
+test('n entoure le cadre focalise d aucun contour ni ombre', () => {
+  renderWeb(<TextInput value="Bonjour" onChangeText={() => undefined} />);
+
+  focaliser('Bonjour');
+
+  const style = window.getComputedStyle(cadre('Bonjour'));
+  expect([style.outlineStyle, style.boxShadow].filter(v => v && v !== 'none')).toEqual([]);
+});
+
+// Pendant la saisie, c'est le champ actif qu'il faut pouvoir designer sans ambiguite ; le
+// verdict de validation attend le blur pour reprendre la main.
+test('couvre la couleur d erreur tant que le champ a le focus, puis la restitue', () => {
+  renderWeb(<TextInput value="Bonjour" error="Trop court" onChangeText={() => undefined} />);
+  const erreur = window.getComputedStyle(cadre('Bonjour')).borderTopColor;
+
+  focaliser('Bonjour');
+  const pendantLeFocus = window.getComputedStyle(cadre('Bonjour')).borderTopColor;
+  flouter('Bonjour');
+
+  expect({ pendantLeFocus, apresLeBlur: window.getComputedStyle(cadre('Bonjour')).borderTopColor }).toEqual({
+    pendantLeFocus: 'rgb(10, 118, 246)',
+    apresLeBlur: erreur,
+  });
+});
+
+// Un champ en lecture seule reste atteignable au clavier, mais ne doit pas se presenter
+// comme modifiable.
+test('ne colore pas la bordure d un champ en lecture seule', () => {
+  renderWeb(<TextInput value="Fige" readOnly onChangeText={() => undefined} />);
+  const repos = window.getComputedStyle(cadre('Fige')).borderTopColor;
+
+  focaliser('Fige');
+
+  expect(window.getComputedStyle(cadre('Fige')).borderTopColor).toBe(repos);
 });
