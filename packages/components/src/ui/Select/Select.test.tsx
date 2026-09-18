@@ -206,3 +206,33 @@ describe('Select, bordure de focus', () => {
     expect(contour(view)).toBe(desactive);
   });
 });
+
+// Sur natif, le seul prereglage herite d'`Autocomplete` (ADR 0007) qui touche un point
+// distinct est le multiple : lui seul ajoute `inputInnerMultiple` au cadre, et cet ajout
+// pourrait recouvrir l'etat de bordure selon l'ordre des tables.
+describe('Select multiple, bordure de focus', () => {
+  const contour = (view: Awaited<ReturnType<typeof renderNative>>) =>
+    view.getByTestId('select-trigger').props.style.borderColor;
+
+  it('colore la bordure du cadre multiple a l ouverture', async () => {
+    const view = await renderNative(<Select label="Sélection" multiple options={OPTIONS} value={[]} />);
+
+    await press(view.getByTestId('select-trigger'));
+
+    expect(contour(view)).toBe(focusBorder().borderColor);
+  });
+
+  it('couvre la couleur d erreur du cadre multiple tant que le panneau est ouvert', async () => {
+    const view = await renderNative(
+      <Select label="Sélection" multiple options={OPTIONS} value={[]} error="Champ requis" />,
+    );
+    const erreur = contour(view);
+
+    await press(view.getByTestId('select-trigger'));
+
+    expect({ erreur: contour(view), different: contour(view) !== erreur }).toEqual({
+      erreur: focusBorder().borderColor,
+      different: true,
+    });
+  });
+});
