@@ -8,7 +8,7 @@ type Theme = ReturnType<typeof useTheme>;
 type Table = Record<string, StyleValue>;
 
 /** Le champ ferme : sa boite, et ce qui la marque selon l'etat. */
-const champ = ({ color, spacing }: Theme) =>
+const champ = ({ color, control }: Theme) =>
   ({
     select: {
       flex: 1,
@@ -29,7 +29,8 @@ const champ = ({ color, spacing }: Theme) =>
       borderColor: color.background['disabled-grey'],
     },
     control: {
-      minHeight: spacing('200'),
+      // Meme hauteur que le bouton md et que Select/TextField (`control('md').height`).
+      minHeight: control('md').height,
       flexWrap: 'inherit',
       borderColor: color.border['default-grey'],
     },
@@ -52,10 +53,12 @@ const champ = ({ color, spacing }: Theme) =>
   }) satisfies Table;
 
 /** Ce que le champ ferme affiche : une trame de puces retirables. */
-const contenuDuChamp = ({ color, spacing }: Theme) =>
+const contenuDuChamp = ({ color, spacing, control }: Theme) =>
   ({
     valueContainer: {
-      minHeight: 38,
+      // Desaccordait le champ avec lui-meme : ce conteneur forcait le cadre au-dela de
+      // `control.minHeight` (32), qui porte deja la hauteur voulue.
+      minHeight: control('md').height,
       paddingLeft: spacing('100'),
     },
     multiValue: {

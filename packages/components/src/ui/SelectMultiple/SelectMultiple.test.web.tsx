@@ -15,6 +15,18 @@ test('donne au champ le nom accessible de son étiquette', () => {
   expect(screen.getByRole('combobox', { name: 'Langues' })).toBeTruthy();
 });
 
+// `control.minHeight` (spacing('200')=32) et `valueContainer.minHeight` (38, en dur)
+// desaccordaient deja le champ avec lui-meme : le conteneur interieur forcait le cadre
+// au-dela de sa propre hauteur nominale. Voir plan harmonise/champs-boutons.
+test('aligne le conteneur de valeurs sur la hauteur du cadre', () => {
+  renderWeb(<SelectMultiple label="Langues" options={OPTIONS} value={[]} />);
+
+  const cadreEl = document.querySelector('div[class*="control"]')!;
+  const conteneurDeValeurs = cadreEl.firstElementChild as Element;
+
+  expect(getComputedStyle(conteneurDeValeurs).minHeight).toBe(getComputedStyle(cadreEl).minHeight);
+});
+
 // react-select compose ses styles lui-meme : la bordure se lit sur le `control` qu'il rend,
 // et non sur une classe du kit. Le cadre se trouve par sa classe, et non depuis le champ :
 // un selecteur desactive ne rend aucun combobox.

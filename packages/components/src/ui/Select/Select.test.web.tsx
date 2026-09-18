@@ -1,4 +1,5 @@
-import { fireEvent, renderHookOnDesktop, renderWeb, screen } from '@/__tests__/helpers/renderWeb';
+import { fireEvent, renderHookOnDesktop, renderOnDesktop, renderWeb, screen } from '@/__tests__/helpers/renderWeb';
+import { Button } from '../Button';
 import { Select } from './Select';
 import { useStyles as useSelectStyles } from './Select.styles';
 import type { SelectOption } from './Select.types';
@@ -23,6 +24,22 @@ test('interdit la saisie tant que la recherche n’est pas demandée', () => {
   renderWeb(<Select label="Pays" value={null} options={OPTIONS} />);
 
   expect(screen.getByRole('combobox').getAttribute('aria-readonly')).toBe('true');
+});
+
+// Le bouton est passe a `control('md').height` (32px) ; le champ etait reste a 42px en dur.
+// Voir plan harmonise/champs-boutons.
+test('aligne la hauteur du champ sur celle du bouton md', () => {
+  renderOnDesktop(
+    <>
+      <Select label="Pays" value={null} options={OPTIONS} />
+      <Button variant="primary" title="Enregistrer" />
+    </>,
+  );
+
+  const champ = screen.getByRole('combobox').closest('div[class*="control"]')!;
+  const bouton = screen.getByRole('button');
+
+  expect(getComputedStyle(champ).minHeight).toBe(getComputedStyle(bouton).height);
 });
 
 test('autorise la saisie quand la recherche est demandée', () => {

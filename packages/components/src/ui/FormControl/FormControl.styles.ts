@@ -49,7 +49,7 @@ const coque = ({ text, color, spacing }: Theme) =>
     },
   }) satisfies Table;
 
-const champ = ({ text, color, spacing }: Theme) =>
+const champ = ({ text, color, spacing, control }: Theme) =>
   ({
     // Input
     inputContainer: {
@@ -66,7 +66,10 @@ const champ = ({ text, color, spacing }: Theme) =>
       backgroundColor: '#FFFFFF',
       overflow: 'hidden',
       width: '100%',
-      minHeight: 42,
+      // Meme hauteur que le bouton md (`control('md').height`) : les deux partagent la
+      // meme echelle de controle, comme chez Primer. Un bouton pose a cote d'un champ
+      // s'alignait avant que le champ ne reste a 42 pendant que le bouton passait a 32.
+      minHeight: control('md').height,
     },
     input: {
       display: 'flex',
@@ -75,11 +78,12 @@ const champ = ({ text, color, spacing }: Theme) =>
       color: color.text['default-grey'],
       fontFamily: text['Corps de texte'].SM.Regular.fontFamily,
       fontSize: text['Corps de texte'].SM.Regular.fontSize,
-      marginTop: Platform.OS === 'web' ? spacing('050') : spacing('025'),
-      marginBottom: Platform.OS === 'web' ? spacing('050') : spacing('025'),
+      // (control('md').height - lineHeight 20) / 2, comme pour l'onglet inactif de Tabs.
+      marginTop: Platform.OS === 'web' ? spacing('1,5V') : spacing('025'),
+      marginBottom: Platform.OS === 'web' ? spacing('1,5V') : spacing('025'),
       paddingLeft: spacing('100'),
       paddingRight: spacing('100'),
-      minHeight: Platform.OS === 'web' ? undefined : 42,
+      minHeight: Platform.OS === 'web' ? undefined : control('md').height,
       flex: 1,
     },
     inputFileText: {
