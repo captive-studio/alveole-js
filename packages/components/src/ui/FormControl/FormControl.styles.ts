@@ -1,4 +1,4 @@
-import { makeStyles, StyleValue, useTheme } from '@alveole/theme';
+import { focusBorder, makeStyles, StyleValue, useTheme } from '@alveole/theme';
 import { Platform } from 'react-native';
 
 type Theme = ReturnType<typeof useTheme>;
@@ -97,6 +97,9 @@ const champ = ({ text, color, spacing }: Theme) =>
 
 const etatDuChamp = ({ color }: Theme) =>
   ({
+    // Le champ actif ne recoit pas d'anneau : c'est sa propre bordure qui change de couleur,
+    // selon la definition commune du theme (ADR 0012).
+    inputFocused: focusBorder(),
     inputError: {
       borderColor: color.border['plain-error'],
     },
@@ -108,13 +111,6 @@ const etatDuChamp = ({ color }: Theme) =>
       // cran de la rampe de gris. C'est le fond qui dit qu'on n'ecrit pas ici.
       backgroundColor: color.background['disabled-grey'],
       borderColor: color.border['disabled-grey'],
-    },
-    inputFocused: {
-      outlineStyle: 'solid',
-      outlineWidth: 2,
-      outlineColor: color.system.focus,
-      outlineOffset: 2,
-      borderColor: Platform.OS === 'ios' ? color.system.focus : undefined,
     },
   }) satisfies Table;
 

@@ -2,6 +2,7 @@ import React from 'react';
 import { Box } from '../../core/Box';
 import { useFieldId } from './FieldId';
 import { useStyles } from './FormControl.styles';
+import { inputFrameStyle } from './textInputStyles';
 
 export type FormControlDateInputElement = HTMLInputElement;
 export type FormControlDateInputProps = {
@@ -9,6 +10,8 @@ export type FormControlDateInputProps = {
   type?: 'date' | 'time' | 'datetime' | 'month';
   disabled?: boolean;
   readOnly?: boolean;
+  error?: string;
+  success?: string;
   onChange?: (value: string) => void;
 };
 
@@ -25,7 +28,7 @@ function formatForInput(value: string, type?: string): string {
 
 export const FormControlDateInput = React.forwardRef<FormControlDateInputElement, FormControlDateInputProps>(
   function DateInput(props, ref) {
-    const { value, type, onChange, ...inputProps } = props;
+    const { value, type, error, success, onChange, ...inputProps } = props;
 
     const styles = useStyles();
     const fieldId = useFieldId();
@@ -55,11 +58,7 @@ export const FormControlDateInput = React.forwardRef<FormControlDateInputElement
       <Box tag="form-control-date-input" style={styles.inputContainer}>
         <Box
           tag="form-control-date-input-inner"
-          style={{
-            ...styles.inputInner,
-            ...(props.disabled ? styles.inputDisabled : {}),
-            ...(focus ? styles.inputFocused : {}),
-          }}
+          style={inputFrameStyle(styles, { disabled: props.disabled, focus, error, success })}
         >
           <input
             ref={ref}

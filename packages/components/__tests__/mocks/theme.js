@@ -8,7 +8,7 @@ jest.mock('@alveole/theme', () => {
   const { controlSizesFor } = jest.requireActual('../../../theme/src/constants/Control');
   const { RadiusList } = jest.requireActual('../../../theme/src/constants/Radius');
   const { Grilles } = jest.requireActual('../../../theme/src/constants/Grille');
-  const { focusRing } = jest.requireActual('../../../theme/src/constants/Focus');
+  const { focusBorder, focusRing } = jest.requireActual('../../../theme/src/constants/Focus');
   const { isSpacingKey } = jest.requireActual('../../../theme/src/helpers/isSpacingKey');
   const { Sizes, Heights } = jest.requireActual('../../../theme/src/constants/Sizes');
   const { Spacings } = jest.requireActual('../../../theme/src/constants/Spacing');
@@ -85,6 +85,7 @@ jest.mock('@alveole/theme', () => {
   return {
     Colors,
     CustomPalette,
+    focusBorder,
     focusRing,
     isSpacingKey,
     makeStyles: stylesFn => () => stylesFn(testTheme),

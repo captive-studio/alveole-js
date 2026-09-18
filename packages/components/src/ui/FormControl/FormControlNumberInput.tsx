@@ -2,6 +2,7 @@ import React from 'react';
 import { Box } from '../../core/Box';
 import { useFieldId } from './FieldId';
 import { useStyles } from './FormControl.styles';
+import { inputFrameStyle } from './textInputStyles';
 
 export type FormControlNumberInputElement = HTMLInputElement;
 export type FormControlNumberInputProps = {
@@ -9,6 +10,8 @@ export type FormControlNumberInputProps = {
   placeholder?: string;
   disabled?: boolean;
   readOnly?: boolean;
+  error?: string;
+  success?: string;
   min?: number;
   max?: number;
   step?: number;
@@ -20,7 +23,7 @@ export type FormControlNumberInputProps = {
 
 export const FormControlNumberInput = React.forwardRef<FormControlNumberInputElement, FormControlNumberInputProps>(
   function DateInput(props, ref) {
-    const { value, onChange, startAdornment, endAdornment, ...inputProps } = props;
+    const { value, error, success, onChange, startAdornment, endAdornment, ...inputProps } = props;
 
     const styles = useStyles();
     const fieldId = useFieldId();
@@ -37,13 +40,14 @@ export const FormControlNumberInput = React.forwardRef<FormControlNumberInputEle
       <Box tag="form-control-number-input" style={styles.inputContainer}>
         <Box
           tag="form-control-number-input-inner"
-          style={{
-            ...styles.inputInner,
-            ...(props.disabled ? styles.inputDisabled : {}),
-            ...(focus ? styles.inputFocused : {}),
-            ...(endAdornment ? { paddingRight: 0 } : {}),
-            ...(startAdornment ? { paddingLeft: 0 } : {}),
-          }}
+          style={inputFrameStyle(styles, {
+            disabled: props.disabled,
+            focus,
+            error,
+            success,
+            startAdornment,
+            endAdornment,
+          })}
         >
           {startAdornment}
 

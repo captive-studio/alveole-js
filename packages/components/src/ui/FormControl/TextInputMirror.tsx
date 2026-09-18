@@ -15,7 +15,7 @@ type TextInputMirrorProps = TextInputProps & { isOpen: boolean; onOpen: () => vo
  */
 export const TextInputMirror = React.forwardRef<TextInputElement, TextInputMirrorProps>(
   function TextInputMirror(props, ref) {
-    const { disabled, startAdornment, endAdornment, isOpen, onOpen, ...inputProps } = props;
+    const { disabled, error, success, startAdornment, endAdornment, isOpen, onOpen, ...inputProps } = props;
 
     const { color } = useTheme();
     const styles = useStyles();
@@ -29,6 +29,8 @@ export const TextInputMirror = React.forwardRef<TextInputElement, TextInputMirro
           // Le miroir reste allume tant que la modale est ouverte : c'est lui que l'oeil
           // retrouve en la refermant.
           focus: isOpen,
+          error,
+          success,
           startAdornment,
           endAdornment,
           multiline: inputProps.multiline,

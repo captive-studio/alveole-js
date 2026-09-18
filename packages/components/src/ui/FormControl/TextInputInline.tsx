@@ -12,7 +12,18 @@ import { inputFrameStyle, inputTextStyle } from './textInputStyles';
  * laisse a la plateforme, parce que le contour se dessine sur le cadre et non sur le champ.
  */
 export const TextInputInline = React.forwardRef<TextInputElement, TextInputProps>(function TextInputInline(props, ref) {
-  const { disabled, readOnly, startAdornment, endAdornment, onFocus, onBlur, onPressIn, ...inputProps } = props;
+  const {
+    disabled,
+    readOnly,
+    error,
+    success,
+    startAdornment,
+    endAdornment,
+    onFocus,
+    onBlur,
+    onPressIn,
+    ...inputProps
+  } = props;
 
   const { color } = useTheme();
   const styles = useStyles();
@@ -45,6 +56,8 @@ export const TextInputInline = React.forwardRef<TextInputElement, TextInputProps
       style={inputFrameStyle(styles, {
         disabled,
         focus,
+        error,
+        success,
         startAdornment,
         endAdornment,
         multiline: inputProps.multiline,
