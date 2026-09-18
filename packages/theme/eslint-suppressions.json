@@ -3,10 +3,5 @@
     "max-lines": {
       "count": 1
     }
-  },
-  "src/helpers/useThemeBuilder.ts": {
-    "no-restricted-syntax": {
-      "count": 2
-    }
   }
 }

@@ -20,58 +20,14 @@ import {
 import { controlSizesFor } from '../constants/Control';
 import { Radius, RadiusList } from '../constants/Radius';
 import { alpha } from './alphaColor';
+import { toCSSVarPalette } from './cssVarPalette';
+import { toCSSVarTypography } from './cssVarTypography';
 import { deepMerge } from './deepMerge';
 import { elevationStyle } from './elevationStyle';
 import { sanitizeCSSKey } from './sanitizeCSSKey';
 
 export type CustomBuilder = {
   color?: DeepPartial<Palette>;
-};
-
-const toCSSVarPalette = (palette: typeof CustomPalette): typeof CustomPalette => {
-  if (Platform.OS !== 'web') return palette;
-
-  const light = palette.light as Record<string, Record<string, unknown>>;
-  const webLight: Record<string, Record<string, unknown>> = {};
-
-  Object.entries(light).forEach(([category, tokens]) => {
-    if (typeof tokens !== 'object' || tokens === null) {
-      webLight[category] = tokens as Record<string, unknown>;
-      return;
-    }
-    webLight[category] = {};
-    Object.entries(tokens).forEach(([token, value]) => {
-      webLight[category][token] = typeof value === 'string' ? `var(--${category}-${token})` : value;
-    });
-  });
-
-  return { ...palette, light: webLight } as typeof CustomPalette;
-};
-
-const toCSSVarTypography = (node: Record<string, unknown>, path: string[] = []): Record<string, unknown> => {
-  if (typeof (node as Record<string, unknown>).fontSize === 'number') {
-    const prefix = path.map(sanitizeCSSKey).join('-');
-    const result: Record<string, unknown> = { ...node };
-    result.fontFamily = `var(--typography-${prefix}-font-family)`;
-    result.fontWeight = `var(--typography-${prefix}-font-weight)`;
-    result.fontSize = `var(--typography-${prefix}-font-size)`;
-    result.lineHeight = `var(--typography-${prefix}-line-height)`;
-    if (typeof node.letterSpacing === 'number' && node.letterSpacing !== 0) {
-      result.letterSpacing = `var(--typography-${prefix}-letter-spacing)`;
-    }
-    if (typeof node.textTransform === 'string') {
-      result.textTransform = `var(--typography-${prefix}-text-transform)`;
-    }
-    return result;
-  }
-  const result: Record<string, unknown> = {};
-  Object.entries(node).forEach(([key, value]) => {
-    result[key] =
-      typeof value === 'object' && value !== null
-        ? toCSSVarTypography(value as Record<string, unknown>, [...path, key])
-        : value;
-  });
-  return result;
 };
 
 export function useThemeBuilder(params: CustomBuilder): Theme & { isReady: boolean } {
@@ -88,7 +44,10 @@ export function useThemeBuilder(params: CustomBuilder): Theme & { isReady: boole
     [params.color],
   );
 
-  const mergedPalette = useMemo(() => toCSSVarPalette(rawMergedPalette), [rawMergedPalette]);
+  const mergedPalette = useMemo(
+    () => (Platform.OS === 'web' ? toCSSVarPalette(rawMergedPalette) : rawMergedPalette),
+    [rawMergedPalette],
+  );
 
   const isReady = useMemo(
     () => width != null && variant != null && width > 0 && loadedFonts,
@@ -106,10 +65,7 @@ export function useThemeBuilder(params: CustomBuilder): Theme & { isReady: boole
   );
 
   const webTypography = useMemo(
-    () =>
-      Platform.OS === 'web'
-        ? toCSSVarTypography(CustomTypography as unknown as Record<string, unknown>)
-        : CustomTypography,
+    () => (Platform.OS === 'web' ? toCSSVarTypography(CustomTypography) : CustomTypography),
     [],
   );
 
@@ -143,7 +99,7 @@ export function useThemeBuilder(params: CustomBuilder): Theme & { isReady: boole
       ...webTypography,
       fontSize: Sizes,
       lineHeight: Heights,
-    } as unknown as Theme['text'],
+    },
 
     // Typographies
     font: Fonts,
