@@ -1,5 +1,4 @@
 import React from 'react';
-import { ViewStyle } from 'react-native';
 import {
   FormControl,
   FormControlCaption,
@@ -14,6 +13,7 @@ import {
 } from '../FormControl';
 import { InputHeading } from '../InputHeading';
 import { useStyles } from './OtpField.styles';
+import { otpTheme } from './otpTheme';
 
 export type OtpFieldProps = FormControlOtpInputProps &
   FormControlLabelProps &
@@ -38,16 +38,10 @@ export const OtpField = React.forwardRef<FormControlOtpInputElement, OtpFieldPro
 
       <FormControlOtpInput
         ref={ref}
-        theme={{
-          containerStyle: styles.containerStyle,
-          pinCodeContainerStyle: {
-            ...styles.pinCodeContainerStyle,
-            ...(disabled ? styles.pinCodeContainerStyleDisabled : {}),
-          },
-          focusedPinCodeContainerStyle: styles.focusedPinCodeContainerStyle,
-          focusStickStyle: styles.focusStickStyle as ViewStyle,
-          pinCodeTextStyle: styles.pinCodeTextStyle,
-        }}
+        // La bibliotheque colore d'elle-meme la bordure de la cellule active et le curseur
+        // clignotant avec `focusColor`, dont le defaut est un vert sans rapport avec le kit.
+        focusColor={styles.focusedPinCodeContainerStyle.borderColor}
+        theme={otpTheme(styles, { disabled, error, success })}
         onTextChange={onChange}
         {...props}
       />

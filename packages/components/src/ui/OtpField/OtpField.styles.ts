@@ -1,4 +1,4 @@
-import { makeStyles } from '@alveole/theme';
+import { focusBorder, makeStyles } from '@alveole/theme';
 
 export const useStyles = makeStyles(({ text, color, spacing, spacingValue }) => ({
   inputHeading: {},
@@ -20,12 +20,21 @@ export const useStyles = makeStyles(({ text, color, spacing, spacingValue }) => 
   pinCodeContainerStyleDisabled: {
     backgroundColor: color.background['disabled-grey'],
   },
-  focusedPinCodeContainerStyle: {
-    outlineStyle: 'solid',
-    outlineWidth: 2,
-    outlineColor: color.system.focus,
-    outlineOffset: 2,
+  // La legende sous le champ disait seule l'erreur et le succes ; les cellules les portent
+  // aussi, comme le cadre des autres familles de champs.
+  pinCodeContainerStyleError: {
+    borderColor: color.border['plain-error'],
   },
+  pinCodeContainerStyleSuccess: {
+    borderColor: color.border['plain-success'],
+  },
+  /**
+   * La cellule active ne recoit pas d'anneau : c'est sa propre bordure qui change de
+   * couleur, selon la definition commune du theme (ADR 0012). La bibliotheque empile ce
+   * style par-dessus celui de la cellule au repos, ce qui donne au focus la priorite sur
+   * l'erreur et le succes sans que nous ayons a l'arbitrer.
+   */
+  focusedPinCodeContainerStyle: focusBorder(),
   focusStickStyle: {
     maxHeight: spacing('100'),
   },
