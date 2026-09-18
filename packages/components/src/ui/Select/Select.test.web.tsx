@@ -176,3 +176,37 @@ describe('le cadre remis a react-select', () => {
     expect(enErreur[':hover'].borderColor).toBe(enErreur.borderColor);
   });
 });
+
+// `Autocomplete`, `AutocompleteChip` et `AutocompleteAddress` ont disparu au profit de
+// `Select` (ADR 0007). Leurs trois variantes survivent comme prereglages, et la seule qui
+// touche un point d'integration distinct est l'adresse : elle active `creatable`, qui passe
+// par `CreatableSelect` et non par `ReactSelect`. Le reste partage le meme cadre.
+describe('les prereglages hérités d Autocomplete', () => {
+  const prereglages = {
+    simple: <Select label="Pays" value={null} options={OPTIONS} searchable />,
+    multiple: <Select label="Pays" multiple value={[]} options={OPTIONS} searchable />,
+    adresse: <Select label="Adresse" value={null} options={OPTIONS} searchable localFilter={false} creatable />,
+  };
+
+  it.each(Object.entries(prereglages))('colore la bordure du prereglage %s au focus', (_nom, element) => {
+    renderWeb(element);
+    const repos = styleDuCadre().couleur;
+
+    focaliser();
+
+    expect({ repos, focus: styleDuCadre() }).toEqual({
+      repos,
+      focus: { couleur: 'rgb(10, 118, 246)', epaisseur: '1px' },
+    });
+  });
+
+  it.each(Object.entries(prereglages))('rend la couleur de repos au prereglage %s au blur', (_nom, element) => {
+    renderWeb(element);
+    const repos = styleDuCadre().couleur;
+
+    focaliser();
+    flouter();
+
+    expect(styleDuCadre().couleur).toBe(repos);
+  });
+});
