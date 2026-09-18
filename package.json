@@ -4,7 +4,8 @@
   "packageManager": "pnpm@11.26.0",
   "scripts": {
     "build": "pnpm -r --if-present run build",
-    "build:packages": "node scripts/build-packages.mjs",
+    "postinstall": "node scripts/link-workspace-packages.mjs",
+    "build:packages": "pnpm --filter @alveole/core --filter @alveole/theme --filter @alveole/components --filter @alveole/storybook run build",
     "format": "node scripts/format.mjs --write",
     "format:check": "node scripts/format.mjs --check",
     "test:unit": "pnpm -r --if-present run test:unit",
