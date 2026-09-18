@@ -3,6 +3,7 @@ import { Box } from '../../core/Box';
 import { useFieldId } from './FieldId';
 import { useStyles } from './FormControl.styles';
 import { inputFrameStyle } from './textInputStyles';
+import { useFieldFocus } from './useFieldFocus';
 
 export type FormControlDateInputElement = HTMLInputElement;
 export type FormControlDateInputProps = {
@@ -32,14 +33,7 @@ export const FormControlDateInput = React.forwardRef<FormControlDateInputElement
 
     const styles = useStyles();
     const fieldId = useFieldId();
-    const [focus, setFocus] = React.useState(false);
-
-    const handleFocus = () => {
-      if (!props.disabled && !props.readOnly) setFocus(true);
-    };
-    const handleBlur = () => {
-      if (!props.disabled && !props.readOnly) setFocus(false);
-    };
+    const champ = useFieldFocus({ disabled: props.disabled, readOnly: props.readOnly });
 
     const parsed = React.useMemo(() => {
       if (value == null) return value;
@@ -58,7 +52,7 @@ export const FormControlDateInput = React.forwardRef<FormControlDateInputElement
       <Box tag="form-control-date-input" style={styles.inputContainer}>
         <Box
           tag="form-control-date-input-inner"
-          style={inputFrameStyle(styles, { disabled: props.disabled, focus, error, success })}
+          style={inputFrameStyle(styles, { disabled: props.disabled, focus: champ.focus, error, success })}
         >
           <input
             ref={ref}
@@ -73,8 +67,8 @@ export const FormControlDateInput = React.forwardRef<FormControlDateInputElement
             type={type === 'datetime' ? 'datetime-local' : (type ?? 'date')}
             {...inputProps}
             value={parsed}
-            onFocus={handleFocus}
-            onBlur={handleBlur}
+            onFocus={champ.handleFocus}
+            onBlur={champ.handleBlur}
           />
         </Box>
       </Box>

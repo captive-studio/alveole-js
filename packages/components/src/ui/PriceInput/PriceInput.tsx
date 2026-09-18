@@ -3,6 +3,7 @@ import { TextInput as ReactNativeTextInput } from 'react-native';
 import { Box } from '../../core/Box';
 import { Typography } from '../../core/Typography';
 import { FormControl, FormControlNumberInputProps, TextInputElement } from '../FormControl';
+import { useFieldFocus } from '../FormControl/useFieldFocus';
 import { useStyles } from './PriceInput.styles';
 
 export type PriceInputProps = FormControlNumberInputProps & {
@@ -15,12 +16,12 @@ export const PriceInput = React.forwardRef<TextInputElement, PriceInputProps>(fu
   const { value, devise, onChange, ...inputProps } = props;
 
   const styles = useStyles();
-  const [focus, setFocus] = React.useState(false);
+  const champ = useFieldFocus({ disabled: props.disabled, readOnly: props.readOnly });
 
   const numberLength = value ? String(value).length : 1;
 
   return (
-    <FormControl style={{ ...styles.container, ...(focus ? styles.containerFocused : {}) }}>
+    <FormControl style={{ ...styles.container, ...(champ.focus ? styles.containerFocused : {}) }}>
       <Box tag="price-input-container" style={styles.priceInputContainer}>
         <ReactNativeTextInput
           ref={ref}
@@ -33,12 +34,8 @@ export const PriceInput = React.forwardRef<TextInputElement, PriceInputProps>(fu
           onChangeText={e => {
             onChange?.(e === '' ? null : Number(e));
           }}
-          onFocus={() => {
-            if (!props.disabled && !props.readOnly) setFocus(true);
-          }}
-          onBlur={() => {
-            if (!props.disabled && !props.readOnly) setFocus(false);
-          }}
+          onFocus={champ.handleFocus}
+          onBlur={champ.handleBlur}
           placeholder="0"
           placeholderTextColor={styles.inputPlaceholder.color}
           keyboardType={'number-pad'}

@@ -3,6 +3,7 @@ import { Box } from '../../core/Box';
 import { useFieldId } from './FieldId';
 import { useStyles } from './FormControl.styles';
 import { inputFrameStyle } from './textInputStyles';
+import { useFieldFocus } from './useFieldFocus';
 
 export type FormControlNumberInputElement = HTMLInputElement;
 export type FormControlNumberInputProps = {
@@ -27,14 +28,7 @@ export const FormControlNumberInput = React.forwardRef<FormControlNumberInputEle
 
     const styles = useStyles();
     const fieldId = useFieldId();
-    const [focus, setFocus] = React.useState(false);
-
-    const handleFocus = () => {
-      if (!props.disabled && !props.readOnly) setFocus(true);
-    };
-    const handleBlur = () => {
-      if (!props.disabled && !props.readOnly) setFocus(false);
-    };
+    const champ = useFieldFocus({ disabled: props.disabled, readOnly: props.readOnly });
 
     return (
       <Box tag="form-control-number-input" style={styles.inputContainer}>
@@ -42,7 +36,7 @@ export const FormControlNumberInput = React.forwardRef<FormControlNumberInputEle
           tag="form-control-number-input-inner"
           style={inputFrameStyle(styles, {
             disabled: props.disabled,
-            focus,
+            focus: champ.focus,
             error,
             success,
             startAdornment,
@@ -67,8 +61,8 @@ export const FormControlNumberInput = React.forwardRef<FormControlNumberInputEle
               ...(endAdornment ? { minWidth: 0 } : {}),
             }}
             {...inputProps}
-            onFocus={handleFocus}
-            onBlur={handleBlur}
+            onFocus={champ.handleFocus}
+            onBlur={champ.handleBlur}
           />
 
           {endAdornment}
