@@ -1,33 +1,16 @@
 import React from 'react';
 import { StyleProp, TextStyle } from 'react-native';
+import { FieldBorderState, fieldBorderState } from './fieldBorderState';
 import { useStyles } from './FormControl.styles';
 
 type Styles = ReturnType<typeof useStyles>;
 
-export type InputFrameState = {
-  // `disabled` et `multiline` viennent de TextInputProps, qui autorise `null` en plus
-  // de `undefined`.
-  disabled?: boolean | null;
+export type InputFrameState = FieldBorderState & {
+  // `multiline` vient de TextInputProps, qui autorise `null` en plus de `undefined`.
   focus: boolean;
-  error?: string;
-  success?: string;
   startAdornment?: React.ReactNode;
   endAdornment?: React.ReactNode;
   multiline?: boolean | null;
-};
-
-/**
- * La couleur de la bordure du cadre, un seul etat a la fois. Un champ desactive le reste
- * quoi qu'il arrive ; sinon le focus passe devant l'erreur et le succes, pour que le champ
- * ou l'on ecrit soit identifiable sans ambiguite, et le verdict de validation revient au
- * blur (ADR 0012).
- */
-const etatDuCadre = (styles: Styles, state: InputFrameState) => {
-  if (state.disabled) return styles.inputDisabled;
-  if (state.focus) return styles.inputFocused;
-  if (state.error) return styles.inputError;
-  if (state.success) return styles.inputSuccess;
-  return {};
 };
 
 /**
@@ -43,7 +26,7 @@ const etatDuCadre = (styles: Styles, state: InputFrameState) => {
  */
 export const inputFrameStyle = (styles: Styles, state: InputFrameState) => ({
   ...styles.inputInner,
-  ...etatDuCadre(styles, state),
+  ...fieldBorderState(styles, state),
   ...(state.endAdornment ? { paddingRight: 0 } : {}),
   ...(state.startAdornment ? { paddingLeft: 0 } : {}),
   ...(state.multiline ? { paddingTop: 8 } : {}),
