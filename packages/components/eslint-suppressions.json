@@ -113,16 +113,7 @@
     }
   },
   "src/ui/DragAndDropFile/DragAndDropFile.web.tsx": {
-    "complexity": {
-      "count": 1
-    },
-    "max-depth": {
-      "count": 1
-    },
     "max-lines-per-function": {
-      "count": 1
-    },
-    "sonarjs/cognitive-complexity": {
       "count": 1
     }
   },

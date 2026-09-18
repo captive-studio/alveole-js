@@ -12,6 +12,7 @@ import { LucideIcon } from '../LucideIcon';
 import { DragAndDropFileProps } from './DragAndDropFile';
 import { useStyles } from './DragAndDropFile.styles';
 import { fichierCorrespondAuType } from './fichierCorrespondAuType';
+import { fichiersDuDataTransfer } from './fichiersDuDataTransfer';
 
 function fileToDocumentPickerAsset(file: File): FormControlFileInputValue {
   const uri = URL.createObjectURL(file);
@@ -96,24 +97,7 @@ export const DragAndDropFile = (props: DragAndDropFileProps) => {
       e.stopPropagation();
       setIsOver(false);
 
-      const dt = e.dataTransfer;
-      const files: File[] = [];
-
-      if (dt?.items?.length) {
-        for (let i = 0; i < dt.items.length; i++) {
-          const it = dt.items[i];
-          if (it.kind === 'file') {
-            const f = it.getAsFile();
-            if (f) files.push(f);
-          }
-        }
-      } else if (dt?.files?.length) {
-        for (let i = 0; i < dt.files.length; i++) {
-          const f = dt.files[i];
-          if (f) files.push(f);
-        }
-      }
-
+      const files = fichiersDuDataTransfer(e.dataTransfer);
       if (files.length > 0) {
         if (multiple) emitFiles(files);
         else emitFile(files[0]);
