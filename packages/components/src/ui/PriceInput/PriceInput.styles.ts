@@ -1,10 +1,16 @@
-import { makeStyles } from '@alveole/theme';
+import { focusBorder, makeStyles } from '@alveole/theme';
 
 export const useStyles = makeStyles(({ text, color, spacing }) => ({
   container: {
     borderBottomWidth: 1,
     borderBottomColor: color.light.border['plain-grey'],
     paddingBottom: spacing('050'),
+  },
+  // Le champ de prix n'a qu'un trait sous le montant en guise de cadre : c'est donc lui que
+  // le focus recolore, avec la meme definition que la bordure complete des autres champs.
+  containerFocused: {
+    borderBottomWidth: focusBorder().borderWidth,
+    borderBottomColor: focusBorder().borderColor,
   },
   priceInputContainer: {
     display: 'flex',

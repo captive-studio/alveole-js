@@ -10,14 +10,15 @@ const MAX_VALUE = 99_999_999;
 
 export const PriceInput = React.forwardRef<FormControlNumberInputElement, PriceInputProps>(
   function PriceInput(props, ref) {
-    const { devise, autoFocus, value, onChange } = props;
+    const { devise, autoFocus, value, disabled, readOnly, onChange } = props;
 
     const styles = useStyles();
+    const [focus, setFocus] = React.useState(false);
 
     const numberLength = value ? String(value).length : 1;
 
     return (
-      <FormControl style={styles.container}>
+      <FormControl style={{ ...styles.container, ...(focus ? styles.containerFocused : {}) }}>
         <Box tag="price-input-container" style={styles.priceInputContainer}>
           <input
             ref={ref}
@@ -35,6 +36,12 @@ export const PriceInput = React.forwardRef<FormControlNumberInputElement, PriceI
             onChange={e => {
               const newValue = e.target.value;
               onChange?.(newValue === '' ? null : Number(newValue));
+            }}
+            onFocus={() => {
+              if (!disabled && !readOnly) setFocus(true);
+            }}
+            onBlur={() => {
+              if (!disabled && !readOnly) setFocus(false);
             }}
             type="number"
             max={MAX_VALUE}
