@@ -1,5 +1,6 @@
 ---
 status: accepted
+area: button
 ---
 
 # Pas de couche de tokens de composant pour le Button

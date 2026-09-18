@@ -1,5 +1,6 @@
 ---
 status: accepted
+area: typography
 ---
 
 # La couleur de texte par défaut est portée par `Typography`

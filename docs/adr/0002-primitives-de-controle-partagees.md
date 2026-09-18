@@ -1,5 +1,6 @@
 ---
 status: accepted
+area: controls
 ---
 
 # Primitives de contrôle partagées et alignement de l'échelle sur Primer

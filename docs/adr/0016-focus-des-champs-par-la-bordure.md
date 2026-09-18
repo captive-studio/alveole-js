@@ -1,5 +1,6 @@
 ---
 status: accepted
+area: forms
 ---
 
 # Le focus des champs et sélecteurs est porté par leur bordure

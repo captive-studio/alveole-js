@@ -1,5 +1,6 @@
 ---
 status: accepted
+area: code
 ---
 
 # Un thème de coloration syntaxique ne fournit que des couleurs de texte

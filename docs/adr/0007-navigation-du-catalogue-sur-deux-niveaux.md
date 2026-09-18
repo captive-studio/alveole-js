@@ -1,5 +1,6 @@
 ---
 status: accepted
+area: catalogue
 ---
 
 # La navigation du catalogue tient sur deux niveaux, et réutilise les composants publiés
