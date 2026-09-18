@@ -8,7 +8,7 @@ type Theme = ReturnType<typeof useTheme>;
 type Table = Record<string, StyleValue>;
 
 /** Le champ fermé : sa boîte, et ce qui la marque selon l'état. */
-const champ = ({ color, spacing }: Theme) =>
+const champ = ({ color, spacing, control }: Theme) =>
   ({
     pickerContainer: {},
     inputContainer: {
@@ -21,7 +21,8 @@ const champ = ({ color, spacing }: Theme) =>
       gap: spacing('1W'),
       paddingLeft: spacing('2W'),
       paddingRight: spacing('2W'),
-      minHeight: 42,
+      // Meme hauteur que le bouton md (`control('md').height`), comme TextField.
+      minHeight: control('md').height,
       borderRadius: 8,
       borderWidth: 1,
       borderStyle: 'solid',
