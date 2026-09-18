@@ -24,3 +24,4 @@ apps/docs/test-results/
 apps/docs/playwright-report/
 packages/*/.tsbuildinfo
 apps/*/.tsbuildinfo
+.tamagui
