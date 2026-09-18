@@ -1,3 +1,4 @@
+import { isRecord } from './isRecord';
 import { sanitizeCSSKey } from './sanitizeCSSKey';
 
 /** Couple `${famille}__${poids}` vers la cle de police du catalogue. */
@@ -44,8 +45,6 @@ export const metricVariableLines = (prefix: string, metrics: TypographyMetrics):
     : []),
   ...(typeof metrics.textTransform === 'string' ? [`${prefix}-text-transform: ${metrics.textTransform};`] : []),
 ];
-
-const isRecord = (node: unknown): node is Record<string, unknown> => typeof node === 'object' && node !== null;
 
 /**
  * Traduit l'arbre des jetons typographiques en declarations CSS. Chaque feuille est
