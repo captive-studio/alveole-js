@@ -2,6 +2,7 @@ import React from 'react';
 import { Box } from '../../core/Box';
 import { Typography } from '../../core/Typography';
 import { FormControl, FormControlNumberInputElement } from '../FormControl';
+import { useFieldFocus } from '../FormControl/useFieldFocus';
 import type { PriceInputProps } from './PriceInput';
 import './PriceInput.css';
 import { useStyles } from './PriceInput.styles';
@@ -13,12 +14,12 @@ export const PriceInput = React.forwardRef<FormControlNumberInputElement, PriceI
     const { devise, autoFocus, value, disabled, readOnly, onChange } = props;
 
     const styles = useStyles();
-    const [focus, setFocus] = React.useState(false);
+    const champ = useFieldFocus({ disabled, readOnly });
 
     const numberLength = value ? String(value).length : 1;
 
     return (
-      <FormControl style={{ ...styles.container, ...(focus ? styles.containerFocused : {}) }}>
+      <FormControl style={{ ...styles.container, ...(champ.focus ? styles.containerFocused : {}) }}>
         <Box tag="price-input-container" style={styles.priceInputContainer}>
           <input
             ref={ref}
@@ -37,12 +38,8 @@ export const PriceInput = React.forwardRef<FormControlNumberInputElement, PriceI
               const newValue = e.target.value;
               onChange?.(newValue === '' ? null : Number(newValue));
             }}
-            onFocus={() => {
-              if (!disabled && !readOnly) setFocus(true);
-            }}
-            onBlur={() => {
-              if (!disabled && !readOnly) setFocus(false);
-            }}
+            onFocus={champ.handleFocus}
+            onBlur={champ.handleBlur}
             type="number"
             max={MAX_VALUE}
           />

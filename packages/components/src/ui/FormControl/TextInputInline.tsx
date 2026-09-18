@@ -6,6 +6,16 @@ import { useFieldId } from './FieldId';
 import { useStyles } from './FormControl.styles';
 import { TextInputElement, TextInputProps } from './TextInput.types';
 import { inputFrameStyle, inputTextStyle } from './textInputStyles';
+import { useFieldFocus } from './useFieldFocus';
+
+/**
+ * Chaque plateforme a son mot pour « ce champ ne participe pas ». Le web a l'attribut
+ * `disabled`, que React Native ne connait pas et que TypeScript refuse sur son `TextInput` ;
+ * le natif a `editable={false}`. `readOnly` ne conviendrait ni a l'un ni a l'autre : il
+ * laisse le champ focusable au clavier et soumis avec le formulaire.
+ */
+const desactivationDe = (disabled?: boolean | null) =>
+  disabled !== true ? null : Platform.OS === 'web' ? { disabled: true } : { editable: false };
 
 /**
  * La saisie ordinaire : on ecrit dans le champ la ou il est. Le focus est tenu ici et non
@@ -29,33 +39,17 @@ export const TextInputInline = React.forwardRef<TextInputElement, TextInputProps
   const styles = useStyles();
   const fieldId = useFieldId();
 
-  // Chaque plateforme a son mot pour « ce champ ne participe pas ». Le web a l'attribut
-  // `disabled`, que React Native ne connait pas et que TypeScript refuse sur son `TextInput` ;
-  // le natif a `editable={false}`. `readOnly` ne conviendrait ni a l'un ni a l'autre : il
-  // laisse le champ focusable au clavier et soumis avec le formulaire.
-  const desactivation = disabled !== true ? null : Platform.OS === 'web' ? { disabled: true } : { editable: false };
-
-  const [focus, setFocus] = React.useState(false);
+  const champ = useFieldFocus<FocusEvent, BlurEvent>({ disabled, readOnly, onFocus, onBlur });
   const inputRef = React.useRef<ReactNativeTextInput>(null);
 
   React.useImperativeHandle(ref, () => inputRef.current as ReactNativeTextInput);
-
-  const handleFocus = (e: FocusEvent) => {
-    if (!disabled && !readOnly) setFocus(true);
-    onFocus?.(e);
-  };
-
-  const handleBlur = (e: BlurEvent) => {
-    if (!disabled && !readOnly) setFocus(false);
-    onBlur?.(e);
-  };
 
   return (
     <Box
       tag="form-control-text-input-inner"
       style={inputFrameStyle(styles, {
         disabled,
-        focus,
+        focus: champ.focus,
         error,
         success,
         startAdornment,
@@ -71,8 +65,8 @@ export const TextInputInline = React.forwardRef<TextInputElement, TextInputProps
         style={inputTextStyle(styles, { startAdornment, endAdornment })}
         readOnly={readOnly === true}
         editable={inputProps.editable}
-        onFocus={handleFocus}
-        onBlur={handleBlur}
+        onFocus={champ.handleFocus}
+        onBlur={champ.handleBlur}
         onPressIn={onPressIn}
         showSoftInputOnFocus={inputProps.showSoftInputOnFocus}
         caretHidden={inputProps.caretHidden}
@@ -81,7 +75,7 @@ export const TextInputInline = React.forwardRef<TextInputElement, TextInputProps
         selectionColor={inputProps.selectionColor}
         placeholderTextColor={color.text.inverse.muted}
         {...inputProps}
-        {...desactivation}
+        {...desactivationDe(disabled)}
       />
 
       {endAdornment}
