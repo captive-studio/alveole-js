@@ -2,10 +2,37 @@ packages:
   - 'packages/*'
   - 'apps/*'
 
-# Les scripts d'installation sont bloqués par défaut depuis pnpm 10 : ces trois paquets
-# compilent un binaire natif dont dépendent Jest, Metro et le résolveur ESLint. La liste
-# vivait dans le champ `pnpm` de package.json, que pnpm 11 ne lit plus du tout.
-onlyBuiltDependencies:
-  - '@swc/core'
-  - 'esbuild'
-  - 'unrs-resolver'
+# Réglages migrés de .npmrc : pnpm 11 ne lit plus dans .npmrc que l'auth et les registries,
+# tout autre réglage doit vivre ici en camelCase.
+
+# Arbre à plat, comme npm : les dépendances fantômes continuent de se résoudre, et les liens
+# durs vers le store sont conservés. En layout isolé (défaut pnpm), les chemins .pnpm/ cassent
+# les transformIgnorePatterns de Jest et la résolution de types de storybook.
+nodeLinker: hoisted
+
+# node_modules est un arbre de liens durs vers le store, jamais une copie : sur les runners,
+# recopier 1,1 Go et 105 413 fichiers à chaque job saturait le NVMe partagé par toute la CI.
+# `hardlink` explicitement, non `auto` : `auto` retombe en copie sans le moindre message
+# quand store et node_modules ne sont pas sur le même système de fichiers.
+packageImportMethod: hardlink
+
+# Les paquets du monorepo se référencent en `"*"` et en `file:`. Depuis pnpm 10 le défaut est
+# `false`, ce qui enverrait chercher @alveole/core sur le registre au lieu du workspace voisin.
+linkWorkspacePackages: true
+
+# Overrides déplacés du champ `pnpm` de package.json, que pnpm 11 ne lit plus. Ils épinglent
+# reanimated et worklets aux versions attendues par le SDK Expo courant, à l'échelle du workspace.
+overrides:
+  react-native-reanimated: 4.5.1
+  react-native-worklets: 0.10.1
+
+# Les scripts d'installation sont bloqués par défaut : ces trois paquets compilent un binaire
+# natif dont dépendent Jest, Metro et le résolveur ESLint. pnpm 11 a supprimé
+# `onlyBuiltDependencies` au profit de `allowBuilds` (map nom -> true/false) ; sans ces trois
+# entrées à `true`, pnpm émet ERR_PNPM_IGNORED_BUILDS et n'exécute pas leurs scripts de build.
+allowBuilds:
+  # postinstall interne : copie les assets pdfjs de components vers le public/ du consommateur.
+  '@alveole/components': true
+  '@swc/core': true
+  esbuild: true
+  unrs-resolver: true
