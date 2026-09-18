@@ -19,7 +19,7 @@
   "devDependencies": {
     "@alveole/eslint-config": "file:../eslint-config",
     "esbuild": "0.28.2",
-    "eslint": "9.39.5",
+    "eslint": "10.10.0",
     "react": "19.2.3",
     "react-native": "0.86.3"
   },

@@ -14,14 +14,14 @@
     "README.md"
   ],
   "peerDependencies": {
-    "eslint": "^9.0.0"
+    "eslint": "^9.0.0 || ^10.0.0"
   },
   "dependencies": {
     "eslint-config-expo": "57.0.2",
     "eslint-plugin-sonarjs": "4.2.1"
   },
   "devDependencies": {
-    "eslint": "9.39.5"
+    "eslint": "10.10.0"
   },
   "publishConfig": {
     "access": "public"
