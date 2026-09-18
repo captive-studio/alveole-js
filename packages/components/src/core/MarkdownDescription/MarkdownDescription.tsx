@@ -153,6 +153,11 @@ export const MarkdownDescription = ({ children, taille = 'MD' }: MarkdownDescrip
               {c}
             </Box>
           ),
+          // Le contenu d'une cellule passe par `Typography` et jamais en enfant direct de
+          // `Box` : une vue Tamagui refuse un nœud de texte nu, et son message d'erreur
+          // sérialise les props de la vue — dont le contexte du thème, circulaire — ce qui
+          // remplace l'avertissement par un « Converting circular structure to JSON » qui
+          // fait planter le rendu.
           th: ({ children: c }: { children: React.ReactNode }) => (
             <Box
               tag="th"
@@ -162,9 +167,9 @@ export const MarkdownDescription = ({ children, taille = 'MD' }: MarkdownDescrip
               pb={8}
               pl={12}
               pr={12}
-              style={{ display: 'table-cell', textAlign: 'left', backgroundColor: headerBg, ...boldStyle } as any}
+              style={{ display: 'table-cell', textAlign: 'left', backgroundColor: headerBg } as any}
             >
-              {c}
+              <Typography style={boldStyle}>{c}</Typography>
             </Box>
           ),
           td: ({ children: c }: { children: React.ReactNode }) => (
@@ -176,9 +181,9 @@ export const MarkdownDescription = ({ children, taille = 'MD' }: MarkdownDescrip
               pb={8}
               pl={12}
               pr={12}
-              style={{ display: 'table-cell', ...bodyStyle } as any}
+              style={{ display: 'table-cell' } as any}
             >
-              {c}
+              <Typography style={bodyStyle}>{c}</Typography>
             </Box>
           ),
         }}

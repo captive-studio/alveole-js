@@ -42,6 +42,24 @@ describe('MarkdownDescription', () => {
     expect(container.querySelector('table')).not.toBeNull();
   });
 
+  // Une vue Tamagui refuse un nœud de texte nu en enfant direct, et son message d'erreur
+  // sérialise les props de la vue — dont le contexte du thème, circulaire : la cellule qui
+  // posait son texte à même la `Box` faisait planter le rendu sur un « Converting circular
+  // structure to JSON » au lieu d'un simple avertissement.
+  test('enveloppe le contenu des cellules dans un élément de texte, jamais à même la cellule', () => {
+    const { container } = renderWeb(
+      <MarkdownDescription>{'| Propriété |\n|---|\n| `09:30` (9h30 le matin) |'}</MarkdownDescription>,
+    );
+
+    const cells = [...container.querySelectorAll('th, td')];
+    const nuDeTexte = (cell: Element) => [...cell.childNodes].some(n => n.nodeType === Node.TEXT_NODE);
+
+    expect(cells).toHaveLength(2);
+    expect(cells.map(nuDeTexte)).toEqual([false, false]);
+    expect(container.querySelector('th')?.textContent).toBe('Propriété');
+    expect(container.querySelector('td')?.textContent).toBe('09:30 (9h30 le matin)');
+  });
+
   // remark-gfm exige autant de colonnes dans la ligne de séparation que dans l'en-tête :
   // sinon il n'y voit pas un tableau et laisse les `|` tels quels dans le texte.
   test("ne rend pas de <table> quand la ligne de séparation n'a pas le même nombre de colonnes que l'en-tête", () => {
