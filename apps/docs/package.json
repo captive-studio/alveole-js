@@ -66,7 +66,7 @@
     "@types/react": "19.2.17",
     "axe-core": "4.13.0",
     "babel-preset-expo": "57.0.12",
-    "eslint": "9.39.5",
+    "eslint": "10.10.0",
     "expo-doctor": "1.20.4",
     "serve": "14.2.6",
     "typescript": "6.0.3"
