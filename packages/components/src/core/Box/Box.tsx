@@ -1,4 +1,3 @@
-import { isSpacingKey, Spacings } from '@alveole/theme';
 import {
   RNTamaguiViewNonStyleProps,
   styled,
@@ -8,6 +7,7 @@ import {
 } from '@tamagui/core';
 import React, { CSSProperties } from 'react';
 import { BoxStyle } from './Box.types';
+import { resolveSpacing } from './resolveSpacing';
 
 export type BoxProps = Pick<TamaguiViewProps, 'exitStyle' | 'focusStyle' | 'pressStyle' | 'disabledStyle'> &
   RNTamaguiViewNonStyleProps &
@@ -28,23 +28,23 @@ export const Box = React.forwardRef<BoxElement, BoxProps>(function Box(props, re
   };
 
   const margins = {
-    mt: isSpacingKey(mt) ? Spacings[mt] : mt,
-    mb: isSpacingKey(mb) ? Spacings[mb] : mb,
-    ml: isSpacingKey(ml) ? Spacings[ml] : ml,
-    mr: isSpacingKey(mr) ? Spacings[mr] : mr,
-    m: isSpacingKey(m) ? Spacings[m] : m,
+    mt: resolveSpacing(mt),
+    mb: resolveSpacing(mb),
+    ml: resolveSpacing(ml),
+    mr: resolveSpacing(mr),
+    m: resolveSpacing(m),
   };
 
   const paddings = {
-    pt: isSpacingKey(pt) ? Spacings[pt] : pt,
-    pb: isSpacingKey(pb) ? Spacings[pb] : pb,
-    pl: isSpacingKey(pl) ? Spacings[pl] : pl,
-    pr: isSpacingKey(pr) ? Spacings[pr] : pr,
-    p: isSpacingKey(p) ? Spacings[p] : p,
+    pt: resolveSpacing(pt),
+    pb: resolveSpacing(pb),
+    pl: resolveSpacing(pl),
+    pr: resolveSpacing(pr),
+    p: resolveSpacing(p),
   };
 
   const spacings = {
-    gap: isSpacingKey(gap) ? Spacings[gap] : gap,
+    gap: resolveSpacing(gap),
   };
 
   return (
