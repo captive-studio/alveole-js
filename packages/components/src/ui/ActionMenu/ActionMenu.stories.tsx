@@ -62,8 +62,58 @@ export const Default = () => {
 
 type FilterId = 'epic' | 'type' | 'filtresRapides';
 
+type Filter = { id: FilterId; title: string; options: string[]; multi?: boolean };
+
+// Un menu de filtre isolé : il dérive son affichage (libellé du bouton, options cochées) de la
+// sélection reçue, sans connaître la forme du state parent. L'extraire de Filters évite de mêler
+// gestion d'état et rendu dans une même fonction et supprime la logique dupliquée entre options.
+const FilterMenu = ({
+  filter,
+  isOpen,
+  onOpenChange,
+  selection,
+  onToggle,
+}: {
+  filter: Filter;
+  isOpen: boolean;
+  onOpenChange: (open: boolean) => void;
+  selection: string | string[] | undefined;
+  onToggle: (option: string) => void;
+}) => {
+  const selectedValues = Array.isArray(selection) ? selection : selection != null ? [selection] : [];
+  const hasSelection = selectedValues.length > 0;
+
+  return (
+    <ActionMenu
+      placement="bottom-start"
+      scrollable={false}
+      open={isOpen}
+      setOpen={onOpenChange}
+      renderTrigger={() => (
+        <Button
+          variant="secondary"
+          title={filter.multi ? filter.title : (selectedValues[0] ?? filter.title)}
+          endIcon="ChevronDown"
+          size="sm"
+          selected={hasSelection}
+          expanded={isOpen}
+        />
+      )}
+    >
+      {filter.options.map(option => (
+        <ActionMenu.Item
+          key={option}
+          title={option}
+          selected={selectedValues.includes(option)}
+          onPress={() => onToggle(option)}
+        />
+      ))}
+    </ActionMenu>
+  );
+};
+
 export const Filters = () => {
-  const filters: { id: FilterId; title: string; options: string[]; multi?: boolean }[] = [
+  const filters: Filter[] = [
     { id: 'epic', title: 'Epic', options: ['Refonte design', 'Onboarding', 'Facturation'] },
     { id: 'type', title: 'Type', options: ['Bug', 'Story', 'Tâche'] },
     {
@@ -78,6 +128,24 @@ export const Filters = () => {
   const [singleSelected, setSingleSelected] = React.useState<Partial<Record<FilterId, string>>>({});
   const [multiSelected, setMultiSelected] = React.useState<Partial<Record<FilterId, string[]>>>({});
 
+  const toggle = (filter: Filter, option: string) => {
+    if (filter.multi) {
+      setMultiSelected(prev => {
+        const current = prev[filter.id] ?? [];
+        return {
+          ...prev,
+          [filter.id]: current.includes(option) ? current.filter(o => o !== option) : [...current, option],
+        };
+      });
+    } else {
+      setSingleSelected(prev => ({
+        ...prev,
+        [filter.id]: prev[filter.id] === option ? undefined : option,
+      }));
+      setOpenId(null);
+    }
+  };
+
   return (
     <ScrollView
       horizontal
@@ -86,65 +154,16 @@ export const Filters = () => {
       showsHorizontalScrollIndicator={false}
       contentContainerStyle={{ flexDirection: 'row', gap: 8, paddingHorizontal: 16 }}
     >
-      {filters.map(filter => {
-        const isOpen = openId === filter.id;
-        const hasSelection = filter.multi
-          ? (multiSelected[filter.id]?.length ?? 0) > 0
-          : singleSelected[filter.id] != null;
-
-        return (
-          <ActionMenu
-            key={filter.id}
-            placement="bottom-start"
-            scrollable={false}
-            open={isOpen}
-            setOpen={open => setOpenId(open ? filter.id : null)}
-            renderTrigger={() => (
-              <Button
-                variant="secondary"
-                title={filter.multi ? filter.title : (singleSelected[filter.id] ?? filter.title)}
-                endIcon="ChevronDown"
-                size="sm"
-                selected={hasSelection}
-                expanded={isOpen}
-              />
-            )}
-          >
-            {filter.options.map(option => {
-              const isSelected = filter.multi
-                ? (multiSelected[filter.id] ?? []).includes(option)
-                : singleSelected[filter.id] === option;
-
-              return (
-                <ActionMenu.Item
-                  key={option}
-                  title={option}
-                  selected={isSelected}
-                  onPress={() => {
-                    if (filter.multi) {
-                      setMultiSelected(prev => {
-                        const current = prev[filter.id] ?? [];
-                        return {
-                          ...prev,
-                          [filter.id]: current.includes(option)
-                            ? current.filter(o => o !== option)
-                            : [...current, option],
-                        };
-                      });
-                    } else {
-                      setSingleSelected(prev => ({
-                        ...prev,
-                        [filter.id]: prev[filter.id] === option ? undefined : option,
-                      }));
-                      setOpenId(null);
-                    }
-                  }}
-                />
-              );
-            })}
-          </ActionMenu>
-        );
-      })}
+      {filters.map(filter => (
+        <FilterMenu
+          key={filter.id}
+          filter={filter}
+          isOpen={openId === filter.id}
+          onOpenChange={open => setOpenId(open ? filter.id : null)}
+          selection={filter.multi ? multiSelected[filter.id] : singleSelected[filter.id]}
+          onToggle={option => toggle(filter, option)}
+        />
+      ))}
     </ScrollView>
   );
 };
