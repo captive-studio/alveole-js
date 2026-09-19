@@ -2,23 +2,11 @@ import React from 'react';
 import { ScrollView } from 'react-native';
 import { Box } from '../../core/Box';
 import { Typography } from '../../core/Typography';
-import { CheckboxContainer, CheckboxIndicator } from '../Checkbox';
 import { useStyles } from './DataTable.styles';
 import { DataTableColumn, DataTableSize, DataTableSort } from './DataTable.types';
-import { DataTableHeaderCell } from './DataTableHeaderCell';
-import { DataTableRow } from './DataTableRow';
-
-const headerSelectionCellStyleBySize = {
-  sm: 'headerSelectionCellSm',
-  md: 'headerSelectionCellMd',
-  lg: 'headerSelectionCellLg',
-} as const;
-
-const headerRowStyleBySize = {
-  sm: 'headerRowSm',
-  md: 'headerRowMd',
-  lg: 'headerRowLg',
-} as const;
+import { DataTableHeaderRow } from './DataTableHeaderRow';
+import { DataTableRows } from './DataTableRows';
+import { useDataTableState } from './useDataTableState';
 
 export type DataTableProps<Row> = {
   columns: DataTableColumn<Row>[];
@@ -55,13 +43,8 @@ export const DataTable = <Row,>(props: DataTableProps<Row>) => {
   const {
     columns,
     data,
-    keyExtractor,
     size = 'md',
     selectable = false,
-    selectedKeys: controlledSelectedKeys,
-    onSelectionChange,
-    sort: controlledSort,
-    onSortChange,
     onRowPress,
     hideHeader = false,
     renderNoContent,
@@ -70,90 +53,36 @@ export const DataTable = <Row,>(props: DataTableProps<Row>) => {
 
   const styles = useStyles();
 
-  const [internalSelectedKeys, setInternalSelectedKeys] = React.useState<string[]>([]);
-  const selectedKeys = controlledSelectedKeys ?? internalSelectedKeys;
-  const setSelectedKeys = (keys: string[]) => {
-    onSelectionChange?.(keys);
-    if (controlledSelectedKeys === undefined) setInternalSelectedKeys(keys);
-  };
-
-  const [internalSort, setInternalSort] = React.useState<DataTableSort | null>(null);
-  const sort = controlledSort !== undefined ? controlledSort : internalSort;
-  const setSort = (next: DataTableSort | null) => {
-    onSortChange?.(next);
-    if (controlledSort === undefined) setInternalSort(next);
-  };
-
-  const rowKeys = React.useMemo(() => data.map((row, index) => keyExtractor(row, index)), [data, keyExtractor]);
-  const allSelected = selectable && rowKeys.length > 0 && rowKeys.every(key => selectedKeys.includes(key));
-  const someSelected = selectable && !allSelected && rowKeys.some(key => selectedKeys.includes(key));
-
-  const toggleAll = () => setSelectedKeys(allSelected ? [] : rowKeys);
-  const toggleRow = (rowKey: string, checked: boolean) => {
-    setSelectedKeys(checked ? [...selectedKeys, rowKey] : selectedKeys.filter(key => key !== rowKey));
-  };
-
-  const handleHeaderPress = (column: DataTableColumn<Row>) => {
-    if (sort?.columnId !== column.id) {
-      setSort({ columnId: column.id, direction: 'asc' });
-    } else if (sort.direction === 'asc') {
-      setSort({ columnId: column.id, direction: 'desc' });
-    } else {
-      setSort(null);
-    }
-  };
+  const { rowKeys, selectedKeys, sort, allSelected, someSelected, toggleAll, toggleRow, handleHeaderPress } =
+    useDataTableState({ ...props, selectable });
 
   return (
     <Box tag="data-table" style={styles.table}>
       <ScrollView horizontal showsHorizontalScrollIndicator contentContainerStyle={styles.scrollContent as object}>
         {!hideHeader && (
-          <Box tag="data-table-header-row" style={[styles.headerRow, styles[headerRowStyleBySize[size]]]}>
-            {selectable && (
-              <Box
-                tag="data-table-header-selection-cell"
-                style={[styles.headerSelectionCell, styles[headerSelectionCellStyleBySize[size]]]}
-              >
-                <CheckboxContainer
-                  id="data-table--select-all"
-                  aria-label="Tout sélectionner"
-                  variant="small"
-                  checked={someSelected ? 'indeterminate' : allSelected}
-                  onCheckedChange={toggleAll}
-                >
-                  <CheckboxIndicator variant="small" indeterminate={someSelected} />
-                </CheckboxContainer>
-              </Box>
-            )}
-            {columns.map(column => (
-              <DataTableHeaderCell
-                key={column.id}
-                column={column}
-                sortDirection={sort?.columnId === column.id ? sort.direction : undefined}
-                size={size}
-                onPress={() => handleHeaderPress(column)}
-              />
-            ))}
-          </Box>
+          <DataTableHeaderRow
+            columns={columns}
+            sort={sort}
+            size={size}
+            selectable={selectable}
+            allSelected={allSelected}
+            someSelected={someSelected}
+            onToggleAll={toggleAll}
+            onHeaderPress={handleHeaderPress}
+          />
         )}
 
-        {data.map((row, index) => {
-          const rowKey = rowKeys[index];
-          return (
-            <DataTableRow
-              key={rowKey}
-              row={row}
-              rowIndex={index}
-              rowKey={rowKey}
-              columns={columns}
-              selectable={selectable}
-              selected={selectedKeys.includes(rowKey)}
-              size={size}
-              noBorderBottom={!footer && index === data.length - 1}
-              onSelectedChange={checked => toggleRow(rowKey, checked)}
-              onPress={onRowPress ? () => onRowPress(row, index) : undefined}
-            />
-          );
-        })}
+        <DataTableRows
+          data={data}
+          rowKeys={rowKeys}
+          columns={columns}
+          selectable={selectable}
+          selectedKeys={selectedKeys}
+          size={size}
+          hasFooter={Boolean(footer)}
+          onRowSelectedChange={toggleRow}
+          onRowPress={onRowPress}
+        />
       </ScrollView>
 
       {data.length === 0 && (
