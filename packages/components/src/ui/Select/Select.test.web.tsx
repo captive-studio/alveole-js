@@ -166,6 +166,12 @@ test('ne colore pas la bordure d un selecteur desactive', () => {
   expect(styleDuCadre().couleur).toBe(desactive);
 });
 
+test('utilise le rayon de bordure de l echelle du theme sur le champ ferme', () => {
+  const { result } = renderHookOnDesktop(() => useSelectStyles());
+
+  expect(result.current.inputInner.borderRadius).toBe('var(--radius-md)');
+});
+
 // jsdom ne resout ni les pseudo-classes emises par react-select ni le raccourci `outline`
 // de ses classes : un survol declenche dans le DOM ne change rien au style calcule, et un
 // contour remis reste invisible a `getComputedStyle`. Un test de rendu passerait donc quoi

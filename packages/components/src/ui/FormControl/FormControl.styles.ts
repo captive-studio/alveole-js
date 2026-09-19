@@ -49,7 +49,7 @@ const coque = ({ text, color, spacing }: Theme) =>
     },
   }) satisfies Table;
 
-const champ = ({ text, color, spacing, control }: Theme) =>
+const champ = ({ text, color, spacing, control, radius }: Theme) =>
   ({
     // Input
     inputContainer: {
@@ -60,7 +60,7 @@ const champ = ({ text, color, spacing, control }: Theme) =>
       flexDirection: 'row',
       gap: spacing('050'),
       padding: 0,
-      borderRadius: 8,
+      borderRadius: radius('md'),
       borderWidth: 1,
       borderColor: color.border['default-grey'],
       backgroundColor: '#FFFFFF',
@@ -118,7 +118,7 @@ const etatDuChamp = ({ color }: Theme) =>
     },
   }) satisfies Table;
 
-const panneau = ({ text, color, spacing }: Theme) =>
+const panneau = ({ text, color, spacing, radius }: Theme) =>
   ({
     // Modal (multiline)
     modalOverlay: {
@@ -132,8 +132,8 @@ const panneau = ({ text, color, spacing }: Theme) =>
     modalContent: {
       flex: 1,
       backgroundColor: '#FFFFFF',
-      borderTopLeftRadius: 8,
-      borderTopRightRadius: 8,
+      borderTopLeftRadius: radius('lg'),
+      borderTopRightRadius: radius('lg'),
       padding: spacing('150'),
       paddingTop: spacing('075'),
       paddingBottom: spacing('075'),
@@ -159,7 +159,7 @@ const panneau = ({ text, color, spacing }: Theme) =>
       marginTop: spacing('100'),
     },
     modalInputContainer: {
-      borderRadius: 6,
+      borderRadius: radius('md'),
       borderWidth: 1,
       borderColor: color.border['default-grey'],
       backgroundColor: '#FFFFFF',

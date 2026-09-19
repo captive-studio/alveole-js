@@ -1,12 +1,12 @@
 import { makeStyles } from '@alveole/theme';
 
-export const useStyles = makeStyles(({ color, spacing, spacingValue }) => ({
+export const useStyles = makeStyles(({ color, spacing, spacingValue, radius }) => ({
   container: {
     borderWidth: 1,
     borderStyle: 'dashed',
     borderColor: color.border['contrast-grey'],
     padding: spacing('200'),
-    borderRadius: 8,
+    borderRadius: radius('lg'),
     backgroundColor: color.alpha(color.background['alt-grey'], 0.3),
     cursor: 'pointer',
   },
@@ -33,7 +33,7 @@ export const useStyles = makeStyles(({ color, spacing, spacingValue }) => ({
     color: color.text.mention,
     backgroundColor: color.background['alt-grey'],
     padding: spacing('100'),
-    borderRadius: 12,
+    borderRadius: radius('lg'),
     width: spacingValue('200'),
     height: spacingValue('200'),
     marginBottom: spacing('100'),

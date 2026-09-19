@@ -7,7 +7,7 @@ type Theme = ReturnType<typeof useTheme>;
 // annotation, elle, effacerait les cles.
 type Table = Record<string, StyleValue>;
 
-const coque = ({ color }: Theme) =>
+const coque = ({ color, radius }: Theme) =>
   ({
     accordion: {
       width: '100%',
@@ -20,7 +20,7 @@ const coque = ({ color }: Theme) =>
       borderColor: color.border['default-grey'],
     },
     accordionRounded: {
-      borderRadius: 8,
+      borderRadius: radius('lg'),
       borderWidth: 1,
       borderColor: color.border['default-grey'],
       overflow: 'hidden',
