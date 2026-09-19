@@ -1,9 +1,4 @@
 {
-  "src/core/ThemeProvider/ThemeProvider.stories.tsx": {
-    "max-lines-per-function": {
-      "count": 1
-    }
-  },
   "src/ui/ActionMenu/ActionMenu.stories.tsx": {
     "max-lines-per-function": {
       "count": 1
