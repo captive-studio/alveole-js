@@ -1,7 +1,7 @@
 export const Spacings = {
   /** @deprecated Utiliser '0V' */
   '000': 0,
-  /** @deprecated Utiliser '0,5V' */
+  /** @deprecated Utiliser '1V' */
   '025': 4,
   /** @deprecated Utiliser '1,5V' */
   '0375': 6,
@@ -15,11 +15,11 @@ export const Spacings = {
   '150': 24,
   /** @deprecated Utiliser '4W' */
   '200': 32,
-  /** @deprecated Utiliser '5W' */
-  '300': 48,
   /** @deprecated Utiliser '6W' */
-  '400': 64,
+  '300': 48,
   /** @deprecated Utiliser '8W' */
+  '400': 64,
+  /** @deprecated */
   '500': 80,
   /** @deprecated */
   '600': 96,
