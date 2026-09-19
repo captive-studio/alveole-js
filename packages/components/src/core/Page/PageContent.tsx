@@ -1,28 +1,16 @@
 import { useTheme } from '@alveole/theme';
-import { useFocusEffect } from 'expo-router';
-import * as SystemUI from 'expo-system-ui';
 import React from 'react';
-import { AppState, Platform, StatusBar } from 'react-native';
+import { Platform } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { Box } from '../../core/Box';
 import { useStyles } from './Page.styles';
-import { PageProps, PageStatusBarProps } from './Page.types';
+import { PageProps } from './Page.types';
 import { PageBackground } from './PageBackground';
 import { PageContentDefault } from './PageContentDefault';
 import { PageContentScrollable } from './PageContentScrollable';
+import { usePageStatusBar } from './usePageStatusBar';
 
 export type PageContentProps = PageProps;
-
-const DEFAULT_STATUS_BAR: Required<PageStatusBarProps> = {
-  barStyle: 'dark-content',
-  backgroundColor: 'white',
-};
-
-const applyStatusBar = (statusBar: Required<PageStatusBarProps>) => {
-  StatusBar.setBarStyle(statusBar.barStyle);
-  if (Platform.OS === 'android') StatusBar.setBackgroundColor(statusBar.backgroundColor);
-  void SystemUI.setBackgroundColorAsync(statusBar.backgroundColor);
-};
 
 export const PageContent = (props: PageContentProps) => {
   const { scrollable = false, renderToolbar, sidebar, sideBarController, onScrollChange, statusBar } = props;
@@ -32,33 +20,10 @@ export const PageContent = (props: PageContentProps) => {
   const { top } = useSafeAreaInsets();
 
   const mobileOrTablet = isVariant('mobile') || isVariant('tablet');
-  const resolvedStatusBar = React.useMemo<Required<PageStatusBarProps>>(
-    () => ({
-      barStyle: statusBar?.barStyle ?? DEFAULT_STATUS_BAR.barStyle,
-      backgroundColor: statusBar?.backgroundColor ?? DEFAULT_STATUS_BAR.backgroundColor,
-    }),
-    [statusBar?.backgroundColor, statusBar?.barStyle],
-  );
+
+  usePageStatusBar(statusBar);
 
   const [isScrolled, setIsScrolled] = React.useState(false);
-
-  useFocusEffect(
-    React.useCallback(() => {
-      applyStatusBar(resolvedStatusBar);
-      return () => applyStatusBar(DEFAULT_STATUS_BAR);
-    }, [resolvedStatusBar]),
-  );
-
-  React.useEffect(() => {
-    const subscription = AppState.addEventListener('change', nextAppState => {
-      if (nextAppState !== 'active') return;
-      applyStatusBar(resolvedStatusBar);
-    });
-
-    return () => {
-      subscription.remove();
-    };
-  }, [resolvedStatusBar]);
 
   const handleInternalScrollChange = React.useCallback(
     (scrollY: number) => {
