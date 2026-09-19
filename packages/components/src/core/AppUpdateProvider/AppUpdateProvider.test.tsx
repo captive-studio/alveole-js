@@ -44,9 +44,11 @@ describe('shouldRunCheck', () => {
   });
 });
 
-describe('AppUpdateProvider', () => {
-  const originalOS = Platform.OS;
+const originalOS = Platform.OS;
 
+// Partagé entre les describe `AppUpdateProvider - *` ci-dessous : évite de dupliquer le
+// beforeEach/afterEach de plateforme dans chacun.
+const configurerPlateformeIOS = () => {
   beforeEach(() => {
     jest.clearAllMocks();
     Object.defineProperty(Platform, 'OS', { value: 'ios', writable: true, configurable: true });
@@ -55,6 +57,10 @@ describe('AppUpdateProvider', () => {
   afterEach(() => {
     Object.defineProperty(Platform, 'OS', { value: originalOS, writable: true, configurable: true });
   });
+};
+
+describe("AppUpdateProvider - quand aucune mise à jour n'est nécessaire", () => {
+  configurerPlateformeIOS();
 
   it("affiche les enfants si aucune mise à jour n'est disponible", async () => {
     mockCheckForUpdate.mockResolvedValue({ updateAvailable: false, storeVersion: '2.0.0' });
@@ -67,6 +73,22 @@ describe('AppUpdateProvider', () => {
 
     await waitFor(() => expect(getByText('Contenu')).toBeTruthy());
   });
+
+  it('affiche les enfants si le check échoue', async () => {
+    mockCheckForUpdate.mockRejectedValue(new Error('network error'));
+
+    const { getByText } = await renderNative(
+      <Wrapper>
+        <Text>Contenu</Text>
+      </Wrapper>,
+    );
+
+    await waitFor(() => expect(getByText('Contenu')).toBeTruthy());
+  });
+});
+
+describe('AppUpdateProvider - quand une mise à jour est disponible', () => {
+  configurerPlateformeIOS();
 
   it('affiche UpdateRequired si une mise à jour est disponible sur iOS', async () => {
     mockCheckForUpdate.mockResolvedValue({ updateAvailable: true, storeVersion: '2.0.0' });
@@ -94,31 +116,6 @@ describe('AppUpdateProvider', () => {
     await waitFor(() => expect(mockStartUpdate).toHaveBeenCalledWith(true));
   });
 
-  it('affiche les enfants si le check échoue', async () => {
-    mockCheckForUpdate.mockRejectedValue(new Error('network error'));
-
-    const { getByText } = await renderNative(
-      <Wrapper>
-        <Text>Contenu</Text>
-      </Wrapper>,
-    );
-
-    await waitFor(() => expect(getByText('Contenu')).toBeTruthy());
-  });
-
-  it('affiche les enfants immédiatement sur web sans appeler checkForUpdate', async () => {
-    Object.defineProperty(Platform, 'OS', { value: 'web', writable: true, configurable: true });
-
-    const { getByText } = await renderNative(
-      <Wrapper>
-        <Text>Contenu</Text>
-      </Wrapper>,
-    );
-
-    expect(mockCheckForUpdate).not.toHaveBeenCalled();
-    expect(getByText('Contenu')).toBeTruthy();
-  });
-
   it('ouvre le store iOS en appuyant sur le bouton Mettre à jour', async () => {
     mockCheckForUpdate.mockResolvedValue({ updateAvailable: true, storeVersion: '2.0.0' });
     const openURL = jest.spyOn(Linking, 'openURL').mockResolvedValue(undefined);
@@ -134,6 +131,27 @@ describe('AppUpdateProvider', () => {
 
     expect(openURL).toHaveBeenCalledWith('https://apps.apple.com/app/id6759812160');
   });
+});
+
+describe('AppUpdateProvider - sur web', () => {
+  configurerPlateformeIOS();
+
+  it('affiche les enfants immédiatement sur web sans appeler checkForUpdate', async () => {
+    Object.defineProperty(Platform, 'OS', { value: 'web', writable: true, configurable: true });
+
+    const { getByText } = await renderNative(
+      <Wrapper>
+        <Text>Contenu</Text>
+      </Wrapper>,
+    );
+
+    expect(mockCheckForUpdate).not.toHaveBeenCalled();
+    expect(getByText('Contenu')).toBeTruthy();
+  });
+});
+
+describe('AppUpdateProvider - retour en foreground', () => {
+  configurerPlateformeIOS();
 
   it('relance le check au retour en foreground si ≥ 12h', async () => {
     mockCheckForUpdate.mockResolvedValue({ updateAvailable: false, storeVersion: '2.0.0' });
