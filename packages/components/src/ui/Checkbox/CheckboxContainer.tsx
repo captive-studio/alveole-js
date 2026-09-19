@@ -31,7 +31,6 @@ export const CheckboxContainer = React.forwardRef<CheckboxElement, CheckboxConta
     };
 
     const checkboxHoverStyles = disabled ? styles.checkboxDisabled : baseCheckboxStyles;
-    const checkboxFocusStyles = disabled ? styles.checkboxDisabled : baseCheckboxStyles;
     const checkboxPressStyles = disabled ? styles.checkboxDisabled : baseCheckboxStyles;
 
     return (
@@ -39,9 +38,9 @@ export const CheckboxContainer = React.forwardRef<CheckboxElement, CheckboxConta
         ref={ref}
         disabled={disabled}
         style={checkboxStyles}
-        focusStyle={checkboxFocusStyles}
         hoverStyle={checkboxHoverStyles}
         pressStyle={checkboxPressStyles}
+        focusVisibleStyle={styles.checkboxFocused}
         {...checkboxProps}
       />
     );

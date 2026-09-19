@@ -34,9 +34,9 @@ export const RadioInput = (props: RadioInputProps) => {
       id={id}
       aria-label={label}
       style={itemStyles}
-      focusStyle={styles.itemContainerActive}
       hoverStyle={indicatorStyle as any}
       pressStyle={styles.itemContainerActive}
+      focusVisibleStyle={styles.itemContainerFocused}
       onPress={handleChange}
     >
       <TamaguiRadioGroup.Indicator style={styles.itemIndicator} />

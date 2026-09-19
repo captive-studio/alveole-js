@@ -1,4 +1,4 @@
-import { makeStyles, StyleValue, useTheme } from '@alveole/theme';
+import { focusRing, makeStyles, StyleValue, useTheme } from '@alveole/theme';
 
 type Theme = ReturnType<typeof useTheme>;
 
@@ -44,6 +44,7 @@ const caseACocher = ({ color, spacingValue }: Theme) =>
     checkboxSuccess: {
       borderColor: color.border['plain-success'],
     },
+    checkboxFocused: focusRing('default'),
     indicator: {
       height: spacingValue('150'),
       width: spacingValue('150'),

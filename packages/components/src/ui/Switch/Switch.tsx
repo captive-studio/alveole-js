@@ -64,6 +64,7 @@ export const Switch = React.forwardRef<SwitchElement, SwitchProps>(function Swit
       onCheckedChange={onChange}
       style={switchButtonStyles}
       disabled={disabled}
+      focusVisibleStyle={styles.switchButtonFocused}
       {...switchProps}
     >
       <TamaguiSwitch.Thumb animation="quicker" style={switchThumbStyles} />
