@@ -37,7 +37,7 @@ const coque = ({ color, radius, spacing, shadows }: Theme) =>
       flex: 1,
       flexDirection: 'column',
       gap: spacing('1W'),
-      padding: spacing('100'),
+      padding: spacing('2W'),
     },
   }) satisfies Table;
 

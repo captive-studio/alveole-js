@@ -34,7 +34,7 @@ export const useStyles = makeStyles(({ externalPadding, text, color, spacing, ra
       color: color.light.text['active-primary'],
       backgroundColor: color.light.background['alt-primary'],
       borderRadius: radius('full'),
-      padding: spacing('075'),
+      padding: spacing('3V'),
     },
     messageEtDescription: {
       display: 'flex',
@@ -57,7 +57,7 @@ export const useStyles = makeStyles(({ externalPadding, text, color, spacing, ra
       width: isVariant('mobile') ? '100%' : undefined,
       display: 'flex',
       flexDirection: 'column',
-      gap: spacing('100'),
+      gap: spacing('2W'),
     },
   };
 });

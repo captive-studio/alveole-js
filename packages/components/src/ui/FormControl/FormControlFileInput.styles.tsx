@@ -4,7 +4,7 @@ export const useStyles = makeStyles(({ text, color, spacing }) => ({
   fileInputContainer: {
     display: 'flex',
     flexDirection: 'row',
-    gap: spacing('050'),
+    gap: spacing('1W'),
     alignItems: 'center',
   },
   fileInputButton: {
@@ -15,10 +15,10 @@ export const useStyles = makeStyles(({ text, color, spacing }) => ({
     display: 'flex',
     alignItems: 'center',
     justifyContent: 'center',
-    paddingLeft: spacing('050'),
-    paddingRight: spacing('050'),
-    paddingTop: spacing('0375'),
-    paddingBottom: spacing('0375'),
+    paddingLeft: spacing('1W'),
+    paddingRight: spacing('1W'),
+    paddingTop: spacing('1,5V'),
+    paddingBottom: spacing('1,5V'),
   },
   fileInputButtonHovered: {
     backgroundColor: color.background['contrast-grey'],

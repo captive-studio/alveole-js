@@ -5,15 +5,15 @@ export const useStyles = makeStyles(({ text, color, spacing }) => ({
   switch: {
     display: 'flex',
     flexDirection: 'row',
-    gap: spacing('050'),
-    paddingRight: spacing('050'),
+    gap: spacing('1W'),
+    paddingRight: spacing('1W'),
   },
   switchButton: {
     borderColor: color.border['default-grey'],
     backgroundColor: color.background.default,
     cursor: 'pointer',
     padding: 1,
-    minHeight: spacing('200'),
+    minHeight: spacing('4W'),
     marginTop: 'auto',
     marginBottom: 'auto',
   },

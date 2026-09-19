@@ -32,7 +32,7 @@ const coque = ({ color, spacing, spacingValue, isVariant }: Theme) =>
       padding: spacingValue('050'),
     },
     logo: {
-      marginLeft: isVariant('mobile') || isVariant('tablet') ? spacing('150') : 0,
+      marginLeft: isVariant('mobile') || isVariant('tablet') ? spacing('3W') : 0,
     },
     sidebarContent: {
       flex: 1,
@@ -41,8 +41,8 @@ const coque = ({ color, spacing, spacingValue, isVariant }: Theme) =>
     },
     scrollView: {
       flex: 1,
-      paddingTop: spacing('100'),
-      paddingBottom: spacing('100'),
+      paddingTop: spacing('2W'),
+      paddingBottom: spacing('2W'),
       zIndex: 1000,
       backgroundColor: '#FFFFFF',
     },
@@ -56,7 +56,7 @@ const groupe = ({ text, color, spacing, spacingValue }: Theme) =>
       // 8, et non 16 : le titre porte déjà 8 de padding haut. C'est la somme des deux qui fait
       // face à l'écart posé au-dessus du séparateur, et qui le laisse à égale distance des
       // deux groupes qu'il sépare.
-      marginTop: spacing('050'),
+      marginTop: spacing('1W'),
     },
     // Le titre de groupe recule derrière ses items, et ne se signale que par deux dimensions à
     // la fois : ici le gris de mention et la graisse. Les références divergent sur lesquelles
@@ -66,8 +66,8 @@ const groupe = ({ text, color, spacing, spacingValue }: Theme) =>
       ...text['Corps de texte'].XS.Bold,
       color: color.light.text['mention-grey'],
       paddingLeft: retraitDuContenu(spacingValue),
-      paddingTop: spacing('050'),
-      paddingBottom: spacing('050'),
+      paddingTop: spacing('1W'),
+      paddingBottom: spacing('1W'),
     },
     // Même rapport que sur bureau, décalé d'un cran vers le haut de l'échelle puisque les items
     // du tiroir sont plus grands : le titre se pose un cran sous eux, en gris et plus gras.
@@ -91,11 +91,11 @@ const item = ({ color, spacing }: Theme) =>
     // 32px de haut en tout : 20 de hauteur de ligne plus 6 de part et d'autre, comme dans la
     // maquette. Le retrait horizontal reste à 8, c'est lui qui porte la verticale du contenu.
     sidebarItemDesktop: {
-      borderRadius: spacing('050'),
+      borderRadius: spacing('1W'),
       display: 'flex',
       flexDirection: 'row',
       alignItems: 'center',
-      gap: spacing('050'),
+      gap: spacing('1W'),
       paddingTop: spacing('1,5V'),
       paddingBottom: spacing('1,5V'),
       paddingLeft: spacing('1W'),
@@ -133,13 +133,13 @@ const etatDeLItem = ({ color, spacing, radius }: Theme) =>
       backgroundColor: color.light.background['alt-primary'],
     },
     sidebarItemContainerDesktop: {
-      paddingLeft: spacing('050'),
-      paddingRight: spacing('050'),
+      paddingLeft: spacing('1W'),
+      paddingRight: spacing('1W'),
       display: 'flex',
       flexDirection: 'row',
       cursor: 'pointer',
-      marginLeft: spacing('075'),
-      marginRight: spacing('025'),
+      marginLeft: spacing('3V'),
+      marginRight: spacing('1V'),
     },
     sidebarItemContainerMobile: {
       paddingLeft: spacing('2W'),
@@ -151,8 +151,8 @@ const etatDeLItem = ({ color, spacing, radius }: Theme) =>
       flexDirection: 'row',
       cursor: 'pointer',
       borderRadius: radius('md'),
-      marginLeft: spacing('075'),
-      marginRight: spacing('025'),
+      marginLeft: spacing('3V'),
+      marginRight: spacing('1V'),
     },
   }) satisfies Table;
 
@@ -198,10 +198,10 @@ const indicateur = ({ color, spacing, spacingValue }: Theme) =>
     },
     sidebarItemSelectedIndicatorContent: {
       width: '100%',
-      minHeight: spacing('150'),
+      minHeight: spacing('3W'),
       backgroundColor: color.light.border['default-primary'],
       margin: 'auto',
-      borderRadius: spacing('050'),
+      borderRadius: spacing('1W'),
     },
   }) satisfies Table;
 

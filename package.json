@@ -23,7 +23,7 @@
     "publish:local": "scripts/publish-local",
     "publish:package": "scripts/publish-package",
     "check": "node scripts/check.mjs",
-    "test:scripts": "node --test scripts/allocated-cpus.test.mjs scripts/check.test.mjs scripts/compact-icons.test.mjs",
+    "test:scripts": "node --test scripts/allocated-cpus.test.mjs scripts/check.test.mjs scripts/compact-icons.test.mjs scripts/spacing-deprecie.test.mjs",
     "pretest:unit": "pnpm run test:scripts"
   },
   "devDependencies": {

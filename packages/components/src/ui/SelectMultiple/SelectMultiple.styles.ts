@@ -59,21 +59,21 @@ const contenuDuChamp = ({ color, spacing, control }: Theme) =>
       // Desaccordait le champ avec lui-meme : ce conteneur forcait le cadre au-dela de
       // `control.minHeight` (32), qui porte deja la hauteur voulue.
       minHeight: control('md').height,
-      paddingLeft: spacing('100'),
+      paddingLeft: spacing('2W'),
     },
     multiValue: {
-      borderRadius: spacing('025'),
+      borderRadius: spacing('1V'),
       backgroundColor: color.background.badge.default,
-      paddingLeft: spacing('025'),
+      paddingLeft: spacing('1V'),
     },
     multiValueDisabled: {
       backgroundColor: '#FFFFFF',
       borderColor: color.border['plain-grey'],
       borderWidth: 1,
-      borderRadius: spacing('025'),
+      borderRadius: spacing('1V'),
       borderStyle: 'solid',
-      paddingLeft: spacing('025'),
-      paddingRight: spacing('025'),
+      paddingLeft: spacing('1V'),
+      paddingRight: spacing('1V'),
     },
     multiValueRemoveHover: {
       backgroundColor: color.background.button.secondary.hover,
@@ -83,10 +83,10 @@ const contenuDuChamp = ({ color, spacing, control }: Theme) =>
       display: 'none',
     },
     dropdownIndicator: {
-      padding: spacing('025'),
+      padding: spacing('1V'),
     },
     clearIndicator: {
-      padding: spacing('025'),
+      padding: spacing('1V'),
     },
   }) satisfies Table;
 

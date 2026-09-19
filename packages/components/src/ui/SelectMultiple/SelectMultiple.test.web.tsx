@@ -15,7 +15,7 @@ test('donne au champ le nom accessible de son étiquette', () => {
   expect(screen.getByRole('combobox', { name: 'Langues' })).toBeTruthy();
 });
 
-// `control.minHeight` (spacing('200')=32) et `valueContainer.minHeight` (38, en dur)
+// `control.minHeight` (spacing('4W')=32) et `valueContainer.minHeight` (38, en dur)
 // desaccordaient deja le champ avec lui-meme : le conteneur interieur forcait le cadre
 // au-dela de sa propre hauteur nominale. Voir plan harmonise/champs-boutons.
 test('aligne le conteneur de valeurs sur la hauteur du cadre', () => {

@@ -7,7 +7,7 @@ export const useStyles = makeStyles(({ externalPadding, spacing }) => {
     section: {
       display: 'flex',
       flexDirection: 'row',
-      gap: spacing('075'),
+      gap: spacing('3V'),
       justifyContent: 'center',
       paddingLeft: paddingValue,
       paddingRight: paddingValue,

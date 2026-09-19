@@ -13,7 +13,7 @@ const coque = ({ text, color, spacing }: Theme) =>
     formControl: {
       display: 'flex',
       flexDirection: 'column',
-      gap: spacing('025'),
+      gap: spacing('1V'),
       width: '100%',
     },
     // Label
@@ -45,7 +45,7 @@ const coque = ({ text, color, spacing }: Theme) =>
     optionalText: {
       ...text['Corps de texte'].SM.Medium,
       color: color.light.text['mention-grey'],
-      marginLeft: spacing('025'),
+      marginLeft: spacing('1V'),
     },
   }) satisfies Table;
 
@@ -58,7 +58,7 @@ const champ = ({ text, color, spacing, control, radius }: Theme) =>
     inputInner: {
       display: 'flex',
       flexDirection: 'row',
-      gap: spacing('050'),
+      gap: spacing('1W'),
       padding: 0,
       borderRadius: radius('md'),
       borderWidth: 1,
@@ -79,10 +79,10 @@ const champ = ({ text, color, spacing, control, radius }: Theme) =>
       fontFamily: text['Corps de texte'].SM.Regular.fontFamily,
       fontSize: text['Corps de texte'].SM.Regular.fontSize,
       // (control('md').height - lineHeight 20) / 2, comme pour l'onglet inactif de Tabs.
-      marginTop: Platform.OS === 'web' ? spacing('1,5V') : spacing('025'),
-      marginBottom: Platform.OS === 'web' ? spacing('1,5V') : spacing('025'),
-      paddingLeft: spacing('100'),
-      paddingRight: spacing('100'),
+      marginTop: Platform.OS === 'web' ? spacing('1,5V') : spacing('1V'),
+      marginBottom: Platform.OS === 'web' ? spacing('1,5V') : spacing('1V'),
+      paddingLeft: spacing('2W'),
+      paddingRight: spacing('2W'),
       minHeight: Platform.OS === 'web' ? undefined : control('md').height,
       flex: 1,
     },
@@ -134,16 +134,16 @@ const panneau = ({ text, color, spacing, radius }: Theme) =>
       backgroundColor: '#FFFFFF',
       borderTopLeftRadius: radius('lg'),
       borderTopRightRadius: radius('lg'),
-      padding: spacing('150'),
-      paddingTop: spacing('075'),
-      paddingBottom: spacing('075'),
+      padding: spacing('3W'),
+      paddingTop: spacing('3V'),
+      paddingBottom: spacing('3V'),
     },
     modalHeader: {
       display: 'flex',
       flexDirection: 'row',
       justifyContent: 'space-between',
       alignItems: 'center',
-      marginBottom: spacing('100'),
+      marginBottom: spacing('2W'),
     },
     modalHeaderLeft: {
       display: 'flex',
@@ -156,7 +156,7 @@ const panneau = ({ text, color, spacing, radius }: Theme) =>
       alignItems: 'center',
     },
     modalFooter: {
-      marginTop: spacing('100'),
+      marginTop: spacing('2W'),
     },
     modalInputContainer: {
       borderRadius: radius('md'),
@@ -168,10 +168,10 @@ const panneau = ({ text, color, spacing, radius }: Theme) =>
     modalInput: {
       ...text['Corps de texte'].SM.Regular,
       color: color.text['default-grey'],
-      paddingLeft: spacing('100'),
-      paddingRight: spacing('100'),
-      paddingTop: spacing('100'),
-      paddingBottom: spacing('100'),
+      paddingLeft: spacing('2W'),
+      paddingRight: spacing('2W'),
+      paddingTop: spacing('2W'),
+      paddingBottom: spacing('2W'),
       minHeight: 180,
       flex: 1,
     },
@@ -183,9 +183,9 @@ const message = ({ text, color, spacing }: Theme) =>
     caption: {
       display: 'flex',
       flexDirection: 'row',
-      gap: spacing('025'),
+      gap: spacing('1V'),
       alignItems: 'flex-start',
-      marginTop: spacing('050'),
+      marginTop: spacing('1W'),
       width: '100%',
     },
     captionIcon: {

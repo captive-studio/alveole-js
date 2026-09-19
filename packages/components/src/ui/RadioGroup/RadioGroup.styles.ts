@@ -15,7 +15,7 @@ const groupe = ({ text, color, spacing, radius }: Theme) =>
       display: 'flex',
       flexDirection: 'column',
       alignItems: 'flex-start',
-      gap: spacing('025'),
+      gap: spacing('1V'),
     },
     group: {
       display: 'flex',
@@ -30,7 +30,7 @@ const groupe = ({ text, color, spacing, radius }: Theme) =>
       overflow: 'hidden',
     },
     groupItem: {
-      gap: spacing('100'),
+      gap: spacing('2W'),
     },
     label: {
       color: color.text['title-grey'],
@@ -103,18 +103,18 @@ const carte = ({ text, color, spacing, radius }: Theme) =>
       alignItems: 'center',
       justifyContent: 'flex-start',
       height: '100%',
-      paddingLeft: spacing('100'),
-      paddingRight: spacing('100'),
-      gap: spacing('075'),
+      paddingLeft: spacing('2W'),
+      paddingRight: spacing('2W'),
+      gap: spacing('3V'),
     },
     radioGroupCardLabelContainer: {
-      paddingTop: spacing('075'),
-      paddingBottom: spacing('075'),
+      paddingTop: spacing('3V'),
+      paddingBottom: spacing('3V'),
       display: 'flex',
       flexDirection: 'row',
       width: '100%',
       alignItems: 'center',
-      gap: spacing('050'),
+      gap: spacing('1W'),
       flex: 1,
     },
     radioGroupCardLabel: {
