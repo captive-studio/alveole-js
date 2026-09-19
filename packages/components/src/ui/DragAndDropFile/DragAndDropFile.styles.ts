@@ -5,7 +5,7 @@ export const useStyles = makeStyles(({ color, spacing, spacingValue, radius }) =
     borderWidth: 1,
     borderStyle: 'dashed',
     borderColor: color.border['contrast-grey'],
-    padding: spacing('200'),
+    padding: spacing('4W'),
     borderRadius: radius('lg'),
     backgroundColor: color.alpha(color.background['alt-grey'], 0.3),
     cursor: 'pointer',
@@ -32,11 +32,11 @@ export const useStyles = makeStyles(({ color, spacing, spacingValue, radius }) =
   icon: {
     color: color.text.mention,
     backgroundColor: color.background['alt-grey'],
-    padding: spacing('100'),
+    padding: spacing('2W'),
     borderRadius: radius('lg'),
     width: spacingValue('200'),
     height: spacingValue('200'),
-    marginBottom: spacing('100'),
+    marginBottom: spacing('2W'),
   },
   fileName: {
     fontWeight: 'bold',

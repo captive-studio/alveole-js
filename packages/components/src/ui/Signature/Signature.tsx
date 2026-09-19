@@ -58,12 +58,12 @@ export const Signature = (props: SignatureProps) => {
   const webviewStyle = `
     .m-signature-pad {
       box-shadow: none;
-      border-radius: ${spacing('075')}px;
+      border-radius: ${spacing('3V')}px;
       border-color: ${color.border['default-grey']};
       border-width: 2px;
       height: ${height}px;
     }
-    .m-signature-pad--body {border: none; overflow: hidden; border-radius: ${spacing('075')}px}
+    .m-signature-pad--body {border: none; overflow: hidden; border-radius: ${spacing('3V')}px}
     .m-signature-pad--footer {display: none; margin: 0px;}
     .button, .description {display: none;}
   `;

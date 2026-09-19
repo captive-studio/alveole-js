@@ -16,7 +16,7 @@ const coque = ({ spacing }: Theme) =>
     container: {
       display: 'flex',
       flexDirection: 'row',
-      gap: spacing('050'),
+      gap: spacing('1W'),
     },
   }) satisfies Table;
 

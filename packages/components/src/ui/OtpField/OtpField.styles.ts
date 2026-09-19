@@ -4,7 +4,7 @@ export const useStyles = makeStyles(({ text, color, spacing, spacingValue, radiu
   inputHeading: {},
   containerStyle: {
     justifyContent: 'center',
-    gap: spacing('050'),
+    gap: spacing('1W'),
   },
   pinCodeContainerStyle: {
     borderRadius: radius('md'),
@@ -36,7 +36,7 @@ export const useStyles = makeStyles(({ text, color, spacing, spacingValue, radiu
    */
   focusedPinCodeContainerStyle: focusBorder(),
   focusStickStyle: {
-    maxHeight: spacing('100'),
+    maxHeight: spacing('2W'),
   },
   pinCodeTextStyle: {
     color: color.text['default-grey'],

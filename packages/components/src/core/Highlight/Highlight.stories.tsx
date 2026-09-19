@@ -23,7 +23,7 @@ export const HighlightTypescript = () => (
 );
 
 export const HighlightTSX = () => (
-  <Highlight language="tsx">{`<Typography tag="span" p={spacing('100')}>Bonjour</Typography>`}</Highlight>
+  <Highlight language="tsx">{`<Typography tag="span" p={spacing('2W')}>Bonjour</Typography>`}</Highlight>
 );
 
 const rubyCode = `# The Greeter class

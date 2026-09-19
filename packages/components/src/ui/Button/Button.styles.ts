@@ -31,7 +31,7 @@ const commun = ({ spacing, spacingValue, radius }: Theme) =>
       flexDirection: 'row',
       justifyContent: 'center',
       alignItems: 'center',
-      gap: spacing('050'),
+      gap: spacing('1W'),
       transitionProperty: 'all',
       transitionDuration: '150ms',
       transitionTimingFunction: 'ease',

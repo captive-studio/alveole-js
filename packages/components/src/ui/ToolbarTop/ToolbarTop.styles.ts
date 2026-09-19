@@ -16,10 +16,10 @@ const barre = ({ color, spacing }: Theme) =>
       display: 'flex',
       flexDirection: 'row',
       alignItems: 'center',
-      paddingLeft: spacing('025'),
-      paddingRight: spacing('025'),
-      paddingTop: spacing('050'),
-      paddingBottom: spacing('050'),
+      paddingLeft: spacing('1V'),
+      paddingRight: spacing('1V'),
+      paddingTop: spacing('1W'),
+      paddingBottom: spacing('1W'),
     },
     compactLargetoolbarContainer: {
       paddingTop: spacing('3V'),
@@ -46,7 +46,7 @@ const barre = ({ color, spacing }: Theme) =>
     toolbarNavigation: {
       display: 'flex',
       justifyContent: 'center',
-      gap: spacing('075'),
+      gap: spacing('3V'),
     },
   }) satisfies Table;
 
@@ -56,7 +56,7 @@ const information = ({ color, text, spacing }: Theme) =>
       display: 'flex',
       flexDirection: 'row',
       alignItems: 'center',
-      gap: spacing('075'),
+      gap: spacing('3V'),
       flex: 1,
     },
     toolbarInformationTitle: {

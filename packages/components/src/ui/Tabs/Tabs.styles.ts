@@ -14,7 +14,7 @@ const coque = ({ color, spacing }: Theme) =>
       minHeight: 0,
       display: 'flex',
       flexDirection: 'column',
-      gap: spacing('075'),
+      gap: spacing('3V'),
     },
     tabs: {
       flex: 1,
@@ -22,9 +22,9 @@ const coque = ({ color, spacing }: Theme) =>
       flexDirection: 'column',
     },
     tabsList: {
-      borderBottomLeftRadius: spacing('000'),
-      borderBottomRightRadius: spacing('000'),
-      gap: spacing('075'),
+      borderBottomLeftRadius: spacing('0V'),
+      borderBottomRightRadius: spacing('0V'),
+      gap: spacing('3V'),
       boxSizing: 'border-box',
       borderColor: color.light.border['default-grey'],
       borderBottomWidth: 1,

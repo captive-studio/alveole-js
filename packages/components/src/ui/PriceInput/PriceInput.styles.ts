@@ -4,7 +4,7 @@ export const useStyles = makeStyles(({ text, color, spacing }) => ({
   container: {
     borderBottomWidth: 1,
     borderBottomColor: color.light.border['plain-grey'],
-    paddingBottom: spacing('050'),
+    paddingBottom: spacing('1W'),
   },
   // Le champ de prix n'a qu'un trait sous le montant en guise de cadre : c'est donc lui que
   // le focus recolore, avec la meme definition que la bordure complete des autres champs.

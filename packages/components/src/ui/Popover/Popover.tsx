@@ -42,10 +42,10 @@ export const Popover = (props: PopoverProps) => {
 
   const spacings = {
     p: 0,
-    mr: placement?.includes('left') ? spacing('025') : undefined,
-    mb: placement?.includes('top') ? spacing('025') : undefined,
-    ml: placement?.includes('right') ? spacing('025') : undefined,
-    mt: placement?.includes('bottom') ? spacing('025') : undefined,
+    mr: placement?.includes('left') ? spacing('1V') : undefined,
+    mb: placement?.includes('top') ? spacing('1V') : undefined,
+    ml: placement?.includes('right') ? spacing('1V') : undefined,
+    mt: placement?.includes('bottom') ? spacing('1V') : undefined,
   };
 
   const maxH = popoverStyles.maxH ?? 500;

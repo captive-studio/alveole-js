@@ -11,7 +11,7 @@ export const useStyles = makeStyles(({ text, color, spacing }) => ({
     flexDirection: 'row',
     alignItems: 'center',
     width: '100%',
-    gap: spacing('050'),
+    gap: spacing('1W'),
   },
   itemLabel: {
     cursor: 'pointer',
