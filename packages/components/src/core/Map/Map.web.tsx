@@ -1,20 +1,11 @@
 import { Box } from '../Box';
 import { MapProps } from './Map.props';
+import { useStyles } from './Map.styles';
 import { useGoogleMap } from './useGoogleMap';
 
 export const Map = (props: MapProps) => {
   const { containerRef } = useGoogleMap(props);
+  const styles = useStyles();
 
-  return (
-    <Box
-      ref={containerRef}
-      style={{
-        width: '100%',
-        height: '100%',
-        minHeight: 240,
-        borderRadius: 12,
-        overflow: 'hidden',
-      }}
-    />
-  );
+  return <Box ref={containerRef} style={styles.container} />;
 };

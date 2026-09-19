@@ -1,13 +1,13 @@
 import { focusBorder, makeStyles } from '@alveole/theme';
 
-export const useStyles = makeStyles(({ text, color, spacing, spacingValue }) => ({
+export const useStyles = makeStyles(({ text, color, spacing, spacingValue, radius }) => ({
   inputHeading: {},
   containerStyle: {
     justifyContent: 'center',
     gap: spacing('050'),
   },
   pinCodeContainerStyle: {
-    borderRadius: 6,
+    borderRadius: radius('md'),
     borderWidth: 1,
     borderColor: color.border['default-grey'],
     backgroundColor: '#FFFFFF',

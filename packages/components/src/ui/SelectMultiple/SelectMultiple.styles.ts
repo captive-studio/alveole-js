@@ -8,7 +8,7 @@ type Theme = ReturnType<typeof useTheme>;
 type Table = Record<string, StyleValue>;
 
 /** Le champ ferme : sa boite, et ce qui la marque selon l'etat. */
-const champ = ({ color, control }: Theme) =>
+const champ = ({ color, control, radius }: Theme) =>
   ({
     select: {
       flex: 1,
@@ -25,7 +25,7 @@ const champ = ({ color, control }: Theme) =>
       width: '100%',
     },
     inputDisabled: {
-      borderRadius: 6,
+      borderRadius: radius('md'),
       borderColor: color.background['disabled-grey'],
     },
     control: {
