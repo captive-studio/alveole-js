@@ -20,19 +20,19 @@ const coque = ({ spacing }: Theme) =>
     },
   }) satisfies Table;
 
-const caseACocher = ({ color, spacingValue }: Theme) =>
+const caseACocher = ({ color, spacingValue, radius }: Theme) =>
   ({
     checkbox: {
       height: spacingValue('150'),
       width: spacingValue('150'),
       backgroundColor: 'transparent',
       borderColor: color.light.border['action-high-primary'],
-      borderRadius: 6,
+      borderRadius: radius('md'),
     },
     checkboxSm: {
       height: spacingValue('100'),
       width: spacingValue('100'),
-      borderRadius: 4,
+      borderRadius: radius('sm'),
     },
     checkboxDisabled: {
       borderColor: color.border['disabled-grey'],
@@ -49,7 +49,7 @@ const caseACocher = ({ color, spacingValue }: Theme) =>
       height: spacingValue('150'),
       width: spacingValue('150'),
       backgroundColor: color.light.background['action-high-primary'],
-      borderRadius: 6,
+      borderRadius: radius('md'),
     },
     indicatorDisabled: {
       backgroundColor: color.background['disabled-grey'],
