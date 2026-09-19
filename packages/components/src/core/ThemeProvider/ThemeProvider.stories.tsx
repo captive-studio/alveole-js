@@ -1,4 +1,5 @@
 import { useTheme } from '@alveole/theme';
+import type { ReactNode } from 'react';
 import { Story } from '../../type';
 import { Box } from '../Box';
 import { Highlight } from '../Highlight';
@@ -13,6 +14,33 @@ export default {
     'Provider de thème. Injecte les tokens CSS (couleurs, espacements, typographies, rayons). Supporte deux modes : injection dynamique (défaut) ou CSS pré-compilé statique.',
   styleFn: () => ({}),
 } satisfies Story;
+
+// Les deux stories affichent le même bandeau « Mode actif » (pastille colorée + libellé) : seul le
+// texte change. L'isoler évite de dupliquer la mise en forme et allège chaque story à sa seule
+// démonstration.
+const ModeBadge = ({ children }: { children: ReactNode }) => {
+  const { color, text } = useTheme();
+
+  return (
+    <Box
+      display="flex"
+      flexDirection="row"
+      gap={8}
+      style={{
+        alignItems: 'center',
+        paddingHorizontal: 12,
+        paddingVertical: 8,
+        borderRadius: 8,
+        backgroundColor: color.light.background['default-grey'],
+      }}
+    >
+      <Box
+        style={{ width: 8, height: 8, borderRadius: 4, backgroundColor: color.light.background['active-primary'] }}
+      />
+      <Typography style={text['Corps de texte'].SM.Regular}>{children}</Typography>
+    </Box>
+  );
+};
 
 /**
  * Mode par défaut : les variables CSS sont injectées au runtime via des balises `<style>`,
@@ -30,32 +58,11 @@ export default {
  * }
  * ```
  */
-export const UsageDefaut = () => {
-  const { color, text } = useTheme();
-
-  return (
-    <Box display="flex" flexDirection="column" gap={12}>
-      <Box
-        display="flex"
-        flexDirection="row"
-        gap={8}
-        style={{
-          alignItems: 'center',
-          paddingHorizontal: 12,
-          paddingVertical: 8,
-          borderRadius: 8,
-          backgroundColor: color.light.background['default-grey'],
-        }}
-      >
-        <Box
-          style={{ width: 8, height: 8, borderRadius: 4, backgroundColor: color.light.background['active-primary'] }}
-        />
-        <Typography style={text['Corps de texte'].SM.Regular}>
-          Mode actif : injection dynamique via balises &lt;style&gt;
-        </Typography>
-      </Box>
-      <Highlight language="tsx">
-        {`import { ThemeProvider } from '@alveole/theme';
+export const UsageDefaut = () => (
+  <Box display="flex" flexDirection="column" gap={12}>
+    <ModeBadge>Mode actif : injection dynamique via balises &lt;style&gt;</ModeBadge>
+    <Highlight language="tsx">
+      {`import { ThemeProvider } from '@alveole/theme';
 
 export default function RootLayout() {
   return (
@@ -64,10 +71,9 @@ export default function RootLayout() {
     </ThemeProvider>
   );
 }`}
-      </Highlight>
-    </Box>
-  );
-};
+    </Highlight>
+  </Box>
+);
 
 /**
  * Mode CSS statique : les variables CSS sont pré-compilées dans `dist/default.css` au moment
@@ -109,25 +115,7 @@ export const UsageCSSStatique = () => {
 
   return (
     <Box display="flex" flexDirection="column" gap={12}>
-      <Box
-        display="flex"
-        flexDirection="row"
-        gap={8}
-        style={{
-          alignItems: 'center',
-          paddingHorizontal: 12,
-          paddingVertical: 8,
-          borderRadius: 8,
-          backgroundColor: color.light.background['default-grey'],
-        }}
-      >
-        <Box
-          style={{ width: 8, height: 8, borderRadius: 4, backgroundColor: color.light.background['active-primary'] }}
-        />
-        <Typography style={text['Corps de texte'].SM.Regular}>
-          Mode actif : CSS pré-compilé — aucune balise &lt;style&gt; injectée
-        </Typography>
-      </Box>
+      <ModeBadge>Mode actif : CSS pré-compilé - aucune balise &lt;style&gt; injectée</ModeBadge>
       <Highlight language="tsx">
         {`import '@alveole/theme/dist/default.css';
 import { ThemeProvider } from '@alveole/theme';
