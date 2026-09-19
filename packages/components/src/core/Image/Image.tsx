@@ -2,9 +2,9 @@ import { Image as ExpoImage, ImageProps as ExpoImageProps, ImageLoadEventData } 
 import React, { useState } from 'react';
 import { LucideIcon } from '../../ui/LucideIcon';
 import { Box } from '../Box';
+import { dimensionsImage } from './dimensionsImage';
 import { useStyles } from './Image.style';
 
-const DEFAULT_ASPECT_RATIO = 3 / 4;
 type Dimension = number | `${number}%`;
 const isNumericDimension = (value?: Dimension): value is number => value != null && typeof value === 'number';
 
@@ -36,60 +36,17 @@ export const Image = (props: ImageProps) => {
     [source],
   );
 
-  const imageStyle = React.useMemo<Pick<ImageProps, 'width' | 'height' | 'maxWidth' | 'maxHeight'>>(() => {
-    const fixedWidth = isNumericDimension(width) ? width : undefined;
-    const fixedHeight = isNumericDimension(height) ? height : undefined;
-
-    if (dimensions) {
-      let computedWidth = dimensions.width;
-      let computedHeight = dimensions.height;
-
-      if (maxWidthNumber != null && computedWidth > maxWidthNumber) {
-        computedWidth = maxWidthNumber;
-        if (fixedHeight == null) {
-          computedHeight = computedWidth * (dimensions.height / dimensions.width);
-        }
-      }
-
-      if (maxHeightNumber != null && computedHeight > maxHeightNumber) {
-        computedHeight = maxHeightNumber;
-        if (fixedWidth == null) {
-          computedWidth = computedHeight * (dimensions.width / dimensions.height);
-        }
-      }
-
-      return {
-        width: computedWidth,
-        height: computedHeight,
-        maxWidth: maxWidthNumber,
-        maxHeight: maxHeightNumber,
-      };
-    }
-
-    let fallbackWidth: number | undefined;
-    let fallbackHeight: number | undefined;
-
-    if (fixedWidth != null && fixedHeight != null) {
-      fallbackWidth = fixedWidth;
-      fallbackHeight = fixedHeight;
-    } else if (fixedWidth != null) {
-      fallbackWidth = fixedWidth;
-      fallbackHeight = maxHeightNumber ?? fixedWidth * DEFAULT_ASPECT_RATIO;
-    } else if (fixedHeight != null) {
-      fallbackHeight = fixedHeight;
-      fallbackWidth = maxWidthNumber ?? fixedHeight / DEFAULT_ASPECT_RATIO;
-    } else if (maxWidthNumber != null || maxHeightNumber != null) {
-      fallbackWidth = maxWidthNumber;
-      fallbackHeight = maxHeightNumber ?? (maxWidthNumber != null ? maxWidthNumber * DEFAULT_ASPECT_RATIO : undefined);
-    }
-
-    return {
-      width: fallbackWidth,
-      height: fallbackHeight,
-      maxWidth: maxWidthNumber,
-      maxHeight: maxHeightNumber,
-    };
-  }, [width, height, maxWidthNumber, maxHeightNumber, dimensions]);
+  const imageStyle = React.useMemo<Pick<ImageProps, 'width' | 'height' | 'maxWidth' | 'maxHeight'>>(
+    () =>
+      dimensionsImage({
+        fixedWidth: isNumericDimension(width) ? width : undefined,
+        fixedHeight: isNumericDimension(height) ? height : undefined,
+        maxWidthNumber,
+        maxHeightNumber,
+        dimensions,
+      }),
+    [width, height, maxWidthNumber, maxHeightNumber, dimensions],
+  );
 
   const handleLoad = (event: ImageLoadEventData) => setDimensions(event.source);
   const handleError = () => setError(true);
