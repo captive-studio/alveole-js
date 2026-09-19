@@ -129,3 +129,9 @@ describe('le theme remis a la bibliotheque OTP', () => {
     expect(desactive.pinCodeContainerStyle.borderColor).toBe(themeCalcule().pinCodeContainerStyle.borderColor);
   });
 });
+
+test('utilise le rayon de bordure de l echelle du theme sur la cellule', () => {
+  const { result } = renderHookOnDesktop(() => useStyles());
+
+  expect(result.current.pinCodeContainerStyle.borderRadius).toBe('var(--radius-md)');
+});

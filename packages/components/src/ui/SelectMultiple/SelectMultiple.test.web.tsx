@@ -138,3 +138,9 @@ describe('le cadre remis a react-select', () => {
     expect(enErreur[':hover'].borderColor).toBe(enErreur.borderColor);
   });
 });
+
+test('utilise le rayon de bordure de l echelle du theme sur le champ desactive', () => {
+  const { result } = renderHookOnDesktop(() => useStyles());
+
+  expect(result.current.inputDisabled.borderRadius).toBe('var(--radius-md)');
+});
