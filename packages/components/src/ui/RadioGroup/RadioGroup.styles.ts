@@ -1,4 +1,4 @@
-import { makeStyles, StyleValue, useTheme } from '@alveole/theme';
+import { focusRing, makeStyles, StyleValue, useTheme } from '@alveole/theme';
 import { Platform } from 'react-native';
 
 type Theme = ReturnType<typeof useTheme>;
@@ -55,6 +55,7 @@ const ligne = ({ color, spacingValue }: Theme) =>
     itemContainerActive: {
       borderColor: color.light.border['action-high-primary'],
     },
+    itemContainerFocused: focusRing('default'),
     itemIndicator: {
       backgroundColor: color.light.background['action-high-primary'],
       height: 8,

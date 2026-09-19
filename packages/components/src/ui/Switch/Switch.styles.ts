@@ -1,4 +1,4 @@
-import { makeStyles } from '@alveole/theme';
+import { focusRing, makeStyles } from '@alveole/theme';
 
 export const useStyles = makeStyles(({ text, color, spacing }) => ({
   switchContainer: {},
@@ -24,6 +24,7 @@ export const useStyles = makeStyles(({ text, color, spacing }) => ({
     backgroundColor: color.background['disabled-grey'],
     cursor: 'not-allowed',
   },
+  switchButtonFocused: focusRing('default'),
   switchThumb: {
     borderWidth: 1,
     borderColor: color.border['default-grey'],

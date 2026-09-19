@@ -40,6 +40,7 @@ export const Tabs = (props: TabsProps) => {
     prevActiveAt: null,
     hoverTab: null,
   });
+  const [focusedTab, setFocusedTab] = React.useState<string | null>(null);
 
   const setCurrentTab = (currentTab: string, index: number) => {
     setTabState({ ...tabState, currentTab });
@@ -49,6 +50,10 @@ export const Tabs = (props: TabsProps) => {
   const setActiveIndicator = (activeAt: any) => setTabState({ ...tabState, prevActiveAt: tabState.activeAt, activeAt });
   const setHoverTab = (hoverTab: string | null) => setTabState({ ...tabState, hoverTab });
   const { currentTab, hoverTab } = tabState;
+
+  function isFocusedTab(tabValue: string): boolean {
+    return focusedTab === tabValue;
+  }
 
   const handleOnInteraction: TabsTabProps['onInteraction'] = (type, layout) => {
     if (type === 'select') {
@@ -114,9 +119,19 @@ export const Tabs = (props: TabsProps) => {
                 onHoverIn={() => setHoverTab(tab.value)}
                 onHoverOut={() => setHoverTab(null)}
                 onInteraction={handleOnInteraction}
+                onFocus={() => setFocusedTab(tab.value)}
+                onBlur={() => setFocusedTab(null)}
                 value={tab.value}
                 disabled={tabs.length < 2}
-                style={{ ...styles.tabsTab, ...(isCurrentTab(tab.value) ? styles.tabsTabActive : {}) }}
+                style={{
+                  ...styles.tabsTab,
+                  ...(isCurrentTab(tab.value) ? styles.tabsTabActive : {}),
+                  // `focusStyle` (prop declarative de Tamagui) se compile en classe CSS
+                  // `:focus` : jsdom ne resout pas ce pseudo-selecteur dans
+                  // `getComputedStyle`. Meme parade que Checkbox/RadioGroup/Switch/Button :
+                  // le focus est tracke via un state React reel, applique en style inline.
+                  ...(isFocusedTab(tab.value) ? styles.tabsTabFocused : {}),
+                }}
               >
                 <Box
                   style={{
