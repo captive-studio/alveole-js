@@ -94,3 +94,11 @@ describe('MarkdownDescription', () => {
     expect(link?.className).toContain('hover-none');
   });
 });
+
+test('MarkdownDescription applique la couleur passee en prop au texte du paragraphe', () => {
+  const { getByText } = renderWeb(
+    <MarkdownDescription color="var(--text-mention-grey)">{'Un texte.'}</MarkdownDescription>,
+  );
+
+  expect(getComputedStyle(getByText('Un texte.')).color).toBe('var(--text-mention-grey)');
+});

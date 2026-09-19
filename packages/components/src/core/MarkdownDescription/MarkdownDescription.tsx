@@ -4,7 +4,7 @@ import { Platform, Text } from 'react-native';
 import { Box } from '../Box';
 import { Code } from '../Code';
 import { Highlight, HighlightProps } from '../Highlight';
-import { Typography } from '../Typography';
+import { Typography, TypographyProps } from '../Typography';
 
 export type MarkdownDescriptionProps = {
   children: string;
@@ -13,6 +13,8 @@ export type MarkdownDescriptionProps = {
    * paragraphe parmi d'autres, et Primer comme Base la posent un cran au-dessus du courant.
    */
   taille?: 'MD' | 'LG';
+  /** Couleur du texte courant. Laisser vide garde le gris par defaut de `Typography`. */
+  color?: string;
 };
 
 const HIGHLIGHT_LANGUAGES: HighlightProps['language'][] = [
@@ -30,14 +32,26 @@ const extractLanguage = (className?: string): HighlightProps['language'] => {
   return HIGHLIGHT_LANGUAGES.find(l => l === match?.[1]) ?? 'plaintext';
 };
 
-export const MarkdownDescription = ({ children, taille = 'MD' }: MarkdownDescriptionProps) => {
+// Le texte courant, hors titres et liens : `p` et la variante native partagent tous les deux
+// la couleur passee par l'appelant, seule voie pour un sous-titre en gris mention.
+const Body = ({ style, color, children }: Pick<TypographyProps, 'style' | 'color' | 'children'>) => (
+  <Typography style={style} color={color}>
+    {children}
+  </Typography>
+);
+
+export const MarkdownDescription = ({ children, taille = 'MD', color: textColor }: MarkdownDescriptionProps) => {
   const { text, color } = useTheme();
 
   const bodyStyle = text['Corps de texte'][taille].Regular;
   const boldStyle = text['Corps de texte'][taille].Bold;
 
   if (Platform.OS !== 'web') {
-    return <Typography style={bodyStyle}>{children}</Typography>;
+    return (
+      <Body style={bodyStyle} color={textColor}>
+        {children}
+      </Body>
+    );
   }
 
   // eslint-disable-next-line @typescript-eslint/no-require-imports
@@ -69,7 +83,11 @@ export const MarkdownDescription = ({ children, taille = 'MD' }: MarkdownDescrip
       <ReactMarkdown
         remarkPlugins={[remarkGfm]}
         components={{
-          p: ({ children: c }: { children: React.ReactNode }) => <Typography style={bodyStyle}>{c}</Typography>,
+          p: ({ children: c }: { children: React.ReactNode }) => (
+            <Body style={bodyStyle} color={textColor}>
+              {c}
+            </Body>
+          ),
           strong: ({ children: c }: { children: React.ReactNode }) => <Text style={boldStyle}>{c}</Text>,
           em: ({ children: c }: { children: React.ReactNode }) => (
             <Text style={[bodyStyle, { fontStyle: 'italic' as const }]}>{c}</Text>
