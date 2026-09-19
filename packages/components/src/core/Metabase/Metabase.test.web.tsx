@@ -13,3 +13,9 @@ test('utilise le rayon de bordure de l echelle du theme sur le cadre du tableau 
 
   expect(result.current.metabase.borderRadius).toBe('var(--radius-lg)');
 });
+
+test("injecte le script d'embed de l'instance Metabase", () => {
+  renderWeb(<Metabase token="jeton" instanceUrl="https://metabase.exemple.test" />);
+
+  expect(document.querySelector('script[src="https://metabase.exemple.test/app/embed.js"]')).toBeTruthy();
+});
