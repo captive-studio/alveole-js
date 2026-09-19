@@ -1,9 +1,4 @@
 {
-  "src/core/Box/Box.tsx": {
-    "complexity": {
-      "count": 1
-    }
-  },
   "src/core/Map/Map.web.tsx": {
     "complexity": {
       "count": 1
