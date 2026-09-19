@@ -14,17 +14,6 @@
       "count": 1
     }
   },
-  "src/core/Image/Image.tsx": {
-    "complexity": {
-      "count": 1
-    },
-    "max-lines-per-function": {
-      "count": 1
-    },
-    "sonarjs/cognitive-complexity": {
-      "count": 1
-    }
-  },
   "src/core/Map/Map.web.tsx": {
     "complexity": {
       "count": 1
