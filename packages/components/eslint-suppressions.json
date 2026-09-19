@@ -1,12 +1,4 @@
 {
-  "src/core/Map/Map.web.tsx": {
-    "complexity": {
-      "count": 1
-    },
-    "max-lines-per-function": {
-      "count": 1
-    }
-  },
   "src/core/MarkdownDescription/MarkdownDescription.tsx": {
     "max-lines-per-function": {
       "count": 1
