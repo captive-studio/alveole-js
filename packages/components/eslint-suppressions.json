@@ -1,9 +1,4 @@
 {
-  "src/core/AppUpdateProvider/AppUpdateProvider.test.tsx": {
-    "max-lines-per-function": {
-      "count": 1
-    }
-  },
   "src/core/AppUpdateProvider/AppUpdateProvider.tsx": {
     "max-lines-per-function": {
       "count": 1
