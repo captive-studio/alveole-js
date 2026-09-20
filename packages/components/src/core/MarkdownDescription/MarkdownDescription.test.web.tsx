@@ -96,6 +96,26 @@ describe('MarkdownDescription', () => {
   });
 });
 
+describe('MarkdownDescription : coupures de ligne', () => {
+  // En Markdown, une phrase coupée sur deux lignes source reste une seule phrase. Ici elle
+  // finit dans un `Text` de react-native-web, qui préserve `\n` là où HTML l'aurait replié :
+  // toute description un peu longue s'affichait donc coupée là où l'auteur avait passé à la
+  // ligne dans son JSDoc, dans toutes les fiches du catalogue.
+  test('replie une phrase coupée sur deux lignes source en une seule ligne', () => {
+    const { container } = renderWeb(<MarkdownDescription>{'Une phrase coupée\nsur deux lignes.'}</MarkdownDescription>);
+
+    expect(container.textContent).toBe('Une phrase coupée sur deux lignes.');
+  });
+
+  // Le pendant du test précédent : replier les coupures ne doit pas effacer celle que l'auteur
+  // a demandée, qui s'écrit en Markdown par deux espaces en fin de ligne.
+  test('garde la coupure de ligne demandée par deux espaces en fin de ligne', () => {
+    const { container } = renderWeb(<MarkdownDescription>{'Ligne un.  \nLigne deux.'}</MarkdownDescription>);
+
+    expect(container.querySelector('br')).not.toBeNull();
+  });
+});
+
 test('MarkdownDescription applique la couleur passee en prop au texte du paragraphe', () => {
   const { getByText } = renderWeb(
     <MarkdownDescription color="var(--text-mention-grey)">{'Un texte.'}</MarkdownDescription>,
