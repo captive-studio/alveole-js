@@ -1,5 +1,5 @@
 import { Box, toSlug, Typography } from '@alveole/components';
-import { useTheme } from '@alveole/theme';
+import { FOCUS_ATTRIBUTE, useTheme } from '@alveole/theme';
 
 export type StorySummaryProps = {
   /** Les noms des exemples de la fiche, dans l'ordre où elle les présente. */
@@ -17,7 +17,15 @@ export const StorySummary = ({ exemples }: StorySummaryProps) => {
       </Typography>
 
       {exemples.map(exemple => (
-        <a key={exemple} href={`#${toSlug(exemple)}`} style={{ textDecoration: 'none' }}>
+        // Les ancres du catalogue sont des `<a>` bruts : sans la marque, elles gardent le
+        // contour `1px auto` du navigateur au milieu de composants qui montrent tous la bague
+        // du kit. C'est la vitrine du design system, l'ecart s'y voit plus qu'ailleurs.
+        <a
+          key={exemple}
+          href={`#${toSlug(exemple)}`}
+          style={{ textDecoration: 'none' }}
+          {...{ [FOCUS_ATTRIBUTE]: 'ring' }}
+        >
           <Typography style={{ ...text['Corps de texte'].SM.Regular, color: color.light.text['default-grey'] }}>
             {exemple}
           </Typography>

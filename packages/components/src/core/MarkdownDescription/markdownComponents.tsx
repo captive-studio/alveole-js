@@ -1,4 +1,4 @@
-import { Theme } from '@alveole/theme';
+import { FOCUS_ATTRIBUTE, Theme } from '@alveole/theme';
 import React from 'react';
 import { TextStyle as RNTextStyle, Text } from 'react-native';
 import { Box } from '../Box';
@@ -81,7 +81,14 @@ type LinkComponentStyles = Pick<MarkdownComponentsStyles, 'linkColor' | 'linkSty
 
 const createLinkComponents = ({ linkColor, linkStyle, linkHoverStyle }: LinkComponentStyles): MarkdownComponents => ({
   a: ({ href, children: c }: { href?: string; children: React.ReactNode }) => (
-    <Typography tag="a" href={href} color={linkColor} style={linkStyle} hoverStyle={linkHoverStyle}>
+    <Typography
+      tag="a"
+      href={href}
+      color={linkColor}
+      style={linkStyle}
+      hoverStyle={linkHoverStyle}
+      {...{ [FOCUS_ATTRIBUTE]: 'ring' }}
+    >
       {c}
     </Typography>
   ),

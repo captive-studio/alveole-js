@@ -1,3 +1,4 @@
+import { focusRingProps } from '@alveole/theme';
 import React from 'react';
 import { Tabs as TamaguiTabs } from 'tamagui';
 import { Box, BoxProps } from '../../core/Box';
@@ -26,7 +27,7 @@ export const Tabs = (props: TabsProps) => {
   const styles = useStyles();
 
   const initialValue = defaultValue || tabs[0]?.value || '';
-  const { currentTab, etatDeLOnglet, setCurrentTab, setHoverTab, setFocusedTab, handleOnInteraction } = useTabsState(
+  const { currentTab, etatDeLOnglet, setCurrentTab, setHoverTab, handleOnInteraction } = useTabsState(
     initialValue,
     onChange,
   );
@@ -51,7 +52,12 @@ export const Tabs = (props: TabsProps) => {
         size="$4"
         activationMode="manual"
       >
-        <TamaguiTabs.List disablePassBorderRadius loop={false} style={styles.tabsList}>
+        {/* Tamagui donne `tabIndex=-1` a tous les onglets et fait de la liste le point d'entree
+            au clavier : c'est elle qu'on atteint par tabulation, les fleches circulant ensuite
+            entre les onglets. Elle doit donc montrer la bague, sans quoi la tabulation s'arrete
+            la sans que rien ne l'indique - mesure en navigateur. La sortir de l'ordre de
+            tabulation rendrait le composant entierement inatteignable. */}
+        <TamaguiTabs.List disablePassBorderRadius loop={false} style={styles.tabsList} {...focusRingProps()}>
           {tabs.map(tab => (
             <TabsTab
               key={tab.value}
@@ -62,7 +68,6 @@ export const Tabs = (props: TabsProps) => {
               etat={etatDeLOnglet(tab.value)}
               disabled={tabs.length < 2}
               onHover={setHoverTab}
-              onFocusChange={setFocusedTab}
               onInteraction={handleOnInteraction}
             />
           ))}
@@ -72,7 +77,7 @@ export const Tabs = (props: TabsProps) => {
 
         <Box style={{ flex: 1, minHeight: 0 }}>
           {tabs.map((tab, idx) => (
-            <TamaguiTabs.Content style={styles.tabsContent} key={idx} value={tab.value}>
+            <TamaguiTabs.Content style={styles.tabsContent} key={idx} value={tab.value} {...focusRingProps()}>
               <TabsContent content={ongletCourant?.content} scrollable={ongletCourant?.scrollable} />
             </TamaguiTabs.Content>
           ))}

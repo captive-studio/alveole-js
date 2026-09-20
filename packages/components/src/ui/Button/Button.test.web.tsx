@@ -1,29 +1,13 @@
 import { fireEvent, renderWeb, screen } from '@/__tests__/helpers/renderWeb';
+import { FOCUS_ATTRIBUTE } from '@alveole/theme';
 import { Button } from './Button';
 
-// `focusRing` ne rend un contour que sur le web : hors web il rend un objet vide, et l'etat
-// de focus du bouton n'y est observable par rien. Ces tests vivent donc du cote web.
-test("pose l'anneau de focus au focus clavier", () => {
-  renderWeb(<Button variant="primary" title="Enregistrer" />);
-  const bouton = screen.getByRole('button');
-
-  fireEvent.focus(bouton);
-
-  expect(bouton.style.outlineWidth).toBe('2px');
-});
-
-test("retire l'anneau de focus quand le bouton perd le focus", () => {
-  renderWeb(<Button variant="primary" title="Enregistrer" />);
-  const bouton = screen.getByRole('button');
-
-  fireEvent.focus(bouton);
-  fireEvent.blur(bouton);
-
-  expect(bouton.style.outlineWidth).toBe('');
-});
-
-// Le bouton pose son propre `onFocus` pour tenir l'anneau : il doit donc rappeler celui de
-// l'appelant, faute de quoi il l'avale silencieusement.
+// Deux tests ont disparu d'ici : ils posaient un `fireEvent.focus` et attendaient un
+// `outlineWidth` de 2 px en style inline. Ils figeaient le defaut plutot que la regle :
+// `fireEvent.focus` ne dit pas d'ou vient le focus, si bien qu'ils passaient au vert pour un
+// comportement qui, en navigateur, affichait aussi la bague au clic a la souris. Le test qui
+// les remplace est en bas de ce fichier ; l'apparence de la bague, elle, se verifie en
+// navigateur, jsdom ne resolvant pas `:focus-visible`.
 test("relaie le onFocus de l'appelant", () => {
   const onFocus = jest.fn();
   renderWeb(<Button variant="primary" title="Enregistrer" onFocus={onFocus} />);
@@ -40,4 +24,14 @@ test("relaie le onBlur de l'appelant", () => {
   fireEvent.blur(screen.getByRole('button'));
 
   expect(onBlur).toHaveBeenCalledTimes(1);
+});
+
+// Le bouton ne peint plus sa bague : il la demande au CSS du theme, qui la pose sur
+// `:focus-visible`. C'est la seule facon de ne la montrer qu'au clavier : `Pressable` de
+// react-native-web n'expose qu'un `focused` brut, sans notion de modalite, si bien que
+// l'ancien state React affichait aussi la bague au clic (constate en navigateur).
+test('demande la bague de focus au theme plutot que de la peindre lui-meme', () => {
+  renderWeb(<Button variant="primary" title="Enregistrer" />);
+
+  expect(screen.getByRole('button').getAttribute(FOCUS_ATTRIBUTE)).toBe('ring');
 });

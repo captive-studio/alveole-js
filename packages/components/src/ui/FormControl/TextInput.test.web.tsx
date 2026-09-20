@@ -53,15 +53,17 @@ test('colore la bordure du cadre avec le token de focus, sans l epaissir', () =>
   });
 });
 
-// Le focus se lit sur la bordure du cadre, pas autour de lui : le double contour est
-// justement ce que l'ADR 0012 supprime.
-test('n entoure le cadre focalise d aucun contour ni ombre', () => {
+// Amendement de l'ADR 0016 : le cadre focalise porte un anneau, mais encastre - il se dessine
+// a l'interieur, donc il ne pousse rien et ne redonne pas le double cadre que l'ADR 0012
+// supprime. C'est le traitement de Primer sur son `TextInputWrapper`. L'ombre, elle, reste
+// proscrite : un `boxShadow` deborderait au-dela du cadre.
+test('encastre l anneau du cadre focalise, et n y pose aucune ombre', () => {
   renderWeb(<TextInput value="Bonjour" onChangeText={() => undefined} />);
 
   focaliser('Bonjour');
 
   const style = window.getComputedStyle(cadre('Bonjour'));
-  expect([style.outlineStyle, style.boxShadow].filter(v => v && v !== 'none')).toEqual([]);
+  expect({ ecart: style.outlineOffset, ombre: style.boxShadow }).toEqual({ ecart: '-2px', ombre: '' });
 });
 
 // Pendant la saisie, c'est le champ actif qu'il faut pouvoir designer sans ambiguite ; le

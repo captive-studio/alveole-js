@@ -10,9 +10,12 @@ type TabsState = {
   hoverTab: string | null;
 };
 
-// Onglet courant, survol et focus vivent ensemble : c'est la meme interaction vue sous trois
-// angles, et chaque onglet a besoin des trois pour se dessiner. Les regrouper ici laisse au
-// composant un seul appel, et donne a `apparenceDeLOnglet` son etat directement consommable.
+// Onglet courant et survol vivent ensemble : c'est la meme interaction vue sous deux angles,
+// et chaque onglet a besoin des deux pour se dessiner. Les regrouper ici laisse au composant un
+// seul appel, et donne a `apparenceDeLOnglet` son etat directement consommable.
+//
+// Le focus n'en fait pas partie : il est rendu par la regle CSS `:focus-visible` du theme, la
+// seule qui distingue le clavier de la souris. Suivi en React, il s'affichait aussi au clic.
 export const useTabsState = (initialValue: string, onChange?: (index: number) => void) => {
   const [tabState, setTabState] = React.useState<TabsState>({
     activeAt: null,
@@ -21,7 +24,6 @@ export const useTabsState = (initialValue: string, onChange?: (index: number) =>
     prevActiveAt: null,
     hoverTab: null,
   });
-  const [focusedTab, setFocusedTab] = React.useState<string | null>(null);
 
   const setCurrentTab = (currentTab: string, index: number) => {
     setTabState({ ...tabState, currentTab });
@@ -40,7 +42,6 @@ export const useTabsState = (initialValue: string, onChange?: (index: number) =>
 
   const etatDeLOnglet = (tabValue: string): EtatDeLOnglet => ({
     actif: tabState.currentTab === tabValue,
-    focalise: focusedTab === tabValue,
     survole: tabState.hoverTab === tabValue,
   });
 
@@ -49,7 +50,6 @@ export const useTabsState = (initialValue: string, onChange?: (index: number) =>
     etatDeLOnglet,
     setCurrentTab,
     setHoverTab,
-    setFocusedTab,
     handleOnInteraction,
   };
 };

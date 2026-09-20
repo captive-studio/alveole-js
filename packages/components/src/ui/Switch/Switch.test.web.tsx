@@ -1,19 +1,12 @@
-import { renderHookOnDesktop } from '@/__tests__/helpers/renderWeb';
-import { useStyles } from './Switch.styles';
+import { renderWeb, screen } from '@/__tests__/helpers/renderWeb';
+import { FOCUS_ATTRIBUTE } from '@alveole/theme';
+import { Switch } from './Switch';
 
-// Aucune prop de focus n existait sur `Switch` : au clavier, rien ne distinguait un
-// interrupteur focalise d un interrupteur au repos.
-//
-// `getComputedStyle` ne resout pas `:focus-visible` dans jsdom : ce test verifie le token pose
-// dans la table de styles, pas son application reelle au clavier - confirmee separement en
-// navigateur (voir la verification visuelle du plan `focus-ring/controles-manquants`).
-test('pose un anneau de focus sur l interrupteur', () => {
-  const { result } = renderHookOnDesktop(() => useStyles());
+// Voir Checkbox : un seul mecanisme de bague, donc un seul bleu. `focusVisibleStyle` peignait
+// l'ancien `#0379EF` la ou la regle CSS du theme pose `#0A76F6`. Le test qui figeait la table
+// `switchButtonFocused` a disparu avec elle : la bague ne vit plus dans les styles.
+test('demande la bague de focus au theme plutot que de la peindre lui-meme', () => {
+  renderWeb(<Switch />);
 
-  expect(result.current.switchButtonFocused).toEqual({
-    outlineWidth: 2,
-    outlineStyle: 'solid',
-    outlineColor: '#0379EF',
-    outlineOffset: 2,
-  });
+  expect(screen.getByRole('switch').getAttribute(FOCUS_ATTRIBUTE)).toBe('ring');
 });

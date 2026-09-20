@@ -35,6 +35,14 @@ export const useStyles = makeStyles(({ text, color, spacing, spacingValue, radiu
    * l'erreur et le succes sans que nous ayons a l'arbitrer.
    */
   focusedPinCodeContainerStyle: focusBorder(),
+  /**
+   * La bibliotheque cache la vraie saisie derriere les cellules : c'est elle qui prend le
+   * focus, et le navigateur lui posait son propre contour par-dessus des cellules dont la
+   * bordure disait deja le focus. Meme parade que `FormControl` sur ses `input`.
+   */
+  hiddenInputStyle: {
+    outline: 'none',
+  },
   focusStickStyle: {
     maxHeight: spacing('2W'),
   },

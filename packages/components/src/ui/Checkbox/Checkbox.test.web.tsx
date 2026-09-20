@@ -1,23 +1,7 @@
-import { renderHookOnDesktop } from '@/__tests__/helpers/renderWeb';
+import { renderHookOnDesktop, renderWeb, screen } from '@/__tests__/helpers/renderWeb';
+import { FOCUS_ATTRIBUTE } from '@alveole/theme';
+import { Checkbox } from './Checkbox';
 import { useStyles } from './Checkbox.styles';
-
-// `checkboxFocusStyles` (dans `CheckboxContainer`) valait `baseCheckboxStyles` tel quel : au
-// clavier, rien ne distinguait une case focalisee d une case au repos.
-//
-// `getComputedStyle` ne resout pas `:focus-visible` dans jsdom (verifie hors Tamagui, avec une
-// regle CSS ecrite a la main) : ce test verifie le token pose dans la table de styles, pas son
-// application reelle au clavier - confirmee separement en navigateur (voir la verification
-// visuelle du plan `focus-ring/controles-manquants`).
-test('pose un anneau de focus sur la case a cocher', () => {
-  const { result } = renderHookOnDesktop(() => useStyles());
-
-  expect(result.current.checkboxFocused).toEqual({
-    outlineWidth: 2,
-    outlineStyle: 'solid',
-    outlineColor: '#0379EF',
-    outlineOffset: 2,
-  });
-});
 
 test('utilise le rayon de bordure de l echelle du theme sur la case a cocher', () => {
   const { result } = renderHookOnDesktop(() => useStyles());
@@ -35,4 +19,14 @@ test('utilise le rayon de bordure de l echelle du theme sur la case a cocher sm'
   const { result } = renderHookOnDesktop(() => useStyles());
 
   expect(result.current.checkboxSm.borderRadius).toBe('var(--radius-sm)');
+});
+
+// Un seul mecanisme de bague dans tout le kit. La case passait par `focusVisibleStyle`, la
+// prop declarative de Tamagui : le comportement etait juste, mais elle peignait l'ancien bleu
+// `#0379EF` la ou la regle CSS du theme pose `#0A76F6`. Deux bleus voisins pour le meme etat,
+// selon que le composant etait bati sur Tamagui ou non.
+test('demande la bague de focus au theme plutot que de la peindre elle-meme', () => {
+  renderWeb(<Checkbox />);
+
+  expect(screen.getByRole('checkbox').getAttribute(FOCUS_ATTRIBUTE)).toBe('ring');
 });

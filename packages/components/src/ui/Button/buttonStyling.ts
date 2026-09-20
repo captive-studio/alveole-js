@@ -1,4 +1,4 @@
-import { focusRing, StyleValue } from '@alveole/theme';
+import { StyleValue } from '@alveole/theme';
 import { IconProps } from '../LucideIcon';
 import { EtatDuBouton } from './Button.types';
 import {
@@ -77,8 +77,9 @@ export const styleDeLIcone = (styles: Styles, etat: EtatDuBouton, hovered: boole
   return { size, color: styles[cleDEtat(ICONE_PAR_VARIANT[variant], { disabled, actif: hovered })].color };
 };
 
-/** Les rayons, la bordure et l'anneau de focus : tout ce qui se pose sur le Pressable. */
-export const styleDuPressable = (styles: Styles, etat: EtatDuBouton, state: { hovered: boolean; focus: boolean }) => {
+/** Les rayons et la bordure : tout ce qui se pose sur le Pressable. La bague de focus, elle,
+ * vient du CSS du theme via l'attribut pose sur le Pressable. */
+export const styleDuPressable = (styles: Styles, etat: EtatDuBouton, state: { hovered: boolean }) => {
   const { variant, selected, disabled, taille, iconeSeule, borderNone, fullWidth } = etat;
   // `sm` est la seule taille qui redefinit ses rayons ; les deux autres gardent ceux du conteneur.
   const source = taille === 'sm' ? styles.smContainer : styles.container;
@@ -113,6 +114,5 @@ export const styleDuPressable = (styles: Styles, etat: EtatDuBouton, state: { ho
     ...contour,
     overflow: 'hidden' as const,
     ...(fullWidth ? { width: '100%' as const } : {}),
-    ...(state.focus ? focusRing('default') : {}),
   };
 };

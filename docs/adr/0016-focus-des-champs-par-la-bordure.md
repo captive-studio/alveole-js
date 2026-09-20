@@ -1,9 +1,15 @@
 ---
-status: accepted
+status: amended
 area: forms
 ---
 
 # Le focus des champs et sélecteurs est porté par leur bordure
+
+> **Amendé par l'ADR 0017.** Le trait recoloré reste, mais un anneau de 2 px
+> s'encastre désormais derrière lui : le trait seul, de 1 px, faisait du champ le
+> point faible visuel du kit une fois le reste passé à une bague de 2 px. Ce qui
+> tient toujours : pas d'anneau **extérieur**, pas d'ombre, et l'épaisseur de
+> bordure inchangée entre repos et focus, donc aucun décalage de mise en page.
 
 Les champs de saisie et les sélecteurs signalent leur focus en colorant leur
 bordure existante avec le token de focus, sans ajouter d'anneau extérieur. Cette

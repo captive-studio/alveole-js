@@ -5,7 +5,6 @@ import { apparenceDeLOnglet } from './Tabs.apparence';
 const styles = {
   tabsTab: { a: 'base' },
   tabsTabActive: { a: 'actif' },
-  tabsTabFocused: { a: 'focalise' },
   wrapper: { b: 'base' },
   wrapperHover: { b: 'survole' },
   tabIcon: { c: 'base' },
@@ -14,18 +13,19 @@ const styles = {
   tabsLabelActive: { d: 'actif' },
 };
 
-// L'anneau de focus doit rester visible sur l'onglet deja selectionne : s'il passait sous la
-// couche active, naviguer au clavier jusqu'a l'onglet courant ne montrerait plus rien.
-test('empile le focus par-dessus la couche active du bouton', () => {
-  const { onglet } = apparenceDeLOnglet(styles, { actif: true, focalise: true, survole: false });
+// Le focus n'est plus une couche d'apparence : il vient de la regle CSS `:focus-visible` du
+// theme, la seule qui distingue le clavier de la souris. Empile ici, il s'affichait aussi au
+// clic. Ce qui reste a verifier, c'est que l'etat actif se pose bien par-dessus la base.
+test('empile la couche active par-dessus la base du bouton', () => {
+  const { onglet } = apparenceDeLOnglet(styles, { actif: true, survole: false });
 
-  expect(onglet).toEqual({ a: 'focalise' });
+  expect(onglet).toEqual({ a: 'actif' });
 });
 
 // Le survol teinte le fond de la pastille, pas le bouton qui la porte : le bouton n'a pas de
 // rayon, une couleur posee sur lui deborderait en rectangle sous l'arrondi.
 test('teinte la pastille au survol sans toucher au bouton', () => {
-  const etat = { actif: false, focalise: false, survole: true };
+  const etat = { actif: false, survole: true };
 
   expect(apparenceDeLOnglet(styles, etat)).toMatchObject({ onglet: { a: 'base' }, enveloppe: { b: 'survole' } });
 });
@@ -33,7 +33,7 @@ test('teinte la pastille au survol sans toucher au bouton', () => {
 // L'icone change de couleur au survol : les deux couches sont des alternatives, pas un
 // empilement. Superposees, la couleur de repos resterait sous celle du survol.
 test('remplace la couleur de l icone au survol', () => {
-  const { icone } = apparenceDeLOnglet(styles, { actif: true, focalise: false, survole: true });
+  const { icone } = apparenceDeLOnglet(styles, { actif: true, survole: true });
 
   expect(icone).toEqual({ c: 'survole' });
 });
@@ -41,7 +41,7 @@ test('remplace la couleur de l icone au survol', () => {
 // Le libelle de l'onglet courant passe en gras : c'est le seul repere qui survit a un rendu
 // sans couleur, la barre inferieure ne portant que la couleur primaire.
 test('passe le libelle en gras sur l onglet courant', () => {
-  const { libelle } = apparenceDeLOnglet(styles, { actif: true, focalise: false, survole: false });
+  const { libelle } = apparenceDeLOnglet(styles, { actif: true, survole: false });
 
   expect(libelle).toEqual({ d: 'actif' });
 });

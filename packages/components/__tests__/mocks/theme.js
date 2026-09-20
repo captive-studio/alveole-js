@@ -9,7 +9,8 @@ jest.mock('@alveole/theme', () => {
   const { PillSizes } = jest.requireActual('../../../theme/src/constants/Pill');
   const { RadiusList } = jest.requireActual('../../../theme/src/constants/Radius');
   const { Grilles } = jest.requireActual('../../../theme/src/constants/Grille');
-  const { focusBorder, focusRing } = jest.requireActual('../../../theme/src/constants/Focus');
+  const { focusBorder, focusRing, FOCUS_ATTRIBUTE } = jest.requireActual('../../../theme/src/constants/Focus');
+  const { focusRingProps } = jest.requireActual('../../../theme/src/constants/FocusProps');
   const { isSpacingKey } = jest.requireActual('../../../theme/src/helpers/isSpacingKey');
   const { Sizes, Heights } = jest.requireActual('../../../theme/src/constants/Sizes');
   const { Spacings } = jest.requireActual('../../../theme/src/constants/Spacing');
@@ -90,6 +91,9 @@ jest.mock('@alveole/theme', () => {
     CustomPalette,
     focusBorder,
     focusRing,
+    // La bague de focus vient du CSS du theme : les composants ne posent qu'une marque.
+    focusRingProps,
+    FOCUS_ATTRIBUTE,
     isSpacingKey,
     makeStyles: stylesFn => () => stylesFn(testTheme),
     contrastRatio,

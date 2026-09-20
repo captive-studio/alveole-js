@@ -1,4 +1,4 @@
-import { useTheme } from '@alveole/theme';
+import { focusRingProps, useTheme } from '@alveole/theme';
 import React, { CSSProperties, useId } from 'react';
 import { Label, TamaguiElement, Switch as TamaguiSwitch, SwitchProps as TamaguiSwitchProps } from 'tamagui';
 import { Box } from '../../core/Box';
@@ -47,6 +47,11 @@ export const Switch = React.forwardRef<SwitchElement, SwitchProps>(function Swit
       onCheckedChange={onChange}
       style={bouton}
       disabled={disabled}
+      {...focusRingProps()}
+      // Tamagui injecte sa propre regle `:focus-visible` en `!important` derriere un selecteur
+      // `:root:root:root:root` : la regle CSS du theme ne peut pas la battre, et sans cette prop
+      // c'est le gris translucide de Tamagui qui s'affiche. La valeur vient de `focusRing()`,
+      // qui peint le meme bleu que la regle : un seul reglage, deux chemins pour l'appliquer.
       focusVisibleStyle={styles.switchButtonFocused}
       {...switchProps}
     >

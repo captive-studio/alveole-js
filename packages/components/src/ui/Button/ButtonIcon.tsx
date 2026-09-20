@@ -1,3 +1,4 @@
+import { focusRingProps } from '@alveole/theme';
 import { CSSProperties } from 'react';
 import { Pressable, PressableProps, PressableStateCallbackType } from 'react-native';
 import { Typography } from '../../core/Typography';
@@ -106,6 +107,7 @@ export const ButtonIcon = (props: ButtonIconProps) => {
       accessibilityRole="button"
       style={containerStyle as PressableProps['style']}
       disabled={disabled}
+      {...focusRingProps()}
       {...buttonProps}
     >
       {(state: CustomPressableState) =>

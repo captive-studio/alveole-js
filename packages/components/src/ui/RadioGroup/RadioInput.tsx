@@ -1,3 +1,4 @@
+import { focusRingProps } from '@alveole/theme';
 import { RadioGroup as TamaguiRadioGroup } from 'tamagui';
 import { useStyles } from './RadioGroup.styles';
 import { useRadioGroup } from './RadioGroupContext';
@@ -36,6 +37,11 @@ export const RadioInput = (props: RadioInputProps) => {
       style={itemStyles}
       hoverStyle={indicatorStyle as any}
       pressStyle={styles.itemContainerActive}
+      {...focusRingProps()}
+      // Tamagui injecte sa propre regle `:focus-visible` en `!important` derriere un selecteur
+      // `:root:root:root:root` : la regle CSS du theme ne peut pas la battre, et sans cette prop
+      // c'est le gris translucide de Tamagui qui s'affiche. La valeur vient de `focusRing()`,
+      // qui peint le meme bleu que la regle : un seul reglage, deux chemins pour l'appliquer.
       focusVisibleStyle={styles.itemContainerFocused}
       onPress={handleChange}
     >

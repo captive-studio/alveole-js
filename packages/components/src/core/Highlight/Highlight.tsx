@@ -2,7 +2,7 @@ import React, { CSSProperties, ReactNode } from 'react';
 import { ScrollView, StyleSheet, Text, TextStyle, View } from 'react-native';
 // Le type est importé en `import type` : il est effacé à l'exécution, donc l'index du
 // paquet, qui charge aussi toute la moitié highlight.js, n'est jamais évalué.
-import { CustomPalette, MonospaceFont, withMinimumContrast } from '@alveole/theme';
+import { CustomPalette, focusRingProps, MonospaceFont, withMinimumContrast } from '@alveole/theme';
 import type { SyntaxHighlighterProps } from 'react-syntax-highlighter';
 import { ghcolors } from 'react-syntax-highlighter/dist/esm/styles/prism';
 import { useStyles } from './Highlight.styles';
@@ -139,6 +139,9 @@ export const Highlight = ({ children, language, style, variant = 'standalone' }:
     <ScrollView
       horizontal
       focusable
+      // La zone est focalisable exprès (cf. ci-dessus) : elle doit donc montrer la bague du
+      // kit, et non le contour par defaut du navigateur.
+      {...focusRingProps()}
       // `styles.highlight` pose `overflow: scroll`, ce qui ferait défiler le conteneur de
       // contenu en doublon du `ScrollView` qui l'entoure. C'est ce doublon intérieur qu'axe
       // signalait : il défile sans pouvoir recevoir le focus, que porte l'extérieur.

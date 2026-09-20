@@ -10,6 +10,9 @@ type Table = Record<string, StyleValue>;
 
 const groupe = ({ text, color, spacing, radius }: Theme) =>
   ({
+    // Voir `RadioInput.tsx` : Tamagui impose sa propre bague en `!important`, seule sa prop
+    // `focusVisibleStyle` peut la remplacer. Meme source que la regle CSS du theme.
+    itemContainerFocused: focusRing('default'),
     container: {
       width: '100%',
       display: 'flex',
@@ -55,7 +58,6 @@ const ligne = ({ color, spacingValue }: Theme) =>
     itemContainerActive: {
       borderColor: color.light.border['action-high-primary'],
     },
-    itemContainerFocused: focusRing('default'),
     itemIndicator: {
       backgroundColor: color.light.background['action-high-primary'],
       height: 8,

@@ -1,4 +1,5 @@
 import React from 'react';
+import type { TextInputProps } from 'react-native';
 import {
   FormControl,
   FormControlCaption,
@@ -43,6 +44,10 @@ export const OtpField = React.forwardRef<FormControlOtpInputElement, OtpFieldPro
         focusColor={styles.focusedPinCodeContainerStyle.borderColor}
         theme={otpTheme(styles, { disabled, error, success })}
         onTextChange={onChange}
+        // `outline` est une propriete du web que le `TextStyle` de react-native ne connait
+        // pas : la conversion est explicite ici parce que c'est la frontiere, comme dans
+        // `ButtonIcon`. Le style lui-meme se relit et s'eprouve dans la table.
+        textInputProps={{ style: styles.hiddenInputStyle as TextInputProps['style'] }}
         {...props}
       />
 
