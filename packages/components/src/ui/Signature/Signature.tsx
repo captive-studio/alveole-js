@@ -1,11 +1,9 @@
-import { DateFormats, displayDate, isValidDate } from '@alveole/core';
 import { useTheme } from '@alveole/theme';
 import * as React from 'react';
 import SignatureCanvas, { SignatureViewRef } from 'react-native-signature-canvas';
 import { Box, BoxProps } from '../../core/Box';
-import { Typography } from '../../core/Typography';
-import { Button } from '../Button';
 import { useStyles } from './Signature.styles';
+import { SignatureHeader } from './SignatureHeader';
 
 export type SignatureProps = Omit<BoxProps, 'children'> & {
   height: number;
@@ -17,6 +15,60 @@ export type SignatureProps = Omit<BoxProps, 'children'> & {
   onEnd?: () => void;
 };
 
+// Le canevas natif est une WebView : son apparence ne se regle qu'en lui injectant une feuille
+// de style. La construire hors du composant garde cette chaine CSS hors de la fonction de rendu,
+// dont elle occupait le quart sans rien devoir a l'etat.
+const feuilleDeStyleCanvas = ({
+  height,
+  rayon,
+  couleurBordure,
+}: {
+  height: number;
+  rayon: string | number;
+  couleurBordure: string;
+}) => `
+    .m-signature-pad {
+      box-shadow: none;
+      border-radius: ${rayon}px;
+      border-color: ${couleurBordure};
+      border-width: 2px;
+      height: ${height}px;
+    }
+    .m-signature-pad--body {border: none; overflow: hidden; border-radius: ${rayon}px}
+    .m-signature-pad--footer {display: none; margin: 0px;}
+    .button, .description {display: none;}
+  `;
+
+// La WebView ne rend le trace qu'a la demande : chaque fin de geste replanifie une lecture 100 ms
+// plus tard, si bien qu'un trace continu n'en declenche qu'une. Le minuteur doit etre annule a
+// l'effacement comme au demontage, sous peine de lire un canevas disparu. Ce cycle de vie est la
+// seule logique du composant : l'isoler laisse la fonction de rendu au rendu.
+const useLectureDifferee = (ref: React.RefObject<SignatureViewRef | null>, onChange: SignatureProps['onChange']) => {
+  const lectureEnAttente = React.useRef<ReturnType<typeof setTimeout> | null>(null);
+
+  const annulerLecture = () => {
+    if (lectureEnAttente.current) clearTimeout(lectureEnAttente.current);
+    lectureEnAttente.current = null;
+  };
+
+  React.useEffect(() => annulerLecture, []);
+
+  return {
+    handleOk: (signature: string | null) => onChange(signature),
+    handleEnd: () => {
+      annulerLecture();
+      lectureEnAttente.current = setTimeout(() => {
+        ref.current?.readSignature();
+        lectureEnAttente.current = null;
+      }, 100);
+    },
+    handleClear: () => {
+      annulerLecture();
+      onChange(null);
+    },
+  };
+};
+
 export const Signature = (props: SignatureProps) => {
   const { height, date = new Date(), dateLabel = 'Le', clearButtonLabel = 'Effacer', onChange, onBegin, onEnd } = props;
 
@@ -24,58 +76,18 @@ export const Signature = (props: SignatureProps) => {
   const styles = useStyles();
 
   const ref = React.useRef<SignatureViewRef>(null);
-  const readTimeoutRef = React.useRef<ReturnType<typeof setTimeout> | null>(null);
-
-  const handleOk = (signature: string | null) => {
-    onChange(signature);
-  };
-
-  const handleEnd = () => {
-    if (readTimeoutRef.current) clearTimeout(readTimeoutRef.current);
-    readTimeoutRef.current = setTimeout(() => {
-      ref.current?.readSignature();
-      readTimeoutRef.current = null;
-    }, 100);
-  };
-
-  const handleClear = () => {
-    if (readTimeoutRef.current) {
-      clearTimeout(readTimeoutRef.current);
-      readTimeoutRef.current = null;
-    }
-    onChange(null);
-  };
-
-  React.useEffect(() => {
-    return () => {
-      if (readTimeoutRef.current) clearTimeout(readTimeoutRef.current);
-    };
-  }, []);
-
-  const dateFormat = isValidDate(date) ? displayDate(date, { format: DateFormats.DateSlash }) : String(date);
+  const { handleOk, handleEnd, handleClear } = useLectureDifferee(ref, onChange);
 
   const webviewHeightWithBorders = height + spacingValue('200') + spacingValue('100') + 3;
-  const webviewStyle = `
-    .m-signature-pad {
-      box-shadow: none;
-      border-radius: ${spacing('3V')}px;
-      border-color: ${color.border['default-grey']};
-      border-width: 2px;
-      height: ${height}px;
-    }
-    .m-signature-pad--body {border: none; overflow: hidden; border-radius: ${spacing('3V')}px}
-    .m-signature-pad--footer {display: none; margin: 0px;}
-    .button, .description {display: none;}
-  `;
 
   return (
     <Box height={webviewHeightWithBorders} width={'100%'}>
-      <Box style={styles.headerSignature}>
-        <Typography style={styles.date}>
-          {dateLabel} {dateFormat}
-        </Typography>
-        <Button size="sm" title={clearButtonLabel} variant="tertiary" onPress={() => ref.current?.clearSignature()} />
-      </Box>
+      <SignatureHeader
+        date={date}
+        dateLabel={dateLabel}
+        clearButtonLabel={clearButtonLabel}
+        onClear={() => ref.current?.clearSignature()}
+      />
       <Box tag="signature" height={'100%'} onTouchEnd={onEnd} maxH={webviewHeightWithBorders} style={styles.container}>
         <SignatureCanvas
           ref={ref}
@@ -90,7 +102,11 @@ export const Signature = (props: SignatureProps) => {
           onBegin={onBegin}
           androidHardwareAccelerationDisabled
           webviewProps={{ cacheEnabled: false, androidLayerType: 'software' }}
-          webStyle={webviewStyle}
+          webStyle={feuilleDeStyleCanvas({
+            height,
+            rayon: spacing('3V'),
+            couleurBordure: color.border['default-grey'],
+          })}
         />
       </Box>
     </Box>

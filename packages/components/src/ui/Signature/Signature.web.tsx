@@ -1,11 +1,24 @@
-import { DateFormats, displayDate, isValidDate } from '@alveole/core';
 import ReactSignature, { SignatureRef } from '@uiw/react-signature';
 import * as React from 'react';
 import { Box } from '../../core/Box';
-import { Typography } from '../../core/Typography';
-import { Button } from '../Button';
 import { SignatureProps } from './Signature';
 import { useStyles } from './Signature.styles';
+import { SignatureHeader } from './SignatureHeader';
+
+// Conversion pure du trace en data-URL : elle ne depend ni des props ni de l'etat, et la garder
+// dans le corps du composant la faisait redefinir a chaque rendu pour rien.
+const serializeSvgToBase64 = (svg: SVGSVGElement): Promise<string> =>
+  new Promise(resolve => {
+    const svgString = new XMLSerializer().serializeToString(svg);
+    const blob = new Blob([svgString], { type: 'image/svg+xml' });
+    const reader = new FileReader();
+
+    reader.onloadend = () => {
+      resolve(reader.result as string);
+    };
+
+    reader.readAsDataURL(blob);
+  });
 
 export const Signature = (props: SignatureProps) => {
   const {
@@ -21,21 +34,6 @@ export const Signature = (props: SignatureProps) => {
   const styles = useStyles();
   const signatureRef = React.useRef<SignatureRef | null>(null);
   const [signatureInstanceVersion, setSignatureInstanceVersion] = React.useState(0);
-
-  const serializeSvgToBase64 = (svg: SVGSVGElement): Promise<string> => {
-    return new Promise(resolve => {
-      const svgString = new XMLSerializer().serializeToString(svg);
-      const blob = new Blob([svgString], { type: 'image/svg+xml' });
-      const reader = new FileReader();
-
-      reader.onloadend = () => {
-        const base64data = reader.result as string;
-        resolve(base64data);
-      };
-
-      reader.readAsDataURL(blob);
-    });
-  };
 
   React.useEffect(() => {
     const svgEl = signatureRef.current?.svg;
@@ -68,16 +66,9 @@ export const Signature = (props: SignatureProps) => {
     onChange(null);
   };
 
-  const dateFormat = isValidDate(date) ? displayDate(date, { format: DateFormats.DateSlash }) : String(date);
-
   return (
     <Box tag="signature" style={[styles.container, style]} {...boxProps}>
-      <Box style={styles.headerSignature}>
-        <Typography style={styles.date}>
-          {dateLabel} {dateFormat}
-        </Typography>
-        <Button title={clearButtonLabel} variant="tertiary" size="sm" onPress={handleClear} />
-      </Box>
+      <SignatureHeader date={date} dateLabel={dateLabel} clearButtonLabel={clearButtonLabel} onClear={handleClear} />
       <Box style={{ ...styles.signatureWeb, height }}>
         <ReactSignature
           ref={attacherSignature}
