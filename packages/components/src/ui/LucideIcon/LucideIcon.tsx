@@ -1,3 +1,4 @@
+import { ComponentProps } from 'react';
 import { Platform, StyleProp, ViewStyle } from 'react-native';
 import { LucideIconName, LucideIconProps } from './LucideIcon.props';
 import * as LabIcons from './vendor/lab';
@@ -7,6 +8,15 @@ import { Icon as BaseIcon, LucideIcon as Icon } from './vendor/lucide';
 export const strokeWidth = 1.5;
 
 export type IconProps = LucideIconProps;
+
+// Les deux paquets vendor exposent leurs icones comme exports nommes : c'est un objet de module,
+// pas une table indexable par un nom calcule. Les aplatir une fois au chargement donne la table
+// que le rendu cherchait, sans forcer le typage et sans la reconstruire a chaque icone rendue.
+const iconesLucide = Object.fromEntries(Object.entries(LucideIcons)) as Record<string, Icon | undefined>;
+const iconesLab = Object.fromEntries(Object.entries(LabIcons)) as Record<
+  string,
+  NonNullable<ComponentProps<typeof BaseIcon>['iconNode']>
+>;
 
 // Chaque plateforme a une convention visuelle différente pour le partage :
 // iOS utilise la flèche vers le haut (Share), Android le symbole à trois points (Share2),
@@ -32,8 +42,6 @@ export const LucideIcon = (props: IconProps) => {
     name = resolveShareIconName(_platformOverride ?? Platform.OS);
   }
 
-  const iconMap = LucideIcons as unknown as Record<string, Icon | undefined>;
-
   const sizeMap: Record<IconProps['size'], number> = {
     xs: 12,
     sm: 16,
@@ -45,7 +53,7 @@ export const LucideIcon = (props: IconProps) => {
   const defaultStyle = { stroke: color ?? 'currentColor' };
   const mergedStyle = [defaultStyle, style];
 
-  const IconComponent = iconMap[name];
+  const IconComponent = iconesLucide[name];
 
   if (IconComponent) {
     return (
@@ -60,7 +68,7 @@ export const LucideIcon = (props: IconProps) => {
 
   return (
     <BaseIcon
-      iconNode={(LabIcons as any)?.[name]}
+      iconNode={iconesLab[name]}
       style={mergedStyle as StyleProp<ViewStyle>}
       strokeWidth={strokeWidth}
       color={color}
