@@ -1,5 +1,6 @@
 import type { Colors, CustomTypography, Fonts, Grilles, Palette, Spacing, SpacingKey, Variant } from '../constants';
 import type { ControlSize, ControlSizeKey } from '../constants/Control';
+import type { PillSize, PillSizeKey } from '../constants/Pill';
 import { Radius, RadiusKey } from '../constants/Radius';
 import { alpha } from '../helpers/alphaColor';
 import { elevationStyle } from '../helpers/elevationStyle';
@@ -26,6 +27,9 @@ export interface Theme {
 
   // Dimensions des controles, selon la densite d'ecran
   control: (key: ControlSizeKey) => ControlSize;
+
+  // Dimensions des puces (Tag, Badge, Counter) : densite unique, cf. Pill.ts
+  pill: (key: PillSizeKey) => PillSize;
 
   // Grilles
   grilles: typeof Grilles;

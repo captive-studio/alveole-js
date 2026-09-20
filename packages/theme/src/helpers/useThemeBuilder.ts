@@ -18,6 +18,7 @@ import {
   Spacings,
 } from '../constants';
 import { controlSizesFor } from '../constants/Control';
+import { pillSizeFor } from '../constants/Pill';
 import { Radius, RadiusList } from '../constants/Radius';
 import { alpha } from './alphaColor';
 import { toCSSVarPalette } from './cssVarPalette';
@@ -80,6 +81,9 @@ export function useThemeBuilder(params: CustomBuilder): Theme & { isReady: boole
 
     // Dimensions des controles : la densite suit la largeur d'ecran, comme externalPadding
     control: key => controlSizesFor(variant)[key],
+
+    // Dimensions des puces : une seule densite, une puce n'etant pas une cible tactile
+    pill: pillSizeFor,
 
     // Grilles
     grilles: Grilles,

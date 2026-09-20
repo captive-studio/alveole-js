@@ -1,9 +1,10 @@
 import { makeStyles } from '@alveole/theme';
 
-export const useStyles = makeStyles(({ color, spacing, text, radius }) => ({
+export const useStyles = makeStyles(({ color, text, radius, pill }) => ({
   counter: {
-    paddingRight: spacing('1,5V'),
-    paddingLeft: spacing('1,5V'),
+    height: pill('sm').height,
+    paddingRight: pill('sm').paddingInline,
+    paddingLeft: pill('sm').paddingInline,
     backgroundColor: color.light.background['contrast-grey'],
     borderRadius: radius('full'),
     ...text['Corps de texte'].XS.Bold,

@@ -1,6 +1,6 @@
 import { makeStyles } from '@alveole/theme';
 
-export const useStyles = makeStyles(({ radius, text, color, spacing }) => ({
+export const useStyles = makeStyles(({ radius, text, color, pill }) => ({
   badge: {
     borderRadius: radius('sm'),
     marginRight: 'auto',
@@ -38,15 +38,17 @@ export const useStyles = makeStyles(({ radius, text, color, spacing }) => ({
 
   // Sizes
   badgeSm: {
-    paddingLeft: spacing('1,5V'),
-    paddingRight: spacing('1,5V'),
-    gap: spacing('1V'),
+    height: pill('sm').height,
+    paddingLeft: pill('sm').paddingInline,
+    paddingRight: pill('sm').paddingInline,
+    gap: pill('sm').gap,
     ...text['Corps de texte'].XS.CapsBold,
   },
   badgeMd: {
-    paddingLeft: spacing('1W'),
-    paddingRight: spacing('1W'),
-    gap: spacing('1V'),
+    height: pill('md').height,
+    paddingLeft: pill('md').paddingInline,
+    paddingRight: pill('md').paddingInline,
+    gap: pill('md').gap,
     ...text['Corps de texte'].SM.CapsBold,
   },
 }));

@@ -6,6 +6,7 @@ jest.mock('@alveole/theme', () => {
   const { contrastRatio, withMinimumContrast } = jest.requireActual('../../../theme/src/helpers/contrastColor');
   const { CustomPalette } = jest.requireActual('../../../theme/src/constants/Palette');
   const { controlSizesFor } = jest.requireActual('../../../theme/src/constants/Control');
+  const { PillSizes } = jest.requireActual('../../../theme/src/constants/Pill');
   const { RadiusList } = jest.requireActual('../../../theme/src/constants/Radius');
   const { Grilles } = jest.requireActual('../../../theme/src/constants/Grille');
   const { focusBorder, focusRing } = jest.requireActual('../../../theme/src/constants/Focus');
@@ -74,6 +75,8 @@ jest.mock('@alveole/theme', () => {
     grilles: Grilles,
     isVariant: variant => variant === 'desktop',
     control: key => controlSizesFor('desktop')[key],
+    // Densite unique, contrairement a `control` : aucun choix de variante a faire ici.
+    pill: key => PillSizes[key],
     radius: key => RadiusList[key],
     shadows: () => ({}),
     spacing: key => Spacings[key],
