@@ -27,6 +27,14 @@ test('aligne le conteneur de valeurs sur la hauteur du cadre', () => {
   expect(getComputedStyle(conteneurDeValeurs).minHeight).toBe(getComputedStyle(cadreEl).minHeight);
 });
 
+// Pendant horizontal du test ci-dessus : la hauteur suivait deja l'echelle de controle,
+// le retrait restait un litteral d'espacement.
+test('aligne le retrait horizontal des valeurs sur l echelle de controle', () => {
+  const { result } = renderHookOnDesktop(() => useStyles());
+
+  expect(result.current.valueContainer.paddingLeft).toBe(12);
+});
+
 // react-select compose ses styles lui-meme : la bordure se lit sur le `control` qu'il rend,
 // et non sur une classe du kit. Le cadre se trouve par sa classe, et non depuis le champ :
 // un selecteur desactive ne rend aucun combobox.

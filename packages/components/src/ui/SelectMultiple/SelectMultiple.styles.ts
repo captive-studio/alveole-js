@@ -59,7 +59,8 @@ const contenuDuChamp = ({ color, spacing, control }: Theme) =>
       // Desaccordait le champ avec lui-meme : ce conteneur forcait le cadre au-dela de
       // `control.minHeight` (32), qui porte deja la hauteur voulue.
       minHeight: control('md').height,
-      paddingLeft: spacing('2W'),
+      // Meme creux horizontal que le bouton md et que Select/TextField.
+      paddingLeft: control('md').paddingInline,
     },
     multiValue: {
       borderRadius: spacing('1V'),

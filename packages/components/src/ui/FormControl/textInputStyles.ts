@@ -20,7 +20,8 @@ export type InputFrameState = FieldBorderState & {
  * ajustement.
  *
  * Les deux annulations de rembourrage liees aux ornements n'ont aucun effet visible, le
- * cadre portant deja `padding: 0` et les 16 px reels vivant sur le champ enfant. Elles
+ * cadre portant deja `padding: 0` et le retrait reel vivant sur le champ enfant, ou il
+ * suit l'echelle de controle (`control('md').paddingInline`, 12 desktop / 16 mobile). Elles
  * sont conservees telles quelles : les retirer ne changerait rien, les corriger
  * deplacerait le texte de tous les champs a ornement. Cf. le test qui fige ce constat.
  */

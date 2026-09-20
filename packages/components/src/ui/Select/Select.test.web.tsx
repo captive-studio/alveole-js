@@ -42,6 +42,18 @@ test('aligne la hauteur du champ sur celle du bouton md', () => {
   expect(getComputedStyle(champ).minHeight).toBe(getComputedStyle(bouton).height);
 });
 
+// Pendant horizontal du test ci-dessus : la hauteur venait deja de l'echelle de controle,
+// le retrait restait un litteral d'espacement, si bien qu'un champ et un bouton accoles
+// n'avaient pas le meme creux interne.
+test('aligne le retrait horizontal du champ sur l echelle de controle', () => {
+  const { result } = renderHookOnDesktop(() => useSelectStyles());
+
+  expect({
+    gauche: result.current.inputInner.paddingLeft,
+    droite: result.current.inputInner.paddingRight,
+  }).toEqual({ gauche: 12, droite: 12 });
+});
+
 test('autorise la saisie quand la recherche est demandée', () => {
   renderWeb(<Select label="Pays" value={null} options={OPTIONS} searchable />);
 

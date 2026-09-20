@@ -34,13 +34,13 @@ it('applique la hauteur de la taille md par defaut', async () => {
 it('applique le rembourrage horizontal de la taille sm', async () => {
   const view = await renderNative(<Button variant="primary" title="Enregistrer" size="sm" />);
 
-  expect(conteneur(view)?.props.style.paddingLeft).toBe(12); // spacing('3V')
+  expect(conteneur(view)?.props.style.paddingLeft).toBe(8); // control('sm').paddingInline
 });
 
 it('applique le rembourrage horizontal de la taille lg', async () => {
   const view = await renderNative(<Button variant="primary" title="Enregistrer" size="lg" />);
 
-  expect(conteneur(view)?.props.style.paddingLeft).toBe(24); // spacing('3W')
+  expect(conteneur(view)?.props.style.paddingLeft).toBe(16); // control('lg').paddingInline
 });
 
 // Sans `title`, le bouton passe en mode icone seule : la chaine de ternaires sur `size`
@@ -54,17 +54,16 @@ it('applique un cadre carre en mode icone seule', async () => {
   expect(style.width).toBe(style.height);
 });
 
-// Le design prevoyait qu'une icone resserre le rembourrage de son cote, 16 -> 12 en md.
-// Ca n'a jamais fonctionne : les styles d'icone etaient poses en tete de l'objet puis
-// ecrases par le style de taille, qui definit paddingLeft et paddingRight pour les quatre
-// tailles. Le code qui les choisissait a donc ete supprime plutot que recopie a
-// l'identique dans une table. Ce test fige l'apparence reelle, pas l'intention : la
-// corriger changerait tous les boutons a icone de toutes les applications, et releve du
-// design, pas du refactoring.
+// Le design prevoyait qu'une icone resserre le rembourrage de son cote. Ca n'a jamais
+// fonctionne : les styles d'icone etaient poses en tete de l'objet puis ecrases par le
+// style de taille, qui definit paddingLeft et paddingRight pour les quatre tailles. Le
+// code qui les choisissait a donc ete supprime plutot que recopie a l'identique dans une
+// table. Ce test fige l'apparence reelle, pas l'intention : la corriger changerait tous
+// les boutons a icone de toutes les applications, et releve du design, pas du refactoring.
 it('garde le rembourrage de la taille quand une icone precede le libelle', async () => {
   const view = await renderNative(<Button variant="primary" title="Enregistrer" startIcon="Check" />);
 
-  expect(conteneur(view)?.props.style.paddingLeft).toBe(16); // spacing('2W'), celui de mdContainer
+  expect(conteneur(view)?.props.style.paddingLeft).toBe(12); // control('md').paddingInline
 });
 
 it('applique le style d appui quand le menu est deplie', async () => {

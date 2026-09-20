@@ -46,12 +46,12 @@ const commun = ({ spacing, spacingValue, radius }: Theme) =>
     },
   }) satisfies Table;
 
-const tailles = ({ text, spacing, radius, control }: Theme) =>
+const tailles = ({ text, radius, control }: Theme) =>
   ({
     smContainer: {
       height: '100%',
-      paddingLeft: spacing('3V'),
-      paddingRight: spacing('3V'),
+      paddingLeft: control('sm').paddingInline,
+      paddingRight: control('sm').paddingInline,
 
       borderTopLeftRadius: radius('sm'),
       borderBottomLeftRadius: radius('sm'),
@@ -60,13 +60,13 @@ const tailles = ({ text, spacing, radius, control }: Theme) =>
     },
     mdContainer: {
       height: '100%',
-      paddingLeft: spacing('2W'),
-      paddingRight: spacing('2W'),
+      paddingLeft: control('md').paddingInline,
+      paddingRight: control('md').paddingInline,
     },
     lgContainer: {
       height: '100%',
-      paddingLeft: spacing('3W'),
-      paddingRight: spacing('3W'),
+      paddingLeft: control('lg').paddingInline,
+      paddingRight: control('lg').paddingInline,
     },
     // `sm` et `md` sont volontairement identiques : le Figma ne distingue pas les deux en mode
     // icone seule. Les garder separes laisse la porte ouverte sans changer l'apparence.

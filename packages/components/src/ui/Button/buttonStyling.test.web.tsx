@@ -15,6 +15,22 @@ const etat = (surcharge: Partial<EtatDuBouton>): EtatDuBouton => ({
   ...surcharge,
 });
 
+// Le bouton tirait sa hauteur de l'echelle de controle mais son retrait d'un litteral, si
+// bien que `control(...).paddingInline` ne pilotait rien. C'est la meme echelle qui doit
+// creuser le bouton et le champ, sans quoi les deux se desaccordent au premier ajustement.
+test('creuse le bouton md selon l echelle de controle', () => {
+  expect(styles().mdContainer.paddingLeft).toBe(12);
+});
+
+test('creuse les boutons sm et lg selon la meme echelle', () => {
+  const table = styles();
+
+  expect({ sm: table.smContainer.paddingLeft, lg: table.lgContainer.paddingLeft }).toEqual({
+    sm: 8,
+    lg: 16,
+  });
+});
+
 test('donne a chaque variante son propre fond de survol', () => {
   const table = styles();
 
