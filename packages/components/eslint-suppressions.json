@@ -1,12 +1,4 @@
 {
-  "src/ui/Card/CardSection.tsx": {
-    "complexity": {
-      "count": 1
-    },
-    "max-lines-per-function": {
-      "count": 1
-    }
-  },
   "src/ui/DataTable/DataTable.stories.tsx": {
     "max-lines": {
       "count": 1
