@@ -1,9 +1,4 @@
 {
-  "src/ui/DocumentViewer/DocumentViewer.tsx": {
-    "max-lines-per-function": {
-      "count": 1
-    }
-  },
   "src/ui/EmptyState/EmptyState.tsx": {
     "complexity": {
       "count": 1
