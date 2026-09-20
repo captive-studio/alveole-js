@@ -1,55 +1,17 @@
-import React from 'react';
 import { Box } from '../../core/Box';
 import { useStyles } from './DocumentViewer.styles';
-import {
-  isDocumentViewerRotation,
-  type DocumentViewerProps,
-  type DocumentViewerRotation,
-} from './DocumentViewer.types';
+import { type DocumentViewerProps } from './DocumentViewer.types';
 import { DocumentViewerImage } from './DocumentViewerImage';
 import { DocumentViewerPDF } from './DocumentViewerPDF';
-import { DocumentViewerToolbar, DocumentViewerToolbarState } from './DocumentViewerToolbar';
+import { DocumentViewerToolbar } from './DocumentViewerToolbar';
+import { usePilotageDeDocument } from './usePilotageDeDocument';
 
 export const DocumentViewer = (props: DocumentViewerProps) => {
   const { children, title, source, type, height = '100%', ChildrenProps, pdfErrorLabel, ...boxProps } = props;
 
   const styles = useStyles();
-
-  const [rotation, setRotation] = React.useState<DocumentViewerRotation>(0);
-  const [page, setPage] = React.useState(1);
-  const [totalPages, setTotalPages] = React.useState(1);
-
-  const state = React.useMemo<DocumentViewerToolbarState>(() => {
-    return {
-      fileType: type,
-      rotation,
-      page,
-      totalPages,
-    };
-  }, [type, rotation, page, totalPages]);
-
-  const handleRotate = React.useCallback(
-    (direction: 'right' | 'left') => {
-      let newRotation = direction === 'right' ? rotation + 90 : rotation - 90;
-      if (newRotation < 0) newRotation = 270;
-      if (newRotation > 270) newRotation = 0;
-      if (isDocumentViewerRotation(newRotation)) setRotation(newRotation);
-    },
-    [rotation],
-  );
-
-  const handleNextPage = React.useCallback(() => {
-    setPage(currentPage => Math.min(currentPage + 1, totalPages));
-  }, [totalPages]);
-
-  const handlePreviousPage = React.useCallback(() => {
-    setPage(currentPage => Math.max(currentPage - 1, 1));
-  }, []);
-
-  const handlePdfReady = React.useCallback((proxy: { numPages: number }) => {
-    setTotalPages(proxy.numPages);
-    setPage(currentPage => Math.min(currentPage, proxy.numPages));
-  }, []);
+  const { rotation, page, state, onPdfReady, onRotateLeft, onRotateRight, onNextPage, onPreviousPage } =
+    usePilotageDeDocument(type);
 
   return (
     <Box tag="document-viewer-wrapper" height={height} style={styles.viewerWrapper}>
@@ -58,10 +20,10 @@ export const DocumentViewer = (props: DocumentViewerProps) => {
           title={title}
           state={state}
           withChildren={children != null}
-          onRotateLeft={() => handleRotate('left')}
-          onRotateRight={() => handleRotate('right')}
-          onNextPage={handleNextPage}
-          onPreviousPage={handlePreviousPage}
+          onRotateLeft={onRotateLeft}
+          onRotateRight={onRotateRight}
+          onNextPage={onNextPage}
+          onPreviousPage={onPreviousPage}
         />
 
         <Box
@@ -79,7 +41,7 @@ export const DocumentViewer = (props: DocumentViewerProps) => {
                 page={page}
                 rotation={rotation}
                 height={height}
-                onReady={handlePdfReady}
+                onReady={onPdfReady}
                 errorLabel={pdfErrorLabel}
               />
             )}
