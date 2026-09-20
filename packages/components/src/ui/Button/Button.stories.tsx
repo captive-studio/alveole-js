@@ -16,12 +16,14 @@ export default {
 } satisfies Story;
 
 /**
- * Les quatre variants, du plus au moins appuyé.
+ * Les cinq variants, du plus au moins appuyé.
  *
  * - `primary` : l'action principale. **Une seule par zone**.
  * - `secondary` : les actions courantes, celles qu'on pose à côté de la principale.
  * - `tertiary` : les actions discrètes, dans une barre d'outils ou une ligne de tableau.
  * - `danger` : une action destructrice, réservée à la confirmation finale.
+ * - `link` : une action qui se lit comme un lien, sans cadre ni fond. C'est ce que les
+ *   applications utilisent pour rendre une valeur cliquable dans une fiche ou une carte.
  */
 export const Variants = () => (
   <Box display="flex" flexDirection="row" gap={24}>
@@ -29,6 +31,7 @@ export const Variants = () => (
     <Button variant="secondary" title="Secondary" />
     <Button variant="tertiary" title="Tertiary" />
     <Button variant="danger" title="Danger" />
+    <Button variant="link" title="Link" />
   </Box>
 );
 
@@ -111,5 +114,31 @@ export const IconOnly = () => (
 
 /** Le bouton remplit la largeur de son parent, au lieu de s'ajuster à son contenu. */
 export const FullWidth = () => <Button variant="primary" title="Full Width" fullWidth />;
+
+/**
+ * Trois props retirent au bouton une partie de sa mise en forme, pour qu'il se fonde dans ce
+ * qui l'entoure. Elles ne s'emploient pas isolément : elles servent trois motifs précis, qu'on
+ * retrouve à l'identique dans les applications.
+ *
+ * - `leftAlign` aligne le contenu à gauche au lieu de le centrer. C'est le bouton d'action
+ *   d'une ligne de tableau, qui doit s'aligner sur sa colonne.
+ * - `borderNone` retire les arrondis, **et seulement eux** : la bordure reste. C'est le bouton
+ *   de pied de barre latérale, qui doit s'aligner sur les entrées de la barre plutôt que
+ *   flotter au-dessus d'elles. Son nom décrit donc mal ce qu'il fait.
+ * - `noPadding` supprime le creux horizontal. C'est la valeur cliquable d'une fiche, qui doit
+ *   commencer exactement là où commencerait le texte.
+ *
+ * Ces props décrivent un retrait, pas une intention : le kit ne nomme pas encore ces trois
+ * motifs, et les applications les recomposent donc à la main à chaque fois.
+ */
+export const Layout = () => (
+  <Box display="flex" gap={16} style={{ width: 240 }}>
+    <Button variant="secondary" title="Par défaut" fullWidth />
+    <Button variant="secondary" title="leftAlign" fullWidth leftAlign />
+    <Button variant="secondary" title="borderNone" fullWidth borderNone />
+    <Button variant="link" title="Par défaut" leftAlign fullWidth />
+    <Button variant="link" title="noPadding" leftAlign fullWidth noPadding />
+  </Box>
+);
 
 export * as Sources from './Button.stories.sources';
