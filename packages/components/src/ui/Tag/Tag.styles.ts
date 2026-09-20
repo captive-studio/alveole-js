@@ -1,10 +1,12 @@
 import { makeStyles } from '@alveole/theme';
 
-export const useStyles = makeStyles(({ radius, text, color, spacing }) => ({
+export const useStyles = makeStyles(({ radius, text, color, pill }) => ({
   tagContainer: {
     display: 'block',
   },
   tag: {
+    display: 'inline-flex',
+    alignItems: 'center',
     borderRadius: radius('full'),
   },
 
@@ -19,18 +21,18 @@ export const useStyles = makeStyles(({ radius, text, color, spacing }) => ({
   },
 
   // Sizes
+  // Aucun retrait vertical : la hauteur est fixee et le libelle centre par `alignItems`.
+  // Un padding vertical en plus ne ferait que rouvrir la porte a une hauteur implicite.
   tagSm: {
-    paddingLeft: spacing('1W'),
-    paddingRight: spacing('1W'),
-    paddingTop: 0,
-    paddingBottom: 0,
+    height: pill('sm').height,
+    paddingLeft: pill('sm').paddingInline,
+    paddingRight: pill('sm').paddingInline,
     ...text['Corps de texte'].XS.Bold,
   },
   tagMd: {
-    paddingLeft: spacing('3V'),
-    paddingRight: spacing('3V'),
-    paddingTop: spacing('1V'),
-    paddingBottom: spacing('1V'),
+    height: pill('md').height,
+    paddingLeft: pill('md').paddingInline,
+    paddingRight: pill('md').paddingInline,
     ...text['Corps de texte'].SM.Bold,
   },
 }));
