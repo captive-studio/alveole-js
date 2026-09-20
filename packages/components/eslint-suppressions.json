@@ -17,31 +17,8 @@
       "count": 1
     }
   },
-  "src/ui/DragAndDropFile/DragAndDropFile.tsx": {
-    "max-lines-per-function": {
-      "count": 1
-    }
-  },
-  "src/ui/DragAndDropFile/DragAndDropFile.web.tsx": {
-    "max-lines-per-function": {
-      "count": 1
-    }
-  },
   "src/ui/EmptyState/EmptyState.tsx": {
     "complexity": {
-      "count": 1
-    }
-  },
-  "src/ui/FileField/FileField.tsx": {
-    "complexity": {
-      "count": 1
-    }
-  },
-  "src/ui/FormControl/FormControlFileInput.tsx": {
-    "complexity": {
-      "count": 1
-    },
-    "max-lines-per-function": {
       "count": 1
     }
   },

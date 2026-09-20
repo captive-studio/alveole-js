@@ -1,5 +1,4 @@
 import React from 'react';
-import { Alert } from '../../core/Alert';
 import { Box } from '../../core/Box';
 import { Image } from '../../core/Image';
 import {
@@ -11,10 +10,10 @@ import {
   FormControlHint,
   FormControlHintProps,
   FormControlLabel,
+  valideLeType,
 } from '../FormControl';
 import { LucideIcon, LucideIconProps } from '../LucideIcon';
 import { useStyles } from './DragAndDropFile.styles';
-import { fichierCorrespondAuType } from './fichierCorrespondAuType';
 
 export type DragAndDropFileValue = FormControlFileInputValue;
 export type DragAndDropFileProps = FormControlHintProps &
@@ -31,36 +30,7 @@ export const DragAndDropFile = (props: DragAndDropFileProps) => {
 
   const [forceOpen, setForceOpen] = React.useState(false);
 
-  const onValueChange: typeof onChange = value => {
-    if (type == null) return onChange(value);
-
-    if (multiple && Array.isArray(value)) {
-      const invalidFiles = value.filter(file => {
-        const mimeType = file?.mimeType;
-        return mimeType == null || !fichierCorrespondAuType(mimeType, file?.name, type);
-      });
-
-      if (invalidFiles.length > 0) {
-        Alert.alert({
-          title: 'Type de fichier incorrect',
-          message: `Certains fichiers ne sont pas pris en charge`,
-        });
-        return;
-      }
-      return onChange(value);
-    }
-
-    const mimeType = (value as any)?.mimeType;
-    if (mimeType == null) return onChange(value);
-
-    if (fichierCorrespondAuType(mimeType, (value as any)?.name, type)) return onChange(value);
-    else {
-      Alert.alert({
-        title: 'Type de fichier incorrect',
-        message: `Le format du fichier n'est pas pris en charge`,
-      });
-    }
-  };
+  const onValueChange = valideLeType({ type, onChange });
 
   return (
     <Box
