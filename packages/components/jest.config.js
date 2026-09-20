@@ -125,7 +125,7 @@ module.exports = {
     global: {
       statements: 59,
       branches: 48,
-      functions: 58,
+      functions: 59,
       lines: 60,
     },
   },
@@ -134,6 +134,8 @@ module.exports = {
     '!src/**/*.test.*',
     '!src/**/*.stories.tsx',
     '!src/**/*.stories.sources.ts',
+    // Les jeux de donnees et cellules de demonstration des stories : du decor, jamais livre.
+    '!src/**/*.demo.*.tsx',
     '!src/**/index.ts',
   ],
 };
