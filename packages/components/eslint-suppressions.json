@@ -1,7 +1,2 @@
 {
-  "src/ui/TextInputArray/TextInputArray.tsx": {
-    "max-lines-per-function": {
-      "count": 1
-    }
-  }
 }
