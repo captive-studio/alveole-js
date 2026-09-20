@@ -118,6 +118,17 @@ test('remonte les valeurs ajoutees puis retirees', () => {
   expect(onChange).toHaveBeenCalledWith(['fr', 'en']);
 });
 
+// Un effacement complet remonte une liste vide, et non une absence de valeur : le formulaire
+// appelant n'a pas a distinguer « rien de choisi » de « choix retire ».
+test('remonte une liste vide quand toute la selection est effacee', () => {
+  const onChange = jest.fn();
+  renderWeb(<SelectMultiple label="Langues" options={OPTIONS} value={['fr']} onChange={onChange} />);
+
+  fireEvent.keyDown(screen.getByRole('combobox'), { key: 'Backspace' });
+
+  expect(onChange).toHaveBeenLastCalledWith([]);
+});
+
 // jsdom ne resout ni les pseudo-classes emises par react-select ni le raccourci `outline`
 // de ses classes : un survol declenche dans le DOM ne change rien au style calcule, et un
 // contour remis reste invisible a `getComputedStyle`. Un test de rendu passerait donc quoi

@@ -9,13 +9,13 @@ import React, { useCallback, useMemo, useState } from 'react';
 import { Keyboard } from 'react-native';
 import { Box } from '../../core/Box';
 import {
+  FieldFrame,
   FormControlCaptionProps,
   FormControlHintProps,
   FormControlLabelProps,
   TextInput,
   TextInputProps,
 } from '../FormControl';
-import { DateInputFrame } from './DateInputFrame';
 
 type MinuteInterval = 1 | 2 | 3 | 4 | 5 | 6 | 10 | 12 | 15 | 20 | 30;
 
@@ -139,7 +139,7 @@ export const DateInput = React.forwardRef<any, DateInputProps>(function DateInpu
 
   return (
     <Box tag="date-input" onPress={handleOpen}>
-      <DateInputFrame {...props}>
+      <FieldFrame {...props}>
         <TextInput
           ref={ref}
           placeholder="JJ/MM/AAAA"
@@ -164,7 +164,7 @@ export const DateInput = React.forwardRef<any, DateInputProps>(function DateInpu
             minuteInterval={minuteInterval}
           />
         )}
-      </DateInputFrame>
+      </FieldFrame>
     </Box>
   );
 });

@@ -32,39 +32,6 @@
       "count": 1
     }
   },
-  "src/ui/Select/Select.test.tsx": {
-    "max-lines-per-function": {
-      "count": 1
-    }
-  },
-  "src/ui/Select/Select.tsx": {
-    "complexity": {
-      "count": 1
-    },
-    "max-lines-per-function": {
-      "count": 1
-    }
-  },
-  "src/ui/Select/Select.web.tsx": {
-    "max-lines-per-function": {
-      "count": 1
-    }
-  },
-  "src/ui/Select/SelectBottomSheet.tsx": {
-    "max-lines-per-function": {
-      "count": 1
-    }
-  },
-  "src/ui/Select/SelectItem.tsx": {
-    "complexity": {
-      "count": 1
-    }
-  },
-  "src/ui/SelectMultiple/SelectMultiple.web.tsx": {
-    "max-lines-per-function": {
-      "count": 1
-    }
-  },
   "src/ui/Sidebar/SidebarItem.tsx": {
     "sonarjs/no-identical-functions": {
       "count": 1
