@@ -1,4 +1,7 @@
-import { displayDate, displayDatetime } from './displayDate';
+import { enGB } from 'date-fns/locale/en-GB';
+import { fr } from 'date-fns/locale/fr';
+import { DateFormats } from './dateFormat';
+import { displayDate, displayDatetime, getDateFnsLocale } from './displayDate';
 
 describe('displayDate', () => {
   it('formate une date string ISO correctement', () => {
@@ -20,6 +23,19 @@ describe('displayDate', () => {
     const result = displayDate('2025-07-22', { format: 'd MMMM yyyy' });
     expect(result).toBe('22 July 2025');
   });
+
+  it('retourne une chaîne vide si la date est absente', () => {
+    expect(displayDate(undefined)).toBe('');
+  });
+
+  it('retourne le fallback si la date est absente', () => {
+    expect(displayDate(undefined, { fallback: 'Jamais' })).toBe('Jamais');
+  });
+
+  it('met la première lettre en majuscule si capitalize est demandé', () => {
+    const result = displayDate('2025-07-22', { format: DateFormats.Month, locale: fr, capitalize: true });
+    expect(result).toBe('Juillet');
+  });
 });
 
 describe('displayDatetime', () => {
@@ -37,5 +53,16 @@ describe('displayDatetime', () => {
     const date = new Date('2025-07-22T10:45:00');
     const result = displayDatetime(date);
     expect(result).toBe('22 July 2025 à 10:45');
+  });
+});
+
+describe('getDateFnsLocale', () => {
+  it('rend la locale française pour un code langue français', () => {
+    expect(getDateFnsLocale('fr-FR')).toBe(fr);
+  });
+
+  it('retombe sur enGB pour tout autre code langue, ou aucun', () => {
+    expect(getDateFnsLocale('en')).toBe(enGB);
+    expect(getDateFnsLocale()).toBe(enGB);
   });
 });

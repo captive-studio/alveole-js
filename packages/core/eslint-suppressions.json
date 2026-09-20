@@ -1,12 +1,1 @@
-{
-  "src/date/displayDate.ts": {
-    "complexity": {
-      "count": 1
-    }
-  },
-  "src/date/formatMinutes.ts": {
-    "complexity": {
-      "count": 1
-    }
-  }
-}
+{}
