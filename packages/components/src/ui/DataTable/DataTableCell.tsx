@@ -2,6 +2,7 @@ import React from 'react';
 import { Box } from '../../core/Box';
 import { useStyles } from './DataTable.styles';
 import { DataTableAlign, DataTableSize } from './DataTable.types';
+import { dataTableCellStyle } from './dataTableCellStyle';
 
 export type DataTableCellProps = {
   align?: DataTableAlign;
@@ -17,24 +18,10 @@ export const DataTableCell = (props: DataTableCellProps) => {
   const { align = 'start', width, children, variant = 'body', size = 'sm', onPress, noPadding = false } = props;
   const styles = useStyles();
 
-  const paddingStyles = {
-    header: { sm: styles.headerCellSm, md: styles.headerCellMd, lg: styles.headerCellLg },
-    body: { sm: styles.cellSm, md: styles.cellMd, lg: styles.cellLg },
-  }[variant][size];
+  const aspect = dataTableCellStyle(styles, { variant, size, align, width, noPadding, pressable: onPress != null });
 
   return (
-    <Box
-      tag={variant === 'header' ? 'data-table-header-cell' : 'data-table-cell'}
-      onPress={onPress}
-      hoverStyle={onPress ? { opacity: 0.8 } : undefined}
-      style={[
-        variant === 'header' ? styles.headerCell : styles.cell,
-        noPadding ? {} : paddingStyles,
-        align === 'end' ? styles.cellAlignEnd : {},
-        width !== undefined ? { width, flex: 'none' as const } : { flex: 1 },
-        onPress ? { cursor: 'pointer' } : {},
-      ]}
-    >
+    <Box tag={aspect.tag} onPress={onPress} hoverStyle={aspect.hover} style={aspect.style}>
       {children}
     </Box>
   );
