@@ -4,6 +4,7 @@ import { Platform } from 'react-native';
 import { Box } from '../Box';
 import { Typography } from '../Typography';
 import { createMarkdownComponents } from './markdownComponents';
+import { replierLesCoupuresDeLigne } from './replierLesCoupuresDeLigne';
 
 export type MarkdownDescriptionProps = {
   children: string;
@@ -66,7 +67,7 @@ export const MarkdownDescription = ({ children, taille = 'MD', color: textColor 
 
   return (
     <Box tag="markdown-description" display="flex" gap={8}>
-      <ReactMarkdown remarkPlugins={[remarkGfm]} components={components}>
+      <ReactMarkdown remarkPlugins={[remarkGfm, replierLesCoupuresDeLigne]} components={components}>
         {children}
       </ReactMarkdown>
     </Box>
