@@ -160,7 +160,7 @@ isVariant('mobile'); // boolean
 const { color } = useTheme();
 
 color.Neutre[700];
-color.Mandarine[50];
+color.Watusi[50];
 color.alpha(color.Neutre[900], 0.5); // 'rgba(55, 58, 63, 0.5)'
 ```
 
@@ -170,7 +170,7 @@ color.alpha(color.Neutre[900], 0.5); // 'rgba(55, 58, 63, 0.5)'
 <ThemeProvider
   color={{
     Neutre: { 100: '#F7F7F7' },
-    Mandarine: { 50: '#FFF3EA' },
+    Watusi: { 50: '#FEF5F2' },
   }}
 >
   <App />
@@ -214,7 +214,7 @@ var(--spacing-3W)
 
 /* Colors */
 var(--color-Neutre-200)
-var(--color-Mandarine-50)
+var(--color-Watusi-50)
 ```
 
 ## Références
