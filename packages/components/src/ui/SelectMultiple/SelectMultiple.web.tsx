@@ -1,58 +1,27 @@
 import { useTheme } from '@alveole/theme';
 import React from 'react';
-import ReactSelect, { components, StylesConfig } from 'react-select';
+import ReactSelect, { components } from 'react-select';
 import { Box } from '../../core/Box';
-import { FormControl, FormControlCaption, FormControlHint, FormControlLabel } from '../FormControl';
-import { InputHeading } from '../InputHeading';
+import { FieldFrame } from '../FormControl';
 import { LucideIcon } from '../LucideIcon';
-import type { SelectMultipleOption, SelectMultipleProps } from './SelectMultiple';
+import type { SelectMultipleProps } from './SelectMultiple';
 import { useStyles } from './SelectMultiple.styles';
-import { selectMultipleControlStyle } from './selectMultipleControlStyle';
+import { selectMultipleStylesConfig } from './selectMultipleStylesConfig';
 
-export const SelectMultiple = React.forwardRef<any, SelectMultipleProps>(function SelectMultiple(props, ref) {
-  const { value, label, labelRight, hint, error, success, placeholder = '', disabled, options, onChange } = props;
-
-  const styles = useStyles();
+const MultiValueRemove = (props: any) => {
   const { color } = useTheme();
 
-  const selectStyles: StylesConfig<SelectMultipleOption, true> = {
-    control: (s, p) => ({
-      ...s,
-      ...selectMultipleControlStyle(styles, {
-        isDisabled: p.isDisabled,
-        isFocused: p.isFocused,
-        error,
-        success,
-      }),
-    }),
-    valueContainer: s => ({
-      ...s,
-      ...styles.valueContainer,
-      padding: '0 8px',
-    }),
-    placeholder: s => ({ ...s, color: color.light.text['mention-grey'] }),
-    multiValue: (s, p) => ({
-      ...s,
-      ...styles.multiValue,
-      ...(p.isDisabled ? styles.multiValueDisabled : {}),
-    }),
-    multiValueRemove: (s, p) => ({
-      ...s,
-      ':hover': styles.multiValueRemoveHover,
-      ...(p.isDisabled ? styles.multiValueRemoveDisabled : {}),
-    }),
-    dropdownIndicator: s => ({ ...s, ...styles.dropdownIndicator }),
-    indicatorSeparator: () => ({ display: 'none' }),
-    clearIndicator: s => ({ ...s, ...styles.clearIndicator }),
-  };
-
-  const MultiValueRemove = (props: any) => (
+  return (
     <components.MultiValueRemove {...props}>
       <LucideIcon name="X" size="xs" color={color.light.text['default-grey']} />
     </components.MultiValueRemove>
   );
+};
 
-  const DropdownIndicator = (props: any) => (
+const DropdownIndicator = (props: any) => {
+  const { color } = useTheme();
+
+  return (
     <components.DropdownIndicator {...props}>
       <LucideIcon
         name="ChevronDown"
@@ -61,6 +30,13 @@ export const SelectMultiple = React.forwardRef<any, SelectMultipleProps>(functio
       />
     </components.DropdownIndicator>
   );
+};
+
+export const SelectMultiple = React.forwardRef<any, SelectMultipleProps>(function SelectMultiple(props, ref) {
+  const { value, label, error, success, placeholder = '', disabled, options, onChange } = props;
+
+  const styles = useStyles();
+  const { color } = useTheme();
 
   const displayValue = React.useMemo(
     () => options?.filter(option => Array.isArray(value) && value.some(v => `${v}` === `${option.value}`)),
@@ -68,39 +44,32 @@ export const SelectMultiple = React.forwardRef<any, SelectMultipleProps>(functio
   );
 
   return (
-    <FormControl style={styles.select}>
-      <InputHeading>
-        {!!label && (
-          <FormControlLabel labelRight={labelRight} label={label} disabled={disabled} error={error} success={success} />
-        )}
-        {!!hint && <FormControlHint hint={hint} disabled={disabled} />}
-      </InputHeading>
-
+    <FieldFrame {...props} style={styles.select}>
       <Box tag="form-control-select-input" style={styles.inputContainer}>
         <Box style={{ ...(disabled ? styles.inputDisabled : {}) }}>
           <ReactSelect
             ref={ref}
             aria-label={label}
             value={displayValue}
-            styles={selectStyles}
+            styles={selectMultipleStylesConfig(
+              styles,
+              { placeholder: color.light.text['mention-grey'] },
+              {
+                error,
+                success,
+              },
+            )}
             isMulti
             placeholder={placeholder}
             options={options}
             noOptionsMessage={() => 'Aucun résultat'}
-            onChange={selectedOptions => {
-              if (Array.isArray(selectedOptions)) {
-                onChange?.(selectedOptions.map(o => String(o.value)));
-              } else {
-                onChange?.([]);
-              }
-            }}
+            // Un effacement complet remonte une liste vide, jamais une absence de valeur.
+            onChange={selectedOptions => onChange?.((selectedOptions ?? []).map(option => String(option.value)))}
             isDisabled={disabled}
             components={{ DropdownIndicator, MultiValueRemove }}
           />
         </Box>
       </Box>
-
-      {(error || success) && <FormControlCaption error={error} success={success} />}
-    </FormControl>
+    </FieldFrame>
   );
 });

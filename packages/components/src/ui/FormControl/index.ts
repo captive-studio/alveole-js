@@ -1,4 +1,5 @@
 export * from './fichierCorrespondAuType';
+export * from './FieldFrame';
 export * from './FieldId';
 export * from './FormControl';
 export * from './FormControlCaption';

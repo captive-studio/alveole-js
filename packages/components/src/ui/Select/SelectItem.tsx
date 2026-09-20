@@ -3,6 +3,7 @@ import { Box } from '../../core/Box';
 import { Typography } from '../../core/Typography';
 import { LucideIcon, LucideIconProps } from '../LucideIcon';
 import { useStyles } from './SelectList.styles';
+import { selectItemStyle } from './selectItemStyle';
 
 export type SelectItemProps = {
   label: string;
@@ -21,30 +22,28 @@ export type SelectItemProps = {
  * le conteneur porteur du clavier et de l'ARIA (web, via `components.Option`
  * de react-select) est fourni par l'appelant.
  */
-export const SelectItem = (props: SelectItemProps) => {
-  const { label, icon, selected = false, highlighted = false, disabled = false, multiple = false } = props;
-
+export const SelectItem = ({ label, icon, selected, highlighted, disabled, multiple }: SelectItemProps) => {
   const styles = useStyles();
   const { color } = useTheme();
 
-  const iconColor = disabled ? color.light.text['disabled-grey'] : color.light.text['default-grey'];
+  const aspect = selectItemStyle(
+    styles,
+    { texte: color.light.text['default-grey'], texteDesactive: color.light.text['disabled-grey'] },
+    { selected, highlighted, disabled },
+  );
 
   return (
-    <Box tag="select-item" style={{ ...styles.item, ...(disabled ? styles.itemDisabled : {}) }}>
+    <Box tag="select-item" style={aspect.item}>
       {selected && !multiple && (
         <Box tag="select-item-indicator" style={styles.indicator}>
           <Box style={styles.indicatorContent} />
         </Box>
       )}
 
-      <Box
-        tag="select-item-band"
-        style={{ ...styles.band, ...(selected || highlighted ? styles.bandHighlighted : {}) }}
-        hoverStyle={disabled ? undefined : styles.bandHighlighted}
-      >
-        {icon && <LucideIcon size="sm" name={icon} color={iconColor} />}
+      <Box tag="select-item-band" style={aspect.band} hoverStyle={aspect.bandHover}>
+        {icon && <LucideIcon size="sm" name={icon} color={aspect.icone} />}
 
-        <Typography style={{ ...styles.itemLabel, ...(disabled ? styles.itemLabelDisabled : {}) }}>{label}</Typography>
+        <Typography style={aspect.label}>{label}</Typography>
 
         {multiple && selected && <LucideIcon size="sm" name="Check" color={color.light.text['action-high-primary']} />}
       </Box>

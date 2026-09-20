@@ -5,8 +5,7 @@ import { toDate } from 'date-fns/toDate';
 import React, { useCallback } from 'react';
 import { Keyboard, Platform } from 'react-native';
 import { Box } from '../../core/Box';
-import { FormControlModal, TextInput } from '../FormControl';
-import { DateInputFrame } from './DateInputFrame';
+import { FieldFrame, FormControlModal, TextInput } from '../FormControl';
 
 import type { DateInputProps } from './DateInput';
 
@@ -106,7 +105,7 @@ export const DateInput = React.forwardRef<any, DateInputProps>(function DateInpu
         </Box>
       </FormControlModal>
 
-      <DateInputFrame {...props}>
+      <FieldFrame {...props}>
         <TextInput
           ref={ref}
           placeholder="JJ/MM/AAAA"
@@ -117,7 +116,7 @@ export const DateInput = React.forwardRef<any, DateInputProps>(function DateInpu
           onPress={handleOpen}
           readOnly
         />
-      </DateInputFrame>
+      </FieldFrame>
     </Box>
   );
 });
