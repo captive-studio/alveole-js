@@ -1,4 +1,4 @@
-import { focusRing, makeStyles, StyleValue, useTheme } from '@alveole/theme';
+import { makeStyles, StyleValue, useTheme } from '@alveole/theme';
 
 type Theme = ReturnType<typeof useTheme>;
 
@@ -55,15 +55,18 @@ const onglet = ({ color, spacing, radius }: Theme) =>
       display: 'flex',
       alignItems: 'center',
       gap: spacing('1W'),
+      // La bague de focus, posee par le CSS du theme, epouse le `border-radius` de l'element
+      // qu'elle entoure : sans rayon, elle dessinerait un rectangle sec autour de la pastille
+      // arrondie (`wrapper`) qu'elle contient. Mais seulement les coins hauts : le souligne de
+      // l'onglet actif est le `border-bottom` de ce meme element, et l'arrondir le transforme
+      // en moignon recourbe au lieu du trait droit pleine largeur de Primer.
+      borderTopLeftRadius: radius('md'),
+      borderTopRightRadius: radius('md'),
     },
     tabsTabActive: {
       borderBottomColor: color.light.border['default-primary'],
       borderBottomWidth: 2,
     },
-    // `tabsTab` (le bouton focalisable) n'a pas de rayon propre : sans `borderRadius` ici,
-    // l'anneau dessinerait un rectangle sec autour de la zone de clic complete au lieu
-    // d'epouser la pastille arrondie (`wrapper`, `radius('md')`) qu'il contient visuellement.
-    tabsTabFocused: { ...focusRing('default'), borderRadius: radius('md') },
     wrapper: {
       display: 'flex',
       flexDirection: 'row',

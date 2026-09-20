@@ -1,3 +1,4 @@
+import { focusRingProps } from '@alveole/theme';
 import { Href, Link } from 'expo-router';
 import React, { CSSProperties, createContext, useContext } from 'react';
 import { Pressable } from 'react-native';
@@ -36,7 +37,7 @@ export const A = (props: AProps) => {
       push={direction === 'push'}
       dismissTo={direction === 'dismiss'}
     >
-      <Pressable accessibilityRole="link" aria-current={ariaCurrent} style={styles.link as any}>
+      <Pressable accessibilityRole="link" aria-current={ariaCurrent} style={styles.link as any} {...focusRingProps()}>
         <Box tag="a-pressable" style={{ ...styles.pressable, ...style }} hoverStyle={hoverStyle}>
           {children}
         </Box>

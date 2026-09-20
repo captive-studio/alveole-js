@@ -4,6 +4,7 @@ import { FontWeightMap } from '../constants/Font';
 import { RadiusList } from '../constants/Radius';
 import { CustomTypography } from '../constants/Typography';
 import { Theme } from '../type';
+import { generateFocusRingCSS } from './focusRingCSS';
 import { sanitizeCSSKey } from './sanitizeCSSKey';
 import { typographyVariableLines } from './typographyVariables';
 
@@ -126,4 +127,5 @@ const DefaultTheme = {
 export const generateThemeCSSParts = (theme: Theme = DefaultTheme): string[] => [
   generateFontFaceCSS(),
   generateCSSVariables(theme),
+  generateFocusRingCSS(),
 ];

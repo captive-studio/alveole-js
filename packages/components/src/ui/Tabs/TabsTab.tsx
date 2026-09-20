@@ -1,3 +1,4 @@
+import { focusRingProps } from '@alveole/theme';
 import { Tabs as TamaguiTabs, TabsTabProps as TamaguiTabsTabProps } from 'tamagui';
 import { Box } from '../../core/Box';
 import { Typography } from '../../core/Typography';
@@ -14,12 +15,11 @@ export type TabsTabProps = {
   etat: EtatDeLOnglet;
   disabled: boolean;
   onHover: (value: string | null) => void;
-  onFocusChange: (value: string | null) => void;
   onInteraction: TamaguiTabsTabProps['onInteraction'];
 };
 
 export const TabsTab = (props: TabsTabProps) => {
-  const { value, label, icon, counter, etat, disabled, onHover, onFocusChange, onInteraction } = props;
+  const { value, label, icon, counter, etat, disabled, onHover, onInteraction } = props;
   const styles = useStyles();
   const { onglet, enveloppe, icone, libelle } = apparenceDeLOnglet(styles, etat);
 
@@ -29,11 +29,12 @@ export const TabsTab = (props: TabsTabProps) => {
       onHoverIn={() => onHover(value)}
       onHoverOut={() => onHover(null)}
       onInteraction={onInteraction}
-      onFocus={() => onFocusChange(value)}
-      onBlur={() => onFocusChange(null)}
       value={value}
       disabled={disabled}
       style={onglet}
+      // La bague de focus vient du CSS du theme, pose sur `:focus-visible`. Le state React qui
+      // vivait ici la montrait aussi au clic a la souris.
+      {...focusRingProps()}
     >
       <Box style={enveloppe}>
         {icon && <LucideIcon name={icon} size="sm" color="currentColor" style={icone} />}

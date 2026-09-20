@@ -1,3 +1,4 @@
+import { focusRingProps } from '@alveole/theme';
 import React from 'react';
 import { Square, Accordion as TamaguiAccordion } from 'tamagui';
 import { Box } from '../../core/Box';
@@ -33,7 +34,7 @@ export const AccordionItem = (props: AccordionItemProps) => {
 
   return (
     <TamaguiAccordion.Item {...itemProps}>
-      <TamaguiAccordion.Trigger unstyled style={styles.accordionItemTrigger}>
+      <TamaguiAccordion.Trigger unstyled style={styles.accordionItemTrigger} {...focusRingProps()}>
         {({ open }: { open: boolean }) => (
           <Box backgroundColor={headerStyle(open).backgroundColor}>
             <Box style={headerStyle(open)} hoverStyle={headerStyle(open)} focusStyle={headerStyle(open)}>

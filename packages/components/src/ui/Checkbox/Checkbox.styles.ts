@@ -9,6 +9,9 @@ type Table = Record<string, StyleValue>;
 
 const coque = ({ spacing }: Theme) =>
   ({
+    // Voir `CheckboxContainer.tsx` : Tamagui impose sa propre bague en `!important`, seule sa
+    // prop `focusVisibleStyle` peut la remplacer. Meme source que la regle CSS du theme.
+    checkboxFocused: focusRing('default'),
     checkboxContainer: {
       display: 'flex',
       flexDirection: 'column',
@@ -44,7 +47,6 @@ const caseACocher = ({ color, spacingValue, radius }: Theme) =>
     checkboxSuccess: {
       borderColor: color.border['plain-success'],
     },
-    checkboxFocused: focusRing('default'),
     indicator: {
       height: spacingValue('150'),
       width: spacingValue('150'),

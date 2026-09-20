@@ -1,5 +1,5 @@
 import { AnchorHeading, Box, MarkdownDescription, Tag, Typography } from '@alveole/components';
-import { useTheme } from '@alveole/theme';
+import { FOCUS_ATTRIBUTE, useTheme } from '@alveole/theme';
 import { descriptionDeLExemple, sourceDeLExemple } from '../screens/sourcesDExemples';
 import { StorybookMeta, StorybookModule } from '../types';
 import { getStoryFlags } from '../utils';
@@ -58,7 +58,13 @@ const StatutDeLaFiche = ({ meta }: { meta: StorybookMeta }) => {
       </Box>
 
       {meta.figmaURL ? (
-        <a href={meta.figmaURL} rel="noreferrer" style={{ textDecoration: 'none' }} target="_blank">
+        <a
+          href={meta.figmaURL}
+          rel="noreferrer"
+          style={{ textDecoration: 'none' }}
+          target="_blank"
+          {...{ [FOCUS_ATTRIBUTE]: 'ring' }}
+        >
           <Typography style={{ ...text['Corps de texte'].SM.Bold, color: color.light.text['action-high-primary'] }}>
             Ouvrir Figma
           </Typography>

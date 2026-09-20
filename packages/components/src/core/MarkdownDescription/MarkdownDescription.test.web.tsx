@@ -1,4 +1,5 @@
-import { renderWeb } from '@/__tests__/helpers/renderWeb';
+import { renderWeb, screen } from '@/__tests__/helpers/renderWeb';
+import { FOCUS_ATTRIBUTE } from '@alveole/theme';
 import { MarkdownDescription } from './MarkdownDescription';
 
 // react-markdown ne distingue plus l'inline du bloc par une prop `inline` depuis la v9, et
@@ -101,4 +102,13 @@ test('MarkdownDescription applique la couleur passee en prop au texte du paragra
   );
 
   expect(getComputedStyle(getByText('Un texte.')).color).toBe('var(--text-mention-grey)');
+});
+
+// Les liens d'une description sont rendus par `Typography tag="a"` : de vrais `<a>`, qui
+// gardaient le contour `1px auto` du navigateur alors que tout le reste du kit montre la
+// bague. Trois liens dans le catalogue tombaient encore dessus (mesure en navigateur).
+test('demande la bague de focus au theme sur les liens', () => {
+  renderWeb(<MarkdownDescription>{'Voir [Primer](https://primer.style).'}</MarkdownDescription>);
+
+  expect(screen.getByRole('link').getAttribute(FOCUS_ATTRIBUTE)).toBe('ring');
 });

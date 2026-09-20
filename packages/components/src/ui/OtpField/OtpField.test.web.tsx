@@ -105,8 +105,11 @@ describe('le theme remis a la bibliotheque OTP', () => {
   const themeCalcule = (state: OtpThemeState = {}) =>
     renderHookOnDesktop(() => otpTheme(useStyles(), state)).result.current;
 
-  it('n entoure la cellule active d aucun contour ni ombre', () => {
-    expect(Object.keys(themeCalcule().focusedPinCodeContainerStyle)).toEqual(['borderWidth', 'borderColor']);
+  // Amendement de l'ADR 0016 : la cellule active porte un anneau, mais encastre - il se
+  // dessine a l'interieur, donc il ne decale pas la grille des cellules. L'ombre reste
+  // proscrite, elle deborderait sur les cellules voisines.
+  it('encastre l anneau de la cellule active, et n y pose aucune ombre', () => {
+    expect(Object.keys(themeCalcule().focusedPinCodeContainerStyle)).not.toContain('boxShadow');
   });
 
   it('colore la cellule active avec le token de focus', () => {
@@ -134,4 +137,15 @@ test('utilise le rayon de bordure de l echelle du theme sur la cellule', () => {
   const { result } = renderHookOnDesktop(() => useStyles());
 
   expect(result.current.pinCodeContainerStyle.borderRadius).toBe('var(--radius-md)');
+});
+
+// La bibliotheque cache la vraie saisie derriere les cellules. Cette saisie prend le focus,
+// et le navigateur lui posait son propre contour : mesure en navigateur, un champ clique
+// affichait le `1px auto` gris-bleu de Chrome par-dessus des cellules dont la bordure venait
+// deja de dire le focus. Deux indicateurs pour un seul etat, dont un qui n'est pas au kit.
+// Meme parade que `FormControl`, qui eteint le contour de ses `input` pour la meme raison.
+it('eteint le contour que le navigateur pose sur la saisie cachee', () => {
+  const { result } = renderHookOnDesktop(() => useStyles());
+
+  expect(result.current.hiddenInputStyle.outline).toBe('none');
 });
