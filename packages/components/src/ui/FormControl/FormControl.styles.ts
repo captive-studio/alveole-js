@@ -81,8 +81,10 @@ const champ = ({ text, color, spacing, control, radius }: Theme) =>
       // (control('md').height - lineHeight 20) / 2, comme pour l'onglet inactif de Tabs.
       marginTop: Platform.OS === 'web' ? spacing('1,5V') : spacing('1V'),
       marginBottom: Platform.OS === 'web' ? spacing('1,5V') : spacing('1V'),
-      paddingLeft: spacing('2W'),
-      paddingRight: spacing('2W'),
+      // Le meme retrait horizontal que le bouton md : c'est l'echelle de controle qui
+      // l'accorde, desktop (12) comme mobile (16), et non un litteral d'espacement.
+      paddingLeft: control('md').paddingInline,
+      paddingRight: control('md').paddingInline,
       minHeight: Platform.OS === 'web' ? undefined : control('md').height,
       flex: 1,
     },
