@@ -4,6 +4,7 @@ import { Label, TamaguiElement, Switch as TamaguiSwitch, SwitchProps as TamaguiS
 import { Box } from '../../core/Box';
 import { Typography } from '../../core/Typography';
 import { FormControlCaption } from '../FormControl';
+import { apparenceDuSwitch } from './Switch.apparence';
 import { useStyles } from './Switch.styles';
 
 export type SwitchElement = TamaguiElement;
@@ -35,25 +36,7 @@ export const Switch = React.forwardRef<SwitchElement, SwitchProps>(function Swit
     onCheckedChange?.(newValue);
   };
 
-  const switchButtonStyles = {
-    ...styles.switchButton,
-    ...(style ? style : {}),
-    ...(value ? styles.switchButtonChecked : {}),
-    ...(disabled ? styles.switchButtonDisabled : {}),
-  };
-
-  const switchThumbStyles = {
-    ...styles.switchThumb,
-    ...(value ? styles.switchThumbChecked : {}),
-    ...(disabled ? styles.switchThumbDisabled : {}),
-  };
-
-  const switchLabelStyles = {
-    ...styles.switchLabel,
-    ...(value ? styles.switchLabelChecked : {}),
-    ...(disabled ? styles.switchLabelDisabled : {}),
-    ...(noPadding ? { padding: 0, marginRight: 0 } : {}),
-  };
+  const { bouton, pouce, libelle } = apparenceDuSwitch(styles, { value, disabled, noPadding, style });
 
   const Toggle = (
     <TamaguiSwitch
@@ -62,12 +45,12 @@ export const Switch = React.forwardRef<SwitchElement, SwitchProps>(function Swit
       borderWidth={1}
       checked={value}
       onCheckedChange={onChange}
-      style={switchButtonStyles}
+      style={bouton}
       disabled={disabled}
       focusVisibleStyle={styles.switchButtonFocused}
       {...switchProps}
     >
-      <TamaguiSwitch.Thumb animation="quicker" style={switchThumbStyles} />
+      <TamaguiSwitch.Thumb animation="quicker" style={pouce} />
     </TamaguiSwitch>
   );
 
@@ -78,7 +61,7 @@ export const Switch = React.forwardRef<SwitchElement, SwitchProps>(function Swit
           {Toggle}
 
           {!!label && (
-            <Typography htmlFor={id} style={switchLabelStyles}>
+            <Typography htmlFor={id} style={libelle}>
               {label}
             </Typography>
           )}
