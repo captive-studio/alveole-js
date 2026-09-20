@@ -12,16 +12,6 @@
       "count": 1
     }
   },
-  "src/ui/DateInput/DateInput.ios.tsx": {
-    "max-lines-per-function": {
-      "count": 1
-    }
-  },
-  "src/ui/DateInput/DateInput.tsx": {
-    "max-lines-per-function": {
-      "count": 1
-    }
-  },
   "src/ui/DocumentViewer/DocumentViewer.tsx": {
     "max-lines-per-function": {
       "count": 1
@@ -44,11 +34,6 @@
   },
   "src/ui/FileField/FileField.tsx": {
     "complexity": {
-      "count": 1
-    }
-  },
-  "src/ui/FilterDate/FilterDate.tsx": {
-    "max-lines-per-function": {
       "count": 1
     }
   },

@@ -9,17 +9,13 @@ import React, { useCallback, useMemo, useState } from 'react';
 import { Keyboard } from 'react-native';
 import { Box } from '../../core/Box';
 import {
-  FormControl,
-  FormControlCaption,
   FormControlCaptionProps,
-  FormControlHint,
   FormControlHintProps,
-  FormControlLabel,
   FormControlLabelProps,
   TextInput,
   TextInputProps,
 } from '../FormControl';
-import { InputHeading } from '../InputHeading';
+import { DateInputFrame } from './DateInputFrame';
 
 type MinuteInterval = 1 | 2 | 3 | 4 | 5 | 6 | 10 | 12 | 15 | 20 | 30;
 
@@ -37,8 +33,85 @@ export type DateInputProps = TextInputProps &
     minuteInterval?: MinuteInterval;
   };
 
-export const DateInput = React.forwardRef<any, DateInputProps>(function DateInput(
-  {
+// Le selecteur natif ne sait demander qu'une chose a la fois : en mode `datetime`, il faut le
+// rouvrir en mode heure apres la date, et chaque etape doit remettre les deux drapeaux dans le
+// bon etat. Cette machine a etats occupait les deux tiers du composant et se lisait au milieu
+// du rendu ; isolee, elle expose exactement ce dont le rendu a besoin.
+const useSelecteurDate = ({
+  value,
+  type,
+  disabled,
+  onChange,
+}: Pick<DateInputProps, 'value' | 'disabled' | 'onChange'> & { type: NonNullable<DateInputProps['type']> }) => {
+  const [showPicker, setShowPicker] = useState(false);
+  const [isHours, setIsHours] = useState(false);
+
+  const selectedDate = useMemo(() => (value ? new Date(value) : new Date()), [value]);
+
+  const mode = useMemo<'date' | 'time'>(() => {
+    if (type === 'date') return type;
+    if (isHours) return 'time';
+    return 'date';
+  }, [isHours, type]);
+
+  const fermer = (heures: boolean) => {
+    setIsHours(heures);
+    setShowPicker(false);
+  };
+
+  const handleChange = (event: { type: string }, date?: Date) => {
+    if (event.type === 'dismissed') return fermer(false);
+    if (event.type !== 'set' || !isValidDate(date)) return;
+
+    if (type === 'datetime' && !isHours) {
+      const maintenant = new Date();
+
+      onChange?.(
+        displayDate(setMinutes(setHours(date, getHours(maintenant)), getMinutes(maintenant)), {
+          format: DateFormats.DateTimeString,
+        }),
+      );
+
+      setIsHours(true);
+      setShowPicker(true);
+      return;
+    }
+
+    if (type === 'datetime') {
+      onChange?.(
+        displayDate(setMinutes(setHours(selectedDate, getHours(date)), getMinutes(date)), {
+          format: DateFormats.DateTimeString,
+        }),
+      );
+    } else {
+      onChange?.(displayDate(date, { format: DateFormats.DateString }));
+    }
+
+    fermer(false);
+  };
+
+  const handleOpen = useCallback(() => {
+    if (!disabled) {
+      Keyboard.dismiss();
+      setShowPicker(true);
+    }
+  }, [disabled]);
+
+  const displayValue = useCallback(() => {
+    if (type === 'datetime') {
+      if (value == null) return 'Sélectionnez une date';
+      return displayDate(selectedDate, { format: DateFormats.Datetime, locale: fr });
+    }
+
+    if (value == null) return 'JJ/MM/AAAA';
+    return displayDate(selectedDate, { format: DateFormats.DateSlash });
+  }, [selectedDate, type, value]);
+
+  return { showPicker, mode, selectedDate, handleChange, handleOpen, displayValue };
+};
+
+export const DateInput = React.forwardRef<any, DateInputProps>(function DateInput(props, ref) {
+  const {
     label,
     labelRight,
     hint,
@@ -54,101 +127,24 @@ export const DateInput = React.forwardRef<any, DateInputProps>(function DateInpu
     display,
     type = 'date',
     onChange,
-    ...props
-  },
-  ref,
-) {
-  const [showPicker, setShowPicker] = useState(false);
-  const [isHours, setIsHours] = useState(false);
+    ...inputProps
+  } = props;
 
-  const selectedDate = React.useMemo(() => (value ? new Date(value) : new Date()), [value]);
-
-  const mode = useMemo(() => {
-    if (type === 'date') return type;
-    if (isHours) return 'time';
-    return 'date';
-  }, [isHours, type]);
-
-  const handleChange = (event: { type: string }, date?: Date) => {
-    if (event.type === 'dismissed') {
-      setIsHours(false);
-      setShowPicker(false);
-      return;
-    }
-
-    if (event.type === 'set' && isValidDate(date)) {
-      setShowPicker(false);
-
-      if (type === 'datetime' && !isHours) {
-        const currentHours = getHours(new Date());
-        const currentMinutes = getMinutes(new Date());
-
-        const newDate = displayDate(setMinutes(setHours(date, currentHours), currentMinutes), {
-          format: DateFormats.DateTimeString,
-        });
-        onChange?.(newDate);
-
-        setIsHours(true);
-        setShowPicker(true);
-        return;
-      } else if (type === 'datetime') {
-        const newDate = displayDate(setMinutes(setHours(selectedDate, getHours(date)), getMinutes(date)), {
-          format: DateFormats.DateTimeString,
-        });
-        onChange?.(newDate);
-        setIsHours(false);
-        setShowPicker(false);
-        return;
-      }
-
-      const newDate = displayDate(date, { format: DateFormats.DateString });
-      onChange?.(newDate);
-      setIsHours(false);
-      setShowPicker(false);
-    }
-  };
-
-  const handleOpen = React.useCallback(() => {
-    if (!disabled) {
-      Keyboard.dismiss();
-      setShowPicker(true);
-    }
-  }, [disabled]);
-
-  const displayValue = useCallback(
-    (value: string | undefined) => {
-      if (type === 'datetime') {
-        if (value == null) return 'Sélectionnez une date';
-        return displayDate(selectedDate, { format: DateFormats.Datetime, locale: fr });
-      }
-
-      if (value == null) return 'JJ/MM/AAAA';
-      return displayDate(selectedDate, { format: DateFormats.DateSlash });
-    },
-    [selectedDate, type],
-  );
+  const { showPicker, mode, selectedDate, handleChange, handleOpen, displayValue } = useSelecteurDate({
+    value,
+    type,
+    disabled,
+    onChange,
+  });
 
   return (
     <Box tag="date-input" onPress={handleOpen}>
-      <FormControl>
-        <InputHeading>
-          {!!label && (
-            <FormControlLabel
-              labelRight={labelRight}
-              label={label}
-              disabled={disabled}
-              error={error}
-              success={success}
-            />
-          )}
-          {!!hint && <FormControlHint hint={hint} disabled={disabled} />}
-        </InputHeading>
-
+      <DateInputFrame {...props}>
         <TextInput
           ref={ref}
           placeholder="JJ/MM/AAAA"
-          value={displayValue(value)}
-          {...props}
+          value={displayValue()}
+          {...inputProps}
           readOnly
           onPress={handleOpen}
           caretHidden={true}
@@ -168,9 +164,7 @@ export const DateInput = React.forwardRef<any, DateInputProps>(function DateInpu
             minuteInterval={minuteInterval}
           />
         )}
-
-        {(error || success) && <FormControlCaption error={error} success={success} />}
-      </FormControl>
+      </DateInputFrame>
     </Box>
   );
 });

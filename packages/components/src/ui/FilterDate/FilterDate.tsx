@@ -58,69 +58,152 @@ export const filerDateValueToDates = (
   return values.years.flatMap(y => values.months.map(m => `${y}-${format(new Date(2026, m - 1, 1), 'MM')}` as const));
 };
 
-export const FilterDate = (props: FilterDateProps) => {
-  const { title, local = 'fr', from, to, value, onChange } = props;
+// Les libelles n'existent qu'en deux jeux : les choisir un par un au fil du rendu laissait la
+// langue se decider a trois endroits differents.
+const libelles = (local: NonNullable<FilterDateProps['local']>) =>
+  local === 'fr'
+    ? { action: 'Effacer', annees: 'Années', mois: 'Mois', listeMois: monthsFr }
+    : { action: 'Clear', annees: 'Years', mois: 'Months', listeMois: monthsEn };
 
-  const actionLabel = local === 'fr' ? 'Effacer' : 'Clear';
-  const yearsLabel = local === 'fr' ? 'Années' : 'Years';
-  const monthsLabel = local === 'fr' ? 'Mois' : 'Months';
-
+const anneesEntre = (from: FilterDateProps['from'], to: FilterDateProps['to']) => {
   const fromYear = from === 'today' ? new Date().getFullYear() : from;
   const toYear = to === 'today' ? new Date().getFullYear() : to;
 
-  const yearsList = Array.from({ length: toYear - fromYear + 1 }, (_, i) => fromYear + i);
-  const monthsList = local === 'fr' ? monthsFr : monthsEn;
+  return Array.from({ length: toYear - fromYear + 1 }, (_, i) => fromYear + i);
+};
 
-  const [open, setOpen] = React.useState(false);
-
+// Annees et mois se selectionnent de la meme facon : on bascule une valeur dans une liste, puis
+// on republie les deux listes ensemble. Ecrit deux fois dans le composant, ce basculement en
+// faisait la moitie du corps sans rien devoir au rendu.
+const useSelectionPeriode = ({
+  value,
+  from,
+  to,
+  onChange,
+}: Pick<FilterDateProps, 'value' | 'from' | 'to' | 'onChange'>) => {
   const [years, setYears] = React.useState<number[]>(value.years);
   const [months, setMonths] = React.useState<number[]>(value.months);
-  const yearsScrollRef = React.useRef<ScrollView>(null);
 
+  const publier = (nouvellesAnnees: number[], nouveauxMois: number[]) => {
+    setYears(nouvellesAnnees);
+    setMonths(nouveauxMois);
+    onChange?.(
+      { years: nouvellesAnnees, months: nouveauxMois },
+      filerDateValueToDates({ years: nouvellesAnnees, months: nouveauxMois }, from, to),
+    );
+  };
+
+  const basculer = (liste: number[], valeur: number) =>
+    liste.includes(valeur) ? liste.filter(v => v !== valeur) : [...liste, valeur];
+
+  return {
+    years,
+    months,
+    vide: years.length === 0 && months.length === 0,
+    handleReset: () => publier([], []),
+    handlePressYear: (y: number) => publier(basculer(years, y), months),
+    handlePressMonth: (m: number) => publier(years, basculer(months, m)),
+  };
+};
+
+// La bande des annees defile horizontalement et doit toujours s'ouvrir sur l'annee la plus
+// recente : ce recalage a l'ouverture et au changement de contenu est le seul comportement
+// propre a cette section.
+const SectionAnnees = ({
+  titre,
+  annees,
+  selection,
+  onPress,
+  ouvert,
+}: {
+  titre: string;
+  annees: number[];
+  selection: number[];
+  onPress: (annee: number) => void;
+  ouvert: boolean;
+}) => {
   const styles = useStyles();
-
-  const disabledReset = React.useMemo(() => years.length === 0 && months.length === 0, [months.length, years.length]);
-  const hasValues = React.useMemo(() => years.length > 0 || months.length > 0, [months.length, years.length]);
+  const yearsScrollRef = React.useRef<ScrollView>(null);
 
   const scrollYearsToEnd = React.useCallback(() => {
     yearsScrollRef.current?.scrollToEnd({ animated: false });
   }, []);
 
   React.useEffect(() => {
-    if (open) {
+    if (ouvert) {
       requestAnimationFrame(scrollYearsToEnd);
     }
-  }, [open, scrollYearsToEnd]);
+  }, [ouvert, scrollYearsToEnd]);
 
-  const handleReset = React.useCallback(() => {
-    setYears([]);
-    setMonths([]);
-    onChange?.({ years: [], months: [] }, []);
-  }, [onChange]);
+  return (
+    <Box style={styles.partContainer}>
+      <Typography style={styles.partTitle}>{titre}</Typography>
 
-  const handlePressYear = React.useCallback(
-    (y: number) => {
-      let newYears = years;
-      if (newYears.includes(y)) newYears = newYears.filter(v => v !== y);
-      else newYears = [...newYears, y];
-
-      setYears(newYears);
-      onChange?.({ years: newYears, months }, filerDateValueToDates({ years: newYears, months }, from, to));
-    },
-    [from, months, onChange, to, years],
+      <ScrollView
+        ref={yearsScrollRef}
+        horizontal
+        nestedScrollEnabled
+        showsHorizontalScrollIndicator={false}
+        style={[styles.filtersHorizontalScroll, { width: '100%' }]}
+        contentContainerStyle={styles.filtersScroll}
+        onContentSizeChange={scrollYearsToEnd}
+      >
+        {annees.map(y => (
+          <Box key={`year--${y}`}>
+            <FilterDateButton type="year" title={y} selected={selection.includes(y)} onPress={() => onPress(y)} />
+          </Box>
+        ))}
+      </ScrollView>
+    </Box>
   );
+};
 
-  const handlePressMonth = React.useCallback(
-    (m: number) => {
-      let newMonths = months;
-      if (newMonths.includes(m)) newMonths = newMonths.filter(v => v !== m);
-      else newMonths = [...newMonths, m];
+const SectionMois = ({
+  titre,
+  mois,
+  selection,
+  onPress,
+}: {
+  titre: string;
+  mois: typeof monthsFr;
+  selection: number[];
+  onPress: (mois: number) => void;
+}) => {
+  const styles = useStyles();
 
-      setMonths(newMonths);
-      onChange?.({ years, months: newMonths }, filerDateValueToDates({ years, months: newMonths }, from, to));
-    },
-    [from, months, onChange, to, years],
+  return (
+    <Box style={styles.partContainer}>
+      <Typography style={styles.partTitle}>{titre}</Typography>
+
+      <Grid gap={'1W'} pl={'2W'} pr={'2W'}>
+        {mois.map(m => (
+          <Grid.Column key={`month--${m.value}`} size={4}>
+            <FilterDateButton
+              type="month"
+              title={m.label}
+              selected={selection.includes(m.value)}
+              onPress={() => onPress(m.value)}
+            />
+          </Grid.Column>
+        ))}
+      </Grid>
+    </Box>
   );
+};
+
+export const FilterDate = (props: FilterDateProps) => {
+  const { title, local = 'fr', from, to, value, onChange } = props;
+
+  const styles = useStyles();
+  const mots = libelles(local);
+  const [open, setOpen] = React.useState(false);
+
+  const { years, months, vide, handleReset, handlePressYear, handlePressMonth } = useSelectionPeriode({
+    value,
+    from,
+    to,
+    onChange,
+  });
 
   return (
     <React.Fragment>
@@ -129,7 +212,7 @@ export const FilterDate = (props: FilterDateProps) => {
         title={title}
         endIcon="ChevronDown"
         size="sm"
-        selected={hasValues}
+        selected={!vide}
         expanded={open}
         onPress={() => setOpen(true)}
       />
@@ -139,52 +222,18 @@ export const FilterDate = (props: FilterDateProps) => {
         title={title}
         open={open}
         setOpen={setOpen}
-        action={
-          <Button title={actionLabel} variant="tertiary" size="sm" disabled={disabledReset} onPress={handleReset} />
-        }
+        action={<Button title={mots.action} variant="tertiary" size="sm" disabled={vide} onPress={handleReset} />}
       >
         <Box style={styles.container}>
-          <Box style={styles.partContainer}>
-            <Typography style={styles.partTitle}>{yearsLabel}</Typography>
+          <SectionAnnees
+            titre={mots.annees}
+            annees={anneesEntre(from, to)}
+            selection={years}
+            onPress={handlePressYear}
+            ouvert={open}
+          />
 
-            <ScrollView
-              ref={yearsScrollRef}
-              horizontal
-              nestedScrollEnabled
-              showsHorizontalScrollIndicator={false}
-              style={[styles.filtersHorizontalScroll, { width: '100%' }]}
-              contentContainerStyle={styles.filtersScroll}
-              onContentSizeChange={scrollYearsToEnd}
-            >
-              {yearsList.map(y => (
-                <Box key={`year--${y}`}>
-                  <FilterDateButton
-                    type="year"
-                    title={y}
-                    selected={years.includes(y)}
-                    onPress={() => handlePressYear(y)}
-                  />
-                </Box>
-              ))}
-            </ScrollView>
-          </Box>
-
-          <Box style={styles.partContainer}>
-            <Typography style={styles.partTitle}>{monthsLabel}</Typography>
-
-            <Grid gap={'1W'} pl={'2W'} pr={'2W'}>
-              {monthsList.map(m => (
-                <Grid.Column key={`month--${m.value}`} size={4}>
-                  <FilterDateButton
-                    type="month"
-                    title={m.label}
-                    selected={months.includes(m.value)}
-                    onPress={() => handlePressMonth(m.value)}
-                  />
-                </Grid.Column>
-              ))}
-            </Grid>
-          </Box>
+          <SectionMois titre={mots.mois} mois={mots.listeMois} selection={months} onPress={handlePressMonth} />
         </Box>
       </BottomSheet>
     </React.Fragment>
