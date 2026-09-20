@@ -1,12 +1,4 @@
 {
-  "src/ui/Switch/Switch.tsx": {
-    "complexity": {
-      "count": 1
-    },
-    "max-lines-per-function": {
-      "count": 1
-    }
-  },
   "src/ui/Tabs/Tabs.tsx": {
     "max-lines-per-function": {
       "count": 1
