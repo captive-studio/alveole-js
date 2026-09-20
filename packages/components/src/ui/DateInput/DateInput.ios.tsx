@@ -5,20 +5,61 @@ import { toDate } from 'date-fns/toDate';
 import React, { useCallback } from 'react';
 import { Keyboard, Platform } from 'react-native';
 import { Box } from '../../core/Box';
-import {
-  FormControl,
-  FormControlCaption,
-  FormControlHint,
-  FormControlLabel,
-  FormControlModal,
-  TextInput,
-} from '../FormControl';
-import { InputHeading } from '../InputHeading';
+import { FormControlModal, TextInput } from '../FormControl';
+import { DateInputFrame } from './DateInputFrame';
 
 import type { DateInputProps } from './DateInput';
 
 const toDateString = (date: Date, datetime?: boolean) =>
   displayDate(date, { format: datetime ? DateFormats.DateTimeString : DateFormats.DateString });
+
+// Sur iOS le selecteur vit dans une modale : la date y est choisie sans etre remontee, et
+// seule la validation la publie. Ce brouillon, son ouverture et son formatage d'affichage
+// sont la seule logique du composant ; les garder dans le corps de rendu melait la conduite
+// de la modale a la description du champ.
+const useBrouillonDate = ({
+  value,
+  type,
+  disabled,
+  onChange,
+}: Pick<DateInputProps, 'value' | 'disabled' | 'onChange'> & { type: NonNullable<DateInputProps['type']> }) => {
+  const [open, setOpen] = React.useState(false);
+  const [date, setDate] = React.useState(value ?? toDateString(new Date(), type === 'datetime'));
+
+  const handleOpen = useCallback(() => {
+    if (!disabled) {
+      Keyboard.dismiss();
+      setOpen(true);
+    }
+  }, [disabled]);
+
+  const handleValidate = useCallback(() => {
+    if (isValidDate(date)) onChange?.(date);
+    setOpen(false);
+  }, [date, onChange]);
+
+  const displayValue = useCallback(() => {
+    if (!value) return '';
+
+    return type === 'datetime'
+      ? displayDate(toDate(value), { format: DateFormats.Datetime, locale: fr })
+      : displayDate(toDate(value), { format: DateFormats.DateSlash });
+  }, [type, value]);
+
+  return {
+    open,
+    date,
+    fermer: () => setOpen(false),
+    handleOpen,
+    handleValidate,
+    displayValue,
+    handleChange: (_event: any, newDate?: Date) => {
+      if (!isValidDate(newDate)) return;
+      if (type === 'date') setDate(toDateString(newDate));
+      else if (type === 'datetime') setDate(displayDate(newDate, { format: DateFormats.DateTimeString }));
+    },
+  };
+};
 
 export const DateInput = React.forwardRef<any, DateInputProps>(function DateInput(props, ref) {
   const {
@@ -39,46 +80,16 @@ export const DateInput = React.forwardRef<any, DateInputProps>(function DateInpu
     ...inputProps
   } = props;
 
-  const [open, setOpen] = React.useState(false);
-
-  const now = new Date();
-  const defaultDateString = value ?? toDateString(now, type === 'datetime');
-
-  const [date, setDate] = React.useState(defaultDateString);
-
-  const handleChange = (_event: any, newDate?: Date) => {
-    if (isValidDate(newDate)) {
-      if (type === 'date') setDate(toDateString(newDate));
-      else if (type === 'datetime') setDate(displayDate(newDate, { format: DateFormats.DateTimeString }));
-    }
-  };
-
-  const handleOpen = useCallback(() => {
-    if (!disabled) {
-      Keyboard.dismiss();
-      setOpen(true);
-    }
-  }, [disabled]);
-
-  const handleValidate = useCallback(() => {
-    if (isValidDate(date)) onChange?.(date);
-    setOpen(false);
-  }, [date, onChange]);
-
-  const displayValue = useCallback(
-    (currentValue: string | undefined) => {
-      if (currentValue) {
-        if (type === 'datetime') return displayDate(toDate(currentValue), { format: DateFormats.Datetime, locale: fr });
-        else return displayDate(toDate(currentValue), { format: DateFormats.DateSlash });
-      }
-      return '';
-    },
-    [type],
-  );
+  const { open, date, fermer, handleOpen, handleValidate, displayValue, handleChange } = useBrouillonDate({
+    value,
+    type,
+    disabled,
+    onChange,
+  });
 
   return (
     <Box tag="date-input" onPress={handleOpen}>
-      <FormControlModal open={open} onClose={() => setOpen(false)} submitLabel="Valider" onSubmit={handleValidate}>
+      <FormControlModal open={open} onClose={fermer} submitLabel="Valider" onSubmit={handleValidate}>
         <Box style={{ marginTop: 'auto' }}>
           <DateTimePicker
             value={toDate(date)}
@@ -95,32 +106,18 @@ export const DateInput = React.forwardRef<any, DateInputProps>(function DateInpu
         </Box>
       </FormControlModal>
 
-      <FormControl>
-        <InputHeading>
-          {!!label && (
-            <FormControlLabel
-              labelRight={labelRight}
-              label={label}
-              disabled={disabled}
-              error={error}
-              success={success}
-            />
-          )}
-          {!!hint && <FormControlHint hint={hint} disabled={disabled} />}
-        </InputHeading>
-
+      <DateInputFrame {...props}>
         <TextInput
           ref={ref}
           placeholder="JJ/MM/AAAA"
-          value={displayValue(value)}
+          value={displayValue()}
           {...inputProps}
           caretHidden={true}
           inputMode="none"
           onPress={handleOpen}
           readOnly
         />
-        {(error || success) && <FormControlCaption error={error} success={success} />}
-      </FormControl>
+      </DateInputFrame>
     </Box>
   );
 });
