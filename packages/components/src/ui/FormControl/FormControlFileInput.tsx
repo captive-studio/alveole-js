@@ -24,6 +24,27 @@ export type FormControlFileInputProps = {
   onPickStart?: () => void;
 };
 
+// Le champ n'affiche jamais le detail d'une selection multiple : un fichier porte son nom, une
+// liste porte son compte. Cette table de cas se lisait au milieu du composant alors qu'elle ne
+// depend que de la valeur.
+const nomAffiche = (value: FormControlFileInputValue, placeholder: string, forcePlaceholder?: boolean) => {
+  if (value == null || forcePlaceholder) return placeholder;
+
+  if (!Array.isArray(value)) return value.name || '1 fichier';
+  if (value.length === 0) return placeholder;
+  if (value.length === 1) return value[0].name ?? '1 fichier';
+
+  return `${value.length} fichiers`;
+};
+
+// Le selecteur rend toujours une liste ; le champ simple n'en veut que le premier element, et
+// une liste vide vaut une absence de choix dans les deux cas.
+const choisis = (assets: DocumentPicker.DocumentPickerAsset[] | null, multiple: boolean) => {
+  if (!multiple) return assets?.[0] ?? null;
+
+  return assets && assets.length > 0 ? assets : null;
+};
+
 export const FormControlFileInput = (props: FormControlFileInputProps) => {
   const {
     value,
@@ -40,16 +61,7 @@ export const FormControlFileInput = (props: FormControlFileInputProps) => {
 
   const styles = useStyles();
 
-  const displayValue = React.useMemo(() => {
-    if (value == null || forcePlaceholder) return placeholder;
-    if (Array.isArray(value)) {
-      if (value.length === 0) return placeholder;
-      if (value.length === 1) return value[0].name ?? '1 fichier';
-      return `${value.length} fichiers`;
-    }
-    if (value.name) return value.name;
-    return '1 fichier';
-  }, [placeholder, value, forcePlaceholder]);
+  const displayValue = nomAffiche(value, placeholder, forcePlaceholder);
 
   const isPickingRef = React.useRef(false);
 
@@ -57,20 +69,11 @@ export const FormControlFileInput = (props: FormControlFileInputProps) => {
     if (isPickingRef.current) return;
     onPickStart?.();
     if (disabled) return;
+
     isPickingRef.current = true;
     try {
-      const result = await DocumentPicker.getDocumentAsync({
-        copyToCacheDirectory: true,
-        multiple: multiple ?? false,
-        type: type,
-      });
-      if (multiple) {
-        const newValue = result.assets && result.assets.length > 0 ? result.assets : null;
-        onChange?.(newValue);
-      } else {
-        const newValue = result.assets?.[0] ?? null;
-        onChange?.(newValue);
-      }
+      const result = await DocumentPicker.getDocumentAsync({ copyToCacheDirectory: true, multiple, type });
+      onChange(choisis(result.assets, multiple));
     } finally {
       isPickingRef.current = false;
     }

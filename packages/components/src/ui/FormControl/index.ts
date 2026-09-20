@@ -1,3 +1,4 @@
+export * from './fichierCorrespondAuType';
 export * from './FieldId';
 export * from './FormControl';
 export * from './FormControlCaption';
@@ -9,3 +10,4 @@ export * from './FormControlModal';
 export * from './FormControlNumberInput';
 export * from './FormControlOtpInput';
 export * from './TextInput';
+export * from './valideLeType';

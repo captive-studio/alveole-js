@@ -1,185 +1,34 @@
-import React from 'react';
-import { Alert } from '../../core/Alert';
 import { Box } from '../../core/Box';
-import {
-  FormControlCaption,
-  FormControlFileInput,
-  FormControlFileInputValue,
-  FormControlHint,
-  FormControlLabel,
-} from '../FormControl';
+import { FormControlCaption, FormControlFileInput, FormControlHint, FormControlLabel } from '../FormControl';
 import { LucideIcon } from '../LucideIcon';
 import { DragAndDropFileProps } from './DragAndDropFile';
 import { useStyles } from './DragAndDropFile.styles';
-import { fichierCorrespondAuType } from './fichierCorrespondAuType';
-import { fichiersDuDataTransfer } from './fichiersDuDataTransfer';
-
-function fileToDocumentPickerAsset(file: File): FormControlFileInputValue {
-  const uri = URL.createObjectURL(file);
-  return {
-    uri,
-    name: file.name,
-    size: file.size,
-    mimeType: file.type || 'application/octet-stream',
-    file,
-  } as any;
-}
-
-function filesToDocumentPickerAssets(files: File[]): FormControlFileInputValue {
-  return files.map(file => fileToDocumentPickerAsset(file)) as any;
-}
+import { useDepotFichier } from './useDepotFichier';
 
 export const DragAndDropFile = (props: DragAndDropFileProps) => {
-  const { value, label, hint, icon, type, error, success, onChange, multiple } = props;
+  const { label, hint, icon, type, error, success, multiple } = props;
 
   const styles = useStyles();
-  const [isOver, setIsOver] = React.useState(false);
-  const [isMouthOver, setIsMouthOver] = React.useState(false);
-  const [forceOpen, setForceOpen] = React.useState(false);
+  const depot = useDepotFichier(props);
 
-  const onValueChange: typeof onChange = v => {
-    if (type == null) return onChange(v);
-
-    if (multiple && Array.isArray(v)) {
-      const invalidFiles = v.filter(file => {
-        const mimeType = (file as any)?.mimeType;
-        return mimeType == null || !fichierCorrespondAuType(mimeType, (file as any)?.name, type);
-      });
-
-      if (invalidFiles.length > 0) {
-        Alert.alert({ title: 'Type de fichier incorrect', message: `Certains fichiers ne sont pas pris en charge` });
-        return;
-      }
-      return onChange(v);
-    }
-
-    const mimeType = (v as any)?.mimeType;
-    if (mimeType == null) return onChange(v);
-
-    if (fichierCorrespondAuType(mimeType, (v as any)?.name, type)) return onChange(v);
-    Alert.alert({ title: 'Type de fichier incorrect', message: `Le format du fichier n'est pas pris en charge` });
+  const styleContainer = {
+    ...styles.container,
+    ...(depot.isMouseOver ? styles.containerMouseHover : {}),
+    ...(depot.isOver ? styles.containerHover : {}),
+    ...(error ? styles.containerError : {}),
   };
-
-  const emitFile = React.useCallback(
-    (file: File) => {
-      if (!fichierCorrespondAuType(file.type || '', file.name, type)) {
-        Alert.alert({ title: 'Type de fichier incorrect', message: `Le format du fichier n'est pas pris en charge` });
-        return;
-      }
-      const asset = fileToDocumentPickerAsset(file);
-      onValueChange?.(asset);
-    },
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-    [type],
-  );
-
-  const emitFiles = React.useCallback(
-    (files: File[]) => {
-      const validFiles = files.filter(file => fichierCorrespondAuType(file.type || '', file.name, type));
-      const invalidFiles = files.filter(file => !fichierCorrespondAuType(file.type || '', file.name, type));
-
-      if (invalidFiles.length > 0) {
-        Alert.alert({ title: 'Type de fichier incorrect', message: `Certains fichiers ne sont pas pris en charge` });
-      }
-
-      if (validFiles.length > 0) {
-        const assets = filesToDocumentPickerAssets(validFiles);
-        onValueChange?.(assets);
-      }
-    },
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-    [type],
-  );
-
-  const onDrop = React.useCallback(
-    (e: React.DragEvent<HTMLDivElement>) => {
-      e.preventDefault();
-      e.stopPropagation();
-      setIsOver(false);
-
-      const files = fichiersDuDataTransfer(e.dataTransfer);
-      if (files.length > 0) {
-        if (multiple) emitFiles(files);
-        else emitFile(files[0]);
-      }
-    },
-    [emitFile, emitFiles, multiple],
-  );
-
-  const onDragOver = React.useCallback(
-    (e: React.DragEvent<HTMLDivElement>) => {
-      e.preventDefault();
-      if (!isOver) setIsOver(true);
-    },
-    [isOver],
-  );
-
-  const onDragLeave = React.useCallback(
-    (e: React.DragEvent<HTMLDivElement>) => {
-      e.preventDefault();
-      if (isOver) setIsOver(false);
-    },
-    [isOver],
-  );
-
-  const onMouseOver = React.useCallback(
-    (e: React.DragEvent<HTMLDivElement>) => {
-      e.preventDefault();
-      if (!isMouthOver) setIsMouthOver(true);
-    },
-    [isMouthOver],
-  );
-
-  const onMouseLeave = React.useCallback(
-    (e: React.DragEvent<HTMLDivElement>) => {
-      e.preventDefault();
-      if (isMouthOver) setIsMouthOver(false);
-    },
-    [isMouthOver],
-  );
-
-  React.useEffect(() => {
-    return () => {
-      if (Array.isArray(value)) {
-        value.forEach(file => {
-          const uri = (file as any)?.uri as string | undefined;
-          if (uri?.startsWith('blob:'))
-            try {
-              URL.revokeObjectURL(uri);
-            } catch {}
-        });
-      } else {
-        const uri = (value as any)?.uri as string | undefined;
-        if (uri?.startsWith('blob:'))
-          try {
-            URL.revokeObjectURL(uri);
-          } catch {}
-      }
-    };
-  }, [value]);
-
-  const styleContainer = React.useMemo(
-    () => ({
-      ...styles.container,
-      ...(isMouthOver ? styles.containerMouseHover : {}),
-      ...(isOver ? styles.containerHover : {}),
-      ...(error ? styles.containerError : {}),
-    }),
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-    [error, isMouthOver, isOver],
-  );
 
   return (
     <div
       tabIndex={0}
-      onDrop={onDrop}
-      onDragOver={onDragOver}
-      onDragEnter={onDragOver}
-      onDragLeave={onDragLeave}
-      onMouseOver={onMouseOver}
-      onMouseEnter={onMouseOver}
-      onMouseLeave={onMouseLeave}
-      onClick={() => setForceOpen(true)}
+      onDrop={depot.onDrop}
+      onDragOver={depot.onDragOver}
+      onDragEnter={depot.onDragOver}
+      onDragLeave={depot.onDragLeave}
+      onMouseOver={depot.onMouseOver}
+      onMouseEnter={depot.onMouseOver}
+      onMouseLeave={depot.onMouseLeave}
+      onClick={depot.ouvrir}
       style={styleContainer}
     >
       <Box tag="drag-and-drop-file-icon" display="flex" flexDirection="row" justify="center">
@@ -199,9 +48,9 @@ export const DragAndDropFile = (props: DragAndDropFileProps) => {
           <FormControlFileInput
             {...props}
             canChange={false}
-            onChange={onValueChange}
-            reopen={forceOpen}
-            onPickStart={() => setForceOpen(false)}
+            onChange={depot.onValueChange}
+            reopen={depot.forceOpen}
+            onPickStart={depot.fermer}
             multiple={multiple}
             type={type}
           />

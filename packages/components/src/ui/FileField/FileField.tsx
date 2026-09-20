@@ -1,4 +1,3 @@
-import { Alert } from '../../core/Alert';
 import {
   FormControl,
   FormControlCaption,
@@ -10,6 +9,7 @@ import {
   FormControlHintProps,
   FormControlLabel,
   FormControlLabelProps,
+  valideLeType,
 } from '../FormControl';
 import { InputHeading } from '../InputHeading';
 import { useStyles } from './FileField.styles';
@@ -25,26 +25,7 @@ export const FileField = (props: FileFieldProps) => {
 
   const styles = useStyles();
 
-  const onValueChange: typeof onChange = value => {
-    const normalizedValue = Array.isArray(value) ? value[0] : value;
-    const mimeType = normalizedValue?.mimeType;
-    if (type == null || mimeType == null) return onChange(value);
-
-    const fileName = normalizedValue?.name;
-    if (
-      (type.includes('image') && mimeType.startsWith('image')) ||
-      (type.includes('pdf') && mimeType.endsWith('pdf')) ||
-      (type.includes('csv') &&
-        (mimeType === 'text/csv' || mimeType === 'application/csv' || fileName?.endsWith('.csv')))
-    )
-      return onChange(value);
-    else {
-      Alert.alert({
-        title: 'Type de fichier incorrect',
-        message: `Le format du fichier n'est pas pris en charge`,
-      });
-    }
-  };
+  const onValueChange = valideLeType({ type, onChange });
 
   return (
     <FormControl style={styles.fileInput}>
