@@ -1,9 +1,4 @@
 {
-  "src/ui/Tabs/Tabs.tsx": {
-    "max-lines-per-function": {
-      "count": 1
-    }
-  },
   "src/ui/TextInputArray/TextInputArray.tsx": {
     "max-lines-per-function": {
       "count": 1
