@@ -33,9 +33,7 @@ export const MarkdownDescription = ({ children, taille = 'MD', color: textColor 
   // eslint-disable-next-line @typescript-eslint/no-require-imports
   const ReactMarkdown = require('react-markdown').default as React.ComponentType<{
     children: string;
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     remarkPlugins: unknown[];
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     components: Record<string, React.ComponentType<any>>;
   }>;
   // eslint-disable-next-line @typescript-eslint/no-require-imports
