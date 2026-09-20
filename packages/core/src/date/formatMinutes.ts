@@ -1,10 +1,14 @@
+const pluralise = (nombre: number, unite: string) => `${nombre} ${unite}${nombre > 1 ? 's' : ''}`;
+
 export function formatMinutes(min: number, fallback?: string) {
   const heures = Math.floor(min / 60);
   const minutes = min % 60;
-  if (minutes <= 0 && heures <= 0) return fallback ?? `Vide`;
 
-  const heuresText = heures > 0 ? `${heures} heure${heures > 1 ? 's' : ''}` : undefined;
-  const minutesText = minutes > 0 ? `${minutes} minute${minutes > 1 ? 's' : ''}` : undefined;
-  const fullText = `${heuresText ?? ''}${minutesText && heuresText ? ' et ' : ''}${minutesText ?? ''}`;
-  return `${fullText}`;
+  const segments: string[] = [];
+  if (heures > 0) segments.push(pluralise(heures, 'heure'));
+  if (minutes > 0) segments.push(pluralise(minutes, 'minute'));
+
+  if (segments.length === 0) return fallback ?? 'Vide';
+
+  return segments.join(' et ');
 }
