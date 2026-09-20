@@ -2,7 +2,6 @@ import { makeStyles } from '@alveole/theme';
 
 export const useStyles = makeStyles(({ color, text, radius }) => ({
   avatar: {
-    // eslint-disable-next-line @typescript-eslint/no-deprecated
     backgroundColor: color.dark.background['contrast-grey'],
   },
   carre: {
@@ -10,7 +9,6 @@ export const useStyles = makeStyles(({ color, text, radius }) => ({
   },
   fallbackText: {
     ...text['Corps de texte'].MD.Medium,
-    // eslint-disable-next-line @typescript-eslint/no-deprecated
     color: color.dark.text['default-grey'],
     display: 'flex',
     justifyContent: 'center',
