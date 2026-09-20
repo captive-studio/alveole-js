@@ -1,6 +1,7 @@
 import { useTheme } from '@alveole/theme';
 import React from 'react';
 import { ScrollView, Popover as TamaguiPopover, PopoverProps as TamaguiPopoverProps, YStack } from 'tamagui';
+import { margesDePopover } from './Popover.marges';
 import { useStyles } from './Popover.styles';
 
 export type PopoverStyles = { maxW?: number; maxH?: number };
@@ -40,13 +41,7 @@ export const Popover = (props: PopoverProps) => {
   const styles = useStyles();
   const { spacing, spacingValue } = useTheme();
 
-  const spacings = {
-    p: 0,
-    mr: placement?.includes('left') ? spacing('1V') : undefined,
-    mb: placement?.includes('top') ? spacing('1V') : undefined,
-    ml: placement?.includes('right') ? spacing('1V') : undefined,
-    mt: placement?.includes('bottom') ? spacing('1V') : undefined,
-  };
+  const spacings = { p: 0, ...margesDePopover(placement, spacing('1V')) };
 
   const maxH = popoverStyles.maxH ?? 500;
   const maxW = popoverStyles.maxW ?? '100%';

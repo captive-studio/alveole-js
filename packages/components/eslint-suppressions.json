@@ -1,9 +1,4 @@
 {
-  "src/ui/Popover/Popover.tsx": {
-    "complexity": {
-      "count": 1
-    }
-  },
   "src/ui/Sidebar/SidebarItem.tsx": {
     "sonarjs/no-identical-functions": {
       "count": 1
