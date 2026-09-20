@@ -1,9 +1,4 @@
 {
-  "src/ui/Sidebar/SidebarItem.tsx": {
-    "sonarjs/no-identical-functions": {
-      "count": 1
-    }
-  },
   "src/ui/Switch/Switch.tsx": {
     "complexity": {
       "count": 1

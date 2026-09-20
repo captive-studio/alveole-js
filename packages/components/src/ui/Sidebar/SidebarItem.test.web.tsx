@@ -1,4 +1,4 @@
-import { renderOnDesktop, renderOnMobile } from '@/__tests__/helpers/renderWeb';
+import { fireEvent, renderOnDesktop, renderOnMobile } from '@/__tests__/helpers/renderWeb';
 import { SidebarItem } from './SidebarItem';
 
 const titleOf = (container: HTMLElement) => container.querySelector('sidebar-item typography');
@@ -61,4 +61,16 @@ test('annonce aussi la page courante dans le tiroir mobile', () => {
   const { container } = renderOnMobile(<SidebarItem title="Accueil" href="/" />);
 
   expect(container.querySelector('[aria-current="page"]')).not.toBeNull();
+});
+
+// Un item `pressable` agit au lieu de naviguer : c'est la seule branche de l'enveloppe qui ne
+// rend pas de lien, et elle n'était couverte par aucun test alors que les deux mises en page
+// la partagent désormais.
+test('declenche laction dun item pressable', () => {
+  const onPress = jest.fn();
+  const { container } = renderOnDesktop(<SidebarItem pressable title="Se deconnecter" onPress={onPress} />);
+
+  fireEvent.click(container.querySelector('sidebar-item')!);
+
+  expect(onPress).toHaveBeenCalled();
 });
