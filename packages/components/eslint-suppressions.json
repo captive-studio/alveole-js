@@ -1,9 +1,4 @@
 {
-  "src/ui/LucideIcon/LucideIcon.tsx": {
-    "no-restricted-syntax": {
-      "count": 1
-    }
-  },
   "src/ui/Popover/Popover.tsx": {
     "complexity": {
       "count": 1
