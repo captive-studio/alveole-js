@@ -1,9 +1,4 @@
 {
-  "src/ui/EmptyState/EmptyState.tsx": {
-    "complexity": {
-      "count": 1
-    }
-  },
   "src/ui/LucideIcon/LucideIcon.tsx": {
     "no-restricted-syntax": {
       "count": 1

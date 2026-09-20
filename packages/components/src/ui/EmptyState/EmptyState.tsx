@@ -1,8 +1,9 @@
 import React from 'react';
 import { Box, BoxProps } from '../../core/Box/Box';
 import { Typography } from '../../core/Typography';
-import { isLucideIconName, LucideIcon, LucideIconProps } from '../LucideIcon';
+import { LucideIconProps } from '../LucideIcon';
 import { useStyles } from './EmptyState.styles';
+import { EmptyStateMedia } from './EmptyStateMedia';
 
 export type EmptyStateProps = BoxProps & {
   iconName?: LucideIconProps['name'];
@@ -26,15 +27,7 @@ export const EmptyState = (props: EmptyStateProps) => {
   return (
     <Box tag="empty-state" style={[styles.container, style]} {...boxProps}>
       <Box tag="empty-state-contenu" style={styles.contenu}>
-        {(illustration || iconName) && (
-          <Box style={styles.media}>
-            {illustration ? (
-              illustration
-            ) : iconName && isLucideIconName(iconName) ? (
-              <LucideIcon name={iconName} size="lg" color={styles.media.color} />
-            ) : null}
-          </Box>
-        )}
+        <EmptyStateMedia illustration={illustration} iconName={iconName} />
 
         <Box style={styles.messageEtDescription}>
           {title && <Typography style={styles.title}>{title}</Typography>}
