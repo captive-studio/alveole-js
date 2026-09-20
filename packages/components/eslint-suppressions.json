@@ -108,16 +108,6 @@
       "count": 1
     }
   },
-  "src/ui/Signature/Signature.tsx": {
-    "max-lines-per-function": {
-      "count": 1
-    }
-  },
-  "src/ui/Signature/Signature.web.tsx": {
-    "max-lines-per-function": {
-      "count": 1
-    }
-  },
   "src/ui/Switch/Switch.tsx": {
     "complexity": {
       "count": 1
