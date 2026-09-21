@@ -15,5 +15,7 @@ lire que la section utile à la zone touchée :
   (`@alveole/storybook`) : fiches, exemples, sources, modules de stories.
 - [Navigation](docs/context/navigation.md) : vocabulaire de la navigation du
   catalogue : rubriques, barre, colonne.
+- [Étiquettes](docs/context/etiquettes.md) : vocabulaire des pastilles du
+  catalogue : étiquette, badge, compteur, et les états qui les distinguent.
 - [Qualité](docs/context/qualite.md) : vocabulaire des garde-fous mesurés du
   dépôt : cliquets, violations, clichés.
