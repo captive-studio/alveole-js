@@ -1,20 +1,6 @@
 import { StorybookMeta, StorybookModule } from '../types';
 import { stripMarkdown } from '../utils';
 
-type ValeurDeSource = string | (() => string);
-
-type ExportDeSources = {
-  storySources?: Record<string, ValeurDeSource>;
-  storyDescriptions?: Record<string, string>;
-} & Record<string, unknown>;
-
-/**
- * Le bloc `Sources` que le generateur ajoute a une fiche. Il n'est pas declare dans le type
- * d'un module de fiche : il est ecrit a la compilation, et une fiche ecrite a la main n'en a pas.
- */
-const sourcesDe = (story: StorybookModule): ExportDeSources | undefined =>
-  (story as unknown as { Sources?: ExportDeSources }).Sources;
-
 /**
  * Le code d'un exemple, ou `null` quand la fiche ne le publie pas : la demonstration se montre
  * alors sans son code. Les premieres fiches posaient leurs sources a la racine du bloc, les
@@ -22,7 +8,7 @@ const sourcesDe = (story: StorybookModule): ExportDeSources | undefined =>
  * fonction n'est construite qu'ici, a la demande.
  */
 export const sourceDeLExemple = (story: StorybookModule, nomDeLExemple: string): string | null => {
-  const sources = sourcesDe(story);
+  const sources = story.Sources;
   const source = sources?.storySources?.[nomDeLExemple] ?? sources?.[nomDeLExemple];
 
   if (typeof source === 'string') return source;
@@ -37,7 +23,7 @@ export const sourceDeLExemple = (story: StorybookModule, nomDeLExemple: string):
 
 /** Le texte qui accompagne un exemple, ou `null` quand la fiche n'en donne pas. */
 export const descriptionDeLExemple = (story: StorybookModule, nomDeLExemple: string): string | null => {
-  const description = sourcesDe(story)?.storyDescriptions?.[nomDeLExemple];
+  const description = story.Sources?.storyDescriptions?.[nomDeLExemple];
 
   return typeof description === 'string' ? description : null;
 };

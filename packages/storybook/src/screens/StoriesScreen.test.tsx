@@ -2,10 +2,9 @@ import { fireEvent, renderScreen, screen } from '../../__tests__/helpers/renderS
 import { StorybookModule } from '../types';
 import { StoriesScreen } from './StoriesScreen';
 
-const fiche = (meta: { title: string; tags?: string[]; description?: string; figmaURL?: string }) =>
-  ({
-    default: { tags: ['ui'], experimental: false, description: '', styleFn: () => ({}), ...meta },
-  }) as unknown as StorybookModule;
+const fiche = (meta: { title: string; tags?: string[]; description?: string; figmaURL?: string }): StorybookModule => ({
+  default: { tags: ['ui'], experimental: false, description: '', styleFn: () => ({}), ...meta },
+});
 
 const catalogue = [
   fiche({ title: 'Bouton', tags: ['ui'], description: 'Une action.', figmaURL: 'https://figma/bouton' }),

@@ -1,6 +1,7 @@
+import type { StoryExample } from '@alveole/components';
 import { cadresAutourDe, fiche, rangeeDuBadge, separationEntre } from '../../__tests__/helpers/fiche';
 import { renderScreen } from '../../__tests__/helpers/renderScreen';
-import { StorybookModule } from '../types';
+import { StorybookMeta, StorybookModule } from '../types';
 import { StoryDetailScreen } from './StoryDetailScreen';
 
 describe('ce que la fiche annonce', () => {
@@ -89,8 +90,14 @@ describe('ce que la fiche annonce', () => {
 });
 
 /** La fiche par defaut, dotee de ce que le test veut lui donner. */
-const ficheAvec = (meta: Record<string, unknown>, exemples: Record<string, unknown> = {}) =>
-  ({ ...fiche, ...exemples, default: { ...fiche.default, ...meta } }) as unknown as StorybookModule;
+const ficheAvec = (
+  meta: Partial<StorybookMeta>,
+  exemples: Record<string, StoryExample | undefined> = {},
+): StorybookModule => ({
+  ...fiche,
+  ...exemples,
+  default: { ...fiche.default, ...meta },
+});
 
 describe('StoryDetailScreen, ce qu il montre de la fiche', () => {
   // L'URL peut nommer une fiche disparue : la page se charge quand meme et le dit, plutot que
@@ -144,10 +151,10 @@ describe('StoryDetailScreen, ce qu il montre de la fiche', () => {
   });
 
   it('montre la description que la fiche donne a l exemple', () => {
-    const story = {
+    const story: StorybookModule = {
       ...fiche,
       Sources: { storyDescriptions: { Tailles: 'Trois tailles.' } },
-    } as unknown as StorybookModule;
+    };
     const { getByText } = renderScreen(<StoryDetailScreen story={story} />);
 
     expect(getByText('Trois tailles.')).toBeTruthy();
@@ -156,10 +163,10 @@ describe('StoryDetailScreen, ce qu il montre de la fiche', () => {
   // Le surlignage decoupe le code en un noeud par jeton : c'est le texte de la page entiere
   // qu'il faut lire pour retrouver la ligne.
   it('montre le code que la fiche donne a l exemple', () => {
-    const story = {
+    const story: StorybookModule = {
       ...fiche,
       Sources: { storySources: { Tailles: '<Bouton taille="sm" />' } },
-    } as unknown as StorybookModule;
+    };
     const { container } = renderScreen(<StoryDetailScreen story={story} />);
 
     expect(container.textContent).toContain('<Bouton taille="sm" />');

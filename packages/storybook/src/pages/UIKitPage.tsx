@@ -143,18 +143,25 @@ const ThemeHomeScreen = ({
   );
 };
 
-export const UIKitPage = ({
-  stories,
-  constants,
-  palette = CustomPalette,
-  typography = CustomTypography,
-  title = 'UI Kit',
-  description = 'Documentation du design system',
-  blankPage,
-}: UIKitPageProps) => {
+/** Ce dont un ecran du kit a besoin pour se rendre : les donnees de la page et le moyen d'avancer. */
+type ContexteDEcran = {
+  stories: StorybookModule[];
+  constants: Record<string, unknown>;
+  palette: Record<string, any>;
+  typography: Record<string, unknown>;
+  title: string;
+  description: string;
+  blankPage?: BlankPage;
+  beforeContent: React.ReactNode;
+  push: (route: UIKitRoute) => void;
+};
+
+/**
+ * La pile de navigation du kit. Elle vit ici et non dans le composant : la page n'a pas a savoir
+ * comment on empile des routes pour savoir laquelle afficher.
+ */
+const useNavigationDuKit = () => {
   const [history, setHistory] = React.useState<UIKitRoute[]>([{ name: 'home' }]);
-  const route = history[history.length - 1];
-  const canGoBack = history.length > 1;
 
   const push = React.useCallback((nextRoute: UIKitRoute) => {
     setHistory(current => [...current, nextRoute]);
@@ -164,32 +171,60 @@ export const UIKitPage = ({
     setHistory(current => (current.length > 1 ? current.slice(0, -1) : current));
   }, []);
 
-  const beforeContent = <InternalHeader canGoBack={canGoBack} onBack={goBack} />;
+  return { route: history[history.length - 1], canGoBack: history.length > 1, push, goBack };
+};
 
+/**
+ * Chaque famille d'ecrans rend la route qui la concerne, et `null` sinon : c'est ce `null` qui
+ * passe la main a la suivante. Decouper le routage par domaine plutot qu'en une seule chaine
+ * garde chaque branche lisible et laisse TypeScript affiner la route sur son `name`.
+ */
+const ecranDAccueil = (route: UIKitRoute, ctx: ContexteDEcran): React.ReactNode | null => {
   if (route.name === 'home') {
     return (
       <HomeScreen
-        title={title}
-        description={description}
-        blankPage={blankPage}
-        onOpenComponents={() => push({ name: 'components' })}
-        onOpenTheme={() => push({ name: 'theme-home' })}
-        onOpenConstants={() => push({ name: 'constants' })}
-        onOpenBlank={() => push({ name: 'blank' })}
-        onOpenPhilosophy={() => push({ name: 'philosophy' })}
+        title={ctx.title}
+        description={ctx.description}
+        blankPage={ctx.blankPage}
+        onOpenComponents={() => ctx.push({ name: 'components' })}
+        onOpenTheme={() => ctx.push({ name: 'theme-home' })}
+        onOpenConstants={() => ctx.push({ name: 'constants' })}
+        onOpenBlank={() => ctx.push({ name: 'blank' })}
+        onOpenPhilosophy={() => ctx.push({ name: 'philosophy' })}
       />
     );
   }
 
+  if (route.name === 'philosophy') return <PhilosophyPage beforeContent={ctx.beforeContent} />;
+
+  if (route.name === 'blank' && ctx.blankPage) {
+    const { blankPage } = ctx;
+
+    return (
+      <Page
+        scrollable
+        title={blankPage.title ?? 'Page vierge'}
+        description={blankPage.description ?? 'Zone de test libre'}
+        beforeContent={ctx.beforeContent}
+      >
+        <Section withPaddingY>{blankPage.render()}</Section>
+      </Page>
+    );
+  }
+
+  return null;
+};
+
+const ecranDesComposants = (route: UIKitRoute, ctx: ContexteDEcran): React.ReactNode | null => {
   if (route.name === 'components') {
     return (
       <StoriesScreen
-        beforeContent={beforeContent}
-        stories={stories}
+        beforeContent={ctx.beforeContent}
+        stories={ctx.stories}
         title="UI Kit - Composants"
         description="Catalogue des composants"
-        createLabel={blankPage ? (blankPage.title ?? 'Page vierge') : undefined}
-        onCreatePress={blankPage ? () => push({ name: 'blank' }) : undefined}
+        createLabel={ctx.blankPage ? (ctx.blankPage.title ?? 'Page vierge') : undefined}
+        onCreatePress={ctx.blankPage ? () => ctx.push({ name: 'blank' }) : undefined}
         getStoryHref={story => `/components/${encodeURIComponent(story.default.title)}`}
       />
     );
@@ -197,16 +232,24 @@ export const UIKitPage = ({
 
   if (route.name === 'component-detail') {
     return (
-      <StoryDetailScreen beforeContent={beforeContent} story={route.story} notFoundMessage="Composant introuvable" />
+      <StoryDetailScreen
+        beforeContent={ctx.beforeContent}
+        story={route.story}
+        notFoundMessage="Composant introuvable"
+      />
     );
   }
 
+  return null;
+};
+
+const ecranDuTheme = (route: UIKitRoute, ctx: ContexteDEcran): React.ReactNode | null => {
   if (route.name === 'theme-home') {
     return (
       <ThemeHomeScreen
-        beforeContent={beforeContent}
-        onOpenColors={() => push({ name: 'theme-colors' })}
-        onOpenTypography={() => push({ name: 'theme-typography' })}
+        beforeContent={ctx.beforeContent}
+        onOpenColors={() => ctx.push({ name: 'theme-colors' })}
+        onOpenTypography={() => ctx.push({ name: 'theme-typography' })}
       />
     );
   }
@@ -214,8 +257,8 @@ export const UIKitPage = ({
   if (route.name === 'theme-colors') {
     return (
       <ThemePaletteScreen
-        beforeContent={beforeContent}
-        palette={palette}
+        beforeContent={ctx.beforeContent}
+        palette={ctx.palette}
         title="UI Kit - Couleurs du thème"
         description="Palette et couleurs du thème"
       />
@@ -225,23 +268,27 @@ export const UIKitPage = ({
   if (route.name === 'theme-typography') {
     return (
       <ThemeTypographyScreen
-        beforeContent={beforeContent}
-        typography={typography}
+        beforeContent={ctx.beforeContent}
+        typography={ctx.typography}
         title="UI Kit - Textes du thème"
         description="Styles de texte du thème"
       />
     );
   }
 
+  return null;
+};
+
+const ecranDesConstantes = (route: UIKitRoute, ctx: ContexteDEcran): React.ReactNode | null => {
   if (route.name === 'constants') {
     return (
       <ThemeConstantsScreen
-        beforeContent={beforeContent}
-        constants={constants}
+        beforeContent={ctx.beforeContent}
+        constants={ctx.constants}
         title="UI Kit - Constantes"
         description="Constantes exposées par le thème"
         onSelectConstant={({ name, value }) =>
-          push({ name: 'constant-detail', constantName: name, constantValue: value })
+          ctx.push({ name: 'constant-detail', constantName: name, constantValue: value })
         }
       />
     );
@@ -249,26 +296,44 @@ export const UIKitPage = ({
 
   if (route.name === 'constant-detail') {
     return (
-      <ThemeConstantDetailScreen beforeContent={beforeContent} name={route.constantName} value={route.constantValue} />
-    );
-  }
-
-  if (route.name === 'philosophy') {
-    return <PhilosophyPage beforeContent={beforeContent} />;
-  }
-
-  if (route.name === 'blank' && blankPage) {
-    return (
-      <Page
-        scrollable
-        title={blankPage.title ?? 'Page vierge'}
-        description={blankPage.description ?? 'Zone de test libre'}
-        beforeContent={beforeContent}
-      >
-        <Section withPaddingY>{blankPage.render()}</Section>
-      </Page>
+      <ThemeConstantDetailScreen
+        beforeContent={ctx.beforeContent}
+        name={route.constantName}
+        value={route.constantValue}
+      />
     );
   }
 
   return null;
+};
+
+export const UIKitPage = ({
+  stories,
+  constants,
+  palette = CustomPalette,
+  typography = CustomTypography,
+  title = 'UI Kit',
+  description = 'Documentation du design system',
+  blankPage,
+}: UIKitPageProps) => {
+  const { route, canGoBack, push, goBack } = useNavigationDuKit();
+
+  const ctx: ContexteDEcran = {
+    stories,
+    constants,
+    palette,
+    typography,
+    title,
+    description,
+    blankPage,
+    beforeContent: <InternalHeader canGoBack={canGoBack} onBack={goBack} />,
+    push,
+  };
+
+  return (
+    ecranDAccueil(route, ctx) ??
+    ecranDesComposants(route, ctx) ??
+    ecranDuTheme(route, ctx) ??
+    ecranDesConstantes(route, ctx)
+  );
 };

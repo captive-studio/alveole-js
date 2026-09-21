@@ -110,8 +110,12 @@ const NavItem = ({ label, href, current, block = false }: NavItemProps) => {
   );
 };
 
-export const UIKitTopBar = ({ activeKey, items, columnGroups = [] }: UIKitTopBarProps) => {
-  const { color, isVariant, spacing } = useTheme();
+/**
+ * La barre en version mobile : un menu qui se deplie sous l'entete. L'etat d'ouverture vit ici,
+ * avec le seul rendu qui s'en sert, plutot que dans la barre qui n'en a pas besoin autrement.
+ */
+const BarreMobile = ({ activeKey, items, columnGroups }: Required<UIKitTopBarProps>) => {
+  const { color, spacing } = useTheme();
   // Les items sont des ancres : la navigation ne passe plus par un callback qui pourrait
   // refermer le menu au clic. On retient donc la page pour laquelle le menu a été ouvert,
   // et il se referme de lui-même dès qu'on arrive ailleurs, sans effet de synchronisation.
@@ -119,54 +123,60 @@ export const UIKitTopBar = ({ activeKey, items, columnGroups = [] }: UIKitTopBar
   const menuOpen = openedFor === activeKey;
   const toggleMenu = () => setOpenedFor(menuOpen ? null : activeKey);
 
+  return (
+    <>
+      <Header
+        logo={<AlveoleLogo />}
+        right={
+          <Pressable accessibilityRole="button" onPress={toggleMenu} style={{ padding: 8 }}>
+            <LucideIcon name={menuOpen ? 'X' : 'Menu'} size="md" color={color.light.text['title-grey']} />
+          </Pressable>
+        }
+      />
+      {menuOpen && (
+        <Box
+          style={{
+            position: 'sticky',
+            top: 64,
+            left: 0,
+            right: 0,
+            zIndex: 99,
+            backgroundColor: color.light.background['default-grey'],
+            borderBottomWidth: 1,
+            borderBottomColor: color.light.border['default-grey'],
+            paddingTop: spacing('2W'),
+            paddingBottom: spacing('2W'),
+            paddingLeft: spacing('2W'),
+            paddingRight: spacing('2W'),
+            display: 'flex',
+            flexDirection: 'column',
+            gap: spacing('050'),
+          }}
+        >
+          {items.map(({ key, ...item }) => (
+            <NavItem key={key} {...item} current={activeKey === key} block />
+          ))}
+
+          {columnGroups.length > 0 && <Divider />}
+
+          {columnGroups.map(group => (
+            <SidebarGroup key={group.title} title={group.title}>
+              {group.items.map(item => (
+                <SidebarItem key={item.key} title={item.title} href={item.href} />
+              ))}
+            </SidebarGroup>
+          ))}
+        </Box>
+      )}
+    </>
+  );
+};
+
+export const UIKitTopBar = ({ activeKey, items, columnGroups = [] }: UIKitTopBarProps) => {
+  const { isVariant } = useTheme();
+
   if (isVariant('mobile')) {
-    return (
-      <>
-        <Header
-          logo={<AlveoleLogo />}
-          right={
-            <Pressable accessibilityRole="button" onPress={toggleMenu} style={{ padding: 8 }}>
-              <LucideIcon name={menuOpen ? 'X' : 'Menu'} size="md" color={color.light.text['title-grey']} />
-            </Pressable>
-          }
-        />
-        {menuOpen && (
-          <Box
-            style={{
-              position: 'sticky',
-              top: 64,
-              left: 0,
-              right: 0,
-              zIndex: 99,
-              backgroundColor: color.light.background['default-grey'],
-              borderBottomWidth: 1,
-              borderBottomColor: color.light.border['default-grey'],
-              paddingTop: spacing('2W'),
-              paddingBottom: spacing('2W'),
-              paddingLeft: spacing('2W'),
-              paddingRight: spacing('2W'),
-              display: 'flex',
-              flexDirection: 'column',
-              gap: spacing('050'),
-            }}
-          >
-            {items.map(({ key, ...item }) => (
-              <NavItem key={key} {...item} current={activeKey === key} block />
-            ))}
-
-            {columnGroups.length > 0 && <Divider />}
-
-            {columnGroups.map(group => (
-              <SidebarGroup key={group.title} title={group.title}>
-                {group.items.map(item => (
-                  <SidebarItem key={item.key} title={item.title} href={item.href} />
-                ))}
-              </SidebarGroup>
-            ))}
-          </Box>
-        )}
-      </>
-    );
+    return <BarreMobile activeKey={activeKey} items={items} columnGroups={columnGroups} />;
   }
 
   const right = (
