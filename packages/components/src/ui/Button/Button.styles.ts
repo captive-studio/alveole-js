@@ -14,7 +14,7 @@ type Table = Record<string, StyleValue>;
 // desormais celui de `buttonVariants.ts` : une fonction par variante, qui tient tout ce qui
 // change ensemble quand le design revoit cette variante.
 
-const commun = ({ spacing, spacingValue, radius }: Theme) =>
+const commun = ({ spacing, radius }: Theme) =>
   ({
     container: {
       // Reserve le meme contour sur chaque variante : avec une largeur automatique, une
@@ -35,10 +35,6 @@ const commun = ({ spacing, spacingValue, radius }: Theme) =>
       transitionProperty: 'all',
       transitionDuration: '150ms',
       transitionTimingFunction: 'ease',
-    },
-    buttonLoader: {
-      position: 'absolute',
-      right: spacingValue('075'),
     },
     title: {
       cursor: 'pointer',

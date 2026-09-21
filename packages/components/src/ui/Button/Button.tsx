@@ -12,6 +12,8 @@ export const Button = React.forwardRef<View, ButtonProps>(function Button(props,
   const { type, disabled, isLoading, active = false, expanded = false, ...buttonProps } = props;
   const styles = useStyles();
   const etat = etatDuBouton(props);
+  /** Ne repond plus : desactive par l'appelant, ou occupe a charger. */
+  const inerte = !!disabled || !!isLoading;
 
   // Les props de style et de contenu voyagent dans `etat` et dans `ButtonContent` : les
   // retirer ici evite que le Pressable ne les repande sur la vue native.
@@ -33,11 +35,19 @@ export const Button = React.forwardRef<View, ButtonProps>(function Button(props,
   return (
     <Pressable
       ref={ref}
-      disabled={disabled}
+      // `inerte` plutot que `disabled` seul, et il n'entre pas dans `etat` : le Pressable se
+      // ferme aux clics et pose `aria-disabled`, mais l'apparence reste celle du repos. C'est
+      // le choix de Primer, qui pose `aria-disabled` et retire son `onClick` sans griser le
+      // bouton pendant qu'il charge.
+      disabled={inerte}
       accessibilityRole="button"
       {...(type === 'submit' ? { 'aria-selected': true } : {})}
       {...pressableProps}
-      accessibilityState={{ disabled: !!disabled || !!isLoading, expanded }}
+      accessibilityState={{ disabled: inerte, expanded }}
+      // `accessibilityState` ne produit aucun attribut avec cette version de
+      // react-native-web : l'etat deplie se pose donc directement. `undefined` plutot que
+      // `false`, pour qu'un bouton qui ne commande aucun panneau n'annonce pas qu'il en a un.
+      aria-expanded={expanded || undefined}
       // La bague de focus vient du CSS du theme, pose sur `:focus-visible` : cet attribut est
       // la demande. Un state React branche sur `onFocus` la montrerait aussi au clic, faute
       // de modalite dans le `focused` de react-native-web.
