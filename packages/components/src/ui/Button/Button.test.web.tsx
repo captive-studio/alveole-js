@@ -47,20 +47,39 @@ test('pose aria-expanded quand il commande un panneau deplie', () => {
   expect(screen.getByRole('button').getAttribute('aria-expanded')).toBe('true');
 });
 
-// Le spinner etait en `position: absolute; right: 6px` : il se dessinait par-dessus le
-// libelle, et le `overflow: hidden` du conteneur le rognait a droite (mesure en navigateur).
-// Les trois references le posent dans le flux - Primer dans le slot d'icone, Atlassian et Base
-// a la place du libelle - et aucune ne superpose.
-test('pose le spinner dans le flux, jamais par-dessus le libelle', () => {
+// Le spinner prend la place de quelque chose, il ne s'ajoute jamais : c'est la regle commune
+// aux trois references, et ce qui garde au bouton sa largeur. Primer masque le libelle en
+// `visibility: hidden` - donc sans le retirer du flux, la largeur restant la sienne - et
+// centre le spinner dans la zone du texte. Atlassian recouvre, Base empile en colonne ; tous
+// trois s'interdisent de changer de taille (`need to maintain button width`, dit le code de
+// Base). La largeur constante, elle, se verifie en navigateur : jsdom ne met rien en page.
+const libelle = (container: HTMLElement, texte: string) =>
+  [...container.querySelectorAll('*')].find(e => e.children.length === 0 && e.textContent === texte);
+
+test('masque le libelle quand le spinner parait, faute d icone a remplacer', () => {
   jest.useFakeTimers();
   const { container } = renderWeb(<Button variant="primary" title="Enregistrer" isLoading />);
 
   act(() => {
     jest.advanceTimersByTime(1000);
   });
-  const horsDuFlux = [...container.querySelectorAll('*')].filter(e => getComputedStyle(e).position === 'absolute');
 
-  expect(horsDuFlux).toHaveLength(0);
+  expect(getComputedStyle(libelle(container, 'Enregistrer')!).visibility).toBe('hidden');
+  jest.useRealTimers();
+});
+
+// L'autre moitie de la regle de Primer : des qu'il y a une icone, c'est elle que le spinner
+// remplace, et le libelle reste lisible. Masquer le libelle dans ce cas ferait perdre une
+// information que rien n'obligeait a retirer.
+test('garde le libelle lisible quand une icone peut ceder sa place au spinner', () => {
+  jest.useFakeTimers();
+  const { container } = renderWeb(<Button variant="primary" title="Ajouter" startIcon="Plus" isLoading />);
+
+  act(() => {
+    jest.advanceTimersByTime(1000);
+  });
+
+  expect(getComputedStyle(libelle(container, 'Ajouter')!).visibility).not.toBe('hidden');
   jest.useRealTimers();
 });
 

@@ -40,6 +40,22 @@ const commun = ({ spacing, radius }: Theme) =>
       cursor: 'pointer',
       textAlign: 'center',
     },
+    // Le spinner qui remplace le libelle se centre par-dessus lui, sans sortir le libelle du
+    // flux : c'est ce dernier qui continue d'imposer la largeur du bouton. Primer obtient le
+    // meme resultat en logeant les deux dans la meme cellule de sa grille.
+    buttonLoader: {
+      position: 'absolute',
+      top: 0,
+      bottom: 0,
+      left: 0,
+      right: 0,
+      alignItems: 'center',
+      justifyContent: 'center',
+    },
+    /** Invisible mais toujours mesure : `display: none` ferait retrecir le bouton. */
+    libelleMasque: {
+      visibility: 'hidden',
+    },
   }) satisfies Table;
 
 const tailles = ({ text, radius, control }: Theme) =>
