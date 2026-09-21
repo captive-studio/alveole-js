@@ -11,7 +11,6 @@ const styles = () => renderHookOnDesktop(useStyles).result.current;
 const etat = (surcharge: Partial<EtatDuBouton>): EtatDuBouton => ({
   variant: 'primary',
   taille: 'md',
-  iconeSeule: false,
   ...surcharge,
 });
 

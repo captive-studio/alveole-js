@@ -8,7 +8,7 @@ import { Typography } from '../../core/Typography';
 import { ActionMenu } from '../ActionMenu';
 import { Avatar } from '../Avatar';
 import { Badge } from '../Badge';
-import { Button } from '../Button';
+import { ButtonIcon } from '../Button';
 import { LucideIcon } from '../LucideIcon';
 import { Popover } from '../Popover';
 import { Tag } from '../Tag';
@@ -187,7 +187,7 @@ const DeploymentActionsCell = () => {
         open={open}
         setOpen={setOpen}
         renderTrigger={() => (
-          <Button variant="tertiary" size="sm" startIcon="MoreHorizontal" accessibilityLabel="Actions du déploiement" />
+          <ButtonIcon variant="tertiary" size="sm" icon="MoreHorizontal" accessibilityLabel="Actions du déploiement" />
         )}
       >
         <ActionMenu.Item title="Voir les détails" icon="Eye" />

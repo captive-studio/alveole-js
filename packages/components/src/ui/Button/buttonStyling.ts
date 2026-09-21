@@ -39,7 +39,7 @@ const styleDeFond = (styles: Styles, { variant, selected, disabled }: EtatDuBout
 export const styleDuConteneur = (styles: Styles, etat: EtatDuBouton, actif: boolean): StyleValue => ({
   ...styles.container,
   ...styleDeFond(styles, etat, actif),
-  ...styleDe(styles, CONTENEUR_PAR_TAILLE[etat.taille][etat.iconeSeule ? 'iconeSeule' : 'avecLibelle']),
+  ...styleDe(styles, CONTENEUR_PAR_TAILLE[etat.taille]),
   ...(etat.noPadding ? SANS_REMBOURRAGE : {}),
   ...(etat.leftAlign ? { justifyContent: 'left' as const } : {}),
   // La bordure est posee sur le Pressable, pas ici : le Box doit donc annuler celle que son
@@ -80,7 +80,7 @@ export const styleDeLIcone = (styles: Styles, etat: EtatDuBouton, hovered: boole
 /** Les rayons et la bordure : tout ce qui se pose sur le Pressable. La bague de focus, elle,
  * vient du CSS du theme via l'attribut pose sur le Pressable. */
 export const styleDuPressable = (styles: Styles, etat: EtatDuBouton, state: { hovered: boolean }) => {
-  const { variant, selected, disabled, taille, iconeSeule, borderNone, fullWidth } = etat;
+  const { variant, selected, disabled, taille, borderNone, fullWidth } = etat;
   // `sm` est la seule taille qui redefinit ses rayons ; les deux autres gardent ceux du conteneur.
   const source = taille === 'sm' ? styles.smContainer : styles.container;
   // Sans hauteur posee ici, le Pressable s'auto-dimensionnait autour du Box interieur : une
@@ -107,8 +107,6 @@ export const styleDuPressable = (styles: Styles, etat: EtatDuBouton, state: { ho
 
   return {
     height: hauteur,
-    // Icone seule : carre, donc la meme valeur sert de largeur.
-    ...(iconeSeule ? { width: hauteur } : {}),
     boxSizing: 'border-box' as const,
     ...rayons,
     ...contour,

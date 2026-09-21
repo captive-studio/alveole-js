@@ -46,10 +46,10 @@ export const HAUTEUR_PAR_TAILLE: Record<ButtonTaille, StyleHauteurKey> = {
   lg: 'hauteurLg',
 };
 
-export const CONTENEUR_PAR_TAILLE: Record<ButtonTaille, { avecLibelle: StyleKey; iconeSeule: StyleKey }> = {
-  sm: { avecLibelle: 'smContainer', iconeSeule: 'smContainerIconOnly' },
-  md: { avecLibelle: 'mdContainer', iconeSeule: 'mdContainerIconOnly' },
-  lg: { avecLibelle: 'lgContainer', iconeSeule: 'lgContainerIconOnly' },
+export const CONTENEUR_PAR_TAILLE: Record<ButtonTaille, StyleKey> = {
+  sm: 'smContainer',
+  md: 'mdContainer',
+  lg: 'lgContainer',
 };
 
 export const TITRE_PAR_TAILLE: Record<ButtonTaille, StyleKey> = {

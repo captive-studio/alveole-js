@@ -65,14 +65,12 @@ export const ButtonContent = ({ styles, etat, state, actif, props }: ButtonConte
       {...containerProps}
     >
       <Emplacement spinner={place === 'tete'} nom={startIcon} apparence={icone} />
-      {!etat.iconeSeule && (
-        <Typography
-          user-select="false"
-          style={{ ...styleDuLibelle(styles, etat, hovered), ...(recouvreLeLibelle ? styles.libelleMasque : {}) }}
-        >
-          {title}
-        </Typography>
-      )}
+      <Typography
+        user-select="false"
+        style={{ ...styleDuLibelle(styles, etat, hovered), ...(recouvreLeLibelle ? styles.libelleMasque : {}) }}
+      >
+        {title}
+      </Typography>
       <Emplacement spinner={place === 'fin'} nom={endIcon} apparence={icone} />
       {recouvreLeLibelle && (
         <Box style={styles.buttonLoader}>
