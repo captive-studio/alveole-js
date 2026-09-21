@@ -1,5 +1,5 @@
 import { act, renderWeb, screen } from '@/__tests__/helpers/renderWeb';
-import { focusBorder } from '@alveole/theme';
+import { FOCUS_ATTRIBUTE, focusBorder } from '@alveole/theme';
 import { Button } from './Button';
 import { DateInput } from './DateInput';
 import { DurationInput } from './DurationInput';
@@ -16,7 +16,7 @@ import { TextField } from './TextField';
 import { TimeInput } from './TimeInput';
 
 /**
- * Le point de convergence de l'ADR 0012 : un seul test qui demande a chaque champ et a
+ * Le point de convergence de l'ADR 0016, amendee par l'ADR 0017 : un seul test qui demande a chaque champ et a
  * chaque selecteur du kit la meme chose, plutot que de faire confiance a autant de fiches.
  *
  * Chaque famille a son cadre et sa facon de prendre le focus — un `input` sous un `Box`,
@@ -31,6 +31,13 @@ type Controle = {
   champ?: () => HTMLElement;
   /** Le champ de prix n'a qu'un trait sous le montant en guise de cadre. */
   cote?: 'Top' | 'Bottom';
+  /**
+   * Faux pour le seul controle qui n'a pas de cadre a encastrer : le champ de prix, dont
+   * `containerFocused` ne reprend de `focusBorder()` que l'epaisseur et la couleur, pour
+   * les poser sur son trait du bas. Un anneau encastre y dessinerait un rectangle complet
+   * autour du montant, la ou le composant n'a jamais eu que sa ligne.
+   */
+  anneauEncastre?: boolean;
 };
 
 const parent = (selecteur: string) => () => document.querySelector(selecteur)!.parentElement!;
@@ -52,6 +59,7 @@ const CONTROLES: Record<string, Controle> = {
     cadre: () => document.querySelector('.alveole-price-input')!.parentElement!.parentElement!,
     champ: controle('.alveole-price-input'),
     cote: 'Bottom',
+    anneauEncastre: false,
   },
   Select: {
     element: <Select label="Pays" value={null} options={[{ value: 'fr', label: 'France' }]} />,
@@ -91,21 +99,29 @@ it.each(CAS)('%s colore sa bordure avec le token de focus, sans l epaissir', (_n
   });
 });
 
-// Le focus se lit sur la bordure du cadre, pas autour de lui : c'est le double contour que
-// l'ADR 0012 supprime. Les styles inline sont lus en plus du CSS calcule, que jsdom ne
-// resout pas pour le raccourci `outline`.
-it.each(CAS)('%s n entoure son cadre d aucun contour ni ombre', (_nom, controle) => {
+// L'amendement de l'ADR 0016 rend un anneau aux champs, mais encastre : il se dessine a
+// l'interieur du cadre. Ce qui reste interdit, c'est ce qui deborderait — un anneau pose au
+// dehors redonnerait le double cadre, une ombre s'etalerait au-dela. L'invariant tient donc
+// au signe de l'ecart et a l'absence d'ombre, non a l'absence de contour.
+//
+// Le champ de prix fait exception, et c'est ce test qui l'a montre : l'amendement annonce
+// qu'il suit `focusBorder()` sans etre touche, alors que son `containerFocused` n'en reprend
+// que l'epaisseur et la couleur. Il n'a donc pas d'anneau du tout. La ligne ci-dessous fige
+// le rendu reel, pas l'intention : elle tombera le jour ou le champ de prix en recevra un.
+// L'ecart est lu pour son signe et non compare a la valeur du theme : la comparer
+// reviendrait a demander au theme s'il est d'accord avec lui-meme, et l'anneau pourrait
+// repasser au dehors sans que rien ne tombe.
+it.each(CAS)('%s n entoure son cadre de rien qui deborde', (_nom, controle) => {
   renderWeb(controle.element);
 
   focaliser(controle);
 
-  const calcule = window.getComputedStyle(controle.cadre());
-  const inline = controle.cadre().style;
-  expect(
-    [calcule.outlineStyle, calcule.boxShadow, inline.outline, inline.outlineWidth, inline.boxShadow].filter(
-      valeur => valeur && valeur !== 'none',
-    ),
-  ).toEqual([]);
+  const style = window.getComputedStyle(controle.cadre());
+  const anneau = controle.anneauEncastre === false ? 'aucun' : Math.sign(parseFloat(style.outlineOffset));
+  expect({ anneau, ombre: style.boxShadow || 'none' }).toEqual({
+    anneau: controle.anneauEncastre === false ? 'aucun' : -1,
+    ombre: 'none',
+  });
 });
 
 it.each(CAS)('%s rend sa bordure de repos quand il perd le focus', (_nom, controle) => {
@@ -125,22 +141,31 @@ it('rend le meme token que celui du theme', () => {
   focaliser(CONTROLES.TextField!);
 
   const attendu = focusBorder();
-  expect(bordure(CONTROLES.TextField!)).toEqual({
+  const style = window.getComputedStyle(CONTROLES.TextField!.cadre());
+  expect({ ...bordure(CONTROLES.TextField!), ecart: style.outlineOffset }).toEqual({
     couleur: 'rgb(10, 118, 246)',
     epaisseur: `${attendu.borderWidth}px`,
+    ecart: `${attendu.outlineOffset}px`,
   });
 });
 
-// Le pendant de la convention. Sans cette borne, retirer les contours « partout » ferait
-// passer tous les tests ci-dessus tout en effacant l'anneau des controles qui le gardent
-// (ADR 0012). Le bouton est leur representant : c'est le seul consommateur de `focusRing`.
-it('laisse son anneau de focus au bouton, hors du perimetre', () => {
+// Le pendant de la convention : ce qui n'est pas un champ garde sa bague exterieure. Depuis
+// l'ADR 0017 elle vient d'une regle CSS `:focus-visible` que jsdom ne resout pas, et c'est
+// la marque qui l'appelle qui se verifie ici. Sans cette borne, retirer les contours
+// « partout » ferait passer tous les tests ci-dessus en effacant la bague au passage.
+it('laisse sa bague de focus au bouton, hors du perimetre', () => {
   renderWeb(<Button variant="primary" title="Enregistrer" />);
-  const bouton = screen.getByRole('button');
 
-  act(() => bouton.focus());
+  expect(screen.getByRole('button').getAttribute(FOCUS_ATTRIBUTE)).toBe('ring');
+});
 
-  expect(bouton.style.outlineWidth).toBe('2px');
+// Le pendant du pendant : les champs, eux, ne demandent pas la bague exterieure. Leur
+// indicateur est porte par leur cadre, et la marque sur le champ lui superposerait un
+// second contour.
+it.each(CAS)('%s ne demande pas la bague exterieure', (_nom, controle) => {
+  renderWeb(controle.element);
+
+  expect((controle.champ ?? controle.cadre)().getAttribute(FOCUS_ATTRIBUTE)).toBeNull();
 });
 
 // Les deux mots pour « on n'ecrit pas ici ». `readOnly` est celui du web, `editable={false}`
