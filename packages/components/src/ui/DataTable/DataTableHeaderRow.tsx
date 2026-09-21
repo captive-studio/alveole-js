@@ -11,6 +11,7 @@ export type DataTableHeaderRowProps<Row> = {
   selectable: boolean;
   allSelected: boolean;
   someSelected: boolean;
+  sticky?: boolean;
   onToggleAll: () => void;
   onHeaderPress: (column: DataTableColumn<Row>) => void;
 };
@@ -28,11 +29,14 @@ const headerRowStyleBySize = {
 } as const;
 
 export const DataTableHeaderRow = <Row,>(props: DataTableHeaderRowProps<Row>) => {
-  const { columns, sort, size, selectable, allSelected, someSelected, onToggleAll, onHeaderPress } = props;
+  const { columns, sort, size, selectable, allSelected, someSelected, sticky, onToggleAll, onHeaderPress } = props;
   const styles = useStyles();
 
   return (
-    <Box tag="data-table-header-row" style={[styles.headerRow, styles[headerRowStyleBySize[size]]]}>
+    <Box
+      tag="data-table-header-row"
+      style={[styles.headerRow, styles[headerRowStyleBySize[size]], sticky && styles.headerRowSticky]}
+    >
       {selectable && (
         <Box
           tag="data-table-header-selection-cell"

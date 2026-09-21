@@ -1,5 +1,6 @@
 import { useTheme } from '@alveole/theme';
 import React from 'react';
+import { ScrollView } from 'react-native';
 import { Box } from '../../core/Box';
 import { Typography } from '../../core/Typography';
 import { Story } from '../../type';
@@ -12,6 +13,7 @@ import { deploymentColumns, deployments } from './DataTable.demo.deployments';
 import {
   baseColumns,
   manyColumns,
+  manyRepositories,
   repositories,
   repositoriesDetailed,
   type Repository,
@@ -34,7 +36,8 @@ Comme chez Primer, l'API est déclarative : on décrit les \`columns\` (\`id\`, 
 - **Sélection** : \`selectable\` ajoute une colonne de case à cocher avec sélection multiple et case "tout sélectionner" (à 3 états). Contrôlable via \`selectedKeys\`/\`onSelectionChange\`, sinon gérée en interne.
 - **Pagination** : contrairement à Primer, le Figma Alveole intègre un pied de tableau avec compteur + pagination. On le fournit via le slot \`footer\`, avec les composants \`DataTableFooter\` et \`DataTablePagination\` exportés séparément — le tableau reste agnostique de la pagination (page côté serveur ou client).
 - **Densité** : \`size\` (\`sm\` par défaut, \`md\`, \`lg\`) fait varier les paddings des cellules (en-tête, corps, colonne de sélection) sans changer la mise en page.
-- **Beaucoup de colonnes** : l'en-tête et les lignes défilent horizontalement ensemble (via un \`ScrollView\` commun) dès que la somme des largeurs de colonnes dépasse l'espace disponible. Les colonnes sans \`width\` restent flexibles (elles se partagent l'espace restant) : pour garantir le défilement horizontal, donner une \`width\` fixe à chaque colonne, comme dans l'exemple \`ManyColumns\`.`,
+- **Beaucoup de colonnes** : l'en-tête et les lignes défilent horizontalement ensemble (via un \`ScrollView\` commun) dès que la somme des largeurs de colonnes dépasse l'espace disponible. Les colonnes sans \`width\` restent flexibles (elles se partagent l'espace restant) : pour garantir le défilement horizontal, donner une \`width\` fixe à chaque colonne, comme dans l'exemple \`ManyColumns\`.
+- **En-tête épinglé** : \`stickyHeader\` (web uniquement) garde la ligne d'en-têtes visible en haut de son ascendant scrollable pendant le défilement vertical — le tableau ne fournissant lui-même que le scroll horizontal, c'est au parent de borner sa hauteur et de défiler, comme dans l'exemple \`StickyHeader\`.`,
   shortDescription: 'Tableau de données avec tri, sélection multiple et pagination, inspiré de Primer.',
   component: DataTable,
   styleFn: useStyles,
@@ -130,6 +133,18 @@ export const WithCustomCells = () => {
 
 export const WithoutHeader = () => (
   <DataTable data={repositories} columns={baseColumns} keyExtractor={repo => repo.id} hideHeader />
+);
+
+/**
+ * `stickyHeader` épingle l'en-tête en haut de son ascendant scrollable (web uniquement) : le
+ * `DataTable` ne défile lui-même qu'à l'horizontale, c'est donc au parent de fournir le scroll
+ * vertical — ici un `ScrollView` borné en hauteur, comme le ferait un écran de logs ou une longue
+ * liste.
+ */
+export const StickyHeader = () => (
+  <ScrollView style={{ maxHeight: 280 }}>
+    <DataTable data={manyRepositories} columns={baseColumns} keyExtractor={repo => repo.id} stickyHeader />
+  </ScrollView>
 );
 
 export const WithPagination = () => {

@@ -33,6 +33,14 @@ export type DataTableProps<Row> = {
    */
   hideHeader?: boolean;
 
+  /**
+   * Épingle la ligne d'en-têtes en haut de son ascendant scrollable pendant le défilement
+   * vertical (web uniquement — sans effet natif, où le `DataTable` ne possède pas son propre
+   * scroll). Nécessite que le tableau soit placé dans un conteneur qui défile verticalement
+   * (le `DataTable` ne fournit que le scroll horizontal des colonnes).
+   */
+  stickyHeader?: boolean;
+
   renderNoContent?: () => React.ReactNode;
 
   /** Rendu en bas du tableau, typiquement un <DataTableFooter/> avec compteur + <DataTablePagination/>. */
@@ -47,6 +55,7 @@ export const DataTable = <Row,>(props: DataTableProps<Row>) => {
     selectable = false,
     onRowPress,
     hideHeader = false,
+    stickyHeader = false,
     renderNoContent,
     footer,
   } = props;
@@ -67,6 +76,7 @@ export const DataTable = <Row,>(props: DataTableProps<Row>) => {
             selectable={selectable}
             allSelected={allSelected}
             someSelected={someSelected}
+            sticky={stickyHeader}
             onToggleAll={toggleAll}
             onHeaderPress={handleHeaderPress}
           />
