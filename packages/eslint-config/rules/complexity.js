@@ -1,8 +1,8 @@
-// Garde-fou de complexité, posé au niveau visé et non au niveau constaté. La dette
-// existante est gelée dans le fichier `eslint-suppressions.json` de chaque workspace
-// (`eslint . --suppress-all`), versionné : il ne peut que rétrécir. Toute nouvelle
-// violation, y compris dans un fichier déjà en dette, fait échouer le lint. Une fois
-// un fichier assaini, `eslint . --prune-suppressions` retire son entrée.
+// Garde-fou de complexité, posé au niveau visé et non au niveau constaté. La dette existante
+// a été gelée le temps de l'absorber, dans le `eslint-suppressions.json` de chaque workspace.
+// Ces quatre fichiers sont maintenant vides et le gel est fermé : `scripts/check-suppressions.mjs`
+// fait échouer la CI dès qu'un d'eux retient une offense. Une violation se corrige donc, elle ne
+// se gèle plus, et un seuil jugé mal calibré se rediscute ici, pour tout le monde a la fois.
 //
 // Les lignes blanches et les commentaires sont exclus des comptages : une fonction ne
 // devient pas complexe parce qu'elle est documentée.

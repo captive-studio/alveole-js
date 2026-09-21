@@ -11,22 +11,20 @@ Dans un workspace:
 module.exports = require('@alveole/eslint-config');
 ```
 
-## Seuils de complexité et dette gelée
+## Seuils de complexité et gel fermé
 
 Les règles de complexité sont posées au niveau visé, pas au niveau constaté. La dette
-existante est gelée dans le `eslint-suppressions.json` de chaque workspace, versionné.
-Conséquences : toute nouvelle violation fait échouer le lint, y compris dans un fichier
-déjà en dette, et une entrée devenue inutile le fait échouer aussi. Le fichier ne peut
-donc que rétrécir.
-
-Après avoir assaini un fichier :
+existante a été gelée le temps de l'absorber, dans le `eslint-suppressions.json` de chaque
+workspace. **Les quatre workspaces sont désormais à zéro, et le gel est fermé** : la CI
+échoue si un `eslint-suppressions.json` retient la moindre offense.
 
 ```sh
-npx eslint . --prune-suppressions
+pnpm run check:suppressions
 ```
 
-Geler une dette supplémentaire demande une raison explicite :
+Conséquence pour qui écrit du code ici : une violation se corrige, elle ne se gèle plus.
+`--suppress-all` et `--suppress-rule` ne sont plus une issue, et un `eslint-disable` inline
+est une décision de revue, pas un réflexe.
 
-```sh
-npx eslint . --suppress-rule <regle>
-```
+Si une règle s'avère mal calibrée, c'est la règle qui se discute, dans ce paquet, pour tout
+le monde à la fois. Geler une exception au cas par cas revenait à la discuter nulle part.

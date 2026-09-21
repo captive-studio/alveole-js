@@ -53,6 +53,9 @@ jobs:
       - name: Run lint
         run: pnpm run lint
         if: ${{ !cancelled() && steps.dependencies.outcome == 'success' }}
+      - name: Check ESLint suppressions
+        run: pnpm run check:suppressions
+        if: ${{ !cancelled() && steps.dependencies.outcome == 'success' }}
       - name: Run format check
         run: pnpm run format:check
         if: ${{ !cancelled() && steps.dependencies.outcome == 'success' }}

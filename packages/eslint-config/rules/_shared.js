@@ -135,12 +135,12 @@ const config = {
         // faire affirmer n'importe quoi. C'est exactement ce qui a laisse passer un faux
         // `ResizeObserver` a la signature fausse sans que le typecheck bronche. La regle ne
         // l'interdit pas absolument - elle le fait remonter en revue : chaque contournement du
-        // typage doit etre un choix visible, jamais un reflexe. Cas legitime (mock partiel,
-        // interop non typee) : geler l'occurrence dans eslint-suppressions plutot que la cacher
-        // derriere un disable inline.
+        // typage doit etre un choix visible, jamais un reflexe. Les neuf occurrences du catalogue
+        // venaient toutes d'un meme type menteur (`StoryModule`) : avant de contourner, verifier
+        // que ce n'est pas le type qu'il faut corriger.
         selector: 'TSAsExpression > TSAsExpression[typeAnnotation.type=/^TS(Unknown|Any)Keyword$/]',
         message:
-          'Double assertion `as unknown as` / `as any as` : elle desactive la verification de type sur cette expression. Preferer une valeur correctement typee ; si le contournement est indispensable, le justifier en revue (et le geler dans eslint-suppressions).',
+          'Double assertion `as unknown as` / `as any as` : elle desactive la verification de type sur cette expression. Preferer une valeur correctement typee ; si le contournement est indispensable, le justifier en revue.',
       },
     ],
     'no-redeclare': 'off',
