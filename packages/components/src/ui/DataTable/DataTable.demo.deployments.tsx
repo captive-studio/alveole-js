@@ -24,7 +24,6 @@ export type Deployment = {
   status: 'error' | 'ready';
   duration: string;
   environment: 'preview' | 'production';
-  promoted?: boolean;
   commit: string;
   source: string;
   date: Date;
@@ -82,7 +81,6 @@ export const deployments: Deployment[] = [
     status: 'ready',
     duration: '2m 1s',
     environment: 'production',
-    promoted: true,
     commit: '9d71b6c',
     source: 'main',
     date: new Date('2025-12-02T14:04:32Z'),
@@ -161,15 +159,11 @@ const DeploymentDateCell = ({ deployment }: { deployment: Deployment }) => {
           {formatDistanceToNowStrict(deployment.date, { locale: fr, addSuffix: true })}
         </Typography>
         <Box display="flex" flexDirection="row" gap={'1W'} justify="space-between" style={{ alignItems: 'center' }}>
-          <Tag color="default" size="sm">
-            UTC
-          </Tag>
+          <Tag size="sm">UTC</Tag>
           <Typography style={text['Corps de texte'].SM.Regular}>{formatTimestamp(deployment.date, 'UTC')}</Typography>
         </Box>
         <Box display="flex" flexDirection="row" gap={'1W'} justify="space-between" style={{ alignItems: 'center' }}>
-          <Tag color="default" size="sm">
-            {localTimeZoneLabel}
-          </Tag>
+          <Tag size="sm">{localTimeZoneLabel}</Tag>
           <Typography style={text['Corps de texte'].SM.Regular}>{formatTimestamp(deployment.date)}</Typography>
         </Box>
       </Box>
@@ -221,9 +215,7 @@ const DeploymentStatusCell = ({ deployment }: { deployment: Deployment }) => {
 };
 
 const DeploymentEnvironmentCell = ({ deployment }: { deployment: Deployment }) => (
-  <Tag color={deployment.promoted ? 'action' : 'default'} size="sm">
-    {deployment.environment === 'production' ? 'Production' : 'Preview'}
-  </Tag>
+  <Tag size="sm">{deployment.environment === 'production' ? 'Production' : 'Preview'}</Tag>
 );
 
 const DeploymentCommitCell = ({ deployment }: { deployment: Deployment }) => {

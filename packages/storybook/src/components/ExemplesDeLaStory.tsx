@@ -46,12 +46,12 @@ const StatutDeLaFiche = ({ meta }: { meta: StorybookMeta }) => {
     <Box display="flex" flexDirection="row" style={{ alignItems: 'center', justifyContent: 'space-between' }}>
       <Box display="flex" flexDirection="row" flexWrap="wrap" gap={8}>
         {meta.tags.map(tag => (
-          <Tag key={tag} color="action" size="md">
+          <Tag key={tag} size="md">
             {tag}
           </Tag>
         ))}
         {getStoryFlags(meta).map(flag => (
-          <Tag key={flag.key} color="default" size="md">
+          <Tag key={flag.key} size="md">
             {flag.label}
           </Tag>
         ))}

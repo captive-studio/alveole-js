@@ -31,8 +31,12 @@ export const cadresAutourDe = (element: HTMLElement | null) => {
   return cadres;
 };
 
-/** La rangee qui porte un badge : un `Tag` est une boite autour de son texte. */
-export const rangeeDuBadge = (badge: HTMLElement) => badge.parentElement!.parentElement!;
+/**
+ * La rangee qui porte un badge. On remonte jusqu'a l'etiquette elle-meme avant de prendre
+ * son parent : compter les niveaux depuis le texte ferait dependre ce helper de la
+ * structure interne du `Tag`, qui gagne des enveloppes quand le composant evolue.
+ */
+export const rangeeDuBadge = (badge: HTMLElement) => badge.closest('tag')!.parentElement!;
 
 /** Ce qui separe deux elements de la page : leur premier ancetre commun. */
 export const separationEntre = (premier: HTMLElement, second: HTMLElement) => {
