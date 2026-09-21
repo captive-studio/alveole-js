@@ -2,7 +2,7 @@ import { Typography } from '@alveole/components';
 import { StorybookModule } from '../../src/types';
 
 /** Une fiche minimale : un titre, une phrase, un lien Figma, un exemple. */
-export const fiche = {
+export const fiche: StorybookModule = {
   default: {
     title: 'Bouton',
     tags: ['Composant'],
@@ -12,7 +12,7 @@ export const fiche = {
     styleFn: () => ({}),
   },
   Tailles: () => <Typography>Trois tailles</Typography>,
-} as unknown as StorybookModule;
+};
 
 const aUneBordure = (element: HTMLElement) => {
   const largeur = window.getComputedStyle(element).borderTopWidth;

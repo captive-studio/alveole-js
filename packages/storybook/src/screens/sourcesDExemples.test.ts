@@ -1,7 +1,19 @@
 import { StorybookMeta, StorybookModule } from '../types';
 import { descriptionDeLExemple, resumeDeLaFiche, sourceDeLExemple } from './sourcesDExemples';
 
-const fiche = (sources: unknown) => ({ Sources: sources }) as unknown as StorybookModule;
+const metaMinimal: StorybookMeta = {
+  title: 'Bouton',
+  tags: ['Composant'],
+  experimental: false,
+  description: 'Un bouton.',
+  styleFn: () => ({}),
+};
+
+const fiche = (Sources: StorybookModule['Sources']): StorybookModule => ({ default: metaMinimal, Sources });
+
+// Le bloc `Sources` est ecrit par le generateur : c'est du JavaScript que TypeScript n'a jamais
+// vu. Ce constructeur-la entre par cette porte, pour eprouver les gardes qui s'y trouvent.
+const ficheNonVerifiee = (Sources: unknown): StorybookModule => ({ default: metaMinimal, Sources }) as StorybookModule;
 
 describe('sourceDeLExemple', () => {
   it('rend la source rangee sous le nom de l exemple', () => {
@@ -20,7 +32,7 @@ describe('sourceDeLExemple', () => {
 
   // Une fiche sans source n'est pas une erreur : la demonstration se montre sans son code.
   it('rend null quand la fiche n exporte aucune source', () => {
-    expect(sourceDeLExemple({} as StorybookModule, 'Tailles')).toBeNull();
+    expect(sourceDeLExemple({ default: metaMinimal }, 'Tailles')).toBeNull();
   });
 
   it('rend null quand l exemple n a pas de source', () => {
@@ -28,7 +40,7 @@ describe('sourceDeLExemple', () => {
   });
 
   it('rend null quand la fonction ne rend pas du texte', () => {
-    expect(sourceDeLExemple(fiche({ storySources: { Tailles: () => 42 } }), 'Tailles')).toBeNull();
+    expect(sourceDeLExemple(ficheNonVerifiee({ storySources: { Tailles: () => 42 } }), 'Tailles')).toBeNull();
   });
 });
 
@@ -44,7 +56,7 @@ describe('descriptionDeLExemple', () => {
   });
 
   it('rend null quand la fiche ne decrit aucun exemple', () => {
-    expect(descriptionDeLExemple({} as StorybookModule, 'Tailles')).toBeNull();
+    expect(descriptionDeLExemple({ default: metaMinimal }, 'Tailles')).toBeNull();
   });
 });
 
