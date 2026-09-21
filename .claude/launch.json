@@ -3,8 +3,8 @@
   "configurations": [
     {
       "name": "docs",
-      "runtimeExecutable": "npm",
-      "runtimeArgs": ["run", "start", "--workspace=apps/docs"],
+      "runtimeExecutable": "pnpm",
+      "runtimeArgs": ["--filter", "@alveole/docs", "run", "start"],
       "port": 8081,
       "url": "http://localhost:8081"
     }

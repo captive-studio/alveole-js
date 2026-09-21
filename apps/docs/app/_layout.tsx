@@ -4,22 +4,28 @@ import '@alveole/theme/dist/default.css';
 import { Stack } from 'expo-router';
 import { KeyboardProvider } from 'react-native-keyboard-controller';
 import { TamaguiProvider } from 'tamagui';
-import { useUIKitTopBar } from '../components/uiKitNavigation';
+import { useUIKitColumn, useUIKitTopBar } from '../components/uiKitNavigation';
 import { tamaguiConfig } from '../tamagui.config';
 import './global.css';
 
 /**
- * La barre est montée ici, une fois, plutôt que dans le `beforeContent` de chaque écran :
- * `Page` rend son `beforeContent` à l'intérieur de sa colonne de droite, donc une barre
- * passée par là démarrerait au bord de la colonne au lieu de la surplomber. Voir docs/adr/0007.
+ * La barre et la colonne sont montées ici, une fois, plutôt que dans chaque écran : `Page`
+ * les rendrait à l'intérieur de l'écran courant, que le `Stack` démonte et remonte à chaque
+ * navigation - la colonne perdrait alors sa position de scroll à chaque clic. Voir docs/adr/0007.
  */
 function UIKitChrome() {
   const topBar = useUIKitTopBar();
+  const column = useUIKitColumn();
 
   return (
     <Box flex={1}>
       {topBar}
-      <Stack screenOptions={{ headerShown: false }} />
+      <Box style={{ display: 'flex', flexDirection: 'row', flex: 1 }}>
+        {column}
+        <Box flex={1}>
+          <Stack screenOptions={{ headerShown: false }} />
+        </Box>
+      </Box>
     </Box>
   );
 }
