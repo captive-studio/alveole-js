@@ -22,14 +22,21 @@ export const Sizes = () => (
 );
 
 export const Selection = () => (
-  <Box display="flex" flexDirection="row" gap={24} flexWrap="wrap">
-    <Tag size="md">Descriptive, inerte au survol</Tag>
-    <Tag size="md" selected={false}>
-      Au repos, dans un groupe
-    </Tag>
-    <Tag size="md" selected>
-      Sélectionné
-    </Tag>
+  <Box display="flex" flexDirection="column" gap={16}>
+    {(['sm', 'md'] as const).map(size => (
+      <Box key={size} display="flex" flexDirection="row" gap={24} flexWrap="wrap">
+        <Tag size={size}>Descriptive, inerte</Tag>
+        <Tag size={size} selected={false}>
+          Au repos, dans un groupe
+        </Tag>
+        <Tag size={size} selected>
+          Sélectionné
+        </Tag>
+        <Tag size={size} selected closable onClose={() => {}}>
+          Sélectionné et fermable
+        </Tag>
+      </Box>
+    ))}
   </Box>
 );
 

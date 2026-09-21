@@ -1,5 +1,5 @@
 import type { StoryExample } from '@alveole/components';
-import { cadresAutourDe, fiche, rangeeDuBadge, separationEntre } from '../../__tests__/helpers/fiche';
+import { cadresAutourDe, fiche, rangeeDeLEtiquette, separationEntre } from '../../__tests__/helpers/fiche';
 import { renderScreen } from '../../__tests__/helpers/renderScreen';
 import { StorybookMeta, StorybookModule } from '../types';
 import { StoryDetailScreen } from './StoryDetailScreen';
@@ -56,7 +56,7 @@ describe('ce que la fiche annonce', () => {
   it('aligne tags et informations sur une seule rangee', () => {
     const { getByText } = renderScreen(<StoryDetailScreen story={fiche} />);
 
-    expect(rangeeDuBadge(getByText('Composant'))).toBe(rangeeDuBadge(getByText('Figma')));
+    expect(rangeeDeLEtiquette(getByText('Composant'))).toBe(rangeeDeLEtiquette(getByText('Figma')));
   });
   // Chez Primer, la rangee de badges et de liens (Ready to use, GitHub, Figma...) vit sous la
   // barre d'onglets, dans le contenu de l'onglet actif : elle documente ce qu'on regarde, pas

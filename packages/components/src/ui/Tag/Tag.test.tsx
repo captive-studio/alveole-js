@@ -51,12 +51,14 @@ it('n affiche aucune croix tant que l etiquette n est pas fermable', async () =>
   expect(view.queryByRole('button')).toBeNull();
 });
 
-// La croix est un bouton, pas une icone decorative : un lecteur d'ecran doit l'annoncer
-// comme tel. Meme exigence que le bouton de fermeture de Toast, dont elle reprend le montage.
-it('annonce la croix comme un bouton', async () => {
+// La croix est le seul element actionnable de l'etiquette : le reste ne doit rien annoncer
+// d'actionnable a un lecteur d'ecran. Le conteneur de survol est un `Pressable`, qui serait
+// annonce sans son `accessible={false}` - c'est cette couture que le test tient. Asserter le
+// role de la croix elle-meme serait tautologique : on la trouve deja par ce role.
+it('n expose qu une seule cible actionnable, la croix', async () => {
   const view = await etiquette({ closable: true });
 
-  expect(view.getByRole('button').props.accessibilityRole).toBe('button');
+  expect(view.getAllByRole('button')).toHaveLength(1);
 });
 
 // Le seul effet que la croix doit produire : prevenir l'appelant. Le composant ne retire
@@ -105,12 +107,13 @@ it('n affiche aucune icone tant qu on ne lui en donne pas', async () => {
 // d'oeil, la lire apres le texte n'aurait pas d'interet.
 it('place l icone demandee avant le libelle', async () => {
   const view = await etiquette({ icon: 'Check' });
-  // Le libelle est le seul enfant textuel de la pastille : tout ce qui le precede dans la
-  // liste des enfants est rendu avant lui. Comparer des types de noeuds ne dirait rien de
-  // l'ordre, l'icone etant imbriquee dans la pastille comme le texte.
+  // Le libelle est le seul enfant textuel de la pastille : ce qui le precede dans la liste
+  // des enfants est rendu avant lui. On exige un rang, pas une position : figer l'index a 1
+  // ferait casser le test au premier element ajoute devant, sans qu'aucun ordre n'ait change.
   const enfants = pastille(view)?.children ?? [];
+  const rangDuLibelle = enfants.findIndex(enfant => typeof enfant === 'string');
 
-  expect(enfants.findIndex(enfant => typeof enfant === 'string')).toBe(1);
+  expect(rangDuLibelle).toBeGreaterThan(0);
 });
 
 // Gabarits de maquette, donc valeurs figees. L'ecart avant le libelle suit Primer, qui le
