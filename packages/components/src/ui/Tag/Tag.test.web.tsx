@@ -65,19 +65,25 @@ const survoler = (container: HTMLElement) => {
 };
 const auRepos = teinte;
 
-const etiquette = (props: { selected?: boolean } = {}) =>
-  renderOnDesktop(
-    <Tag size="sm" {...props}>
+const etiquette = (props: { selected?: boolean; size?: 'sm' | 'md' } = {}) => {
+  const { size = 'sm', ...reste } = props;
+
+  return renderOnDesktop(
+    <Tag size={size} {...reste}>
       Brouillon
     </Tag>,
   ).container;
+};
 
 // Second signal de l'ADR 0014, independant du premier : le survol fonce le libelle a lui
 // seul, sans que l'etiquette soit selectionnee.
-it('change la couleur du libelle quand le pointeur survole la pastille', () => {
+// ALV-53 exige le « meme traitement de survol » en md qu'en sm : les deux crans passent donc
+// par la meme table. Sans elle, le survol n'etait exerce qu'en sm et la parite reposait sur
+// le fait que le code n'en parle pas - un argument, pas une mesure.
+it.each(['sm', 'md'] as const)('change la couleur du libelle au survol en %s', size => {
   // `selected: false` n'est pas du bruit : c'est ainsi qu'une etiquette declare appartenir a
   // un groupe de selection, et donc qu'elle se manipule.
-  const survolee = etiquette({ selected: false });
+  const survolee = etiquette({ selected: false, size });
   const couleurAuRepos = auRepos(survolee).color;
 
   expect(survoler(survolee).color).not.toBe(couleurAuRepos);
@@ -86,8 +92,8 @@ it('change la couleur du libelle quand le pointeur survole la pastille', () => {
 // Le coeur de l'ADR 0014 : le survol ne touche pas la bordure. C'est ce qui garde les deux
 // signaux lisibles cote a cote dans un groupe de filtres - si le survol foncait aussi la
 // bordure, passer le pointeur sur une etiquette la ferait passer pour selectionnee.
-it('laisse la bordure intacte au survol', () => {
-  const survolee = etiquette({ selected: false });
+it.each(['sm', 'md'] as const)('laisse la bordure intacte au survol en %s', size => {
+  const survolee = etiquette({ selected: false, size });
   const bordureAuRepos = auRepos(survolee).borderColor;
 
   expect(survoler(survolee).borderColor).toBe(bordureAuRepos);
@@ -254,4 +260,61 @@ it('laisse la pastille retrecir sous la taille de son libelle', () => {
     minWidth: '0px',
     maxWidth: '100%',
   });
+});
+
+// Exigence explicite de l'epic et d'ALV-49 : « la position de l'icone ne doit jamais varier
+// entre etats ». Elle tenait, mais rien ne l'empechait de regresser. On compare toutes les
+// proprietes de style de la croix entre repos et survol : seul le fond a le droit de bouger.
+// Formulee en negatif plutot qu'en liste de proprietes, pour qu'un futur `padding` ou
+// `margin` ajoute par megarde au survol tombe aussi.
+it('ne deplace jamais la croix entre le repos et le survol', () => {
+  const { container } = renderOnDesktop(
+    <Tag size="sm" closable>
+      Brouillon
+    </Tag>,
+  );
+  const croix = container.querySelector('[role="button"]') as HTMLElement;
+  const geometrie = () =>
+    Object.fromEntries(
+      Array.from(croix.style)
+        .filter(nom => nom !== 'background-color')
+        .map(nom => [nom, croix.style.getPropertyValue(nom)]),
+    );
+  const auRepos = geometrie();
+
+  fireEvent.mouseEnter(croix);
+
+  expect(geometrie()).toEqual(auRepos);
+});
+
+// L'ADR 0019 donne deux facons d'etre manipulable : porter une croix, ou appartenir a un
+// groupe de selection. Seule la seconde etait exercee. Sans ce test, remplacer
+// `!!closable || 'selected' in props` par le seul `'selected' in props` passerait inapercu :
+// une etiquette fermable cesserait de repondre au survol, alors qu'elle est la plus
+// manipulable des deux.
+it('fonce le libelle au survol d une etiquette seulement fermable', () => {
+  const { container } = renderOnDesktop(
+    <Tag size="sm" closable>
+      Brouillon
+    </Tag>,
+  );
+  const couleurAuRepos = auRepos(container).color;
+
+  fireEvent.mouseEnter(container.querySelector('tag')!.firstElementChild!);
+
+  expect(libelle(container).style.color).not.toBe(couleurAuRepos);
+});
+
+// ALV-52 et ALV-53 lient la typographie a des styles publies : XS.Bold en sm, SM.Bold en md.
+// Rien ne l'asservissait : un cran qui prendrait la police de l'autre passait inapercu. On
+// compare les deux crans entre eux plutot que de figer une taille, pour que la regle survive
+// a un ajustement de l'echelle typographique - ce qui compte, c'est qu'ils different.
+it('donne une typographie distincte a chaque cran', () => {
+  const petite = libelle(etiquette({ size: 'sm' })).style;
+  const grande = libelle(etiquette({ size: 'md' })).style;
+
+  expect({
+    police: petite.fontSize !== grande.fontSize,
+    interligne: petite.lineHeight !== grande.lineHeight,
+  }).toEqual({ police: true, interligne: true });
 });
