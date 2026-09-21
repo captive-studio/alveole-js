@@ -6,8 +6,8 @@ const sonarjs = require('eslint-plugin-sonarjs');
 // `recommended` du plugin porte des centaines de règles de style qui recouvrent déjà
 // eslint-config-expo et n'ont rien à voir avec la qualité structurelle.
 //
-// Même cliquet que les règles natives : seuils au niveau visé, dette gelée dans le
-// `eslint-suppressions.json` de chaque workspace.
+// Même régime que les règles natives : seuils au niveau visé, et gel fermé (voir
+// `rules/complexity.js`).
 /** @type {import('eslint').Linter.Config} */
 const config = {
   files: ['**/*.{ts,tsx}'],
