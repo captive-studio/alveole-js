@@ -43,17 +43,6 @@ it('applique le rembourrage horizontal de la taille lg', async () => {
   expect(conteneur(view)?.props.style.paddingLeft).toBe(16); // control('lg').paddingInline
 });
 
-// Sans `title`, le bouton passe en mode icone seule : la chaine de ternaires sur `size`
-// bascule sur une seconde famille de styles, qui pose une hauteur et une largeur egales
-// (bouton carre) la ou le mode avec libelle pose des rembourrages asymetriques.
-it('applique un cadre carre en mode icone seule', async () => {
-  const view = await renderNative(<Button variant="primary" startIcon="Check" />);
-  const style = view.getByRole('button').props.style;
-
-  expect(style.height).toBe(32);
-  expect(style.width).toBe(style.height);
-});
-
 // Le design prevoyait qu'une icone resserre le rembourrage de son cote. Ca n'a jamais
 // fonctionne : les styles d'icone etaient poses en tete de l'objet puis ecrases par le
 // style de taille, qui definit paddingLeft et paddingRight pour les quatre tailles. Le
@@ -183,18 +172,6 @@ it('applique la hauteur de la taille lg', async () => {
   const view = await renderNative(<Button variant="primary" title="Enregistrer" size="lg" />);
 
   expect(view.getByRole('button').props.style.height).toBe(40);
-});
-
-// Les trois tailles d'icone seule rendaient toutes 30 px de hauteur (ADR 0002/0013) :
-// meme padding uniforme, meme icone. La hauteur posee restaure l'echelle.
-it('distingue les hauteurs en mode icone seule', async () => {
-  const petit = await renderNative(<Button variant="primary" startIcon="Check" size="sm" />);
-  const moyen = await renderNative(<Button variant="primary" startIcon="Check" />);
-  const grand = await renderNative(<Button variant="primary" startIcon="Check" size="lg" />);
-
-  expect(petit.getByRole('button').props.style.height).toBe(28);
-  expect(moyen.getByRole('button').props.style.height).toBe(32);
-  expect(grand.getByRole('button').props.style.height).toBe(40);
 });
 
 // Le Pressable (la coque visible) n'avait aucune hauteur posee : il s'auto-dimensionnait

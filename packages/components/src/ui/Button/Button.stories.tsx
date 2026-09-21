@@ -103,25 +103,28 @@ export const Icons = () => (
 );
 
 /**
- * Sans `title`, le bouton passe en mode icône seule : il devient carré, à la hauteur de son
- * cran de contrôle (28, 32 ou 40 px selon la taille).
+ * `ButtonIcon` est la **seule** façon d'obtenir un bouton carré. `Button` exige un `title` :
+ * il ne bascule plus en mode icône seule quand on le lui retire.
  *
- * `ButtonIcon` produit exactement la même géométrie, mesure faite. Ce qui le distingue tient
- * entièrement à son API :
+ * C'est la règle des trois références. Atlassian rend les `children` de son bouton par défaut
+ * obligatoires, si bien qu'un bouton-icône ne peut y être écrit qu'avec `IconButton`. Primer a
+ * deux composants, et la géométrie carrée n'existe que sur la classe que pose `IconButton`.
+ * Base n'a qu'un composant, mais la forme s'y demande (`shape="square"`), jamais ne se déduit.
  *
- * - il rend `accessibilityLabel` **obligatoire**, là où `Button` le laisse facultatif ;
- * - il accepte `iconSize`, pour dissocier la taille de l'icône de celle du bouton ;
- * - il n'accepte que `primary`, `secondary` et `tertiary` : pas de `danger`.
+ * La raison est mesurable : tant que l'absence de `title` suffisait, rien ne signalait un
+ * bouton muet. Trois des cinq appels de ce genre écrits dans les applications n'avaient aucun
+ * `accessibilityLabel`. `ButtonIcon` le rend obligatoire, et le compilateur fait le reste.
  *
- * Dans les deux cas `accessibilityLabel` est la seule chose qui décrit l'action.
+ * Il accepte `primary`, `secondary` et `tertiary`, et `iconSize` pour dissocier la taille de
+ * l'icône de celle du bouton.
  */
 export const IconOnly = () => (
   <Box display="flex" flexDirection="row" gap={24} style={{ alignItems: 'center' }}>
-    <Button variant="tertiary" size="sm" startIcon="MoreHorizontal" accessibilityLabel="Plus d'actions" />
-    <Button variant="tertiary" size="md" startIcon="MoreHorizontal" accessibilityLabel="Plus d'actions" />
-    <Button variant="tertiary" size="lg" startIcon="MoreHorizontal" accessibilityLabel="Plus d'actions" />
-    <Button variant="secondary" size="md" startIcon="Trash" accessibilityLabel="Supprimer" />
-    <ButtonIcon variant="secondary" size="md" icon="CircleUser" accessibilityLabel="Voir le profil" />
+    <ButtonIcon variant="tertiary" size="sm" icon="MoreHorizontal" accessibilityLabel="Plus d'actions" />
+    <ButtonIcon variant="tertiary" size="md" icon="MoreHorizontal" accessibilityLabel="Plus d'actions" />
+    <ButtonIcon variant="tertiary" size="lg" icon="MoreHorizontal" accessibilityLabel="Plus d'actions" />
+    <ButtonIcon variant="secondary" size="md" icon="Trash" accessibilityLabel="Supprimer" />
+    <ButtonIcon variant="primary" size="md" icon="Plus" accessibilityLabel="Ajouter" />
     <ButtonIcon variant="tertiary" size="md" icon="CircleUser" iconSize="xs" accessibilityLabel="Voir le profil" />
   </Box>
 );

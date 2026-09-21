@@ -49,6 +49,15 @@ it.each([
   expect(cadre(view).height).toBe(height);
 });
 
+// Le carre etait jusqu'ici garanti par un test de `Button`, du temps ou l'absence de `title`
+// y basculait en mode icone seule. Ce mode a disparu : `ButtonIcon` est desormais le seul a
+// produire cette geometrie, c'est donc ici que la garantie doit vivre.
+it('rend un cadre carre', async () => {
+  const view = await renderNative(<ButtonIcon accessibilityLabel="Valider" variant="primary" icon="Check" />);
+
+  expect(cadre(view).width).toBe(cadre(view).height);
+});
+
 // `iconStyle` rejoue la table des variantes pour la couleur, independamment de celle du
 // fond : les deux peuvent donc se desynchroniser. Ce test ancre le couple primary -> teinte.
 it('teinte l icone selon la variante', async () => {

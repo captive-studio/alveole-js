@@ -9,8 +9,14 @@ export type CustomPressableState = PressableStateCallbackType & {
 };
 
 export type ButtonProps = Omit<PressableProps, 'children' | 'style'> & {
-  /** Sans `title`, le bouton passe en mode icône seule (nécessite `startIcon` ou `endIcon`). */
-  title?: string;
+  /**
+   * Obligatoire : un bouton porte toujours un libellé. Pour un bouton carré sans libellé,
+   * c'est `ButtonIcon` qu'il faut prendre - lui seul rend `accessibilityLabel` obligatoire.
+   * Tant que l'absence de `title` suffisait à basculer ici en mode icône seule, rien
+   * n'empêchait d'écrire un bouton muet : trois des cinq appels mesurés dans les
+   * applications l'étaient. Atlassian rend de même ses `children` obligatoires.
+   */
+  title: string;
   size?: ButtonTaille;
   variant: ButtonVariant;
   startIcon?: IconProps['name'];
@@ -37,7 +43,6 @@ export type ButtonProps = Omit<PressableProps, 'children' | 'style'> & {
 export type EtatDuBouton = {
   variant: ButtonVariant;
   taille: ButtonTaille;
-  iconeSeule: boolean;
   selected?: boolean;
   disabled?: boolean | null;
   noPadding?: boolean;
@@ -49,7 +54,6 @@ export type EtatDuBouton = {
 export const etatDuBouton = (props: ButtonProps): EtatDuBouton => ({
   variant: props.variant,
   taille: props.size ?? 'md',
-  iconeSeule: !props.title,
   selected: props.selected,
   disabled: props.disabled,
   noPadding: props.noPadding,

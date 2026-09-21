@@ -80,21 +80,6 @@ const tailles = ({ text, radius, control }: Theme) =>
       paddingLeft: control('lg').paddingInline,
       paddingRight: control('lg').paddingInline,
     },
-    // `sm` et `md` sont volontairement identiques : le Figma ne distingue pas les deux en mode
-    // icone seule. Les garder separes laisse la porte ouverte sans changer l'apparence.
-    smContainerIconOnly: {
-      height: '100%',
-      width: '100%',
-    },
-    mdContainerIconOnly: {
-      height: '100%',
-      width: '100%',
-    },
-    lgContainerIconOnly: {
-      height: '100%',
-      width: '100%',
-    },
-
     // Litteraux dedies au Pressable : lui seul doit connaitre la hauteur en pixels, pour
     // l'absorber dans sa propre bordure via boxSizing. Le conteneur interieur, lui, se
     // contente de remplir cet espace (cf. smContainer et consorts, height: '100%').
