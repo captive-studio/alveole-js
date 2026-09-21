@@ -66,11 +66,16 @@ export const States = () => (
  * si le serveur répond en moins d'une seconde, l'utilisateur ne voit jamais le spinner.
  * Au-delà, le spinner s'affiche pour signaler que l'attente va durer.
  *
+ * **Le spinner prend la place de quelque chose, il ne s'ajoute jamais** : le bouton garde donc
+ * exactement sa largeur. S'il porte une icône, c'est elle que le spinner remplace, et le
+ * libellé reste lisible. Sinon le spinner se centre et le libellé devient invisible sans
+ * quitter le flux, pour continuer d'imposer sa largeur.
+ *
  * Pendant toute l'attente - y compris avant que le spinner ne paraisse - le bouton cesse de
  * répondre : il sort du parcours au clavier et se déclare `aria-disabled`, pour qu'un second
  * appui ne relance pas l'opération. Son apparence, elle, reste celle du repos.
  *
- * Appuyez sur le bouton pour simuler une opération de 3 secondes.
+ * Appuyez sur un bouton pour simuler une opération de 3 secondes.
  */
 export const Loading = () => {
   const [isLoading, setIsLoading] = React.useState(false);
@@ -80,7 +85,12 @@ export const Loading = () => {
     setTimeout(() => setIsLoading(false), 3000);
   };
 
-  return <Button variant="primary" title="Enregistrer" isLoading={isLoading} onPress={handlePress} />;
+  return (
+    <Box display="flex" flexDirection="row" gap={24}>
+      <Button variant="primary" title="Enregistrer" isLoading={isLoading} onPress={handlePress} />
+      <Button variant="secondary" title="Exporter" startIcon="Download" isLoading={isLoading} onPress={handlePress} />
+    </Box>
+  );
 };
 
 /** `startIcon` place l'icône avant le libellé, `endIcon` après. Les deux peuvent coexister. */
