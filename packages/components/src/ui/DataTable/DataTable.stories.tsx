@@ -139,10 +139,12 @@ export const WithoutHeader = () => (
  * `stickyHeader` épingle l'en-tête en haut de son ascendant scrollable (web uniquement) : le
  * `DataTable` ne défile lui-même qu'à l'horizontale, c'est donc au parent de fournir le scroll
  * vertical — ici un `ScrollView` borné en hauteur, comme le ferait un écran de logs ou une longue
- * liste.
+ * liste. `tabIndex={0}` rend cette région scrollable atteignable au clavier (règle axe
+ * `scrollable-region-focusable`), comme l'exige tout conteneur qui défile sans être lui-même
+ * focusable.
  */
 export const StickyHeader = () => (
-  <ScrollView style={{ maxHeight: 280 }}>
+  <ScrollView style={{ maxHeight: 280 }} tabIndex={0}>
     <DataTable data={manyRepositories} columns={baseColumns} keyExtractor={repo => repo.id} stickyHeader />
   </ScrollView>
 );
