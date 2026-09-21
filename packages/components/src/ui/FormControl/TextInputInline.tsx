@@ -25,6 +25,7 @@ export const TextInputInline = React.forwardRef<TextInputElement, TextInputProps
   const {
     disabled,
     readOnly,
+    editable,
     error,
     success,
     startAdornment,
@@ -39,7 +40,7 @@ export const TextInputInline = React.forwardRef<TextInputElement, TextInputProps
   const styles = useStyles();
   const fieldId = useFieldId();
 
-  const champ = useFieldFocus<FocusEvent, BlurEvent>({ disabled, readOnly, onFocus, onBlur });
+  const champ = useFieldFocus<FocusEvent, BlurEvent>({ disabled, readOnly, editable, onFocus, onBlur });
   const inputRef = React.useRef<ReactNativeTextInput>(null);
 
   React.useImperativeHandle(ref, () => inputRef.current as ReactNativeTextInput);
@@ -64,7 +65,7 @@ export const TextInputInline = React.forwardRef<TextInputElement, TextInputProps
         id={inputProps.id ?? fieldId}
         style={inputTextStyle(styles, { startAdornment, endAdornment })}
         readOnly={readOnly === true}
-        editable={inputProps.editable}
+        editable={editable}
         onFocus={champ.handleFocus}
         onBlur={champ.handleBlur}
         onPressIn={onPressIn}
