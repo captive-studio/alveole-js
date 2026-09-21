@@ -112,7 +112,7 @@ export const Icons = () => (
  * Base n'a qu'un composant, mais la forme s'y demande (`shape="square"`), jamais ne se déduit.
  *
  * La raison est mesurable : tant que l'absence de `title` suffisait, rien ne signalait un
- * bouton muet. Trois des cinq appels de ce genre écrits dans les applications n'avaient aucun
+ * bouton muet. Deux des quatre appels de ce genre écrits dans les applications n'avaient aucun
  * `accessibilityLabel`. `ButtonIcon` le rend obligatoire, et le compilateur fait le reste.
  *
  * Il accepte `primary`, `secondary` et `tertiary`, et `iconSize` pour dissocier la taille de

@@ -13,7 +13,7 @@ export type ButtonProps = Omit<PressableProps, 'children' | 'style'> & {
    * Obligatoire : un bouton porte toujours un libellé. Pour un bouton carré sans libellé,
    * c'est `ButtonIcon` qu'il faut prendre - lui seul rend `accessibilityLabel` obligatoire.
    * Tant que l'absence de `title` suffisait à basculer ici en mode icône seule, rien
-   * n'empêchait d'écrire un bouton muet : trois des cinq appels mesurés dans les
+   * n'empêchait d'écrire un bouton muet : deux des quatre appels mesurés dans les
    * applications l'étaient. Atlassian rend de même ses `children` obligatoires.
    */
   title: string;
