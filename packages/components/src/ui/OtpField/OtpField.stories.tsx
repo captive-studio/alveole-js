@@ -16,6 +16,7 @@ export const Default = () => (
   <Box display="flex" flexDirection="column" gap={24}>
     <OtpField label="Code de vérification" onChange={() => {}} />
     <OtpField label="Avec erreur" onChange={() => {}} error="Code invalide" />
+    <OtpField label="Avec succès" onChange={() => {}} success="Code vérifié" />
     <OtpField label="Désactivé" onChange={() => {}} disabled />
   </Box>
 );

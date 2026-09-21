@@ -15,6 +15,7 @@ export const Default = () => (
   <Box display="flex" flexDirection="column" gap={24}>
     <TextareaField label="Message" placeholder="Votre message..." numberOfLines={4} />
     <TextareaField label="Avec erreur" placeholder="Votre message..." error="Ce champ est requis" numberOfLines={4} />
+    <TextareaField label="Avec succès" value="Votre message" success="Message enregistré" numberOfLines={4} />
     <TextareaField label="Désactivé" value="Message existant" disabled numberOfLines={4} />
   </Box>
 );

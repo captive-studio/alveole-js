@@ -16,6 +16,7 @@ export const Default = () => (
   <Box display="flex" flexDirection="column" gap={24}>
     <PasswordField label="Mot de passe" placeholder="••••••••" />
     <PasswordField label="Avec erreur" placeholder="••••••••" error="Mot de passe incorrect" />
+    <PasswordField label="Avec succès" value="motdepasse" success="Mot de passe accepté" />
     <PasswordField label="Désactivé" value="monMotDePasse" disabled />
   </Box>
 );
