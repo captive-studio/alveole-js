@@ -40,7 +40,7 @@ export const rapport = gels =>
     'Le gel ESLint est ferme : aucun eslint-suppressions.json ne peut retenir d offense.',
     '',
     ...gels.map(
-      ({ fichier, offenses, regles }) => `  ✗ ${fichier} — ${accorde(offenses, 'offense')} (${regles.join(', ')})`,
+      ({ fichier, offenses, regles }) => `  ✗ ${fichier} : ${accorde(offenses, 'offense')} (${regles.join(', ')})`,
     ),
     '',
     'Corrigez la violation plutot que de la geler. Une exception se decide en revue, pas avec --suppress-all.',
