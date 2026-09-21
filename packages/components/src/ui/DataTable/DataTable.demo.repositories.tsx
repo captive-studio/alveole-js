@@ -60,6 +60,12 @@ export const repositories: Repository[] = [
   },
 ];
 
+// Les 5 repositories ci-dessus ne remplissent jamais une zone de scroll : la story
+// `StickyHeader` a besoin d'assez de lignes pour que l'en-tête ait quelque chose à survoler.
+export const manyRepositories: Repository[] = Array.from({ length: 6 }, (_, i) =>
+  repositories.map(repo => ({ ...repo, id: `${repo.id}_${i}` })),
+).flat();
+
 export const baseColumns: DataTableColumn<Repository>[] = [
   {
     id: 'name',

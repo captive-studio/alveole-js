@@ -1,4 +1,5 @@
 import { makeStyles, StyleValue, useTheme } from '@alveole/theme';
+import { Platform } from 'react-native';
 
 type Theme = ReturnType<typeof useTheme>;
 
@@ -54,6 +55,11 @@ const entete = ({ color, text, spacing }: Theme) =>
     },
     headerRowLg: {
       minHeight: 36,
+    },
+    // `position: sticky` n'existe pas nativement (RN n'accepte que absolute/relative pour
+    // `position`) : sans le garde-fou web, la valeur traverserait telle quelle jusqu'à iOS/Android.
+    headerRowSticky: {
+      ...(Platform.OS === 'web' ? { position: 'sticky', top: 0, zIndex: 1 } : {}),
     },
     headerCell: {
       display: 'flex',
