@@ -31,6 +31,9 @@ const transformIgnorePatterns = [
 // dupliquées cassent React ("Incompatible React versions", hooks invalides) ou la config
 // Jest elle-même.
 const sharedModuleNameMapper = {
+  // `PriceInput.web.tsx` importe sa feuille de style pour l'effet de bord. Sans cette
+  // substitution, Jest evalue le CSS comme du JavaScript et casse a l'import.
+  '\\.css$': '<rootDir>/__tests__/mocks/style.js',
   '^@alveole/core$': '<rootDir>/../core/src/index.ts',
   '^@alveole/theme$': '<rootDir>/../theme/src/index.ts',
   '^@/(.*)$': '<rootDir>/$1',
