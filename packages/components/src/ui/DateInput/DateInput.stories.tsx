@@ -22,6 +22,7 @@ export const Default = () => (
       </Grid.Column>
       <Grid.Column size={{ desktop: 6, mobile: 12 }}>
         <DateInput label="Error" onChange={console.log} error="Une erreur" />
+        <DateInput label="Succès" onChange={console.log} success="Date enregistrée" />
       </Grid.Column>
       <Grid.Column size={{ desktop: 6, mobile: 12 }}>
         <DateInput label="Disabled" onChange={console.log} disabled />

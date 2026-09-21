@@ -15,6 +15,7 @@ export const Default = () => (
   <Box display="flex" flexDirection="column" gap={24}>
     <PhoneField label="Téléphone" placeholder="06 12 34 56 78" />
     <PhoneField label="Avec erreur" placeholder="06 12 34 56 78" error="Numéro invalide" />
+    <PhoneField label="Avec succès" value="06 12 34 56 78" success="Numéro vérifié" />
     <PhoneField label="Désactivé" value="06 12 34 56 78" disabled />
   </Box>
 );

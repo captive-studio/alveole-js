@@ -33,6 +33,7 @@ export const States = () => (
   <Box display="flex" flexDirection="column" gap={24}>
     <SelectMultiple label="Avec valeurs" options={OPTIONS} value={['a', 'c']} />
     <SelectMultiple label="Erreur" options={OPTIONS} value={[]} error="Ce champ est requis" />
+    <SelectMultiple label="Succès" options={OPTIONS} value={['a']} success="Sélection enregistrée" />
     <SelectMultiple label="Désactivé" options={OPTIONS} value={['b']} disabled />
   </Box>
 );
