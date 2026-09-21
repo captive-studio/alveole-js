@@ -66,6 +66,10 @@ export const States = () => (
  * si le serveur répond en moins d'une seconde, l'utilisateur ne voit jamais le spinner.
  * Au-delà, le spinner s'affiche pour signaler que l'attente va durer.
  *
+ * Pendant toute l'attente - y compris avant que le spinner ne paraisse - le bouton cesse de
+ * répondre : il sort du parcours au clavier et se déclare `aria-disabled`, pour qu'un second
+ * appui ne relance pas l'opération. Son apparence, elle, reste celle du repos.
+ *
  * Appuyez sur le bouton pour simuler une opération de 3 secondes.
  */
 export const Loading = () => {

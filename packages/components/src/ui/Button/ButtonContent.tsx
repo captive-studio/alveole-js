@@ -38,7 +38,10 @@ export const ButtonContent = ({ styles, etat, state, actif, props }: ButtonConte
         </Typography>
       )}
       {isLoading ? (
-        <Spinner size="sm" delay="long" style={styles.buttonLoader} />
+        // Le spinner prend la place de l'icone de fin, dans le flux, et n'a donc aucun style
+        // de position a recevoir : il etait pose en `position: absolute`, par-dessus le
+        // libelle, et rogne par l'`overflow: hidden` du conteneur.
+        <Spinner size="sm" delay="long" />
       ) : (
         endIcon && <LucideIcon name={endIcon} {...icone} />
       )}
