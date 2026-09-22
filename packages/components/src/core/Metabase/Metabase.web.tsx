@@ -3,7 +3,11 @@ import { MetabaseProps } from './Metabase.props';
 import { useStyles } from './Metabase.styles';
 import { useMetabaseEmbed } from './useMetabaseEmbed';
 
-declare global {
+// React 19 a déplacé le namespace `JSX` de la portée globale vers `React.JSX` : une
+// `declare global { namespace JSX }` n'est plus lue par le compilateur, et c'est ce qui rendait
+// un `@ts-ignore` nécessaire ici. L'augmentation du module `react` remet la déclaration à
+// l'endroit où TypeScript la cherche, et l'élément retrouve un vrai type.
+declare module 'react' {
   namespace JSX {
     interface IntrinsicElements {
       'metabase-dashboard': React.DetailedHTMLProps<
@@ -38,7 +42,6 @@ export const Metabase = (props: MetabaseProps) => {
 
   return (
     <div style={styles.metabase}>
-      {/* @ts-ignore - metabase-dashboard est un web component */}
       <metabase-dashboard
         token={token}
         with-title="true"
