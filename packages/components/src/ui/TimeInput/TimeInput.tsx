@@ -8,6 +8,7 @@ import {
   FormControlLabel,
   FormControlLabelProps,
   TextInput,
+  TextInputElement,
 } from '../FormControl';
 import { InputHeading } from '../InputHeading';
 
@@ -20,7 +21,7 @@ export type TimeInputProps = FormControlLabelProps &
     disabled?: boolean;
   };
 
-export const TimeInput = React.forwardRef<any, TimeInputProps>(function TimeInput(
+export const TimeInput = React.forwardRef<TextInputElement, TimeInputProps>(function TimeInput(
   { label, labelRight, hint, error, success, value, onChange, onBlur, disabled },
   ref,
 ) {
