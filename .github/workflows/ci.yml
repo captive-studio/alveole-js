@@ -56,6 +56,9 @@ jobs:
       - name: Check ESLint suppressions
         run: pnpm run check:suppressions
         if: ${{ !cancelled() && steps.dependencies.outcome == 'success' }}
+      - name: Check ADR numbers
+        run: pnpm run check:adr-numbers
+        if: ${{ !cancelled() && steps.dependencies.outcome == 'success' }}
       - name: Run format check
         run: pnpm run format:check
         if: ${{ !cancelled() && steps.dependencies.outcome == 'success' }}
@@ -96,6 +99,9 @@ jobs:
             jest-cache-${{ runner.os }}-
       - name: Unit tests (Jest)
         run: pnpm run test:unit
+      - name: Check coverage ratchet
+        run: pnpm run check:coverage-ratchet
+        if: ${{ !cancelled() }}
   # Les quatre anciens jobs partagent le build du commit courant. Aucun cache
   # de dist : publint, le lint docs et le navigateur vérifient bien ce build.
   web-and-packages:
