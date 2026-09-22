@@ -20,5 +20,9 @@ export const DateFormats = {
 
 export type DateFormat = (typeof DateFormats)[keyof typeof DateFormats];
 
-export const isDateFormat = (value: unknown): value is DateFormat =>
-  value != null && Object.values(DateFormats).includes(value as any);
+// `includes` refuse un `unknown` parce qu'il attend un element du tableau : c'est le tableau
+// qu'on elargit, pas la valeur qu'on ment. `as any` eteignait la verification des deux cotes,
+// et aurait laisse passer un appel sur un tout autre catalogue.
+const FORMATS: readonly unknown[] = Object.values(DateFormats);
+
+export const isDateFormat = (value: unknown): value is DateFormat => value != null && FORMATS.includes(value);
