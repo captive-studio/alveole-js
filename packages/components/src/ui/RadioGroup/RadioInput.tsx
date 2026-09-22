@@ -35,7 +35,7 @@ export const RadioInput = (props: RadioInputProps) => {
       id={id}
       aria-label={label}
       style={itemStyles}
-      hoverStyle={indicatorStyle as any}
+      hoverStyle={indicatorStyle}
       pressStyle={styles.itemContainerActive}
       {...focusRingProps()}
       // Tamagui injecte sa propre regle `:focus-visible` en `!important` derriere un selecteur
