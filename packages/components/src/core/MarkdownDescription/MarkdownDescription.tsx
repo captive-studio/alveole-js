@@ -1,5 +1,6 @@
 import { useTheme } from '@alveole/theme';
 import React from 'react';
+import type { Components } from 'react-markdown';
 import { Platform } from 'react-native';
 import { Box } from '../Box';
 import { Typography } from '../Typography';
@@ -34,7 +35,7 @@ export const MarkdownDescription = ({ children, taille = 'MD', color: textColor 
   const ReactMarkdown = require('react-markdown').default as React.ComponentType<{
     children: string;
     remarkPlugins: unknown[];
-    components: Record<string, React.ComponentType<any>>;
+    components: Components;
   }>;
   const remarkGfm = require('remark-gfm').default;
 
