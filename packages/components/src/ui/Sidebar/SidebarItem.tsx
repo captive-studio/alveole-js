@@ -1,6 +1,7 @@
 import { useTheme } from '@alveole/theme';
 import { usePathname } from 'expo-router';
 import React from 'react';
+import { Pressable } from 'react-native';
 import { A, AProps } from '../../core/A';
 import { Box } from '../../core/Box';
 import { Typography } from '../../core/Typography';
@@ -34,7 +35,9 @@ const SidebarItemEnveloppe = ({
   children,
 }: React.PropsWithChildren<{ item: SidebarItemProps; isCurrentPage: boolean }>) =>
   item.pressable ? (
-    <Box onPress={item.onPress}>{children}</Box>
+    <Pressable accessibilityRole="button" onPress={item.onPress}>
+      {children}
+    </Pressable>
   ) : (
     // L'état courant se signalait par le fond, la graisse et le filet bleu : trois indices
     // visuels et aucun sémantique. Sans `aria-current`, un lecteur d'écran annonce la page
