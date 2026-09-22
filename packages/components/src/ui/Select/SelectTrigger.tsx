@@ -4,9 +4,9 @@ import { Box } from '../../core/Box';
 import { Typography } from '../../core/Typography';
 import { fieldBorderState } from '../FormControl/fieldBorderState';
 import { LucideIcon } from '../LucideIcon';
+import { Tag } from '../Tag';
 import { useStyles } from './Select.styles';
 import type { SelectOption } from './Select.types';
-import { SelectTag } from './SelectTag';
 
 /** Nombre de puces affichées avant de résumer le reste par « +N ». */
 const MAX_VISIBLE_TAGS = 3;
@@ -35,14 +35,21 @@ const Puces = ({ options, onRemoveValue }: Pick<SelectTriggerProps, 'onRemoveVal
   return (
     <Box style={styles.tagList}>
       {visibles.map(option => (
-        <SelectTag
+        // Une valeur choisie *est* selectionnee : `selected` lui donne le gris sombre et la
+        // bordure contrastee sans qu'on ait a les redire ici.
+        <Tag
           key={option.value}
-          label={option.label}
+          size="md"
+          selected
           icon={option.icon}
-          onRemove={onRemoveValue && (() => onRemoveValue(option.value))}
-        />
+          closable={!!onRemoveValue}
+          onClose={onRemoveValue && (() => onRemoveValue(option.value))}
+        >
+          {option.label}
+        </Tag>
       ))}
-      {restantes > 0 && <SelectTag label={`+${restantes}`} />}
+      {/* Le resume n'est pas une valeur : rien a retirer, rien a selectionner, donc inerte. */}
+      {restantes > 0 && <Tag size="md">{`+${restantes}`}</Tag>}
     </Box>
   );
 };

@@ -11,7 +11,7 @@ type Group = GroupBase<SelectOption>;
  * le corps du composant en occupait le tiers et la recreait a chaque frappe.
  *
  * Elle neutralise systematiquement ce que la bibliotheque poserait par-dessus nos composants :
- * le fond des puces appartient a SelectTag, l'espacement des options a SelectItem.
+ * le fond des puces appartient a l'etiquette, l'espacement des options a SelectItem.
  */
 export const selectStylesConfig = (
   selectStyles: ReturnType<typeof useSelectStyles>,

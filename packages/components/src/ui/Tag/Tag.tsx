@@ -6,6 +6,7 @@ import { LucideIcon, LucideIconProps } from '../LucideIcon';
 import { EtatDuPointeur } from './Tag.pointeur';
 import { useStyles } from './Tag.styles';
 import { TagClose } from './TagClose';
+import { apparenceDeLaPastille, ecartDeLIcone } from './tagStyling';
 
 export type TagProps = {
   children: React.ReactNode;
@@ -22,8 +23,6 @@ export const Tag = (props: TagProps) => {
 
   const [croixSurvolee, setCroixSurvolee] = React.useState(false);
   const styles = useStyles();
-  const tagSize = size === 'sm' ? styles.tagSm : styles.tagMd;
-  const ecartDeLIcone = size === 'sm' ? styles.iconeSm : styles.iconeMd;
   // Une etiquette ne reagit au survol que si on peut agir dessus : la fermer, ou la choisir
   // dans un groupe. Passer `selected`, meme a `false`, est la facon de declarer qu'elle
   // appartient a un tel groupe. Une etiquette purement descriptive reste inerte, sans quoi
@@ -39,19 +38,18 @@ export const Tag = (props: TagProps) => {
       <Pressable accessible={false} style={styles.zoneDeSurvol}>
         {(state: EtatDuPointeur) => (
           <Typography
-            style={{
-              ...styles.tag,
-              ...tagSize,
-              ...(closable ? styles.pastilleFermable : {}),
-              ...(manipulable && (state.hovered || croixSurvolee) ? styles.tagSurvole : {}),
-              ...(selected ? styles.tagSelected : {}),
-            }}
+            style={apparenceDeLaPastille(styles, {
+              size,
+              survolee: manipulable && (!!state.hovered || croixSurvolee),
+              selectionnee: !!selected,
+              fermable: !!closable,
+            })}
             {...tagProps}
           >
             {/* L'icone est enveloppee : `react-native-svg` absorbe le `style` qu'on lui
                 passe et n'en garde que les proprietes SVG, la marge serait perdue. */}
             {icon && (
-              <Box style={ecartDeLIcone}>
+              <Box style={ecartDeLIcone(styles, size)}>
                 <LucideIcon name={icon} size="sm" />
               </Box>
             )}
@@ -59,6 +57,7 @@ export const Tag = (props: TagProps) => {
             {closable && (
               <TagClose
                 size={size}
+                libelle={typeof children === 'string' ? children : undefined}
                 onSurvol={setCroixSurvolee}
                 fonce={!!state.hovered || croixSurvolee || !!selected}
                 onClose={onClose}
