@@ -47,7 +47,6 @@ const project = (preset, overrides) => {
   const { watchPlugins, ...rest } = preset;
   // Les options de projet ne sont pas héritées de la config racine de Jest.
   // Sans ce chemin ici, les deux plateformes utilisent os.tmpdir() malgré le cache déclaré.
-  // eslint-disable-next-line no-undef
   return { ...rest, cacheDirectory: path.join(__dirname, '.jest-cache'), transformIgnorePatterns, ...overrides };
 };
 

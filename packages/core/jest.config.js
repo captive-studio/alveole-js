@@ -9,7 +9,6 @@ module.exports = {
   },
   transformIgnorePatterns: ['/node_modules/'],
   testPathIgnorePatterns: ['/node_modules/', '/dist/', '/build/', '/.expo/', '/coverage/'],
-  // eslint-disable-next-line no-undef
   cacheDirectory: path.join(__dirname, '.jest-cache'),
   collectCoverage: false,
 

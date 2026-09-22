@@ -1,5 +1,3 @@
-/* global jest */
-
 jest.mock('@alveole/theme', () => {
   const { Colors } = jest.requireActual('../../../theme/src/constants/Color');
   const { MonospaceFont } = jest.requireActual('../../../theme/src/constants/Font');

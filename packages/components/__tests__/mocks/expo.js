@@ -1,5 +1,3 @@
-/* global jest */
-
 jest.mock('expo-application', () => ({
   nativeBuildVersion: '42',
 }));

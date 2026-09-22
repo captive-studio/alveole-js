@@ -1,5 +1,3 @@
-/* global jest */
-
 // `useSafeAreaInsets` lève hors d'un appareil réel, ce qui rend BottomSheet — et donc
 // Select — impossible à monter. On mocke les hooks plutôt que d'envelopper l'arbre dans
 // un SafeAreaProvider : le provider insère une View supplémentaire, et les tests qui

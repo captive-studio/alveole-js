@@ -1,5 +1,3 @@
-/* global jest */
-
 // Sous Android, `@react-native-community/datetimepicker` appelle
 // `TurboModuleRegistry.getEnforcing('RNCDatePicker')` dès l'import, ce qui lève hors d'un
 // binaire natif : la suite ne démarre même pas. La variante iOS ne touche pas le module
