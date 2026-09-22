@@ -1,8 +1,9 @@
 import { focusRingProps } from '@alveole/theme';
 import React from 'react';
 import { Pressable, View } from 'react-native';
+import { EtatDuPointeur } from '../pointeur';
 import { useStyles } from './Button.styles';
-import { ButtonProps, CustomPressableState, etatDuBouton } from './Button.types';
+import { ButtonProps, etatDuBouton } from './Button.types';
 import { ButtonContent } from './ButtonContent';
 import { styleDuPressable } from './buttonStyling';
 
@@ -53,9 +54,9 @@ export const Button = React.forwardRef<View, ButtonProps>(function Button(props,
       // la demande. Un state React branche sur `onFocus` la montrerait aussi au clic, faute
       // de modalite dans le `focused` de react-native-web.
       {...focusRingProps()}
-      style={(state: CustomPressableState) => styleDuPressable(styles, etat, { hovered: !!state.hovered })}
+      style={(state: EtatDuPointeur) => styleDuPressable(styles, etat, { hovered: !!state.hovered })}
     >
-      {(state: CustomPressableState) => (
+      {(state: EtatDuPointeur) => (
         <ButtonContent
           styles={styles}
           etat={etat}

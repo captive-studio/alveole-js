@@ -1,6 +1,6 @@
 import { Pressable } from 'react-native';
 import { LucideIcon } from '../LucideIcon';
-import { EtatDuPointeur } from './Tag.pointeur';
+import { EtatDuPointeur } from '../pointeur';
 import { useStyles } from './Tag.styles';
 
 export type TagCloseProps = {

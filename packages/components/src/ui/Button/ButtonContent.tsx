@@ -1,16 +1,17 @@
 import { Box } from '../../core/Box';
 import { Typography } from '../../core/Typography';
 import { IconProps, LucideIcon } from '../LucideIcon';
+import { EtatDuPointeur } from '../pointeur';
 import { Spinner } from '../Spinner';
 import { useDelaiDAffichage } from '../Spinner/useDelaiDAffichage';
-import { ButtonProps, CustomPressableState, EtatDuBouton } from './Button.types';
+import { ButtonProps, EtatDuBouton } from './Button.types';
 import { styleDeLIcone, styleDeSurvol, styleDuConteneur, styleDuLibelle } from './buttonStyling';
 import { Styles } from './buttonVariants';
 
 type ButtonContentProps = {
   styles: Styles;
   etat: EtatDuBouton;
-  state: CustomPressableState;
+  state: EtatDuPointeur;
   /** Vrai quand le bouton est appuye, ou qu'il commande un menu deplie. */
   actif: boolean;
   props: ButtonProps;
