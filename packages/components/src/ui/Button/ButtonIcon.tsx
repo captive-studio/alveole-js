@@ -1,8 +1,9 @@
 import { focusRingProps } from '@alveole/theme';
 import { CSSProperties } from 'react';
-import { Pressable, PressableProps, PressableStateCallbackType } from 'react-native';
+import { Pressable, PressableProps } from 'react-native';
 import { Typography } from '../../core/Typography';
 import { IconProps, LucideIcon } from '../LucideIcon';
+import { EtatDuPointeur } from '../pointeur';
 import { useStyles } from './Button.styles';
 import {
   ButtonTaille,
@@ -15,10 +16,6 @@ import {
   SURVOL_PAR_VARIANT,
   TEXTE_PAR_VARIANT,
 } from './buttonVariants';
-
-type CustomPressableState = PressableStateCallbackType & {
-  hovered?: boolean;
-};
 
 export type ButtonIconProps = Omit<PressableProps, 'children' | 'style' | 'accessibilityLabel'> & {
   /**
@@ -71,7 +68,7 @@ export const ButtonIcon = (props: ButtonIconProps) => {
   // le repos et le desactive restant ceux du conteneur.
   const etatsDuFond: EtatVisuel = { ...CONTENEUR_PAR_VARIANT[variant], actif: SURVOL_PAR_VARIANT[variant] };
 
-  const containerStyle = (state: CustomPressableState) => ({
+  const containerStyle = (state: EtatDuPointeur) => ({
     ...styles.container,
     ...styles[etatsDuFond.repos],
     ...styleDe(styles, cleDEtat(etatsDuFond, { disabled, actif: state.hovered })),
@@ -110,7 +107,7 @@ export const ButtonIcon = (props: ButtonIconProps) => {
       {...focusRingProps()}
       {...buttonProps}
     >
-      {(state: CustomPressableState) =>
+      {(state: EtatDuPointeur) =>
         typeof props.icon === 'number' ? (
           <Typography style={{ ...textStyle({ hovered: !!state.hovered }) }}>{props.icon}</Typography>
         ) : (

@@ -1,13 +1,8 @@
-import { PressableProps, PressableStateCallbackType } from 'react-native';
+import { PressableProps } from 'react-native';
 import { BoxProps } from '../../core/Box';
 import { IconProps } from '../LucideIcon';
 import { SpinnerDelay } from '../Spinner/Spinner.shared';
 import { ButtonTaille, ButtonVariant } from './buttonVariants';
-
-/** `hovered` n'est pas dans le type de React Native, mais react-native-web le fournit. */
-export type CustomPressableState = PressableStateCallbackType & {
-  hovered?: boolean;
-};
 
 export type ButtonProps = Omit<PressableProps, 'children' | 'style'> & {
   /**

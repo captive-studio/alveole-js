@@ -3,7 +3,7 @@ import { Pressable } from 'react-native';
 import { Box } from '../../core/Box';
 import { Typography } from '../../core/Typography';
 import { LucideIcon, LucideIconProps } from '../LucideIcon';
-import { EtatDuPointeur } from './Tag.pointeur';
+import { EtatDuPointeur } from '../pointeur';
 import { useStyles } from './Tag.styles';
 import { TagClose } from './TagClose';
 import { apparenceDeLaPastille, ecartDeLIcone } from './tagStyling';
