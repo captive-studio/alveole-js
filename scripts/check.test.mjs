@@ -6,23 +6,12 @@ import { join } from 'node:path';
 import { test } from 'node:test';
 import { setTimeout } from 'node:timers/promises';
 
-async function fixture(t, args = [], fail = '', env = {}) {
-  const root = await realpath(await mkdtemp(join(tmpdir(), 'alveole-check-')));
-  t.after(() => rm(root, { recursive: true, force: true }));
-  await mkdir(join(root, 'scripts'));
-  const script = join(root, 'scripts/check.mjs');
-  await copyFile(new URL('./check.mjs', import.meta.url), script);
-  const events = join(root, 'events.jsonl');
-  await writeFile(events, '');
-  // Les arguments passés au gestionnaire de paquets sont relevés à part : les tests
-  // d'ordonnancement comparent les événements un par un, et y mêler l'argv les rendrait
-  // illisibles pour une question qui ne les concerne pas.
-  const argv = join(root, 'argv.jsonl');
-  await writeFile(argv, '');
-  const npm = join(root, 'npm.mjs');
-  await writeFile(
-    npm,
-    `import { appendFileSync, existsSync, writeFileSync } from 'node:fs';
+/**
+ * Le faux gestionnaire de paquets que `check.mjs` lance a la place de npm. Il journalise son
+ * demarrage et sa fin dans un fichier d'evenements, ce qui permet aux tests d'observer
+ * l'ordonnancement reel des taches. Son comportement se pilote par variables d'environnement.
+ */
+const FAUX_NPM = `import { appendFileSync, existsSync, writeFileSync } from 'node:fs';
 import { setTimeout as delay } from 'node:timers/promises';
 import { spawn } from 'node:child_process';
 if (process.cwd() !== process.env.FIXTURE_ROOT) throw new Error('wrong cwd');
@@ -61,8 +50,23 @@ if (process.env.DESCENDANT === '1' && task === 'test:unit') {
     process.exit((process.env.FAIL || '').split(',').includes(task) ? 17 : 0);
   }, 80);
 }
-`,
-  );
+`;
+
+async function fixture(t, args = [], fail = '', env = {}) {
+  const root = await realpath(await mkdtemp(join(tmpdir(), 'alveole-check-')));
+  t.after(() => rm(root, { recursive: true, force: true }));
+  await mkdir(join(root, 'scripts'));
+  const script = join(root, 'scripts/check.mjs');
+  await copyFile(new URL('./check.mjs', import.meta.url), script);
+  const events = join(root, 'events.jsonl');
+  await writeFile(events, '');
+  // Les arguments passés au gestionnaire de paquets sont relevés à part : les tests
+  // d'ordonnancement comparent les événements un par un, et y mêler l'argv les rendrait
+  // illisibles pour une question qui ne les concerne pas.
+  const argv = join(root, 'argv.jsonl');
+  await writeFile(argv, '');
+  const npm = join(root, 'npm.mjs');
+  await writeFile(npm, FAUX_NPM);
   const child = spawn(process.execPath, [script, ...args], {
     env: { ...process.env, ...env, npm_execpath: npm, EVENTS: events, ARGS: argv, FAIL: fail, FIXTURE_ROOT: root },
     stdio: ['ignore', 'pipe', 'pipe'],

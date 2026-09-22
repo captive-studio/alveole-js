@@ -17,6 +17,10 @@ module.exports = {
   // contre l'érosion : une modification qui ajoute du code non testé fait baisser le taux
   // et échoue. Les relever après avoir gagné de la couverture fait partie du travail ;
   // les baisser demande une raison explicite.
+  // `json-summary` alimente `scripts/check-coverage-ratchet.mjs`, qui reclame le relevage du
+  // cliquet des qu'un gain de couverture le depasse. `text` reste pour la lecture humaine ;
+  // les rapports par defaut (clover, lcov, json) n'avaient aucun consommateur.
+  coverageReporters: ['text', 'json-summary'],
   coverageThreshold: {
     global: {
       statements: 63,

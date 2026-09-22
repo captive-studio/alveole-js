@@ -68,6 +68,10 @@ module.exports = {
   //
   // Ils se posent à la racine et non dans `projects` : la couverture est agrégée sur les deux
   // projets, et un seuil par projet ne verrait chacun que la moitié du catalogue.
+  // `json-summary` alimente `scripts/check-coverage-ratchet.mjs`, qui reclame le relevage du
+  // cliquet des qu'un gain de couverture le depasse. `text` reste pour la lecture humaine ;
+  // les rapports par defaut (clover, lcov, json) n'avaient aucun consommateur.
+  coverageReporters: ['text', 'json-summary'],
   coverageThreshold: {
     global: {
       statements: 55,
