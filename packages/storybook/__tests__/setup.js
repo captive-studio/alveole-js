@@ -1,5 +1,3 @@
-/* global jest */
-
 // Le catalogue importe `@alveole/components` par son index, qui charge tous les composants.
 // Deux d'entre eux réclament un environnement que jsdom ne fournit pas, alors qu'aucun écran
 // testé ici ne les rend.
