@@ -74,3 +74,22 @@ test('declenche laction dun item pressable', () => {
 
   expect(onPress).toHaveBeenCalled();
 });
+
+// Une entree qui agit au lieu de mener quelque part est un bouton : c'est ce qui permet d'y
+// arriver au clavier et de l'entendre annoncee comme telle. « Se deconnecter » en pied de barre
+// en est le cas type.
+test("expose l'entree qui agit comme un bouton", () => {
+  const { getByRole } = renderOnDesktop(<SidebarItem pressable title="Se déconnecter" onPress={() => undefined} />);
+
+  expect(getByRole('button', { name: 'Se déconnecter' })).toBeTruthy();
+});
+
+// Un bouton se declenche au clavier, Entree comme Espace. C'est le navigateur qui transforme ces
+// touches en clic, et seulement sur un vrai element <button> : un <div> qui porte le role
+// s'annonce comme un bouton mais ne reagit pas. jsdom ne simulant pas cette conversion, on
+// epingle la balise qui la garantit, comme le fait deja Button.
+test("rend l'entree qui agit en element button natif", () => {
+  const { getByRole } = renderOnDesktop(<SidebarItem pressable title="Se déconnecter" onPress={() => undefined} />);
+
+  expect(getByRole('button', { name: 'Se déconnecter' }).tagName).toBe('BUTTON');
+});
