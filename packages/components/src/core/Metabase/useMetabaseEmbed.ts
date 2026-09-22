@@ -1,5 +1,18 @@
 import { useEffect, useRef } from 'react';
 
+type MetabaseConfig = {
+  theme: { preset: 'light' };
+  isGuest: boolean;
+  instanceUrl: string;
+};
+
+declare global {
+  interface Window {
+    metabaseConfig?: MetabaseConfig;
+    defineMetabaseConfig?: (config: MetabaseConfig) => void;
+  }
+}
+
 // Le web component `metabase-dashboard` est fourni par le script `embed.js` de l'instance et se
 // configure via `window.metabaseConfig`. Charger le script et poser la config sont deux effets
 // distincts, montés une fois par instance : les isoler du composant garde ce dernier à son seul
@@ -28,16 +41,17 @@ export const useMetabaseEmbed = (instanceUrl?: string) => {
 
   useEffect(() => {
     if (!configLoadedRef.current && typeof window !== 'undefined' && instanceUrl) {
-      (window as any).defineMetabaseConfig = (config: any) => {
-        (window as any).metabaseConfig = config;
+      const defineMetabaseConfig = (config: MetabaseConfig) => {
+        window.metabaseConfig = config;
       };
+      window.defineMetabaseConfig = defineMetabaseConfig;
 
-      (window as any).defineMetabaseConfig({
+      defineMetabaseConfig({
         theme: {
           preset: 'light',
         },
         isGuest: true,
-        instanceUrl: instanceUrl,
+        instanceUrl,
       });
 
       configLoadedRef.current = true;

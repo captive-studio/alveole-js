@@ -19,3 +19,13 @@ test("injecte le script d'embed de l'instance Metabase", () => {
 
   expect(document.querySelector('script[src="https://metabase.exemple.test/app/embed.js"]')).toBeTruthy();
 });
+
+test("pose la configuration d'embed invite sur window pour l'instance Metabase", () => {
+  renderWeb(<Metabase token="jeton" instanceUrl="https://metabase.exemple.test" />);
+
+  expect(window.metabaseConfig).toEqual({
+    theme: { preset: 'light' },
+    isGuest: true,
+    instanceUrl: 'https://metabase.exemple.test',
+  });
+});
