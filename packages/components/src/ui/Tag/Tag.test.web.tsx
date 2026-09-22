@@ -65,7 +65,7 @@ const survoler = (container: HTMLElement) => {
 };
 const auRepos = teinte;
 
-const etiquette = (props: { selected?: boolean; size?: 'sm' | 'md' } = {}) => {
+const etiquette = (props: { selected?: boolean; interactive?: boolean; size?: 'sm' | 'md' } = {}) => {
   const { size = 'sm', ...reste } = props;
 
   return renderOnDesktop(
@@ -75,25 +75,23 @@ const etiquette = (props: { selected?: boolean; size?: 'sm' | 'md' } = {}) => {
   ).container;
 };
 
-// Second signal de l'ADR 0014, independant du premier : le survol fonce le libelle a lui
+// Second signal de l'ADR 0020, independant du premier : le survol fonce le libelle a lui
 // seul, sans que l'etiquette soit selectionnee.
 // ALV-53 exige le « meme traitement de survol » en md qu'en sm : les deux crans passent donc
 // par la meme table. Sans elle, le survol n'etait exerce qu'en sm et la parite reposait sur
 // le fait que le code n'en parle pas - un argument, pas une mesure.
 it.each(['sm', 'md'] as const)('change la couleur du libelle au survol en %s', size => {
-  // `selected: false` n'est pas du bruit : c'est ainsi qu'une etiquette declare appartenir a
-  // un groupe de selection, et donc qu'elle se manipule.
-  const survolee = etiquette({ selected: false, size });
+  const survolee = etiquette({ interactive: true, size });
   const couleurAuRepos = auRepos(survolee).color;
 
   expect(survoler(survolee).color).not.toBe(couleurAuRepos);
 });
 
-// Le coeur de l'ADR 0014 : le survol ne touche pas la bordure. C'est ce qui garde les deux
+// Le coeur de l'ADR 0020 : le survol ne touche pas la bordure. C'est ce qui garde les deux
 // signaux lisibles cote a cote dans un groupe de filtres - si le survol foncait aussi la
 // bordure, passer le pointeur sur une etiquette la ferait passer pour selectionnee.
 it.each(['sm', 'md'] as const)('laisse la bordure intacte au survol en %s', size => {
-  const survolee = etiquette({ selected: false, size });
+  const survolee = etiquette({ interactive: true, size });
   const bordureAuRepos = auRepos(survolee).borderColor;
 
   expect(survoler(survolee).borderColor).toBe(bordureAuRepos);
@@ -104,10 +102,10 @@ it.each(['sm', 'md'] as const)('laisse la bordure intacte au survol en %s', size
 it('fonce le libelle de la meme facon au survol et a la selection', () => {
   const selectionnee = etiquette({ selected: true });
 
-  expect(survoler(etiquette({ selected: false })).color).toBe(auRepos(selectionnee).color);
+  expect(survoler(etiquette({ interactive: true })).color).toBe(auRepos(selectionnee).color);
 });
 
-// La quatrieme combinaison de l'ADR 0014, la seule ou les deux signaux se superposent : le
+// La quatrieme combinaison de l'ADR 0020, la seule ou les deux signaux se superposent : le
 // survol d'une etiquette deja selectionnee ne doit rien ajouter ni rien reprendre. Eprouve
 // par mutation : faire toucher la bordure au survol fait tomber ce test.
 it('ne change rien de plus au survol d une pastille deja selectionnee', () => {
@@ -192,7 +190,7 @@ it('ne reagit pas au survol quand l etiquette est purement descriptive', () => {
 // Le curseur est pose en style en ligne, sans quoi il ne surcharge pas la classe de
 // react-native-web et n'est pas observable ici.
 it('ne donne jamais le curseur de la main a l etiquette', () => {
-  const container = etiquette({ selected: false });
+  const container = etiquette({ interactive: true });
 
   expect((container.querySelector('tag')!.firstElementChild as HTMLElement).style.cursor).toBe('auto');
 });
@@ -317,4 +315,27 @@ it('donne une typographie distincte a chaque cran', () => {
     police: petite.fontSize !== grande.fontSize,
     interligne: petite.lineHeight !== grande.lineHeight,
   }).toEqual({ police: true, interligne: true });
+});
+
+// `interactive` declare qu'on peut agir sur l'etiquette autrement qu'en la fermant : elle
+// appartient a un groupe ou l'on choisit. C'est le mot de Primer, dont `isTokenInteractive`
+// commande exactement le meme retour au survol. Une prop explicite plutot qu'une presence de
+// cle : `<Tag {...options} />` ne doit pas gagner ou perdre le survol selon que l'objet
+// repandu porte ou non `selected`.
+it('reagit au survol quand l etiquette est declaree interactive', () => {
+  const groupe = etiquette({ interactive: true });
+  const couleurAuRepos = auRepos(groupe).color;
+
+  expect(survoler(groupe).color).not.toBe(couleurAuRepos);
+});
+
+// Pendant du test ci-dessus : `selected` ne decrit qu'un etat, il ne declare plus rien. On
+// l'eprouve a `false`, car a `true` la selection et le survol foncent le libelle de la meme
+// facon et le test ne pourrait pas echouer. C'est exactement le cas que l'ancienne regle
+// - la presence de la cle - rendait manipulable a tort.
+it('ne reagit pas au survol d une etiquette non selectionnee et non interactive', () => {
+  const figee = etiquette({ selected: false });
+  const avant = auRepos(figee);
+
+  expect(survoler(figee)).toEqual(avant);
 });
