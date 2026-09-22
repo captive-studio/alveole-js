@@ -1,8 +1,11 @@
 import React from 'react';
+import type { PointerEvent } from 'react-native';
 import { Box, BoxProps } from '../../core/Box';
 import { Image } from '../../core/Image';
 import { useStyles } from './DocumentViewer.styles';
 import { DocumentViewerRotation } from './DocumentViewer.types';
+import { positionEnPourcentage } from './documentViewerPdfCalculs';
+import { lirePointeurWeb } from './pointeurWeb';
 
 export type DocumentViewerImageProps = {
   source: string;
@@ -19,15 +22,14 @@ export const DocumentViewerImage = (props: DocumentViewerImageProps) => {
   const hoveredScale = isHovered ? 2 : 1;
 
   const handlePointerMove = React.useCallback(
-    (event: any) => {
-      const rect = event.currentTarget?.getBoundingClientRect?.();
-      if (!rect) return;
+    (event: PointerEvent) => {
+      const pointeur = lirePointeurWeb(event);
+      if (!pointeur) return;
 
-      const x = ((event.clientX - rect.left) / rect.width) * 100;
-      const y = ((event.clientY - rect.top) / rect.height) * 100;
+      const { x, y } = positionEnPourcentage(pointeur);
       const origin = getRotatedTransformOrigin(x, y, rotation);
 
-      setTransformOrigin(`${clampPercent(origin.x)}% ${clampPercent(origin.y)}%`);
+      setTransformOrigin(`${origin.x}% ${origin.y}%`);
     },
     [rotation],
   );
@@ -58,8 +60,6 @@ export const DocumentViewerImage = (props: DocumentViewerImageProps) => {
     </Box>
   );
 };
-
-const clampPercent = (value: number) => Math.max(0, Math.min(100, value));
 
 const getRotatedTransformOrigin = (x: number, y: number, rotation: DocumentViewerRotation) => {
   switch (rotation) {
