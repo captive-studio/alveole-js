@@ -15,7 +15,6 @@ import {
   TITRE_PAR_TAILLE,
 } from './buttonVariants';
 
-const SANS_REMBOURRAGE = { paddingTop: 0, paddingBottom: 0, paddingLeft: 0, paddingRight: 0 };
 const SANS_RAYON = {
   borderTopLeftRadius: 0,
   borderTopRightRadius: 0,
@@ -40,7 +39,6 @@ export const styleDuConteneur = (styles: Styles, etat: EtatDuBouton, actif: bool
   ...styles.container,
   ...styleDeFond(styles, etat, actif),
   ...styleDe(styles, CONTENEUR_PAR_TAILLE[etat.taille]),
-  ...(etat.noPadding ? SANS_REMBOURRAGE : {}),
   ...(etat.leftAlign ? { justifyContent: 'left' as const } : {}),
   // La bordure est posee sur le Pressable, pas ici : le Box doit donc annuler celle que son
   // style de variante lui aurait donnee, sans quoi les deux se superposeraient.

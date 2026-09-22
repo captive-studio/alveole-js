@@ -20,7 +20,6 @@ export type ButtonProps = Omit<PressableProps, 'children' | 'style'> & {
   selected?: boolean;
   ContainerProps?: BoxProps;
   fullWidth?: boolean;
-  noPadding?: boolean;
   borderNone?: boolean;
   leftAlign?: boolean;
   type?: 'button' | 'submit';
@@ -47,7 +46,6 @@ export type EtatDuBouton = {
   taille: ButtonTaille;
   selected?: boolean;
   disabled?: boolean | null;
-  noPadding?: boolean;
   borderNone?: boolean;
   leftAlign?: boolean;
   fullWidth?: boolean;
@@ -58,7 +56,6 @@ export const etatDuBouton = (props: ButtonProps): EtatDuBouton => ({
   taille: props.size ?? 'md',
   selected: props.selected,
   disabled: props.disabled,
-  noPadding: props.noPadding,
   borderNone: props.borderNone,
   leftAlign: props.leftAlign,
   fullWidth: props.fullWidth,
