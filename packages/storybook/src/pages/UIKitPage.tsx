@@ -32,7 +32,7 @@ type UIKitRoute =
 export type UIKitPageProps = {
   stories: StorybookModule[];
   constants: Record<string, unknown>;
-  palette?: Record<string, any>;
+  palette?: Record<string, unknown>;
   typography?: Record<string, unknown>;
   title?: string;
   description?: string;
@@ -42,7 +42,7 @@ export type UIKitPageProps = {
 type ContexteDEcran = {
   stories: StorybookModule[];
   constants: Record<string, unknown>;
-  palette: Record<string, any>;
+  palette: Record<string, unknown>;
   typography: Record<string, unknown>;
   title: string;
   description: string;
