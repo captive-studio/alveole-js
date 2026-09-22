@@ -1,11 +1,11 @@
 import { DateFormats, displayDate, isValidDate } from '@alveole/core';
-import DateTimePicker from '@react-native-community/datetimepicker';
+import DateTimePicker, { DateTimePickerEvent } from '@react-native-community/datetimepicker';
 import { fr } from 'date-fns/locale/fr';
 import { toDate } from 'date-fns/toDate';
 import React, { useCallback } from 'react';
 import { Keyboard, Platform } from 'react-native';
 import { Box } from '../../core/Box';
-import { FieldFrame, FormControlModal, TextInput } from '../FormControl';
+import { FieldFrame, FormControlModal, TextInput, TextInputElement } from '../FormControl';
 
 import type { DateInputProps } from './DateInput';
 
@@ -52,7 +52,7 @@ const useBrouillonDate = ({
     handleOpen,
     handleValidate,
     displayValue,
-    handleChange: (_event: any, newDate?: Date) => {
+    handleChange: (_event: DateTimePickerEvent, newDate?: Date) => {
       if (!isValidDate(newDate)) return;
       if (type === 'date') setDate(toDateString(newDate));
       else if (type === 'datetime') setDate(displayDate(newDate, { format: DateFormats.DateTimeString }));
@@ -60,7 +60,7 @@ const useBrouillonDate = ({
   };
 };
 
-export const DateInput = React.forwardRef<any, DateInputProps>(function DateInput(props, ref) {
+export const DateInput = React.forwardRef<TextInputElement, DateInputProps>(function DateInput(props, ref) {
   const {
     label,
     labelRight,
