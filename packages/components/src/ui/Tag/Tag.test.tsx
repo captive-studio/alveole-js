@@ -24,7 +24,7 @@ it('cerne la pastille d une bordure d un pixel', async () => {
   expect(pastille(view)?.props.style.borderWidth).toBe(1);
 });
 
-// Premier des deux signaux de l ADR 0014. La couleur exacte n est pas figee : ce qui doit
+// Premier des deux signaux de l ADR 0020. La couleur exacte n est pas figee : ce qui doit
 // tenir, c est que la selection se voie a la bordure. Une assertion litterale casserait au
 // premier ajustement de palette sans qu aucun comportement n ait change.
 it('change la couleur de la bordure quand l etiquette est selectionnee', async () => {
@@ -156,7 +156,7 @@ it('donne a la croix toute la hauteur de la pastille en md', async () => {
 
 // Le traitement d'etat ne depend pas du cran : md et sm ne different que par la typographie
 // et les gabarits. Ce test empeche qu'une future retouche n'introduise une regle de couleur
-// propre a une taille, ce que ni la maquette ni l'ADR 0014 ne prevoient.
+// propre a une taille, ce que ni la maquette ni l'ADR 0020 ne prevoient.
 it.each(['sm', 'md'] as const)('applique la selection de la meme facon en %s', async size => {
   const repos = await renderNative(<Tag size={size}>Brouillon</Tag>);
   const selectionnee = await renderNative(

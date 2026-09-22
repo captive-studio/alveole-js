@@ -14,7 +14,7 @@ export type EtatDeLEtiquette = {
 /**
  * L'apparence de la pastille, empilee dans l'ordre ou les etats se recouvrent : le cran de
  * taille, puis le retrait que la croix supprime, puis le survol, puis la selection qui a le
- * dernier mot. Sortie du rendu parce qu'elle porte la regle de l'ADR 0014 - quatre etats qui
+ * dernier mot. Sortie du rendu parce qu'elle porte la regle de l'ADR 0020 - quatre etats qui
  * se combinent - et qu'une fonction nommee la rend lisible d'un coup d'oeil.
  */
 export const apparenceDeLaPastille = (styles: Styles, etat: EtatDeLEtiquette): CSSProperties => ({

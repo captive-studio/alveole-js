@@ -8,7 +8,7 @@ Le composant `Tag` ne prend plus de prop `color`. Il rend une seule apparence :
 fond `background/contrast-grey`, bordure `border/default-grey`, libellé
 `text/mention-grey`. Ses seules variations sont le cran de taille et les deux
 signaux d'état que fixe l'ADR
-[0014](./0014-tag-survol-et-selection-independants.md).
+[0020](./0020-tag-survol-et-selection-independants.md).
 
 ## Pourquoi
 

@@ -56,7 +56,7 @@ export const useStyles = makeStyles(({ radius, text, color, pill }) => ({
   },
   // Le survol seul fonce le libelle sans toucher la bordure : c'est la selection qui
   // apporte le contraste de bordure, et le survol d'une pastille deja selectionnee
-  // n'ajoute donc rien (ADR 0014).
+  // n'ajoute donc rien (ADR 0020).
   tagSurvole: {
     color: color.light.text['default-grey'],
   },
