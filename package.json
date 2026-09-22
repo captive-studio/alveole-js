@@ -8,7 +8,7 @@
     "build:packages": "pnpm --filter @alveole/core --filter @alveole/theme --filter @alveole/components --filter @alveole/storybook run build",
     "format": "node scripts/format.mjs --write",
     "format:check": "node scripts/format.mjs --check",
-    "test:unit": "pnpm -r --if-present run test:unit",
+    "test:unit": "pnpm -r --parallel --if-present run test:unit",
     "test:dev": "pnpm --filter @alveole/components run test:dev --",
     "lint": "pnpm run lint:scripts && pnpm -r --if-present run lint",
     "lint:scripts": "eslint scripts tools",
