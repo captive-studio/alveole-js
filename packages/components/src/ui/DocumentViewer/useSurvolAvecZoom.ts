@@ -1,5 +1,7 @@
 import React from 'react';
+import type { PointerEvent } from 'react-native';
 import { positionEnPourcentage } from './documentViewerPdfCalculs';
+import { lirePointeurWeb } from './pointeurWeb';
 
 /**
  * Le zoom qui suit le pointeur au survol : la page grossit autour du point survole, comme une
@@ -10,13 +12,11 @@ export const useSurvolAvecZoom = () => {
   const [survole, setSurvole] = React.useState(false);
   const [origine, setOrigine] = React.useState('50% 50%');
 
-  // Le type d'evenement RN ne porte pas `clientX`/`clientY`/`getBoundingClientRect` : ce sont
-  // ceux du `PointerEvent` du DOM, que react-native-web transmet tel quel sur le web.
-  const onDeplacement = React.useCallback((event: any) => {
-    const rect = event.currentTarget?.getBoundingClientRect?.();
-    if (!rect) return;
+  const onDeplacement = React.useCallback((event: PointerEvent) => {
+    const pointeur = lirePointeurWeb(event);
+    if (!pointeur) return;
 
-    const { x, y } = positionEnPourcentage({ clientX: event.clientX, clientY: event.clientY, rect });
+    const { x, y } = positionEnPourcentage(pointeur);
     setOrigine(`${x}% ${y}%`);
   }, []);
 
