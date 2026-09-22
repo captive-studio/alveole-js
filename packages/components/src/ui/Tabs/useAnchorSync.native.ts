@@ -17,8 +17,7 @@ export const useAnchorSync = (anchorNamespace: string | undefined, onRestore: (a
 
     const anchor = params[anchorNamespace];
     if (typeof anchor === 'string') onRestore(anchor);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [anchorNamespace]);
+  }, [anchorNamespace, params, onRestore]);
 
   const persist = (anchor: string) => {
     if (!anchorNamespace) return;

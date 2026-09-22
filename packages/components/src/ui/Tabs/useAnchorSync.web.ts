@@ -13,8 +13,7 @@ export const useAnchorSync = (anchorNamespace: string | undefined, onRestore: (a
     const prefixe = `#${anchorNamespace}-`;
     if (!window.location.hash.startsWith(prefixe)) return;
     onRestore(window.location.hash.slice(prefixe.length));
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [anchorNamespace]);
+  }, [anchorNamespace, onRestore]);
 
   const persist = (anchor: string) => {
     if (!anchorNamespace || typeof window === 'undefined') return;
