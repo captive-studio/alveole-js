@@ -67,7 +67,9 @@ export const States = () => (
 );
 
 /**
- * Le spinner n'apparaît qu'après **1 000 ms** (`delay="long"`).
+ * Le spinner n'apparaît qu'après un délai, réglé par `loadingDelay` : mêmes valeurs que la
+ * prop `delay` de `Spinner` (`false` / `true` / `'short'` (300 ms) / `'long'` / `number`).
+ * Il vaut `'long'` (1 000 ms) par défaut.
  *
  * Ce délai évite un clignotement visuel quand l'opération se termine rapidement :
  * si le serveur répond en moins d'une seconde, l'utilisateur ne voit jamais le spinner.
@@ -82,7 +84,9 @@ export const States = () => (
  * répondre : il sort du parcours au clavier et se déclare `aria-disabled`, pour qu'un second
  * appui ne relance pas l'opération. Son apparence, elle, reste celle du repos.
  *
- * Appuyez sur un bouton pour simuler une opération de 3 secondes.
+ * Appuyez sur un bouton pour simuler une opération de 3 secondes. Le troisième bouton, avec
+ * `loadingDelay="short"`, montre son spinner dès 300 ms - avant les deux premiers, qui
+ * attendent le délai par défaut d'une seconde.
  */
 export const Loading = () => {
   const [isLoading, setIsLoading] = React.useState(false);
@@ -96,6 +100,7 @@ export const Loading = () => {
     <Box display="flex" flexDirection="row" gap={24}>
       <Button variant="primary" title="Enregistrer" isLoading={isLoading} onPress={handlePress} />
       <Button variant="secondary" title="Exporter" startIcon="Download" isLoading={isLoading} onPress={handlePress} />
+      <Button variant="primary" title="Délai court" loadingDelay="short" isLoading={isLoading} onPress={handlePress} />
     </Box>
   );
 };

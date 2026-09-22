@@ -1,6 +1,7 @@
 import { PressableProps, PressableStateCallbackType } from 'react-native';
 import { BoxProps } from '../../core/Box';
 import { IconProps } from '../LucideIcon';
+import { SpinnerDelay } from '../Spinner/Spinner.shared';
 import { ButtonTaille, ButtonVariant } from './buttonVariants';
 
 /** `hovered` n'est pas dans le type de React Native, mais react-native-web le fournit. */
@@ -33,6 +34,12 @@ export type ButtonProps = Omit<PressableProps, 'children' | 'style'> & {
   /** Le bouton commande un menu ou un panneau actuellement deplie. */
   expanded?: boolean;
   isLoading?: boolean;
+  /**
+   * Retard avant que le spinner de `isLoading` ne paraisse. Memes valeurs que la prop `delay`
+   * de `Spinner` (`false`/`true`/`'short'`/`'long'`/`number`). `'long'` (1000 ms) par defaut,
+   * pour eviter un clignotement quand l'operation se termine vite.
+   */
+  loadingDelay?: SpinnerDelay;
 };
 
 /**

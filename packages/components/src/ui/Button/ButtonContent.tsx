@@ -50,12 +50,12 @@ const Emplacement = ({ spinner, nom, apparence }: EmplacementProps) => {
  * rayons et du focus ; ce composant-ci decide de ce qui se voit dedans.
  */
 export const ButtonContent = ({ styles, etat, state, actif, props }: ButtonContentProps) => {
-  const { title, startIcon, endIcon, isLoading, ContainerProps = {} } = props;
+  const { title, startIcon, endIcon, isLoading, loadingDelay = 'long', ContainerProps = {} } = props;
   const { style, hoverStyle, ...containerProps } = ContainerProps;
   const hovered = !!state.hovered;
   const icone = styleDeLIcone(styles, etat, hovered);
 
-  const place = placeDuSpinner(useDelaiDAffichage(isLoading ? 'long' : false) && !!isLoading, startIcon, endIcon);
+  const place = placeDuSpinner(useDelaiDAffichage(isLoading ? loadingDelay : false) && !!isLoading, startIcon, endIcon);
   const recouvreLeLibelle = place === 'libelle';
 
   return (
