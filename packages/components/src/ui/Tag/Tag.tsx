@@ -12,6 +12,11 @@ export type TagProps = {
   children: React.ReactNode;
   size: 'sm' | 'md';
   selected?: boolean;
+  /**
+   * L'etiquette appartient a un groupe ou l'on choisit : elle repond au pointeur. Le mot est
+   * celui de Primer, dont `isTokenInteractive` commande le meme retour au survol.
+   */
+  interactive?: boolean;
   closable?: boolean;
   onClose?: () => void;
   icon?: LucideIconProps['name'];
@@ -19,15 +24,16 @@ export type TagProps = {
 };
 
 export const Tag = (props: TagProps) => {
-  const { size, children, selected, closable, onClose, icon, style, ...tagProps } = props;
+  const { size, children, selected, interactive, closable, onClose, icon, style, ...tagProps } = props;
 
   const [croixSurvolee, setCroixSurvolee] = React.useState(false);
   const styles = useStyles();
   // Une etiquette ne reagit au survol que si on peut agir dessus : la fermer, ou la choisir
-  // dans un groupe. Passer `selected`, meme a `false`, est la facon de declarer qu'elle
-  // appartient a un tel groupe. Une etiquette purement descriptive reste inerte, sans quoi
-  // elle promettrait une interaction qu'elle n'offre pas (ADR 0019).
-  const manipulable = !!closable || 'selected' in props;
+  // dans un groupe. Une etiquette purement descriptive reste inerte, sans quoi elle
+  // promettrait une interaction qu'elle n'offre pas (ADR 0019). `selected` ne decrit qu'un
+  // etat et ne declare rien : une valeur dans un champ desactive est selectionnee sans etre
+  // manipulable.
+  const manipulable = !!closable || !!interactive;
 
   return (
     <Box tag="tag" style={{ ...styles.tagContainer, ...style }}>

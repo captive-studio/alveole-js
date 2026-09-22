@@ -9,7 +9,7 @@ export default {
   experimental: false,
   figmaURL: 'https://www.figma.com/design/xJz8Z6vfrnZPKTtRbuT2W8/Alveole---Composants?node-id=1002-8509',
   description:
-    "Étiquette grise et descriptive. `selected` marque un tag actif, `closable` et `onClose` ajoutent une croix de suppression, et `icon` place une icône avant le libellé. Le survol fonce le libellé sans toucher la bordure ; c'est la sélection qui fonce la bordure, indépendamment du survol (ADR 0014). Le survol ne s'applique qu'aux étiquettes manipulables : une étiquette sans `closable` ni `selected` est descriptive et reste inerte (ADR 0019).",
+    "Étiquette grise et descriptive. `selected` marque un tag actif, `closable` et `onClose` ajoutent une croix de suppression, et `icon` place une icône avant le libellé. Le survol fonce le libellé sans toucher la bordure ; c'est la sélection qui fonce la bordure, indépendamment du survol (ADR 0020). Le survol ne s'applique qu'aux étiquettes manipulables : une étiquette sans `closable` ni `interactive` est descriptive et reste inerte (ADR 0019). `selected` ne décrit qu'un état.",
   component: Tag,
   styleFn: useStyles,
 } satisfies Story;
@@ -26,10 +26,10 @@ export const Selection = () => (
     {(['sm', 'md'] as const).map(size => (
       <Box key={size} display="flex" flexDirection="row" gap={24} flexWrap="wrap">
         <Tag size={size}>Descriptive, inerte</Tag>
-        <Tag size={size} selected={false}>
+        <Tag size={size} interactive>
           Au repos, dans un groupe
         </Tag>
-        <Tag size={size} selected>
+        <Tag size={size} interactive selected>
           Sélectionné
         </Tag>
         <Tag size={size} selected closable onClose={() => {}}>
