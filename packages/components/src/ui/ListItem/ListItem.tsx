@@ -38,7 +38,7 @@ export const ListItem = (props: ListItemProps) => {
   const styles = useStyles();
 
   return (
-    <Box>
+    <Box style={styles.container}>
       <Box
         tag="resource-item"
         style={[styles.item, style]}

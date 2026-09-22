@@ -13,6 +13,10 @@ type Table = Record<string, StyleValue>;
 /** La ligne elle-meme : sa boite, et sa teinte au survol quand elle est actionnable. */
 const ligne = ({ color, radius, spacing }: Theme) =>
   ({
+    container: {
+      width: '100%',
+    },
+
     item: {
       display: 'flex',
       flexDirection: 'row',
