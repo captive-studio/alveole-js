@@ -1,5 +1,4 @@
 import { Story } from '../../type';
-import { Box } from '../Box';
 import { Typography } from '../Typography';
 import { Page } from './Page';
 
