@@ -1,16 +1,14 @@
 import React from 'react';
 import {
-  FormControl,
-  FormControlCaption,
+  FieldFrame,
+  formaterHHMM,
   FormControlCaptionProps,
-  FormControlHint,
   FormControlHintProps,
-  FormControlLabel,
   FormControlLabelProps,
   TextInput,
   TextInputElement,
+  useSaisieHHMM,
 } from '../FormControl';
-import { InputHeading } from '../InputHeading';
 
 export type DurationInputProps = FormControlLabelProps &
   FormControlHintProps &
@@ -25,35 +23,15 @@ export const DurationInput = React.forwardRef<TextInputElement, DurationInputPro
   { label, labelRight, hint, error, success, value, onChange, onBlur, disabled },
   ref,
 ) {
-  const [localValue, setLocalValue] = React.useState(value ?? '');
-
-  React.useEffect(() => {
-    setLocalValue(value ?? '');
-  }, [value]);
-
-  const handleChangeText = (text: string) => {
-    const digits = text.replace(/\D/g, '').slice(0, 4);
-    const formatted = digits.length <= 2 ? digits : `${digits.slice(0, 2)}:${digits.slice(2)}`;
-    setLocalValue(formatted);
-    if (digits.length === 0 || digits.length === 4) {
-      onChange?.(formatted);
-    }
-  };
-
-  const handleBlur = () => {
-    onChange?.(localValue);
-    onBlur?.();
-  };
+  const { localValue, handleChangeText, handleBlur } = useSaisieHHMM({
+    value,
+    onChange,
+    onBlur,
+    formater: formaterHHMM,
+  });
 
   return (
-    <FormControl>
-      <InputHeading>
-        {!!label && (
-          <FormControlLabel labelRight={labelRight} label={label} disabled={disabled} error={error} success={success} />
-        )}
-        {!!hint && <FormControlHint hint={hint} disabled={disabled} />}
-      </InputHeading>
-
+    <FieldFrame label={label} labelRight={labelRight} hint={hint} error={error} success={success} disabled={disabled}>
       <TextInput
         ref={ref}
         placeholder="HH:MM"
@@ -64,8 +42,6 @@ export const DurationInput = React.forwardRef<TextInputElement, DurationInputPro
         inputMode="numeric"
         maxLength={5}
       />
-
-      {(error || success) && <FormControlCaption error={error} success={success} />}
-    </FormControl>
+    </FieldFrame>
   );
 });

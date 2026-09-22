@@ -1,38 +1,17 @@
 import React from 'react';
-import {
-  FormControl,
-  FormControlCaption,
-  FormControlHint,
-  FormControlLabel,
-  FormControlNumberInput,
-  FormControlNumberInputElement,
-} from '../FormControl';
-import { InputHeading } from '../InputHeading';
+import { FieldFrame, FormControlNumberInput, FormControlNumberInputElement } from '../FormControl';
 import { NumberFieldProps } from './NumberField';
 import { useStyles } from './NumberField.styles';
 import { NumberFieldControlButton } from './NumberFieldControlButton';
 
 export const NumberField = React.forwardRef<FormControlNumberInputElement, NumberFieldProps>(
   function NumberField(props, ref) {
-    const { label, labelRight, hint, error, success, disabled, onChange } = props;
+    const { onChange } = props;
 
     const styles = useStyles();
 
     return (
-      <FormControl style={styles.textInput}>
-        <InputHeading>
-          {!!label && (
-            <FormControlLabel
-              labelRight={labelRight}
-              label={label}
-              disabled={disabled}
-              error={error}
-              success={success}
-            />
-          )}
-          {!!hint && <FormControlHint hint={hint} disabled={disabled} />}
-        </InputHeading>
-
+      <FieldFrame {...props} style={styles.textInput}>
         <FormControlNumberInput
           ref={ref}
           onChange={onChange}
@@ -61,9 +40,7 @@ export const NumberField = React.forwardRef<FormControlNumberInputElement, Numbe
             )
           }
         />
-
-        {(error || success) && <FormControlCaption error={error} success={success} />}
-      </FormControl>
+      </FieldFrame>
     );
   },
 );

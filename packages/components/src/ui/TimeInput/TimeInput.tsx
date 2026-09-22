@@ -1,16 +1,14 @@
 import React from 'react';
 import {
-  FormControl,
-  FormControlCaption,
+  FieldFrame,
+  formaterHHMM,
   FormControlCaptionProps,
-  FormControlHint,
   FormControlHintProps,
-  FormControlLabel,
   FormControlLabelProps,
   TextInput,
   TextInputElement,
+  useSaisieHHMM,
 } from '../FormControl';
-import { InputHeading } from '../InputHeading';
 
 export type TimeInputProps = FormControlLabelProps &
   FormControlHintProps &
@@ -21,49 +19,25 @@ export type TimeInputProps = FormControlLabelProps &
     disabled?: boolean;
   };
 
+const formaterHeure = (chiffres: string) => {
+  // Premier chiffre ≥ 3 : les heures ne peuvent pas dépasser 23, donc on préfixe '0'
+  if (chiffres.length === 1 && parseInt(chiffres) >= 3) return `0${chiffres}:`;
+  return formaterHHMM(chiffres);
+};
+
 export const TimeInput = React.forwardRef<TextInputElement, TimeInputProps>(function TimeInput(
   { label, labelRight, hint, error, success, value, onChange, onBlur, disabled },
   ref,
 ) {
-  const [localValue, setLocalValue] = React.useState(value ?? '');
-
-  React.useEffect(() => {
-    setLocalValue(value ?? '');
-  }, [value]);
-
-  const handleChangeText = (text: string) => {
-    const digits = text.replace(/\D/g, '').slice(0, 4);
-
-    let formatted: string;
-    if (digits.length === 1 && parseInt(digits) >= 3) {
-      // Premier chiffre ≥ 3 : les heures ne peuvent pas dépasser 23, donc on préfixe '0'
-      formatted = `0${digits}:`;
-    } else if (digits.length <= 2) {
-      formatted = digits;
-    } else {
-      formatted = `${digits.slice(0, 2)}:${digits.slice(2)}`;
-    }
-
-    setLocalValue(formatted);
-    if (digits.length === 0 || digits.length === 4) {
-      onChange?.(formatted);
-    }
-  };
-
-  const handleBlur = () => {
-    onChange?.(localValue);
-    onBlur?.();
-  };
+  const { localValue, handleChangeText, handleBlur } = useSaisieHHMM({
+    value,
+    onChange,
+    onBlur,
+    formater: formaterHeure,
+  });
 
   return (
-    <FormControl>
-      <InputHeading>
-        {!!label && (
-          <FormControlLabel labelRight={labelRight} label={label} disabled={disabled} error={error} success={success} />
-        )}
-        {!!hint && <FormControlHint hint={hint} disabled={disabled} />}
-      </InputHeading>
-
+    <FieldFrame label={label} labelRight={labelRight} hint={hint} error={error} success={success} disabled={disabled}>
       <TextInput
         ref={ref}
         placeholder="HH:MM"
@@ -74,8 +48,6 @@ export const TimeInput = React.forwardRef<TextInputElement, TimeInputProps>(func
         keyboardType="number-pad"
         maxLength={5}
       />
-
-      {(error || success) && <FormControlCaption error={error} success={success} />}
-    </FormControl>
+    </FieldFrame>
   );
 });

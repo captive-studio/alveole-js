@@ -11,4 +11,5 @@ export * from './FormControlModal';
 export * from './FormControlNumberInput';
 export * from './FormControlOtpInput';
 export * from './TextInput';
+export * from './useSaisieHHMM';
 export * from './valideLeType';

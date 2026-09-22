@@ -1,17 +1,13 @@
 import React from 'react';
 import {
-  FormControl,
-  FormControlCaption,
+  FieldFrame,
   FormControlCaptionProps,
-  FormControlHint,
   FormControlHintProps,
-  FormControlLabel,
   FormControlLabelProps,
   FormControlNumberInputProps,
   TextInput,
   TextInputElement,
 } from '../FormControl';
-import { InputHeading } from '../InputHeading';
 import { useStyles } from './NumberField.styles';
 import { NumberFieldControlButton } from './NumberFieldControlButton';
 
@@ -31,20 +27,13 @@ export type NumberFieldProps = FormControlNumberInputProps &
   );
 
 export const NumberField = React.forwardRef<TextInputElement, NumberFieldProps>(function NumberField(props, ref) {
-  const { value, label, labelRight, hint, error, success, disabled, onChange } = props;
+  const { value, onChange } = props;
   const { value: _v, onChange: _e, ...inputProps } = props;
 
   const styles = useStyles();
 
   return (
-    <FormControl style={styles.textInput}>
-      <InputHeading>
-        {!!label && (
-          <FormControlLabel labelRight={labelRight} label={label} disabled={disabled} error={error} success={success} />
-        )}
-        {!!hint && <FormControlHint hint={hint} disabled={disabled} />}
-      </InputHeading>
-
+    <FieldFrame {...props} style={styles.textInput}>
       <TextInput
         ref={ref}
         {...inputProps}
@@ -74,8 +63,6 @@ export const NumberField = React.forwardRef<TextInputElement, NumberFieldProps>(
         keyboardType={'number-pad'}
         inputMode={'numeric'}
       />
-
-      {(error || success) && <FormControlCaption error={error} success={success} />}
-    </FormControl>
+    </FieldFrame>
   );
 });

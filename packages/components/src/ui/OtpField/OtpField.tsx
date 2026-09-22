@@ -1,18 +1,14 @@
 import React from 'react';
 import type { TextInputProps } from 'react-native';
 import {
-  FormControl,
-  FormControlCaption,
+  FieldFrame,
   FormControlCaptionProps,
-  FormControlHint,
   FormControlHintProps,
-  FormControlLabel,
   FormControlLabelProps,
   FormControlOtpInput,
   FormControlOtpInputElement,
   FormControlOtpInputProps,
 } from '../FormControl';
-import { InputHeading } from '../InputHeading';
 import { useStyles } from './OtpField.styles';
 import { otpTheme } from './otpTheme';
 
@@ -24,19 +20,12 @@ export type OtpFieldProps = FormControlOtpInputProps &
   };
 
 export const OtpField = React.forwardRef<FormControlOtpInputElement, OtpFieldProps>(function OtpField(props, ref) {
-  const { label, labelRight, hint, error, success, disabled, onChange } = props;
+  const { error, success, disabled, onChange } = props;
 
   const styles = useStyles();
 
   return (
-    <FormControl>
-      <InputHeading>
-        {!!label && (
-          <FormControlLabel labelRight={labelRight} label={label} disabled={disabled} error={error} success={success} />
-        )}
-        {!!hint && <FormControlHint hint={hint} disabled={disabled} />}
-      </InputHeading>
-
+    <FieldFrame {...props}>
       <FormControlOtpInput
         ref={ref}
         // La bibliotheque colore d'elle-meme la bordure de la cellule active et le curseur
@@ -50,8 +39,6 @@ export const OtpField = React.forwardRef<FormControlOtpInputElement, OtpFieldPro
         textInputProps={{ style: styles.hiddenInputStyle as TextInputProps['style'] }}
         {...props}
       />
-
-      {(error || success) && <FormControlCaption error={error} success={success} />}
-    </FormControl>
+    </FieldFrame>
   );
 });
