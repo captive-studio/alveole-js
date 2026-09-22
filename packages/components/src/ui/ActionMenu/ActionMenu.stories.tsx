@@ -179,13 +179,13 @@ export const AvatarMenu = () => {
           <Pressable
             accessibilityRole="button"
             accessibilityLabel="Menu du compte"
-            style={
-              {
-                borderRadius: radius('sm'),
-                outline: open ? `1px solid ${color.light.system.focus}` : 'none',
-                backgroundColor: open ? `${color.light.system.focus}1A` : 'transparent',
-              } as any
-            }
+            style={{
+              borderRadius: radius('sm'),
+              outlineWidth: open ? 1 : 0,
+              outlineStyle: 'solid',
+              outlineColor: color.light.system.focus,
+              backgroundColor: open ? `${color.light.system.focus}1A` : 'transparent',
+            }}
           >
             <Avatar size="md" src="https://www.loremfaces.net/96/id/1.jpg" fallbackText="Clément Prod'homme" />
           </Pressable>

@@ -1,7 +1,7 @@
 import { focusRingProps } from '@alveole/theme';
 import { Href, Link } from 'expo-router';
 import React, { CSSProperties, createContext, useContext } from 'react';
-import { Pressable } from 'react-native';
+import { Pressable, TextStyle } from 'react-native';
 import { Box } from '../Box';
 import { useStyles } from './A.styles';
 
@@ -26,6 +26,9 @@ export const A = (props: AProps) => {
   const { children, href, direction = 'push', style, hoverStyle, ariaCurrent, canAccessHref: canAccessProp } = props;
 
   const styles = useStyles();
+  // Sur le web, ce Pressable rend le `<a>` lui-meme : il porte donc une couleur de texte, que
+  // `ViewStyle` ne connait pas. `TextStyle` l'etend et la decrit.
+  const styleDuLien: TextStyle = styles.link;
   const canAccessFromContext = useContext(LinkAccessContext);
   const canAccess = canAccessProp ?? canAccessFromContext ?? (() => true);
 
@@ -37,7 +40,7 @@ export const A = (props: AProps) => {
       push={direction === 'push'}
       dismissTo={direction === 'dismiss'}
     >
-      <Pressable accessibilityRole="link" aria-current={ariaCurrent} style={styles.link as any} {...focusRingProps()}>
+      <Pressable accessibilityRole="link" aria-current={ariaCurrent} style={styleDuLien} {...focusRingProps()}>
         <Box tag="a-pressable" style={{ ...styles.pressable, ...style }} hoverStyle={hoverStyle}>
           {children}
         </Box>
