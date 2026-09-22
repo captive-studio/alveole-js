@@ -1,7 +1,7 @@
 import { StyleValue } from '@alveole/theme';
 import { useStyles } from './Button.styles';
 
-export type ButtonVariant = 'primary' | 'secondary' | 'tertiary' | 'danger' | 'link';
+export type ButtonVariant = 'primary' | 'secondary' | 'tertiary' | 'danger';
 export type ButtonTaille = 'sm' | 'md' | 'lg';
 
 export type Styles = ReturnType<typeof useStyles>;
@@ -58,7 +58,6 @@ export const TITRE_PAR_TAILLE: Record<ButtonTaille, StyleKey> = {
   lg: 'lgTitle',
 };
 
-/** `link` n'a pas de style desactive propre et emprunte celui de `tertiary`. */
 export const CONTENEUR_PAR_VARIANT: Record<ButtonVariant, EtatVisuel> = {
   primary: { repos: 'primaryContainer', desactive: 'primaryContainerDisabled', actif: 'primaryContainerPressed' },
   secondary: {
@@ -68,7 +67,6 @@ export const CONTENEUR_PAR_VARIANT: Record<ButtonVariant, EtatVisuel> = {
   },
   tertiary: { repos: 'tertiaryContainer', desactive: 'tertiaryContainerDisabled', actif: 'tertiaryContainerPressed' },
   danger: { repos: 'dangerContainer', desactive: 'dangerContainerDisabled', actif: 'dangerContainerPressed' },
-  link: { repos: 'linkContainer', desactive: 'tertiaryContainerDisabled', actif: 'linkContainerPressed' },
 };
 
 export const BORDURE_PAR_VARIANT: Partial<Record<ButtonVariant, EtatBordure>> = {
@@ -85,7 +83,6 @@ export const SURVOL_PAR_VARIANT: Record<ButtonVariant, StyleKey> = {
   secondary: 'secondaryContainerHover',
   tertiary: 'tertiaryContainerHover',
   danger: 'dangerContainerHover',
-  link: 'linkContainerHover',
 };
 
 export const TEXTE_PAR_VARIANT: Record<ButtonVariant, EtatVisuel> = {
@@ -93,7 +90,6 @@ export const TEXTE_PAR_VARIANT: Record<ButtonVariant, EtatVisuel> = {
   secondary: { repos: 'secondaryTitle', desactive: 'secondaryTitleDisabled', actif: 'secondaryTitleHover' },
   tertiary: { repos: 'tertiaryTitle', desactive: 'tertiaryTitleDisabled', actif: 'tertiaryTitleHover' },
   danger: { repos: 'dangerTitle', desactive: 'dangerTitleDisabled', actif: 'dangerTitleHover' },
-  link: { repos: 'linkTitle', desactive: 'tertiaryTitleDisabled', actif: 'linkTitleHover' },
 };
 
 export const ICONE_PAR_VARIANT: Record<ButtonVariant, EtatCouleur> = {
@@ -101,5 +97,4 @@ export const ICONE_PAR_VARIANT: Record<ButtonVariant, EtatCouleur> = {
   secondary: { repos: 'secondaryIcon', desactive: 'secondaryIconDisabled', actif: 'secondaryIconHover' },
   tertiary: { repos: 'tertiaryIcon', desactive: 'tertiaryIconDisabled', actif: 'tertiaryIconHover' },
   danger: { repos: 'dangerIcon', desactive: 'dangerIconDisabled', actif: 'dangerIconHover' },
-  link: { repos: 'linkIcon', desactive: 'linkIconDisabled', actif: 'linkTitleHover' },
 };
