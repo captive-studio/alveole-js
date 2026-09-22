@@ -119,33 +119,9 @@ const contenuDeLaLigne = ({ text, color, spacing, spacingValue, radius }: Theme)
 
 // La puce ne vit pas dans le panneau mais dans le champ fermé, en multi-sélection.
 // Elle partage cette table parce qu'elle décrit la même chose : une option retenue.
-const puce = ({ text, color, spacing, radius }: Theme) =>
-  ({
-    tag: {
-      display: 'flex',
-      flexDirection: 'row',
-      alignItems: 'center',
-      gap: spacing('1V'),
-      paddingLeft: spacing('1W'),
-      paddingRight: spacing('1V'),
-      paddingTop: spacing('0,5V'),
-      paddingBottom: spacing('0,5V'),
-      borderRadius: radius('sm'),
-      backgroundColor: color.light.background['alt-grey'],
-      borderWidth: 1,
-      borderStyle: 'solid',
-      borderColor: color.light.border['default-grey'],
-    },
-    tagLabel: {
-      ...text['Corps de texte'].SM.Regular,
-      color: color.light.text['default-grey'],
-      flexShrink: 1,
-    },
-  }) satisfies Table;
 
 export const useStyles = makeStyles(theme => ({
   ...panneau(theme),
   ...ligne(theme),
   ...contenuDeLaLigne(theme),
-  ...puce(theme),
 }));

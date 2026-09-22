@@ -1,10 +1,14 @@
 # Étiquettes
 
 **Étiquette** :
-La pastille grise et descriptive que rend le composant `Tag` : elle qualifie
-l'élément qui la porte, sans annoncer d'état ni de quantité. Elle n'a qu'une
-couleur, et son seul contraste vient du survol et de la sélection. Elle peut
-recevoir une icône avant son libellé et une croix de suppression.
+La pastille grise que rend le composant `Tag` : elle qualifie l'élément qui la
+porte, sans annoncer d'état ni de quantité. Elle n'a qu'une couleur, et son seul
+contraste vient du survol et de la sélection. Elle peut recevoir une icône avant
+son libellé et une croix de suppression.
+Une **valeur choisie dans un champ à sélection multiple est une étiquette**, et
+non un objet à part : c'est la même pastille, sélectionnée et fermable. Primer et
+Base font de même, leur champ à jetons rendant leur `Token` et leur `Tag`. Il n'y
+a donc qu'un seul composant, et aucune variante à choisir.
 _Éviter_ : badge, chip, token, label. « Token » est le nom du composant de
 Primer dont l'étiquette s'inspire, pas le nôtre, et il désigne déjà chez nous
 une variable de design.

@@ -5,6 +5,8 @@ import { useStyles } from './Tag.styles';
 
 export type TagCloseProps = {
   size: 'sm' | 'md';
+  /** Le libelle que la croix retire, quand c'est du texte annoncable. */
+  libelle?: string;
   /** L'etiquette est survolee ou selectionnee : la croix suit et passe au gris sombre. */
   fonce: boolean;
   /**
@@ -21,13 +23,15 @@ export type TagCloseProps = {
  * lignes dans `Tag` : c'est la seule zone interactive de l'etiquette, elle a son propre
  * survol, son propre gabarit par taille et ses propres obligations d'accessibilite.
  */
-export const TagClose = ({ size, fonce, onSurvol, onClose }: TagCloseProps) => {
+export const TagClose = ({ size, libelle, fonce, onSurvol, onClose }: TagCloseProps) => {
   const styles = useStyles();
 
   return (
     <Pressable
       accessibilityRole="button"
-      accessibilityLabel="Retirer l'étiquette"
+      // Nommer ce qu'on retire plutot que « retirer un truc » : dans une liste de valeurs
+      // selectionnees, un nom generique fait annoncer six fois la meme chose.
+      accessibilityLabel={libelle ? `Retirer ${libelle}` : "Retirer l'étiquette"}
       onPress={onClose}
       onHoverIn={() => onSurvol(true)}
       onHoverOut={() => onSurvol(false)}

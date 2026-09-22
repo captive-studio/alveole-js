@@ -9,9 +9,9 @@ import {
   SingleValueProps,
 } from 'react-select';
 import { LucideIcon } from '../LucideIcon';
+import { Tag } from '../Tag';
 import type { SelectOption } from './Select.types';
 import { SelectItem } from './SelectItem';
-import { SelectTag } from './SelectTag';
 
 type Group = GroupBase<SelectOption>;
 
@@ -56,11 +56,15 @@ export const useSelectComponents = ({ multiple, disabled, onRemoveValue }: Selec
 
   const MultiValue = (multiValueProps: MultiValueProps<SelectOption, boolean, Group>) => (
     <components.MultiValue {...multiValueProps}>
-      <SelectTag
-        label={multiValueProps.data.label}
+      <Tag
+        size="md"
+        selected
         icon={multiValueProps.data.icon}
-        onRemove={onRemoveValue && (() => onRemoveValue(multiValueProps.data.value))}
-      />
+        closable={!!onRemoveValue}
+        onClose={onRemoveValue && (() => onRemoveValue(multiValueProps.data.value))}
+      >
+        {multiValueProps.data.label}
+      </Tag>
     </components.MultiValue>
   );
 
@@ -83,6 +87,6 @@ export const useSelectComponents = ({ multiple, disabled, onRemoveValue }: Selec
     </components.DropdownIndicator>
   );
 
-  // `MultiValueRemove` est neutralisé : la croix appartient à SelectTag.
+  // `MultiValueRemove` est neutralisé : la croix appartient à l'étiquette.
   return { Option, SingleValue, MultiValue, MultiValueRemove: () => null, ClearIndicator, DropdownIndicator };
 };

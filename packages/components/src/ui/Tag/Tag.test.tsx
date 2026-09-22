@@ -1,4 +1,5 @@
 import { fireEvent, renderNative, RenderResult } from '@/__tests__/helpers/renderNative';
+import { Typography } from '../../core/Typography';
 import { Tag } from './Tag';
 
 // Le libelle est le seul Text de l etiquette, et c est lui qui porte la pastille :
@@ -229,12 +230,24 @@ it.each([
   expect(view.getByRole('button').props.style.marginLeft).toBe(attendu);
 });
 
-// Primer ecrit `aria-label={'Remove token'}` en dur sur sa croix : le nom du composant, dans
-// la langue de l'interface. Le notre suit le glossaire du depot, ou « tag » est proscrit au
-// profit d'« etiquette ». Un lecteur d'ecran est le seul endroit ou notre vocabulaire interne
-// devient public : c'est le pire endroit pour un mot que notre propre glossaire interdit.
-it('nomme la croix dans le vocabulaire du depot', async () => {
+// Primer ecrit `aria-label={'Remove token'}` en dur : « retirer un truc », sans dire lequel.
+// Dans une liste de valeurs selectionnees, un lecteur d'ecran annonce alors six fois la meme
+// chose. Quand le libelle est du texte, la croix le reprend ; sinon elle retombe sur le nom
+// generique, dans le vocabulaire du glossaire, ou « tag » est proscrit.
+it('nomme la croix par le libelle qu elle retire', async () => {
   const view = await etiquette({ closable: true });
+
+  expect(view.getByRole('button').props.accessibilityLabel).toBe('Retirer Brouillon');
+});
+
+// Repli quand le libelle n'est pas du texte : un lecteur d'ecran ne peut pas annoncer un
+// arbre React, et une croix sans nom n'est pas annoncable du tout.
+it('retombe sur un nom generique quand le libelle n est pas du texte', async () => {
+  const view = await renderNative(
+    <Tag size="sm" closable>
+      <Typography>Brouillon</Typography>
+    </Tag>,
+  );
 
   expect(view.getByRole('button').props.accessibilityLabel).toBe("Retirer l'étiquette");
 });
