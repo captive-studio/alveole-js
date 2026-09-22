@@ -56,3 +56,20 @@ test('un item non-fichier depose parmi des fichiers est ignore', () => {
 
   expect(onChange).toHaveBeenCalledWith([expect.objectContaining({ name: 'a.png' })]);
 });
+
+// `deposer` est memoise, et sa liste de dependances omettait volontairement le gestionnaire de
+// changement pour ne pas recreer les gestionnaires de glisser-deposer a chaque frappe. Un
+// formulaire controle passe pourtant un `onChange` neuf a chaque rendu : la memoisation figeait
+// celui du premier rendu, et le depot appelait un gestionnaire perime.
+test('un depot apres un nouveau rendu appelle le gestionnaire courant, pas celui du premier rendu', () => {
+  const premier = jest.fn();
+  const courant = jest.fn();
+  const fichier = new File(['contenu'], 'a.png', { type: 'image/png' });
+  const { container, rerender } = renderWeb(<DragAndDropFile label="Piece jointe" value={null} onChange={premier} />);
+
+  rerender(<DragAndDropFile label="Piece jointe" value={null} onChange={courant} />);
+  deposer(container, { items: [{ kind: 'file', getAsFile: () => fichier }] });
+
+  expect(courant).toHaveBeenCalledWith(expect.objectContaining({ name: 'a.png' }));
+  expect(premier).not.toHaveBeenCalled();
+});

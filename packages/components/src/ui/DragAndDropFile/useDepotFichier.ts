@@ -49,34 +49,30 @@ export const useDepotFichier = ({
 
   const onValueChange = valideLeType({ type, onChange });
 
-  // `onValueChange` est reconstruit a chaque rendu : le garder hors des dependances evite de
-  // recreer les gestionnaires de glisser-deposer a chaque frappe du formulaire.
-  const deposer = React.useCallback(
-    (files: File[]) => {
-      const valides = files.filter(file => fichierCorrespondAuType(file.type || '', file.name, type));
+  // `deposer` et `onDrop` etaient memoises en omettant `onValueChange` de leurs dependances,
+  // pour ne pas recreer les gestionnaires de glisser-deposer a chaque frappe du formulaire. Le
+  // gain etait nul : `survol` reconstruit deja les quatre autres gestionnaires a chaque rendu.
+  // Le cout, lui, etait reel : la memoisation figeait le gestionnaire du premier rendu, et un
+  // formulaire controle deposait dans un `onChange` perime.
+  const deposer = (files: File[]) => {
+    const valides = files.filter(file => fichierCorrespondAuType(file.type || '', file.name, type));
 
-      if (valides.length < files.length) {
-        Alert.alert({ title: 'Type de fichier incorrect', message: 'Certains fichiers ne sont pas pris en charge' });
-      }
+    if (valides.length < files.length) {
+      Alert.alert({ title: 'Type de fichier incorrect', message: 'Certains fichiers ne sont pas pris en charge' });
+    }
 
-      if (valides.length === 0) return;
-      onValueChange(multiple ? valides.map(enAsset) : enAsset(valides[0]));
-    },
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-    [type, multiple],
-  );
+    if (valides.length === 0) return;
+    onValueChange(multiple ? valides.map(enAsset) : enAsset(valides[0]));
+  };
 
-  const onDrop = React.useCallback(
-    (e: React.DragEvent<HTMLDivElement>) => {
-      e.preventDefault();
-      e.stopPropagation();
-      setIsOver(false);
+  const onDrop = (e: React.DragEvent<HTMLDivElement>) => {
+    e.preventDefault();
+    e.stopPropagation();
+    setIsOver(false);
 
-      const files = fichiersDuDataTransfer(e.dataTransfer);
-      if (files.length > 0) deposer(multiple ? files : [files[0]]);
-    },
-    [deposer, multiple],
-  );
+    const files = fichiersDuDataTransfer(e.dataTransfer);
+    if (files.length > 0) deposer(multiple ? files : [files[0]]);
+  };
 
   const survol = (actif: boolean, appliquer: (actif: boolean) => void) => (e: React.DragEvent<HTMLDivElement>) => {
     e.preventDefault();
