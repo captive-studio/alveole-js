@@ -30,6 +30,10 @@ export const useTabsState = (initialValue: string, onChange?: (index: number) =>
     onChange?.(index);
   };
 
+  // Restaurer l'onglet actif depuis l'Anchor Namespace n'est pas une interaction : `onChange`
+  // ne doit se declencher que sur un vrai clic, pas sur ce qui n'est qu'une reprise d'etat.
+  const restoreCurrentTab = (currentTab: string) => setTabState(state => ({ ...state, currentTab }));
+
   const setHoverTab = (hoverTab: string | null) => setTabState({ ...tabState, hoverTab });
 
   const handleOnInteraction: TabsTabProps['onInteraction'] = (type, layout) => {
@@ -49,6 +53,7 @@ export const useTabsState = (initialValue: string, onChange?: (index: number) =>
     currentTab: tabState.currentTab,
     etatDeLOnglet,
     setCurrentTab,
+    restoreCurrentTab,
     setHoverTab,
     handleOnInteraction,
   };

@@ -35,3 +35,11 @@ objet là où il n'y a qu'une source montrée en partie.
 Le fichier `*.stories.tsx` d'un composant : une fiche en export par défaut et
 ses exemples en exports nommés.
 _Éviter_ : story file.
+
+**Ancre** :
+Un identifiant compatible URL, calculé depuis un texte visible (un titre, le
+libellé d'un onglet), qui permet de lier directement vers cet endroit. Posée
+par `AnchorHeading`, reprise par `Tabs` (voir l'ADR
+[0021](../adr/0021-anchor-sync-web-natif-diverge.md)) pour qu'une fiche
+retrouve son onglet actif au rechargement.
+_Éviter_ : hash, id, slug.

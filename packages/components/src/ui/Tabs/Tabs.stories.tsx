@@ -23,6 +23,7 @@ export const Example = () => {
       <Tabs
         defaultValue={'onglet-1'}
         onChange={setActiveTab}
+        urlAnchorPrefix="tabs-story"
         tabs={[
           { label: 'Onglet 1', value: 'onglet-1', content: <Typography>Contenu de onglet 1</Typography> },
           { label: 'Onglet 2', counter: 12, value: 'onglet-2', content: <Typography>Contenu de onglet 2</Typography> },

@@ -1,4 +1,4 @@
-import { renderHookOnDesktop, renderWeb, screen } from '@/__tests__/helpers/renderWeb';
+import { fireEvent, renderHookOnDesktop, renderWeb, screen, waitFor } from '@/__tests__/helpers/renderWeb';
 import { FOCUS_ATTRIBUTE } from '@alveole/theme';
 import { Tabs } from './Tabs';
 import { useStyles } from './Tabs.styles';
@@ -85,4 +85,78 @@ test('montre la bague sur le panneau de contenu, lui aussi focalisable', () => {
   );
 
   expect(screen.getByRole('tabpanel').getAttribute(FOCUS_ATTRIBUTE)).toBe('ring');
+});
+
+// L'Anchor Sync (ADR 0021) ecrit et relit un fragment `#{urlAnchorPrefix}-{ancre}`, le meme
+// format que `AnchorHeading`, pour que le rechargement de la page rouvre le bon onglet.
+describe('Anchor Sync', () => {
+  afterEach(() => {
+    window.location.hash = '';
+  });
+
+  test('ecrit l ancre du label clique dans le hash, prefixee par urlAnchorPrefix', () => {
+    renderWeb(
+      <Tabs
+        defaultValue="a"
+        urlAnchorPrefix="story"
+        tabs={[
+          { label: 'Onglet 1', value: 'a', content: <></> },
+          { label: 'Onglet 2', value: 'b', content: <></> },
+        ]}
+      />,
+    );
+
+    fireEvent.click(screen.getAllByRole('tab')[1]);
+
+    expect(window.location.hash).toBe('#story-onglet-2');
+  });
+
+  test('ne touche pas au hash sans urlAnchorPrefix', () => {
+    renderWeb(
+      <Tabs
+        defaultValue="a"
+        tabs={[
+          { label: 'Onglet 1', value: 'a', content: <></> },
+          { label: 'Onglet 2', value: 'b', content: <></> },
+        ]}
+      />,
+    );
+
+    fireEvent.click(screen.getAllByRole('tab')[1]);
+
+    expect(window.location.hash).toBe('');
+  });
+
+  test('ouvre au montage l onglet dont l ancre correspond au hash, avant meme defaultValue', async () => {
+    window.location.hash = '#story-onglet-2';
+
+    renderWeb(
+      <Tabs
+        defaultValue="a"
+        urlAnchorPrefix="story"
+        tabs={[
+          { label: 'Onglet 1', value: 'a', content: <></> },
+          { label: 'Onglet 2', value: 'b', content: <></> },
+        ]}
+      />,
+    );
+
+    await waitFor(() => expect(screen.getAllByRole('tab')[1].getAttribute('aria-selected')).toBe('true'));
+  });
+
+  test('retombe sur le premier onglet si le hash ne correspond a aucune ancre', async () => {
+    window.location.hash = '#story-onglet-inconnu';
+
+    renderWeb(
+      <Tabs
+        urlAnchorPrefix="story"
+        tabs={[
+          { label: 'Onglet 1', value: 'a', content: <></> },
+          { label: 'Onglet 2', value: 'b', content: <></> },
+        ]}
+      />,
+    );
+
+    await waitFor(() => expect(screen.getAllByRole('tab')[0].getAttribute('aria-selected')).toBe('true'));
+  });
 });

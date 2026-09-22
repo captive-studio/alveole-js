@@ -69,6 +69,7 @@ export const StoryDetailScreen = ({
           <EnTeteDeFiche meta={meta} />
           <Tabs
             defaultValue="examples"
+            urlAnchorPrefix="story"
             tabs={ongletsDeLaFiche(meta, <ExemplesDeLaStory story={story} exemples={exemples} gabarit={gabarit} />)}
           />
         </Box>
