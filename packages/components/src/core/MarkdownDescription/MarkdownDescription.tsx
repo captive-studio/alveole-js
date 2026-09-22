@@ -31,13 +31,11 @@ export const MarkdownDescription = ({ children, taille = 'MD', color: textColor 
     );
   }
 
-  // eslint-disable-next-line @typescript-eslint/no-require-imports
   const ReactMarkdown = require('react-markdown').default as React.ComponentType<{
     children: string;
     remarkPlugins: unknown[];
     components: Record<string, React.ComponentType<any>>;
   }>;
-  // eslint-disable-next-line @typescript-eslint/no-require-imports
   const remarkGfm = require('remark-gfm').default;
 
   const borderColor = color.light.border['default-grey'];

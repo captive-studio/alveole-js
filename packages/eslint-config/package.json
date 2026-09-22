@@ -17,6 +17,7 @@
     "eslint": "^9.0.0 || ^10.0.0"
   },
   "dependencies": {
+    "@eslint-community/eslint-plugin-eslint-comments": "4.8.1",
     "eslint-config-expo": "57.0.2",
     "eslint-plugin-sonarjs": "4.2.1"
   },
