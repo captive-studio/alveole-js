@@ -77,18 +77,7 @@ export const WithPageMetaProvider = () => null;
  */
 export const WithScrollable = () => (
   <Page title="Page scrollable" scrollable>
-    <Box tag="scrollable-1" height={300} backgroundColor="#f94144">
-      <Typography>Box 1</Typography>
-    </Box>
-    <Box tag="scrollable-2" height={300} backgroundColor="#f9c74f">
-      <Typography>Box 2</Typography>
-    </Box>
-    <Box tag="scrollable-3" height={300} backgroundColor="#90be6d">
-      <Typography>Box 3</Typography>
-    </Box>
-    <Box tag="scrollable-4" height={300} backgroundColor="#577590">
-      <Typography>Box 4</Typography>
-    </Box>
+    <Typography>Page avec du scroll.</Typography>
   </Page>
 );
 
