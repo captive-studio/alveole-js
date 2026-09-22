@@ -11,7 +11,7 @@ export type StoryMeta = {
   webOnly?: boolean;
   description: string;
   shortDescription?: string;
-  component?: ComponentType<any>;
+  component?: ComponentType<never>;
   config?: object;
   props?: unknown;
   styleFn: () => string | object;
@@ -19,7 +19,7 @@ export type StoryMeta = {
 
 export type Story = StoryMeta;
 
-export type StoryExample = ComponentType<any>;
+export type StoryExample = ComponentType<never>;
 
 export type StorySourceValue = string | (() => string);
 
