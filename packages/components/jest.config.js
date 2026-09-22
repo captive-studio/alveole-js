@@ -132,8 +132,8 @@ module.exports = {
     global: {
       statements: 61,
       branches: 55,
-      functions: 60,
-      lines: 62,
+      functions: 62,
+      lines: 64,
     },
   },
   collectCoverageFrom: [
