@@ -56,6 +56,9 @@ export const Tag = (props: TagProps) => {
                 passe et n'en garde que les proprietes SVG, la marge serait perdue. */}
             {icon && (
               <Box style={ecartDeLIcone(styles, size)}>
+                {/* Taille unique dans les deux crans, a la difference de la croix. L'icone
+                    porte du sens et ne se clique pas : elle n'a pas a offrir une cible qui
+                    suive la pastille. Primer ne dimensionne pas non plus son `leadingVisual`. */}
                 <LucideIcon name={icon} size="sm" />
               </Box>
             )}
