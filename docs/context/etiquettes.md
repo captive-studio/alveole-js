@@ -36,14 +36,16 @@ L'état d'une étiquette que le pointeur recouvre. Signal du pointeur et rien
 d'autre : il ne dit jamais qu'une étiquette est sélectionnée, et une étiquette
 sélectionnée ne se survole pas d'elle-même. Les deux signaux se combinent sans
 se confondre, ce que fixe l'ADR
-[0014](../adr/0014-tag-survol-et-selection-independants.md). Seule une étiquette
+[0020](../adr/0020-tag-survol-et-selection-independants.md). Seule une étiquette
 manipulable le porte (ADR
 [0019](../adr/0019-le-survol-ne-va-qu-aux-etiquettes-manipulables.md)).
 
 **Manipulable** :
-Se dit d'une étiquette sur laquelle on peut agir : la fermer, ou la choisir dans
-un groupe. C'est ce qui lui vaut un retour au survol. Une étiquette qui n'est ni
-fermable ni membre d'un groupe de sélection est descriptive, et reste inerte.
+Se dit d'une étiquette sur laquelle on peut agir : la fermer (`closable`), ou la
+choisir dans un groupe (`interactive`). C'est ce qui lui vaut un retour au survol.
+Une étiquette qui n'est ni l'un ni l'autre est descriptive, et reste inerte. À ne
+pas confondre avec **sélectionné**, qui décrit un état et ne déclare rien : une
+valeur retenue dans un champ désactivé est sélectionnée sans être manipulable.
 _Éviter_ : interactif, cliquable. L'étiquette entière ne se clique jamais ; seule
 sa croix est actionnable.
 _Éviter_ : actif, sélectionné, focus. Le focus est un troisième état, celui du
