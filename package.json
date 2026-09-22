@@ -13,7 +13,7 @@
     "lint": "pnpm -r --if-present run lint",
     "typecheck": "pnpm -r --if-present run typecheck",
     "start:ui-kit": "pnpm --filter @alveole/docs run start --",
-    "start:ui-kit:clear": "pnpm run start:ui-kit -- --clear",
+    "start:ui-kit:clear": "pnpm --filter @alveole/docs run start -- --clear",
     "doctor": "pnpm --filter @alveole/docs run doctor",
     "doctor:fix": "pnpm --filter @alveole/docs run doctor:fix && pnpm --filter @alveole/components run doctor:fix",
     "check:dead-code": "pnpm --filter @alveole/components run generate:sources && knip",
