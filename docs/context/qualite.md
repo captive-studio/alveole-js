@@ -18,3 +18,18 @@ compare le rendu courant. N'est pas un cliquet : ce n'est pas une borne
 chiffrée, et une différence n'est ni une amélioration ni une dégradation mais un
 changement qui demande un jugement humain.
 _Éviter_ : capture, snapshot, screenshot de référence.
+
+**Exigence** :
+Une borne chiffrée posée au niveau voulu et non au niveau constaté. Contrairement
+au cliquet, aucune mesure ne la déplace : quand le code la dépasse, c'est au code
+de redescendre. Employée pour la complexité, la profondeur, la taille des
+fonctions et des fichiers.
+_Éviter_ : seuil, plafond, limite.
+
+**Gel** :
+Le fichier `eslint-suppressions.json` d'un workspace, qui retenait les offenses
+préexistantes le temps de les absorber. Les quatre gels du dépôt sont vides et le
+gel est dit fermé : `scripts/check-suppressions.mjs` fait échouer la CI dès que
+l'un d'eux retient une offense. Une violation se corrige donc, elle ne se gèle
+plus.
+_Éviter_ : suppression, exception, dette gelée.
