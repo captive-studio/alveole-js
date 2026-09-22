@@ -10,6 +10,12 @@ export type CanAccessHref = (href: Href & string) => boolean;
 /** Contexte optionnel pour fournir la logique d'accès aux liens (ex. droits métier). Non fourni = tous les liens sont cliquables. */
 export const LinkAccessContext = createContext<CanAccessHref | null>(null);
 
+/** Règle d'accès effective : celle passée en prop, sinon celle du contexte, sinon tout est accessible. */
+export const useCanAccessHref = (canAccessProp?: CanAccessHref): CanAccessHref => {
+  const canAccessFromContext = useContext(LinkAccessContext);
+  return canAccessProp ?? canAccessFromContext ?? (() => true);
+};
+
 export type AProps = React.PropsWithChildren<{
   href: Href & string;
   /** default: "push" */
@@ -29,8 +35,7 @@ export const A = (props: AProps) => {
   // Sur le web, ce Pressable rend le `<a>` lui-meme : il porte donc une couleur de texte, que
   // `ViewStyle` ne connait pas. `TextStyle` l'etend et la decrit.
   const styleDuLien: TextStyle = styles.link;
-  const canAccessFromContext = useContext(LinkAccessContext);
-  const canAccess = canAccessProp ?? canAccessFromContext ?? (() => true);
+  const canAccess = useCanAccessHref(canAccessProp);
 
   const expoLink = (
     <Link

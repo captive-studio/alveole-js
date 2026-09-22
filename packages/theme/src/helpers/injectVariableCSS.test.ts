@@ -1,5 +1,7 @@
 import { FOCUS_ATTRIBUTE } from '../constants/Focus';
+import { LINK_ATTRIBUTE } from '../constants/Link';
 import { generateThemeCSSParts } from './injectVariableCSS';
+import { generateLinkCSS } from './linkCSS';
 
 jest.mock('react-native', () => ({ Platform: { OS: 'web', select: (obj: Record<string, unknown>) => obj.web } }));
 
@@ -17,19 +19,30 @@ describe('generateThemeCSSParts', () => {
   // et ne peint que ce qui lui appartient. Un morceau qui ciblerait `body`, `a` ou `button`
   // imposerait un rendu a l'application cliente au lieu de le lui laisser.
   //
-  // La bague de focus est la troisieme forme admise, et la seule qui cible des elements :
-  // elle ne s'applique qu'a ceux qui portent `FOCUS_ATTRIBUTE`, c'est-a-dire que le kit a
-  // marques lui-meme. C'est ce qui la distingue d'un style global et ce qui la rend
-  // compatible avec l'ADR : l'application cliente ne voit changer aucun de ses elements.
+  // Les regles marquees sont la troisieme forme admise, et la seule qui cible des elements :
+  // la bague de focus et l'ecart du soulignement ne s'appliquent qu'a ceux qui portent
+  // `FOCUS_ATTRIBUTE` ou `LINK_ATTRIBUTE`, c'est-a-dire que le kit a marques lui-meme. C'est
+  // ce qui les distingue d'un style global et ce qui les rend compatibles avec l'ADR :
+  // l'application cliente ne voit changer aucun de ses elements.
   it('ne peint que ce qui appartient au kit, jamais un element de l application', () => {
     const parts = generateThemeCSSParts();
 
     expect(
       parts.every(
-        part => part.startsWith('@import') || part.startsWith(':root {') || part.startsWith(`[${FOCUS_ATTRIBUTE}`),
+        part =>
+          part.startsWith('@import') ||
+          part.startsWith(':root {') ||
+          part.startsWith(`[${FOCUS_ATTRIBUTE}`) ||
+          part.startsWith(`[${LINK_ATTRIBUTE}`),
       ),
     ).toBe(true);
   });
+});
+
+// Sans cette règle dans la feuille émise, la marque posée par `Link` ne produirait rien : le
+// soulignement resterait collé aux lettres, comme constaté en navigateur.
+it('émet l écart du soulignement des liens du kit', () => {
+  expect(generateThemeCSSParts()).toContain(generateLinkCSS());
 });
 
 // Filet du refactoring de `collectTypographyLines`. Chaque ligne manquante ici est une

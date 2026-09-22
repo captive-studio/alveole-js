@@ -1,5 +1,6 @@
 import { Platform } from 'react-native';
 import { Colors } from './Color';
+import { dataSetAttribute } from './dataSetAttribute';
 
 /**
  * `default` sur les fonds clairs, `emphasis` sur les fonds pleins (primary, danger),
@@ -27,8 +28,7 @@ export type FocusRingStyle = {
  */
 export const FOCUS_DATA_SET_KEY = 'alveoleFocus';
 
-/** Derive, jamais recopie : une regle CSS ne peut pas cibler un attribut que plus personne ne pose. */
-export const FOCUS_ATTRIBUTE = `data-${FOCUS_DATA_SET_KEY.replace(/([A-Z])/g, '-$1').toLowerCase()}`;
+export const FOCUS_ATTRIBUTE = dataSetAttribute(FOCUS_DATA_SET_KEY);
 
 /**
  * Les mesures de l'anneau, en un seul endroit : la regle CSS `:focus-visible` emise par le
