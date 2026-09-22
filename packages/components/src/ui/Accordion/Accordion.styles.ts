@@ -27,55 +27,37 @@ const coque = ({ color, radius }: Theme) =>
     },
   }) satisfies Table;
 
-const entete = ({ spacing, color }: Theme) =>
-  ({
+const entete = ({ spacing, color }: Theme) => {
+  const enTete = {
+    cursor: 'pointer',
+    display: 'flex',
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    paddingTop: spacing('3V'),
+    paddingBottom: spacing('3V'),
+    paddingLeft: spacing('2W'),
+    paddingRight: spacing('2W'),
+    alignItems: 'flex-start',
+    gap: spacing('3V'),
+    alignSelf: 'stretch',
+    borderWidth: 0,
+  } satisfies StyleValue;
+
+  return {
     accordionItemTrigger: {
       borderWidth: 0,
       padding: 0,
     },
     accordionItemHeader: {
-      cursor: 'pointer',
-      display: 'flex',
-      flexDirection: 'row',
-      justifyContent: 'space-between',
-      paddingTop: spacing('3V'),
-      paddingBottom: spacing('3V'),
-      paddingLeft: spacing('2W'),
-      paddingRight: spacing('2W'),
-      alignItems: 'flex-start',
-      gap: spacing('3V'),
-      alignSelf: 'stretch',
+      ...enTete,
       backgroundColor: '#FFFFFF',
-      borderWidth: 0,
     },
     accordionItemHeaderAlt: {
-      cursor: 'pointer',
-      display: 'flex',
-      flexDirection: 'row',
-      justifyContent: 'space-between',
-      paddingTop: spacing('3V'),
-      paddingBottom: spacing('3V'),
-      paddingLeft: spacing('2W'),
-      paddingRight: spacing('2W'),
-      alignItems: 'flex-start',
-      gap: spacing('3V'),
-      alignSelf: 'stretch',
+      ...enTete,
       backgroundColor: color.background['alt-grey'],
-      borderWidth: 0,
     },
     accordionItemHeaderOutline: {
-      cursor: 'pointer',
-      display: 'flex',
-      flexDirection: 'row',
-      justifyContent: 'space-between',
-      paddingTop: spacing('3V'),
-      paddingBottom: spacing('3V'),
-      paddingLeft: spacing('2W'),
-      paddingRight: spacing('2W'),
-      alignItems: 'flex-start',
-      gap: spacing('3V'),
-      alignSelf: 'stretch',
-      borderWidth: 0,
+      ...enTete,
       backgroundColor: '#FFFFFF',
       outlineWidth: 1,
       outlineColor: color.border['default-grey'],
@@ -84,7 +66,8 @@ const entete = ({ spacing, color }: Theme) =>
     accordionItemHeaderOpen: {
       backgroundColor: color.background['default-active'],
     },
-  }) satisfies Table;
+  } satisfies Table;
+};
 
 const libelle = ({ color, text }: Theme) =>
   ({
