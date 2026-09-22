@@ -89,22 +89,18 @@ test('montre la bague sur le panneau de contenu, lui aussi focalisable', () => {
 
 // L'Anchor Sync (ADR 0022) ecrit et relit un fragment `#{urlAnchorPrefix}-{ancre}`, le meme
 // format que `AnchorHeading`, pour que le rechargement de la page rouvre le bon onglet.
+const DEUX_ONGLETS = [
+  { label: 'Onglet 1', value: 'a', content: <></> },
+  { label: 'Onglet 2', value: 'b', content: <></> },
+];
+
 describe('Anchor Sync', () => {
   afterEach(() => {
     window.location.hash = '';
   });
 
   test('ecrit l ancre du label clique dans le hash, prefixee par urlAnchorPrefix', () => {
-    renderWeb(
-      <Tabs
-        defaultValue="a"
-        urlAnchorPrefix="story"
-        tabs={[
-          { label: 'Onglet 1', value: 'a', content: <></> },
-          { label: 'Onglet 2', value: 'b', content: <></> },
-        ]}
-      />,
-    );
+    renderWeb(<Tabs defaultValue="a" urlAnchorPrefix="story" tabs={DEUX_ONGLETS} />);
 
     fireEvent.click(screen.getAllByRole('tab')[1]);
 
@@ -112,15 +108,7 @@ describe('Anchor Sync', () => {
   });
 
   test('ne touche pas au hash sans urlAnchorPrefix', () => {
-    renderWeb(
-      <Tabs
-        defaultValue="a"
-        tabs={[
-          { label: 'Onglet 1', value: 'a', content: <></> },
-          { label: 'Onglet 2', value: 'b', content: <></> },
-        ]}
-      />,
-    );
+    renderWeb(<Tabs defaultValue="a" tabs={DEUX_ONGLETS} />);
 
     fireEvent.click(screen.getAllByRole('tab')[1]);
 
@@ -130,32 +118,31 @@ describe('Anchor Sync', () => {
   test('ouvre au montage l onglet dont l ancre correspond au hash, avant meme defaultValue', async () => {
     window.location.hash = '#story-onglet-2';
 
-    renderWeb(
-      <Tabs
-        defaultValue="a"
-        urlAnchorPrefix="story"
-        tabs={[
-          { label: 'Onglet 1', value: 'a', content: <></> },
-          { label: 'Onglet 2', value: 'b', content: <></> },
-        ]}
-      />,
-    );
+    renderWeb(<Tabs defaultValue="a" urlAnchorPrefix="story" tabs={DEUX_ONGLETS} />);
 
     await waitFor(() => expect(screen.getAllByRole('tab')[1].getAttribute('aria-selected')).toBe('true'));
+  });
+
+  // La restauration ne joue qu'une fois par montage : sans cette garde, l'ecriture du hash par
+  // le clic relancerait la restauration, qui rouvrirait l'onglet d'origine et rendrait la barre
+  // inutilisable. Le test tient la garde par le comportement, pas par la liste de dependances.
+  test('ne restaure plus apres le premier passage, meme quand le hash change ensuite', async () => {
+    window.location.hash = '#story-onglet-2';
+
+    renderWeb(<Tabs urlAnchorPrefix="story" tabs={DEUX_ONGLETS} />);
+
+    await waitFor(() => expect(screen.getAllByRole('tab')[1].getAttribute('aria-selected')).toBe('true'));
+
+    fireEvent.click(screen.getAllByRole('tab')[0]);
+
+    expect(window.location.hash).toBe('#story-onglet-1');
+    await waitFor(() => expect(screen.getAllByRole('tab')[0].getAttribute('aria-selected')).toBe('true'));
   });
 
   test('retombe sur le premier onglet si le hash ne correspond a aucune ancre', async () => {
     window.location.hash = '#story-onglet-inconnu';
 
-    renderWeb(
-      <Tabs
-        urlAnchorPrefix="story"
-        tabs={[
-          { label: 'Onglet 1', value: 'a', content: <></> },
-          { label: 'Onglet 2', value: 'b', content: <></> },
-        ]}
-      />,
-    );
+    renderWeb(<Tabs urlAnchorPrefix="story" tabs={DEUX_ONGLETS} />);
 
     await waitFor(() => expect(screen.getAllByRole('tab')[0].getAttribute('aria-selected')).toBe('true'));
   });
