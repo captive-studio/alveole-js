@@ -8,6 +8,7 @@ import {
   FormControlLabel,
   FormControlLabelProps,
   TextInput,
+  TextInputElement,
 } from '../FormControl';
 import { InputHeading } from '../InputHeading';
 
@@ -20,7 +21,7 @@ export type DurationInputProps = FormControlLabelProps &
     disabled?: boolean;
   };
 
-export const DurationInput = React.forwardRef<any, DurationInputProps>(function DurationInput(
+export const DurationInput = React.forwardRef<TextInputElement, DurationInputProps>(function DurationInput(
   { label, labelRight, hint, error, success, value, onChange, onBlur, disabled },
   ref,
 ) {
