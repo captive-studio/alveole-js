@@ -1,11 +1,12 @@
 import { TextProps } from '@tamagui/core';
+import { SizeStyle } from '../../type/SizeStyle';
 
 export type TypographyBaseStyle = Pick<
   TextProps,
   'textTransform' | 'fontSize' | 'fontStyle' | 'lineHeight' | 'textDecorationLine' | 'color'
 >;
 
-export type TypographyAdvancedStyle = {
+export type TypographyAdvancedStyle = SizeStyle & {
   p?: number;
   pl?: number;
   pr?: number;
@@ -19,13 +20,6 @@ export type TypographyAdvancedStyle = {
   mb?: number | `${string}%` | 'auto';
 
   background?: string;
-
-  width?: number | `${string}%`;
-  height?: number | `${string}%`;
-  minW?: number | `${string}%`;
-  maxW?: number | `${string}%`;
-  minH?: number | `${string}%`;
-  maxH?: number | `${string}%`;
 
   textAlign?: TextProps['textAlign'];
 };

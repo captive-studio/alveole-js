@@ -1,5 +1,6 @@
 import { SpacingKey } from '@alveole/theme';
 import { ViewProps } from '@tamagui/core';
+import { SizeStyle } from '../../type/SizeStyle';
 
 export type BoxBaseStyle = Pick<
   ViewProps,
@@ -8,7 +9,7 @@ export type BoxBaseStyle = Pick<
   justify?: ViewProps['justifyContent'];
 };
 
-export type BoxAdvancedStyle = {
+export type BoxAdvancedStyle = SizeStyle & {
   p?: number | SpacingKey;
   pl?: number | SpacingKey;
   pr?: number | SpacingKey;
@@ -26,13 +27,6 @@ export type BoxAdvancedStyle = {
   borderRadius?: number;
   borderColor?: string;
   gap?: number | SpacingKey;
-
-  width?: number | `${string}%`;
-  height?: number | `${string}%`;
-  minW?: number | `${string}%`;
-  maxW?: number | `${string}%`;
-  minH?: number | `${string}%`;
-  maxH?: number | `${string}%`;
 };
 
 export type BoxStyle = BoxBaseStyle & BoxAdvancedStyle;
