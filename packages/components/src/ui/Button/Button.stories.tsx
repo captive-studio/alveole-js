@@ -144,31 +144,4 @@ export const IconOnly = () => (
 /** Le bouton remplit la largeur de son parent, au lieu de s'ajuster à son contenu. */
 export const FullWidth = () => <Button variant="primary" title="Full Width" fullWidth />;
 
-/**
- * Deux props retirent au bouton une partie de sa mise en forme, pour qu'il se fonde dans ce
- * qui l'entoure. Elles ne s'emploient pas isolément : elles servent deux motifs précis, qu'on
- * retrouve à l'identique dans les applications.
- *
- * - `leftAlign` aligne le contenu à gauche au lieu de le centrer. C'est le bouton d'action
- *   d'une ligne de tableau, qui doit s'aligner sur sa colonne.
- * - `borderNone` retire les arrondis, **et seulement eux** : la bordure reste. C'est le bouton
- *   de pied de barre latérale, qui doit s'aligner sur les entrées de la barre plutôt que
- *   flotter au-dessus d'elles. Son nom décrit donc mal ce qu'il fait.
- *
- * Ces props décrivent un retrait, pas une intention : le kit ne nomme pas encore ces deux
- * motifs, et les applications les recomposent donc à la main à chaque fois.
- *
- * Il n'existe pas de prop pour retirer le creux horizontal. Aucune des trois références n'en
- * propose une : le retrait du rembourrage seul laisse la hauteur, la bordure et le fond de
- * survol sans rien pour les tenir. Un libellé qui doit commencer exactement là où commence le
- * texte au-dessus de lui mène presque toujours ailleurs : c'est `A` qu'il faut prendre.
- */
-export const Layout = () => (
-  <Box display="flex" gap={16} style={{ width: 240 }}>
-    <Button variant="secondary" title="Par défaut" fullWidth />
-    <Button variant="secondary" title="leftAlign" fullWidth leftAlign />
-    <Button variant="secondary" title="borderNone" fullWidth borderNone />
-  </Box>
-);
-
 export * as Sources from './Button.stories.sources';

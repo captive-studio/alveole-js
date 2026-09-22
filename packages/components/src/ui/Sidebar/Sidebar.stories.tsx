@@ -22,7 +22,7 @@ export default {
  * <Sidebar
  *   controller={sidebarController}
  *   logo={<Image source={require('../../assets/logo.png')} />}
- *   footer={<Button borderNone variant="tertiary" title="Se déconnecter" onPress={onLogout} />}
+ *   footer={<SidebarItem pressable icon="LogOut" title="Se déconnecter" onPress={onLogout} />}
  * >
  *   <SidebarItem title="Item 1" href="/admin/item-1" routeName="item-1" />
  *   <SidebarItem title="Item 2" href="/admin/item-2" routeName="item-2" />
