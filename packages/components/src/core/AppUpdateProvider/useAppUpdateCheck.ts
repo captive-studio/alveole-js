@@ -5,7 +5,6 @@ import { AppState, Linking, Platform } from 'react-native';
 
 const importExpoInAppUpdates = () => {
   try {
-    // eslint-disable-next-line @typescript-eslint/no-require-imports
     return require('expo-in-app-updates') as typeof import('expo-in-app-updates');
   } catch {
     return null;
