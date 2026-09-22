@@ -53,7 +53,7 @@ export const WithCustomChildren = () => {
   return (
     <EmptyState iconName="File" description={'Vous n’avez aucun item'}>
       <Button title={'Button'} variant={'primary'} fullWidth />
-      <Button title={'Secondary action link'} variant={'link'} />
+      <Button title={'Secondary action'} variant={'tertiary'} />
     </EmptyState>
   );
 };
@@ -62,7 +62,7 @@ export const WithFixHeight = () => {
   return (
     <EmptyState iconName="File" description={'Vous n’avez aucun item'} style={{ height: '600px' }}>
       <Button title={'Button'} variant={'primary'} />
-      <Button title={'Secondary action link'} variant={'link'} />
+      <Button title={'Secondary action'} variant={'tertiary'} />
     </EmptyState>
   );
 };

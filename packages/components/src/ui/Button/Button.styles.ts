@@ -259,32 +259,6 @@ const dangereuse = ({ color }: Theme) =>
     },
   }) satisfies Table;
 
-/** `link` n'a ni etat desactive de conteneur ni icone survolee : il emprunte ceux de `tertiary`. */
-const lien = ({ color }: Theme) =>
-  ({
-    linkTitle: {
-      color: color.text.link.default,
-    },
-    linkContainer: {
-      backgroundColor: color.background.button.tertiary.default,
-    },
-    linkTitleHover: {
-      color: color.text.link.hover,
-    },
-    linkContainerHover: {
-      backgroundColor: color.background.button.tertiary.default,
-    },
-    linkContainerPressed: {
-      backgroundColor: color.background.button.tertiary.default,
-    },
-    linkIcon: {
-      color: color.text.link.default,
-    },
-    linkIconDisabled: {
-      color: color.light.text['disabled-grey'],
-    },
-  }) satisfies Table;
-
 export const useStyles = makeStyles(theme => ({
   ...commun(theme),
   ...tailles(theme),
@@ -293,5 +267,4 @@ export const useStyles = makeStyles(theme => ({
   ...secondaire(theme),
   ...tertiaire(theme),
   ...dangereuse(theme),
-  ...lien(theme),
 }));

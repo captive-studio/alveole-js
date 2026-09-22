@@ -16,14 +16,22 @@ export default {
 } satisfies Story;
 
 /**
- * Les cinq variants, du plus au moins appuyé.
+ * Les quatre variants, du plus au moins appuyé.
  *
  * - `primary` : l'action principale. **Une seule par zone**.
  * - `secondary` : les actions courantes, celles qu'on pose à côté de la principale.
  * - `tertiary` : les actions discrètes, dans une barre d'outils ou une ligne de tableau.
  * - `danger` : une action destructrice, réservée à la confirmation finale.
- * - `link` : une action qui se lit comme un lien, sans cadre ni fond. C'est ce que les
- *   applications utilisent pour rendre une valeur cliquable dans une fiche ou une carte.
+ *
+ * Il n'y a **pas** de variante `link`. Un lien navigue, un bouton agit : c'est le partage que
+ * posent les trois références, et aucune n'offre de variante de lien sur son bouton. Primer en
+ * garde bien une dans son type, mais sans une ligne de documentation ni un exemple, là où ses
+ * quatre autres variantes ont chacune leur guidance ; sa consigne écrite est l'inverse
+ * (« Do not use links for triggering an action. Instead, use Buttons »). Atlassian n'a aucune
+ * apparence de ce nom, et son `LinkButton` fait le trajet inverse : un `<a>` habillé en bouton.
+ * Base n'a que `primary`, `secondary`, `tertiary` et leurs trois pendants `danger`.
+ *
+ * Pour ce qui navigue, prendre `A`. Pour l'action discrète sans cadre, c'est `tertiary`.
  */
 export const Variants = () => (
   <Box display="flex" flexDirection="row" gap={24}>
@@ -31,7 +39,6 @@ export const Variants = () => (
     <Button variant="secondary" title="Secondary" />
     <Button variant="tertiary" title="Tertiary" />
     <Button variant="danger" title="Danger" />
-    <Button variant="link" title="Link" />
   </Box>
 );
 
@@ -142,8 +149,9 @@ export const FullWidth = () => <Button variant="primary" title="Full Width" full
  * - `borderNone` retire les arrondis, **et seulement eux** : la bordure reste. C'est le bouton
  *   de pied de barre latérale, qui doit s'aligner sur les entrées de la barre plutôt que
  *   flotter au-dessus d'elles. Son nom décrit donc mal ce qu'il fait.
- * - `noPadding` supprime le creux horizontal. C'est la valeur cliquable d'une fiche, qui doit
- *   commencer exactement là où commencerait le texte.
+ * - `noPadding` supprime le creux horizontal. C'est l'action discrète d'une fiche, qui doit
+ *   commencer exactement là où commence le texte au-dessus d'elle. Attention : si le libellé
+ *   mène vers une autre page, ce n'est pas d'un bouton qu'il s'agit mais de `A`.
  *
  * Ces props décrivent un retrait, pas une intention : le kit ne nomme pas encore ces trois
  * motifs, et les applications les recomposent donc à la main à chaque fois.
@@ -153,8 +161,8 @@ export const Layout = () => (
     <Button variant="secondary" title="Par défaut" fullWidth />
     <Button variant="secondary" title="leftAlign" fullWidth leftAlign />
     <Button variant="secondary" title="borderNone" fullWidth borderNone />
-    <Button variant="link" title="Par défaut" leftAlign fullWidth />
-    <Button variant="link" title="noPadding" leftAlign fullWidth noPadding />
+    <Button variant="tertiary" title="Par défaut" leftAlign fullWidth />
+    <Button variant="tertiary" title="noPadding" leftAlign fullWidth noPadding />
   </Box>
 );
 

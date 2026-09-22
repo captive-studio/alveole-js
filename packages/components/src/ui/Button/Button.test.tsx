@@ -95,7 +95,7 @@ it('donne la meme couleur de libelle a deux variantes selectionnees', async () =
 // `danger` en portent une, ils rendent 2 px plus larges que les variantes sans contour a
 // contenu et rembourrage identiques. Toutes gardent donc la meme bordure structurelle ; sa
 // couleur transparente la rend invisible sur les variantes pleines ou discretes.
-it.each(['primary', 'secondary', 'tertiary', 'danger', 'link'] as const)(
+it.each(['primary', 'secondary', 'tertiary', 'danger'] as const)(
   'reserve la meme bordure structurelle sur la variante %s',
   async variant => {
     const view = await renderNative(<Button variant={variant} title="Action" />);
