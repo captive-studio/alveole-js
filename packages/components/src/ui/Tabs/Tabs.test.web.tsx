@@ -87,7 +87,7 @@ test('montre la bague sur le panneau de contenu, lui aussi focalisable', () => {
   expect(screen.getByRole('tabpanel').getAttribute(FOCUS_ATTRIBUTE)).toBe('ring');
 });
 
-// L'Anchor Sync (ADR 0021) ecrit et relit un fragment `#{urlAnchorPrefix}-{ancre}`, le meme
+// L'Anchor Sync (ADR 0022) ecrit et relit un fragment `#{urlAnchorPrefix}-{ancre}`, le meme
 // format que `AnchorHeading`, pour que le rechargement de la page rouvre le bon onglet.
 describe('Anchor Sync', () => {
   afterEach(() => {

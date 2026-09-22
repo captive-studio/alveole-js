@@ -23,7 +23,7 @@ export type TabsProps = Omit<BoxProps, 'children'> & {
   defaultValue?: string;
   onChange?: (index: number) => void;
   /**
-   * Active l'Anchor Sync (voir ADR 0021) : au clic, l'onglet actif est ecrit dans l'etat
+   * Active l'Anchor Sync (voir ADR 0022) : au clic, l'onglet actif est ecrit dans l'etat
    * adressable de la plateforme (`#{urlAnchorPrefix}-{ancre}` sur le web, un parametre de
    * route sur natif), et relu de la meme facon au montage. L'ancre de chaque onglet vient de
    * son `label` (`toSlug`), pas de son `value`. Absent, `Tabs` ne touche a rien de tout ca.

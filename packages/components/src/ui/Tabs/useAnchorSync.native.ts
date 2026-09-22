@@ -1,7 +1,7 @@
 import { router, useLocalSearchParams } from 'expo-router';
 import { useEffect, useRef } from 'react';
 
-// Equivalent natif de l'Anchor Sync web (ADR 0021) : expo-router n'a pas de fragment `#`, donc
+// Equivalent natif de l'Anchor Sync web (ADR 0022) : expo-router n'a pas de fragment `#`, donc
 // l'ancre voyage comme parametre de route, sous la cle `anchorNamespace`.
 //
 // `useLocalSearchParams` renvoie `{}` hors d'un arbre expo-router (contexte React sans

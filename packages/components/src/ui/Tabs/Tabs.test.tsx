@@ -24,7 +24,7 @@ it('pose l onglet inactif au gabarit d un bouton tertiaire md', async () => {
 });
 
 // Hors d'un arbre expo-router (comme ici : `renderNative` ne pose aucun Root Layout), l'Anchor
-// Sync doit rester inactive sans planter (ADR 0021) : `router.setParams` leve tant qu'aucune
+// Sync doit rester inactive sans planter (ADR 0022) : `router.setParams` leve tant qu'aucune
 // navigation n'est montee, et `onChange` doit continuer de marcher normalement a cote.
 it('ne plante pas au clic quand urlAnchorPrefix est actif hors d un arbre expo-router', async () => {
   const onChange = jest.fn();
