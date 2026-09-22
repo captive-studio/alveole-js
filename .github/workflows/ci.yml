@@ -92,8 +92,13 @@ jobs:
         run: pnpm install --frozen-lockfile
       - name: Restore Jest cache
         uses: actions/cache@55cc8345863c7cc4c66a329aec7e433d2d1c52a9 # v6.1.0
+        # Storybook est le chemin critique du job : sans son cache, il retransforme tout
+        # `@alveole/components` depuis les sources à chaque run, soit 14 s à chaud contre
+        # 34 s à froid en local. Son cache ne pèse que 49 Mo.
         with:
-          path: packages/components/.jest-cache
+          path: |
+            packages/components/.jest-cache
+            packages/storybook/.jest-cache
           key: jest-cache-${{ runner.os }}-${{ github.sha }}
           restore-keys: |
             jest-cache-${{ runner.os }}-
