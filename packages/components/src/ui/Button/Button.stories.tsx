@@ -145,8 +145,8 @@ export const IconOnly = () => (
 export const FullWidth = () => <Button variant="primary" title="Full Width" fullWidth />;
 
 /**
- * Trois props retirent au bouton une partie de sa mise en forme, pour qu'il se fonde dans ce
- * qui l'entoure. Elles ne s'emploient pas isolément : elles servent trois motifs précis, qu'on
+ * Deux props retirent au bouton une partie de sa mise en forme, pour qu'il se fonde dans ce
+ * qui l'entoure. Elles ne s'emploient pas isolément : elles servent deux motifs précis, qu'on
  * retrouve à l'identique dans les applications.
  *
  * - `leftAlign` aligne le contenu à gauche au lieu de le centrer. C'est le bouton d'action
@@ -154,20 +154,20 @@ export const FullWidth = () => <Button variant="primary" title="Full Width" full
  * - `borderNone` retire les arrondis, **et seulement eux** : la bordure reste. C'est le bouton
  *   de pied de barre latérale, qui doit s'aligner sur les entrées de la barre plutôt que
  *   flotter au-dessus d'elles. Son nom décrit donc mal ce qu'il fait.
- * - `noPadding` supprime le creux horizontal. C'est l'action discrète d'une fiche, qui doit
- *   commencer exactement là où commence le texte au-dessus d'elle. Attention : si le libellé
- *   mène vers une autre page, ce n'est pas d'un bouton qu'il s'agit mais de `A`.
  *
- * Ces props décrivent un retrait, pas une intention : le kit ne nomme pas encore ces trois
+ * Ces props décrivent un retrait, pas une intention : le kit ne nomme pas encore ces deux
  * motifs, et les applications les recomposent donc à la main à chaque fois.
+ *
+ * Il n'existe pas de prop pour retirer le creux horizontal. Aucune des trois références n'en
+ * propose une : le retrait du rembourrage seul laisse la hauteur, la bordure et le fond de
+ * survol sans rien pour les tenir. Un libellé qui doit commencer exactement là où commence le
+ * texte au-dessus de lui mène presque toujours ailleurs : c'est `A` qu'il faut prendre.
  */
 export const Layout = () => (
   <Box display="flex" gap={16} style={{ width: 240 }}>
     <Button variant="secondary" title="Par défaut" fullWidth />
     <Button variant="secondary" title="leftAlign" fullWidth leftAlign />
     <Button variant="secondary" title="borderNone" fullWidth borderNone />
-    <Button variant="tertiary" title="Par défaut" leftAlign fullWidth />
-    <Button variant="tertiary" title="noPadding" leftAlign fullWidth noPadding />
   </Box>
 );
 

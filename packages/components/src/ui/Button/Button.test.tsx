@@ -133,14 +133,6 @@ it('etale le bouton sur toute la largeur quand fullWidth est demande', async () 
 
   expect(view.getByRole('button').props.style.width).toBe('100%');
 });
-// `noPadding` doit annuler les quatre rembourrages, pas seulement ceux que la taille pose :
-// il est applique apres le style de taille, et c'est ce qui lui donne le dernier mot.
-it('annule les quatre rembourrages quand noPadding est demande', async () => {
-  const view = await renderNative(<Button variant="primary" title="Enregistrer" noPadding />);
-  const { paddingTop, paddingBottom, paddingLeft, paddingRight } = conteneur(view)?.props.style ?? {};
-
-  expect([paddingTop, paddingBottom, paddingLeft, paddingRight]).toEqual([0, 0, 0, 0]);
-});
 it('aligne le contenu a gauche quand leftAlign est demande', async () => {
   const view = await renderNative(<Button variant="primary" title="Enregistrer" leftAlign />);
 
