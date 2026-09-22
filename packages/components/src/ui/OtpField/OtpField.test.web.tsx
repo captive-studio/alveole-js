@@ -149,3 +149,11 @@ it('eteint le contour que le navigateur pose sur la saisie cachee', () => {
 
   expect(result.current.hiddenInputStyle.outline).toBe('none');
 });
+
+test('entoure le champ de son libellé, de son indice et de son message d erreur', () => {
+  renderWeb(<OtpField label="Libellé" hint="Indice" error="Erreur" numberOfDigits={4} autoFocus={false} />);
+
+  expect(screen.getByText('Libellé')).toBeTruthy();
+  expect(screen.getByText('Indice')).toBeTruthy();
+  expect(screen.getByText('Erreur')).toBeTruthy();
+});

@@ -1,17 +1,13 @@
 import React from 'react';
 import {
-  FormControl,
-  FormControlCaption,
+  FieldFrame,
   FormControlCaptionProps,
-  FormControlHint,
   FormControlHintProps,
-  FormControlLabel,
   FormControlLabelProps,
   TextInput,
   TextInputElement,
   TextInputProps,
 } from '../FormControl';
-import { InputHeading } from '../InputHeading';
 import { useStyles } from './TextField.styles';
 
 export type TextFieldProps = TextInputProps &
@@ -23,7 +19,7 @@ export type TextFieldProps = TextInputProps &
   };
 
 export const TextField = React.forwardRef<TextInputElement, TextFieldProps>(function TextField(props, ref) {
-  const { label, labelRight, hint, error, success, disabled, onChange } = props;
+  const { onChange } = props;
 
   const styles = useStyles();
 
@@ -34,14 +30,7 @@ export const TextField = React.forwardRef<TextInputElement, TextFieldProps>(func
   const inputMode = 'text';
 
   return (
-    <FormControl style={styles.textField}>
-      <InputHeading>
-        {!!label && (
-          <FormControlLabel labelRight={labelRight} label={label} disabled={disabled} error={error} success={success} />
-        )}
-        {!!hint && <FormControlHint hint={hint} disabled={disabled} />}
-      </InputHeading>
-
+    <FieldFrame {...props} style={styles.textField}>
       <TextInput
         ref={ref}
         keyboardType={keyboardType}
@@ -52,8 +41,6 @@ export const TextField = React.forwardRef<TextInputElement, TextFieldProps>(func
         onChangeText={onChange}
         {...props}
       />
-
-      {(error || success) && <FormControlCaption error={error} success={success} />}
-    </FormControl>
+    </FieldFrame>
   );
 });

@@ -23,3 +23,11 @@ test('aligne la hauteur du champ sur celle du bouton md', () => {
 
   expect(getComputedStyle(champ as Element).minHeight).toBe(getComputedStyle(bouton).height);
 });
+
+test('entoure le champ de son libellé, de son indice et de son message d erreur', () => {
+  renderOnDesktop(<TextField label="Libellé" hint="Indice" error="Erreur" />);
+
+  expect(screen.getByText('Libellé')).toBeTruthy();
+  expect(screen.getByText('Indice')).toBeTruthy();
+  expect(screen.getByText('Erreur')).toBeTruthy();
+});
