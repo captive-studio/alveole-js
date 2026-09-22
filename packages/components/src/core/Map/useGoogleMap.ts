@@ -1,10 +1,7 @@
 import Constants from 'expo-constants';
 import * as React from 'react';
+import { GoogleMap, GoogleMarker, GoogleNamespace } from './googleMaps.types';
 import { LatLng, MapProps, Marker } from './Map.props';
-
-type GoogleNamespace = {
-  maps: any;
-};
 
 declare global {
   interface Window {
@@ -54,11 +51,11 @@ export const shouldFitToMarkers = (
 ): boolean => (fitToMarkers ?? !center) && markersCount > 0;
 
 function useMarkerSync(
-  mapRef: React.MutableRefObject<any>,
+  mapRef: React.MutableRefObject<GoogleMap | null>,
   markers: Marker[],
   onMarkerClick: ((marker: Marker) => void) | undefined,
 ) {
-  const gMarkersRef = React.useRef<any[]>([]);
+  const gMarkersRef = React.useRef<GoogleMarker[]>([]);
 
   const clearMarkers = React.useCallback(() => {
     gMarkersRef.current.forEach(m => m.setMap(null));
@@ -66,14 +63,15 @@ function useMarkerSync(
   }, []);
 
   const refreshMarkers = React.useCallback(() => {
-    if (!mapRef.current) return;
+    const map = mapRef.current;
+    if (!map) return;
     const g = window.google;
     if (!g?.maps) return;
     clearMarkers();
     gMarkersRef.current = markers.map(mk => {
       const marker = new g.maps.Marker({
         position: mk.position,
-        map: mapRef.current!,
+        map,
         title: mk.title,
         ...(mk.iconUrl ? { icon: { url: mk.iconUrl } } : {}),
       });
@@ -87,7 +85,7 @@ function useMarkerSync(
 }
 
 type BoundsFitParams = {
-  mapRef: React.MutableRefObject<any>;
+  mapRef: React.MutableRefObject<GoogleMap | null>;
   fitToMarkers: boolean | undefined;
   center: LatLng | undefined;
   zoom: number;
@@ -96,12 +94,13 @@ type BoundsFitParams = {
 
 function useBoundsFit({ mapRef, fitToMarkers, center, zoom, markers }: BoundsFitParams) {
   return React.useCallback(() => {
-    if (!mapRef.current) return;
+    const map = mapRef.current;
+    if (!map) return;
 
     if (!shouldFitToMarkers(fitToMarkers, center, markers.length)) {
       if (center) {
-        mapRef.current.setCenter(center);
-        mapRef.current.setZoom(zoom);
+        map.setCenter(center);
+        map.setZoom(zoom);
       }
       return;
     }
@@ -110,13 +109,13 @@ function useBoundsFit({ mapRef, fitToMarkers, center, zoom, markers }: BoundsFit
     if (!g?.maps) return;
     const bounds = new g.maps.LatLngBounds();
     markers.forEach(m => bounds.extend(m.position));
-    if (!bounds.isEmpty()) mapRef.current.fitBounds(bounds, 24);
+    if (!bounds.isEmpty()) map.fitBounds(bounds, 24);
   }, [mapRef, fitToMarkers, center, markers, zoom]);
 }
 
 type MapInitParams = {
   containerRef: React.MutableRefObject<HTMLDivElement | null>;
-  mapRef: React.MutableRefObject<any>;
+  mapRef: React.MutableRefObject<GoogleMap | null>;
   center: LatLng | undefined;
   markers: Marker[];
   zoom: number;
@@ -170,7 +169,7 @@ export function useGoogleMap(props: MapProps) {
   const { markers = [], center, zoom = 12, fitToMarkers, mapOptions, onMarkerClick } = props;
 
   const containerRef = React.useRef<HTMLDivElement | null>(null);
-  const mapRef = React.useRef<any>(null);
+  const mapRef = React.useRef<GoogleMap | null>(null);
 
   const { refreshMarkers, clearMarkers } = useMarkerSync(mapRef, markers, onMarkerClick);
   const fitBoundsIfNeeded = useBoundsFit({ mapRef, fitToMarkers, center, zoom, markers });
