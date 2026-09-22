@@ -4,6 +4,10 @@
 // échoue dès que l'erreur attendue disparaît - il se périme tout seul, contrairement aux deux
 // autres. Le seul `@ts-ignore` du dépôt masquait justement une déclaration devenue morte : React
 // 19 a déplacé le namespace `JSX` vers `React.JSX`, et personne ne l'avait vu.
+//
+// `no-explicit-any` ferme la même porte par un autre côté : un `any` éteint le compilateur sur
+// une valeur au lieu d'une ligne, et il se propage à tout ce qui la touche. Les 39 qu'avait
+// `components` ont été retirés sans exemption ; la règle empêche le premier suivant.
 /** @type {import('eslint').Linter.Config} */
 const config = {
   files: ['**/*.{ts,tsx}'],
@@ -12,6 +16,7 @@ const config = {
       'error',
       { 'ts-expect-error': 'allow-with-description', 'ts-ignore': true, 'ts-nocheck': true, 'ts-check': false },
     ],
+    '@typescript-eslint/no-explicit-any': 'error',
   },
 };
 
