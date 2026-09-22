@@ -53,7 +53,7 @@ export const Box = React.forwardRef<BoxElement, BoxProps>(function Box(props, re
       tag={tag ?? 'box'}
       style={style}
       {...radius}
-      hoverStyle={hoverStyle as any}
+      hoverStyle={hoverStyle as TamaguiViewProps['hoverStyle']}
       {...viewProps}
       {...margins}
       {...paddings}

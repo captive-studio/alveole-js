@@ -25,7 +25,7 @@ export const Typography = React.forwardRef<TypographyElement, TypographyProps>(f
   return (
     <StyledTypography
       ref={ref}
-      hoverStyle={hoverStyle as any}
+      hoverStyle={hoverStyle as TamaguiTextProps['hoverStyle']}
       tag={tag ?? 'typography'}
       style={style}
       textAlign={textAlign}
