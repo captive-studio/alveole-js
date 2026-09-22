@@ -27,8 +27,6 @@ export const Button = React.forwardRef<View, ButtonProps>(function Button(props,
     selected,
     ContainerProps,
     fullWidth,
-    borderNone,
-    leftAlign,
     loadingDelay,
     ...pressableProps
   } = buttonProps;

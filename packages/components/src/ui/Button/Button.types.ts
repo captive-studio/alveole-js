@@ -20,8 +20,6 @@ export type ButtonProps = Omit<PressableProps, 'children' | 'style'> & {
   selected?: boolean;
   ContainerProps?: BoxProps;
   fullWidth?: boolean;
-  borderNone?: boolean;
-  leftAlign?: boolean;
   type?: 'button' | 'submit';
   /** @deprecated Utiliser `expanded`, qui decrit un menu deplie et pose l'etat accessible. */
   active?: boolean;
@@ -46,8 +44,6 @@ export type EtatDuBouton = {
   taille: ButtonTaille;
   selected?: boolean;
   disabled?: boolean | null;
-  borderNone?: boolean;
-  leftAlign?: boolean;
   fullWidth?: boolean;
 };
 
@@ -56,7 +52,5 @@ export const etatDuBouton = (props: ButtonProps): EtatDuBouton => ({
   taille: props.size ?? 'md',
   selected: props.selected,
   disabled: props.disabled,
-  borderNone: props.borderNone,
-  leftAlign: props.leftAlign,
   fullWidth: props.fullWidth,
 });

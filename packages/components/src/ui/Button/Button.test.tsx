@@ -119,24 +119,10 @@ it('donne a la taille sm un rayon plus petit qu aux autres tailles', async () =>
     moyen.getByRole('button').props.style.borderTopLeftRadius,
   );
 });
-// `borderNone` annule les rayons, et il doit le faire sur les deux vues : le Pressable
-// rogne son contenu (`overflow: hidden`), donc un rayon oublie sur le Box se verrait
-// quand meme, et un rayon oublie sur le Pressable rognerait un Box carre.
-it('annule les rayons des deux vues quand borderNone est demande', async () => {
-  const view = await renderNative(<Button variant="primary" title="Enregistrer" borderNone />);
-
-  expect(view.getByRole('button').props.style.borderTopLeftRadius).toBe(0);
-  expect(conteneur(view)?.props.style.borderTopLeftRadius).toBe(0);
-});
 it('etale le bouton sur toute la largeur quand fullWidth est demande', async () => {
   const view = await renderNative(<Button variant="primary" title="Enregistrer" fullWidth />);
 
   expect(view.getByRole('button').props.style.width).toBe('100%');
-});
-it('aligne le contenu a gauche quand leftAlign est demande', async () => {
-  const view = await renderNative(<Button variant="primary" title="Enregistrer" leftAlign />);
-
-  expect(conteneur(view)?.props.style.justifyContent).toBe('left');
 });
 
 // Avec une hauteur fixe, un rembourrage vertical ne fait que comprimer le contenu : le
