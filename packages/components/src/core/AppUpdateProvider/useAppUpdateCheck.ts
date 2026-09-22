@@ -16,11 +16,16 @@ export const THROTTLE_MS = 12 * 60 * 60 * 1000; // 12h
 
 export const shouldRunCheck = (lastCheckedAt: number, now: number): boolean => now - lastCheckedAt >= THROTTLE_MS;
 
+/** De quoi designer l'application dans chaque magasin : les trois identifiants vont ensemble. */
+export type IdentifiantsDeMagasin = {
+  iosAppId: string;
+  androidPackageId: string | undefined;
+  applicationId: string | null;
+};
+
 export const urlMagasinApplication = (
   platform: string,
-  iosAppId: string,
-  androidPackageId: string | undefined,
-  applicationId: string | null,
+  { iosAppId, androidPackageId, applicationId }: IdentifiantsDeMagasin,
 ): string => {
   if (platform === 'ios') {
     return `https://apps.apple.com/app/id${iosAppId}`;
@@ -41,6 +46,20 @@ const reducer = (state: State, action: Action): State => {
   }
 };
 
+/**
+ * Sur Android, la mise a jour immediate peut se lancer dans le magasin. Si on revient ici, c'est
+ * qu'elle a ete annulee ou qu'elle a echoue : dans les deux cas l'ecran de blocage prend le relais,
+ * comme sur iOS ou cette voie n'existe pas.
+ */
+const reclamerLaMiseAJour = async (
+  expoInAppUpdates: NonNullable<ReturnType<typeof importExpoInAppUpdates>>,
+  dispatch: React.Dispatch<Action>,
+) => {
+  if (Platform.OS === 'android') await expoInAppUpdates.startUpdate(true);
+
+  dispatch({ type: 'UPDATE_REQUIRED' });
+};
+
 type UseAppUpdateCheckProps = { iosAppId: string; androidPackageId?: string };
 
 export const useAppUpdateCheck = ({ iosAppId, androidPackageId }: UseAppUpdateCheckProps) => {
@@ -54,7 +73,9 @@ export const useAppUpdateCheck = ({ iosAppId, androidPackageId }: UseAppUpdateCh
   const lastCheckedAt = React.useRef<number>(0);
 
   const openStore = React.useCallback(() => {
-    Linking.openURL(urlMagasinApplication(Platform.OS, iosAppId, androidPackageId, Application.applicationId));
+    Linking.openURL(
+      urlMagasinApplication(Platform.OS, { iosAppId, androidPackageId, applicationId: Application.applicationId }),
+    );
   }, [iosAppId, androidPackageId]);
 
   const runCheck = React.useCallback(
@@ -70,13 +91,7 @@ export const useAppUpdateCheck = ({ iosAppId, androidPackageId }: UseAppUpdateCh
           return;
         }
         const { updateAvailable } = await ExpoInAppUpdates.checkForUpdate();
-        if (updateAvailable) {
-          if (Platform.OS === 'android') {
-            await ExpoInAppUpdates.startUpdate(true);
-            // If we reach here the immediate update was cancelled or failed → fallback to screen
-          }
-          dispatch({ type: 'UPDATE_REQUIRED' });
-        }
+        if (updateAvailable) await reclamerLaMiseAJour(ExpoInAppUpdates, dispatch);
       } catch {
         // Check failed: don't block the user
       } finally {

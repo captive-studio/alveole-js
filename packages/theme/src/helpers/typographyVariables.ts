@@ -12,10 +12,12 @@ const resolveFontKey = (fontFamily: string, fontWeight: string, catalogue: FontC
   return Array.from(catalogue.values()).find(key => key === fontFamily);
 };
 
+/** La police d'un cran typographique : ses deux attributs ne voyagent jamais l'un sans l'autre. */
+export type Police = { fontFamily: string; fontWeight: string };
+
 export const fontVariableLines = (
   prefix: string,
-  fontFamily: string,
-  fontWeight: string,
+  { fontFamily, fontWeight }: Police,
   catalogue: FontCatalogue,
 ): string[] => {
   const fontKey = resolveFontKey(fontFamily, fontWeight, catalogue);
@@ -70,8 +72,10 @@ export const typographyVariableLines = (
     ...(typeof typography.fontFamily === 'string'
       ? fontVariableLines(
           prefix,
-          typography.fontFamily,
-          typeof typography.fontWeight === 'string' ? typography.fontWeight : '',
+          {
+            fontFamily: typography.fontFamily,
+            fontWeight: typeof typography.fontWeight === 'string' ? typography.fontWeight : '',
+          },
           catalogue,
         )
       : []),

@@ -16,7 +16,7 @@ const config = {
     // La complexité cognitive compte ce qui coûte au lecteur, pas les chemins d'exécution :
     // l'imbrication pèse, une suite de ternaires plats ne pèse pas. Sur du JSX elle décrit
     // mieux la réalité que la complexité cyclomatique, qui punit le rendu conditionnel.
-    'sonarjs/cognitive-complexity': ['error', 15],
+    'sonarjs/cognitive-complexity': ['error', 10],
     // L'équivalent du Flay : deux fonctions identiques, deux branches identiques.
     'sonarjs/no-identical-functions': 'error',
     'sonarjs/no-duplicated-branches': 'error',

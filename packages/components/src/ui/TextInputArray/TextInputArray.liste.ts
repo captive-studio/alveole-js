@@ -28,6 +28,18 @@ export const retireUnElement = (items: Item[], id: string, creeId: () => string)
 export const metAJourUnElement = (items: Item[], id: string, value: string): Item[] =>
   items.map(item => (item.id === id ? { ...item, value } : item));
 
+/** Les valeurs dans leur ordre d'arrivee, la premiere occurrence de chacune seulement. */
+const sansDoublons = (valeurs: TextInputArrayValue[]): TextInputArrayValue[] => {
+  const vues = new Set<TextInputArrayValue['value']>();
+
+  return valeurs.filter(({ value }) => {
+    if (vues.has(value)) return false;
+
+    vues.add(value);
+    return true;
+  });
+};
+
 // Ce que voit l'appelant n'est pas ce qu'affiche le champ : les identifiants internes tombent,
 // et les lignes vides, les espaces de bord et les doublons se nettoient a la sortie.
 export function normalizeOut(
@@ -38,16 +50,7 @@ export function normalizeOut(
 
   if (removeEmpty) out = out.filter(v => v.value.trim().length > 0);
 
-  if (dedupe) {
-    const seen = new Set<TextInputArrayValue['value']>();
-    const uniq: TextInputArrayValue[] = [];
-    for (const v of out) {
-      if (seen.has(v.value)) continue;
-      seen.add(v.value);
-      uniq.push(v);
-    }
-    out = uniq;
-  }
+  if (dedupe) out = sansDoublons(out);
 
   return out;
 }
