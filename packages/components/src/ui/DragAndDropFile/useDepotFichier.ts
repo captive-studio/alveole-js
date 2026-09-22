@@ -8,14 +8,14 @@ import {
 } from '../FormControl';
 import { fichiersDuDataTransfer } from './fichiersDuDataTransfer';
 
-const enAsset = (file: File) =>
-  ({
-    uri: URL.createObjectURL(file),
-    name: file.name,
-    size: file.size,
-    mimeType: file.type || 'application/octet-stream',
-    file,
-  }) as any;
+const enAsset = (file: File) => ({
+  uri: URL.createObjectURL(file),
+  name: file.name,
+  size: file.size,
+  mimeType: file.type || 'application/octet-stream',
+  lastModified: file.lastModified,
+  file,
+});
 
 // Chaque fichier depose est publie derriere une URL d'objet, que le navigateur garde en memoire
 // tant qu'on ne la revoque pas. Sans ce nettoyage au changement de valeur, un formulaire ou

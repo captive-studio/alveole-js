@@ -73,3 +73,13 @@ test('un depot apres un nouveau rendu appelle le gestionnaire courant, pas celui
   expect(courant).toHaveBeenCalledWith(expect.objectContaining({ name: 'a.png' }));
   expect(premier).not.toHaveBeenCalled();
 });
+
+test('un fichier depose garde sa date de derniere modification', () => {
+  const onChange = jest.fn();
+  const fichier = new File(['contenu'], 'a.png', { type: 'image/png', lastModified: 1700000000000 });
+  const { container } = renderWeb(<DragAndDropFile label="Piece jointe" value={null} onChange={onChange} />);
+
+  deposer(container, { items: [{ kind: 'file', getAsFile: () => fichier }] });
+
+  expect(onChange).toHaveBeenCalledWith(expect.objectContaining({ lastModified: 1700000000000 }));
+});
