@@ -24,6 +24,7 @@ export * from './Grid';
 export * from './Header';
 export * from './InputButtonAdornment';
 export * from './InputHeading';
+export * from './Link';
 export * from './ListItem';
 export * from './LucideIcon';
 export * from './NumberField';

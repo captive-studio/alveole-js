@@ -5,6 +5,8 @@ export * from './Focus';
 export * from './FocusProps';
 export * from './Font';
 export * from './Grille';
+export * from './Link';
+export * from './LinkProps';
 export * from './Palette';
 export * from './Radius';
 export * from './Sizes';

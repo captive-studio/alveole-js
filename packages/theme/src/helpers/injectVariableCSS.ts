@@ -5,6 +5,7 @@ import { RadiusList } from '../constants/Radius';
 import { CustomTypography } from '../constants/Typography';
 import { Theme } from '../type';
 import { generateFocusRingCSS } from './focusRingCSS';
+import { generateLinkCSS } from './linkCSS';
 import { sanitizeCSSKey } from './sanitizeCSSKey';
 import { typographyVariableLines } from './typographyVariables';
 
@@ -128,4 +129,5 @@ export const generateThemeCSSParts = (theme: Theme = DefaultTheme): string[] => 
   generateFontFaceCSS(),
   generateCSSVariables(theme),
   generateFocusRingCSS(),
+  generateLinkCSS(),
 ];
