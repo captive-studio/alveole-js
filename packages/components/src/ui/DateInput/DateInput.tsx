@@ -14,6 +14,7 @@ import {
   FormControlHintProps,
   FormControlLabelProps,
   TextInput,
+  TextInputElement,
   TextInputProps,
 } from '../FormControl';
 
@@ -110,7 +111,7 @@ const useSelecteurDate = ({
   return { showPicker, mode, selectedDate, handleChange, handleOpen, displayValue };
 };
 
-export const DateInput = React.forwardRef<any, DateInputProps>(function DateInput(props, ref) {
+export const DateInput = React.forwardRef<TextInputElement, DateInputProps>(function DateInput(props, ref) {
   const {
     label,
     labelRight,
