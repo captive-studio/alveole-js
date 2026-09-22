@@ -4,6 +4,7 @@ export const useStyles = makeStyles(({ color, text, radius, spacing }) => ({
   list: {
     display: 'flex',
     flexDirection: 'column',
+    width: '100%',
     gap: spacing('1V'),
   },
   entete: {
