@@ -8,17 +8,11 @@ type ItemDepose = { kind: string; getAsFile(): File | null };
  */
 type DepotDeFichiers = { items?: ArrayLike<ItemDepose>; files?: ArrayLike<File> } | null | undefined;
 
-const fichiersDepuisItems = (items: ArrayLike<ItemDepose>): File[] => {
-  const fichiers: File[] = [];
-  for (let i = 0; i < items.length; i++) {
-    const item = items[i];
-    if (item.kind === 'file') {
-      const fichier = item.getAsFile();
-      if (fichier) fichiers.push(fichier);
-    }
-  }
-  return fichiers;
-};
+const fichiersDepuisItems = (items: ArrayLike<ItemDepose>): File[] =>
+  Array.from(items)
+    .filter(item => item.kind === 'file')
+    .map(item => item.getAsFile())
+    .filter((fichier): fichier is File => fichier !== null);
 
 /**
  * Fichiers deposes (drag-and-drop) portes par un DataTransfer, lus via l'API moderne

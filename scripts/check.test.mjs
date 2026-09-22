@@ -52,7 +52,7 @@ if (process.env.DESCENDANT === '1' && task === 'test:unit') {
 }
 `;
 
-async function fixture(t, args = [], fail = '', env = {}) {
+async function fixture(t, { args = [], fail = '', env = {} } = {}) {
   const root = await realpath(await mkdtemp(join(tmpdir(), 'alveole-check-')));
   t.after(() => rm(root, { recursive: true, force: true }));
   await mkdir(join(root, 'scripts'));
@@ -93,7 +93,7 @@ function peak(events) {
 test('prépare les sources avant les trois contrôles, avec deux tâches au maximum', async t => {
   // Le chevauchement dépend d'un rendez-vous explicite, pas de la vitesse du runner.
   // Retarder un worker au-delà des 80 ms de travail reproduit l'ordonnancement CI.
-  const { done, readEvents } = await fixture(t, [], '', { SYNC_WORKERS: '1', START_DELAY: '1000' });
+  const { done, readEvents } = await fixture(t, { env: { SYNC_WORKERS: '1', START_DELAY: '1000' } });
   assert.equal((await done).code, 0);
   const events = await readEvents();
   assert.deepEqual(events.slice(0, 4), [
@@ -113,7 +113,7 @@ test('prépare les sources avant les trois contrôles, avec deux tâches au maxi
 });
 
 test('termine tous les contrôles indépendants et remonte chaque échec', async t => {
-  const { done, readEvents } = await fixture(t, [], 'format:check,typecheck,lint');
+  const { done, readEvents } = await fixture(t, { fail: 'format:check,typecheck,lint' });
   const result = await done;
   assert.equal(result.code, 1);
   for (const task of ['format:check', 'typecheck', 'lint']) assert.match(result.output, new RegExp(`ÉCHEC ${task}`));
@@ -121,13 +121,13 @@ test('termine tous les contrôles indépendants et remonte chaque échec', async
 });
 
 test('une erreur de génération empêche les contrôles dépendants', async t => {
-  const { done, readEvents } = await fixture(t, [], 'generate:sources');
+  const { done, readEvents } = await fixture(t, { fail: 'generate:sources' });
   assert.equal((await done).code, 1);
   assert.equal((await readEvents()).length, 4);
 });
 
 test('--fix formate avant les contrôles et --serial limite à une tâche', async t => {
-  const { done, readEvents } = await fixture(t, ['--fix', '--serial']);
+  const { done, readEvents } = await fixture(t, { args: ['--fix', '--serial'] });
   assert.equal((await done).code, 0);
   const events = await readEvents();
   assert.equal(events[0].task, 'format');
@@ -135,7 +135,7 @@ test('--fix formate avant les contrôles et --serial limite à une tâche', asyn
 });
 
 test('refuse les options inconnues avant de lancer une commande', async t => {
-  const { done, readEvents } = await fixture(t, ['--unknown']);
+  const { done, readEvents } = await fixture(t, { args: ['--unknown'] });
   assert.equal((await done).code, 1);
   assert.deepEqual(await readEvents(), []);
 });
@@ -144,7 +144,7 @@ test(
   'une interruption arrête aussi les descendants et ne lance plus de tâche',
   { skip: process.platform === 'win32', timeout: 15000 },
   async t => {
-    const { child, done, readEvents } = await fixture(t, [], '', { DESCENDANT: '1' });
+    const { child, done, readEvents } = await fixture(t, { env: { DESCENDANT: '1' } });
     t.after(() => {
       if (child.exitCode === null) child.kill('SIGTERM');
     });
@@ -162,7 +162,7 @@ test(
 );
 
 test('un processus terminé par un signal fait échouer la validation', async t => {
-  const { done, readEvents } = await fixture(t, [], 'signal');
+  const { done, readEvents } = await fixture(t, { fail: 'signal' });
   const result = await done;
   assert.equal(result.code, 1);
   assert.match(result.output, /ÉCHEC test:unit/);

@@ -6,6 +6,7 @@ const serviceRules = require('./rules/services');
 const accessibilityRules = require('./rules/accessibility');
 const complexityRules = require('./rules/complexity');
 const sonarjsRules = require('./rules/sonarjs');
+const catalogueRules = require('./rules/catalogues');
 
 /** @type {import('eslint').Linter.Config[]} */
 const config = defineConfig([
@@ -17,6 +18,7 @@ const config = defineConfig([
   accessibilityRules,
   complexityRules,
   sonarjsRules,
+  catalogueRules,
 ]);
 
 module.exports = config;

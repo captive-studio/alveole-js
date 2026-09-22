@@ -9,7 +9,9 @@ describe('fontVariableLines', () => {
   it('renvoie a la police du catalogue quand la famille et le poids l identifient', () => {
     const catalogue = new Map([[`Geist, sans-serif__600`, 'Geist-Bold']]);
 
-    expect(fontVariableLines('  --typography-titres-xs', 'Geist, sans-serif', '600', catalogue)).toEqual([
+    expect(
+      fontVariableLines('  --typography-titres-xs', { fontFamily: 'Geist, sans-serif', fontWeight: '600' }, catalogue),
+    ).toEqual([
       '  --typography-titres-xs-font-family: var(--font-Geist-Bold-family);',
       '  --typography-titres-xs-font-weight: var(--font-Geist-Bold-weight);',
     ]);
@@ -21,7 +23,9 @@ describe('fontVariableLines', () => {
   it('reconnait une police dont la famille est deja la cle du catalogue', () => {
     const catalogue = new Map([[`Geist, sans-serif__600`, 'Geist-Bold']]);
 
-    expect(fontVariableLines('  --typography-titres-xs', 'Geist-Bold', '', catalogue)).toEqual([
+    expect(
+      fontVariableLines('  --typography-titres-xs', { fontFamily: 'Geist-Bold', fontWeight: '' }, catalogue),
+    ).toEqual([
       '  --typography-titres-xs-font-family: var(--font-Geist-Bold-family);',
       '  --typography-titres-xs-font-weight: var(--font-Geist-Bold-weight);',
     ]);
@@ -31,18 +35,17 @@ describe('fontVariableLines', () => {
   // Sans ce repli, la variable pointerait vers `var(--font-undefined-family)`, que le
   // navigateur ignore : le texte retomberait sur la police heritee, sans rien signaler.
   it('ecrit la police en clair quand le catalogue ne la connait pas', () => {
-    expect(fontVariableLines('  --typography-legal-xs', 'Courier New', '700', new Map())).toEqual([
-      '  --typography-legal-xs-font-family: Courier New;',
-      '  --typography-legal-xs-font-weight: 700;',
-    ]);
+    expect(
+      fontVariableLines('  --typography-legal-xs', { fontFamily: 'Courier New', fontWeight: '700' }, new Map()),
+    ).toEqual(['  --typography-legal-xs-font-family: Courier New;', '  --typography-legal-xs-font-weight: 700;']);
   });
 
   // `--font-weight: ;` est une declaration invalide : le navigateur jette la regle entiere.
   // Sans poids a ecrire, la ligne ne doit pas exister.
   it('n emet pas de poids quand la police en clair n en a pas', () => {
-    expect(fontVariableLines('  --typography-legal-xs', 'Courier New', '', new Map())).toEqual([
-      '  --typography-legal-xs-font-family: Courier New;',
-    ]);
+    expect(
+      fontVariableLines('  --typography-legal-xs', { fontFamily: 'Courier New', fontWeight: '' }, new Map()),
+    ).toEqual(['  --typography-legal-xs-font-family: Courier New;']);
   });
 });
 

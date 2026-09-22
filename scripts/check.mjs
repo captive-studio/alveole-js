@@ -20,17 +20,22 @@ let interrupted = 0;
 
 // Chaque tâche a son groupe de processus : interrompre aussi les descendants
 // npm/Jest, qui resteraient sinon actifs après un Ctrl+C du coordinateur.
+// Le groupe entier plutôt que le seul enfant, sauf sous Windows qui n'a pas de groupes.
+// Un ESRCH dit que le processus est déjà mort : ce n'est pas une erreur, c'est le but.
+function tuerLeGroupe(child, signal) {
+  if (!child.pid) return;
+
+  try {
+    if (process.platform === 'win32') child.kill(signal);
+    else process.kill(-child.pid, signal);
+  } catch (error) {
+    if (error.code !== 'ESRCH') throw error;
+  }
+}
+
 function interrupt(signal) {
   interrupted = signal === 'SIGINT' ? 130 : 143;
-  for (const child of children) {
-    if (!child.pid) continue;
-    try {
-      if (process.platform === 'win32') child.kill(signal);
-      else process.kill(-child.pid, signal);
-    } catch (error) {
-      if (error.code !== 'ESRCH') throw error;
-    }
-  }
+  for (const child of children) tuerLeGroupe(child, signal);
 }
 const onInterrupt = () => interrupt('SIGINT');
 const onTerminate = () => interrupt('SIGTERM');
@@ -63,20 +68,27 @@ function run(name, managerArgs = []) {
   });
 }
 
+// Les contrôles concurrents ne partent qu'une fois les écritures finies, et chaque étape
+// renonce si une précédente a échoué ou si l'utilisateur a interrompu : d'où les sorties
+// anticipées plutôt qu'un empilement de conditions.
+async function lancerLesControles() {
+  if (interrupted) return;
+
+  const generated = await run('generate:sources', ['--filter', '@alveole/components']);
+  if (!generated.ok || interrupted) return;
+
+  const pending = ['test:unit', 'typecheck', 'lint'];
+  const worker = async () => {
+    while (pending.length && !interrupted) await run(pending.shift());
+  };
+  await Promise.all(Array.from({ length: args.includes('--serial') ? 1 : 2 }, worker));
+}
+
 try {
   // Terminer toutes les écritures avant les contrôles concurrents. Les scripts
   // de workspace peuvent alors régénérer les sources sans réécrire leur contenu.
   await run(args.includes('--fix') ? 'format' : 'format:check');
-  if (!interrupted) {
-    const generated = await run('generate:sources', ['--filter', '@alveole/components']);
-    if (generated.ok && !interrupted) {
-      const pending = ['test:unit', 'typecheck', 'lint'];
-      const worker = async () => {
-        while (pending.length && !interrupted) await run(pending.shift());
-      };
-      await Promise.all(Array.from({ length: args.includes('--serial') ? 1 : 2 }, worker));
-    }
-  }
+  await lancerLesControles();
 } finally {
   process.off('SIGINT', onInterrupt);
   process.off('SIGTERM', onTerminate);
