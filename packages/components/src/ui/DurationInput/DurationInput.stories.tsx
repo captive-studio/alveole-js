@@ -1,6 +1,6 @@
 import { Box } from '../../core/Box';
-import { Story } from '../../type';
 import { Grid } from '../../core/Grid';
+import { Story } from '../../type';
 import { DurationInput } from './DurationInput';
 
 const useStyles = () => ({});

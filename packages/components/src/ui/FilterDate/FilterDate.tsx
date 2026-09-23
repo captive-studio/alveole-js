@@ -4,10 +4,10 @@ import { fr } from 'date-fns/locale/fr';
 import React from 'react';
 import { ScrollView } from 'react-native';
 import { Box, BoxProps } from '../../core/Box';
+import { Grid } from '../../core/Grid';
 import { Typography } from '../../core/Typography';
 import { BottomSheet } from '../BottomSheet';
 import { Button } from '../Button';
-import { Grid } from '../../core/Grid';
 import { useStyles } from './FilterDate.styles';
 
 export type FilterDateValue = { years: number[]; months: number[] };

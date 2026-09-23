@@ -1,7 +1,7 @@
 import React from 'react';
 import { Box } from '../../core/Box';
-import { Story } from '../../type';
 import { Grid } from '../../core/Grid';
+import { Story } from '../../type';
 import { DateInput } from './DateInput';
 import { useStyles } from './DateInput.styles';
 

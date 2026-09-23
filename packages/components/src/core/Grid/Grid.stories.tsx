@@ -1,6 +1,6 @@
+import { Story } from '../../type';
 import { Box } from '../Box';
 import { Typography } from '../Typography';
-import { Story } from '../../type';
 import { Grid } from './Grid';
 import { useStyles } from './Grid.styles';
 
