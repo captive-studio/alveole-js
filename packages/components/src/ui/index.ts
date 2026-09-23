@@ -42,6 +42,7 @@ export * from './Select';
 export * from './SelectMultiple';
 export * from './Sidebar';
 export * from './Signature';
+export * from './Skeleton';
 export * from './Spinner';
 export * from './Switch';
 export * from './Tabs';

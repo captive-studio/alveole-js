@@ -63,6 +63,7 @@ export * as SelectStory from '../ui/Select/Select.stories';
 export * as SelectMultipleStory from '../ui/SelectMultiple/SelectMultiple.stories';
 export * as SidebarStory from '../ui/Sidebar/Sidebar.stories';
 export * as SignatureStory from '../ui/Signature/Signature.stories';
+export * as SkeletonStory from '../ui/Skeleton/Skeleton.stories';
 export * as SpinnerStory from '../ui/Spinner/Spinner.stories';
 export * as SwitchStory from '../ui/Switch/Switch.stories';
 export * as TabsStory from '../ui/Tabs/Tabs.stories';
