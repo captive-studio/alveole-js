@@ -43,3 +43,13 @@ par `AnchorHeading`, reprise par `Tabs` (voir l'ADR
 [0022](../adr/0022-anchor-sync-web-natif-diverge.md)) pour qu'une fiche
 retrouve son onglet actif au rechargement.
 _Éviter_ : hash, id, slug.
+
+**Composant core** :
+Un composant brut, sans rendu visuel propre ni maquette Figma, qui sert de brique aux autres
+(`Box`, `Typography`, `ThemeProvider`). Sa fiche porte le tag `core`.
+_Éviter_ : base, atome. « Primitive » désigne déjà autre chose (ADR 0002).
+
+**Composant UI** :
+Un composant à rendu visuel, en général issu d'une maquette Figma (`Button`, `Tag`, `Select`).
+Sa fiche porte le tag `ui`.
+_Éviter_ : composant visuel, widget.
