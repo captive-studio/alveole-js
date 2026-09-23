@@ -13,7 +13,7 @@
   "scripts": {
     "build": "tsc -p tsconfig.build.json && node scripts/build-css.mjs",
     "lint": "eslint . --cache --cache-strategy content",
-    "test:unit": "jest --coverage",
+    "test:unit": "jest --coverage --runInBand --ci",
     "typecheck": "tsc -p tsconfig.typecheck.json --noEmit"
   },
   "devDependencies": {
