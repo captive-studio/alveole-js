@@ -5,6 +5,7 @@ export * from './AppUpdateProvider';
 export * from './Box';
 export * from './Code';
 export * from './Form';
+export * from './Grid';
 export * from './Highlight';
 export * from './Image';
 export * from './Lottie';

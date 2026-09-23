@@ -4,6 +4,7 @@ export * as AnchorHeadingStory from '../core/AnchorHeading/AnchorHeading.stories
 export * as AppUpdateProviderStories from '../core/AppUpdateProvider/AppUpdateProvider.stories';
 export * as BoxStory from '../core/Box/Box.stories';
 export * as CodeStory from '../core/Code/Code.stories';
+export * as GridStory from '../core/Grid/Grid.stories';
 export * as Highlight from '../core/Highlight/Highlight.stories';
 export * as ImageStory from '../core/Image/Image.stories';
 export * as LottieStory from '../core/Lottie/Lottie.stories';
@@ -41,7 +42,6 @@ export * as EmptyStateStory from '../ui/EmptyState/EmptyState.stories';
 export * as FileFieldStory from '../ui/FileField/FileField.stories';
 export * as FilterDateStory from '../ui/FilterDate/FilterDate.stories';
 export * as FormControlStory from '../ui/FormControl/FormControl.stories';
-export * as GridStory from '../ui/Grid/Grid.stories';
 export * as HeaderStory from '../ui/Header/Header.stories';
 export * as InputButtonAdornmentStory from '../ui/InputButtonAdornment/InputButtonAdornment.stories';
 export * as InputHeadingStory from '../ui/InputHeading/InputHeading.stories';

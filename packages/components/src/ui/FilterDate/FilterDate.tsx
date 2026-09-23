@@ -7,7 +7,7 @@ import { Box, BoxProps } from '../../core/Box';
 import { Typography } from '../../core/Typography';
 import { BottomSheet } from '../BottomSheet';
 import { Button } from '../Button';
-import { Grid } from '../Grid';
+import { Grid } from '../../core/Grid';
 import { useStyles } from './FilterDate.styles';
 
 export type FilterDateValue = { years: number[]; months: number[] };

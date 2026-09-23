@@ -1,6 +1,6 @@
 import { isSpacingKey, Spacings, useTheme } from '@alveole/theme';
 import React from 'react';
-import { Box, BoxAdvancedStyle, BoxProps } from '../../core/Box';
+import { Box, BoxAdvancedStyle, BoxProps } from '../Box';
 import { useStyles } from './Grid.styles';
 
 export const GridGapContext = React.createContext<number>(0);

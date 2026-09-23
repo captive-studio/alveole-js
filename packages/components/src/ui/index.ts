@@ -20,7 +20,6 @@ export * from './EmptyState';
 export * from './FileField';
 export * from './FilterDate';
 export * from './FormControl';
-export * from './Grid';
 export * from './Header';
 export * from './InputButtonAdornment';
 export * from './InputHeading';

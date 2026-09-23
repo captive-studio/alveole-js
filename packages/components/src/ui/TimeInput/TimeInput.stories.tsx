@@ -1,6 +1,6 @@
 import { Box } from '../../core/Box';
 import { Story } from '../../type';
-import { Grid } from '../Grid';
+import { Grid } from '../../core/Grid';
 import { TimeInput } from './TimeInput';
 import { useStyles } from './TimeInput.styles';
 

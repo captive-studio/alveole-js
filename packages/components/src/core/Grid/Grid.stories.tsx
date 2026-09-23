@@ -1,12 +1,12 @@
-import { Box } from '../../core/Box';
-import { Typography } from '../../core/Typography';
+import { Box } from '../Box';
+import { Typography } from '../Typography';
 import { Story } from '../../type';
 import { Grid } from './Grid';
 import { useStyles } from './Grid.styles';
 
 export default {
   title: 'Grid',
-  tags: ['ui'],
+  tags: ['core'],
   experimental: false,
   description:
     'Grille basique sur 12 colonnes (mobile et sur web). Composant de type Box à utiliser avec `<Grid.Column>`.',
