@@ -13,20 +13,19 @@ export const FormControlCaption = (props: FormControlCaptionProps) => {
 
   const styles = useStyles();
 
+  const { icon, color } = error
+    ? { icon: 'OctagonX' as const, color: styles.errorText.color }
+    : { icon: 'CircleCheck' as const, color: styles.successText.color };
+
   return (
     <Box tag="form-control-caption" style={styles.caption}>
-      {(error != null || success != null) &&
-        (success ? (
-          <Box style={styles.captionIcon}>
-            <LucideIcon name="CircleCheck" size="sm" color={styles.successText.color} />
-          </Box>
-        ) : (
-          <Box style={styles.captionIcon}>
-            <LucideIcon name="OctagonX" size="sm" color={styles.errorText.color} />
-          </Box>
-        ))}
+      {(error != null || success != null) && (
+        <Box style={styles.captionIcon}>
+          <LucideIcon name={icon} size="sm" color={color} />
+        </Box>
+      )}
 
-      <Typography style={styles.captionText} color={error ? styles.errorText.color : styles.successText.color}>
+      <Typography style={styles.captionText} color={color}>
         {error ?? success}
       </Typography>
     </Box>

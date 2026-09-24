@@ -38,7 +38,7 @@ export const WithTextInput = () => (
 export const WithError = () => (
   <FormControl>
     <InputHeading>
-      <FormControlLabel label="Adresse email" error="Format invalide" />
+      <FormControlLabel label="Adresse email" />
     </InputHeading>
     <TextInput placeholder="jean@exemple.fr" />
     <FormControlCaption error="Format invalide" />
@@ -48,7 +48,7 @@ export const WithError = () => (
 export const WithSuccess = () => (
   <FormControl>
     <InputHeading>
-      <FormControlLabel label="Adresse email" success="Email valide" />
+      <FormControlLabel label="Adresse email" />
     </InputHeading>
     <TextInput placeholder="jean@exemple.fr" />
     <FormControlCaption success="Email valide" />
@@ -87,8 +87,6 @@ export const Label = () => (
   <Box display="flex" flexDirection="column" gap={24}>
     <FormControlLabel label="Label par defaut" />
     <FormControlLabel label="Desactive" disabled />
-    <FormControlLabel label="Erreur" error="Message erreur" />
-    <FormControlLabel label="Succes" success="Message succes" />
     <FormControlLabel label="Avec badge" labelRight={<Typography>Optionnel</Typography>} />
   </Box>
 );
