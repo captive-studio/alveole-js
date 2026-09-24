@@ -16,3 +16,9 @@ test('préfixe un zéro quand le premier chiffre ne peut pas commencer une heure
 
   expect(screen.getByDisplayValue('05:')).toBeTruthy();
 });
+
+test('ouvre le pavé numérique du téléphone', async () => {
+  await renderNative(<TimeInput label="Heure" />);
+
+  expect(screen.getByPlaceholderText('HH:MM').props.keyboardType).toBe('number-pad');
+});
