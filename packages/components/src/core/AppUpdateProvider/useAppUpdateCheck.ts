@@ -3,9 +3,9 @@ import Constants from 'expo-constants';
 import React from 'react';
 import { AppState, Linking, Platform } from 'react-native';
 
-const importExpoInAppUpdates = () => {
+const importExpoInAppUpdates = (): typeof import('expo-in-app-updates') | null => {
   try {
-    return require('expo-in-app-updates') as typeof import('expo-in-app-updates');
+    return require('expo-in-app-updates');
   } catch {
     return null;
   }
