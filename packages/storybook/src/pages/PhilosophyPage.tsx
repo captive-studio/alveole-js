@@ -1,8 +1,7 @@
-import { Box, Page, Typography } from '@alveole/components';
+import { Box, Typography } from '@alveole/components';
 import { useTheme } from '@alveole/theme';
 import React from 'react';
-import { PageTitle } from '../components/PageTitle';
-import { ScreenZone } from '../components/ScreenZone';
+import { EcranDeCatalogue } from '../components/EcranDeCatalogue';
 import { SECTIONS_DE_PHILOSOPHIE, type SectionDePhilosophie } from './philosophie';
 
 const PhilosophySection = ({ titre, paragraphes }: SectionDePhilosophie) => {
@@ -27,25 +26,19 @@ export type PhilosophyPageProps = {
 };
 
 export const PhilosophyPage = ({ beforeContent, sidebar, footerContent }: PhilosophyPageProps) => {
-  const { grilles } = useTheme();
-
   return (
-    <Page
-      scrollable
+    <EcranDeCatalogue
       title="Philosophie"
       description="Les principes qui guident Alveole"
       sidebar={sidebar}
       beforeContent={beforeContent}
       footerContent={footerContent}
     >
-      <ScreenZone largeur={grilles['12 colonnes']}>
-        <PageTitle title="Philosophie" />
-        <Box display="flex" gap={0} style={{ maxWidth: 720 }}>
-          {SECTIONS_DE_PHILOSOPHIE.map(section => (
-            <PhilosophySection key={section.titre} {...section} />
-          ))}
-        </Box>
-      </ScreenZone>
-    </Page>
+      <Box display="flex" gap={0} style={{ maxWidth: 720 }}>
+        {SECTIONS_DE_PHILOSOPHIE.map(section => (
+          <PhilosophySection key={section.titre} {...section} />
+        ))}
+      </Box>
+    </EcranDeCatalogue>
   );
 };

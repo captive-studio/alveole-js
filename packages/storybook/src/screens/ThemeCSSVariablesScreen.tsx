@@ -1,9 +1,8 @@
-import { Accordion, Box, Page, Typography, useToast } from '@alveole/components';
+import { Accordion, Box, Typography, useToast } from '@alveole/components';
 import { useTheme } from '@alveole/theme';
 import React from 'react';
 import { Platform, Pressable } from 'react-native';
-import { PageTitle } from '../components/PageTitle';
-import { ScreenZone } from '../components/ScreenZone';
+import { EcranDeCatalogue, filDuTheme } from '../components/EcranDeCatalogue';
 import { buildGroups, type CSSVarEntry } from './variablesCSSDuTheme';
 
 // ─── Preview components ────────────────────────────────────────────────────────
@@ -146,7 +145,7 @@ export type ThemeCSSVariablesScreenProps = {
 const COLLAPSED_BY_DEFAULT = ['Typographies', 'Fonts', 'Couleurs palette'];
 
 export const ThemeCSSVariablesScreen = ({ beforeContent, sidebar, footerContent }: ThemeCSSVariablesScreenProps) => {
-  const { grilles, color } = useTheme();
+  const { color } = useTheme();
   const groups = React.useMemo(() => buildGroups(), []);
   const total = groups.reduce((sum, g) => sum + g.vars.length, 0);
 
@@ -157,52 +156,46 @@ export const ThemeCSSVariablesScreen = ({ beforeContent, sidebar, footerContent 
   const [openGroups, setOpenGroups] = React.useState<string[]>(initialOpen);
 
   return (
-    <Page
-      scrollable
+    <EcranDeCatalogue
       title="Variables CSS"
       description="Toutes les variables CSS injectées par le ThemeProvider"
       sidebar={sidebar}
       beforeContent={beforeContent}
       footerContent={footerContent}
+      breadcrumbsProps={filDuTheme}
     >
-      <ScreenZone largeur={grilles['12 colonnes']}>
-        <PageTitle
-          title="Variables CSS"
-          breadcrumbsProps={{ getHref: (segment, _index, path) => (segment === 'theme' ? null : path) }}
-        />
-        <Typography style={{ fontSize: 14, color: color.light.text['mention-grey'], marginBottom: 8 }}>
-          {`${total} variables injectées dans `}
-          <Typography style={{ fontSize: 14, fontFamily: 'monospace', color: color.light.text['default-grey'] }}>
-            {':root'}
-          </Typography>
-          {' par le ThemeProvider sur web. Cliquez sur une ligne pour copier le nom de la variable.'}
+      <Typography style={{ fontSize: 14, color: color.light.text['mention-grey'], marginBottom: 8 }}>
+        {`${total} variables injectées dans `}
+        <Typography style={{ fontSize: 14, fontFamily: 'monospace', color: color.light.text['default-grey'] }}>
+          {':root'}
         </Typography>
-        <Typography
-          style={{ fontSize: 13, color: color.light.text['mention-grey'], marginBottom: 24, fontFamily: 'monospace' }}
-        >
-          {'color: var(--background-action-high-primary);'}
-        </Typography>
-        <Accordion type="multiple" value={openGroups} onValueChange={setOpenGroups}>
-          {groups.map(g => (
-            <Accordion.Item
-              key={g.title}
-              value={g.title}
-              label={g.title}
-              variant="alt"
-              labelChildren={
-                <Typography style={{ fontSize: 11, color: color.light.text['mention-grey'] }}>
-                  {`${g.vars.length} var${g.vars.length > 1 ? 's' : ''}`}
-                </Typography>
-              }
-              noPadding
-            >
-              {g.vars.map(v => (
-                <VarRow key={v.name} entry={v} />
-              ))}
-            </Accordion.Item>
-          ))}
-        </Accordion>
-      </ScreenZone>
-    </Page>
+        {' par le ThemeProvider sur web. Cliquez sur une ligne pour copier le nom de la variable.'}
+      </Typography>
+      <Typography
+        style={{ fontSize: 13, color: color.light.text['mention-grey'], marginBottom: 24, fontFamily: 'monospace' }}
+      >
+        {'color: var(--background-action-high-primary);'}
+      </Typography>
+      <Accordion type="multiple" value={openGroups} onValueChange={setOpenGroups}>
+        {groups.map(g => (
+          <Accordion.Item
+            key={g.title}
+            value={g.title}
+            label={g.title}
+            variant="alt"
+            labelChildren={
+              <Typography style={{ fontSize: 11, color: color.light.text['mention-grey'] }}>
+                {`${g.vars.length} var${g.vars.length > 1 ? 's' : ''}`}
+              </Typography>
+            }
+            noPadding
+          >
+            {g.vars.map(v => (
+              <VarRow key={v.name} entry={v} />
+            ))}
+          </Accordion.Item>
+        ))}
+      </Accordion>
+    </EcranDeCatalogue>
   );
 };
