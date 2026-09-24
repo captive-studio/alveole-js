@@ -110,14 +110,15 @@ test('grise son libellé quand il est désactivé', () => {
   );
 });
 
-test('signale son contrôle comme optionnel quand il n est pas requis', () => {
+// Comme chez Primer, Atlassian et Base : seul le champ requis est marqué.
+test('ne marque pas son libellé quand son contrôle n est pas requis', () => {
   renderOnDesktop(
     <FormControl label="Surnom">
       <TextInput />
     </FormControl>,
   );
 
-  expect(screen.getByText('(optionnel)')).toBeTruthy();
+  expect(screen.queryByText('(optionnel)')).toBeNull();
 });
 
 test('annonce son contrôle comme requis', () => {
@@ -128,4 +129,32 @@ test('annonce son contrôle comme requis', () => {
   );
 
   expect(screen.getByLabelText('Nom').getAttribute('aria-required')).toBe('true');
+});
+
+test('grise son indice quand il est désactivé', () => {
+  renderOnDesktop(
+    <>
+      <FormControl hint="Indice actif">
+        <TextInput />
+      </FormControl>
+      <FormControl hint="Indice désactivé" disabled>
+        <TextInput />
+      </FormControl>
+    </>,
+  );
+
+  expect(getComputedStyle(screen.getByText('Indice désactivé')).color).not.toBe(
+    getComputedStyle(screen.getByText('Indice actif')).color,
+  );
+});
+
+// Comme chez Primer et Atlassian : l'astérisque est visuel, aria-required porte l'annonce.
+test('marque son libellé d un astérisque quand son contrôle est requis', () => {
+  renderOnDesktop(
+    <FormControl label="Nom" required>
+      <TextInput />
+    </FormControl>,
+  );
+
+  expect(screen.getByText('*').getAttribute('aria-hidden')).toBe('true');
 });

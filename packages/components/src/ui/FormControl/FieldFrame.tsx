@@ -1,9 +1,5 @@
 import { ReactNode } from 'react';
-import { InputHeading } from '../InputHeading';
 import { FormControl, FormControlProps } from './FormControl';
-import { FormControlCaption } from './FormControlCaption';
-import { FormControlHint } from './FormControlHint';
-import { FormControlLabel } from './FormControlLabel';
 
 // Le cadre se contente d'un sous-ensemble des props du champ, mais les recopier une par une au
 // point d'appel rallongerait chaque variante d'autant : elles lui passent leurs props telles
@@ -20,20 +16,18 @@ export type FieldFrameProps = {
 };
 
 /**
- * L'entete (libelle, indice) et la legende d'erreur ou de succes qui entourent tout champ de
- * formulaire. Chaque variante de chaque champ les recopiait a l'identique : trois fois pour
- * DateInput, trois fois pour les selecteurs, soit six copies d'un meme echafaudage qu'une
- * correction d'accessibilite ou de mise en page devait penser a corriger partout.
+ * Le pont des champs `*Field` vers FormControl, le temps qu'ils disparaissent (ADR 0026).
  */
 export const FieldFrame = ({ label, labelRight, hint, error, success, disabled, style, children }: FieldFrameProps) => (
-  <FormControl style={style}>
-    <InputHeading>
-      {!!label && <FormControlLabel labelRight={labelRight} label={label} disabled={disabled} />}
-      {!!hint && <FormControlHint hint={hint} disabled={disabled} />}
-    </InputHeading>
-
+  <FormControl
+    label={label}
+    labelRight={labelRight}
+    hint={hint}
+    error={error}
+    success={success}
+    disabled={disabled}
+    style={style}
+  >
     {children}
-
-    {(error || success) && <FormControlCaption error={error} success={success} />}
   </FormControl>
 );
