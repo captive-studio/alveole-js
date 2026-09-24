@@ -18,5 +18,5 @@ _À éviter_ : field quand on ne parle que du cadre.
 ## Relations
 
 - Un **Champ** contient exactement un **Contrôle de saisie**.
-- Un **Contrôle de saisie** devient un **Champ** dès qu'il reçoit une étiquette, une
-  aide ou un message de validation ; sans eux, il s'utilise seul.
+- Un **Champ** enveloppe son **Contrôle de saisie** : le contrôle ne porte jamais
+  lui-même d'étiquette, d'aide ni de message de validation. Sans eux, il s'utilise seul.
