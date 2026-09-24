@@ -74,10 +74,10 @@ module.exports = {
   coverageReporters: ['text', 'json-summary'],
   coverageThreshold: {
     global: {
-      statements: 55,
-      branches: 41,
-      functions: 52,
-      lines: 54,
+      statements: 57,
+      branches: 43,
+      functions: 55,
+      lines: 57,
     },
   },
   collectCoverageFrom: ['src/**/*.{ts,tsx}', '!src/**/*.test.*', '!src/**/index.ts'],

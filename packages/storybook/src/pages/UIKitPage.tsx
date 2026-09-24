@@ -8,8 +8,9 @@ import { ThemeConstantsScreen } from '../screens/ThemeConstantsScreen';
 import { ThemePaletteScreen } from '../screens/ThemePaletteScreen';
 import { ThemeTypographyScreen } from '../screens/ThemeTypographyScreen';
 import { StorybookModule } from '../types';
+import { HomeScreen, InternalHeader } from './ecransDuKit';
 import { PhilosophyPage } from './PhilosophyPage';
-import { HomeScreen, InternalHeader, ThemeHomeScreen } from './ecransDuKit';
+import { UIKitThemePage } from './UIKitThemePage';
 
 export type BlankPage = {
   title?: string;
@@ -39,6 +40,7 @@ export type UIKitPageProps = {
   blankPage?: BlankPage;
 };
 
+/** Ce dont un ecran du kit a besoin pour se rendre : les donnees de la page et le moyen d'avancer. */
 type ContexteDEcran = {
   stories: StorybookModule[];
   constants: Record<string, unknown>;
@@ -141,7 +143,7 @@ const ecranDesComposants = (route: UIKitRoute, ctx: ContexteDEcran): React.React
 const ecranDuTheme = (route: UIKitRoute, ctx: ContexteDEcran): React.ReactNode | null => {
   if (route.name === 'theme-home') {
     return (
-      <ThemeHomeScreen
+      <UIKitThemePage
         beforeContent={ctx.beforeContent}
         onOpenColors={() => ctx.push({ name: 'theme-colors' })}
         onOpenTypography={() => ctx.push({ name: 'theme-typography' })}

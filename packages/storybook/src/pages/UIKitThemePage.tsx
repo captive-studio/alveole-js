@@ -1,25 +1,6 @@
-import { Box, Card, Page, Section, Typography } from '@alveole/components';
-import { useTheme } from '@alveole/theme';
+import { Box, Page, Section } from '@alveole/components';
 import React from 'react';
-
-type ThemeCardProps = {
-  title: string;
-  description: string;
-  onPress: () => void;
-};
-
-const ThemeCard = ({ title, description, onPress }: ThemeCardProps) => {
-  const { text } = useTheme();
-
-  return (
-    <Card onPress={onPress}>
-      <Box display="flex" gap={8} p={'150'}>
-        <Typography style={text.Titres['H4 - SM']}>{title}</Typography>
-        <Typography style={text['Corps de texte'].SM.Regular}>{description}</Typography>
-      </Box>
-    </Card>
-  );
-};
+import { MenuCard } from '../components/MenuCard';
 
 export type UIKitThemePageProps = {
   title?: string;
@@ -29,6 +10,7 @@ export type UIKitThemePageProps = {
   onOpenCSSVariables?: () => void;
   sidebar?: React.ReactNode;
   footerContent?: React.ReactNode;
+  beforeContent?: React.ReactNode;
 };
 
 export const UIKitThemePage = ({
@@ -39,19 +21,27 @@ export const UIKitThemePage = ({
   onOpenCSSVariables,
   sidebar,
   footerContent,
+  beforeContent,
 }: UIKitThemePageProps) => {
   return (
-    <Page scrollable title={title} description={description} sidebar={sidebar} footerContent={footerContent}>
+    <Page
+      scrollable
+      title={title}
+      description={description}
+      sidebar={sidebar}
+      footerContent={footerContent}
+      beforeContent={beforeContent}
+    >
       <Section withPaddingY>
         <Box display="flex" gap={16}>
-          <ThemeCard title="Couleurs" description="Palette et couleurs du thème." onPress={onOpenColors} />
-          <ThemeCard
+          <MenuCard title="Couleurs" description="Palette et couleurs du thème." onPress={onOpenColors} />
+          <MenuCard
             title="Typographies"
             description="Styles de texte et hiérarchie typographique."
             onPress={onOpenTypography}
           />
           {onOpenCSSVariables ? (
-            <ThemeCard
+            <MenuCard
               title="Variables CSS"
               description="Les jetons du thème exposés en variables CSS."
               onPress={onOpenCSSVariables}
