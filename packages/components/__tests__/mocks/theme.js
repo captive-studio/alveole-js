@@ -3,6 +3,7 @@ jest.mock('@alveole/theme', () => {
   const { MonospaceFont } = jest.requireActual('../../../theme/src/constants/Font');
   const { contrastRatio, withMinimumContrast } = jest.requireActual('../../../theme/src/helpers/contrastColor');
   const { CustomPalette } = jest.requireActual('../../../theme/src/constants/Palette');
+  const { CustomTypography } = jest.requireActual('../../../theme/src/constants/Typography');
   const { controlSizesFor } = jest.requireActual('../../../theme/src/constants/Control');
   const { PillSizes } = jest.requireActual('../../../theme/src/constants/Pill');
   const { RadiusList } = jest.requireActual('../../../theme/src/constants/Radius');
@@ -87,6 +88,7 @@ jest.mock('@alveole/theme', () => {
   return {
     Colors,
     CustomPalette,
+    CustomTypography,
     focusBorder,
     focusRing,
     // La bague de focus vient du CSS du theme : les composants ne posent qu'une marque.

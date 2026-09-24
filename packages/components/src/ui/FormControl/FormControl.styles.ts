@@ -1,4 +1,4 @@
-import { focusBorder, makeStyles, StyleValue, useTheme } from '@alveole/theme';
+import { CustomTypography, focusBorder, makeStyles, StyleValue, useTheme } from '@alveole/theme';
 import { Platform } from 'react-native';
 
 type Theme = ReturnType<typeof useTheme>;
@@ -49,8 +49,22 @@ const coque = ({ text, color, spacing }: Theme) =>
     },
   }) satisfies Table;
 
-const champ = ({ text, color, spacing, control, radius }: Theme) =>
-  ({
+const EPAISSEUR_DE_BORDURE = 1;
+// La valeur brute et non celle du theme : sur web, le theme rend une variable CSS, sur
+// laquelle aucun calcul de marge n'est possible.
+const LIGNE_SAISIE = CustomTypography['Corps de texte'].SM.Regular.lineHeight;
+// En pixels et non sans unite : un `<input>` DOM brut (nombre, date, heure) lirait 20 comme
+// un multiple de la taille de police.
+const LIGNE_SAISIE_EN_PIXELS = `${LIGNE_SAISIE}px`;
+
+const champ = ({ text, color, spacing, control, radius }: Theme) => {
+  // Le cadre n'a qu'un plancher : c'est la ligne saisie, ses marges et la bordure qui
+  // fixent sa hauteur reelle. Sur web, les marges sont donc deduites de la hauteur de
+  // controle ; le natif, lui, tient sa hauteur par le `minHeight` de l'input.
+  const margeVerticale =
+    Platform.OS === 'web' ? (control('md').height - LIGNE_SAISIE - 2 * EPAISSEUR_DE_BORDURE) / 2 : spacing('1V');
+
+  return {
     // Input
     inputContainer: {
       width: '100%',
@@ -61,7 +75,7 @@ const champ = ({ text, color, spacing, control, radius }: Theme) =>
       gap: spacing('1W'),
       padding: 0,
       borderRadius: radius('md'),
-      borderWidth: 1,
+      borderWidth: EPAISSEUR_DE_BORDURE,
       borderColor: color.border['default-grey'],
       backgroundColor: '#FFFFFF',
       overflow: 'hidden',
@@ -78,9 +92,8 @@ const champ = ({ text, color, spacing, control, radius }: Theme) =>
       color: color.text['default-grey'],
       fontFamily: text['Corps de texte'].SM.Regular.fontFamily,
       fontSize: text['Corps de texte'].SM.Regular.fontSize,
-      // (control('md').height - lineHeight 20) / 2, comme pour l'onglet inactif de Tabs.
-      marginTop: Platform.OS === 'web' ? spacing('1,5V') : spacing('1V'),
-      marginBottom: Platform.OS === 'web' ? spacing('1,5V') : spacing('1V'),
+      marginTop: margeVerticale,
+      marginBottom: margeVerticale,
       // Le meme retrait horizontal que le bouton md : c'est l'echelle de controle qui
       // l'accorde, desktop (12) comme mobile (16), et non un litteral d'espacement.
       paddingLeft: control('md').paddingInline,
@@ -97,9 +110,15 @@ const champ = ({ text, color, spacing, control, radius }: Theme) =>
       borderStyle: 'none',
       outline: 'none',
       backgroundColor: 'transparent',
-      lineHeight: 'auto',
+      lineHeight: LIGNE_SAISIE_EN_PIXELS,
+      // Les sous-champs d'un input date ou heure grandissent sa boite au-dela de la ligne.
+      height: LIGNE_SAISIE,
+      // Et l'input nombre recoit du navigateur 1px de retrait vertical en plus.
+      paddingTop: 0,
+      paddingBottom: 0,
     },
-  }) satisfies Table;
+  } satisfies Table;
+};
 
 const etatDuChamp = ({ color }: Theme) =>
   ({
