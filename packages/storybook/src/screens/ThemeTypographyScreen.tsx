@@ -1,8 +1,7 @@
-import { Box, Card, Page, Typography } from '@alveole/components';
+import { Box, Card, Typography } from '@alveole/components';
 import { useTheme } from '@alveole/theme';
 import { TextStyle, View } from 'react-native';
-import { PageTitle } from '../components/PageTitle';
-import { ScreenZone } from '../components/ScreenZone';
+import { EcranDeCatalogue, filDuTheme } from '../components/EcranDeCatalogue';
 
 export type ThemeTypographyScreenProps = {
   typography: Record<string, unknown>;
@@ -123,7 +122,7 @@ export const ThemeTypographyScreen = ({
   sidebar,
   footerContent,
 }: ThemeTypographyScreenProps) => {
-  const { grilles, text } = useTheme();
+  const { text } = useTheme();
 
   const labelStyle = text['Corps de texte'].XS.SemiBold;
   const valueStyle = text['Corps de texte'].SM.Regular;
@@ -134,35 +133,29 @@ export const ThemeTypographyScreen = ({
   }));
 
   return (
-    <Page
-      scrollable
+    <EcranDeCatalogue
       title={title}
       description={description}
       sidebar={sidebar}
       beforeContent={beforeContent}
       footerContent={footerContent}
+      breadcrumbsProps={filDuTheme}
     >
-      <ScreenZone largeur={grilles['12 colonnes']}>
-        <PageTitle
-          title={title}
-          breadcrumbsProps={{ getHref: (segment, _index, path) => (segment === 'theme' ? null : path) }}
-        />
-        <Box display="flex" gap={16}>
-          {categories.map(({ key, entries }) => (
-            <Card key={key}>
-              <Box display="flex" gap={16} p="150">
-                <Typography style={text.Titres['H4 - SM']}>{key}</Typography>
-                <Box display="flex" gap={0}>
-                  <TableHeader labelStyle={labelStyle} />
-                  {entries.map(entry => (
-                    <TableRow key={entry.label} entry={entry} valueStyle={valueStyle} />
-                  ))}
-                </Box>
+      <Box display="flex" gap={16}>
+        {categories.map(({ key, entries }) => (
+          <Card key={key}>
+            <Box display="flex" gap={16} p="150">
+              <Typography style={text.Titres['H4 - SM']}>{key}</Typography>
+              <Box display="flex" gap={0}>
+                <TableHeader labelStyle={labelStyle} />
+                {entries.map(entry => (
+                  <TableRow key={entry.label} entry={entry} valueStyle={valueStyle} />
+                ))}
               </Box>
-            </Card>
-          ))}
-        </Box>
-      </ScreenZone>
-    </Page>
+            </Box>
+          </Card>
+        ))}
+      </Box>
+    </EcranDeCatalogue>
   );
 };
