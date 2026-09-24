@@ -35,3 +35,18 @@ test('utilise le rayon de bordure de l echelle du theme sur le champ multiligne 
 
   expect(result.current.modalInputContainer.borderRadius).toBe('var(--radius-md)');
 });
+
+// Le cadre d'un champ n'a qu'un plancher (`minHeight`) : c'est son contenu qui fixe sa
+// hauteur reelle. Une ligne laissee a `auto` vaut 18 ou 20 selon le type d'input natif, et
+// le champ debordait alors a 34 a cote d'un bouton de 32.
+test('remplit exactement la hauteur de controle avec la ligne saisie, ses marges et la bordure', () => {
+  const { result } = renderHookOnDesktop(() => useStyles());
+  const { input, inputWeb, inputInner } = result.current;
+
+  expect(
+    parseFloat(String(inputWeb.lineHeight)) +
+      Number(input.marginTop) +
+      Number(input.marginBottom) +
+      2 * inputInner.borderWidth,
+  ).toBe(32);
+});
