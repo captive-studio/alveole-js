@@ -25,14 +25,46 @@ type NativeSyntaxStyle = Record<string, TextStyle>;
 
 const BASE_STYLE_KEY = 'base';
 
+// Le CSS du theme de coloration admet des valeurs que React Native refuse (`oblique`,
+// `bolder`...) : seules les valeurs que le natif connait lui sont transmises.
+const accepteSeulement =
+  <Natif,>(valeursNatives: readonly Natif[]) =>
+  (valeur: unknown): valeur is Natif =>
+    valeursNatives.some(valeurNative => valeurNative === valeur);
+
+const estStyleDePoliceNatif = accepteSeulement<TextStyle['fontStyle']>(['normal', 'italic']);
+
+const estGraisseNative = accepteSeulement<TextStyle['fontWeight']>([
+  'normal',
+  'bold',
+  100,
+  200,
+  300,
+  400,
+  500,
+  600,
+  700,
+  800,
+  900,
+  '100',
+  '200',
+  '300',
+  '400',
+  '500',
+  '600',
+  '700',
+  '800',
+  '900',
+]);
+
 const getNativeStyle = (style: CSSProperties = {}): TextStyle => {
   const nativeStyle: TextStyle = {};
 
   if (typeof style.color === 'string') nativeStyle.color = style.color;
   if (typeof style.background === 'string') nativeStyle.backgroundColor = style.background;
   if (typeof style.backgroundColor === 'string') nativeStyle.backgroundColor = style.backgroundColor;
-  if (style.fontWeight != null) nativeStyle.fontWeight = style.fontWeight as TextStyle['fontWeight'];
-  if (style.fontStyle != null) nativeStyle.fontStyle = style.fontStyle as TextStyle['fontStyle'];
+  if (estGraisseNative(style.fontWeight)) nativeStyle.fontWeight = style.fontWeight;
+  if (estStyleDePoliceNatif(style.fontStyle)) nativeStyle.fontStyle = style.fontStyle;
 
   return nativeStyle;
 };

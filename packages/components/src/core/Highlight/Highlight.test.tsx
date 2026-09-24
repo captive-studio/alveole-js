@@ -99,3 +99,39 @@ describe('Highlight', () => {
     });
   });
 });
+
+// Le style fourni est du CSS : seules les valeurs que le natif connait doivent lui parvenir.
+describe('Highlight, style fourni', () => {
+  // React Native ne connait que `normal` et `italic` : une valeur CSS comme `oblique` ne
+  // doit pas lui parvenir.
+  it('ecarte un style de police que le natif ne connait pas', async () => {
+    const view = await renderNative(
+      <Highlight language="tsx" style={{ fontStyle: 'oblique' }}>
+        {'<Box />'}
+      </Highlight>,
+    );
+
+    expect(surface(view)?.fontStyle).toBeUndefined();
+  });
+
+  // `bolder` et `lighter` sont relatifs a l'element parent, notion que le natif n'a pas.
+  it('ecarte une graisse que le natif ne connait pas', async () => {
+    const view = await renderNative(
+      <Highlight language="tsx" style={{ fontWeight: 'bolder' }}>
+        {'<Box />'}
+      </Highlight>,
+    );
+
+    expect(surface(view)?.fontWeight).toBeUndefined();
+  });
+
+  it('transmet une graisse et un style que le natif connait', async () => {
+    const view = await renderNative(
+      <Highlight language="tsx" style={{ fontWeight: 600, fontStyle: 'italic' }}>
+        {'<Box />'}
+      </Highlight>,
+    );
+
+    expect(surface(view)).toMatchObject({ fontWeight: 600, fontStyle: 'italic' });
+  });
+});
