@@ -27,6 +27,10 @@ natif, il n'affichait que `JSON.stringify(value)`).
   grise que pour un champ désactivé. C'est le choix de Primer (`InputLabel`), d'Atlassian
   et de Base (`Label` ne lit que `$disabled`) : une étiquette rouge répétait ce que la
   légende et la bordure disent déjà.
+- **Seul le champ requis est marqué** : `required` sur `FormControl` ajoute un astérisque
+  masqué aux lecteurs d'écran, qui reçoivent `aria-required` du contrôle. Un champ
+  optionnel n'est pas signalé. Primer et Atlassian font de même, Base ne marque rien ;
+  la mention « (optionnel) » ne venait d'aucune des trois.
 - **Un composant dédié seulement pour un comportement propre** (sélecteur, masque, format,
   cases, liste). Sinon, un `type` sur `TextInput` : `type="email"`, et `type="password"`
   qui intègre l'œil d'affichage, comme chez Base.
