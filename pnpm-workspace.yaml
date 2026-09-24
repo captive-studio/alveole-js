@@ -45,6 +45,7 @@ allowBuilds:
 minimumReleaseAgeExclude:
   - expo-asset@57.0.18
   - expo-constants@57.0.19
+  - expo-linking@57.0.11
 
 patchedDependencies:
   eslint-plugin-react@7.37.5: patches/eslint-plugin-react@7.37.5.patch
