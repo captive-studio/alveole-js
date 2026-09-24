@@ -6,6 +6,7 @@ import {
   ViewProps as TamaguiViewProps,
 } from '@tamagui/core';
 import React, { CSSProperties } from 'react';
+import { versStyleTamagui } from '../styleTamagui/versStyleTamagui';
 import { BoxStyle } from './Box.types';
 import { resolveSpacing } from './resolveSpacing';
 
@@ -53,7 +54,7 @@ export const Box = React.forwardRef<BoxElement, BoxProps>(function Box(props, re
       tag={tag ?? 'box'}
       style={style}
       {...radius}
-      hoverStyle={hoverStyle as TamaguiViewProps['hoverStyle']}
+      hoverStyle={versStyleTamagui<TamaguiViewProps['hoverStyle']>(hoverStyle)}
       {...viewProps}
       {...margins}
       {...paddings}
