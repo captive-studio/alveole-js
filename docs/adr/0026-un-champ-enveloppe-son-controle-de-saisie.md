@@ -22,6 +22,11 @@ natif, il n'affichait que `JSON.stringify(value)`).
   contrôle reçoive ces props.
 - **Plus aucun contrôle ne s'habille lui-même** : les `*Field` disparaissent, et `Select`
   comme `DateInput` perdent leurs props `label`, `hint` et `error`.
+- **L'étiquette ne prend pas la couleur de l'état** : seule la légende passe en erreur
+  ou en succès, et l'erreur l'emporte sur le succès (texte et icône). L'étiquette ne se
+  grise que pour un champ désactivé. C'est le choix de Primer (`InputLabel`), d'Atlassian
+  et de Base (`Label` ne lit que `$disabled`) : une étiquette rouge répétait ce que la
+  légende et la bordure disent déjà.
 - **Un composant dédié seulement pour un comportement propre** (sélecteur, masque, format,
   cases, liste). Sinon, un `type` sur `TextInput` : `type="email"`, et `type="password"`
   qui intègre l'œil d'affichage, comme chez Base.

@@ -3,7 +3,6 @@ import { Box } from '../../core/Box';
 import { Typography } from '../../core/Typography';
 import { useFieldId } from './FieldId';
 import { useStyles } from './FormControl.styles';
-import { FormControlCaptionProps } from './FormControlCaption';
 
 export type FormControlLabelProps = {
   label: string;
@@ -11,10 +10,10 @@ export type FormControlLabelProps = {
   optional?: boolean;
   optionalText?: string;
   disabled?: boolean;
-} & FormControlCaptionProps;
+};
 
 export const FormControlLabel = (props: FormControlLabelProps) => {
-  const { label, labelRight, optional = false, optionalText = '(optionnel)', disabled, error, success } = props;
+  const { label, labelRight, optional = false, optionalText = '(optionnel)', disabled } = props;
 
   const styles = useStyles();
   const fieldId = useFieldId();
@@ -26,8 +25,6 @@ export const FormControlLabel = (props: FormControlLabelProps) => {
         htmlFor={fieldId}
         style={{
           ...styles.label,
-          ...(error ? styles.errorText : {}),
-          ...(success ? styles.successText : {}),
           ...(disabled ? styles.labelDisabled : {}),
         }}
       >

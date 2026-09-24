@@ -28,9 +28,7 @@ export type FieldFrameProps = {
 export const FieldFrame = ({ label, labelRight, hint, error, success, disabled, style, children }: FieldFrameProps) => (
   <FormControl style={style}>
     <InputHeading>
-      {!!label && (
-        <FormControlLabel labelRight={labelRight} label={label} disabled={disabled} error={error} success={success} />
-      )}
+      {!!label && <FormControlLabel labelRight={labelRight} label={label} disabled={disabled} />}
       {!!hint && <FormControlHint hint={hint} disabled={disabled} />}
     </InputHeading>
 
