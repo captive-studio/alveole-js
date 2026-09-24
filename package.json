@@ -9,6 +9,7 @@
     "format": "node scripts/format.mjs --write",
     "format:check": "node scripts/format.mjs --check",
     "test:unit": "pnpm -r --parallel --if-present run test:unit",
+    "test:unit:timed": "node scripts/time-test-unit.mjs",
     "test:dev": "pnpm --filter @alveole/components run test:dev --",
     "lint": "pnpm run lint:scripts && pnpm -r --if-present run lint",
     "lint:scripts": "eslint scripts tools",
@@ -27,7 +28,7 @@
     "publish:local": "scripts/publish-local",
     "publish:package": "scripts/publish-package",
     "check": "node scripts/check.mjs",
-    "test:scripts": "node --test scripts/allocated-cpus.test.mjs scripts/check.test.mjs scripts/check-adr-numbers.test.mjs scripts/check-coverage-ratchet.test.mjs scripts/check-suppressions.test.mjs scripts/compact-icons.test.mjs scripts/spacing-deprecie.test.mjs",
+    "test:scripts": "node --test scripts/allocated-cpus.test.mjs scripts/check.test.mjs scripts/check-adr-numbers.test.mjs scripts/check-coverage-ratchet.test.mjs scripts/check-suppressions.test.mjs scripts/compact-icons.test.mjs scripts/spacing-deprecie.test.mjs scripts/time-test-unit.test.mjs",
     "pretest:unit": "pnpm run test:scripts"
   },
   "devDependencies": {
