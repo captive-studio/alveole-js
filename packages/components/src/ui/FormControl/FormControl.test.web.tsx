@@ -81,3 +81,51 @@ test('garde la couleur de son libellé quand le champ est en erreur', () => {
     getComputedStyle(screen.getByText('Neutre')).color,
   );
 });
+
+// Comme chez Primer, Atlassian et Base : l'enveloppe transmet la désactivation à son contrôle.
+test('désactive le contrôle qu il enveloppe', () => {
+  renderOnDesktop(
+    <FormControl label="Nom" disabled>
+      <TextInput />
+    </FormControl>,
+  );
+
+  expect((screen.getByLabelText('Nom') as HTMLInputElement).disabled).toBe(true);
+});
+
+test('grise son libellé quand il est désactivé', () => {
+  renderOnDesktop(
+    <>
+      <FormControl label="Actif">
+        <TextInput />
+      </FormControl>
+      <FormControl label="Désactivé" disabled>
+        <TextInput />
+      </FormControl>
+    </>,
+  );
+
+  expect(getComputedStyle(screen.getByText('Désactivé')).color).not.toBe(
+    getComputedStyle(screen.getByText('Actif')).color,
+  );
+});
+
+test('signale son contrôle comme optionnel quand il n est pas requis', () => {
+  renderOnDesktop(
+    <FormControl label="Surnom">
+      <TextInput />
+    </FormControl>,
+  );
+
+  expect(screen.getByText('(optionnel)')).toBeTruthy();
+});
+
+test('annonce son contrôle comme requis', () => {
+  renderOnDesktop(
+    <FormControl label="Nom" required>
+      <TextInput />
+    </FormControl>,
+  );
+
+  expect(screen.getByLabelText('Nom').getAttribute('aria-required')).toBe('true');
+});
