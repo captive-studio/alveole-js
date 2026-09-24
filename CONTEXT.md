@@ -17,5 +17,7 @@ lire que la section utile à la zone touchée :
   catalogue : rubriques, barre, colonne.
 - [Étiquettes](docs/context/etiquettes.md) : vocabulaire des pastilles du
   catalogue : étiquette, badge, compteur, et les états qui les distinguent.
+- [Champs](docs/context/champs.md) : vocabulaire des composants de saisie :
+  contrôle de saisie, champ.
 - [Qualité](docs/context/qualite.md) : vocabulaire des garde-fous mesurés du
   dépôt : cliquets, violations, clichés.
