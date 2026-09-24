@@ -33,3 +33,15 @@ gel est dit fermé : `scripts/check-suppressions.mjs` fait échouer la CI dès q
 l'un d'eux retient une offense. Une violation se corrige donc, elle ne se gèle
 plus.
 _Éviter_ : suppression, exception, dette gelée.
+
+**Niveau de test** :
+L'un des trois rangs où une assertion est placée selon ce qu'elle sait prouver :
+logique pure sans rendu (niveau 1), contrat en jsdom (niveau 2), navigateur réel
+sur le catalogue (niveau 3). Voir ADR 0027.
+_Éviter_ : test unitaire (pour un rendu jsdom), test d'intégration.
+
+**Contrat** :
+Ce qu'un composant garantit à qui l'utilise, et seul objet du niveau 2 : rôle,
+nom accessible, états ARIA, comportement au clavier, callbacks. N'inclut ni
+dimension, ni bordure, ni style calculé, que jsdom ne sait pas prouver.
+_Éviter_ : API, comportement (seul).

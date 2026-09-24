@@ -14,7 +14,9 @@ Un composant vit dans son dossier `src/{core,ui}/<Composant>/` et y rassemble :
   composant (variants, tailles, états, cas limites) plutôt qu'un exemple unique. C'est la
   documentation du composant dans le catalogue.
 - Des tests (`*.test.tsx`, `*.test.web.tsx`) ciblés sur les cas particuliers qui ont déjà
-  régressé ou qui risquent de le faire, pas une couverture exhaustive.
+  régressé ou qui risquent de le faire, pas une couverture exhaustive. Chaque assertion y va au
+  niveau de test qui sait la prouver (ADR 0027) : le module de style par état se teste sans
+  rendu, le rendu jsdom se limite au contrat du composant.
 
 ## Pourquoi
 
