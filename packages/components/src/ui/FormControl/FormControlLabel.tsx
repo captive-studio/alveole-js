@@ -1,7 +1,7 @@
 import React from 'react';
 import { Box } from '../../core/Box';
 import { Typography } from '../../core/Typography';
-import { useFieldId } from './FieldId';
+import { useFieldDisabled, useFieldId } from './FieldId';
 import { useStyles } from './FormControl.styles';
 
 export type FormControlLabelProps = {
@@ -13,10 +13,11 @@ export type FormControlLabelProps = {
 };
 
 export const FormControlLabel = (props: FormControlLabelProps) => {
-  const { label, labelRight, optional = false, optionalText = '(optionnel)', disabled } = props;
+  const { label, labelRight, optional = false, optionalText = '(optionnel)', disabled: ownDisabled } = props;
 
   const styles = useStyles();
   const fieldId = useFieldId();
+  const disabled = useFieldDisabled(ownDisabled);
 
   return (
     <Box tag="form-control-label" style={styles.labelContainer}>

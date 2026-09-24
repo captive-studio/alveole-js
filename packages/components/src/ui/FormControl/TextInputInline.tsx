@@ -2,7 +2,7 @@ import { useTheme } from '@alveole/theme';
 import React from 'react';
 import { BlurEvent, FocusEvent, Platform, TextInput as ReactNativeTextInput } from 'react-native';
 import { Box } from '../../core/Box';
-import { useFieldId } from './FieldId';
+import { useFieldDisabled, useFieldId, useFieldRequired } from './FieldId';
 import { useStyles } from './FormControl.styles';
 import { TextInputElement, TextInputProps } from './TextInput.types';
 import { inputFrameStyle, inputTextStyle } from './textInputStyles';
@@ -23,7 +23,7 @@ const desactivationDe = (disabled?: boolean | null) =>
  */
 export const TextInputInline = React.forwardRef<TextInputElement, TextInputProps>(function TextInputInline(props, ref) {
   const {
-    disabled,
+    disabled: ownDisabled,
     readOnly,
     editable,
     error,
@@ -39,6 +39,8 @@ export const TextInputInline = React.forwardRef<TextInputElement, TextInputProps
   const { color } = useTheme();
   const styles = useStyles();
   const fieldId = useFieldId();
+  const disabled = useFieldDisabled(ownDisabled);
+  const required = useFieldRequired();
 
   const champ = useFieldFocus<FocusEvent, BlurEvent>({ disabled, readOnly, editable, onFocus, onBlur });
   const inputRef = React.useRef<ReactNativeTextInput>(null);
@@ -63,6 +65,7 @@ export const TextInputInline = React.forwardRef<TextInputElement, TextInputProps
       <ReactNativeTextInput
         ref={inputRef}
         id={inputProps.id ?? fieldId}
+        aria-required={required}
         style={inputTextStyle(styles, { startAdornment, endAdornment })}
         readOnly={readOnly === true}
         editable={editable}
