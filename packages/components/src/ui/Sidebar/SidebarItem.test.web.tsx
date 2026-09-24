@@ -93,3 +93,23 @@ test("rend l'entree qui agit en element button natif", () => {
 
   expect(getByRole('button', { name: 'Se déconnecter' }).tagName).toBe('BUTTON');
 });
+
+// Le filet bleu signale la page courante dans les deux mises en page, qui le dessinaient
+// chacune de leur côté.
+test('pose le filet de la page courante dans le tiroir mobile', () => {
+  const { container } = renderOnMobile(<SidebarItem title="Accueil" href="/" />);
+
+  expect(container.querySelector('sidebar-item-indicator')).not.toBeNull();
+});
+
+test('ne pose pas de filet sur les autres entrees', () => {
+  const { container } = renderOnDesktop(<SidebarItem title="Button" href="/components/Button" />);
+
+  expect(container.querySelector('sidebar-item-indicator')).toBeNull();
+});
+
+test('pose le filet de la page courante sur ordinateur', () => {
+  const { container } = renderOnDesktop(<SidebarItem title="Accueil" href="/" />);
+
+  expect(container.querySelector('sidebar-item-indicator')).not.toBeNull();
+});

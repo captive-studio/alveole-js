@@ -47,13 +47,25 @@ const SidebarItemEnveloppe = ({
     </A>
   );
 
+const useEstPageCourante = (item: SidebarItemProps) => {
+  const pathname = usePathname();
+  return !item.pressable && pathname === item.href;
+};
+
+const IndicateurPageCourante = () => {
+  const styles = useStyles();
+  return (
+    <Box tag="sidebar-item-indicator" style={styles.sidebarItemSelectedIndicator}>
+      <Box style={styles.sidebarItemSelectedIndicatorContent} />
+    </Box>
+  );
+};
+
 const SidebarItemDesktop = (props: SidebarItemProps) => {
   const { title, icon } = props;
 
-  const pathname = usePathname();
   const styles = useStyles();
-
-  const isCurrentPage = !props.pressable && pathname === props.href;
+  const isCurrentPage = useEstPageCourante(props);
 
   const itemStyleSelected = isCurrentPage ? styles.sidebarItemSelectedDesktop : {};
   const titleStyleSelected = isCurrentPage ? styles.sidebarItemTitleSelectedDesktop : {};
@@ -63,11 +75,7 @@ const SidebarItemDesktop = (props: SidebarItemProps) => {
   return (
     <SidebarItemEnveloppe item={props} isCurrentPage={isCurrentPage}>
       <Box style={styles.sidebarItemContainerDesktop}>
-        {isCurrentPage && (
-          <Box tag="sidebar-item-indicator" style={styles.sidebarItemSelectedIndicator}>
-            <Box style={styles.sidebarItemSelectedIndicatorContent} />
-          </Box>
-        )}
+        {isCurrentPage && <IndicateurPageCourante />}
         <Box
           tag="sidebar-item"
           style={{ ...styles.sidebarItemDesktop, ...itemStyleSelected }}
@@ -94,10 +102,8 @@ const SidebarItemDesktop = (props: SidebarItemProps) => {
 const SidebarItemMobile = (props: SidebarItemProps) => {
   const { title, icon } = props;
 
-  const pathname = usePathname();
   const styles = useStyles();
-
-  const isCurrentPage = !props.pressable && pathname === props.href;
+  const isCurrentPage = useEstPageCourante(props);
 
   const itemStyleSelected = isCurrentPage ? styles.sidebarItemSelectedMobile : {};
   const titleStyleSelected = isCurrentPage ? styles.sidebarItemTitleSelectedMobile : {};
@@ -107,11 +113,7 @@ const SidebarItemMobile = (props: SidebarItemProps) => {
   return (
     <SidebarItemEnveloppe item={props} isCurrentPage={isCurrentPage}>
       <Box>
-        {isCurrentPage && (
-          <Box tag="sidebar-item-indicator" style={styles.sidebarItemSelectedIndicator}>
-            <Box style={styles.sidebarItemSelectedIndicatorContent} />
-          </Box>
-        )}
+        {isCurrentPage && <IndicateurPageCourante />}
         <Box
           tag="sidebar-item"
           style={{ ...styles.sidebarItemMobile, ...itemStyleSelected }}
