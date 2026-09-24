@@ -6,6 +6,7 @@ import {
   TextProps as TamaguiTextProps,
 } from '@tamagui/core';
 import React, { CSSProperties } from 'react';
+import { versStyleTamagui } from '../styleTamagui/versStyleTamagui';
 import { useStyles } from './Typography.styles';
 import type { TypographyStyle } from './Typography.types';
 
@@ -25,7 +26,7 @@ export const Typography = React.forwardRef<TypographyElement, TypographyProps>(f
   return (
     <StyledTypography
       ref={ref}
-      hoverStyle={hoverStyle as TamaguiTextProps['hoverStyle']}
+      hoverStyle={versStyleTamagui<TamaguiTextProps['hoverStyle']>(hoverStyle)}
       tag={tag ?? 'typography'}
       style={style}
       textAlign={textAlign}
