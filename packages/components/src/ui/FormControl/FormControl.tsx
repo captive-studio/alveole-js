@@ -19,7 +19,7 @@ export type FormControlProps = React.PropsWithChildren &
   };
 
 export const FormControl = React.forwardRef<ReactNativeTextInput, FormControlProps>(function FormControl(props, _ref) {
-  const { children, label, labelRight, hint, error, success, disabled, required = false, style } = props;
+  const { children, label, labelRight, hint, error, success, disabled, required, style } = props;
 
   const styles = useStyles();
 
@@ -28,7 +28,7 @@ export const FormControl = React.forwardRef<ReactNativeTextInput, FormControlPro
       <Box tag="form-control" style={[styles.formControl, style]}>
         {(!!label || !!hint) && (
           <InputHeading>
-            {!!label && <FormControlLabel label={label} labelRight={labelRight} optional={!required} />}
+            {!!label && <FormControlLabel label={label} labelRight={labelRight} />}
             {!!hint && <FormControlHint hint={hint} />}
           </InputHeading>
         )}

@@ -42,7 +42,7 @@ const coque = ({ text, color, spacing }: Theme) =>
     hintDisabled: {
       color: color.text['disabled-grey'],
     },
-    optionalText: {
+    requiredMarker: {
       ...text['Corps de texte'].SM.Medium,
       color: color.light.text['mention-grey'],
       marginLeft: spacing('1V'),
