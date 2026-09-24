@@ -1,30 +1,10 @@
-import { Box, Button, Card, Page, Section, Typography } from '@alveole/components';
-import { useTheme } from '@alveole/theme';
-import React from 'react';
+import { Box, Button, Page, Section } from '@alveole/components';
+import { MenuCard } from '../components/MenuCard';
 import type { BlankPage } from './UIKitPage';
 
 // Les ecrans d'accueil du kit et leurs briques : de la presentation seule. Le routage, lui,
 // vit dans `UIKitPage.tsx`, qui decide quel ecran repond a quelle route. Les separer evite
 // qu'un changement de mise en page et un changement de navigation se lisent au meme endroit.
-
-type MenuCardProps = {
-  title: string;
-  description: string;
-  onPress: () => void;
-};
-
-export const MenuCard = ({ title, description, onPress }: MenuCardProps) => {
-  const { text } = useTheme();
-
-  return (
-    <Card onPress={onPress}>
-      <Box display="flex" gap={8} p={'150'}>
-        <Typography style={text.Titres['H4 - SM']}>{title}</Typography>
-        <Typography style={text['Corps de texte'].SM.Regular}>{description}</Typography>
-      </Box>
-    </Card>
-  );
-};
 
 type InternalHeaderProps = {
   canGoBack: boolean;
@@ -86,30 +66,3 @@ export const HomeScreen = ({
     </Page>
   );
 };
-
-export const ThemeHomeScreen = ({
-  onOpenColors,
-  onOpenTypography,
-  beforeContent,
-}: {
-  onOpenColors: () => void;
-  onOpenTypography: () => void;
-  beforeContent?: React.ReactNode;
-}) => {
-  return (
-    <Page scrollable title="UI Kit - Thème" description="Tokens du thème" beforeContent={beforeContent}>
-      <Section withPaddingY>
-        <Box display="flex" gap={16}>
-          <MenuCard title="Couleurs" description="Palette et couleurs du thème." onPress={onOpenColors} />
-          <MenuCard
-            title="Typographies"
-            description="Styles de texte et hiérarchie typographique."
-            onPress={onOpenTypography}
-          />
-        </Box>
-      </Section>
-    </Page>
-  );
-};
-
-/** Ce dont un ecran du kit a besoin pour se rendre : les donnees de la page et le moyen d'avancer. */

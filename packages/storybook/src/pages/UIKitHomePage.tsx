@@ -1,24 +1,5 @@
-import { Box, Card, Page, Section, Typography } from '@alveole/components';
-import { useTheme } from '@alveole/theme';
-
-type HomeCardProps = {
-  title: string;
-  description: string;
-  onPress: () => void;
-};
-
-const HomeCard = ({ title, description, onPress }: HomeCardProps) => {
-  const { text } = useTheme();
-
-  return (
-    <Card onPress={onPress}>
-      <Box display="flex" gap={8} p={'150'}>
-        <Typography style={text.Titres['H4 - SM']}>{title}</Typography>
-        <Typography style={text['Corps de texte'].SM.Regular}>{description}</Typography>
-      </Box>
-    </Card>
-  );
-};
+import { Box, Page, Section } from '@alveole/components';
+import { MenuCard } from '../components/MenuCard';
 
 export type UIKitHomePageProps = {
   title?: string;
@@ -39,17 +20,17 @@ export const UIKitHomePage = ({
     <Page scrollable title={title} description={description}>
       <Section withPaddingY>
         <Box display="flex" gap={16}>
-          <HomeCard
+          <MenuCard
             title="Composants"
             description="Liste des composants disponibles pour le développement."
             onPress={onOpenComponents}
           />
-          <HomeCard
+          <MenuCard
             title="Thème"
             description="Thème de l’application, liste des tokens issus du design system."
             onPress={onOpenTheme}
           />
-          <HomeCard
+          <MenuCard
             title="Constantes"
             description="Liste des constantes de thème exposées par la librairie."
             onPress={onOpenConstants}
