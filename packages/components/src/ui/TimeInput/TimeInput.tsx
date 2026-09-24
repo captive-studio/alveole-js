@@ -1,23 +1,8 @@
 import React from 'react';
-import {
-  FieldFrame,
-  formaterHHMM,
-  FormControlCaptionProps,
-  FormControlHintProps,
-  FormControlLabelProps,
-  TextInput,
-  TextInputElement,
-  useSaisieHHMM,
-} from '../FormControl';
+import { formaterHHMM, TextInputElement } from '../FormControl';
+import { ChampHHMM, ChampHHMMProps } from '../FormControl/ChampHHMM';
 
-export type TimeInputProps = FormControlLabelProps &
-  FormControlHintProps &
-  FormControlCaptionProps & {
-    value?: string;
-    onChange?: (value: string) => void;
-    onBlur?: () => void;
-    disabled?: boolean;
-  };
+export type TimeInputProps = ChampHHMMProps;
 
 const formaterHeure = (chiffres: string) => {
   // Premier chiffre ≥ 3 : les heures ne peuvent pas dépasser 23, donc on préfixe '0'
@@ -25,29 +10,6 @@ const formaterHeure = (chiffres: string) => {
   return formaterHHMM(chiffres);
 };
 
-export const TimeInput = React.forwardRef<TextInputElement, TimeInputProps>(function TimeInput(
-  { label, labelRight, hint, error, success, value, onChange, onBlur, disabled },
-  ref,
-) {
-  const { localValue, handleChangeText, handleBlur } = useSaisieHHMM({
-    value,
-    onChange,
-    onBlur,
-    formater: formaterHeure,
-  });
-
-  return (
-    <FieldFrame label={label} labelRight={labelRight} hint={hint} error={error} success={success} disabled={disabled}>
-      <TextInput
-        ref={ref}
-        placeholder="HH:MM"
-        value={localValue}
-        onChangeText={handleChangeText}
-        onBlur={handleBlur}
-        disabled={disabled}
-        keyboardType="number-pad"
-        maxLength={5}
-      />
-    </FieldFrame>
-  );
+export const TimeInput = React.forwardRef<TextInputElement, TimeInputProps>(function TimeInput(props, ref) {
+  return <ChampHHMM ref={ref} {...props} formater={formaterHeure} clavier={{ keyboardType: 'number-pad' }} />;
 });
