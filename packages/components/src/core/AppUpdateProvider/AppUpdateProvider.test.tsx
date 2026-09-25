@@ -2,7 +2,7 @@ import { renderNative, waitFor } from '@/__tests__/helpers/renderNative';
 import { act, fireEvent } from '@testing-library/react-native';
 import { checkForUpdate, startUpdate } from 'expo-in-app-updates';
 import React from 'react';
-import { AppState, Linking, Platform, Text } from 'react-native';
+import { AppState, AppStateStatus, Linking, Platform, Text } from 'react-native';
 import { AppUpdateProvider, shouldRunCheck, THROTTLE_MS } from './AppUpdateProvider';
 
 jest.mock('expo-in-app-updates', () => ({
@@ -21,8 +21,8 @@ jest.mock('../UpdateRequired', () => ({
   },
 }));
 
-const mockCheckForUpdate = checkForUpdate as jest.MockedFunction<typeof checkForUpdate>;
-const mockStartUpdate = startUpdate as jest.MockedFunction<typeof startUpdate>;
+const mockCheckForUpdate = jest.mocked(checkForUpdate);
+const mockStartUpdate = jest.mocked(startUpdate);
 
 const Wrapper = (props: Omit<React.ComponentProps<typeof AppUpdateProvider>, 'iosAppId'>) => (
   <AppUpdateProvider iosAppId="6759812160" {...props} />
@@ -156,9 +156,9 @@ describe('AppUpdateProvider - retour en foreground', () => {
   it('relance le check au retour en foreground si ≥ 12h', async () => {
     mockCheckForUpdate.mockResolvedValue({ updateAvailable: false, storeVersion: '2.0.0' });
 
-    let appStateListener: ((state: string) => void) | null = null;
+    let appStateListener: ((state: AppStateStatus) => void) | null = null;
     jest.spyOn(AppState, 'addEventListener').mockImplementation((_event, handler) => {
-      appStateListener = handler as (state: string) => void;
+      appStateListener = handler;
       return { remove: jest.fn() };
     });
 
@@ -181,9 +181,9 @@ describe('AppUpdateProvider - retour en foreground', () => {
   it('ne relance pas le check au retour en foreground si < 12h', async () => {
     mockCheckForUpdate.mockResolvedValue({ updateAvailable: false, storeVersion: '2.0.0' });
 
-    let appStateListener: ((state: string) => void) | null = null;
+    let appStateListener: ((state: AppStateStatus) => void) | null = null;
     jest.spyOn(AppState, 'addEventListener').mockImplementation((_event, handler) => {
-      appStateListener = handler as (state: string) => void;
+      appStateListener = handler;
       return { remove: jest.fn() };
     });
 

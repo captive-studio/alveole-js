@@ -61,7 +61,7 @@ describe('descriptionDeLExemple', () => {
 });
 
 describe('resumeDeLaFiche', () => {
-  const meta = (champs: Record<string, unknown>) => ({ description: '', ...champs }) as StorybookMeta;
+  const meta = (champs: Partial<StorybookMeta>): StorybookMeta => ({ ...metaMinimal, description: '', ...champs });
 
   // Ce resume part dans la balise `description` de la page : il est lu par les moteurs et les
   // apercus de lien, jamais rendu a l'ecran. Rien ne le verifie donc en rendant la fiche.

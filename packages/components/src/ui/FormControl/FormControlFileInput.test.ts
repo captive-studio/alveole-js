@@ -1,8 +1,13 @@
 import type * as DocumentPicker from 'expo-document-picker';
 import { choisis, nomAffiche } from './FormControlFileInput';
 
-const fichier = (name: string) =>
-  ({ name, uri: `file:///${name}`, size: 1, mimeType: 'text/plain' }) as DocumentPicker.DocumentPickerAsset;
+const fichier = (name: string): DocumentPicker.DocumentPickerAsset => ({
+  name,
+  uri: `file:///${name}`,
+  size: 1,
+  mimeType: 'text/plain',
+  lastModified: 0,
+});
 
 const PLACEHOLDER = 'Aucun fichier choisi.';
 
