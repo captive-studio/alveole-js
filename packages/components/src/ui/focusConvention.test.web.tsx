@@ -4,8 +4,7 @@ import { FOCUS_ATTRIBUTE } from '@alveole/theme';
 import { Button } from './Button';
 import { DateInput } from './DateInput';
 import { DurationInput } from './DurationInput';
-import { FormControl, NumberInput, TextInput } from './FormControl';
-import { OtpField } from './OtpField';
+import { FormControl, NumberInput, OtpInput, TextInput } from './FormControl';
 import { PriceInput } from './PriceInput';
 import { Select } from './Select';
 import { TextareaInput } from './TextareaInput';
@@ -63,8 +62,12 @@ const CONTROLES: Record<string, Controle> = {
     element: <Select label="Pays" value={null} options={[{ value: 'fr', label: 'France' }]} />,
     champ: controle('[role="combobox"]'),
   },
-  OtpField: {
-    element: <OtpField label="Code" numberOfDigits={4} autoFocus={false} hideStick />,
+  OtpInput: {
+    element: (
+      <FormControl label="Code">
+        <OtpInput numberOfDigits={4} autoFocus={false} hideStick />
+      </FormControl>
+    ),
     champ: () => screen.getByTestId('otp-input-hidden'),
   },
 };

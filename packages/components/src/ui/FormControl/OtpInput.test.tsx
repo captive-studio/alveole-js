@@ -1,6 +1,7 @@
 import { act, fireEvent, renderNative } from '@/__tests__/helpers/renderNative';
 import { focusBorder } from '@alveole/theme';
-import { OtpField } from './OtpField';
+import { FormControl } from './FormControl';
+import { OtpInput } from './OtpInput';
 
 // La bibliotheque OTP est la meme sur les deux plateformes, mais elle y empile les styles
 // autrement : sur natif, chaque cellule recoit un tableau que React Native aplatit. Ce test
@@ -26,7 +27,11 @@ const focaliser = async (view: Awaited<ReturnType<typeof renderNative>>) => {
 };
 
 it('colore la bordure de la cellule active avec le token de focus', async () => {
-  const view = await renderNative(<OtpField label="Code" numberOfDigits={4} autoFocus={false} hideStick />);
+  const view = await renderNative(
+    <FormControl label="Code">
+      <OtpInput numberOfDigits={4} autoFocus={false} hideStick />
+    </FormControl>,
+  );
   const repos = bordureDeLaCellule(view);
 
   await focaliser(view);
@@ -38,7 +43,11 @@ it('colore la bordure de la cellule active avec le token de focus', async () => 
 });
 
 it('ne colore que la cellule active', async () => {
-  const view = await renderNative(<OtpField label="Code" numberOfDigits={4} autoFocus={false} hideStick />);
+  const view = await renderNative(
+    <FormControl label="Code">
+      <OtpInput numberOfDigits={4} autoFocus={false} hideStick />
+    </FormControl>,
+  );
   const repos = bordureDeLaCellule(view, 1);
 
   await focaliser(view);
@@ -50,7 +59,9 @@ it('ne colore que la cellule active', async () => {
 // le verdict de validation reprend la main au blur.
 it('couvre la couleur d erreur tant que la cellule est active, puis la restitue', async () => {
   const view = await renderNative(
-    <OtpField label="Code" numberOfDigits={4} autoFocus={false} hideStick error="Code invalide" />,
+    <FormControl label="Code">
+      <OtpInput numberOfDigits={4} autoFocus={false} hideStick error="Code invalide" />
+    </FormControl>,
   );
   const erreur = bordureDeLaCellule(view);
 
@@ -67,7 +78,11 @@ it('couvre la couleur d erreur tant que la cellule est active, puis la restitue'
 });
 
 it('ne colore pas la bordure des cellules d un champ desactive', async () => {
-  const view = await renderNative(<OtpField label="Code" numberOfDigits={4} autoFocus={false} hideStick disabled />);
+  const view = await renderNative(
+    <FormControl label="Code">
+      <OtpInput numberOfDigits={4} autoFocus={false} hideStick disabled />
+    </FormControl>,
+  );
   const desactive = bordureDeLaCellule(view);
 
   await focaliser(view);

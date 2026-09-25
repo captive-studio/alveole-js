@@ -40,7 +40,7 @@ it('ecarte la bague de l element pour la detacher de sa bordure', () => {
 });
 
 // Le navigateur pose son propre contour des qu'un element prend le focus, quelle qu'en soit
-// la provenance : mesure en navigateur, un champ d'`OtpField` clique affiche le `1px auto`
+// la provenance : mesure en navigateur, un champ d'`OtpInput` clique affiche le `1px auto`
 // gris-bleu de Chrome. Eteindre `:focus` quand `:focus-visible` ne s'applique pas est ce qui
 // retire ce contour au clic sans toucher au parcours clavier. `@atlaskit/focus-ring` pose
 // exactement cette regle.

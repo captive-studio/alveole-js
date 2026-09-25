@@ -1,7 +1,7 @@
 import { StyleValue } from '@alveole/theme';
 import { ViewStyle } from 'react-native';
-import { fieldBorderState } from '../FormControl/fieldBorderState';
-import type { useStyles } from './OtpField.styles';
+import { fieldBorderState } from './fieldBorderState';
+import type { useStyles } from './OtpInput.styles';
 
 type OtpStyles = ReturnType<typeof useStyles>;
 
