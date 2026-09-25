@@ -58,6 +58,14 @@ it('rend un cadre carre', async () => {
   expect(cadre(view).width).toBe(cadre(view).height);
 });
 
+// Comme chez Primer et Base, le bouton-icone partage le socle de `Button` : a taille egale,
+// ses coins doivent etre les memes. Il gardait jusqu'ici le rayon `md` en taille `sm`.
+it('prend en taille sm les rayons de Button sm', async () => {
+  const view = await renderNative(<ButtonIcon accessibilityLabel="Valider" variant="primary" icon="Check" size="sm" />);
+
+  expect(cadre(view).borderTopLeftRadius).toBe(4); // radius('sm')
+});
+
 // `iconStyle` rejoue la table des variantes pour la couleur, independamment de celle du
 // fond : les deux peuvent donc se desynchroniser. Ce test ancre le couple primary -> teinte.
 it('teinte l icone selon la variante', async () => {
