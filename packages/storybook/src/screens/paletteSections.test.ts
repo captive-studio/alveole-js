@@ -1,4 +1,4 @@
-import { buildSections, flattenColors } from './paletteSections';
+import { buildSections, compteDeJetons, flattenColors, sectionsOuvertesAuDepart } from './paletteSections';
 
 it('aplatit les couleurs en chemins pointes', () => {
   const entries = flattenColors({ text: { action: { high: '#0055FF' } } });
@@ -61,4 +61,25 @@ it('n ajoute pas de section historique quand la palette n en porte plus', () => 
 // l'ecran doit alors montrer une page vide plutot que casser.
 it('rend une liste vide pour une palette sans mode clair', () => {
   expect(buildSections({})).toEqual([]);
+});
+
+it('compte au singulier une section d un seul jeton', () => {
+  expect(compteDeJetons({ title: 'light / border', entries: [{ path: 'a', value: '#1' }] })).toBe('1 token');
+});
+
+it('compte au pluriel une section de plusieurs jetons', () => {
+  const entries = [
+    { path: 'a', value: '#1' },
+    { path: 'b', value: '#2' },
+  ];
+
+  expect(compteDeJetons({ title: 'light / text', entries })).toBe('2 tokens');
+});
+
+// Les familles s'ouvrent, l'historique reste replie : c'est ce qui reste a migrer, pas ce
+// qu'on vient consulter.
+it('ouvre les familles au depart et laisse l historique replie', () => {
+  const sections = buildSections({ light: { text: { a: '#1' } }, primary: '#2' });
+
+  expect(sectionsOuvertesAuDepart(sections)).toEqual(['light / text']);
 });

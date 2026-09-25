@@ -22,26 +22,13 @@ const palette = {
   primary: '#0055FF',
 };
 
-it('groupe les couleurs du mode clair par famille', async () => {
+// Le rangement et le compte sont calcules par `paletteSections` : l'ecran n'a qu'a les
+// porter jusqu'a l'en-tete de chaque section.
+it('nomme chaque famille et compte ses jetons dans son en-tete', async () => {
   rendreLaPalette({ palette });
 
   expect(screen.getByText('light / text')).toBeTruthy();
-  expect(screen.getByText('light / border')).toBeTruthy();
-});
-
-it('ne montre que le mode clair', async () => {
-  rendreLaPalette({ palette });
-
-  expect(screen.queryByText('dark / text')).toBeNull();
-});
-
-// Deux sections n'ont qu'un jeton ici : la famille `border` et les cles historiques. Le pluriel
-// se verifie donc des deux cotes, sans quoi un compte toujours au pluriel passerait.
-it('compte les jetons de chaque famille, au singulier quand il n y en a qu un', async () => {
-  rendreLaPalette({ palette });
-
   expect(screen.getByText('2 tokens')).toBeTruthy();
-  expect(screen.getAllByText('1 token')).toHaveLength(2);
 });
 
 it('montre le nom court du jeton et sa valeur', async () => {
@@ -49,27 +36,6 @@ it('montre le nom court du jeton et sa valeur', async () => {
 
   expect(screen.getByText('title-grey')).toBeTruthy();
   expect(screen.getByText('#151617')).toBeTruthy();
-});
-
-// Les cles historiques de premier niveau ne sont pas rangees par famille : elles sont
-// rassemblees a part, pour qu'on voie d'un coup ce qui reste a migrer.
-it('rassemble les cles historiques dans une section a part', async () => {
-  rendreLaPalette({ palette });
-
-  expect(screen.getByText('Deprecated')).toBeTruthy();
-});
-
-it('n ouvre pas de section historique quand la palette n en a plus', async () => {
-  rendreLaPalette({ palette: { light: { text: { 'title-grey': '#151617' } } } });
-
-  expect(screen.queryByText('Deprecated')).toBeNull();
-});
-
-it('aplatit les chemins imbriques jusqu a la couleur', async () => {
-  rendreLaPalette({ palette: { light: { text: { action: { high: '#0055FF' } } } } });
-
-  expect(screen.getByText('high')).toBeTruthy();
-  expect(screen.getByText('#0055FF')).toBeTruthy();
 });
 
 /** La pastille cliquable qui porte une valeur : c'est elle que l'utilisateur vise. */
@@ -103,20 +69,6 @@ it('ne casse pas quand le presse-papiers est indisponible', async () => {
   rendreLaPalette({ palette });
 
   expect(() => fireEvent.click(pastilleDe('#151617'))).not.toThrow();
-});
-
-it('n ouvre pas de famille vide', async () => {
-  rendreLaPalette({ palette: { light: { text: {}, border: { 'default-grey': '#DEE3EC' } } } });
-
-  expect(screen.queryByText('light / text')).toBeNull();
-  expect(screen.getByText('light / border')).toBeTruthy();
-});
-
-it('aplatit aussi les cles historiques qui portent un groupe', async () => {
-  rendreLaPalette({ palette: { light: {}, system: { danger: '#FF0000' } } });
-
-  expect(screen.getByText('Deprecated')).toBeTruthy();
-  expect(screen.getByText('1 token')).toBeTruthy();
 });
 
 // Les familles s'ouvrent, l'historique reste replie : c'est ce qui reste a migrer, pas ce qu'on

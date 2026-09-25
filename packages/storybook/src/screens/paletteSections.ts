@@ -68,3 +68,16 @@ export function buildSections(palette: Record<string, unknown>): ColorSection[] 
 
   return [...familles, { title: 'Deprecated', entries: historiques, deprecated: true }];
 }
+
+/** Le nombre de jetons d'une section, tel que son en-tete l'annonce. */
+export function compteDeJetons({ entries: { length } }: ColorSection): string {
+  return `${length} token${length > 1 ? 's' : ''}`;
+}
+
+/**
+ * Les sections depliees a l'ouverture de l'ecran : les familles, et non l'historique, qui est
+ * ce qui reste a migrer, pas ce qu'on vient consulter.
+ */
+export function sectionsOuvertesAuDepart(sections: ColorSection[]): string[] {
+  return sections.filter(section => !section.deprecated).map(section => section.title);
+}

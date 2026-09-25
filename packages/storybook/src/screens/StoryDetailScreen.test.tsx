@@ -1,46 +1,13 @@
 import type { StoryExample } from '@alveole/components';
-import { cadresAutourDe, fiche, rangeeDeLEtiquette, separationEntre } from '../../__tests__/helpers/fiche';
+import { fiche } from '../../__tests__/helpers/fiche';
 import { renderScreen } from '../../__tests__/helpers/renderScreen';
 import { StorybookMeta, StorybookModule } from '../types';
 import { StoryDetailScreen } from './StoryDetailScreen';
 
-describe('ce que la fiche annonce', () => {
-  // Ni Primer ni Atlassian n'encadrent le haut d'une fiche : la description y est du texte
-  // courant. Un cadre gris autour d'elle la donne pour un aparte, alors qu'elle est la
-  // premiere phrase de la page.
-  it('laisse la description en texte courant, hors de tout cadre', () => {
-    const { getByText } = renderScreen(<StoryDetailScreen story={fiche} />);
-
-    expect(cadresAutourDe(getByText('Un bouton.'))).toEqual([]);
-  });
-  // Le catalogue est un site de documentation, pas une application : son titre de page se lit
-  // dans un autre registre que celui de `PageHeader`, qui titre les ecrans des applications
-  // clientes. Primer sert sa doc avec un paquet a part, Atlassian avec un style hors de son
-  // echelle, Uber avec son echelle mais sans passer par un en-tete d'application.
-  it('titre la fiche dans le registre du catalogue, pas dans celui des applications', () => {
-    const { getByText } = renderScreen(<StoryDetailScreen story={fiche} />);
-
-    expect(window.getComputedStyle(getByText('Bouton')).fontSize).toBe('var(--typography-titres-h1-xl-font-size)');
-  });
-  // La premiere phrase de la fiche presente le composant : elle n'est pas un paragraphe parmi
-  // d'autres. Primer et Base la posent tous les deux a 18/27, un cran au-dessus de leur texte
-  // courant. Chez nous elle se lisait exactement comme n'importe quel paragraphe.
-  it('pose la premiere phrase un cran au-dessus du texte courant', () => {
-    const { getByText } = renderScreen(<StoryDetailScreen story={fiche} />);
-
-    expect(window.getComputedStyle(getByText('Un bouton.')).fontSize).toBe(
-      'var(--typography-corps-de-texte-lg-regular-font-size)',
-    );
-  });
-  // Le lien Figma partageait la ligne de la description : il lui prenait 99 px sur 690, et la
-  // premiere phrase de la page n'allait jamais au bout de sa colonne. Chez Primer, titre et
-  // description font tous les deux la largeur de la colonne de lecture.
-  it('ne pose pas le lien Figma sur la ligne de la description', () => {
-    const { getByText, getByRole } = renderScreen(<StoryDetailScreen story={fiche} />);
-    const lien = getByRole('link', { name: 'Ouvrir Figma' });
-
-    expect(separationEntre(getByText('Un bouton.'), lien).flexDirection).toBe('column');
-  });
+// La mise en page de la fiche (tailles de texte, ecarts, cadres, rangees) se mesure dans le
+// navigateur : apps/docs/e2e/ecrans.spec.ts. Ne restent ici que ses roles, ses noms et ce
+// qu'elle montre ou non selon la fiche (ADR 0027).
+describe('StoryDetailScreen, ce que la fiche annonce', () => {
   // Le bleu plein appelle l'action principale d'une page. Une fiche n'en a pas : elle a de la
   // lecture, et Figma en est une sortie laterale. Primer ecrit « View in Figma » en lien.
   it('ouvre Figma par un lien plutot que par un bouton', () => {
@@ -51,13 +18,7 @@ describe('ce que la fiche annonce', () => {
       bouton: queryByRole('button', { name: 'Ouvrir Figma' }),
     }).toEqual({ lien: 'https://figma.com/fiche', bouton: null });
   });
-  // « Tags » et « Informations » posent deux niveaux de titraille sur deux rangees de badges
-  // qui se lisent pareil. Primer aligne ses badges de statut sur une seule ligne.
-  it('aligne tags et informations sur une seule rangee', () => {
-    const { getByText } = renderScreen(<StoryDetailScreen story={fiche} />);
 
-    expect(rangeeDeLEtiquette(getByText('Composant'))).toBe(rangeeDeLEtiquette(getByText('Figma')));
-  });
   // Chez Primer, la rangee de badges et de liens (Ready to use, GitHub, Figma...) vit sous la
   // barre d'onglets, dans le contenu de l'onglet actif : elle documente ce qu'on regarde, pas
   // la fiche en general. Chez nous elle etait dans l'en-tete, au-dessus des onglets.
@@ -68,24 +29,39 @@ describe('ce que la fiche annonce', () => {
     expect(tabpanel.contains(getByText('Composant'))).toBe(true);
     expect(tabpanel.contains(getByRole('link', { name: 'Ouvrir Figma' }))).toBe(true);
   });
-  // Primer, Atlassian et Uber laissent 55 a 75 px entre ce que la page annonce et ce qu'elle
-  // montre. A 20 px, le titre, la description, les badges et les onglets se touchent tous et
-  // se lisent comme un seul paquet.
-  it('detache les onglets de ce que la fiche annonce', () => {
+});
+
+describe('StoryDetailScreen, ce que la fiche montre', () => {
+  // La colonne de lecture n'est etroite que parce qu'un sommaire occupe le reste de la zone :
+  // sans lui, la fiche perdrait deux colonnes pour du vide.
+  it('liste les exemples de la fiche dans son sommaire', () => {
     const { getByRole } = renderScreen(<StoryDetailScreen story={fiche} />);
-    const titre = getByRole('heading', { level: 1 });
-    const onglet = getByRole('tab', { name: 'Examples' });
 
-    expect(separationEntre(titre, onglet).gap).toBe('48px');
+    expect(getByRole('link', { name: 'Tailles' }).getAttribute('href')).toBe('#tailles');
   });
-  // A 4 px, le fil d'Ariane se lit comme un sous-titre colle au H1 plutot que comme une
-  // navigation autonome au-dessus. Chez Primer, 47 px optiques les separent.
-  it('detache le fil d ariane du titre', () => {
-    const { getByText } = renderScreen(<StoryDetailScreen story={fiche} />);
-    const filDAriane = getByText('Accueil');
-    const titre = getByText('Bouton');
 
-    expect(separationEntre(filDAriane, titre).gap).toBe('32px');
+  // Les trois cartes « Exemples / Styles / Props » annoncent les trois onglets qui les
+  // suivent immediatement, et deux portent une valeur vraie sur toutes les fiches. Ni Primer
+  // ni Atlassian n'affichent de tableau de metadonnees avant les exemples.
+  it('n annonce pas par des cartes les onglets qui suivent', () => {
+    const { queryByText } = renderScreen(<StoryDetailScreen story={fiche} />);
+
+    expect({ exemples: queryByText('Exemples'), styles: queryByText('Disponibles') }).toEqual({
+      exemples: null,
+      styles: null,
+    });
+  });
+
+  // Les onglets d'une fiche sont une navigation de page, pas un groupe de boutons : chez
+  // Primer comme chez Atlassian, une rangee de libelles posee sur un filet, l'actif souligne.
+  // Le design system publie deja ces onglets ; le catalogue les redessinait avec des boutons.
+  it('monte les onglets du design system plutot que des boutons', () => {
+    const { getByRole, queryByRole } = renderScreen(<StoryDetailScreen story={fiche} />);
+
+    expect({
+      onglet: getByRole('tab', { name: 'Examples' }).textContent,
+      bouton: queryByRole('button', { name: 'Examples' }),
+    }).toEqual({ onglet: 'Examples', bouton: null });
   });
 });
 
