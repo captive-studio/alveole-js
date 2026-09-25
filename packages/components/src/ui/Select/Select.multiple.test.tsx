@@ -67,6 +67,34 @@ describe('Select en multi-sélection', () => {
   });
 });
 
+describe('Select en multi-sélection, cases à cocher du panneau', () => {
+  const options: SelectOption[] = [...OPTIONS, { label: 'Option D', value: 'd', disabled: true }];
+
+  it.each([
+    ['cochée', 'a', { checked: true, disabled: false }],
+    ['décochée', 'b', { checked: false, disabled: false }],
+    ['désactivée', 'd', { checked: false, disabled: true }],
+  ])('annonce une option %s comme une case à cocher', async (_etat, valeur, etat) => {
+    const { getByTestId } = await renderNative(<Select label="Sélection" options={options} multiple value={['a']} />);
+
+    await press(getByTestId('select-trigger'));
+    const option = getByTestId(`select-option-${valeur}`);
+
+    expect(option.props.accessibilityRole).toBe('checkbox');
+    expect(option.props.accessibilityState).toEqual(etat);
+  });
+
+  it('garde le rôle bouton en mono-sélection', async () => {
+    const { getByTestId } = await renderNative(<Select label="Sélection" options={OPTIONS} value="a" />);
+
+    await press(getByTestId('select-trigger'));
+    const option = getByTestId('select-option-a');
+
+    expect(option.props.accessibilityRole).toBe('button');
+    expect(option.props.accessibilityState).toEqual({ disabled: false, selected: true });
+  });
+});
+
 describe('Select en multi-sélection, champ fermé', () => {
   it('affiche une puce par valeur dans le champ fermé', async () => {
     const { getByTestId } = await renderNative(

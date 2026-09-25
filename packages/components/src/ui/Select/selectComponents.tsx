@@ -23,6 +23,17 @@ export type SelectComponentsParams = {
 };
 
 /**
+ * react-select pose en dur `role="option"` et `aria-selected` dans les `innerProps` qu'il
+ * remet a l'option ; il les etale en dernier, on les reecrit donc ici. En multi-selection,
+ * chaque ligne s'annonce comme la case a cocher qu'elle affiche.
+ */
+const optionInnerProps = (
+  { innerProps, isSelected }: OptionProps<SelectOption, boolean, Group>,
+  multiple: boolean,
+): OptionProps<SelectOption, boolean, Group>['innerProps'] =>
+  multiple ? { ...innerProps, role: 'checkbox', 'aria-checked': isSelected, 'aria-selected': undefined } : innerProps;
+
+/**
  * Les pièces de react-select que le design system remplace. Elles vivent hors du
  * composant pour le garder sous le cliquet de complexité, et parce qu'elles ne
  * dépendent que de trois paramètres.
@@ -31,7 +42,7 @@ export const useSelectComponents = ({ multiple, disabled, onRemoveValue }: Selec
   const { color } = useTheme();
 
   const Option = (optionProps: OptionProps<SelectOption, boolean, Group>) => (
-    <components.Option {...optionProps}>
+    <components.Option {...optionProps} innerProps={optionInnerProps(optionProps, multiple)}>
       <SelectItem
         label={optionProps.data.label}
         icon={optionProps.data.icon}

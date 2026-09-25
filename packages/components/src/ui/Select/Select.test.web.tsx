@@ -91,6 +91,34 @@ test('remonte un tableau de valeurs en multi-sélection', () => {
   expect(onChange).toHaveBeenCalledWith(['a', 'b']);
 });
 
+// react-select pose `role="option"` sur chaque option : en multi-sélection, la ligne affiche une
+// case à cocher et doit s'annoncer comme telle.
+test('annonce chaque option comme une case à cocher en multi-sélection', () => {
+  const options: SelectOption[] = [...OPTIONS, { value: 'd', label: 'Option D', disabled: true }];
+  renderWeb(<Select label="Pays" multiple value={['a']} options={options} />);
+
+  openMenu();
+
+  expect(screen.queryAllByRole('option')).toHaveLength(0);
+  const cases = screen.getAllByRole('checkbox');
+  expect(cases.map(c => [c.textContent, c.getAttribute('aria-checked'), c.getAttribute('aria-disabled')])).toEqual([
+    ['Option A', 'true', 'false'],
+    ['Option B', 'false', 'false'],
+    ['Option C', 'false', 'false'],
+    ['Option D', 'false', 'true'],
+  ]);
+  expect(cases[0].hasAttribute('aria-selected')).toBe(false);
+});
+
+test('garde le rôle option en mono-sélection', () => {
+  renderWeb(<Select label="Pays" value="a" options={OPTIONS} />);
+
+  openMenu();
+
+  expect(screen.queryAllByRole('checkbox')).toHaveLength(0);
+  expect(screen.getAllByRole('option')).toHaveLength(3);
+});
+
 test('rend une puce retirable par valeur en multi-sélection', () => {
   const onChange = jest.fn();
   renderWeb(<Select label="Pays" multiple value={['a', 'c']} options={OPTIONS} onChange={onChange} />);

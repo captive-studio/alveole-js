@@ -13,7 +13,7 @@ export type SelectItemProps = {
   /** Option survolée ou active au clavier : fond seul. */
   highlighted?: boolean;
   disabled?: boolean;
-  /** Multi-sélection : la sélection se marque par une coche en fin de bande, pas par la barre. */
+  /** Multi-sélection : la sélection se marque par une case à cocher en tête de bande, pas par la barre. */
   multiple?: boolean;
 };
 
@@ -28,7 +28,11 @@ export const SelectItem = ({ label, icon, selected, highlighted, disabled, multi
 
   const aspect = selectItemStyle(
     styles,
-    { texte: color.light.text['default-grey'], texteDesactive: color.light.text['disabled-grey'] },
+    {
+      texte: color.light.text['default-grey'],
+      texteDesactive: color.light.text['disabled-grey'],
+      coche: color.light.text['inverted-grey'],
+    },
     { selected, highlighted, disabled },
   );
 
@@ -41,11 +45,17 @@ export const SelectItem = ({ label, icon, selected, highlighted, disabled, multi
       )}
 
       <Box tag="select-item-band" style={aspect.band} hoverStyle={aspect.bandHover}>
+        {/* Simple visuel : la ligne entière reste l'unique zone pressable, un contrôle imbriqué
+            dans un autre serait un anti-patron d'accessibilité. */}
+        {multiple && (
+          <Box tag="select-item-checkbox" style={aspect.caseACocher}>
+            {selected && <LucideIcon size="xs" name="Check" color={aspect.coche} />}
+          </Box>
+        )}
+
         {icon && <LucideIcon size="sm" name={icon} color={aspect.icone} />}
 
         <Typography style={aspect.label}>{label}</Typography>
-
-        {multiple && selected && <LucideIcon size="sm" name="Check" color={color.light.text['action-high-primary']} />}
       </Box>
     </Box>
   );
