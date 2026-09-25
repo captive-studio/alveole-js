@@ -3,7 +3,7 @@ import { useTheme } from '@alveole/theme';
 import React from 'react';
 import { ColorSwatch } from '../components/ColorSwatch';
 import { EcranDeCatalogue, filDuTheme } from '../components/EcranDeCatalogue';
-import { buildSections, ColorSection } from './paletteSections';
+import { buildSections, ColorSection, compteDeJetons, sectionsOuvertesAuDepart } from './paletteSections';
 
 export type ThemePaletteScreenProps = {
   palette: Record<string, unknown>;
@@ -25,7 +25,7 @@ const SectionDeCouleurs = ({ section }: { section: ColorSection }) => {
       variant="alt"
       labelChildren={
         <Typography style={{ fontSize: 11, color: color.light.text['mention-grey'] }}>
-          {`${section.entries.length} token${section.entries.length > 1 ? 's' : ''}`}
+          {compteDeJetons(section)}
         </Typography>
       }
       noPadding
@@ -50,10 +50,7 @@ export const ThemePaletteScreen = ({
   const { color } = useTheme();
   const sections = React.useMemo(() => buildSections(palette), [palette]);
 
-  // Les familles s'ouvrent, l'historique reste replie : c'est ce qui reste a migrer, pas ce
-  // qu'on vient consulter.
-  const initialOpen = React.useMemo(() => sections.filter(s => !s.deprecated).map(s => s.title), [sections]);
-  const [openSections, setOpenSections] = React.useState<string[]>(initialOpen);
+  const [openSections, setOpenSections] = React.useState(() => sectionsOuvertesAuDepart(sections));
 
   return (
     <EcranDeCatalogue

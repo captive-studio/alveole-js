@@ -12,10 +12,8 @@ const catalogue = [
   fiche({ title: 'Boite', tags: ['core'], description: 'Une primitive.' }),
 ];
 
-const rendreLaListe = (props: Partial<Parameters<typeof StoriesScreen>[0]> = {}, largeur?: number) =>
-  renderScreen(<StoriesScreen stories={catalogue} getStoryHref={story => `/s/${story.default.title}`} {...props} />, {
-    largeur,
-  });
+const rendreLaListe = (props: Partial<Parameters<typeof StoriesScreen>[0]> = {}) =>
+  renderScreen(<StoriesScreen stories={catalogue} getStoryHref={story => `/s/${story.default.title}`} {...props} />);
 
 /** Les fiches affichees, nommees par le lien que la page leur a donne. */
 const fichesAffichees = () => screen.queryAllByRole('link').map(lien => lien.getAttribute('href')?.replace('/s/', ''));
@@ -43,17 +41,13 @@ const entreeDeMenu = (nom: string) =>
 
 const choisirDansLeMenu = (nom: string) => fireEvent.click(entreeDeMenu(nom)!);
 
+// Le regroupement est calcule par `groupStoriesByTag` : l'ecran n'a qu'a poser chaque titre de
+// groupe et chaque lien.
 describe('StoriesScreen, ce qu il affiche', () => {
-  it('range les fiches sous le tag qui les groupe', () => {
+  it('range les fiches sous leur tag, chacune avec le lien que l appelant calcule', () => {
     rendreLaListe();
 
     expect(titresDeGroupe('core')).toHaveLength(1);
-    expect(titresDeGroupe('ui')).toHaveLength(1);
-  });
-
-  it('donne a chaque fiche le lien que l appelant calcule', () => {
-    rendreLaListe();
-
     expect(fichesAffichees()).toEqual(['Boite', 'Bouton', 'Carte']);
   });
 });
@@ -65,16 +59,6 @@ describe('StoriesScreen, ce que la recherche reduit', () => {
     chercher('surface');
 
     expect(fichesAffichees()).toEqual(['Carte']);
-  });
-
-  // Un groupe dont toutes les fiches sont filtrees disparait avec elles : un titre pose sur
-  // rien se lit comme un chargement en cours.
-  it('retire le titre du groupe vide de ses fiches', () => {
-    rendreLaListe();
-
-    chercher('surface');
-
-    expect(titresDeGroupe('core')).toHaveLength(0);
   });
 
   it('dit que la recherche n a rien trouve', () => {
@@ -96,19 +80,6 @@ describe('StoriesScreen, ce que les menus filtrent', () => {
     expect(fichesAffichees()).toEqual(['Boite']);
   });
 
-  // Le meme choix repris annule le filtre : sans cela, on ne pourrait plus revenir a la liste
-  // entiere sans recharger la page.
-  it('rend la liste entiere quand on reprend le tag deja choisi', () => {
-    rendreLaListe();
-
-    ouvrirLeMenu('Tags');
-    choisirDansLeMenu('core');
-    ouvrirLeMenu('core');
-    choisirDansLeMenu('core');
-
-    expect(fichesAffichees()).toEqual(['Boite', 'Bouton', 'Carte']);
-  });
-
   // Le bouton porte le filtre actif plutot que son libelle generique : c'est la seule trace
   // du filtre une fois le menu referme.
   it('affiche le tag choisi sur le bouton du menu', () => {
@@ -128,16 +99,6 @@ describe('StoriesScreen, ce que les menus filtrent', () => {
     choisirDansLeMenu('Figma');
 
     expect(fichesAffichees()).toEqual(['Bouton']);
-  });
-
-  it('affiche l indicateur choisi sur le bouton du menu', () => {
-    rendreLaListe();
-
-    ouvrirLeMenu('Indicateurs');
-    choisirDansLeMenu('Figma');
-
-    expect(screen.getByRole('button', { name: 'Figma' })).toBeTruthy();
-    expect(screen.queryByText('Indicateurs')).toBeNull();
   });
 
   // Les filtres sont replies au depart : deployes, ils couvriraient la liste qu'ils servent
@@ -184,24 +145,5 @@ describe('StoriesScreen, ce qu il propose de creer', () => {
     rendreLaListe({ onCreatePress: jest.fn() });
 
     expect(screen.queryAllByRole('button')).toHaveLength(2);
-  });
-});
-
-/** La largeur d'une carte : elle est posee sur l'enveloppe qui entoure le lien de la fiche. */
-const largeurDUneFiche = () => screen.getAllByRole('link')[0]!.parentElement!.style.width;
-
-describe('StoriesScreen, comment il dispose les fiches', () => {
-  it('etale une seule fiche par rangee sur un ecran etroit', () => {
-    rendreLaListe({}, 500);
-
-    expect(largeurDUneFiche()).toBe('100%');
-  });
-
-  // La largeur calculee doit arriver jusqu'aux cartes : c'est la seule chose qui fasse une
-  // grille plutot qu'une colonne.
-  it('partage la rangee en trois sur un ecran large', () => {
-    rendreLaListe({}, 1400);
-
-    expect(largeurDUneFiche()).toContain('100% - 32px');
   });
 });

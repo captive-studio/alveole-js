@@ -2,6 +2,7 @@ import { A, Badge, Box, Card, Typography } from '@alveole/components';
 import { useTheme } from '@alveole/theme';
 import { StorybookModule } from '../types';
 import { getStoryFlags, stripMarkdown } from '../utils';
+import { hauteurDeCarte } from './hauteurDeCarte';
 
 export type StoryCardProps = {
   story: StorybookModule;
@@ -12,13 +13,14 @@ export const StoryCard = ({ story, href }: StoryCardProps) => {
   const { text, isVariant } = useTheme();
   const meta = story.default;
   const flags = getStoryFlags(meta);
+  const height = hauteurDeCarte(isVariant('mobile'));
 
   const description = meta.shortDescription ?? stripMarkdown(meta.description);
 
   return (
-    <A href={href} style={{ height: isVariant('mobile') ? undefined : '100%' }}>
-      <Card height={isVariant('mobile') ? undefined : '100%'}>
-        <Box display="flex" gap={12} p={'100'} style={{ height: isVariant('mobile') ? undefined : '100%' }}>
+    <A href={href} style={{ height }}>
+      <Card height={height}>
+        <Box display="flex" gap={12} p={'100'} style={{ height }}>
           <Box display="flex" flexDirection="row" flexWrap="wrap" gap={8}>
             {meta.tags.map(tag => (
               <Badge key={tag} variant="info" size="sm" style={{ marginRight: 0 }}>

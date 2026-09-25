@@ -1,4 +1,5 @@
 import { ActionMenu, Button } from '@alveole/components';
+import { choixApres, libelleDuFiltre } from './choixDuFiltre';
 
 export type OptionDeFiltre<Cle extends string = string> = { key: Cle; label: string };
 
@@ -35,7 +36,7 @@ export const FiltreDeroulant = <Cle extends string>({
     renderTrigger={() => (
       <Button
         variant="secondary"
-        title={options.find(option => option.key === choisi)?.label ?? libelle}
+        title={libelleDuFiltre({ libelle, options, choisi })}
         endIcon="ChevronDown"
         size="sm"
         selected={choisi !== null}
@@ -48,7 +49,7 @@ export const FiltreDeroulant = <Cle extends string>({
         key={option.key}
         title={option.label}
         selected={choisi === option.key}
-        onPress={() => onChoisir(choisi === option.key ? null : option.key)}
+        onPress={() => onChoisir(choixApres(choisi, option.key))}
       />
     ))}
   </ActionMenu>
