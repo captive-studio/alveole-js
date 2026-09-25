@@ -1,7 +1,7 @@
 import { Box } from '../../core/Box';
 import { Button } from '../Button';
+import { TextInput } from '../FormControl';
 import { InputButtonAdornment } from '../InputButtonAdornment';
-import { TextField } from '../TextField';
 import { TextInputArrayValue } from './TextInputArray.liste';
 import { useTextInputArrayItems } from './useTextInputArrayItems';
 
@@ -45,11 +45,9 @@ export const TextInputArray = (props: TextInputArrayProps) => {
   return (
     <Box tag="text-input-array">
       {items.map((item, index) => (
-        <TextField
+        <TextInput
           key={item.id}
-          label=""
           placeholder={placeholder}
-          type="text"
           autoCapitalize="words"
           value={item.value}
           onChangeText={(txt: string) => updateItem(item.id, txt)}

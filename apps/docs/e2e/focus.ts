@@ -34,7 +34,7 @@ const saisie = (balise: string): Controle => ({ champ: `${balise}${MODIFIABLE}`,
 const selecteur: Controle = { champ: `[role="combobox"]${MODIFIABLE}`, cadre: 'reactSelect', anneau: ENCASTRE };
 
 export const CONTROLES: Record<string, Controle> = {
-  TextField: saisie('input'),
+  FormControl: saisie('input'),
   TextareaField: saisie('textarea'),
   EmailField: saisie('input'),
   PhoneField: saisie('input'),

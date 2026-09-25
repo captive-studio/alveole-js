@@ -3,8 +3,7 @@ import { InteractionManager } from 'react-native';
 import { Box } from '../../core/Box';
 import { BottomSheet } from '../BottomSheet';
 import { Button } from '../Button';
-import { TextInputElement } from '../FormControl';
-import { TextField } from '../TextField';
+import { TextInput, TextInputElement } from '../FormControl';
 import { SelectOptionsList, type SelectPanelProps } from './SelectOptionsList';
 import { textesDuPanneau } from './selectReglages';
 
@@ -40,10 +39,9 @@ export const SelectBottomSheet = (props: SelectBottomSheetProps) => {
     >
       {searchable && (
         <Box pl="2W" pr="2W" pb="1W">
-          <TextField
+          <TextInput
             ref={searchRef}
             testID="select-search"
-            label=""
             accessibilityLabel="Rechercher"
             value={query}
             onChangeText={onQueryChange}

@@ -20,10 +20,10 @@ const champ = ({ color, spacing, control, radius }: Theme) =>
       alignItems: 'center',
       gap: spacing('1W'),
       // Meme creux horizontal que le bouton md (`control('md').paddingInline`), comme
-      // TextField : le champ et le bouton accoles se creusent pareil.
+      // TextInput : le champ et le bouton accoles se creusent pareil.
       paddingLeft: control('md').paddingInline,
       paddingRight: control('md').paddingInline,
-      // Meme hauteur que le bouton md (`control('md').height`), comme TextField.
+      // Meme hauteur que le bouton md (`control('md').height`), comme TextInput.
       minHeight: control('md').height,
       borderRadius: radius('md'),
       borderWidth: 1,

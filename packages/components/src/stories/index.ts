@@ -70,7 +70,6 @@ export * as TabsStory from '../ui/Tabs/Tabs.stories';
 export * as TagStory from '../ui/Tag/Tag.stories';
 export * as TextareaFieldStory from '../ui/TextareaField/TextareaField.stories';
 export * as TextareaInputStory from '../ui/TextareaInput/TextareaInput.stories';
-export * as TextFieldStory from '../ui/TextField/TextField.stories';
 export * as TextInputArrayStory from '../ui/TextInputArray/TextInputArray.stories';
 export * as TimeInputStory from '../ui/TimeInput/TimeInput.stories';
 export * as ToastStory from '../ui/Toast/Toast.stories';

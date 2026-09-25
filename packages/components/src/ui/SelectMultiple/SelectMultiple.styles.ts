@@ -29,7 +29,7 @@ const champ = ({ color, control, radius }: Theme) =>
       borderColor: color.background['disabled-grey'],
     },
     control: {
-      // Meme hauteur que le bouton md et que Select/TextField (`control('md').height`).
+      // Meme hauteur que le bouton md et que Select/TextInput (`control('md').height`).
       minHeight: control('md').height,
       flexWrap: 'inherit',
       borderColor: color.border['default-grey'],
@@ -59,7 +59,7 @@ const contenuDuChamp = ({ color, spacing, control }: Theme) =>
       // Desaccordait le champ avec lui-meme : ce conteneur forcait le cadre au-dela de
       // `control.minHeight` (32), qui porte deja la hauteur voulue.
       minHeight: control('md').height,
-      // Meme creux horizontal que le bouton md et que Select/TextField.
+      // Meme creux horizontal que le bouton md et que Select/TextInput.
       paddingLeft: control('md').paddingInline,
     },
     multiValue: {
