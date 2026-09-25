@@ -27,7 +27,6 @@ export * from './LucideIcon';
 export * from './NumberField';
 export * from './OtpField';
 export * from './PageHeader';
-export * from './PasswordField';
 export * from './PhoneField';
 export * from './PhoneInput';
 export * from './Popover';

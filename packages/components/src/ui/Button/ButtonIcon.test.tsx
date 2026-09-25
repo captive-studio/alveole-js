@@ -93,7 +93,7 @@ it('laisse iconSize primer sur la taille du bouton', async () => {
 });
 
 // `style` est fusionne en dernier, apres la variante et la taille. `InputButtonAdornment` et
-// `PasswordField` en dependent pour aplatir les coins du bouton contre le champ voisin :
+// `TextInputPassword` en dependent pour aplatir les coins du bouton contre le champ voisin :
 // fusionne plus tot, il serait ecrase par le rayon uniforme de `container`.
 it('laisse la prop style ecraser la variante et la taille', async () => {
   const view = await renderNative(
