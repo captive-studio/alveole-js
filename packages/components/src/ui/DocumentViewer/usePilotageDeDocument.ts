@@ -3,13 +3,18 @@ import type { DocumentViewerRotation } from './DocumentViewer.types';
 import type { DocumentViewerToolbarState } from './DocumentViewerToolbar';
 
 /**
- * Le quart de tour suivant, dans un sens ou dans l'autre. Tourner a gauche, c'est avancer de
- * trois quarts : le modulo rend le retour a zero sans avoir a rattraper les debordements.
+ * Le quart de tour suivant, dans un sens ou dans l'autre. Les quatre orientations sont posees en
+ * table : le compilateur verifie chaque arrivee, la ou un calcul modulo ne rendait qu'un nombre.
  */
+const QUART_DE_TOUR: Record<'right' | 'left', Record<DocumentViewerRotation, DocumentViewerRotation>> = {
+  right: { 0: 90, 90: 180, 180: 270, 270: 0 },
+  left: { 0: 270, 90: 0, 180: 90, 270: 180 },
+};
+
 export const rotationSuivante = (
   rotation: DocumentViewerRotation,
   direction: 'right' | 'left',
-): DocumentViewerRotation => ((rotation + (direction === 'right' ? 90 : 270)) % 360) as DocumentViewerRotation;
+): DocumentViewerRotation => QUART_DE_TOUR[direction][rotation];
 
 /**
  * Ce que la barre d'outils pilote : l'orientation et la page courante. C'est le seul etat du

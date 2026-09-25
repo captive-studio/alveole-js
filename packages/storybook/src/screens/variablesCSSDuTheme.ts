@@ -29,11 +29,11 @@ export type CSSVarGroup = {
 
 /** Les nuances brutes de la palette, une variable par cran. */
 function groupeDesCouleurs(): CSSVarGroup {
-  const vars = Object.entries(Colors).flatMap(([name, shades]) =>
+  const vars: CSSVarEntry[] = Object.entries(Colors).flatMap(([name, shades]) =>
     Object.entries(shades as Record<string, string>).map(([variant, value]) => ({
       name: `--color-${name}-${variant}`,
       rawValue: value,
-      preview: 'color' as PreviewKind,
+      preview: 'color',
     })),
   );
 
@@ -94,8 +94,8 @@ function groupeDesFontes(): CSSVarGroup {
   return {
     title: 'Fonts',
     vars: Object.entries(FontWeightMap).flatMap(([key, { familyWithFallback, weight }]) => [
-      { name: `--font-${key}-family`, rawValue: familyWithFallback, preview: 'none' as PreviewKind },
-      { name: `--font-${key}-weight`, rawValue: weight as string, preview: 'none' as PreviewKind },
+      { name: `--font-${key}-family`, rawValue: familyWithFallback, preview: 'none' },
+      { name: `--font-${key}-weight`, rawValue: String(weight), preview: 'none' },
     ]),
   };
 }
