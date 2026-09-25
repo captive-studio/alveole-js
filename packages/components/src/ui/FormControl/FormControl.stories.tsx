@@ -31,7 +31,13 @@ export const WithTextInput = () => (
       <FormControlLabel label="Adresse email" />
       <FormControlHint hint="Votre email professionnel" />
     </InputHeading>
-    <TextInput placeholder="jean@exemple.fr" keyboardType="email-address" />
+    <TextInput type="email" placeholder="jean@exemple.fr" />
+  </FormControl>
+);
+
+export const NonModifiable = () => (
+  <FormControl label="Adresse email">
+    <TextInput type="email" value="jean@exemple.fr" editable={false} />
   </FormControl>
 );
 

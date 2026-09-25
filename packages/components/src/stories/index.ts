@@ -36,8 +36,6 @@ export * as DividerStory from '../ui/Divider/Divider.stories';
 export * as DocumentViewerStory from '../ui/DocumentViewer/DocumentViewer.stories';
 export * as DragAndDropFileStory from '../ui/DragAndDropFile/DragAndDropFile.stories';
 export * as DurationInputStory from '../ui/DurationInput/DurationInput.stories';
-export * as EmailFieldStory from '../ui/EmailField/EmailField.stories';
-export * as EmailInputStory from '../ui/EmailInput/EmailInput.stories';
 export * as EmptyStateStory from '../ui/EmptyState/EmptyState.stories';
 export * as FileFieldStory from '../ui/FileField/FileField.stories';
 export * as FilterDateStory from '../ui/FilterDate/FilterDate.stories';

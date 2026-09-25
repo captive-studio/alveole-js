@@ -14,6 +14,18 @@ import { useFieldFocus } from './useFieldFocus';
  * le natif a `editable={false}`. `readOnly` ne conviendrait ni a l'un ni a l'autre : il
  * laisse le champ focusable au clavier et soumis avec le formulaire.
  */
+/** Ce que la plateforme doit savoir d'un courriel : son clavier, et qu'on ne le corrige pas. */
+const reglagesDuType = (type: TextInputProps['type']) =>
+  type !== 'email'
+    ? null
+    : ({
+        keyboardType: 'email-address',
+        autoComplete: 'email',
+        autoCorrect: false,
+        autoCapitalize: 'none',
+        textContentType: 'emailAddress',
+      } as const);
+
 const desactivationDe = (disabled?: boolean | null) =>
   disabled !== true ? null : Platform.OS === 'web' ? { disabled: true } : { editable: false };
 
@@ -23,6 +35,7 @@ const desactivationDe = (disabled?: boolean | null) =>
  */
 export const TextInputInline = React.forwardRef<TextInputElement, TextInputProps>(function TextInputInline(props, ref) {
   const {
+    type,
     disabled: ownDisabled,
     readOnly,
     editable,
@@ -72,12 +85,8 @@ export const TextInputInline = React.forwardRef<TextInputElement, TextInputProps
         onFocus={champ.handleFocus}
         onBlur={champ.handleBlur}
         onPressIn={onPressIn}
-        showSoftInputOnFocus={inputProps.showSoftInputOnFocus}
-        caretHidden={inputProps.caretHidden}
-        selectTextOnFocus={inputProps.selectTextOnFocus}
-        contextMenuHidden={inputProps.contextMenuHidden}
-        selectionColor={inputProps.selectionColor}
         placeholderTextColor={color.text.inverse.muted}
+        {...reglagesDuType(type)}
         {...inputProps}
         {...desactivationDe(disabled)}
       />

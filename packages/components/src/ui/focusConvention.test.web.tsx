@@ -3,7 +3,6 @@ import { FOCUS_ATTRIBUTE } from '@alveole/theme';
 import { Button } from './Button';
 import { DateInput } from './DateInput';
 import { DurationInput } from './DurationInput';
-import { EmailField } from './EmailField';
 import { FormControl, TextInput } from './FormControl';
 import { NumberField } from './NumberField';
 import { OtpField } from './OtpField';
@@ -51,7 +50,6 @@ const CONTROLES: Record<string, Controle> = {
     ),
     champ: controle('textarea'),
   },
-  EmailField: { element: <EmailField label="Email" />, champ: saisie },
   PhoneField: { element: <PhoneField label="Téléphone" />, champ: saisie },
   PasswordField: { element: <PasswordField label="Mot de passe" />, champ: saisie },
   DurationInput: { element: <DurationInput label="Durée" />, champ: saisie },
