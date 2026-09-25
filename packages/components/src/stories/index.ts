@@ -40,6 +40,7 @@ export * as EmptyStateStory from '../ui/EmptyState/EmptyState.stories';
 export * as FileFieldStory from '../ui/FileField/FileField.stories';
 export * as FilterDateStory from '../ui/FilterDate/FilterDate.stories';
 export * as FormControlStory from '../ui/FormControl/FormControl.stories';
+export * as TextInputStory from '../ui/FormControl/TextInput.stories';
 export * as HeaderStory from '../ui/Header/Header.stories';
 export * as InputButtonAdornmentStory from '../ui/InputButtonAdornment/InputButtonAdornment.stories';
 export * as InputHeadingStory from '../ui/InputHeading/InputHeading.stories';
