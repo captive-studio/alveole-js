@@ -10,7 +10,6 @@ import {
   groupTitleForTag,
   sortStoriesByTitle,
   toStoryModules,
-  type StorybookModule,
   type UIKitColumnGroup,
   type UIKitColumnItem,
   type UIKitTopBarItem,
@@ -20,9 +19,7 @@ import { usePathname } from 'expo-router';
 import React from 'react';
 
 export { DocFooter };
-export const storyList = toStoryModules(Stories) as StorybookModule[];
-
-type Href = UIKitColumnItem['href'];
+export const storyList = toStoryModules(Stories);
 
 /**
  * Niveau 1 de la navigation. Couleurs, Typographies et Variables CSS sont repliées sous
@@ -37,9 +34,9 @@ const RUBRIQUES: (UIKitTopBarItem & { key: string })[] = [
 ];
 
 const THEME_PAGES: UIKitColumnItem[] = [
-  { key: 'colors', title: 'Couleurs', href: '/theme/colors' as Href },
-  { key: 'typographies', title: 'Typographies', href: '/theme/typographies' as Href },
-  { key: 'css-variables', title: 'Variables CSS', href: '/theme/css-variables' as Href },
+  { key: 'colors', title: 'Couleurs', href: '/theme/colors' },
+  { key: 'typographies', title: 'Typographies', href: '/theme/typographies' },
+  { key: 'css-variables', title: 'Variables CSS', href: '/theme/css-variables' },
 ];
 
 const componentGroups = (): UIKitColumnGroup[] =>
@@ -50,7 +47,7 @@ const componentGroups = (): UIKitColumnGroup[] =>
     items: sortStoriesByTitle(stories).map(story => ({
       key: story.default.title,
       title: story.default.title,
-      href: `/components/${encodeURIComponent(story.default.title)}` as Href,
+      href: `/components/${encodeURIComponent(story.default.title)}`,
     })),
   }));
 
@@ -60,7 +57,7 @@ const constantGroups = (): UIKitColumnGroup[] => [
     items: getConstantEntries(ThemeConstants).map(([name]) => ({
       key: name,
       title: name,
-      href: `/constants/${encodeURIComponent(name)}` as Href,
+      href: `/constants/${encodeURIComponent(name)}`,
     })),
   },
 ];
