@@ -4,6 +4,7 @@ import { Button } from './Button';
 import { DateInput } from './DateInput';
 import { DurationInput } from './DurationInput';
 import { EmailField } from './EmailField';
+import { FormControl, TextInput } from './FormControl';
 import { NumberField } from './NumberField';
 import { OtpField } from './OtpField';
 import { PasswordField } from './PasswordField';
@@ -12,7 +13,6 @@ import { PriceInput } from './PriceInput';
 import { Select } from './Select';
 import { SelectMultiple } from './SelectMultiple';
 import { TextareaField } from './TextareaField';
-import { TextField } from './TextField';
 import { TimeInput } from './TimeInput';
 
 /**
@@ -35,7 +35,14 @@ const controle = (selecteur: string) => () => document.querySelector(selecteur) 
 const saisie = controle('input');
 
 const CONTROLES: Record<string, Controle> = {
-  TextField: { element: <TextField label="Texte" />, champ: saisie },
+  TextInput: {
+    element: (
+      <FormControl label="Texte">
+        <TextInput />
+      </FormControl>
+    ),
+    champ: saisie,
+  },
   TextareaField: { element: <TextareaField label="Texte" />, champ: controle('textarea') },
   EmailField: { element: <EmailField label="Email" />, champ: saisie },
   PhoneField: { element: <PhoneField label="Téléphone" />, champ: saisie },

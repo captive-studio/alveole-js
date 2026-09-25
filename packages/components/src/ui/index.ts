@@ -48,7 +48,6 @@ export * from './Tabs';
 export * from './Tag';
 export * from './TextareaField';
 export * from './TextareaInput';
-export * from './TextField';
 export * from './TextInputArray';
 export * from './TimeInput';
 export * from './Toast';

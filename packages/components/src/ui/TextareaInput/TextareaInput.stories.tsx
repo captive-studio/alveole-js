@@ -9,7 +9,7 @@ export default {
   title: 'TextareaInput',
   tags: ['ui'],
   experimental: false,
-  description: 'Input multiline. Étend TextField avec multiline activé par défaut.',
+  description: 'Input multiline. Étend TextInput avec multiline activé par défaut.',
   component: TextareaInput,
   styleFn: () => ({}),
 } satisfies Story;
