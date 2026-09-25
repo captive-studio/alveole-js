@@ -13,7 +13,12 @@ export const FontsMap = {
 
 // helpers
 export type Font = keyof typeof FontsMap;
-export const Fonts = Object.fromEntries(Object.keys(FontsMap).map(font => [font, font])) as Record<Font, Font>;
+export const Fonts: Record<Font, Font> = {
+  'Geist-Light': 'Geist-Light',
+  'Geist-Regular': 'Geist-Regular',
+  'Geist-Medium': 'Geist-Medium',
+  'Geist-Bold': 'Geist-Bold',
+};
 
 const SANS_SERIF_FALLBACK = "-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Noto Sans', sans-serif";
 

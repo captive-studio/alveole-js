@@ -1,7 +1,7 @@
 import { readFileSync } from 'fs';
 import { join } from 'path';
 
-import { SpacingKey, Spacings } from './Spacing';
+import { Spacings } from './Spacing';
 
 const source = readFileSync(join(__dirname, 'Spacing.ts'), 'utf8');
 
@@ -17,8 +17,8 @@ describe('Spacings', () => {
   // en silence un espacement par un autre des qu'on suit la consigne.
   it('ne redirige que vers une cle de meme valeur', () => {
     redirections.forEach(({ cle, cible }) => {
-      const valeur = Spacings[cle as SpacingKey];
-      const valeurCible = Spacings[cible as SpacingKey];
+      const valeur = new Map(Object.entries(Spacings)).get(cle);
+      const valeurCible = new Map(Object.entries(Spacings)).get(cible);
 
       expect({ cle, valeur: valeurCible }).toEqual({ cle, valeur });
     });
