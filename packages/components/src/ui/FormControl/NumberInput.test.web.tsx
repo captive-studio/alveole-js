@@ -1,3 +1,4 @@
+import { elementDuType } from '@/__tests__/helpers/elementDuType';
 import { fireEvent, renderWeb, screen } from '@/__tests__/helpers/renderWeb';
 import { FormControl } from './FormControl';
 import { NumberInput } from './NumberInput';
@@ -9,7 +10,7 @@ const champQuantite = () => {
     </FormControl>,
   );
 
-  return screen.getByLabelText('Quantité') as HTMLInputElement;
+  return elementDuType(screen.getByLabelText('Quantité'), HTMLInputElement);
 };
 
 test('se laisse designer par le libelle de son FormControl', () => {
@@ -38,7 +39,7 @@ test('diminue la valeur d un pas au bouton moins', () => {
 test('desactive le bouton moins au minimum', () => {
   renderWeb(<NumberInput value={2} min={2} controlButton onChange={() => undefined} />);
 
-  expect((screen.getByLabelText('Diminuer de 1') as HTMLButtonElement).disabled).toBe(true);
+  expect(elementDuType(screen.getByLabelText('Diminuer de 1'), HTMLButtonElement).disabled).toBe(true);
 });
 
 // L'input est un element DOM brut : React y lit une hauteur de ligne sans unite comme un
