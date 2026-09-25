@@ -40,10 +40,7 @@ export function useThemeBuilder(params: CustomBuilder): Theme & { isReady: boole
 
   const variant = useMemo(() => breakpointToVariant(width), [width]);
 
-  const rawMergedPalette = useMemo(
-    () => deepMerge(CustomPalette, params.color) as typeof CustomPalette,
-    [params.color],
-  );
+  const rawMergedPalette = useMemo(() => deepMerge(CustomPalette, params.color), [params.color]);
 
   const mergedPalette = useMemo(
     () => (Platform.OS === 'web' ? toCSSVarPalette(rawMergedPalette) : rawMergedPalette),
