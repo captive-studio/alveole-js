@@ -2,14 +2,14 @@ import React from 'react';
 import { TextInput as ReactNativeTextInput } from 'react-native';
 import { Box } from '../../core/Box';
 import { Typography } from '../../core/Typography';
-import { FormControl, FormControlNumberInputProps, TextInputElement } from '../FormControl';
+import { FormControl, NumberInputProps, TextInputElement } from '../FormControl';
 import { useFieldFocus } from '../FormControl/useFieldFocus';
 import { useStyles } from './PriceInput.styles';
 
-export type PriceInputProps = FormControlNumberInputProps & {
+export type PriceInputProps = NumberInputProps & {
   autoFocus?: boolean;
   devise?: '€';
-  onChange?: FormControlNumberInputProps['onChange'];
+  onChange?: NumberInputProps['onChange'];
 };
 
 export const PriceInput = React.forwardRef<TextInputElement, PriceInputProps>(function PriceInput(props, ref) {

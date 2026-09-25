@@ -12,7 +12,6 @@ import { FormControlFileInput, FormControlFileInputValue } from './FormControlFi
 import { FormControlHint } from './FormControlHint';
 import { FormControlLabel } from './FormControlLabel';
 import { FormControlModal } from './FormControlModal';
-import { FormControlNumberInput } from './FormControlNumberInput';
 import { FormControlOtpInput } from './FormControlOtpInput';
 import { TextInput } from './TextInput';
 
@@ -90,45 +89,6 @@ export const Modal = () => {
       >
         <TextInput placeholder="Saisir un texte..." multiline numberOfLines={6} />
       </FormControlModal>
-    </Box>
-  );
-};
-
-export const NumberInput = () => {
-  const [value, setValue] = useState<number | null>(null);
-  return (
-    <Box display="flex" flexDirection="column" gap={12}>
-      <FormControl>
-        <InputHeading>
-          <FormControlLabel label="Montant" />
-        </InputHeading>
-        <FormControlNumberInput value={value} onChange={setValue} placeholder="0" />
-      </FormControl>
-      <FormControl>
-        <InputHeading>
-          <FormControlLabel label="Avec unites" />
-        </InputHeading>
-        <FormControlNumberInput
-          value={value}
-          onChange={setValue}
-          startAdornment={
-            <Box style={{ paddingLeft: 8, paddingRight: 4 }}>
-              <Typography>€</Typography>
-            </Box>
-          }
-          endAdornment={
-            <Box style={{ paddingLeft: 4, paddingRight: 8 }}>
-              <Typography>TTC</Typography>
-            </Box>
-          }
-        />
-      </FormControl>
-      <FormControl>
-        <InputHeading>
-          <FormControlLabel label="Desactive" />
-        </InputHeading>
-        <FormControlNumberInput value={42} onChange={() => {}} disabled />
-      </FormControl>
     </Box>
   );
 };
