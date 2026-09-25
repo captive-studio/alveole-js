@@ -26,8 +26,8 @@ export const useDataTableState = <Row>(params: UseDataTableStateParams<Row>) => 
     onSortChange,
   } = params;
 
-  const [selectedKeys, setSelectedKeys] = useControlledState(controlledSelectedKeys, [] as string[], onSelectionChange);
-  const [sort, setSort] = useControlledState(controlledSort, null as DataTableSort | null, onSortChange);
+  const [selectedKeys, setSelectedKeys] = useControlledState<string[]>(controlledSelectedKeys, [], onSelectionChange);
+  const [sort, setSort] = useControlledState<DataTableSort | null>(controlledSort, null, onSortChange);
 
   const rowKeys = React.useMemo(() => data.map((row, index) => keyExtractor(row, index)), [data, keyExtractor]);
   const { allSelected, someSelected } = etatSelectionDataTable(rowKeys, selectedKeys, selectable);
