@@ -9,10 +9,13 @@ import { generateLinkCSS } from './linkCSS';
 import { sanitizeCSSKey } from './sanitizeCSSKey';
 import { typographyVariableLines } from './typographyVariables';
 
+/** Ce que la generation du CSS lit du theme : le theme par defaut n'a besoin de rien d'autre. */
+type SourceDuCSS = { color: Pick<Theme['color'], '_constants' | '_rawLight'> };
+
 const buildColorVarMap = (constants: Theme['color']['_constants']): Map<string, string> => {
   const map = new Map<string, string>();
   Object.entries(constants).forEach(([name, shades]) => {
-    Object.entries(shades as Record<string, string>).forEach(([variant, value]) => {
+    Object.entries(shades).forEach(([variant, value]) => {
       if (typeof value === 'string') {
         map.set(value, `--color-${name}-${variant}`);
       }
@@ -21,11 +24,7 @@ const buildColorVarMap = (constants: Theme['color']['_constants']): Map<string, 
   return map;
 };
 
-const generateSemanticTokenLines = (
-  category: string,
-  tokens: Record<string, unknown>,
-  colorVarMap: Map<string, string>,
-): string[] => {
+const generateSemanticTokenLines = (category: string, tokens: object, colorVarMap: Map<string, string>): string[] => {
   const lines: string[] = [];
   Object.entries(tokens).forEach(([token, value]) => {
     if (typeof value !== 'string') return;
@@ -35,7 +34,7 @@ const generateSemanticTokenLines = (
   return lines;
 };
 
-export const generateCSSVariables = (theme: Theme): string => {
+export const generateCSSVariables = (theme: SourceDuCSS): string => {
   const lines: string[] = [];
   const colorVarMap = buildColorVarMap(theme.color._constants);
 
@@ -73,8 +72,7 @@ export const generateCSSVariables = (theme: Theme): string => {
   lines.push(...typographyVariableLines(CustomTypography, fontReverseMap));
 
   // Semantic tokens light (--{category}-{token}: var(--color-...))
-  const light = theme.color._rawLight as Record<string, Record<string, unknown>>;
-  Object.entries(light).forEach(([category, tokens]) => {
+  Object.entries(theme.color._rawLight).forEach(([category, tokens]) => {
     if (typeof tokens !== 'object' || tokens === null) return;
     lines.push(...generateSemanticTokenLines(category, tokens, colorVarMap));
   });
@@ -84,7 +82,7 @@ export const generateCSSVariables = (theme: Theme): string => {
   return rootBlock;
 };
 
-export const injectVariableCSS = (theme: Theme) => {
+export const injectVariableCSS = (theme: SourceDuCSS) => {
   if (typeof document === 'undefined') return;
 
   const styleId = 'theme-css-variables';
@@ -112,12 +110,12 @@ export const generateFontFaceCSS = (): string => {
   return `@import url('https://fonts.googleapis.com/css2?${families}&display=swap');`;
 };
 
-const DefaultTheme = {
+const DefaultTheme: SourceDuCSS = {
   color: {
     _constants: Colors,
     _rawLight: CustomPalette.light,
   },
-} as Theme;
+};
 
 /**
  * Le CSS que le paquet emet sur le web, en morceaux ordonnes. Les deux assembleurs
@@ -125,7 +123,7 @@ const DefaultTheme = {
  * par ici : sans ce point unique, la liste serait tenue en phase a la main dans deux
  * fichiers dont l'un est un script que personne ne relit.
  */
-export const generateThemeCSSParts = (theme: Theme = DefaultTheme): string[] => [
+export const generateThemeCSSParts = (theme: SourceDuCSS = DefaultTheme): string[] => [
   generateFontFaceCSS(),
   generateCSSVariables(theme),
   generateFocusRingCSS(),

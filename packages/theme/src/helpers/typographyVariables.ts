@@ -79,6 +79,6 @@ export const typographyVariableLines = (
           catalogue,
         )
       : []),
-    ...metricVariableLines(prefix, typography as TypographyMetrics),
+    ...metricVariableLines(prefix, { ...typography, fontSize: typography.fontSize }),
   ];
 };
