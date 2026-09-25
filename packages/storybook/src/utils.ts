@@ -74,7 +74,7 @@ export const getStoryExamples = (story: StorybookModule) =>
     Exclude<StorybookModule[keyof StorybookModule], StorybookMeta>,
   ][];
 
-export const toStoryModules = (stories: Record<string, unknown>) => Object.values(stories) as StorybookModule[];
+export const toStoryModules = (stories: Record<string, StorybookModule>) => Object.values(stories);
 
 export const findStoryByTitle = (stories: StorybookModule[], title: string | undefined | null) =>
   stories.find(story => story.default.title === title) ?? null;
