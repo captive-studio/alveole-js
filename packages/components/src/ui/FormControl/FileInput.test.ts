@@ -1,5 +1,5 @@
 import type * as DocumentPicker from 'expo-document-picker';
-import { choisis, nomAffiche } from './FormControlFileInput';
+import { choisis, nomAffiche } from './FileInput';
 
 const fichier = (name: string): DocumentPicker.DocumentPickerAsset => ({
   name,

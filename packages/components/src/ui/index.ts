@@ -15,7 +15,6 @@ export * from './DocumentViewer';
 export * from './DragAndDropFile';
 export * from './DurationInput';
 export * from './EmptyState';
-export * from './FileField';
 export * from './FilterDate';
 export * from './FormControl';
 export * from './Header';

@@ -3,13 +3,13 @@ import React from 'react';
 import { Pressable } from 'react-native';
 import { Box } from '../../core/Box';
 import { Typography } from '../../core/Typography';
-import { useStyles } from './FormControlFileInput.styles';
+import { useStyles } from './FileInput.styles';
+import { valideLeType } from './valideLeType';
 
-export type FormControlFileInputValue =
-  DocumentPicker.DocumentPickerAsset | DocumentPicker.DocumentPickerAsset[] | null;
+export type FileInputValue = DocumentPicker.DocumentPickerAsset | DocumentPicker.DocumentPickerAsset[] | null;
 
-export type FormControlFileInputProps = {
-  value: FormControlFileInputValue;
+export type FileInputProps = {
+  value: FileInputValue;
   previewURL?: string;
   placeholder?: string;
   forcePlaceholder?: boolean;
@@ -19,7 +19,7 @@ export type FormControlFileInputProps = {
   disabled?: boolean;
   type?: DocumentPicker.DocumentPickerOptions['type'];
   multiple?: boolean;
-  onChange: (value: FormControlFileInputValue) => void;
+  onChange: (value: FileInputValue) => void;
   reopen?: boolean;
   onPickStart?: () => void;
 };
@@ -27,7 +27,7 @@ export type FormControlFileInputProps = {
 // Le champ n'affiche jamais le detail d'une selection multiple : un fichier porte son nom, une
 // liste porte son compte. Cette table de cas se lisait au milieu du composant alors qu'elle ne
 // depend que de la valeur.
-export const nomAffiche = (value: FormControlFileInputValue, placeholder: string, forcePlaceholder?: boolean) => {
+export const nomAffiche = (value: FileInputValue, placeholder: string, forcePlaceholder?: boolean) => {
   if (value == null || forcePlaceholder) return placeholder;
 
   if (!Array.isArray(value)) return value.name || '1 fichier';
@@ -45,7 +45,7 @@ export const choisis = (assets: DocumentPicker.DocumentPickerAsset[] | null, mul
   return assets && assets.length > 0 ? assets : null;
 };
 
-export const FormControlFileInput = (props: FormControlFileInputProps) => {
+export const FileInput = (props: FileInputProps) => {
   const {
     value,
     disabled,
@@ -73,7 +73,7 @@ export const FormControlFileInput = (props: FormControlFileInputProps) => {
     isPickingRef.current = true;
     try {
       const result = await DocumentPicker.getDocumentAsync({ copyToCacheDirectory: true, multiple, type });
-      onChange(choisis(result.assets, multiple));
+      valideLeType({ type, onChange })(choisis(result.assets, multiple));
     } finally {
       isPickingRef.current = false;
     }
