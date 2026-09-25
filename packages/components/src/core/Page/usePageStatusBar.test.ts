@@ -6,10 +6,7 @@ jest.mock('expo-system-ui', () => ({
   setBackgroundColorAsync: jest.fn(),
 }));
 
-const originalOS = Platform.OS;
-
 afterEach(() => {
-  (Platform as { OS: typeof Platform.OS }).OS = originalOS;
   jest.restoreAllMocks();
 });
 
@@ -22,7 +19,7 @@ test('applique le style de barre demandé', () => {
 });
 
 test('pose la couleur de fond de la barre sur Android', () => {
-  (Platform as { OS: typeof Platform.OS }).OS = 'android';
+  jest.replaceProperty(Platform, 'OS', 'android');
   jest.spyOn(StatusBar, 'setBarStyle').mockImplementation(() => {});
   const setBackgroundColor = jest.spyOn(StatusBar, 'setBackgroundColor').mockImplementation(() => {});
 
@@ -32,7 +29,7 @@ test('pose la couleur de fond de la barre sur Android', () => {
 });
 
 test('ne touche pas à la couleur de fond de la barre hors Android', () => {
-  (Platform as { OS: typeof Platform.OS }).OS = 'ios';
+  jest.replaceProperty(Platform, 'OS', 'ios');
   jest.spyOn(StatusBar, 'setBarStyle').mockImplementation(() => {});
   const setBackgroundColor = jest.spyOn(StatusBar, 'setBackgroundColor').mockImplementation(() => {});
 

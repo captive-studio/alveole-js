@@ -6,7 +6,7 @@ import { DocumentViewerImage } from './DocumentViewerImage';
 test("place l'origine du zoom sous le pointeur, en pourcentage du cadre", () => {
   const { container } = renderWeb(<DocumentViewerImage source="https://exemple.test/image.png" rotation={0} />);
   const cadre = elementDuType(container.querySelector('document-viewer-image'), HTMLElement);
-  cadre.getBoundingClientRect = () => ({ left: 0, top: 0, width: 200, height: 100 }) as DOMRect;
+  cadre.getBoundingClientRect = () => new DOMRect(0, 0, 200, 100);
 
   // jsdom n'implemente pas `PointerEvent` : `fireEvent.pointerMove` enverrait un `Event` sans
   // coordonnees. Un `MouseEvent` du meme nom les porte, et React le traite comme un pointermove.

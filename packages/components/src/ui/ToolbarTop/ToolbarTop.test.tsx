@@ -1,24 +1,37 @@
-import { fireEvent, renderNative } from '@/__tests__/helpers/renderNative';
+import { fireEvent, renderNative, RenderResult } from '@/__tests__/helpers/renderNative';
+import type { ReactTestRendererJSON } from 'react-test-renderer';
 import { ButtonIcon } from '../Button';
 import { ToolbarTop } from './ToolbarTop';
 
-/** La barre n'expose aucun identifiant de test : son style est ce que le rendu laisse voir. */
-const styleDeLaBarre = (arbre: unknown) => (arbre as { props: { style: Record<string, unknown> } }).props.style;
+type Arbre = ReturnType<RenderResult['toJSON']>;
+type Noeud = Exclude<Arbre, null | ReactTestRendererJSON[]>;
 
-type Noeud = { type?: string; children?: unknown[] };
+const racine = (arbre: Arbre): Noeud => {
+  if (arbre === null || Array.isArray(arbre)) throw new Error('La barre doit rendre une racine unique.');
+
+  return arbre;
+};
+
+/** La barre n'expose aucun identifiant de test : son style est ce que le rendu laisse voir. */
+const styleDeLaBarre = (arbre: Arbre) => racine(arbre).props.style;
 
 /** Sans navigation ni actions, le bloc d'information est le seul enfant de la barre. */
-const blocDInformation = (arbre: unknown) =>
-  (arbre as { children: { props: { style: Record<string, unknown> } }[] }).children[0].props.style;
+const blocDInformation = (arbre: Arbre) => {
+  const [bloc] = racine(arbre).children ?? [];
+  if (typeof bloc !== 'object') throw new Error("La barre doit contenir un bloc d'information.");
+
+  return bloc.props.style;
+};
 
 /**
  * Les lignes de texte rendues, dans l'ordre. Chercher un texte absent ne prouve rien : un
  * sous-titre vide reste introuvable tout en occupant sa hauteur de ligne. Enumerer les noeuds de
  * texte, y compris vides, distingue les deux.
  */
-const lignesDeTexte = (noeud: unknown): string[] => {
+const lignesDeTexte = (noeud: Arbre | string): string[] => {
   if (noeud === null || typeof noeud !== 'object') return [];
-  const { type, children = [] } = noeud as Noeud;
+  if (Array.isArray(noeud)) return noeud.flatMap(lignesDeTexte);
+  const { type, children = [] } = noeud;
   if (type === 'Text') return [children.filter(enfant => typeof enfant === 'string').join('')];
   return children.flatMap(lignesDeTexte);
 };

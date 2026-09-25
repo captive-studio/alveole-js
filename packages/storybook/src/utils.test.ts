@@ -11,10 +11,9 @@ import {
   sortStoriesByTitle,
 } from './utils';
 
-const story = (title: string) =>
-  ({
-    default: { title, tags: ['ui'], experimental: false, description: '', styleFn: () => '' },
-  }) as StorybookModule;
+const story = (title: string): StorybookModule => ({
+  default: { title, tags: ['ui'], experimental: false, description: '', styleFn: () => '' },
+});
 
 describe('sortStoriesByTitle', () => {
   it('range les fiches par ordre alphabétique de titre', () => {
@@ -42,8 +41,9 @@ describe('groupTitleForTag', () => {
   });
 });
 
-const fiche = (meta: Partial<StorybookModule['default']> & { title: string }) =>
-  ({ default: { tags: ['ui'], experimental: false, description: '', styleFn: () => '', ...meta } }) as StorybookModule;
+const fiche = (meta: Partial<StorybookModule['default']> & { title: string }): StorybookModule => ({
+  default: { tags: ['ui'], experimental: false, description: '', styleFn: () => '', ...meta },
+});
 
 const titres = (stories: StorybookModule[]) => stories.map(story => story.default.title);
 
