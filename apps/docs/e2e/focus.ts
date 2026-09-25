@@ -48,7 +48,7 @@ export const CONTROLES: Record<string, Controle> = {
     anneau: 'aucun',
   },
   Select: selecteur,
-  OtpField: { champ: `[data-testid="otp-input-hidden"]${MODIFIABLE}`, cadre: 'otp', anneau: ENCASTRE },
+  OtpInput: { champ: `[data-testid="otp-input-hidden"]${MODIFIABLE}`, cadre: 'otp', anneau: ENCASTRE },
 };
 
 // Le bleu de `Colors.Focus[525]` et l'épaisseur de `focusBorder()` : le thème vérifie ses

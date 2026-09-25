@@ -12,7 +12,6 @@ import { FormControlFileInput, FormControlFileInputValue } from './FormControlFi
 import { FormControlHint } from './FormControlHint';
 import { FormControlLabel } from './FormControlLabel';
 import { FormControlModal } from './FormControlModal';
-import { FormControlOtpInput } from './FormControlOtpInput';
 import { TextInput } from './TextInput';
 
 export default {
@@ -144,19 +143,6 @@ export const FileInput = () => {
         <FormControlFileInput value={null} onChange={() => {}} disabled />
       </FormControl>
     </Box>
-  );
-};
-
-export const OtpInput = () => {
-  const [code, setCode] = useState('');
-  return (
-    <FormControl>
-      <InputHeading>
-        <FormControlLabel label="Code de verification" />
-      </InputHeading>
-      <FormControlOtpInput numberOfDigits={6} onTextChange={setCode} />
-      {code.length === 6 && <FormControlCaption success={`Code saisi : ${code}`} />}
-    </FormControl>
   );
 };
 
