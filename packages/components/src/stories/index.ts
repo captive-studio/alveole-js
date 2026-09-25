@@ -37,8 +37,8 @@ export * as DocumentViewerStory from '../ui/DocumentViewer/DocumentViewer.storie
 export * as DragAndDropFileStory from '../ui/DragAndDropFile/DragAndDropFile.stories';
 export * as DurationInputStory from '../ui/DurationInput/DurationInput.stories';
 export * as EmptyStateStory from '../ui/EmptyState/EmptyState.stories';
-export * as FileFieldStory from '../ui/FileField/FileField.stories';
 export * as FilterDateStory from '../ui/FilterDate/FilterDate.stories';
+export * as FileInputStory from '../ui/FormControl/FileInput.stories';
 export * as FormControlStory from '../ui/FormControl/FormControl.stories';
 export * as NumberInputStory from '../ui/FormControl/NumberInput.stories';
 export * as OtpInputStory from '../ui/FormControl/OtpInput.stories';

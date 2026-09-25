@@ -8,7 +8,6 @@ import { FormControl } from './FormControl';
 import { useStyles } from './FormControl.styles';
 import { FormControlCaption } from './FormControlCaption';
 import { FormControlDateInput } from './FormControlDateInput';
-import { FormControlFileInput, FormControlFileInputValue } from './FormControlFileInput';
 import { FormControlHint } from './FormControlHint';
 import { FormControlLabel } from './FormControlLabel';
 import { FormControlModal } from './FormControlModal';
@@ -115,32 +114,6 @@ export const DateInput = () => {
           <FormControlLabel label="Mois" />
         </InputHeading>
         <FormControlDateInput type="month" value={month} onChange={setMonth} />
-      </FormControl>
-    </Box>
-  );
-};
-
-export const FileInput = () => {
-  const [file, setFile] = useState<FormControlFileInputValue>(null);
-  return (
-    <Box display="flex" flexDirection="column" gap={12}>
-      <FormControl>
-        <InputHeading>
-          <FormControlLabel label="Piece jointe" />
-        </InputHeading>
-        <FormControlFileInput value={file} onChange={setFile} />
-      </FormControl>
-      <FormControl>
-        <InputHeading>
-          <FormControlLabel label="Plusieurs fichiers" />
-        </InputHeading>
-        <FormControlFileInput value={file} onChange={setFile} multiple />
-      </FormControl>
-      <FormControl>
-        <InputHeading>
-          <FormControlLabel label="Desactive" disabled />
-        </InputHeading>
-        <FormControlFileInput value={null} onChange={() => {}} disabled />
       </FormControl>
     </Box>
   );

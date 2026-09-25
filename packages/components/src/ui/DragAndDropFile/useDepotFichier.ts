@@ -1,11 +1,6 @@
 import React from 'react';
 import { Alert } from '../../core/Alert';
-import {
-  fichierCorrespondAuType,
-  FormControlFileInputProps,
-  FormControlFileInputValue,
-  valideLeType,
-} from '../FormControl';
+import { fichierCorrespondAuType, FileInputProps, FileInputValue, valideLeType } from '../FormControl';
 import { fichiersDuDataTransfer } from './fichiersDuDataTransfer';
 
 const enAsset = (file: File) => ({
@@ -20,7 +15,7 @@ const enAsset = (file: File) => ({
 // Chaque fichier depose est publie derriere une URL d'objet, que le navigateur garde en memoire
 // tant qu'on ne la revoque pas. Sans ce nettoyage au changement de valeur, un formulaire ou
 // l'utilisateur hesite accumule les fichiers relaches dans l'onglet.
-const revoquer = (value: FormControlFileInputValue) => {
+const revoquer = (value: FileInputValue) => {
   const uris = (Array.isArray(value) ? value : [value]).map(fichier => fichier?.uri);
 
   uris.forEach(uri => {
@@ -42,7 +37,7 @@ export const useDepotFichier = ({
   type,
   multiple,
   onChange,
-}: Pick<FormControlFileInputProps, 'value' | 'type' | 'multiple' | 'onChange'>) => {
+}: Pick<FileInputProps, 'value' | 'type' | 'multiple' | 'onChange'>) => {
   const [isOver, setIsOver] = React.useState(false);
   const [isMouseOver, setIsMouseOver] = React.useState(false);
   const [forceOpen, setForceOpen] = React.useState(false);
@@ -85,7 +80,6 @@ export const useDepotFichier = ({
     isOver,
     isMouseOver,
     forceOpen,
-    onValueChange,
     ouvrir: () => setForceOpen(true),
     fermer: () => setForceOpen(false),
     onDrop,

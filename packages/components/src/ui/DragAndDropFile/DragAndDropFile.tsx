@@ -2,35 +2,32 @@ import React from 'react';
 import { Box } from '../../core/Box';
 import { Image } from '../../core/Image';
 import {
+  FileInput,
+  FileInputProps,
+  FileInputValue,
   FormControlCaption,
   FormControlCaptionProps,
-  FormControlFileInput,
-  FormControlFileInputProps,
-  FormControlFileInputValue,
   FormControlHint,
   FormControlHintProps,
   FormControlLabel,
-  valideLeType,
 } from '../FormControl';
 import { LucideIcon, LucideIconProps } from '../LucideIcon';
 import { useStyles } from './DragAndDropFile.styles';
 
-export type DragAndDropFileValue = FormControlFileInputValue;
+export type DragAndDropFileValue = FileInputValue;
 export type DragAndDropFileProps = FormControlHintProps &
   FormControlCaptionProps &
-  FormControlFileInputProps & {
+  FileInputProps & {
     label: string;
     icon?: LucideIconProps['name'];
   };
 
 export const DragAndDropFile = (props: DragAndDropFileProps) => {
-  const { label, hint, icon, type, error, success, onChange, multiple } = props;
+  const { label, hint, icon, type, error, success, multiple } = props;
 
   const styles = useStyles();
 
   const [forceOpen, setForceOpen] = React.useState(false);
-
-  const onValueChange = valideLeType({ type, onChange });
 
   return (
     <Box
@@ -54,12 +51,11 @@ export const DragAndDropFile = (props: DragAndDropFileProps) => {
         </Box>
 
         <Box tag="drag-and-drop-file-input">
-          <FormControlFileInput
+          <FileInput
             {...props}
             hideButton
             hideFilename
             canChange={false}
-            onChange={onValueChange}
             reopen={forceOpen}
             onPickStart={() => setForceOpen(false)}
             type={type}

@@ -1,5 +1,5 @@
 import { Box } from '../../core/Box';
-import { FormControlCaption, FormControlFileInput, FormControlHint, FormControlLabel } from '../FormControl';
+import { FileInput, FormControlCaption, FormControlHint, FormControlLabel } from '../FormControl';
 import { LucideIcon } from '../LucideIcon';
 import { DragAndDropFileProps } from './DragAndDropFile';
 import { useStyles } from './DragAndDropFile.styles';
@@ -45,10 +45,9 @@ export const DragAndDropFile = (props: DragAndDropFileProps) => {
 
       <Box tag="drag-and-drop-file-input" display="flex" flexDirection="row" justify="center">
         <Box pt={16}>
-          <FormControlFileInput
+          <FileInput
             {...props}
             canChange={false}
-            onChange={depot.onValueChange}
             reopen={depot.forceOpen}
             onPickStart={depot.fermer}
             multiple={multiple}
