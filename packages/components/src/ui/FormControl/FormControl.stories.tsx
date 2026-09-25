@@ -35,6 +35,12 @@ export const WithTextInput = () => (
   </FormControl>
 );
 
+export const MotDePasse = () => (
+  <FormControl label="Mot de passe">
+    <TextInput type="password" placeholder="Votre mot de passe" />
+  </FormControl>
+);
+
 export const NonModifiable = () => (
   <FormControl label="Adresse email">
     <TextInput type="email" value="jean@exemple.fr" editable={false} />

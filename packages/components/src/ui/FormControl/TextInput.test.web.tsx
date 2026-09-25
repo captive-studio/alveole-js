@@ -130,3 +130,22 @@ test('ne corrige ni ne capitalise un courriel', () => {
 
   expect([champ.getAttribute('autocorrect'), champ.getAttribute('autocapitalize')]).toEqual(['off', 'none']);
 });
+
+// ADR 0026 : le mot de passe est un `type` du champ texte, comme chez Base, et non un composant.
+test('masque la saisie d un mot de passe', () => {
+  renderWeb(<TextInput type="password" value="secret" onChangeText={() => undefined} />);
+
+  expect(screen.getByDisplayValue('secret').getAttribute('type')).toBe('password');
+});
+
+test("annonce un jeton d'auto-remplissage de mot de passe reconnu par le navigateur", () => {
+  renderWeb(<TextInput type="password" value="secret" onChangeText={() => undefined} />);
+
+  expect(screen.getByDisplayValue('secret').getAttribute('autocomplete')).toBe('current-password');
+});
+
+test('ne capitalise pas un mot de passe', () => {
+  renderWeb(<TextInput type="password" value="secret" onChangeText={() => undefined} />);
+
+  expect(screen.getByDisplayValue('secret').getAttribute('autocapitalize')).toBe('none');
+});

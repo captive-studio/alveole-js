@@ -240,3 +240,25 @@ it('declare a iOS un champ de courriel', async () => {
 
   expect(getByDisplayValue('a@b.fr').props.textContentType).toBe('emailAddress');
 });
+
+// Le bouton d'oeil change de fonction a chaque appui, sans que rien d'autre ne le dise : son
+// nom accessible est le seul endroit ou cette bascule existe pour qui n'y voit pas l'icone.
+// Un nom fixe serait donc faux la moitie du temps.
+it('nomme le bouton d oeil selon ce qu il fera', async () => {
+  const view = await renderNative(<TextInput type="password" value="secret" onChangeText={() => undefined} />);
+
+  expect(view.getByRole('button', { name: 'Afficher le mot de passe' })).toBeTruthy();
+
+  await userEvent.setup().press(view.getByRole('button'));
+
+  expect(view.getByRole('button', { name: 'Masquer le mot de passe' })).toBeTruthy();
+});
+
+// iOS ne propose le trousseau qu'a un champ qui se declare mot de passe.
+it('declare a iOS un champ de mot de passe', async () => {
+  const { getByDisplayValue } = await renderNative(
+    <TextInput type="password" value="secret" onChangeText={() => undefined} />,
+  );
+
+  expect(getByDisplayValue('secret').props.textContentType).toBe('password');
+});

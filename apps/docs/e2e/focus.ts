@@ -37,7 +37,6 @@ export const CONTROLES: Record<string, Controle> = {
   FormControl: saisie('input'),
   TextareaInput: saisie('textarea'),
   PhoneField: saisie('input'),
-  PasswordField: saisie('input'),
   DurationInput: saisie('input'),
   DateInput: saisie('input'),
   TimeInput: saisie('input'),

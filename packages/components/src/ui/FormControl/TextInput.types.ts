@@ -5,7 +5,7 @@ export type TextInputElement = ReactNativeTextInput;
 
 export type TextInputProps = Omit<ReactNativeTextInputProps, 'style'> & {
   // ADR 0026 : la nature de la valeur, a la maniere de l'attribut HTML `type`.
-  type?: 'text' | 'email';
+  type?: 'text' | 'email' | 'password';
   disabled?: boolean;
   // Le cadre porte la couleur de validation, pas seulement la legende sous le champ : les
   // composants de la famille passaient deja `error` et `success` a leur champ, ou ils

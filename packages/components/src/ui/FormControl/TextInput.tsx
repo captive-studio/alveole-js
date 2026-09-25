@@ -5,6 +5,7 @@ import { useStyles } from './FormControl.styles';
 import { TextInputElement, TextInputProps } from './TextInput.types';
 import { TextInputInline } from './TextInputInline';
 import { TextInputModal } from './TextInputModal';
+import { TextInputPassword } from './TextInputPassword';
 
 export type { TextInputElement, TextInputProps };
 
@@ -15,6 +16,7 @@ export type { TextInputElement, TextInputProps };
 export const TextInput = React.forwardRef<TextInputElement, TextInputProps>(function TextInput(props, ref) {
   const styles = useStyles();
   const shouldUseModal = Boolean(props.openModal && props.multiline && Platform.OS !== 'web');
+  const Saisie = shouldUseModal ? TextInputModal : props.type === 'password' ? TextInputPassword : TextInputInline;
 
   return (
     <Box
@@ -24,7 +26,7 @@ export const TextInput = React.forwardRef<TextInputElement, TextInputProps>(func
         ...(props.multiline ? { height: 'auto' } : {}),
       }}
     >
-      {shouldUseModal ? <TextInputModal {...props} ref={ref} /> : <TextInputInline {...props} ref={ref} />}
+      <Saisie {...props} ref={ref} />
     </Box>
   );
 });
