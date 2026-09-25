@@ -76,7 +76,8 @@ const mesurerDansLaPage = async (page: Page, cible: Cible) => {
   // de Playwright, seul le nom de la remontée le peut.
   return page.evaluate(
     ({ selecteur, cadre, cote = 'Top' }) => {
-      const element = document.querySelector(selecteur) as HTMLElement;
+      const element = document.querySelector(selecteur);
+      if (!(element instanceof HTMLElement)) throw new Error(`Aucun element pour ${selecteur}`);
       const remonter: Record<string, () => Element | null> = {
         parent: () => element.parentElement,
         grandParent: () => element.parentElement?.parentElement ?? null,

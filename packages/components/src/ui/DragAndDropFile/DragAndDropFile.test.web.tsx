@@ -1,3 +1,4 @@
+import { elementDuType } from '@/__tests__/helpers/elementDuType';
 import { fireEvent, renderWeb } from '@/__tests__/helpers/renderWeb';
 import { DragAndDropFile } from './DragAndDropFile.web';
 
@@ -9,7 +10,7 @@ beforeAll(() => {
 });
 
 const deposer = (container: HTMLElement, dataTransfer: unknown) => {
-  const zone = container.querySelector('[tabindex="0"]') as Element;
+  const zone = elementDuType(container.querySelector('[tabindex="0"]'), Element);
   fireEvent.drop(zone, { dataTransfer });
 };
 

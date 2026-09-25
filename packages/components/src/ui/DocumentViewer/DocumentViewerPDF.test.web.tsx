@@ -1,3 +1,4 @@
+import { elementDuType } from '@/__tests__/helpers/elementDuType';
 import { act, fireEvent } from '@testing-library/react';
 import { renderWeb, screen } from '../../../__tests__/helpers/renderWeb';
 import { DocumentViewerPDF } from './DocumentViewerPDF';
@@ -135,7 +136,7 @@ describe('DocumentViewerPDF, ce qu il affiche selon le chargement', () => {
 describe('DocumentViewerPDF, le zoom au survol', () => {
   /** L'echelle appliquee au canvas : portee par la boite qui l entoure. */
   const echelleDuCanvas = (conteneur: HTMLElement) => {
-    const enveloppe = conteneur.querySelector('canvas')!.parentElement as HTMLElement;
+    const enveloppe = elementDuType(conteneur.querySelector('canvas')?.parentElement, HTMLElement);
     return window.getComputedStyle(enveloppe).transform;
   };
 

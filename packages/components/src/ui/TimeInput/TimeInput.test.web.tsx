@@ -21,5 +21,5 @@ test('entoure le champ de son libellé, de son indice et de son message d erreur
 test('fige la hauteur du champ saisi sur sa ligne', () => {
   renderWeb(<TimeInput label="Heure" />);
 
-  expect((screen.getByLabelText('Heure') as HTMLInputElement).style.height).toBe('20px');
+  expect(screen.getByLabelText('Heure').style.height).toBe('20px');
 });

@@ -1,3 +1,4 @@
+import { elementDuType } from '@/__tests__/helpers/elementDuType';
 import { renderOnDesktop, screen } from '@/__tests__/helpers/renderWeb';
 import { Typography } from '../../core/Typography';
 import { FormControl } from './FormControl';
@@ -90,7 +91,7 @@ test('désactive le contrôle qu il enveloppe', () => {
     </FormControl>,
   );
 
-  expect((screen.getByLabelText('Nom') as HTMLInputElement).disabled).toBe(true);
+  expect(elementDuType(screen.getByLabelText('Nom'), HTMLInputElement).disabled).toBe(true);
 });
 
 test('grise son libellé quand il est désactivé', () => {

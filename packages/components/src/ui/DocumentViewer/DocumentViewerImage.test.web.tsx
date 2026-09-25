@@ -1,10 +1,11 @@
+import { elementDuType } from '@/__tests__/helpers/elementDuType';
 import { act } from '@testing-library/react';
 import { renderWeb } from '../../../__tests__/helpers/renderWeb';
 import { DocumentViewerImage } from './DocumentViewerImage';
 
 test("place l'origine du zoom sous le pointeur, en pourcentage du cadre", () => {
   const { container } = renderWeb(<DocumentViewerImage source="https://exemple.test/image.png" rotation={0} />);
-  const cadre = container.querySelector('document-viewer-image') as HTMLElement;
+  const cadre = elementDuType(container.querySelector('document-viewer-image'), HTMLElement);
   cadre.getBoundingClientRect = () => ({ left: 0, top: 0, width: 200, height: 100 }) as DOMRect;
 
   // jsdom n'implemente pas `PointerEvent` : `fireEvent.pointerMove` enverrait un `Event` sans
