@@ -30,7 +30,7 @@ export type CSSVarGroup = {
 /** Les nuances brutes de la palette, une variable par cran. */
 function groupeDesCouleurs(): CSSVarGroup {
   const vars: CSSVarEntry[] = Object.entries(Colors).flatMap(([name, shades]) =>
-    Object.entries(shades as Record<string, string>).map(([variant, value]) => ({
+    Object.entries(shades).map(([variant, value]) => ({
       name: `--color-${name}-${variant}`,
       rawValue: value,
       preview: 'color',
@@ -49,9 +49,9 @@ const CATEGORIES_SEMANTIQUES = ['background', 'text', 'border', 'artwork', 'syst
 function groupesSemantiques(): CSSVarGroup[] {
   return CATEGORIES_SEMANTIQUES.map(category => {
     const tokens: Record<string, unknown> = CustomPalette.light[category] ?? {};
-    const vars: CSSVarEntry[] = Object.entries(tokens)
-      .filter(([, value]) => typeof value === 'string')
-      .map(([token, value]) => ({ name: `--${category}-${token}`, rawValue: value as string, preview: 'color' }));
+    const vars: CSSVarEntry[] = Object.entries(tokens).flatMap(([token, value]) =>
+      typeof value === 'string' ? [{ name: `--${category}-${token}`, rawValue: value, preview: 'color' }] : [],
+    );
 
     return { title: `Tokens — ${category}`, vars };
   }).filter(groupe => groupe.vars.length > 0);

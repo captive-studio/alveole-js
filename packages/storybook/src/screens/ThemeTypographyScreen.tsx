@@ -18,14 +18,14 @@ type StyleEntry = {
 };
 
 const isLeafStyle = (value: unknown): value is TextStyle =>
-  typeof value === 'object' && value !== null && typeof (value as Record<string, unknown>).fontSize === 'number';
+  typeof value === 'object' && value !== null && 'fontSize' in value && typeof value.fontSize === 'number';
 
 const flattenStyles = (value: unknown, prefix = ''): StyleEntry[] => {
   if (isLeafStyle(value)) {
     return prefix ? [{ label: prefix, style: value }] : [];
   }
   if (typeof value === 'object' && value !== null) {
-    return Object.entries(value as Record<string, unknown>).flatMap(([k, v]) => {
+    return Object.entries(value).flatMap(([k, v]) => {
       if (typeof v !== 'object' || v === null) return [];
       const label = prefix ? `${prefix} ${k}` : k;
       return flattenStyles(v, label);
@@ -35,8 +35,8 @@ const flattenStyles = (value: unknown, prefix = ''): StyleEntry[] => {
 };
 
 const getFontInfo = (style: TextStyle): { family: string; weight: string } => {
-  const fontFamily = (style.fontFamily as string) ?? '';
-  const fontWeight = (style.fontWeight as string) ?? '';
+  const fontFamily = style.fontFamily ?? '';
+  const fontWeight = String(style.fontWeight ?? '');
 
   if (fontFamily.includes(',')) {
     const family = fontFamily.split(',')[0]?.trim() ?? '';
