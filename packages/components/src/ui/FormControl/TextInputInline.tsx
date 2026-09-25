@@ -8,24 +8,31 @@ import { TextInputElement, TextInputProps } from './TextInput.types';
 import { inputFrameStyle, inputTextStyle } from './textInputStyles';
 import { useFieldFocus } from './useFieldFocus';
 
+/** Ce que la plateforme doit savoir de la valeur : son clavier, et qu'on ne la corrige pas. */
+const REGLAGES_PAR_TYPE: Partial<Record<NonNullable<TextInputProps['type']>, TextInputProps>> = {
+  email: {
+    keyboardType: 'email-address',
+    autoComplete: 'email',
+    autoCorrect: false,
+    autoCapitalize: 'none',
+    textContentType: 'emailAddress',
+  },
+  tel: {
+    keyboardType: 'phone-pad',
+    autoComplete: 'tel',
+    textContentType: 'telephoneNumber',
+    autoCorrect: false,
+  },
+};
+
+const reglagesDuType = (type: TextInputProps['type']) => (type ? REGLAGES_PAR_TYPE[type] : undefined);
+
 /**
  * Chaque plateforme a son mot pour « ce champ ne participe pas ». Le web a l'attribut
  * `disabled`, que React Native ne connait pas et que TypeScript refuse sur son `TextInput` ;
  * le natif a `editable={false}`. `readOnly` ne conviendrait ni a l'un ni a l'autre : il
  * laisse le champ focusable au clavier et soumis avec le formulaire.
  */
-/** Ce que la plateforme doit savoir d'un courriel : son clavier, et qu'on ne le corrige pas. */
-const reglagesDuType = (type: TextInputProps['type']) =>
-  type !== 'email'
-    ? null
-    : ({
-        keyboardType: 'email-address',
-        autoComplete: 'email',
-        autoCorrect: false,
-        autoCapitalize: 'none',
-        textContentType: 'emailAddress',
-      } as const);
-
 const desactivationDe = (disabled?: boolean | null) =>
   disabled !== true ? null : Platform.OS === 'web' ? { disabled: true } : { editable: false };
 

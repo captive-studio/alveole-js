@@ -262,3 +262,31 @@ it('declare a iOS un champ de mot de passe', async () => {
 
   expect(getByDisplayValue('secret').props.textContentType).toBe('password');
 });
+
+const champDeTelephone = async () => {
+  const { getByDisplayValue } = await renderNative(
+    <TextInput type="tel" value="0612345678" onChangeText={() => undefined} />,
+  );
+
+  return getByDisplayValue('0612345678').props;
+};
+
+// Un numero se tape au pave numerique, pas au clavier complet.
+it('ouvre le pave telephonique pour un champ de telephone', async () => {
+  expect((await champDeTelephone()).keyboardType).toBe('phone-pad');
+});
+
+// Le navigateur et Android ne proposent le numero de l'utilisateur qu'a un champ qui le demande.
+it('demande l autocompletion du numero pour un champ de telephone', async () => {
+  expect((await champDeTelephone()).autoComplete).toBe('tel');
+});
+
+// iOS ne propose le numero de la fiche contact qu'a un champ qui se declare telephone.
+it('declare a iOS un champ de telephone', async () => {
+  expect((await champDeTelephone()).textContentType).toBe('telephoneNumber');
+});
+
+// Un numero n'est pas un mot : la correction ne ferait que le deformer.
+it('ne corrige pas un champ de telephone', async () => {
+  expect((await champDeTelephone()).autoCorrect).toBe(false);
+});

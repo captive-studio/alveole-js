@@ -6,7 +6,6 @@ import { DurationInput } from './DurationInput';
 import { FormControl, TextInput } from './FormControl';
 import { NumberField } from './NumberField';
 import { OtpField } from './OtpField';
-import { PhoneField } from './PhoneField';
 import { PriceInput } from './PriceInput';
 import { Select } from './Select';
 import { SelectMultiple } from './SelectMultiple';
@@ -49,7 +48,6 @@ const CONTROLES: Record<string, Controle> = {
     ),
     champ: controle('textarea'),
   },
-  PhoneField: { element: <PhoneField label="Téléphone" />, champ: saisie },
   DurationInput: { element: <DurationInput label="Durée" />, champ: saisie },
   DateInput: { element: <DateInput label="Date" />, champ: saisie },
   TimeInput: { element: <TimeInput label="Heure" />, champ: saisie },
