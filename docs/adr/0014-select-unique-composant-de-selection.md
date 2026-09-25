@@ -43,8 +43,9 @@ que ce composant gardait un état interne : `Select` est strictement contrôlé.
   disparaît sans remplaçant : aucun usage connu ne s'en servait.
 - Une app qui ne remettait pas `value` à jour dans `onChange` verra son champ
   figé, là où `Autocomplete` compensait par son état interne.
-- `SelectMultiple` devient redondant. Il reste exporté le temps que les apps
-  migrent ; sa suppression fera l'objet d'un changement distinct.
+- `SelectMultiple` devient redondant. Il est resté exporté le temps que `Select`
+  atteigne la parité visuelle (case à cocher, ci-dessous), puis a été supprimé
+  sans alias, en version majeure (ADR 0026) : `<Select multiple>` le remplace.
 - En multi-sélection, l'option retenue se marque par une **case à cocher** en
   tête de ligne (maquette `SelectList.Item`, variants `Coché`), et non par la
   barre indicatrice, réservée à la sélection simple. La case n'est qu'un visuel

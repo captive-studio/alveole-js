@@ -36,7 +36,8 @@ natif, il n'affichait que `JSON.stringify(value)`).
   qui intègre l'œil d'affichage, comme chez Base.
 - **Suffixe `Input` partout**, sauf `Select` : il reste `TextInput`, `NumberInput`,
   `PhoneInput`, `TextareaInput`, `OtpInput`, `FileInput`.
-- **`SelectMultiple` disparaît** au profit de `<Select multiple>`.
+- **`SelectMultiple` disparaît** au profit de `<Select multiple>` (fait), une fois
+  `Select` à parité visuelle : une case à cocher par option (ADR 0014).
 
 ## Options écartées
 
