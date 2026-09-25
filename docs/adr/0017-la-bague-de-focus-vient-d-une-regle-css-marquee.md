@@ -111,8 +111,8 @@ apparence permanente, là où Primer laisse le repos intact et n'épaissit qu'au
 focus. Le plus petit changement pour le même gain.
 
 L'anneau vit dans `focusBorder()`, que tous les champs consomment déjà : un seul
-endroit, et `Select`, `SelectMultiple`, `PriceInput` et `OtpField` suivent sans
-être touchés. Il est encastré (`outline-offset` négatif), ce qui préserve le
+endroit, et `Select`, `SelectMultiple` (supprimé depuis, ADR 0026), `PriceInput` et
+`OtpField` suivent sans être touchés. Il est encastré (`outline-offset` négatif), ce qui préserve le
 motif d'origine de l'ADR 0016 : rien ne pousse la mise en page.
 
 ## Un arrêt clavier invisible est pire qu'une bague laide
