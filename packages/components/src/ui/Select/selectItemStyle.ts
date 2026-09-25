@@ -15,7 +15,7 @@ export type SelectItemState = {
  */
 export const selectItemStyle = (
   styles: SelectListStyles,
-  couleurs: { texte: string; texteDesactive: string },
+  couleurs: { texte: string; texteDesactive: string; coche: string },
   { selected, highlighted, disabled }: SelectItemState,
 ) => ({
   item: { ...styles.item, ...(disabled ? styles.itemDisabled : {}) },
@@ -24,4 +24,14 @@ export const selectItemStyle = (
   bandHover: disabled ? undefined : styles.bandHighlighted,
   label: { ...styles.itemLabel, ...(disabled ? styles.itemLabelDisabled : {}) },
   icone: disabled ? couleurs.texteDesactive : couleurs.texte,
+  caseACocher: caseACocherStyle(styles, { selected, disabled }),
+  coche: disabled ? couleurs.texte : couleurs.coche,
+});
+
+/** Memes tokens que la `Checkbox` taille sm, dont cette case n'est que le visuel. */
+const caseACocherStyle = (styles: SelectListStyles, { selected, disabled }: SelectItemState) => ({
+  ...styles.checkbox,
+  ...(selected ? styles.checkboxChecked : {}),
+  ...(disabled ? styles.checkboxDisabled : {}),
+  ...(selected && disabled ? styles.checkboxCheckedDisabled : {}),
 });

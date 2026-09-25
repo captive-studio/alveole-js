@@ -117,6 +117,34 @@ const contenuDeLaLigne = ({ text, color, spacing, spacingValue, radius }: Theme)
     },
   }) satisfies Table;
 
+// Visuel de la case a cocher en multi-selection : reprend les tokens de `Checkbox` taille sm
+// (voir `Checkbox.styles.ts`) sans en etre une instance, la ligne restant seule pressable.
+const caseACocher = ({ color, spacingValue, radius }: Theme) =>
+  ({
+    checkbox: {
+      display: 'flex',
+      alignItems: 'center',
+      justifyContent: 'center',
+      flexShrink: 0,
+      height: spacingValue('100'),
+      width: spacingValue('100'),
+      borderWidth: 1,
+      borderStyle: 'solid',
+      borderColor: color.light.border['action-high-primary'],
+      borderRadius: radius('sm'),
+      backgroundColor: 'transparent',
+    },
+    checkboxChecked: {
+      backgroundColor: color.light.background['action-high-primary'],
+    },
+    checkboxDisabled: {
+      borderColor: color.light.border['disabled-grey'],
+    },
+    checkboxCheckedDisabled: {
+      backgroundColor: color.light.background['disabled-grey'],
+    },
+  }) satisfies Table;
+
 // La puce ne vit pas dans le panneau mais dans le champ fermé, en multi-sélection.
 // Elle partage cette table parce qu'elle décrit la même chose : une option retenue.
 
@@ -124,4 +152,5 @@ export const useStyles = makeStyles(theme => ({
   ...panneau(theme),
   ...ligne(theme),
   ...contenuDeLaLigne(theme),
+  ...caseACocher(theme),
 }));

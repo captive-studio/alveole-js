@@ -31,8 +31,12 @@ export const SelectOptionRow = ({
 
       <Pressable
         testID={`select-option-${option.value}`}
-        accessibilityRole="button"
-        accessibilityState={{ disabled: Boolean(option.disabled), selected }}
+        accessibilityRole={multiple ? 'checkbox' : 'button'}
+        accessibilityState={
+          multiple
+            ? { disabled: Boolean(option.disabled), checked: selected }
+            : { disabled: Boolean(option.disabled), selected }
+        }
         disabled={option.disabled}
         onPress={() => onPress(option.value)}
         onLayout={selected ? onSelectedLayout : undefined}
