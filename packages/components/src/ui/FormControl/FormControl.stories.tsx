@@ -31,19 +31,7 @@ export const WithTextInput = () => (
       <FormControlLabel label="Adresse email" />
       <FormControlHint hint="Votre email professionnel" />
     </InputHeading>
-    <TextInput type="email" placeholder="jean@exemple.fr" />
-  </FormControl>
-);
-
-export const MotDePasse = () => (
-  <FormControl label="Mot de passe">
-    <TextInput type="password" placeholder="Votre mot de passe" />
-  </FormControl>
-);
-
-export const NonModifiable = () => (
-  <FormControl label="Adresse email">
-    <TextInput type="email" value="jean@exemple.fr" editable={false} />
+    <TextInput placeholder="jean@exemple.fr" />
   </FormControl>
 );
 
@@ -66,34 +54,6 @@ export const WithSuccess = () => (
     <FormControlCaption success="Email valide" />
   </FormControl>
 );
-
-export const Multiline = () => (
-  <FormControl>
-    <InputHeading>
-      <FormControlLabel label="Message" />
-    </InputHeading>
-    <TextInput placeholder="Votre message..." multiline numberOfLines={4} />
-  </FormControl>
-);
-
-export const MultilineWithModal = () => {
-  const [text, setText] = useState('');
-  return (
-    <FormControl>
-      <InputHeading>
-        <FormControlLabel label="Description" />
-      </InputHeading>
-      <TextInput
-        value={text}
-        onChangeText={setText}
-        placeholder="Taper pour ouvrir la modale de saisie..."
-        multiline
-        openModal
-        modalSubmitLabel="Confirmer"
-      />
-    </FormControl>
-  );
-};
 
 export const Label = () => (
   <Box display="flex" flexDirection="column" gap={24}>

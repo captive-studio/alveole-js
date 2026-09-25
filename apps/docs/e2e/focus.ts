@@ -35,6 +35,7 @@ const selecteur: Controle = { champ: `[role="combobox"]${MODIFIABLE}`, cadre: 'r
 
 export const CONTROLES: Record<string, Controle> = {
   FormControl: saisie('input'),
+  TextInput: saisie('input'),
   TextareaInput: saisie('textarea'),
   PhoneField: saisie('input'),
   DurationInput: saisie('input'),
