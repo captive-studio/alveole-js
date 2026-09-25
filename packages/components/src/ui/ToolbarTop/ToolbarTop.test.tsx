@@ -1,10 +1,9 @@
 import { fireEvent, renderNative, RenderResult } from '@/__tests__/helpers/renderNative';
-import type { ReactTestRendererJSON } from 'react-test-renderer';
 import { ButtonIcon } from '../Button';
 import { ToolbarTop } from './ToolbarTop';
 
 type Arbre = ReturnType<RenderResult['toJSON']>;
-type Noeud = Exclude<Arbre, null | ReactTestRendererJSON[]>;
+type Noeud = Exclude<Arbre, null | unknown[]>;
 
 const racine = (arbre: Arbre): Noeud => {
   if (arbre === null || Array.isArray(arbre)) throw new Error('La barre doit rendre une racine unique.');
