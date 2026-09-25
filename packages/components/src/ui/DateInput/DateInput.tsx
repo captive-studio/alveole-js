@@ -20,7 +20,7 @@ import {
 
 type MinuteInterval = 1 | 2 | 3 | 4 | 5 | 6 | 10 | 12 | 15 | 20 | 30;
 
-export type DateInputProps = TextInputProps &
+export type DateInputProps = Omit<TextInputProps, 'type'> &
   FormControlLabelProps &
   FormControlHintProps &
   FormControlCaptionProps & {

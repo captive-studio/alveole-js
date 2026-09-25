@@ -109,3 +109,24 @@ test('aligne la hauteur du champ sur celle du bouton md', () => {
 
   expect(getComputedStyle(champ as Element).minHeight).toBe(getComputedStyle(bouton).height);
 });
+
+// ADR 0026 : un courriel n'a pas de comportement propre, il n'a donc pas de composant. Le
+// `type` suffit, comme chez Base et Primer, et le navigateur en tire clavier et validation.
+test('declare au navigateur un champ de courriel', () => {
+  renderWeb(<TextInput type="email" value="a@b.fr" onChangeText={() => undefined} />);
+
+  expect(screen.getByDisplayValue('a@b.fr').getAttribute('type')).toBe('email');
+});
+
+test('propose au navigateur les courriels deja connus', () => {
+  renderWeb(<TextInput type="email" value="a@b.fr" onChangeText={() => undefined} />);
+
+  expect(screen.getByDisplayValue('a@b.fr').getAttribute('autocomplete')).toBe('email');
+});
+
+test('ne corrige ni ne capitalise un courriel', () => {
+  renderWeb(<TextInput type="email" value="a@b.fr" onChangeText={() => undefined} />);
+  const champ = screen.getByDisplayValue('a@b.fr');
+
+  expect([champ.getAttribute('autocorrect'), champ.getAttribute('autocapitalize')]).toEqual(['off', 'none']);
+});

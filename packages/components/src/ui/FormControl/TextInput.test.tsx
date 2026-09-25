@@ -231,3 +231,12 @@ it('ne colore pas la bordure quand le champ est desactive', async () => {
 
   expect(contour(view)).toBe(desactive);
 });
+
+// iOS ne propose les adresses du trousseau qu'a un champ qui se declare courriel.
+it('declare a iOS un champ de courriel', async () => {
+  const { getByDisplayValue } = await renderNative(
+    <TextInput type="email" value="a@b.fr" onChangeText={() => undefined} />,
+  );
+
+  expect(getByDisplayValue('a@b.fr').props.textContentType).toBe('emailAddress');
+});

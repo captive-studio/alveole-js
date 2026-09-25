@@ -14,8 +14,6 @@ export * from './Divider';
 export * from './DocumentViewer';
 export * from './DragAndDropFile';
 export * from './DurationInput';
-export * from './EmailField';
-export * from './EmailInput';
 export * from './EmptyState';
 export * from './FileField';
 export * from './FilterDate';

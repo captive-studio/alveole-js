@@ -26,11 +26,11 @@ for (const [nom, controle] of Object.entries(CONTROLES)) {
 }
 
 // `editable={false}` est le mot de React Native pour « on n'écrit pas ici » : atteint au
-// clavier, le champ ne doit pas prendre l'apparence d'un champ actif. La fiche EmailInput
+// clavier, le champ ne doit pas prendre l'apparence d'un champ actif. La fiche FormControl
 // en montre un ; la règle elle-même, `readOnly` compris, est tenue par `useFieldFocus`
 // (packages/components/src/ui/FormControl/useFieldFocus.test.tsx).
-test('focus EmailInput non modifiable', async ({ page }) => {
-  await openRoute(page, '/components/EmailInput');
+test('focus TextInput non modifiable', async ({ page }) => {
+  await openRoute(page, '/components/FormControl');
 
   const mesure = await mesurer(page, { champ: 'input[readonly]', cadre: 'parent' });
 
