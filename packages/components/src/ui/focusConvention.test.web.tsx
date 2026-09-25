@@ -3,8 +3,7 @@ import { FOCUS_ATTRIBUTE } from '@alveole/theme';
 import { Button } from './Button';
 import { DateInput } from './DateInput';
 import { DurationInput } from './DurationInput';
-import { FormControl, TextInput } from './FormControl';
-import { NumberField } from './NumberField';
+import { FormControl, NumberInput, TextInput } from './FormControl';
 import { OtpField } from './OtpField';
 import { PriceInput } from './PriceInput';
 import { Select } from './Select';
@@ -50,7 +49,14 @@ const CONTROLES: Record<string, Controle> = {
   DurationInput: { element: <DurationInput label="Durée" />, champ: saisie },
   DateInput: { element: <DateInput label="Date" />, champ: saisie },
   TimeInput: { element: <TimeInput label="Heure" />, champ: saisie },
-  NumberField: { element: <NumberField label="Nombre" />, champ: saisie },
+  NumberInput: {
+    element: (
+      <FormControl label="Nombre">
+        <NumberInput />
+      </FormControl>
+    ),
+    champ: saisie,
+  },
   PriceInput: { element: <PriceInput value={null} />, champ: controle('.alveole-price-input') },
   Select: {
     element: <Select label="Pays" value={null} options={[{ value: 'fr', label: 'France' }]} />,

@@ -40,7 +40,7 @@ export const CONTROLES: Record<string, Controle> = {
   DurationInput: saisie('input'),
   DateInput: saisie('input'),
   TimeInput: saisie('input'),
-  NumberField: saisie('input'),
+  NumberInput: saisie('input'),
   PriceInput: {
     champ: `.alveole-price-input${MODIFIABLE}`,
     cadre: 'grandParent',

@@ -1,13 +1,13 @@
 import { InputButtonAdornment } from '../InputButtonAdornment';
 
-export type NumberFieldControlButtonProps = {
+export type NumberInputControlButtonProps = {
   step?: number;
   action: 'plus' | 'moins';
   disabled?: boolean;
   onPress: (addValue: number) => void;
 };
 
-export const NumberFieldControlButton = (props: NumberFieldControlButtonProps) => {
+export const NumberInputControlButton = (props: NumberInputControlButtonProps) => {
   const { step = 1, action, disabled, onPress } = props;
 
   return (

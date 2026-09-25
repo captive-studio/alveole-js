@@ -24,7 +24,6 @@ export * from './InputHeading';
 export * from './Link';
 export * from './ListItem';
 export * from './LucideIcon';
-export * from './NumberField';
 export * from './OtpField';
 export * from './PageHeader';
 export * from './Popover';
