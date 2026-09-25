@@ -32,11 +32,11 @@ export const MarkdownDescription = ({ children, taille = 'MD', color: textColor 
     );
   }
 
-  const ReactMarkdown = require('react-markdown').default as React.ComponentType<{
+  const ReactMarkdown: React.ComponentType<{
     children: string;
     remarkPlugins: unknown[];
     components: Components;
-  }>;
+  }> = require('react-markdown').default;
   const remarkGfm = require('remark-gfm').default;
 
   const borderColor = color.light.border['default-grey'];
