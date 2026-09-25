@@ -50,8 +50,6 @@ export * as LucideIconStory from '../ui/LucideIcon/LucideIcon.stories';
 export * as NumberFieldStory from '../ui/NumberField/NumberField.stories';
 export * as OtpFieldStory from '../ui/OtpField/OtpField.stories';
 export * as PageHeaderStory from '../ui/PageHeader/PageHeader.stories';
-export * as PhoneFieldStory from '../ui/PhoneField/PhoneField.stories';
-export * as PhoneInputStory from '../ui/PhoneInput/PhoneInput.stories';
 export * as PopoverStory from '../ui/Popover/Popover.stories';
 export * as PriceInputStory from '../ui/PriceInput/PriceInput.stories';
 export * as ProgressBarStory from '../ui/ProgressBar/ProgressBar.stories';

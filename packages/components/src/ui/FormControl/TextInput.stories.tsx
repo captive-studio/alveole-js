@@ -26,6 +26,12 @@ export const Email = () => (
   </FormControl>
 );
 
+export const Telephone = () => (
+  <FormControl label="Téléphone">
+    <TextInput type="tel" placeholder="06 12 34 56 78" />
+  </FormControl>
+);
+
 export const MotDePasse = () => (
   <FormControl label="Mot de passe">
     <TextInput type="password" placeholder="Votre mot de passe" />
