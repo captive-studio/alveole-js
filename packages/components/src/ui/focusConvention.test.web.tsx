@@ -12,7 +12,7 @@ import { PhoneField } from './PhoneField';
 import { PriceInput } from './PriceInput';
 import { Select } from './Select';
 import { SelectMultiple } from './SelectMultiple';
-import { TextareaField } from './TextareaField';
+import { TextareaInput } from './TextareaInput';
 import { TimeInput } from './TimeInput';
 
 /**
@@ -43,7 +43,14 @@ const CONTROLES: Record<string, Controle> = {
     ),
     champ: saisie,
   },
-  TextareaField: { element: <TextareaField label="Texte" />, champ: controle('textarea') },
+  TextareaInput: {
+    element: (
+      <FormControl label="Texte">
+        <TextareaInput />
+      </FormControl>
+    ),
+    champ: controle('textarea'),
+  },
   EmailField: { element: <EmailField label="Email" />, champ: saisie },
   PhoneField: { element: <PhoneField label="Téléphone" />, champ: saisie },
   PasswordField: { element: <PasswordField label="Mot de passe" />, champ: saisie },

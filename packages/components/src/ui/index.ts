@@ -46,7 +46,6 @@ export * from './Spinner';
 export * from './Switch';
 export * from './Tabs';
 export * from './Tag';
-export * from './TextareaField';
 export * from './TextareaInput';
 export * from './TextInputArray';
 export * from './TimeInput';
