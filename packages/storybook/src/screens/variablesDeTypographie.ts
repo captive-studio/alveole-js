@@ -6,26 +6,25 @@ import type { CSSVarEntry } from './variablesCSSDuTheme';
  * du theme, et cette collecte n'a pas a le charger pour etre testee.
  */
 export function variablesDeTypographie(
-  arbre: Record<string, unknown>,
+  arbre: object,
   nommer: (cle: string) => string,
   chemin: string[] = [],
 ): CSSVarEntry[] {
-  if (typeof arbre.fontSize === 'number') {
+  const { fontSize, lineHeight, fontFamily, fontWeight } = Object.fromEntries(Object.entries(arbre));
+  if (typeof fontSize === 'number') {
     const prefixe = `--typography-${chemin.map(nommer).join('-')}`;
     const variable = (suffixe: string, rawValue: string): CSSVarEntry => ({
       name: `${prefixe}-${suffixe}`,
       rawValue,
       preview: 'none',
     });
-    const variables = [variable('font-size', `${arbre.fontSize}px`), variable('line-height', `${arbre.lineHeight}px`)];
-    if (typeof arbre.fontFamily === 'string') variables.push(variable('font-family', arbre.fontFamily));
-    if (typeof arbre.fontWeight === 'string') variables.push(variable('font-weight', arbre.fontWeight));
+    const variables = [variable('font-size', `${fontSize}px`), variable('line-height', `${lineHeight}px`)];
+    if (typeof fontFamily === 'string') variables.push(variable('font-family', fontFamily));
+    if (typeof fontWeight === 'string') variables.push(variable('font-weight', fontWeight));
     return variables;
   }
 
   return Object.entries(arbre).flatMap(([cle, valeur]) =>
-    typeof valeur === 'object' && valeur !== null
-      ? variablesDeTypographie(valeur as Record<string, unknown>, nommer, [...chemin, cle])
-      : [],
+    typeof valeur === 'object' && valeur !== null ? variablesDeTypographie(valeur, nommer, [...chemin, cle]) : [],
   );
 }

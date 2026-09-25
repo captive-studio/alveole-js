@@ -6,14 +6,14 @@ export type ColorSection = { title: string; entries: ColorEntry[]; deprecated?: 
  * des profondeurs variables, et seule la feuille porte une valeur : tout ce qui n'est ni une
  * chaine ni un objet n'a rien a montrer et disparait.
  */
-export function flattenColors(obj: Record<string, unknown>, prefix = ''): ColorEntry[] {
+export function flattenColors(obj: object, prefix = ''): ColorEntry[] {
   const entries: ColorEntry[] = [];
   for (const [key, val] of Object.entries(obj)) {
     const path = prefix ? `${prefix}.${key}` : key;
     if (typeof val === 'string') {
       entries.push({ path, value: val });
     } else if (val && typeof val === 'object') {
-      entries.push(...flattenColors(val as Record<string, unknown>, path));
+      entries.push(...flattenColors(val, path));
     }
   }
   return entries;
@@ -42,7 +42,7 @@ function deprecatedEntries(palette: Record<string, unknown>): ColorEntry[] {
   return DEPRECATED_KEYS.flatMap(key => {
     const val = palette[key];
     if (typeof val === 'string') return [{ path: key, value: val }];
-    if (val && typeof val === 'object') return flattenColors(val as Record<string, unknown>, key);
+    if (val && typeof val === 'object') return flattenColors(val, key);
     return [];
   });
 }
@@ -54,7 +54,7 @@ function deprecatedEntries(palette: Record<string, unknown>): ColorEntry[] {
  * qu'on deplie sur rien se lit comme une erreur.
  */
 export function buildSections(palette: Record<string, unknown>): ColorSection[] {
-  const clair = (palette.light ?? {}) as Record<string, unknown>;
+  const clair = typeof palette.light === 'object' && palette.light !== null ? palette.light : {};
 
   const familles = Object.entries(clair)
     .map(([groupKey, groupVal]) => ({
