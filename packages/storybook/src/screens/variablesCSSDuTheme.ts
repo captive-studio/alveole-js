@@ -12,6 +12,7 @@ import {
   Spacings,
   sanitizeCSSKey,
 } from '@alveole/theme';
+import { variablesDeTypographie } from './variablesDeTypographie';
 
 export type PreviewKind = 'color' | 'spacing' | 'elevation' | 'radius' | 'none';
 
@@ -25,26 +26,6 @@ export type CSSVarGroup = {
   title: string;
   vars: CSSVarEntry[];
 };
-
-function collectTypographyVarNames(node: Record<string, unknown>, path: string[], out: CSSVarEntry[]) {
-  if (typeof (node as Record<string, unknown>).fontSize === 'number') {
-    const prefix = `--typography-${path.map(sanitizeCSSKey).join('-')}`;
-    out.push({ name: `${prefix}-font-size`, rawValue: `${node.fontSize}px`, preview: 'none' });
-    out.push({ name: `${prefix}-line-height`, rawValue: `${node.lineHeight}px`, preview: 'none' });
-    if (typeof node.fontFamily === 'string') {
-      out.push({ name: `${prefix}-font-family`, rawValue: node.fontFamily as string, preview: 'none' });
-    }
-    if (typeof node.fontWeight === 'string') {
-      out.push({ name: `${prefix}-font-weight`, rawValue: node.fontWeight as string, preview: 'none' });
-    }
-    return;
-  }
-  Object.entries(node).forEach(([key, value]) => {
-    if (typeof value === 'object' && value !== null) {
-      collectTypographyVarNames(value as Record<string, unknown>, [...path, key], out);
-    }
-  });
-}
 
 /** Les nuances brutes de la palette, une variable par cran. */
 function groupeDesCouleurs(): CSSVarGroup {
@@ -120,10 +101,7 @@ function groupeDesFontes(): CSSVarGroup {
 }
 
 function groupeDesTypographies(): CSSVarGroup {
-  const vars: CSSVarEntry[] = [];
-  collectTypographyVarNames(CustomTypography, [], vars);
-
-  return { title: 'Typographies', vars };
+  return { title: 'Typographies', vars: variablesDeTypographie(CustomTypography, sanitizeCSSKey) };
 }
 
 export function buildGroups(): CSSVarGroup[] {
