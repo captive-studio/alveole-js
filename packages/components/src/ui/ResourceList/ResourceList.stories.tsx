@@ -100,6 +100,8 @@ export const WithPreviewImageAndTrailing = () => (
   />
 );
 
+const aucunExemple: typeof exampleData = [];
+
 /**
  * Quand `isLoading` est `true`, la liste entière est remplacée par un
  * spinner centré. Aucun délai n'est appliqué ici : le chargement initial
@@ -108,7 +110,7 @@ export const WithPreviewImageAndTrailing = () => (
  */
 export const IsLoading = () => (
   <ResourceList
-    data={[] as typeof exampleData}
+    data={aucunExemple}
     isLoading={true}
     keyExtractor={item => item.id}
     renderItem={() => null}
@@ -118,7 +120,7 @@ export const IsLoading = () => (
 
 export const WithNoContent = () => (
   <ResourceList
-    data={[] as typeof exampleData}
+    data={aucunExemple}
     keyExtractor={item => item.id}
     renderItem={({ item }) => <ListItem title={item.name} description={item.description} />}
     renderNoContent={() => <EmptyState title="Aucun élément" description="Cliquez sur le bouton" iconName="House" />}
