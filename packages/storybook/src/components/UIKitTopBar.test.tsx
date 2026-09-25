@@ -7,7 +7,8 @@ describe('UIKitTopBar', () => {
       <UIKitTopBar activeKey="components" items={[{ key: 'components', label: 'Composants', href: '/' }]} />,
     );
 
-    const label = getByRole('link', { name: 'Composants' }).querySelector('typography') as HTMLElement;
+    const label = getByRole('link', { name: 'Composants' }).querySelector('typography');
+    if (!(label instanceof HTMLElement)) throw new Error('Le lien doit contenir un libelle `typography`.');
 
     expect(label.style.fontWeight).toBe('var(--typography-corps-de-texte-md-medium-font-weight)');
   });

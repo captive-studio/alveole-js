@@ -1,3 +1,4 @@
+import { elementDuType } from '@/__tests__/helpers/elementDuType';
 import { fireEvent, renderHookOnDesktop, renderOnDesktop } from '@/__tests__/helpers/renderWeb';
 import { Tag } from './Tag';
 import { useStyles } from './Tag.styles';
@@ -47,7 +48,7 @@ it('se rend en boite, sans quoi sa hauteur reste decorative', () => {
 // react-native-web pilote en JS sur les evenements de pointeur. C'est aussi pour ca que le
 // survol traverse la pastille : un `hoverStyle` Tamagui ne descendrait ni jusqu'au libelle
 // ni jusqu'a la croix, qui doivent foncer ensemble.
-const libelle = (container: HTMLElement) => container.querySelector('tag typography') as HTMLElement;
+const libelle = (container: HTMLElement) => elementDuType(container.querySelector('tag typography'), HTMLElement);
 // La zone de survol est l'enfant direct de l'etiquette : le `Pressable` qui capte le
 // pointeur. `mouseenter` ne remonte pas, viser l'etiquette elle-meme ne declencherait rien.
 // On extrait des valeurs simples plutot que de rendre le `CSSStyleDeclaration` : compare
@@ -143,7 +144,7 @@ it('pose un fond sur le cercle de la croix quand le pointeur l atteint, sans tou
       Brouillon
     </Tag>,
   );
-  const croix = container.querySelector('[role="button"]') as HTMLElement;
+  const croix = elementDuType(container.querySelector('[role="button"]'), HTMLElement);
   const fondDeLEtiquette = libelle(container).style.backgroundColor;
 
   fireEvent.mouseEnter(croix);
@@ -163,7 +164,7 @@ it('fonce la croix quand le pointeur survole l etiquette', () => {
       Brouillon
     </Tag>,
   );
-  const trait = () => (container.querySelector('[role="button"] svg') as SVGElement).style.stroke;
+  const trait = () => elementDuType(container.querySelector('[role="button"] svg'), SVGElement).style.stroke;
   const auRepos = trait();
 
   fireEvent.mouseEnter(container.querySelector('tag')!.firstElementChild!);
@@ -192,7 +193,7 @@ it('ne reagit pas au survol quand l etiquette est purement descriptive', () => {
 it('ne donne jamais le curseur de la main a l etiquette', () => {
   const container = etiquette({ interactive: true });
 
-  expect((container.querySelector('tag')!.firstElementChild as HTMLElement).style.cursor).toBe('auto');
+  expect(elementDuType(container.querySelector('tag')?.firstElementChild, HTMLElement).style.cursor).toBe('auto');
 });
 
 // Pendant du test ci-dessus : la croix, elle, est un vrai bouton, et doit l'annoncer aussi
@@ -204,7 +205,7 @@ it('donne le curseur de la main a la croix', () => {
     </Tag>,
   );
 
-  expect((container.querySelector('[role="button"]') as HTMLElement).style.cursor).toBe('pointer');
+  expect(elementDuType(container.querySelector('[role="button"]'), HTMLElement).style.cursor).toBe('pointer');
 });
 
 // Deux `Pressable` imbriques : react-native-web retire le survol du parent des que le
@@ -252,7 +253,7 @@ it('coupe un libelle trop long au lieu de le renvoyer a la ligne', () => {
 // pastille de 401 px dans un parent de 260, sans ellipse visible malgre le `text-overflow`.
 it('laisse la pastille retrecir sous la taille de son libelle', () => {
   const container = etiquette();
-  const boite = container.querySelector('tag') as HTMLElement;
+  const boite = elementDuType(container.querySelector('tag'), HTMLElement);
 
   expect({ minWidth: boite.style.minWidth, maxWidth: boite.style.maxWidth }).toEqual({
     minWidth: '0px',
@@ -271,7 +272,7 @@ it('ne deplace jamais la croix entre le repos et le survol', () => {
       Brouillon
     </Tag>,
   );
-  const croix = container.querySelector('[role="button"]') as HTMLElement;
+  const croix = elementDuType(container.querySelector('[role="button"]'), HTMLElement);
   const geometrie = () =>
     Object.fromEntries(
       Array.from(croix.style)

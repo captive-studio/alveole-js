@@ -1,3 +1,4 @@
+import { elementDuType } from '@/__tests__/helpers/elementDuType';
 import { act, renderWeb, screen } from '@/__tests__/helpers/renderWeb';
 import { FOCUS_ATTRIBUTE } from '@alveole/theme';
 import { Button } from './Button';
@@ -26,7 +27,7 @@ type Controle = {
   champ: () => HTMLElement;
 };
 
-const controle = (selecteur: string) => () => document.querySelector(selecteur) as HTMLElement;
+const controle = (selecteur: string) => () => elementDuType(document.querySelector(selecteur), HTMLElement);
 const saisie = controle('input');
 
 const CONTROLES: Record<string, Controle> = {

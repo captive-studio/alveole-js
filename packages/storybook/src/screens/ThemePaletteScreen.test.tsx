@@ -39,7 +39,7 @@ it('montre le nom court du jeton et sa valeur', async () => {
 });
 
 /** La pastille cliquable qui porte une valeur : c'est elle que l'utilisateur vise. */
-const pastilleDe = (valeur: string) => screen.getByText(valeur).closest('[role="button"]') as HTMLElement;
+const pastilleDe = (valeur: string) => screen.getByRole('button', { name: new RegExp(valeur) });
 
 it('copie la valeur au presse-papiers quand on presse la pastille', async () => {
   const writeText = jest.fn().mockResolvedValue(undefined);

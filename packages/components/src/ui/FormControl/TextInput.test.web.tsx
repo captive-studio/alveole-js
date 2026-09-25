@@ -1,3 +1,4 @@
+import { elementDuType } from '@/__tests__/helpers/elementDuType';
 import { act, renderOnDesktop, renderWeb, screen } from '@/__tests__/helpers/renderWeb';
 import { Button } from '../Button';
 import { TextInput } from './TextInput';
@@ -17,7 +18,7 @@ test('ignore openModal sur le web et laisse le champ saisissable', () => {
 // « on ne peut pas modifier », la ou `disabled` dit « ce champ ne participe pas ».
 test('desactive vraiment un champ desactive, au lieu de le figer en lecture seule', () => {
   renderWeb(<TextInput value="Fige" disabled onChangeText={() => undefined} />);
-  const champ = screen.getByDisplayValue('Fige') as HTMLInputElement;
+  const champ = elementDuType(screen.getByDisplayValue('Fige'), HTMLInputElement);
 
   expect({ disabled: champ.disabled, readOnly: champ.readOnly }).toEqual({ disabled: true, readOnly: false });
 });
@@ -107,7 +108,7 @@ test('aligne la hauteur du champ sur celle du bouton md', () => {
   const champ = container.querySelector('form-control-text-input-inner');
   const bouton = screen.getByRole('button');
 
-  expect(getComputedStyle(champ as Element).minHeight).toBe(getComputedStyle(bouton).height);
+  expect(getComputedStyle(elementDuType(champ, Element)).minHeight).toBe(getComputedStyle(bouton).height);
 });
 
 // ADR 0026 : un courriel n'a pas de comportement propre, il n'a donc pas de composant. Le
