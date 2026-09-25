@@ -1,10 +1,11 @@
 import { focusRingProps } from '@alveole/theme';
 import { CSSProperties } from 'react';
-import { Pressable, PressableProps } from 'react-native';
+import { Pressable, PressableProps, ViewStyle } from 'react-native';
 import { Typography } from '../../core/Typography';
 import { IconProps, LucideIcon } from '../LucideIcon';
 import { EtatDuPointeur } from '../pointeur';
 import { useStyles } from './Button.styles';
+import { styleDuPressable } from './buttonStyling';
 import {
   ButtonTaille,
   cleDEtat,
@@ -28,20 +29,17 @@ export type ButtonIconProps = Omit<PressableProps, 'children' | 'style' | 'acces
   variant: 'primary' | 'secondary' | 'tertiary';
 } & {
   // Styles props
-  style?: {
-    width?: number | string;
-    height?: number | string;
-    borderTop?: string;
-    borderBottom?: string;
-    borderLeft?: string;
-    borderRight?: string;
-    borderRadius?: number;
-    borderTopLeftRadius?: number;
-    borderBottomLeftRadius?: number;
-    borderTopRightRadius?: number;
-    borderBottomRightRadius?: number;
-    backgroundColor?: string;
-  };
+  style?: Pick<
+    ViewStyle,
+    | 'width'
+    | 'height'
+    | 'borderRadius'
+    | 'borderTopLeftRadius'
+    | 'borderBottomLeftRadius'
+    | 'borderTopRightRadius'
+    | 'borderBottomRightRadius'
+    | 'backgroundColor'
+  >;
 } & { icon: IconProps['name'] | number };
 
 /** Faute d'`iconSize`, l'icone suit la taille du bouton, en repliant `md` sur elle-meme. */
@@ -58,24 +56,24 @@ export const ButtonIcon = (props: ButtonIconProps) => {
 
   const styles = useStyles();
 
-  // Vue unique, contrairement a Button : rien n'existe pour remplir a 100 %, la valeur
-  // litterale du cran de controle est donc necessaire ici, pas seulement pour le Pressable.
-  const hauteur = styles[HAUTEUR_PAR_TAILLE[taille]].height;
-  const containerSize = { height: hauteur, width: hauteur };
-
   // Le survol tient ici le role que l'appui tient sur `Button` : c'est le seul etat actif
   // qu'un bouton sans libelle connaisse. D'ou l'etat actif emprunte a la table de survol,
   // le repos et le desactive restant ceux du conteneur.
   const etatsDuFond: EtatVisuel = { ...CONTENEUR_PAR_VARIANT[variant], actif: SURVOL_PAR_VARIANT[variant] };
 
   const containerStyle = (state: EtatDuPointeur) => ({
-    ...styles.container,
-    ...styles[etatsDuFond.repos],
-    ...styleDe(styles, cleDEtat(etatsDuFond, { disabled, actif: state.hovered })),
-    ...containerSize,
-    // Sans ca, la bordure de secondary s'ajouterait par-dessus la hauteur/largeur
-    // declarees : ce bouton serait alors 2 px plus grand que primary ou tertiary.
-    boxSizing: 'border-box' as const,
+    justifyContent: styles.container.justifyContent,
+    alignItems: styles.container.alignItems,
+    transitionProperty: styles.container.transitionProperty,
+    transitionDuration: styles.container.transitionDuration,
+    transitionTimingFunction: styles.container.transitionTimingFunction,
+    backgroundColor: {
+      ...styles[etatsDuFond.repos],
+      ...styleDe(styles, cleDEtat(etatsDuFond, { disabled, actif: state.hovered })),
+    }.backgroundColor,
+    ...styleDuPressable(styles, { variant, taille, disabled }, { hovered: !!state.hovered }),
+    // Le socle de `Button` pose la hauteur du cran de controle ; le carre n'a qu'a la reprendre.
+    width: styles[HAUTEUR_PAR_TAILLE[taille]].height,
     ...(style ?? {}),
   });
 
@@ -96,13 +94,9 @@ export const ButtonIcon = (props: ButtonIconProps) => {
   };
 
   return (
-    // Le systeme de design decrit ses styles en vocabulaire CSS, la ou `Pressable` attend un
-    // `ViewStyle` : les deux se recouvrent sans se confondre, `backgroundColor` par exemple n'y
-    // a pas le meme type. La conversion est explicite ici parce que c'est la frontiere. Le code
-    // precedent l'effacait en typant son accumulateur `any`, ce qui masquait aussi le reste.
     <Pressable
       accessibilityRole="button"
-      style={containerStyle as PressableProps['style']}
+      style={containerStyle}
       disabled={disabled}
       {...focusRingProps()}
       {...buttonProps}
