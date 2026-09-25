@@ -14,8 +14,7 @@ export default {
   styleFn: () => ({}),
 } satisfies Story;
 
-// TextareaInput est le champ nu : c'est FormControl qui porte le libellé et le relie au
-// champ. TextareaField fait cette composition pour vous ; la fiche la montre à découvert.
+// TextareaInput est le champ nu : c'est FormControl qui porte le libellé et le relie au champ.
 const Champ = ({ label, children }: { label: string; children: ReactNode }) => (
   <FormControl>
     <InputHeading>
