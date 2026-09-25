@@ -45,5 +45,15 @@ que ce composant gardait un état interne : `Select` est strictement contrôlé.
   figé, là où `Autocomplete` compensait par son état interne.
 - `SelectMultiple` devient redondant. Il reste exporté le temps que les apps
   migrent ; sa suppression fera l'objet d'un changement distinct.
+- En multi-sélection, l'option retenue se marque par une **case à cocher** en
+  tête de ligne (maquette `SelectList.Item`, variants `Coché`), et non par la
+  barre indicatrice, réservée à la sélection simple. La case n'est qu'un visuel
+  aux tokens de `Checkbox` sm : la ligne reste l'unique zone pressable, un
+  contrôle imbriqué dans un autre étant un anti-patron d'accessibilité. L'option
+  s'annonce en conséquence `checkbox`/`checked` sur natif, `role="checkbox"` et
+  `aria-checked` sur web, à la place du `role="option"`/`aria-selected` que
+  react-select pose dans ses `innerProps` et que `Select` réécrit. Le conteneur
+  garde le `role="listbox"` de react-select, qui attend des `option` : écart
+  assumé, à revoir si l'audit d'accessibilité le relève.
 - `BottomSheet` gagne une prop `moveOnKeyboardChange`, nécessaire pour que le
   panneau natif reste lisible quand le clavier s'ouvre sur le champ de recherche.
