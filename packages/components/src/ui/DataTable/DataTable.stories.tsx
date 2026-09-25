@@ -76,8 +76,8 @@ export const WithSorting = () => {
   const sortedData = React.useMemo(() => {
     if (!sort) return repositories;
     const sorted = [...repositories].sort((a, b) => {
-      const left = a[sort.columnId as keyof Repository];
-      const right = b[sort.columnId as keyof Repository];
+      const left = new Map(Object.entries(a)).get(sort.columnId);
+      const right = new Map(Object.entries(b)).get(sort.columnId);
       return String(left).localeCompare(String(right));
     });
     return sort.direction === 'asc' ? sorted : sorted.reverse();
