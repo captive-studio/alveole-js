@@ -1,4 +1,4 @@
-import { insereUnElement, metAJourUnElement, retireUnElement } from './TextInputArray.liste';
+import { insereUnElement, metAJourUnElement, normalizeOut, retireUnElement } from './TextInputArray.liste';
 
 const creeId = () => 'neuf';
 
@@ -38,4 +38,31 @@ test('ne change que la valeur saisie et laisse la valeur d origine', () => {
   const items = [{ id: 'a', value: 'un', _original: 'un' }];
 
   expect(metAJourUnElement(items, 'a', 'deux')).toEqual([{ id: 'a', value: 'deux', _original: 'un' }]);
+});
+
+describe('la sortie remise à l appelant', () => {
+  const items = [
+    { id: 'a', value: ' un ', _original: 'un' },
+    { id: 'b', value: '   ', _original: null },
+    { id: 'c', value: 'un', _original: null },
+  ];
+
+  // Par defaut, l'appelant recoit ce qu'il enregistrerait : ni espaces de bord, ni ligne vide.
+  // Les identifiants internes tombent, la valeur d'origine reste.
+  test('rogne les valeurs et retire les lignes vides par défaut', () => {
+    expect(normalizeOut(items, {})).toEqual([
+      { value: 'un', _original: 'un' },
+      { value: 'un', _original: null },
+    ]);
+  });
+
+  // Le dedoublonnage garde la premiere occurrence : c'est elle qui porte la valeur d'origine
+  // quand la ligne vient de la donnee chargee.
+  test('ne garde que la première occurrence d une valeur quand le dédoublonnage est demandé', () => {
+    expect(normalizeOut(items, { dedupe: true })).toEqual([{ value: 'un', _original: 'un' }]);
+  });
+
+  test('rend la saisie telle quelle quand le nettoyage est coupé', () => {
+    expect(normalizeOut(items, { trim: false, removeEmpty: false }).map(v => v.value)).toEqual([' un ', '   ', 'un']);
+  });
 });
