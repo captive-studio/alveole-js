@@ -119,7 +119,7 @@ Parcourir les 77 pages coûte près de deux minutes. Un motif facultatif restrei
 aux pages dont le nom le contient, les autres gardant leur relevé précédent :
 
 ```bash
-npm run test:a11y:baseline --workspace=apps/docs -- Select   # Select et SelectMultiple
+npm run test:a11y:baseline --workspace=apps/docs -- Select   # les pages dont le nom contient « Select »
 ```
 
 ## Déployer (publication npm)

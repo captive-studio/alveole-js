@@ -49,7 +49,6 @@ export const CONTROLES: Record<string, Controle> = {
     anneau: 'aucun',
   },
   Select: selecteur,
-  SelectMultiple: selecteur,
   OtpField: { champ: `[data-testid="otp-input-hidden"]${MODIFIABLE}`, cadre: 'otp', anneau: ENCASTRE },
 };
 

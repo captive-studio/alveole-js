@@ -44,9 +44,9 @@ test('refuse un build absent avec le même message qu’un build vide', () => {
 });
 
 test('ne retient que les routes dont le nom contient le motif', () => {
-  expect(matching(['/components/Select', '/components/SelectMultiple', '/components/TextField'], 'Select')).toEqual([
-    '/components/Select',
-    '/components/SelectMultiple',
+  expect(matching(['/components/Select', '/components/TextField', '/components/PhoneField'], 'Field')).toEqual([
+    '/components/TextField',
+    '/components/PhoneField',
   ]);
 });
 
