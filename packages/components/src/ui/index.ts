@@ -35,7 +35,6 @@ export * from './ProgressBar';
 export * from './RadioGroup';
 export * from './ResourceList';
 export * from './Select';
-export * from './SelectMultiple';
 export * from './Sidebar';
 export * from './Signature';
 export * from './Skeleton';

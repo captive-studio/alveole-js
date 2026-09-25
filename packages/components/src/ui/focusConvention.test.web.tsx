@@ -9,7 +9,6 @@ import { OtpField } from './OtpField';
 import { PhoneField } from './PhoneField';
 import { PriceInput } from './PriceInput';
 import { Select } from './Select';
-import { SelectMultiple } from './SelectMultiple';
 import { TextareaInput } from './TextareaInput';
 import { TimeInput } from './TimeInput';
 
@@ -57,10 +56,6 @@ const CONTROLES: Record<string, Controle> = {
   PriceInput: { element: <PriceInput value={null} />, champ: controle('.alveole-price-input') },
   Select: {
     element: <Select label="Pays" value={null} options={[{ value: 'fr', label: 'France' }]} />,
-    champ: controle('[role="combobox"]'),
-  },
-  SelectMultiple: {
-    element: <SelectMultiple label="Langues" options={[{ value: 'fr', label: 'Français' }]} value={[]} />,
     champ: controle('[role="combobox"]'),
   },
   OtpField: {
