@@ -1,4 +1,4 @@
-import { makeStyles } from '@alveole/theme';
+import { makeStyles, Spacings } from '@alveole/theme';
 
 export const useStyles = makeStyles(({ spacing, text, color }) => ({
   container: {},
@@ -18,7 +18,7 @@ export const useStyles = makeStyles(({ spacing, text, color }) => ({
   handle: {
     width: '90%',
     margin: 'auto',
-    height: spacing('2W') as number,
+    height: Spacings['2W'],
     backgroundColor: '#FFFFFF',
   },
   frame: {
