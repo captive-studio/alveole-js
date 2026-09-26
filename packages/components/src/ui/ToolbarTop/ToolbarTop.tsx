@@ -3,6 +3,7 @@ import { useStyles } from './ToolbarTop.styles';
 import { ToolbarTopProps } from './ToolbarTop.types';
 import { ToolbarTopInformation } from './ToolbarTopInformation';
 import { ToolbarTopNavigation } from './ToolbarTopNavigation';
+import { bordureDeLaBarre, dispositionDeLaBarre } from './toolbarTopStyling';
 
 export * from './ToolbarTop.types';
 
@@ -24,12 +25,6 @@ export const ToolbarTop = (props: ToolbarTopProps) => {
 
   const styles = useStyles();
   const empilee = variant === 'large';
-  const disposition = {
-    default: {},
-    large: styles.largeToolbarContainer,
-    compactLarge: styles.compactLargetoolbarContainer,
-  };
-
   // Les props sont transmises entieres, et non recomposees champ par champ : reassembler les
   // trois separerait le geste de son nom, et il faudrait un cast pour recoller l'union.
   const navigation = <ToolbarTopNavigation {...props} />;
@@ -54,12 +49,7 @@ export const ToolbarTop = (props: ToolbarTopProps) => {
   return (
     <Box
       tag="toolbar"
-      style={[
-        styles.toolbarContainer,
-        disposition[variant],
-        style,
-        withBorder ? styles.toolbarInformationWithBorder : {},
-      ]}
+      style={[dispositionDeLaBarre(styles, variant), style, bordureDeLaBarre(styles, withBorder)]}
       {...toolbarProps}
     >
       {navigation}

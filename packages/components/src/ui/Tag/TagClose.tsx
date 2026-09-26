@@ -2,9 +2,10 @@ import { Pressable } from 'react-native';
 import { LucideIcon } from '../LucideIcon';
 import { EtatDuPointeur } from '../pointeur';
 import { useStyles } from './Tag.styles';
+import { apparenceDeLaCroix, apparenceDeLIconeDeCroix, TailleDEtiquette } from './tagStyling';
 
 export type TagCloseProps = {
-  size: 'sm' | 'md';
+  size: TailleDEtiquette;
   /** Le libelle que la croix retire, quand c'est du texte annoncable. */
   libelle?: string;
   /** L'etiquette est survolee ou selectionnee : la croix suit et passe au gris sombre. */
@@ -35,14 +36,11 @@ export const TagClose = ({ size, libelle, fonce, onSurvol, onClose }: TagClosePr
       onPress={onClose}
       onHoverIn={() => onSurvol(true)}
       onHoverOut={() => onSurvol(false)}
-      style={(state: EtatDuPointeur) => ({
-        ...(size === 'sm' ? styles.croixSm : styles.croixMd),
-        ...(state.hovered ? styles.croixSurvolee : {}),
-      })}
+      style={(state: EtatDuPointeur) => apparenceDeLaCroix(styles, size, !!state.hovered)}
     >
       {/* Couleur explicite plutot que `currentColor` : React Native n'herite pas la couleur
           du texte parent, la croix resterait noire en natif quel que soit l'etat. */}
-      <LucideIcon name="X" size={size === 'sm' ? 'xs' : 'sm'} color={(fonce ? styles.tagSurvole : styles.tag).color} />
+      <LucideIcon name="X" {...apparenceDeLIconeDeCroix(styles, size, fonce)} />
     </Pressable>
   );
 };

@@ -6,7 +6,7 @@ import { LucideIcon, LucideIconProps } from '../LucideIcon';
 import { EtatDuPointeur } from '../pointeur';
 import { useStyles } from './Tag.styles';
 import { TagClose } from './TagClose';
-import { apparenceDeLaPastille, ecartDeLIcone } from './tagStyling';
+import { apparenceDeLaPastille, ecartDeLIcone, reponseAuPointeur } from './tagStyling';
 
 export type TagProps = {
   children: React.ReactNode;
@@ -42,38 +42,42 @@ export const Tag = (props: TagProps) => {
           fasse descendre l'etat du pointeur jusqu'au libelle et, plus tard, jusqu'a la
           croix : `hoverStyle` de Tamagui ne s'applique qu'a l'element qui le porte. */}
       <Pressable accessible={false} style={styles.zoneDeSurvol}>
-        {(state: EtatDuPointeur) => (
-          <Typography
-            style={apparenceDeLaPastille(styles, {
-              size,
-              survolee: manipulable && (!!state.hovered || croixSurvolee),
-              selectionnee: !!selected,
-              fermable: !!closable,
-            })}
-            {...tagProps}
-          >
-            {/* L'icone est enveloppee : `react-native-svg` absorbe le `style` qu'on lui
+        {(state: EtatDuPointeur) => {
+          const { survolee, fonce } = reponseAuPointeur({
+            manipulable,
+            pastilleSurvolee: !!state.hovered,
+            croixSurvolee,
+            selectionnee: !!selected,
+          });
+
+          return (
+            <Typography
+              style={apparenceDeLaPastille(styles, { size, survolee, selectionnee: !!selected, fermable: !!closable })}
+              {...tagProps}
+            >
+              {/* L'icone est enveloppee : `react-native-svg` absorbe le `style` qu'on lui
                 passe et n'en garde que les proprietes SVG, la marge serait perdue. */}
-            {icon && (
-              <Box style={ecartDeLIcone(styles, size)}>
-                {/* Taille unique dans les deux crans, a la difference de la croix. L'icone
+              {icon && (
+                <Box style={ecartDeLIcone(styles, size)}>
+                  {/* Taille unique dans les deux crans, a la difference de la croix. L'icone
                     porte du sens et ne se clique pas : elle n'a pas a offrir une cible qui
                     suive la pastille. Primer ne dimensionne pas non plus son `leadingVisual`. */}
-                <LucideIcon name={icon} size="sm" />
-              </Box>
-            )}
-            {children}
-            {closable && (
-              <TagClose
-                size={size}
-                libelle={typeof children === 'string' ? children : undefined}
-                onSurvol={setCroixSurvolee}
-                fonce={!!state.hovered || croixSurvolee || !!selected}
-                onClose={onClose}
-              />
-            )}
-          </Typography>
-        )}
+                  <LucideIcon name={icon} size="sm" />
+                </Box>
+              )}
+              {children}
+              {closable && (
+                <TagClose
+                  size={size}
+                  libelle={typeof children === 'string' ? children : undefined}
+                  onSurvol={setCroixSurvolee}
+                  fonce={fonce}
+                  onClose={onClose}
+                />
+              )}
+            </Typography>
+          );
+        }}
       </Pressable>
     </Box>
   );
