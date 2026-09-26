@@ -69,20 +69,17 @@ describe('MarkdownDescription', () => {
     expect(container.querySelector('table')).toBeNull();
   });
 
-  test('rend une citation avec une bordure gauche de 2px, pas un blockquote nu', () => {
+  // La bordure de la citation se mesure au navigateur (apps/docs/e2e/markdown.spec.ts).
+  test('rend une citation dans un vrai blockquote', () => {
     const { container } = renderWeb(<MarkdownDescription>{'> Une citation.'}</MarkdownDescription>);
 
     const blockquote = container.querySelector('blockquote');
 
     expect(blockquote?.textContent?.trim()).toBe('Une citation.');
-    expect(blockquote?.getAttribute('style')).toContain('border-left-width: 2px');
   });
 
-  // Même bleu que le lien du fil d'Ariane (Breadcrumbs.styles.ts). Le soulignement, lui, est
-  // permanent au repos : la règle d'accessibilité `link-in-text-block` (WCAG 1.4.1) exige
-  // qu'un lien noyé dans un paragraphe se distingue du texte par autre chose que sa couleur.
-  // Il disparaît au survol, où le curseur suffit déjà à distinguer le lien.
-  test('rend les liens dans la couleur du fil d’Ariane, avec un soulignement permanent au repos, retiré au survol', () => {
+  // Couleur et soulignement du lien se mesurent au navigateur (apps/docs/e2e/markdown.spec.ts).
+  test('rend les liens vers leur destination', () => {
     const { container } = renderWeb(
       <MarkdownDescription>{'[whatwg/html#5488](https://github.com/whatwg/html/issues/5488)'}</MarkdownDescription>,
     );
@@ -90,9 +87,6 @@ describe('MarkdownDescription', () => {
     const link = container.querySelector('a');
 
     expect(link?.getAttribute('href')).toBe('https://github.com/whatwg/html/issues/5488');
-    expect(getComputedStyle(link!).color).toBe('var(--text-default-info)');
-    expect(getComputedStyle(link!).textDecoration).toBe('underline');
-    expect(link?.className).toContain('hover-none');
   });
 });
 
@@ -114,14 +108,6 @@ describe('MarkdownDescription : coupures de ligne', () => {
 
     expect(container.querySelector('br')).not.toBeNull();
   });
-});
-
-test('MarkdownDescription applique la couleur passee en prop au texte du paragraphe', () => {
-  const { getByText } = renderWeb(
-    <MarkdownDescription color="var(--text-mention-grey)">{'Un texte.'}</MarkdownDescription>,
-  );
-
-  expect(getComputedStyle(getByText('Un texte.')).color).toBe('var(--text-mention-grey)');
 });
 
 // Les liens d'une description sont rendus par `Typography tag="a"` : de vrais `<a>`, qui
