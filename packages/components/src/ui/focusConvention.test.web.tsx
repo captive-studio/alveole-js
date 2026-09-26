@@ -46,7 +46,14 @@ const CONTROLES: Record<string, Controle> = {
     ),
     champ: controle('textarea'),
   },
-  DurationInput: { element: <DurationInput label="Durée" />, champ: saisie },
+  DurationInput: {
+    element: (
+      <FormControl label="Durée">
+        <DurationInput />
+      </FormControl>
+    ),
+    champ: saisie,
+  },
   DateInput: {
     element: (
       <FormControl label="Date">
@@ -55,7 +62,14 @@ const CONTROLES: Record<string, Controle> = {
     ),
     champ: saisie,
   },
-  TimeInput: { element: <TimeInput label="Heure" />, champ: saisie },
+  TimeInput: {
+    element: (
+      <FormControl label="Heure">
+        <TimeInput />
+      </FormControl>
+    ),
+    champ: saisie,
+  },
   NumberInput: {
     element: (
       <FormControl label="Nombre">
