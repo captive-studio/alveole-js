@@ -2,30 +2,39 @@ import React from 'react';
 import { Box } from '../../core/Box';
 import { Grid } from '../../core/Grid';
 import { Story } from '../../type';
+import { FormControl } from '../FormControl';
 import { DateInput } from './DateInput';
-import { useStyles } from './DateInput.styles';
 
 export default {
   title: 'DateInput',
   tags: ['ui'],
   experimental: true,
-  description: 'Champs de saisie de date.',
+  description:
+    'Champ de saisie de date, nu : on le place dans un FormControl pour son libellé, son aide et sa validation.',
   component: DateInput,
-  styleFn: useStyles,
+  styleFn: () => 'Aucun style appliqué',
 } satisfies Story;
 
 export const Default = () => (
   <Box width={'100%'}>
     <Grid gap={8}>
       <Grid.Column size={{ desktop: 6, mobile: 12 }}>
-        <DateInput label="Default" onChange={console.log} />
+        <FormControl label="Default">
+          <DateInput onChange={console.log} />
+        </FormControl>
       </Grid.Column>
       <Grid.Column size={{ desktop: 6, mobile: 12 }}>
-        <DateInput label="Error" onChange={console.log} error="Une erreur" />
-        <DateInput label="Succès" onChange={console.log} success="Date enregistrée" />
+        <FormControl label="Error" error="Une erreur">
+          <DateInput onChange={console.log} error="Une erreur" />
+        </FormControl>
+        <FormControl label="Succès" success="Date enregistrée">
+          <DateInput onChange={console.log} success="Date enregistrée" />
+        </FormControl>
       </Grid.Column>
       <Grid.Column size={{ desktop: 6, mobile: 12 }}>
-        <DateInput label="Disabled" onChange={console.log} disabled />
+        <FormControl label="Disabled" disabled>
+          <DateInput onChange={console.log} disabled />
+        </FormControl>
       </Grid.Column>
     </Grid>
   </Box>
@@ -39,16 +48,14 @@ export const Types = () => {
     <Box width={'100%'}>
       <Grid gap={8}>
         <Grid.Column size={{ desktop: 6, mobile: 12 }}>
-          <DateInput value={date} label="Date (default)" onChange={e => setDate(e.toString())} />
+          <FormControl label="Date (default)">
+            <DateInput value={date} onChange={e => setDate(e.toString())} />
+          </FormControl>
         </Grid.Column>
         <Grid.Column size={{ desktop: 6, mobile: 12 }}>
-          <DateInput
-            value={datetime}
-            label="Datetime"
-            type="datetime"
-            is24Hour
-            onChange={e => setDatetime(e.toString())}
-          />
+          <FormControl label="Datetime">
+            <DateInput value={datetime} type="datetime" is24Hour onChange={e => setDatetime(e.toString())} />
+          </FormControl>
         </Grid.Column>
       </Grid>
     </Box>

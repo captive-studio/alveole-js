@@ -5,7 +5,7 @@ import { toDate } from 'date-fns/toDate';
 import React, { useCallback } from 'react';
 import { Keyboard, Platform } from 'react-native';
 import { Box } from '../../core/Box';
-import { FieldFrame, FormControlModal, TextInput, TextInputElement } from '../FormControl';
+import { FormControlModal, TextInput, TextInputElement } from '../FormControl';
 
 import type { DateInputProps } from './DateInput';
 
@@ -62,11 +62,6 @@ const useBrouillonDate = ({
 
 export const DateInput = React.forwardRef<TextInputElement, DateInputProps>(function DateInput(props, ref) {
   const {
-    label,
-    labelRight,
-    hint,
-    error,
-    success,
     placeholder,
     disabled,
     value,
@@ -105,18 +100,16 @@ export const DateInput = React.forwardRef<TextInputElement, DateInputProps>(func
         </Box>
       </FormControlModal>
 
-      <FieldFrame {...props}>
-        <TextInput
-          ref={ref}
-          placeholder="JJ/MM/AAAA"
-          value={displayValue()}
-          {...inputProps}
-          caretHidden={true}
-          inputMode="none"
-          onPress={handleOpen}
-          readOnly
-        />
-      </FieldFrame>
+      <TextInput
+        ref={ref}
+        placeholder="JJ/MM/AAAA"
+        value={displayValue()}
+        {...inputProps}
+        caretHidden={true}
+        inputMode="none"
+        onPress={handleOpen}
+        readOnly
+      />
     </Box>
   );
 });
