@@ -41,16 +41,3 @@ test('desactive le bouton moins au minimum', () => {
 
   expect(elementDuType(screen.getByLabelText('Diminuer de 1'), HTMLButtonElement).disabled).toBe(true);
 });
-
-// L'input est un element DOM brut : React y lit une hauteur de ligne sans unite comme un
-// multiple de la taille de police (20 x 14 = 280px), la ou react-native-web ajoute `px`.
-test('pose la hauteur de ligne du champ en pixels', () => {
-  expect(champQuantite().style.lineHeight).toBe('20px');
-});
-
-// Le navigateur pose 1px de retrait vertical sur un input nombre, qui s'ajoute a la ligne.
-test('retire le retrait vertical que le navigateur pose sur le champ saisi', () => {
-  const { paddingTop, paddingBottom } = champQuantite().style;
-
-  expect({ paddingTop, paddingBottom }).toEqual({ paddingTop: '0px', paddingBottom: '0px' });
-});

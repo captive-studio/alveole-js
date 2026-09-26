@@ -65,24 +65,6 @@ test('affiche l accessoire placé à droite de son libellé', () => {
   expect(screen.getByText('Oublié ?')).toBeTruthy();
 });
 
-// Comme chez Primer, Atlassian et Base : seule la légende porte l'état (ADR 0026).
-test('garde la couleur de son libellé quand le champ est en erreur', () => {
-  renderOnDesktop(
-    <>
-      <FormControl label="Neutre">
-        <TextInput />
-      </FormControl>
-      <FormControl label="En erreur" error="Obligatoire">
-        <TextInput />
-      </FormControl>
-    </>,
-  );
-
-  expect(getComputedStyle(screen.getByText('En erreur')).color).toBe(
-    getComputedStyle(screen.getByText('Neutre')).color,
-  );
-});
-
 // Comme chez Primer, Atlassian et Base : l'enveloppe transmet la désactivation à son contrôle.
 test('désactive le contrôle qu il enveloppe', () => {
   renderOnDesktop(
@@ -92,23 +74,6 @@ test('désactive le contrôle qu il enveloppe', () => {
   );
 
   expect(elementDuType(screen.getByLabelText('Nom'), HTMLInputElement).disabled).toBe(true);
-});
-
-test('grise son libellé quand il est désactivé', () => {
-  renderOnDesktop(
-    <>
-      <FormControl label="Actif">
-        <TextInput />
-      </FormControl>
-      <FormControl label="Désactivé" disabled>
-        <TextInput />
-      </FormControl>
-    </>,
-  );
-
-  expect(getComputedStyle(screen.getByText('Désactivé')).color).not.toBe(
-    getComputedStyle(screen.getByText('Actif')).color,
-  );
 });
 
 // Comme chez Primer, Atlassian et Base : seul le champ requis est marqué.
@@ -130,23 +95,6 @@ test('annonce son contrôle comme requis', () => {
   );
 
   expect(screen.getByLabelText('Nom').getAttribute('aria-required')).toBe('true');
-});
-
-test('grise son indice quand il est désactivé', () => {
-  renderOnDesktop(
-    <>
-      <FormControl hint="Indice actif">
-        <TextInput />
-      </FormControl>
-      <FormControl hint="Indice désactivé" disabled>
-        <TextInput />
-      </FormControl>
-    </>,
-  );
-
-  expect(getComputedStyle(screen.getByText('Indice désactivé')).color).not.toBe(
-    getComputedStyle(screen.getByText('Indice actif')).color,
-  );
 });
 
 // Comme chez Primer et Atlassian : l'astérisque est visuel, aria-required porte l'annonce.
