@@ -11,7 +11,7 @@ const OPTIONS: SelectOption[] = [
 
 const monter = () => {
   const ref = React.createRef<SelectRef>();
-  renderWeb(<Select ref={ref} label="Pays" value={null} options={OPTIONS} />);
+  renderWeb(<Select ref={ref} value={null} options={OPTIONS} />);
 
   return ref;
 };

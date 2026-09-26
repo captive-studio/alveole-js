@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { Box } from '../../core/Box';
 import { Story } from '../../type';
+import { FormControl } from '../FormControl';
 import { Select } from './Select';
 import { useStyles } from './Select.styles';
 import type { SelectOption } from './Select.types';
@@ -10,9 +11,10 @@ export default {
   tags: ['ui'],
   experimental: false,
   figmaURL: 'https://www.figma.com/design/xJz8Z6vfrnZPKTtRbuT2W8/Alveole---Composants?node-id=3663-520',
-  shortDescription: "Sélecteur d'une ou plusieurs options, avec label, hint et états d'erreur/succès.",
+  shortDescription:
+    "Sélecteur d'une ou plusieurs options, nu : on le place dans un FormControl pour son libellé, son aide et sa validation.",
   description: [
-    "Sélecteur d'une ou plusieurs options, avec label, hint et états d'erreur/succès.",
+    "Sélecteur d'une ou plusieurs options, nu : on le place dans un FormControl pour son libellé, son aide et sa validation.",
     '',
     'Le panneau est rendu par le design system sur les deux plateformes : liste déroulante au clavier sur web,',
     'bottom sheet sur mobile. Chaque option peut porter une icône, et l’option sélectionnée est signalée par un',
@@ -91,17 +93,27 @@ export const Default = () => {
   const [value, setValue] = useState<string | null>(null);
   return (
     <Box display="flex" flexDirection="column" gap={24}>
-      <Select label="Sélection" placeholder="Choisir..." options={OPTIONS} value={value} onChange={setValue} />
+      <FormControl label="Sélection">
+        <Select placeholder="Choisir..." options={OPTIONS} value={value} onChange={setValue} />
+      </FormControl>
     </Box>
   );
 };
 
 export const States = () => (
   <Box display="flex" flexDirection="column" gap={24}>
-    <Select label="Avec valeur" options={OPTIONS} value="b" />
-    <Select label="Erreur" options={OPTIONS} value={null} error="Ce champ est requis" />
-    <Select label="Succès" options={OPTIONS} value="a" success="Valide" />
-    <Select label="Désactivé" options={OPTIONS} value="a" disabled />
+    <FormControl label="Avec valeur">
+      <Select options={OPTIONS} value="b" />
+    </FormControl>
+    <FormControl label="Erreur" error="Ce champ est requis">
+      <Select options={OPTIONS} value={null} error="Ce champ est requis" />
+    </FormControl>
+    <FormControl label="Succès" success="Valide">
+      <Select options={OPTIONS} value="a" success="Valide" />
+    </FormControl>
+    <FormControl label="Désactivé" disabled>
+      <Select options={OPTIONS} value="a" disabled />
+    </FormControl>
   </Box>
 );
 
@@ -109,7 +121,9 @@ export const WithIcons = () => {
   const [value, setValue] = useState<string | null>('contact');
   return (
     <Box display="flex" flexDirection="column" gap={24}>
-      <Select label="Type de ressource" options={ICON_OPTIONS} value={value} onChange={setValue} />
+      <FormControl label="Type de ressource">
+        <Select options={ICON_OPTIONS} value={value} onChange={setValue} />
+      </FormControl>
     </Box>
   );
 };
@@ -118,13 +132,9 @@ export const Grouped = () => {
   const [value, setValue] = useState<string | null>(null);
   return (
     <Box display="flex" flexDirection="column" gap={24}>
-      <Select
-        label="Type de document"
-        placeholder="Tous les types"
-        options={GROUPED_OPTIONS}
-        value={value}
-        onChange={setValue}
-      />
+      <FormControl label="Type de document">
+        <Select placeholder="Tous les types" options={GROUPED_OPTIONS} value={value} onChange={setValue} />
+      </FormControl>
     </Box>
   );
 };
@@ -133,7 +143,9 @@ export const LongList = () => {
   const [value, setValue] = useState<string | null>('option-42');
   return (
     <Box display="flex" flexDirection="column" gap={24}>
-      <Select label="Liste défilante" options={LONG_OPTIONS} value={value} onChange={setValue} />
+      <FormControl label="Liste défilante">
+        <Select options={LONG_OPTIONS} value={value} onChange={setValue} />
+      </FormControl>
     </Box>
   );
 };
@@ -142,14 +154,9 @@ export const Clearable = () => {
   const [value, setValue] = useState<string | null>('b');
   return (
     <Box display="flex" flexDirection="column" gap={24}>
-      <Select
-        label="Effaçable"
-        placeholder="Choisir..."
-        options={OPTIONS}
-        value={value}
-        onChange={setValue}
-        clearable
-      />
+      <FormControl label="Effaçable">
+        <Select placeholder="Choisir..." options={OPTIONS} value={value} onChange={setValue} clearable />
+      </FormControl>
     </Box>
   );
 };
@@ -159,14 +166,9 @@ export const Searchable = () => {
   const [value, setValue] = useState<string | null>(null);
   return (
     <Box display="flex" flexDirection="column" gap={24}>
-      <Select
-        label="Ville"
-        placeholder="Choisir..."
-        searchable
-        options={CITY_OPTIONS}
-        value={value}
-        onChange={setValue}
-      />
+      <FormControl label="Ville">
+        <Select placeholder="Choisir..." searchable options={CITY_OPTIONS} value={value} onChange={setValue} />
+      </FormControl>
     </Box>
   );
 };
@@ -195,18 +197,19 @@ export const RemoteSearch = () => {
 
   return (
     <Box display="flex" flexDirection="column" gap={24}>
-      <Select
-        label="Recherche distante"
-        placeholder="Saisir au moins 3 caractères..."
-        searchable
-        localFilter={false}
-        loading={loading}
-        emptyMessage="Saisir au moins 3 caractères"
-        options={options}
-        value={value}
-        onChange={setValue}
-        onSearchChange={search}
-      />
+      <FormControl label="Recherche distante">
+        <Select
+          placeholder="Saisir au moins 3 caractères..."
+          searchable
+          localFilter={false}
+          loading={loading}
+          emptyMessage="Saisir au moins 3 caractères"
+          options={options}
+          value={value}
+          onChange={setValue}
+          onSearchChange={search}
+        />
+      </FormControl>
     </Box>
   );
 };
@@ -216,15 +219,9 @@ export const Multiple = () => {
   const [values, setValues] = useState<string[]>(['a']);
   return (
     <Box display="flex" flexDirection="column" gap={24}>
-      <Select
-        label="Sélection multiple"
-        placeholder="Choisir..."
-        multiple
-        clearable
-        options={OPTIONS}
-        value={values}
-        onChange={setValues}
-      />
+      <FormControl label="Sélection multiple">
+        <Select placeholder="Choisir..." multiple clearable options={OPTIONS} value={values} onChange={setValues} />
+      </FormControl>
     </Box>
   );
 };
@@ -244,17 +241,18 @@ export const Creatable = () => {
 
   return (
     <Box display="flex" flexDirection="column" gap={24}>
-      <Select
-        label="Étiquettes"
-        placeholder="Rechercher ou créer..."
-        multiple
-        searchable
-        creatable
-        options={options}
-        value={values}
-        onChange={setValues}
-        onCreateOption={createOption}
-      />
+      <FormControl label="Étiquettes">
+        <Select
+          placeholder="Rechercher ou créer..."
+          multiple
+          searchable
+          creatable
+          options={options}
+          value={values}
+          onChange={setValues}
+          onCreateOption={createOption}
+        />
+      </FormControl>
     </Box>
   );
 };
@@ -278,21 +276,22 @@ export const Address = () => {
 
   return (
     <Box display="flex" flexDirection="column" gap={24}>
-      <Select
-        label="Adresse"
-        placeholder="ex : 3 rue Robespierre"
-        searchable
-        localFilter={false}
-        creatable
-        clearable
-        emptyMessage="Saisir au moins 3 caractères"
-        createLabel={query => `Utiliser « ${query} »`}
-        options={options}
-        value={value}
-        onChange={setValue}
-        onSearchChange={search}
-        onCreateOption={createAddress}
-      />
+      <FormControl label="Adresse">
+        <Select
+          placeholder="ex : 3 rue Robespierre"
+          searchable
+          localFilter={false}
+          creatable
+          clearable
+          emptyMessage="Saisir au moins 3 caractères"
+          createLabel={query => `Utiliser « ${query} »`}
+          options={options}
+          value={value}
+          onChange={setValue}
+          onSearchChange={search}
+          onCreateOption={createAddress}
+        />
+      </FormControl>
     </Box>
   );
 };

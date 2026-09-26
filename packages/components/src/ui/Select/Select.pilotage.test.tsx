@@ -11,7 +11,7 @@ jest.mock('tamagui', () => jest.requireActual('@/__tests__/helpers/selectHarness
 describe('Select, pilotage par la référence', () => {
   it('ouvre le panneau sur open() et le referme sur close()', async () => {
     const ref = React.createRef<SelectRef>();
-    const { queryByTestId } = await renderNative(<Select ref={ref} label="Sélection" options={OPTIONS} value={null} />);
+    const { queryByTestId } = await renderNative(<Select ref={ref} options={OPTIONS} value={null} />);
 
     await act(async () => ref.current?.open());
     expect(queryByTestId('select-option-a')).toBeTruthy();
@@ -22,7 +22,7 @@ describe('Select, pilotage par la référence', () => {
 
   it('ouvre le panneau sur focus() et le referme sur blur()', async () => {
     const ref = React.createRef<SelectRef>();
-    const { queryByTestId } = await renderNative(<Select ref={ref} label="Sélection" options={OPTIONS} value={null} />);
+    const { queryByTestId } = await renderNative(<Select ref={ref} options={OPTIONS} value={null} />);
 
     await act(async () => ref.current?.focus());
     expect(queryByTestId('select-option-a')).toBeTruthy();
@@ -33,9 +33,7 @@ describe('Select, pilotage par la référence', () => {
 
   it('reste ferme quand le selecteur est desactive', async () => {
     const ref = React.createRef<SelectRef>();
-    const { queryByTestId } = await renderNative(
-      <Select ref={ref} label="Sélection" options={OPTIONS} value={null} disabled />,
-    );
+    const { queryByTestId } = await renderNative(<Select ref={ref} options={OPTIONS} value={null} disabled />);
 
     await act(async () => ref.current?.open());
 

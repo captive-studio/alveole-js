@@ -25,10 +25,9 @@ export type SelectFieldPropsParams = {
  */
 export const selectFieldProps = (params: SelectFieldPropsParams): ReactSelectProps<SelectOption, boolean, Group> => {
   const { props, multiple, selectedOptions, groupedOptions, styles, components, onSearch } = params;
-  const { label, placeholder, clearable, disabled, searchable, localFilter, loading, onFocus, onBlur } = props;
+  const { placeholder, clearable, disabled, searchable, localFilter, loading, onFocus, onBlur } = props;
 
   return {
-    'aria-label': label,
     value: multiple ? selectedOptions : (selectedOptions[0] ?? null),
     options: groupedOptions,
     styles,

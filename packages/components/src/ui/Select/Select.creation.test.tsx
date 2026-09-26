@@ -16,7 +16,7 @@ const openWithQuery = async (element: ReactElement, query: string) => {
 describe('Select avec création d’option', () => {
   it('ne propose jamais la création sans l’avoir demandée', async () => {
     const { queryByTestId } = await openWithQuery(
-      <Select label="Sélection" options={OPTIONS} value={null} searchable />,
+      <Select options={OPTIONS} value={null} searchable />,
       'Nouvelle option',
     );
 
@@ -25,7 +25,7 @@ describe('Select avec création d’option', () => {
 
   it('propose la création quand aucune option ne porte ce libellé', async () => {
     const { getByTestId } = await openWithQuery(
-      <Select label="Sélection" options={OPTIONS} value={null} searchable creatable />,
+      <Select options={OPTIONS} value={null} searchable creatable />,
       'Nouvelle option',
     );
 
@@ -34,7 +34,7 @@ describe('Select avec création d’option', () => {
 
   it('ne propose pas la création quand un libellé identique existe', async () => {
     const { queryByTestId } = await openWithQuery(
-      <Select label="Sélection" options={OPTIONS} value={null} searchable creatable />,
+      <Select options={OPTIONS} value={null} searchable creatable />,
       'option a',
     );
 
@@ -44,7 +44,7 @@ describe('Select avec création d’option', () => {
   it('remonte la saisie débarrassée de ses espaces', async () => {
     const onCreateOption = jest.fn();
     const { getByTestId } = await openWithQuery(
-      <Select label="Sélection" options={OPTIONS} value={null} searchable creatable onCreateOption={onCreateOption} />,
+      <Select options={OPTIONS} value={null} searchable creatable onCreateOption={onCreateOption} />,
       '  Nouvelle option  ',
     );
 
