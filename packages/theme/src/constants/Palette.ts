@@ -75,16 +75,8 @@ export const CustomPalette = {
       focus: Colors['Focus']['525'],
     },
     illustration: {
-      'color-sun': {
-        default: {
-          yellow: Colors['Ocre']['sun-403'],
-        },
-      },
-      'color-950': {
-        default: {
-          yellow: Colors['Ocre']['950'],
-        },
-      },
+      'color-sun-default-yellow': Colors['Ocre']['sun-403'],
+      'color-950-default-yellow': Colors['Ocre']['950'],
     },
   },
 
