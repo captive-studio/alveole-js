@@ -24,7 +24,7 @@ export type BoxAdvancedStyle = SizeStyle & {
 
   backgroundColor?: string;
   borderWidth?: number;
-  borderRadius?: number;
+  borderRadius?: number | string;
   borderColor?: string;
   gap?: number | SpacingKey;
 };

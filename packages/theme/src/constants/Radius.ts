@@ -7,4 +7,4 @@ export const RadiusList = {
 
 // helpers
 export type RadiusKey = keyof typeof RadiusList;
-export type Radius = (typeof RadiusList)[RadiusKey];
+export type Radius = (typeof RadiusList)[RadiusKey] | `var(--radius-${RadiusKey})`;
