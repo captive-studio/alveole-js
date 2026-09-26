@@ -2,6 +2,7 @@ import React from 'react';
 import { KeyboardAvoidingView, Modal, Platform, Pressable, StyleProp, ViewStyle } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { Box } from '../../core/Box';
+import { versStyleNatif } from '../../core/styleNatif/versStyleNatif';
 import { Button, ButtonIcon } from '../Button';
 import { useStyles } from './FormControl.styles';
 
@@ -36,7 +37,11 @@ export const FormControlModal = (props: FormControlModalProps) => {
           keyboardVerticalOffset={Platform.OS === 'ios' ? -8 : 0}
           style={{ ...styles.modalSheet, paddingTop: top }}
         >
-          <Pressable accessible={false} style={styles.modalContent as StyleProp<ViewStyle>} onPress={() => null}>
+          <Pressable
+            accessible={false}
+            style={versStyleNatif<StyleProp<ViewStyle>>(styles.modalContent)}
+            onPress={() => null}
+          >
             <Box style={styles.modalHeader}>
               <Box style={styles.modalHeaderLeft}></Box>
               <Box style={styles.modalHeaderRight}>

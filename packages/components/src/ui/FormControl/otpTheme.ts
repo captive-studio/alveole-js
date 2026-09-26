@@ -1,5 +1,6 @@
 import { StyleValue } from '@alveole/theme';
 import { ViewStyle } from 'react-native';
+import { versStyleNatif } from '../../core/styleNatif/versStyleNatif';
 import { fieldBorderState } from './fieldBorderState';
 import type { useStyles } from './OtpInput.styles';
 
@@ -22,8 +23,8 @@ export type OtpThemeState = {
  * que nous ayons a l'arbitrer. Le repos, lui, porte l'etat desactive ou la validation.
  */
 export const otpTheme = (styles: OtpStyles, state: OtpThemeState) => ({
-  containerStyle: styles.containerStyle as ViewStyle,
-  pinCodeContainerStyle: {
+  containerStyle: versStyleNatif<ViewStyle>(styles.containerStyle),
+  pinCodeContainerStyle: versStyleNatif<ViewStyle>({
     ...styles.pinCodeContainerStyle,
     // Le parametre est explicite : la cellule desactivee ne pose qu'un fond, la cellule en
     // erreur qu'une bordure. Sans lui, l'inference cherche un type commun aux quatre etats
@@ -37,8 +38,8 @@ export const otpTheme = (styles: OtpStyles, state: OtpThemeState) => ({
       },
       state,
     ),
-  } as ViewStyle,
-  focusedPinCodeContainerStyle: styles.focusedPinCodeContainerStyle as ViewStyle,
-  focusStickStyle: styles.focusStickStyle as ViewStyle,
+  }),
+  focusedPinCodeContainerStyle: versStyleNatif<ViewStyle>(styles.focusedPinCodeContainerStyle),
+  focusStickStyle: versStyleNatif<ViewStyle>(styles.focusStickStyle),
   pinCodeTextStyle: styles.pinCodeTextStyle,
 });
