@@ -52,6 +52,11 @@ natif, il n'affichait que `JSON.stringify(value)`).
   vers son propre libellé. Atlassian et Base laissent au contraire le champ générique
   nommer le groupe, mais il faudrait alors transmettre un `labelId` dans le contexte et
   rendre un `<label>` qui ne désigne aucun champ.
+- **`DragAndDropFile` garde son texte** : son `label` et son `hint` ne sont pas l'étiquette
+  d'un champ mais le contenu de la zone, l'appel à l'action (« Importer des fiches de
+  paie ») et ce qu'on attend (« fichiers PDF »). Aucune référence n'en fait un champ :
+  Primer et Base n'ont pas de zone de dépôt, celle d'Atlassian (`Dropzone`) est invisible
+  et hors de `Field`. cae ne la place jamais dans un `FormControl`.
 
 ## Options écartées
 
