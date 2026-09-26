@@ -6,12 +6,14 @@ import { useStyles } from './FormControl.styles';
 
 export type FormControlLabelProps = {
   label: string;
+  /** Pour qu'un groupe se nomme de ce libellé par `aria-labelledby`, faute de champ unique à désigner. */
+  id?: string;
   labelRight?: React.ReactNode;
   disabled?: boolean;
 };
 
 export const FormControlLabel = (props: FormControlLabelProps) => {
-  const { label, labelRight, disabled: ownDisabled } = props;
+  const { label, id, labelRight, disabled: ownDisabled } = props;
 
   const styles = useStyles();
   const fieldId = useFieldId();
@@ -22,6 +24,7 @@ export const FormControlLabel = (props: FormControlLabelProps) => {
     <Box tag="form-control-label" style={styles.labelContainer}>
       <Typography
         tag="label"
+        id={id}
         htmlFor={fieldId}
         style={{
           ...styles.label,

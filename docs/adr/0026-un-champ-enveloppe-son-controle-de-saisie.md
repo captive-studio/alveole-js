@@ -47,6 +47,11 @@ natif, il n'affichait que `JSON.stringify(value)`).
   `PhoneInput`, `TextareaInput`, `OtpInput`, `FileInput`.
 - **`SelectMultiple` disparaît** au profit de `<Select multiple>` (fait), une fois
   `Select` à parité visuelle : une case à cocher par option (ADR 0014).
+- **`RadioGroup` garde son libellé**, comme le groupe de Primer : un groupe n'a pas de
+  champ unique qu'un `<label htmlFor>` désignerait, il se nomme par `aria-labelledby`
+  vers son propre libellé. Atlassian et Base laissent au contraire le champ générique
+  nommer le groupe, mais il faudrait alors transmettre un `labelId` dans le contexte et
+  rendre un `<label>` qui ne désigne aucun champ.
 
 ## Options écartées
 

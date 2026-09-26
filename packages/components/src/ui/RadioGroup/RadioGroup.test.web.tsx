@@ -14,3 +14,13 @@ test('demande la bague de focus au theme plutot que de la peindre lui-meme', () 
 
   expect(screen.getByRole('radio').getAttribute(FOCUS_ATTRIBUTE)).toBe('ring');
 });
+
+test('nomme le groupe de son libellé', () => {
+  renderWeb(
+    <RadioGroup value="a" label="Civilité">
+      <RadioInput value="a" id="a" size="md" label="Madame" />
+    </RadioGroup>,
+  );
+
+  expect(screen.getByRole('radiogroup', { name: 'Civilité' })).toBeTruthy();
+});
