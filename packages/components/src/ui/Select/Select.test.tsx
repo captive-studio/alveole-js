@@ -4,7 +4,7 @@ import { FormControl } from '../FormControl';
 import { Select } from './Select';
 import type { SelectOption } from './Select.types';
 
-jest.mock('tamagui', () => jest.requireActual('@/__tests__/helpers/selectHarness').mockTamaguiSheet());
+jest.mock('tamagui', () => jest.requireActual('@/__tests__/helpers/tamaguiSheetMock').mockTamaguiSheet());
 
 describe('Select dans un FormControl', () => {
   it('annonce le libellé du FormControl sur le champ', async () => {
@@ -28,6 +28,16 @@ describe('Select dans un FormControl', () => {
 
     // Une fois pour le libellé du FormControl, une fois pour le titre du panneau.
     expect(getAllByText('Pays')).toHaveLength(2);
+  });
+});
+
+describe('Select hors d’un FormControl', () => {
+  it('avertit qu’il n’a pas de nom', async () => {
+    const avertissement = jest.spyOn(console, 'warn').mockImplementation(() => {});
+
+    await renderNative(<Select options={OPTIONS} value={null} />);
+
+    expect(avertissement).toHaveBeenCalledWith('Warning:', expect.stringContaining('FormControl'));
   });
 });
 

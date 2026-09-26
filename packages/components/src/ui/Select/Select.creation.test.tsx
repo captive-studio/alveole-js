@@ -1,13 +1,13 @@
-import { renderNative, within } from '@/__tests__/helpers/renderNative';
-import { OPTIONS, press, search } from '@/__tests__/helpers/selectHarness';
+import { within } from '@/__tests__/helpers/renderNative';
+import { OPTIONS, press, renderSelect, search } from '@/__tests__/helpers/selectHarness';
 import type { ReactElement } from 'react';
 import { Select } from './Select';
 
-jest.mock('tamagui', () => jest.requireActual('@/__tests__/helpers/selectHarness').mockTamaguiSheet());
+jest.mock('tamagui', () => jest.requireActual('@/__tests__/helpers/tamaguiSheetMock').mockTamaguiSheet());
 
 /** Ouvre le panneau puis saisit une recherche : le point de départ de chaque cas. */
 const openWithQuery = async (element: ReactElement, query: string) => {
-  const view = await renderNative(element);
+  const view = await renderSelect(element);
   await press(view.getByTestId('select-trigger'));
   await search(view.getByTestId('select-search'), query);
   return view;
