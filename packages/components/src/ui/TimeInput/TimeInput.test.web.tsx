@@ -1,16 +1,13 @@
 import { renderWeb, screen } from '@/__tests__/helpers/renderWeb';
+import { FormControl } from '../FormControl';
 import { TimeInput } from './TimeInput';
 
-test('associe le libellé au champ', () => {
-  renderWeb(<TimeInput label="Heure de rendez-vous" />);
+test('associe le libellé du FormControl au champ', () => {
+  renderWeb(
+    <FormControl label="Heure de rendez-vous">
+      <TimeInput />
+    </FormControl>,
+  );
 
   expect(screen.getByLabelText('Heure de rendez-vous')).toBeTruthy();
-});
-
-test('entoure le champ de son libellé, de son indice et de son message d erreur', () => {
-  renderWeb(<TimeInput label="Heure" hint="Au format HH:MM" error="Heure invalide" />);
-
-  expect(screen.getByText('Heure')).toBeTruthy();
-  expect(screen.getByText('Au format HH:MM')).toBeTruthy();
-  expect(screen.getByText('Heure invalide')).toBeTruthy();
 });

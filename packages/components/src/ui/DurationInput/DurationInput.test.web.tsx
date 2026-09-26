@@ -1,17 +1,16 @@
 import { fireEvent, renderOnDesktop, screen } from '@/__tests__/helpers/renderWeb';
-import { DurationInput } from './DurationInput';
+import { FormControl } from '../FormControl';
+import { DurationInput, DurationInputProps } from './DurationInput';
 
-test('entoure le champ de son libellé, de son indice et de son message d erreur', () => {
-  renderOnDesktop(<DurationInput label="Durée" hint="Au format HH:MM" error="Durée invalide" />);
-
-  expect(screen.getByText('Durée')).toBeTruthy();
-  expect(screen.getByText('Au format HH:MM')).toBeTruthy();
-  expect(screen.getByText('Durée invalide')).toBeTruthy();
-});
+const dansUnFormControl = (props: DurationInputProps) => (
+  <FormControl label="Durée">
+    <DurationInput {...props} />
+  </FormControl>
+);
 
 test('insère les deux-points et transmet la durée une fois les quatre chiffres saisis', () => {
   const onChange = jest.fn();
-  renderOnDesktop(<DurationInput label="Durée" onChange={onChange} />);
+  renderOnDesktop(dansUnFormControl({ onChange }));
 
   fireEvent.change(screen.getByLabelText('Durée'), { target: { value: '123' } });
   expect(screen.getByLabelText('Durée')).toHaveProperty('value', '12:3');
@@ -24,7 +23,7 @@ test('insère les deux-points et transmet la durée une fois les quatre chiffres
 test('transmet la saisie incomplète quand le champ perd le focus', () => {
   const onChange = jest.fn();
   const onBlur = jest.fn();
-  renderOnDesktop(<DurationInput label="Durée" onChange={onChange} onBlur={onBlur} />);
+  renderOnDesktop(dansUnFormControl({ onChange, onBlur }));
 
   fireEvent.change(screen.getByLabelText('Durée'), { target: { value: '1' } });
   fireEvent.blur(screen.getByLabelText('Durée'));
@@ -34,9 +33,9 @@ test('transmet la saisie incomplète quand le champ perd le focus', () => {
 });
 
 test('reprend la valeur fournie quand elle change', () => {
-  const { rerender } = renderOnDesktop(<DurationInput label="Durée" value="01:00" />);
+  const { rerender } = renderOnDesktop(dansUnFormControl({ value: '01:00' }));
 
-  rerender(<DurationInput label="Durée" value="02:30" />);
+  rerender(dansUnFormControl({ value: '02:30' }));
 
   expect(screen.getByLabelText('Durée')).toHaveProperty('value', '02:30');
 });
