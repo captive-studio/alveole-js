@@ -2,11 +2,11 @@ import { useTheme } from '@alveole/theme';
 import { Pressable, StyleProp, ViewStyle } from 'react-native';
 import { Box } from '../../core/Box';
 import { Typography } from '../../core/Typography';
-import { fieldBorderState } from '../FormControl/fieldBorderState';
 import { LucideIcon } from '../LucideIcon';
 import { Tag } from '../Tag';
 import { useStyles } from './Select.styles';
 import type { SelectOption } from './Select.types';
+import { selectTriggerStyle } from './selectTriggerStyle';
 
 /** Nombre de puces affichées avant de résumer le reste par « +N ». */
 const MAX_VISIBLE_TAGS = 3;
@@ -111,15 +111,7 @@ export const SelectTrigger = (props: SelectTriggerProps) => {
         onPress={onPress}
         // `makeStyles` produit des CSSProperties (spacing renvoie une CSS var sur web) :
         // le cast est le même que celui des autres champs, cf. FormControl/TextInput.
-        style={
-          {
-            ...styles.inputInner,
-            ...(multiple ? styles.inputInnerMultiple : {}),
-            // Le panneau ouvert est l'etat actif du selecteur : c'est lui qui joue le
-            // role du focus, et qui passe donc devant l'erreur et le succes.
-            ...fieldBorderState(styles, { disabled, focus: open, error, success }),
-          } as StyleProp<ViewStyle>
-        }
+        style={selectTriggerStyle(styles, { disabled, open, multiple, error, success }) as StyleProp<ViewStyle>}
       >
         {multiple && selectedOptions.length > 0 ? (
           <Puces options={selectedOptions} onRemoveValue={onRemoveValue} />
