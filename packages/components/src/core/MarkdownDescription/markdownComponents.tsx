@@ -40,7 +40,7 @@ type MarkdownComponentsStyles = {
 
 type TextComponentStyles = Pick<MarkdownComponentsStyles, 'bodyStyle' | 'boldStyle' | 'textColor'>;
 
-const createTextComponents = ({ bodyStyle, boldStyle, textColor }: TextComponentStyles) => ({
+export const createTextComponents = ({ bodyStyle, boldStyle, textColor }: TextComponentStyles) => ({
   p: ({ children: c }: AvecEnfants) => (
     <Typography style={bodyStyle} color={textColor}>
       {c}

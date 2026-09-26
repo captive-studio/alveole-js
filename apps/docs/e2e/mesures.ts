@@ -1,4 +1,4 @@
-import type { Locator } from '@playwright/test';
+import type { Locator, Page } from '@playwright/test';
 
 /**
  * Les mesures de mise en page des écrans du catalogue, prises dans le navigateur : jsdom n'a
@@ -58,3 +58,21 @@ export const bords = async (element: Locator) => {
 
   return { haut: boite.y, bas: boite.y + boite.height };
 };
+
+/**
+ * Ce que vaut, calculée, une valeur du thème posée sur une propriété CSS : la variable se résout
+ * sur une sonde, comme pour `tailleDeTexte`.
+ */
+export const valeurCalculee = (page: Page, propriete: 'color' | 'borderTopLeftRadius', valeur: string) =>
+  page.evaluate(
+    ([nom, css]) => {
+      const sonde = document.createElement('div');
+      sonde.style[nom] = css;
+      document.body.appendChild(sonde);
+      const calculee = window.getComputedStyle(sonde)[nom];
+      sonde.remove();
+
+      return calculee;
+    },
+    [propriete, valeur] as const,
+  );

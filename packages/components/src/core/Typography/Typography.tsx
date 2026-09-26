@@ -7,6 +7,7 @@ import {
 } from '@tamagui/core';
 import React, { CSSProperties } from 'react';
 import { versStyleTamagui } from '../styleTamagui/versStyleTamagui';
+import { couleurDuTexte } from './couleurDuTexte';
 import { useStyles } from './Typography.styles';
 import type { TypographyStyle } from './Typography.types';
 
@@ -33,7 +34,7 @@ export const Typography = React.forwardRef<TypographyElement, TypographyProps>(f
       // Le defaut vit ici et non dans une regle globale sur `body` : le paquet de theme
       // n'emet que `:root` et les polices (voir docs/adr/0009). Sans cela, le texte
       // retombait sur le noir du theme tamagui au lieu du gris du design system.
-      color={color ?? styles.text.color}
+      color={couleurDuTexte(styles, color)}
       {...textProps}
     />
   );
