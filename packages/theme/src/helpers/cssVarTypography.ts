@@ -1,13 +1,7 @@
 import { isRecord } from './isRecord';
 import { sanitizeCSSKey } from './sanitizeCSSKey';
 
-/**
- * Traduit l'arbre des jetons typographiques pour le rendu web : chaque feuille (reconnue a
- * son `fontSize` numerique) voit ses metriques remplacees par des references aux variables
- * CSS du theme, dont le nom vient du chemin dans l'arbre. La forme de l'arbre est preservee,
- * d'ou la signature generique : ce que `Theme['text']` attend, la fonction le rend.
- */
-export const toCSSVarTypography = <T>(node: T, path: string[] = []): T => {
+const traduitArbre = (node: unknown, path: string[] = []): unknown => {
   if (!isRecord(node)) return node;
 
   if (typeof node.fontSize === 'number') {
@@ -23,12 +17,20 @@ export const toCSSVarTypography = <T>(node: T, path: string[] = []): T => {
     if (typeof node.textTransform === 'string') {
       result.textTransform = `var(--typography-${prefix}-text-transform)`;
     }
-    return result as T;
+    return result;
   }
 
-  const result: Record<string, unknown> = {};
-  Object.entries(node).forEach(([key, value]) => {
-    result[key] = toCSSVarTypography(value, [...path, key]);
-  });
-  return result as T;
+  return Object.fromEntries(Object.entries(node).map(([key, value]) => [key, traduitArbre(value, [...path, key])]));
 };
+
+/**
+ * Traduit l'arbre des jetons typographiques pour le rendu web : chaque feuille (reconnue a
+ * son `fontSize` numerique) voit ses metriques remplacees par des references aux variables
+ * CSS du theme, dont le nom vient du chemin dans l'arbre. La forme de l'arbre est preservee.
+ *
+ * Seconde assertion toleree, a la frontiere avec React Native : le `TextStyle` natif exige
+ * des nombres la ou react-native-web accepte une variable CSS. Un type honnete
+ * (`string | number`) serait refuse par chaque style `Text` des applications. Elle est
+ * exemptee de la regle par un override de la config ESLint, pas par une directive.
+ */
+export const toCSSVarTypography = traduitArbre as <T>(node: T) => T;
