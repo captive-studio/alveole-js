@@ -1,9 +1,9 @@
-import { makeStyles } from '@alveole/theme';
+import { makeStyles, type Radius } from '@alveole/theme';
 
 // La croix ne bouge jamais entre ses etats : son icone est centree sur les deux axes, et
 // seul le fond du cercle change au survol. Des retraits calcules par etat la feraient
 // sautiller d'un pixel des que le pointeur l'atteint.
-const cercleDeLaCroix = (cote: number, rayon: number, ecart: number) => ({
+const cercleDeLaCroix = (cote: number, rayon: Radius, ecart: number) => ({
   marginLeft: ecart,
   alignItems: 'center' as const,
   justifyContent: 'center' as const,

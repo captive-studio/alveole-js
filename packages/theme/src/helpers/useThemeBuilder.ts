@@ -19,7 +19,7 @@ import {
 } from '../constants';
 import { controlSizesFor } from '../constants/Control';
 import { pillSizeFor } from '../constants/Pill';
-import { Radius, RadiusList } from '../constants/Radius';
+import { RadiusList } from '../constants/Radius';
 import { alpha } from './alphaColor';
 import { toCSSVarPalette } from './cssVarPalette';
 import { toCSSVarTypography } from './cssVarTypography';
@@ -74,7 +74,7 @@ export function useThemeBuilder(params: CustomBuilder): Theme & { isReady: boole
     externalPadding,
 
     // Radius
-    radius: key => (Platform.OS === 'web' ? `var(--radius-${key})` : RadiusList[key]) as Radius,
+    radius: key => (Platform.OS === 'web' ? (`var(--radius-${key})` as const) : RadiusList[key]),
 
     // Dimensions des controles : la densite suit la largeur d'ecran, comme externalPadding
     control: key => controlSizesFor(variant)[key],
