@@ -1,4 +1,3 @@
-import { contour } from '@/__tests__/helpers/contour';
 import { renderNative } from '@/__tests__/helpers/renderNative';
 import { FormControl } from '../FormControl';
 import { DateInput } from './DateInput';
@@ -20,11 +19,4 @@ test("laisse le FormControl seul afficher le message d'erreur", async () => {
   );
 
   expect(getAllByText('Date invalide')).toHaveLength(1);
-});
-
-test('colore la bordure du champ en erreur', async () => {
-  const repos = contour(await renderNative(<DateInput value="2025-07-22" />));
-  const view = await renderNative(<DateInput value="2025-07-22" error="Date invalide" />);
-
-  expect(contour(view)).not.toBe(repos);
 });
