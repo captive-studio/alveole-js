@@ -8,31 +8,20 @@ import { setMinutes } from 'date-fns/setMinutes';
 import React, { useCallback, useMemo, useState } from 'react';
 import { Keyboard } from 'react-native';
 import { Box } from '../../core/Box';
-import {
-  FieldFrame,
-  FormControlCaptionProps,
-  FormControlHintProps,
-  FormControlLabelProps,
-  TextInput,
-  TextInputElement,
-  TextInputProps,
-} from '../FormControl';
+import { TextInput, TextInputElement, TextInputProps } from '../FormControl';
 
 type MinuteInterval = 1 | 2 | 3 | 4 | 5 | 6 | 10 | 12 | 15 | 20 | 30;
 
-export type DateInputProps = Omit<TextInputProps, 'type'> &
-  FormControlLabelProps &
-  FormControlHintProps &
-  FormControlCaptionProps & {
-    type?: 'date' | 'datetime' | 'month';
-    display?: 'default' | 'spinner';
-    value?: string;
-    minimumDate?: Date;
-    maximumDate?: Date;
-    onChange?: (date: string) => void;
-    is24Hour?: boolean;
-    minuteInterval?: MinuteInterval;
-  };
+export type DateInputProps = Omit<TextInputProps, 'type'> & {
+  type?: 'date' | 'datetime' | 'month';
+  display?: 'default' | 'spinner';
+  value?: string;
+  minimumDate?: Date;
+  maximumDate?: Date;
+  onChange?: (date: string) => void;
+  is24Hour?: boolean;
+  minuteInterval?: MinuteInterval;
+};
 
 // Le selecteur natif ne sait demander qu'une chose a la fois : en mode `datetime`, il faut le
 // rouvrir en mode heure apres la date, et chaque etape doit remettre les deux drapeaux dans le
@@ -113,11 +102,6 @@ const useSelecteurDate = ({
 
 export const DateInput = React.forwardRef<TextInputElement, DateInputProps>(function DateInput(props, ref) {
   const {
-    label,
-    labelRight,
-    hint,
-    error,
-    success,
     placeholder,
     disabled,
     value,
@@ -140,32 +124,30 @@ export const DateInput = React.forwardRef<TextInputElement, DateInputProps>(func
 
   return (
     <Box tag="date-input" onPress={handleOpen}>
-      <FieldFrame {...props}>
-        <TextInput
-          ref={ref}
-          placeholder="JJ/MM/AAAA"
-          value={displayValue()}
-          {...inputProps}
-          readOnly
-          onPress={handleOpen}
-          caretHidden={true}
-          inputMode="none"
-        />
+      <TextInput
+        ref={ref}
+        placeholder="JJ/MM/AAAA"
+        value={displayValue()}
+        {...inputProps}
+        readOnly
+        onPress={handleOpen}
+        caretHidden={true}
+        inputMode="none"
+      />
 
-        {!!showPicker && (
-          <DateTimePicker
-            value={selectedDate}
-            mode={mode}
-            locale={'fr'}
-            display={display ?? 'default'}
-            maximumDate={maximumDate}
-            minimumDate={minimumDate}
-            onChange={handleChange}
-            is24Hour={is24Hour}
-            minuteInterval={minuteInterval}
-          />
-        )}
-      </FieldFrame>
+      {!!showPicker && (
+        <DateTimePicker
+          value={selectedDate}
+          mode={mode}
+          locale={'fr'}
+          display={display ?? 'default'}
+          maximumDate={maximumDate}
+          minimumDate={minimumDate}
+          onChange={handleChange}
+          is24Hour={is24Hour}
+          minuteInterval={minuteInterval}
+        />
+      )}
     </Box>
   );
 });
