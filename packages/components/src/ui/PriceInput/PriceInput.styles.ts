@@ -2,6 +2,9 @@ import { focusBorder, makeStyles } from '@alveole/theme';
 
 export const useStyles = makeStyles(({ text, color, spacing }) => ({
   container: {
+    display: 'flex',
+    flexDirection: 'column',
+    width: '100%',
     borderBottomWidth: 1,
     borderBottomColor: color.light.border['plain-grey'],
     paddingBottom: spacing('1W'),
