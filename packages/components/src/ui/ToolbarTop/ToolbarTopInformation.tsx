@@ -3,6 +3,7 @@ import { Typography } from '../../core/Typography';
 import { Avatar } from '../Avatar';
 import { useStyles } from './ToolbarTop.styles';
 import { InformationDeLaBarre } from './ToolbarTop.types';
+import { styleDuBlocDInformation, styleDuSousTitre, styleDuTitre } from './toolbarTopStyling';
 
 /**
  * Ce qui identifie le dossier courant. Le style que l'appelant fournit passe en dernier : il sert
@@ -12,38 +13,19 @@ export const ToolbarTopInformation = ({
   title,
   sousTitre,
   AvatarProps,
-  typographyStyle = {},
+  typographyStyle,
   grandTitre,
   compact,
 }: InformationDeLaBarre) => {
   const styles = useStyles();
 
   return (
-    <Box
-      tag="toolbar-information"
-      style={{ ...styles.toolbarInformation, ...(compact ? styles.compactLargeInformations : {}) }}
-    >
+    <Box tag="toolbar-information" style={styleDuBlocDInformation(styles, compact)}>
       {AvatarProps && <Avatar {...AvatarProps} size="md" carre />}
       <Box tag="toolbar-information-title" style={styles.toolbarInformationTitle}>
-        <Typography
-          style={{
-            ...styles.toolbarInformationTitleText,
-            ...(grandTitre ? styles.largeInformationTitleText : {}),
-            ...typographyStyle,
-          }}
-        >
-          {title}
-        </Typography>
+        <Typography style={styleDuTitre(styles, grandTitre, typographyStyle)}>{title}</Typography>
         {sousTitre && (
-          <Typography
-            style={{
-              ...styles.toolbarInformationTitleSubText,
-              ...(grandTitre ? styles.largeToolbarInformationTitleSubText : {}),
-              ...typographyStyle,
-            }}
-          >
-            {sousTitre}
-          </Typography>
+          <Typography style={styleDuSousTitre(styles, grandTitre, typographyStyle)}>{sousTitre}</Typography>
         )}
       </Box>
     </Box>

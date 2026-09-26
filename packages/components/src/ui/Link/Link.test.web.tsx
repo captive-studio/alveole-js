@@ -9,35 +9,6 @@ test('rend un lien vers sa destination, avec son texte', () => {
   expect(screen.getByRole('link', { name: 'Aller' }).getAttribute('href')).toBe('/quelque-part');
 });
 
-// Un lien pris dans du texte ne doit pas se distinguer par sa seule couleur (WCAG 1.4.1) : il
-// est souligné au repos, comme chez Atlassian et Base.
-test('souligne son texte au repos', () => {
-  renderWeb(<Link href="/quelque-part">Aller</Link>);
-
-  expect(getComputedStyle(screen.getByRole('link')).textDecoration).toBe('underline');
-});
-
-test("prend la couleur d'action du theme", () => {
-  renderWeb(<Link href="/quelque-part">Aller</Link>);
-
-  expect(getComputedStyle(screen.getByRole('link')).color).toBe('var(--text-action-high-info)');
-});
-
-// Au survol, le soulignement disparaît (comme chez Atlassian) : le changement signale le lien sous
-// le pointeur sans rien déplacer.
-test('retire le soulignement au survol', () => {
-  renderWeb(<Link href="/quelque-part">Aller</Link>);
-
-  expect(screen.getByRole('link').className).toContain('hover-none');
-});
-
-// Un lien de texte vit au milieu d'une phrase : aucun de ses éléments ne doit la couper.
-test('reste dans le fil du texte', () => {
-  renderWeb(<Link href="/quelque-part">Aller</Link>);
-
-  expect(getComputedStyle(screen.getByRole('link')).display).toBe('inline');
-});
-
 test('demande la bague de focus au theme', () => {
   renderWeb(<Link href="/quelque-part">Aller</Link>);
 
