@@ -1,12 +1,12 @@
-import { act, fireEvent, renderNative } from '@/__tests__/helpers/renderNative';
-import { OPTIONS, press, search } from '@/__tests__/helpers/selectHarness';
+import { act, fireEvent } from '@/__tests__/helpers/renderNative';
+import { OPTIONS, press, renderSelect, search } from '@/__tests__/helpers/selectHarness';
 import { Select } from './Select';
 
-jest.mock('tamagui', () => jest.requireActual('@/__tests__/helpers/selectHarness').mockTamaguiSheet());
+jest.mock('tamagui', () => jest.requireActual('@/__tests__/helpers/tamaguiSheetMock').mockTamaguiSheet());
 
 describe('Select avec recherche locale', () => {
   it('n’affiche un champ de recherche que lorsqu’il est demandé', async () => {
-    const { getByTestId, queryByTestId } = await renderNative(<Select options={OPTIONS} value={null} />);
+    const { getByTestId, queryByTestId } = await renderSelect(<Select options={OPTIONS} value={null} />);
 
     await press(getByTestId('select-trigger'));
 
@@ -14,7 +14,7 @@ describe('Select avec recherche locale', () => {
   });
 
   it('filtre les options sur la saisie', async () => {
-    const { getByTestId, queryByTestId } = await renderNative(<Select options={OPTIONS} value={null} searchable />);
+    const { getByTestId, queryByTestId } = await renderSelect(<Select options={OPTIONS} value={null} searchable />);
 
     await press(getByTestId('select-trigger'));
     await search(getByTestId('select-search'), 'Option C');
@@ -24,7 +24,7 @@ describe('Select avec recherche locale', () => {
   });
 
   it('ne filtre aucune option quand le filtrage local est coupé', async () => {
-    const { getByTestId, queryByTestId } = await renderNative(
+    const { getByTestId, queryByTestId } = await renderSelect(
       <Select options={OPTIONS} value={null} searchable localFilter={false} />,
     );
 
@@ -35,7 +35,7 @@ describe('Select avec recherche locale', () => {
   });
 
   it('affiche le message de liste vide quand la recherche ne ramène rien', async () => {
-    const { getByTestId, getByText } = await renderNative(
+    const { getByTestId, getByText } = await renderSelect(
       <Select options={OPTIONS} value={null} searchable emptyMessage="Rien à afficher" />,
     );
 
@@ -46,7 +46,7 @@ describe('Select avec recherche locale', () => {
   });
 
   it('remplace le message de liste vide par celui du chargement', async () => {
-    const { getByTestId, getByText } = await renderNative(
+    const { getByTestId, getByText } = await renderSelect(
       <Select options={[]} value={null} searchable loading loadingMessage="Recherche en cours" />,
     );
 
@@ -61,7 +61,7 @@ describe('Select avec recherche distante', () => {
     jest.useFakeTimers();
     try {
       const onSearchChange = jest.fn();
-      const { getByTestId } = await renderNative(
+      const { getByTestId } = await renderSelect(
         <Select options={OPTIONS} value={null} searchable onSearchChange={onSearchChange} />,
       );
 
@@ -85,7 +85,7 @@ describe('Select avec recherche distante', () => {
   });
 
   it('repart d’une recherche vide à chaque ouverture', async () => {
-    const { getByTestId, queryByTestId } = await renderNative(<Select options={OPTIONS} value={null} searchable />);
+    const { getByTestId, queryByTestId } = await renderSelect(<Select options={OPTIONS} value={null} searchable />);
 
     await press(getByTestId('select-trigger'));
     await search(getByTestId('select-search'), 'Option C');

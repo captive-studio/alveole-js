@@ -1,51 +1,21 @@
-import { act, fireEvent } from '@/__tests__/helpers/renderNative';
+import { act, fireEvent, renderNative } from '@/__tests__/helpers/renderNative';
+import { FormControl } from '@/src/ui/FormControl';
 import type { SelectOption } from '@/src/ui/Select/Select.types';
 import React from 'react';
-import { ScrollView } from 'react-native';
-
-/**
- * Le Sheet Tamagui s'anime : dans l'environnement de test il reste monté mais avec
- * `pointerEvents: 'none'`, ce qui rend ses options impossibles à presser. On le remplace
- * par un rendu conditionnel simple pour éprouver la logique du Select, pas l'animation.
- * Le comportement réel du sheet (drag, overlay, retour Android) se vérifie sur appareil.
- *
- * À appeler depuis le `jest.mock('tamagui', …)` de chaque module de test : la fabrique
- * est hissée avant les imports, elle ne peut donc pas fermer sur une valeur du module.
- */
-export const mockTamaguiSheet = () => {
-  const actual = jest.requireActual('tamagui');
-  const { View } = jest.requireActual('react-native');
-  const ReactActual = jest.requireActual('react');
-
-  const Sheet = (props: { children: React.ReactNode; open?: boolean }) =>
-    props.open ? ReactActual.createElement(View, null, props.children) : null;
-
-  const Overlay = () => null;
-  Overlay.displayName = 'SheetOverlay';
-  Sheet.Overlay = Overlay;
-
-  const Handle = () => null;
-  Handle.displayName = 'SheetHandle';
-  Sheet.Handle = Handle;
-
-  const Frame = (props: { children: React.ReactNode }) => ReactActual.createElement(View, null, props.children);
-  Frame.displayName = 'SheetFrame';
-  Sheet.Frame = Frame;
-
-  const SheetScrollView = ReactActual.forwardRef((props: object, ref: React.Ref<ScrollView>) =>
-    ReactActual.createElement(View, { ref, ...props }),
-  );
-  SheetScrollView.displayName = 'SheetScrollView';
-  Sheet.ScrollView = SheetScrollView;
-
-  return { ...actual, Sheet };
-};
 
 export const OPTIONS: SelectOption[] = [
   { label: 'Option A', value: 'a' },
   { label: 'Option B', value: 'b' },
   { label: 'Option C', value: 'c' },
 ];
+
+const dansUnFormControl = (select: React.ReactElement) => <FormControl label="Pays">{select}</FormControl>;
+
+/** Monte le Select comme on l'emploie : nommé par son FormControl. */
+export const renderSelect = async (select: React.ReactElement) => {
+  const view = await renderNative(dansUnFormControl(select));
+  return { ...view, rerender: (suivant: React.ReactElement) => view.rerender(dansUnFormControl(suivant)) };
+};
 
 /** L'ouverture et la fermeture du panneau passent par un état : il faut laisser React le propager. */
 export const press = async (element: Parameters<typeof fireEvent.press>[0]) => {

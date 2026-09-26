@@ -14,6 +14,10 @@ export const Select = React.forwardRef<SelectRef, SelectProps>(function Select(p
   const values = toSelectedValues(props);
 
   const label = useFieldLabel();
+  const title = sheetTitle ?? label;
+  if (__DEV__ && title == null) {
+    console.warn('Warning:', 'Select sans nom : placez-le dans un FormControl ou passez-lui sheetTitle.');
+  }
   const panneau = usePanneauSelect(props, ref);
 
   // L'ordre suit celui de `value`, pas celui d'`options` : c'est la sélection
@@ -43,7 +47,7 @@ export const Select = React.forwardRef<SelectRef, SelectProps>(function Select(p
         {...props}
         open={panneau.open}
         setOpen={panneau.setOpen}
-        title={sheetTitle ?? label ?? ''}
+        title={title ?? ''}
         values={values}
         multiple={props.multiple}
         onSelect={value => publier(toggleSelectedValue(props, value))}
