@@ -27,3 +27,11 @@ test('remplace un tableau au lieu de le fusionner', () => {
 test('laisse la valeur de base quand la surcharge la declare nulle', () => {
   expect(deepMerge({ couleur: 'rouge' }, { couleur: undefined })).toEqual({ couleur: 'rouge' });
 });
+
+// Une base tableau ressort en tableau, copiee : la surcharge ne doit pas muter la base partagee.
+test('rend une copie du tableau de base plutot que la base elle-meme', () => {
+  const base = [1, 2, 3];
+  const fusion = deepMerge(base, { 0: 9 });
+
+  expect({ fusion, base }).toEqual({ fusion: [9, 2, 3], base: [1, 2, 3] });
+});

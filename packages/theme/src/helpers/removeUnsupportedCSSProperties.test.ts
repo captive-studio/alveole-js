@@ -1,3 +1,4 @@
+import { Platform } from 'react-native';
 import { removeUnsupportedCSSProperties } from './removeUnsupportedCSSProperties';
 
 jest.mock('react-native', () => ({ Platform: { OS: 'ios' } }));
@@ -14,4 +15,11 @@ describe('removeUnsupportedCSSProperties sur iOS', () => {
 
     expect(removeUnsupportedCSSProperties(styles)).toEqual({ bouton: { color: 'red', outlineWidth: undefined } });
   });
+});
+
+// Seul iOS a une liste d'exclusions : une plateforme qui n'en a pas garde tous ses styles.
+it('laisse intacts les styles d une plateforme sans exclusion', () => {
+  jest.replaceProperty(Platform, 'OS', 'android');
+
+  expect(removeUnsupportedCSSProperties({ bouton: { outlineWidth: 3 } })).toEqual({ bouton: { outlineWidth: 3 } });
 });
