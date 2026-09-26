@@ -2,6 +2,7 @@ import React from 'react';
 import type { TextInputProps } from 'react-native';
 import { OtpInput as OtpEntry, OtpInputProps as OtpEntryProps, OtpInputRef } from 'react-native-otp-entry';
 import { Box } from '../../core/Box';
+import { versStyleNatif } from '../../core/styleNatif/versStyleNatif';
 import { useFieldId } from './FieldId';
 import { useStyles } from './OtpInput.styles';
 import { otpTheme } from './otpTheme';
@@ -33,7 +34,11 @@ export const OtpInput = React.forwardRef<OtpInputElement, OtpInputProps>(functio
         // `outline` est une propriete du web que le `TextStyle` de react-native ne connait
         // pas : la conversion est explicite ici parce que c'est la frontiere, comme dans
         // `ButtonIcon`. Le style lui-meme se relit et s'eprouve dans la table.
-        textInputProps={{ id: fieldId, style: styles.hiddenInputStyle as TextInputProps['style'], ...textInputProps }}
+        textInputProps={{
+          id: fieldId,
+          style: versStyleNatif<TextInputProps['style']>(styles.hiddenInputStyle),
+          ...textInputProps,
+        }}
         {...inputProps}
       />
     </Box>

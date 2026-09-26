@@ -1,5 +1,6 @@
 import { ComponentProps } from 'react';
 import { Platform, StyleProp, ViewStyle } from 'react-native';
+import { versStyleNatif } from '../../core/styleNatif/versStyleNatif';
 import { LucideIconName, LucideIconProps } from './LucideIcon.props';
 import * as LabIcons from './vendor/lab';
 import * as LucideIcons from './vendor/lucide';
@@ -50,26 +51,18 @@ export const LucideIcon = (props: IconProps) => {
     xl: 64,
   };
 
-  const defaultStyle = { stroke: color ?? 'currentColor' };
-  const mergedStyle = [defaultStyle, style];
+  const mergedStyle = versStyleNatif<StyleProp<ViewStyle>>({ stroke: color ?? 'currentColor', ...style });
 
   const IconComponent = iconesLucide[name];
 
   if (IconComponent) {
-    return (
-      <IconComponent
-        style={mergedStyle as StyleProp<ViewStyle>}
-        strokeWidth={strokeWidth}
-        color={color}
-        size={sizeMap[size]}
-      />
-    );
+    return <IconComponent style={mergedStyle} strokeWidth={strokeWidth} color={color} size={sizeMap[size]} />;
   }
 
   return (
     <BaseIcon
       iconNode={iconesLab[name]}
-      style={mergedStyle as StyleProp<ViewStyle>}
+      style={mergedStyle}
       strokeWidth={strokeWidth}
       color={color}
       size={sizeMap[size]}

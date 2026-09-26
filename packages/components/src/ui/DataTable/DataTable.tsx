@@ -1,6 +1,7 @@
 import React from 'react';
-import { ScrollView } from 'react-native';
+import { ScrollView, StyleProp, ViewStyle } from 'react-native';
 import { Box } from '../../core/Box';
+import { versStyleNatif } from '../../core/styleNatif/versStyleNatif';
 import { Typography } from '../../core/Typography';
 import { useStyles } from './DataTable.styles';
 import { DataTableColumn, DataTableSize, DataTableSort } from './DataTable.types';
@@ -67,7 +68,11 @@ export const DataTable = <Row,>(props: DataTableProps<Row>) => {
 
   return (
     <Box tag="data-table" style={styles.table}>
-      <ScrollView horizontal showsHorizontalScrollIndicator contentContainerStyle={styles.scrollContent as object}>
+      <ScrollView
+        horizontal
+        showsHorizontalScrollIndicator
+        contentContainerStyle={versStyleNatif<StyleProp<ViewStyle>>(styles.scrollContent)}
+      >
         {!hideHeader && (
           <DataTableHeaderRow
             columns={columns}

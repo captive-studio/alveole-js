@@ -1,5 +1,6 @@
 import React from 'react';
 import { StyleProp, TextStyle } from 'react-native';
+import { versStyleNatif } from '../../core/styleNatif/versStyleNatif';
 import { FieldBorderState, fieldBorderState } from './fieldBorderState';
 import { useStyles } from './FormControl.styles';
 
@@ -38,7 +39,7 @@ export const inputTextStyle = (
   styles: Styles,
   { startAdornment, endAdornment }: Pick<InputFrameState, 'startAdornment' | 'endAdornment'>,
 ) =>
-  ({
+  versStyleNatif<StyleProp<TextStyle>>({
     ...styles.input,
-    ...(startAdornment && endAdornment ? { textAlign: 'center' } : {}),
-  }) as StyleProp<TextStyle>;
+    ...(startAdornment && endAdornment ? { textAlign: 'center' as const } : {}),
+  });

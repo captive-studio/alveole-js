@@ -2,6 +2,7 @@ import { useTheme } from '@alveole/theme';
 import React from 'react';
 import { TextInput as ReactNativeTextInput, StyleProp, TextStyle } from 'react-native';
 import { Box } from '../../core/Box';
+import { versStyleNatif } from '../../core/styleNatif/versStyleNatif';
 import { useStyles } from './FormControl.styles';
 import { FormControlModal } from './FormControlModal';
 import { TextInputElement, TextInputProps } from './TextInput.types';
@@ -46,7 +47,7 @@ export const TextInputModal = React.forwardRef<TextInputElement, TextInputProps>
         <Box style={styles.modalInputContainer}>
           <ReactNativeTextInput
             ref={modal.modalInputRef}
-            style={styles.modalInput as StyleProp<TextStyle>}
+            style={versStyleNatif<StyleProp<TextStyle>>(styles.modalInput)}
             readOnly={disabled === true || readOnly === true}
             onFocus={modal.handleModalFocus}
             onBlur={onBlur}

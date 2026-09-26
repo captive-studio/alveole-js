@@ -1,6 +1,7 @@
 import { useTheme } from '@alveole/theme';
 import { Pressable, StyleProp, ViewStyle } from 'react-native';
 import { Box } from '../../core/Box';
+import { versStyleNatif } from '../../core/styleNatif/versStyleNatif';
 import { Typography } from '../../core/Typography';
 import { LucideIcon } from '../LucideIcon';
 import { Tag } from '../Tag';
@@ -111,7 +112,9 @@ export const SelectTrigger = (props: SelectTriggerProps) => {
         onPress={onPress}
         // `makeStyles` produit des CSSProperties (spacing renvoie une CSS var sur web) :
         // le cast est le même que celui des autres champs, cf. FormControl/TextInput.
-        style={selectTriggerStyle(styles, { disabled, open, multiple, error, success }) as StyleProp<ViewStyle>}
+        style={versStyleNatif<StyleProp<ViewStyle>>(
+          selectTriggerStyle(styles, { disabled, open, multiple, error, success }),
+        )}
       >
         {multiple && selectedOptions.length > 0 ? (
           <Puces options={selectedOptions} onRemoveValue={onRemoveValue} />

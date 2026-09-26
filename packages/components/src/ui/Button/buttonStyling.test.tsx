@@ -79,8 +79,12 @@ it('rend invisible la bordure structurelle du tertiary', async () => {
 });
 
 // `sm` est la seule taille qui emprunte ses rayons a `smContainer` plutot qu'au conteneur commun.
-it('donne a la taille sm un rayon plus petit qu aux autres tailles', async () => {
-  expect((await coque({ taille: 'sm' })).borderTopLeftRadius).toBeLessThan((await coque()).borderTopLeftRadius);
+// Les valeurs sont ancrees plutot que comparees : sur web, un rayon est une variable CSS.
+it.each([
+  ['sm', 4], // radius('sm')
+  ['md', 6], // radius('md')
+] as const)('donne a la taille %s son rayon', async (taille, rayon) => {
+  expect((await coque({ taille })).borderTopLeftRadius).toBe(rayon);
 });
 
 it('etale la coque sur toute la largeur quand fullWidth est demande', async () => {
