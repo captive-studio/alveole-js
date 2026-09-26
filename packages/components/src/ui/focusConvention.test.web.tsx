@@ -66,7 +66,11 @@ const CONTROLES: Record<string, Controle> = {
   },
   PriceInput: { element: <PriceInput value={null} />, champ: controle('.alveole-price-input') },
   Select: {
-    element: <Select label="Pays" value={null} options={[{ value: 'fr', label: 'France' }]} />,
+    element: (
+      <FormControl label="Pays">
+        <Select value={null} options={[{ value: 'fr', label: 'France' }]} />
+      </FormControl>
+    ),
     champ: controle('[role="combobox"]'),
   },
   OtpInput: {

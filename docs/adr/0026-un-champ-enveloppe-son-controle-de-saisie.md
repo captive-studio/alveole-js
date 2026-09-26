@@ -20,6 +20,15 @@ natif, il n'affichait que `JSON.stringify(value)`).
   `<FormControl label="Nom" error={e}><TextInput /></FormControl>`. L'enveloppant relie
   l'étiquette et les messages au contrôle par un contexte (id partagé), sans que le
   contrôle reçoive ces props.
+- **Sur natif, le contexte transmet aussi le texte de l'étiquette** : React Native n'a pas
+  d'`aria-labelledby` (`accessibilityLabelledBy` n'existe que sur Android), le contrôle ne
+  peut donc pas désigner l'étiquette par son id et doit la lire pour son nom accessible.
+  C'est le fonctionnement des deux plateformes : sur Android, `TextInputLayout` enveloppe
+  le champ et lui fournit son `hint` ; sur iOS, `Picker("Parfum", selection:)` reçoit le
+  texte lui-même. Sur web, seul l'id sert, comme chez Primer et Atlassian
+  (`<Select inputId={id}>`). Le titre du panneau de `Select` reprend cette étiquette par
+  défaut, `sheetTitle` le remplace : aucune référence ne l'impose (Material n'en affiche
+  pas, Apple ne dit rien), c'est une convention du kit.
 - **Plus aucun contrôle ne s'habille lui-même** : les `*Field` disparaissent, et `Select`
   comme `DateInput` perdent leurs props `label`, `hint` et `error`.
 - **L'étiquette ne prend pas la couleur de l'état** : seule la légende passe en erreur
@@ -46,6 +55,9 @@ natif, il n'affichait que `JSON.stringify(value)`).
   Atlassian et Base gardent tous trois un contrôle nu public et placent l'habillage dans
   un composant distinct. S'en écarter donnait au nom court un sens inverse du leur et
   forçait à cacher la brique nue sous un autre nom.
+- **`accessibilityLabel` et `sheetTitle` obligatoires sur le contrôle natif** : fidèle à
+  Primer, dont le contexte ne partage que des ids, mais chaque appel répéterait
+  l'étiquette déjà donnée au `FormControl`, et un oubli laisserait le contrôle muet.
 - **Contrôle qui s'habille seulement s'il reçoit une étiquette** : une structure DOM qui
   change selon les props. Aucune des trois références ne le fait.
 - **Sous-composants à la Primer** (`FormControl.Label`, `FormControl.Caption`) : plus

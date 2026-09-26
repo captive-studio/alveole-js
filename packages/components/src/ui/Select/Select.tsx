@@ -1,6 +1,5 @@
 import React from 'react';
-import { FieldFrame } from '../FormControl';
-import { useStyles } from './Select.styles';
+import { useFieldLabel } from '../FormControl/FieldId';
 import type { SelectProps, SelectRef } from './Select.types';
 import { SelectBottomSheet } from './SelectBottomSheet';
 import { SelectTrigger } from './SelectTrigger';
@@ -8,13 +7,13 @@ import { emitSelectChange, toSelectedValues, toggleSelectedValue } from './selec
 import { usePanneauSelect } from './usePanneauSelect';
 
 export const Select = React.forwardRef<SelectRef, SelectProps>(function Select(props, ref) {
-  const { label, options, placeholder, sheetTitle, disabled, error, success } = props;
+  const { options, placeholder, sheetTitle, disabled, error, success } = props;
 
   // `multiple`, `value` et `onChange` ne sont jamais déstructurés : l'union
   // n'est discriminée que sur l'objet `props` entier.
   const values = toSelectedValues(props);
 
-  const styles = useStyles();
+  const label = useFieldLabel();
   const panneau = usePanneauSelect(props, ref);
 
   // L'ordre suit celui de `value`, pas celui d'`options` : c'est la sélection
@@ -26,7 +25,7 @@ export const Select = React.forwardRef<SelectRef, SelectProps>(function Select(p
   const publier = (suivantes: string[]) => emitSelectChange(props, suivantes);
 
   return (
-    <FieldFrame {...props} style={styles.pickerContainer}>
+    <>
       <SelectTrigger
         label={label}
         placeholder={placeholder}
@@ -44,7 +43,7 @@ export const Select = React.forwardRef<SelectRef, SelectProps>(function Select(p
         {...props}
         open={panneau.open}
         setOpen={panneau.setOpen}
-        title={sheetTitle ?? label}
+        title={sheetTitle ?? label ?? ''}
         values={values}
         multiple={props.multiple}
         onSelect={value => publier(toggleSelectedValue(props, value))}
@@ -53,6 +52,6 @@ export const Select = React.forwardRef<SelectRef, SelectProps>(function Select(p
         onQueryChange={panneau.onQueryChange}
         onCreate={props.onCreateOption}
       />
-    </FieldFrame>
+    </>
   );
 });

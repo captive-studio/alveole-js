@@ -9,7 +9,7 @@ describe('Select en multi-sélection', () => {
   it('coche l’option pressée sans refermer le panneau', async () => {
     const onChange = jest.fn();
     const { getByTestId, queryByTestId } = await renderNative(
-      <Select label="Sélection" options={OPTIONS} multiple value={[]} onChange={onChange} />,
+      <Select options={OPTIONS} multiple value={[]} onChange={onChange} />,
     );
 
     await press(getByTestId('select-trigger'));
@@ -21,9 +21,7 @@ describe('Select en multi-sélection', () => {
 
   it('ajoute la valeur à celles déjà retenues', async () => {
     const onChange = jest.fn();
-    const { getByTestId } = await renderNative(
-      <Select label="Sélection" options={OPTIONS} multiple value={['a']} onChange={onChange} />,
-    );
+    const { getByTestId } = await renderNative(<Select options={OPTIONS} multiple value={['a']} onChange={onChange} />);
 
     await press(getByTestId('select-trigger'));
     await press(getByTestId('select-option-c'));
@@ -34,7 +32,7 @@ describe('Select en multi-sélection', () => {
   it('retire une valeur déjà retenue', async () => {
     const onChange = jest.fn();
     const { getByTestId } = await renderNative(
-      <Select label="Sélection" options={OPTIONS} multiple value={['a', 'c']} onChange={onChange} />,
+      <Select options={OPTIONS} multiple value={['a', 'c']} onChange={onChange} />,
     );
 
     await press(getByTestId('select-trigger'));
@@ -44,9 +42,7 @@ describe('Select en multi-sélection', () => {
   });
 
   it('referme le panneau au bouton de validation', async () => {
-    const { getByTestId, queryByTestId } = await renderNative(
-      <Select label="Sélection" options={OPTIONS} multiple value={['a']} />,
-    );
+    const { getByTestId, queryByTestId } = await renderNative(<Select options={OPTIONS} multiple value={['a']} />);
 
     await press(getByTestId('select-trigger'));
     await press(getByTestId('select-validate'));
@@ -57,7 +53,7 @@ describe('Select en multi-sélection', () => {
   it('vide la sélection depuis l’entrée d’effacement', async () => {
     const onChange = jest.fn();
     const { getByTestId } = await renderNative(
-      <Select label="Sélection" options={OPTIONS} multiple value={['a', 'b']} clearable onChange={onChange} />,
+      <Select options={OPTIONS} multiple value={['a', 'b']} clearable onChange={onChange} />,
     );
 
     await press(getByTestId('select-trigger'));
@@ -75,7 +71,7 @@ describe('Select en multi-sélection, cases à cocher du panneau', () => {
     ['décochée', 'b', { checked: false, disabled: false }],
     ['désactivée', 'd', { checked: false, disabled: true }],
   ])('annonce une option %s comme une case à cocher', async (_etat, valeur, etat) => {
-    const { getByTestId } = await renderNative(<Select label="Sélection" options={options} multiple value={['a']} />);
+    const { getByTestId } = await renderNative(<Select options={options} multiple value={['a']} />);
 
     await press(getByTestId('select-trigger'));
     const option = getByTestId(`select-option-${valeur}`);
@@ -85,7 +81,7 @@ describe('Select en multi-sélection, cases à cocher du panneau', () => {
   });
 
   it('garde le rôle bouton en mono-sélection', async () => {
-    const { getByTestId } = await renderNative(<Select label="Sélection" options={OPTIONS} value="a" />);
+    const { getByTestId } = await renderNative(<Select options={OPTIONS} value="a" />);
 
     await press(getByTestId('select-trigger'));
     const option = getByTestId('select-option-a');
@@ -97,9 +93,7 @@ describe('Select en multi-sélection, cases à cocher du panneau', () => {
 
 describe('Select en multi-sélection, champ fermé', () => {
   it('affiche une puce par valeur dans le champ fermé', async () => {
-    const { getByTestId } = await renderNative(
-      <Select label="Sélection" options={OPTIONS} multiple value={['a', 'c']} />,
-    );
+    const { getByTestId } = await renderNative(<Select options={OPTIONS} multiple value={['a', 'c']} />);
 
     const trigger = within(getByTestId('select-trigger'));
 
@@ -110,7 +104,7 @@ describe('Select en multi-sélection, champ fermé', () => {
   it('retire la valeur au press de la croix d’une puce', async () => {
     const onChange = jest.fn();
     const { getByLabelText } = await renderNative(
-      <Select label="Sélection" options={OPTIONS} multiple value={['a', 'c']} onChange={onChange} />,
+      <Select options={OPTIONS} multiple value={['a', 'c']} onChange={onChange} />,
     );
 
     await press(getByLabelText('Retirer Option A'));
@@ -120,9 +114,7 @@ describe('Select en multi-sélection, champ fermé', () => {
 
   it('résume les valeurs au-delà de trois puces', async () => {
     const options: SelectOption[] = [...OPTIONS, { label: 'Option D', value: 'd' }];
-    const { getByTestId } = await renderNative(
-      <Select label="Sélection" options={options} multiple value={['a', 'b', 'c', 'd']} />,
-    );
+    const { getByTestId } = await renderNative(<Select options={options} multiple value={['a', 'b', 'c', 'd']} />);
 
     const trigger = within(getByTestId('select-trigger'));
 

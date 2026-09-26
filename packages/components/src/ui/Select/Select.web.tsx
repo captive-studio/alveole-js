@@ -2,7 +2,7 @@ import React from 'react';
 import ReactSelect, { GroupBase } from 'react-select';
 import CreatableSelect from 'react-select/creatable';
 import { Box } from '../../core/Box';
-import { FieldFrame } from '../FormControl';
+import { useFieldId } from '../FormControl/FieldId';
 import { useStyles as useSelectStyles } from './Select.styles';
 import type { SelectOption, SelectProps, SelectRef } from './Select.types';
 import { useSelectWebField } from './useSelectWebField';
@@ -14,22 +14,22 @@ export const Select = React.forwardRef<SelectRef, SelectProps>(function Select(p
 
   const selectStyles = useSelectStyles();
   const { fieldProps, instanceRef, createLabel } = useSelectWebField(props, ref, selectStyles);
+  // L'id vient du FormControl, dont l'étiquette désigne ainsi le champ (ADR 0026).
+  const champ = { ...fieldProps, inputId: useFieldId() };
 
   return (
-    <FieldFrame {...props} style={selectStyles.pickerContainer}>
-      <Box tag="form-control-select-input" style={selectStyles.inputContainer}>
-        {creatable ? (
-          <CreatableSelect<SelectOption, boolean, Group>
-            {...fieldProps}
-            ref={instanceRef}
-            onCreateOption={query => onCreateOption?.(query.trim())}
-            formatCreateLabel={query => createLabel(query.trim())}
-            createOptionPosition="first"
-          />
-        ) : (
-          <ReactSelect<SelectOption, boolean, Group> {...fieldProps} ref={instanceRef} />
-        )}
-      </Box>
-    </FieldFrame>
+    <Box tag="form-control-select-input" style={selectStyles.inputContainer}>
+      {creatable ? (
+        <CreatableSelect<SelectOption, boolean, Group>
+          {...champ}
+          ref={instanceRef}
+          onCreateOption={query => onCreateOption?.(query.trim())}
+          formatCreateLabel={query => createLabel(query.trim())}
+          createOptionPosition="first"
+        />
+      ) : (
+        <ReactSelect<SelectOption, boolean, Group> {...champ} ref={instanceRef} />
+      )}
+    </Box>
   );
 });

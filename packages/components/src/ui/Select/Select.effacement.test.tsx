@@ -7,9 +7,7 @@ jest.mock('tamagui', () => jest.requireActual('@/__tests__/helpers/selectHarness
 describe('Select, effacement de la sélection', () => {
   it('remonte null depuis l’entrée « Effacer »', async () => {
     const onChange = jest.fn();
-    const { getByTestId } = await renderNative(
-      <Select label="Sélection" options={OPTIONS} value="a" clearable onChange={onChange} />,
-    );
+    const { getByTestId } = await renderNative(<Select options={OPTIONS} value="a" clearable onChange={onChange} />);
 
     await press(getByTestId('select-trigger'));
     await press(getByTestId('select-clear'));
@@ -18,9 +16,7 @@ describe('Select, effacement de la sélection', () => {
   });
 
   it('n’expose pas « Effacer » quand la sélection est déjà vide', async () => {
-    const { getByTestId, queryByTestId } = await renderNative(
-      <Select label="Sélection" options={OPTIONS} value={null} clearable />,
-    );
+    const { getByTestId, queryByTestId } = await renderNative(<Select options={OPTIONS} value={null} clearable />);
 
     await press(getByTestId('select-trigger'));
 

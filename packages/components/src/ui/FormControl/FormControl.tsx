@@ -24,7 +24,7 @@ export const FormControl = React.forwardRef<ReactNativeTextInput, FormControlPro
   const styles = useStyles();
 
   return (
-    <FieldIdProvider disabled={disabled} required={required}>
+    <FieldIdProvider label={label} disabled={disabled} required={required}>
       <Box tag="form-control" style={[styles.formControl, style]}>
         {(!!label || !!hint) && (
           <InputHeading>

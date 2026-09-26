@@ -7,15 +7,13 @@ jest.mock('tamagui', () => jest.requireActual('@/__tests__/helpers/selectHarness
 
 describe('Select, affichage de la sélection', () => {
   it('affiche le placeholder tant qu’aucune option n’est sélectionnée', async () => {
-    const { getByTestId } = await renderNative(
-      <Select label="Sélection" placeholder="Choisir..." options={OPTIONS} value={null} />,
-    );
+    const { getByTestId } = await renderNative(<Select placeholder="Choisir..." options={OPTIONS} value={null} />);
 
     expect(within(getByTestId('select-trigger')).getByText('Choisir...')).toBeTruthy();
   });
 
   it('affiche le libellé de l’option sélectionnée', async () => {
-    const { getByTestId } = await renderNative(<Select label="Sélection" options={OPTIONS} value="b" />);
+    const { getByTestId } = await renderNative(<Select options={OPTIONS} value="b" />);
 
     expect(within(getByTestId('select-trigger')).getByText('Option B')).toBeTruthy();
   });
@@ -26,9 +24,7 @@ describe('Select, affichage de la sélection', () => {
       { label: 'Option B', value: 'b', group: 'Contrats' },
       { label: 'Option C', value: 'c', group: 'Documents' },
     ];
-    const { getByTestId, getAllByText } = await renderNative(
-      <Select label="Sélection" options={options} value={null} />,
-    );
+    const { getByTestId, getAllByText } = await renderNative(<Select options={options} value={null} />);
 
     await press(getByTestId('select-trigger'));
 
@@ -37,12 +33,12 @@ describe('Select, affichage de la sélection', () => {
   });
 
   it('reflète un changement de value venant du parent', async () => {
-    const { getByTestId, rerender } = await renderNative(<Select label="Sélection" options={OPTIONS} value="a" />);
+    const { getByTestId, rerender } = await renderNative(<Select options={OPTIONS} value="a" />);
 
     expect(within(getByTestId('select-trigger')).getByText('Option A')).toBeTruthy();
 
     await act(async () => {
-      rerender(<Select label="Sélection" options={OPTIONS} value="c" />);
+      rerender(<Select options={OPTIONS} value="c" />);
     });
 
     expect(within(getByTestId('select-trigger')).getByText('Option C')).toBeTruthy();
