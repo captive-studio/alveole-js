@@ -40,12 +40,13 @@ export const RadioGroup = React.forwardRef<RadioGroupElement, RadioGroupProps>(f
   } = props;
 
   const styles = useStyles();
+  const labelId = React.useId();
 
   return (
     <RadioGroupContext.Provider value={{ value, onChange }}>
       <Box tag="radio-group" style={styles.container}>
         <Box tag="radio-group-heading">
-          {!!label && <FormControlLabel labelRight={labelRight} label={label} disabled={disabled} />}
+          {!!label && <FormControlLabel id={labelId} labelRight={labelRight} label={label} disabled={disabled} />}
           {!!hint && <FormControlHint hint={hint} disabled={disabled} />}
         </Box>
 
@@ -53,6 +54,7 @@ export const RadioGroup = React.forwardRef<RadioGroupElement, RadioGroupProps>(f
           <TamaguiRadioGroup
             orientation="vertical"
             ref={ref}
+            aria-labelledby={label ? labelId : undefined}
             value={value}
             onValueChange={onChange}
             style={[styles.group, variant === 'card' ? styles.groupCard : styles.groupItem]}
