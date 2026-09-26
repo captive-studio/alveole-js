@@ -63,7 +63,7 @@ type Cible = Pick<Controle, 'champ' | 'cadre' | 'cote'>;
 
 // react-select anime sa bordure : mesurée aussitôt après le focus, elle rendait une couleur
 // de transition, ni celle du repos ni celle du focus. On mesure l'état stable.
-const finDesTransitions = (page: Page) =>
+export const finDesTransitions = (page: Page) =>
   page.waitForFunction(() => document.getAnimations().every(animation => animation.playState !== 'running'));
 
 const dansLaFiche = (champ: string) => `main ${champ}`;
