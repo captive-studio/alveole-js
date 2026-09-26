@@ -2,13 +2,9 @@ import { Platform } from 'react-native';
 import { UnsupportedCSSProperties } from '../constants';
 import type { StyleValue } from './makeStyles';
 
-/** Un style dont les propriétés interdites sur la plateforme courante sont annulées. */
-const sansProprietesInterdites = (style: StyleValue, interdites: (keyof StyleValue)[]): StyleValue => {
-  const copie = { ...style };
-  for (const propriete of interdites) if (propriete in copie) copie[propriete] = undefined;
-
-  return copie;
-};
+/** Les propriétés interdites sur la plateforme courante, chacune ramenée à `undefined`. */
+const annulations = (): Record<string, undefined> =>
+  Object.fromEntries((UnsupportedCSSProperties[Platform.OS] ?? []).map(propriete => [propriete, undefined]));
 
 /**
  * Retire les propriétés CSS non supportées pour une platforme
@@ -16,10 +12,9 @@ const sansProprietesInterdites = (style: StyleValue, interdites: (keyof StyleVal
  * @returns Les styles sans les propriétés exclues pour la platform
  */
 export function removeUnsupportedCSSProperties<T extends Record<string, StyleValue>>(styles: T): T {
-  const interdites = UnsupportedCSSProperties[Platform.OS] ?? [];
-  const cleaned = {} as T;
-  for (const key in styles)
-    cleaned[key] = sansProprietesInterdites(styles[key], interdites) as T[Extract<keyof T, string>];
+  const interdites = annulations();
+  const cleaned = { ...styles };
+  for (const key in cleaned) cleaned[key] = { ...cleaned[key], ...interdites };
 
   return cleaned;
 }
