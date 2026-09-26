@@ -1,7 +1,7 @@
 import React from 'react';
 import { Box } from '../../core/Box';
 import { Typography } from '../../core/Typography';
-import { FormControl, NumberInputElement } from '../FormControl';
+import { NumberInputElement, useFieldId } from '../FormControl';
 import { useFieldFocus } from '../FormControl/useFieldFocus';
 import type { PriceInputProps } from './PriceInput';
 import './PriceInput.css';
@@ -18,10 +18,11 @@ export const PriceInput = React.forwardRef<NumberInputElement, PriceInputProps>(
   const numberLength = value ? String(value).length : 1;
 
   return (
-    <FormControl style={{ ...styles.container, ...(champ.focus ? styles.containerFocused : {}) }}>
+    <Box tag="price-input" style={{ ...styles.container, ...(champ.focus ? styles.containerFocused : {}) }}>
       <Box tag="price-input-container" style={styles.priceInputContainer}>
         <input
           ref={ref}
+          id={useFieldId()}
           autoFocus={autoFocus}
           className="alveole-price-input"
           style={{
@@ -45,6 +46,6 @@ export const PriceInput = React.forwardRef<NumberInputElement, PriceInputProps>(
 
         <Typography style={styles.inputDevise}>{devise || '€'}</Typography>
       </Box>
-    </FormControl>
+    </Box>
   );
 });

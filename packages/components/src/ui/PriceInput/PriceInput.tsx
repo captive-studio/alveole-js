@@ -2,7 +2,7 @@ import React from 'react';
 import { TextInput as ReactNativeTextInput } from 'react-native';
 import { Box } from '../../core/Box';
 import { Typography } from '../../core/Typography';
-import { FormControl, NumberInputProps, TextInputElement } from '../FormControl';
+import { NumberInputProps, TextInputElement } from '../FormControl';
 import { useFieldFocus } from '../FormControl/useFieldFocus';
 import { useStyles } from './PriceInput.styles';
 
@@ -21,7 +21,7 @@ export const PriceInput = React.forwardRef<TextInputElement, PriceInputProps>(fu
   const numberLength = value ? String(value).length : 1;
 
   return (
-    <FormControl style={{ ...styles.container, ...(champ.focus ? styles.containerFocused : {}) }}>
+    <Box tag="price-input" style={{ ...styles.container, ...(champ.focus ? styles.containerFocused : {}) }}>
       <Box tag="price-input-container" style={styles.priceInputContainer}>
         <ReactNativeTextInput
           ref={ref}
@@ -46,6 +46,6 @@ export const PriceInput = React.forwardRef<TextInputElement, PriceInputProps>(fu
 
         <Typography style={styles.inputDevise}>{devise || '€'}</Typography>
       </Box>
-    </FormControl>
+    </Box>
   );
 });

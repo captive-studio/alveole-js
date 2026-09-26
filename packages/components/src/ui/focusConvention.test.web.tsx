@@ -78,7 +78,14 @@ const CONTROLES: Record<string, Controle> = {
     ),
     champ: saisie,
   },
-  PriceInput: { element: <PriceInput value={null} />, champ: controle('.alveole-price-input') },
+  PriceInput: {
+    element: (
+      <FormControl label="Prix">
+        <PriceInput value={null} />
+      </FormControl>
+    ),
+    champ: controle('.alveole-price-input'),
+  },
   Select: {
     element: (
       <FormControl label="Pays">
