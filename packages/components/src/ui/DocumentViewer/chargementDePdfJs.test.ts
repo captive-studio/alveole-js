@@ -1,4 +1,4 @@
-import { urlDeLAssetPdfJs } from './chargementDePdfJs';
+import { pdfJsDuModule, urlDeLAssetPdfJs } from './chargementDePdfJs';
 
 describe('urlDeLAssetPdfJs', () => {
   it('sert l asset a la racine quand l application n est montee sous aucun prefixe', () => {
@@ -39,5 +39,25 @@ describe('urlDeLAssetPdfJs', () => {
     const url = urlDeLAssetPdfJs('pdf.worker.min.mjs', { scriptUrl: null, origin: 'https://exemple.test' });
 
     expect(url).toBe('https://exemple.test/pdf.worker.min.mjs');
+  });
+});
+
+describe('pdfJsDuModule', () => {
+  const pdfjs = { GlobalWorkerOptions: { workerSrc: '' }, getDocument: jest.fn() };
+
+  // Selon le bundler qui l'a produit, un module ESM importe dynamiquement range ses exports
+  // sous `default`.
+  it('lit pdf.js sous l export par defaut', () => {
+    expect(pdfJsDuModule({ default: pdfjs })).toBe(pdfjs);
+  });
+
+  it('lit pdf.js a la racine du module quand il n a pas d export par defaut', () => {
+    expect(pdfJsDuModule(pdfjs)).toBe(pdfjs);
+  });
+
+  // Un asset remplace ou mal servi livrerait autre chose : l'echec doit se lire au chargement,
+  // pas plus loin sous la forme d'un appel a une fonction absente.
+  it('refuse un module qui n est pas pdf.js', () => {
+    expect(() => pdfJsDuModule({ default: {} })).toThrow("Le module charge n'est pas pdf.js.");
   });
 });

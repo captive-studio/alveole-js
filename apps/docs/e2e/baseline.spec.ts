@@ -1,4 +1,5 @@
 import { expect, test } from '@playwright/test';
+import { mkdtempSync, writeFileSync } from 'node:fs';
 import { tmpdir } from 'node:os';
 import { join } from 'node:path';
 import { compare, load, merge } from './baseline';
@@ -15,6 +16,15 @@ test('signale une règle dont les occurrences sont passées sous la baseline', (
 
 test('part d’une baseline vide quand le fichier n’existe pas encore', () => {
   expect(load(join(tmpdir(), 'alveole-a11y-absente.json'))).toEqual({});
+});
+
+// Une baseline corrompue ne doit pas passer pour un cliquet : un compte lu comme texte
+// ferait taire la comparaison au lieu de la faire échouer.
+test('refuse une baseline dont un compte n’est pas un nombre', () => {
+  const path = join(mkdtempSync(join(tmpdir(), 'alveole-a11y-')), 'baseline.json');
+  writeFileSync(path, JSON.stringify({ '/components/Select': { label: '4' } }));
+
+  expect(() => load(path)).toThrow('Baseline a11y malformée');
 });
 
 test('ne réécrit que les routes auditées et laisse les autres intactes', () => {

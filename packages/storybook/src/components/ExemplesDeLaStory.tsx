@@ -1,11 +1,9 @@
 import { AnchorHeading, Box, MarkdownDescription, Tag, Typography } from '@alveole/components';
 import { FOCUS_ATTRIBUTE, useTheme } from '@alveole/theme';
 import { descriptionDeLExemple, sourceDeLExemple } from '../screens/sourcesDExemples';
-import { StorybookMeta, StorybookModule } from '../types';
+import { Exemple, StorybookMeta, StorybookModule } from '../types';
 import { getStoryFlags } from '../utils';
 import { ExampleBlock } from './ExampleBlock';
-
-export type Exemple = [nom: string, Rendu: () => React.ReactNode];
 
 type UnExempleProps = { story: StorybookModule; nom: string; Rendu: Exemple[1]; gabarit: boolean };
 

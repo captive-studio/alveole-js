@@ -18,7 +18,7 @@ const coque = async (surcharge?: Partial<EtatDuBouton>) =>
   styleDuPressable(await styles(), etat(surcharge), { hovered: false });
 
 const conteneur = async (surcharge?: Partial<EtatDuBouton>, actif = false) =>
-  styleDuConteneur(await styles(), etat(surcharge), actif) as Record<string, unknown>;
+  styleDuConteneur(await styles(), etat(surcharge), actif);
 
 // La taille est choisie par une table, et chaque cran pose sa hauteur depuis control
 // (ADR 0013) : `sm` et `lg` avaient la leur derivee des rembourrages, ce qui produisait une
@@ -117,7 +117,7 @@ it('donne le meme fond a deux variantes selectionnees', async () => {
 it('donne la meme couleur de libelle a deux variantes selectionnees', async () => {
   const table = await styles();
   const libelle = (variant: EtatDuBouton['variant']) =>
-    (styleDuLibelle(table, etat({ variant, selected: true }), false) as Record<string, unknown>).color;
+    styleDuLibelle(table, etat({ variant, selected: true }), false).color;
 
   expect(libelle('danger')).toBe(libelle('primary'));
 });

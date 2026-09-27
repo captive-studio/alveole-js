@@ -1,4 +1,4 @@
-import { StorybookFlag, StorybookMeta, StorybookModule } from './types';
+import { Exemple, StorybookFlag, StorybookMeta, StorybookModule } from './types';
 
 const FLAG_DEFINITIONS = [
   { key: 'figma', label: 'Figma', isActive: (meta: StorybookMeta) => Boolean(meta.figmaURL) },
@@ -68,11 +68,10 @@ export const groupStoriesByTag = (stories: StorybookModule[], tags: string[]) =>
     .map(tag => [tag, stories.filter(story => story.default.tags.includes(tag))] as const)
     .filter(([, groupedStories]) => groupedStories.length > 0);
 
-export const getStoryExamples = (story: StorybookModule) =>
-  Object.entries(story).filter(([key, value]) => key !== 'default' && typeof value === 'function') as [
-    string,
-    Exclude<StorybookModule[keyof StorybookModule], StorybookMeta>,
-  ][];
+export const getStoryExamples = (story: StorybookModule): Exemple[] =>
+  Object.entries(story).flatMap(([nom, valeur]) =>
+    nom !== 'default' && typeof valeur === 'function' ? [[nom, valeur] as const] : [],
+  );
 
 export const toStoryModules = (stories: Record<string, StorybookModule>) => Object.values(stories);
 

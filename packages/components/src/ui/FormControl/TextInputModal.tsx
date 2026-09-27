@@ -22,7 +22,8 @@ export const TextInputModal = React.forwardRef<TextInputElement, TextInputProps>
   const styles = useStyles();
   const modal = useTextInputModal({ disabled, readOnly, onFocus, onModalSubmit });
 
-  React.useImperativeHandle(ref, () => modal.inputRef.current as ReactNativeTextInput);
+  // Le handle vaut null tant que le miroir n'est pas monte, comme tout ref React.
+  React.useImperativeHandle<TextInputElement | null, TextInputElement | null>(ref, () => modal.inputRef.current);
 
   return (
     <>

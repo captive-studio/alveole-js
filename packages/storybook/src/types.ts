@@ -1,10 +1,12 @@
-import type { Story, StoryModule, StoryTag } from '@alveole/components';
+import type { Story, StoryExample, StoryModule, StoryTag } from '@alveole/components';
 
 export type StorybookTag = StoryTag;
 
 export type StorybookMeta = Story;
 
 export type StorybookModule<TMeta extends StorybookMeta = StorybookMeta> = StoryModule<TMeta>;
+
+export type Exemple = readonly [nom: string, Rendu: StoryExample];
 
 export type StorybookFlagKey = 'figma' | 'experimental' | 'props' | 'webOnly' | 'mobileOnly';
 

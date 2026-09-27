@@ -63,9 +63,6 @@ export const TextInputInline = React.forwardRef<TextInputElement, TextInputProps
   const required = useFieldRequired();
 
   const champ = useFieldFocus<FocusEvent, BlurEvent>({ disabled, readOnly, editable, onFocus, onBlur });
-  const inputRef = React.useRef<ReactNativeTextInput>(null);
-
-  React.useImperativeHandle(ref, () => inputRef.current as ReactNativeTextInput);
 
   return (
     <Box
@@ -83,7 +80,7 @@ export const TextInputInline = React.forwardRef<TextInputElement, TextInputProps
       {startAdornment}
 
       <ReactNativeTextInput
-        ref={inputRef}
+        ref={ref}
         id={inputProps.id ?? fieldId}
         aria-required={required}
         style={inputTextStyle(styles, { startAdornment, endAdornment })}

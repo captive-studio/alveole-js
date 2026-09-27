@@ -1,5 +1,7 @@
 import { fireEvent, renderNative, userEvent, waitFor } from '@/__tests__/helpers/renderNative';
+import * as React from 'react';
 import { TextInput } from './TextInput';
+import { TextInputElement } from './TextInput.types';
 
 it('rend un champ de saisie editable', async () => {
   const { getByDisplayValue } = await renderNative(<TextInput value="Bonjour" onChangeText={() => undefined} />);
@@ -141,4 +143,21 @@ it('declare a iOS un champ de telephone', async () => {
 // Un numero n'est pas un mot : la correction ne ferait que le deformer.
 it('ne corrige pas un champ de telephone', async () => {
   expect((await champDeTelephone()).autoCorrect).toBe(false);
+});
+
+// L'appelant garde la main sur le champ natif par son ref : c'est par lui qu'il donne le focus
+// au champ suivant d'un formulaire.
+it('expose le champ natif par son ref', async () => {
+  const ref = React.createRef<TextInputElement>();
+  await renderNative(<TextInput ref={ref} value="Bonjour" onChangeText={() => undefined} />);
+
+  expect(ref.current?.focus).toEqual(expect.any(Function));
+});
+
+// Meme contrat quand la saisie passe par la modale : le ref designe le miroir reste sur la page.
+it('expose le champ natif par son ref quand la saisie passe par la modale', async () => {
+  const ref = React.createRef<TextInputElement>();
+  await renderNative(<TextInput ref={ref} value="Bonjour" multiline openModal onChangeText={() => undefined} />);
+
+  expect(ref.current?.focus).toEqual(expect.any(Function));
 });

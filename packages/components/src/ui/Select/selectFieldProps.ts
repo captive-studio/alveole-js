@@ -53,7 +53,7 @@ export const selectFieldProps = (params: SelectFieldPropsParams): ReactSelectPro
     onFocus: () => onFocus?.(),
     onBlur: () => onBlur?.(),
     onChange: selected => {
-      const retenues = Array.isArray(selected) ? selected : selected ? [selected as SelectOption] : [];
+      const retenues = Array.isArray(selected) ? selected : selected ? [selected] : [];
       emitSelectChange(
         props,
         retenues.map(option => option.value),

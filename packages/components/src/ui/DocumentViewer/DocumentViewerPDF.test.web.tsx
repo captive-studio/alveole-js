@@ -2,8 +2,9 @@ import { elementDuType } from '@/__tests__/helpers/elementDuType';
 import { act, fireEvent } from '@testing-library/react';
 import { renderWeb, screen } from '../../../__tests__/helpers/renderWeb';
 import { DocumentViewerPDF } from './DocumentViewerPDF';
+import { loadPdfJs as chargerPdfJs, PDFDocumentProxyLike, PdfJsModule } from './chargementDePdfJs';
 
-const mockDocument = { getPage: jest.fn().mockReturnValue(new Promise(() => {})), destroy: jest.fn() };
+const mockDocument = { numPages: 1, getPage: jest.fn().mockReturnValue(new Promise(() => {})), destroy: jest.fn() };
 
 jest.mock('./chargementDePdfJs', () => ({ loadPdfJs: jest.fn() }));
 
@@ -21,16 +22,22 @@ class ResizeObserverDeTest implements ResizeObserver {
 }
 globalThis.ResizeObserver = ResizeObserverDeTest;
 
-const { loadPdfJs } = jest.requireMock('./chargementDePdfJs') as { loadPdfJs: jest.Mock };
+const loadPdfJs = jest.mocked(chargerPdfJs);
+
+type Chargement = ReturnType<PdfJsModule['getDocument']>;
 
 /** Simule le pdfjs charge dynamiquement, avec un document qui resout ou echoue. */
-const pdfjsQuiCharge = (chargement: { promise: Promise<unknown>; destroy: jest.Mock }) => ({
+const pdfjsQuiCharge = (chargement: Chargement): PdfJsModule => ({
+  GlobalWorkerOptions: { workerSrc: '' },
   getDocument: jest.fn(() => chargement),
 });
 
-const chargementQuiResout = (resultat: unknown) => ({ promise: Promise.resolve(resultat), destroy: jest.fn() });
-const chargementQuiEchoue = (erreur: unknown) => {
-  const promise = Promise.reject(erreur);
+const chargementQuiResout = (resultat: PDFDocumentProxyLike): Chargement => ({
+  promise: Promise.resolve(resultat),
+  destroy: jest.fn(),
+});
+const chargementQuiEchoue = (erreur: unknown): Chargement => {
+  const promise = Promise.reject<PDFDocumentProxyLike>(erreur);
   // Le rejet est cree ici, avant que `act()` ne l'attende plus bas : sans ce filet immediat,
   // Node le signale comme rejet non gere entre les deux.
   promise.catch(() => undefined);
@@ -47,7 +54,7 @@ beforeEach(() => {
 const attendreLeChargement = async () => {
   await act(async () => {
     const pdfjs = await loadPdfJs();
-    await pdfjs.getDocument().promise.catch(() => undefined);
+    await pdfjs.getDocument('').promise.catch(() => undefined);
   });
 };
 
@@ -76,7 +83,7 @@ describe('DocumentViewerPDF, ce qu il affiche selon le chargement', () => {
 
     await act(async () => {
       const pdfjs = await loadPdfJs();
-      await pdfjs.getDocument().promise.catch(() => undefined);
+      await pdfjs.getDocument('').promise.catch(() => undefined);
     });
 
     expect(screen.getByText('Le PDF ne peut pas être affiché')).toBeTruthy();
@@ -93,7 +100,7 @@ describe('DocumentViewerPDF, ce qu il affiche selon le chargement', () => {
 
     await act(async () => {
       const pdfjs = await loadPdfJs();
-      await pdfjs.getDocument().promise.catch(() => undefined);
+      await pdfjs.getDocument('').promise.catch(() => undefined);
     });
 
     expect(screen.queryByText('Le PDF ne peut pas être affiché')).toBeNull();
@@ -108,7 +115,7 @@ describe('DocumentViewerPDF, ce qu il affiche selon le chargement', () => {
 
     await act(async () => {
       const pdfjs = await loadPdfJs();
-      await pdfjs.getDocument().promise.catch(() => undefined);
+      await pdfjs.getDocument('').promise.catch(() => undefined);
     });
 
     expect(screen.getByText("Impossible d'afficher ce document")).toBeTruthy();
@@ -122,7 +129,7 @@ describe('DocumentViewerPDF, ce qu il affiche selon le chargement', () => {
     const { rerender } = renderWeb(<DocumentViewerPDF source="a.pdf" page={1} rotation={0} />);
     await act(async () => {
       const pdfjs = await loadPdfJs();
-      await pdfjs.getDocument().promise.catch(() => undefined);
+      await pdfjs.getDocument('').promise.catch(() => undefined);
     });
     expect(screen.getByText('Le PDF ne peut pas être affiché')).toBeTruthy();
 
@@ -201,7 +208,7 @@ describe('DocumentViewerPDF, le rendu de la page', () => {
     cadreDeTailleValide();
     const erreurDAnnulation = new Error('annule');
     erreurDAnnulation.name = 'AbortException';
-    const document = { getPage: jest.fn().mockRejectedValue(erreurDAnnulation), destroy: jest.fn() };
+    const document = { numPages: 1, getPage: jest.fn().mockRejectedValue(erreurDAnnulation), destroy: jest.fn() };
     document.getPage().catch(() => undefined);
     loadPdfJs.mockResolvedValue(pdfjsQuiCharge(chargementQuiResout(document)));
 
@@ -214,7 +221,11 @@ describe('DocumentViewerPDF, le rendu de la page', () => {
 
   it('affiche l erreur quand la page ne peut pas se rendre', async () => {
     cadreDeTailleValide();
-    const document = { getPage: jest.fn().mockRejectedValue(new Error('page corrompue')), destroy: jest.fn() };
+    const document = {
+      numPages: 1,
+      getPage: jest.fn().mockRejectedValue(new Error('page corrompue')),
+      destroy: jest.fn(),
+    };
     document.getPage().catch(() => undefined);
     loadPdfJs.mockResolvedValue(pdfjsQuiCharge(chargementQuiResout(document)));
 
@@ -228,8 +239,8 @@ describe('DocumentViewerPDF, le rendu de la page', () => {
 
 describe('DocumentViewerPDF, ce qu il detruit', () => {
   it('detruit le document precedent une fois le nouveau charge', async () => {
-    const premier = { getPage: jest.fn().mockReturnValue(new Promise(() => {})), destroy: jest.fn() };
-    const second = { getPage: jest.fn().mockReturnValue(new Promise(() => {})), destroy: jest.fn() };
+    const premier = { numPages: 1, getPage: jest.fn().mockReturnValue(new Promise(() => {})), destroy: jest.fn() };
+    const second = { numPages: 1, getPage: jest.fn().mockReturnValue(new Promise(() => {})), destroy: jest.fn() };
     loadPdfJs.mockResolvedValue(pdfjsQuiCharge(chargementQuiResout(premier)));
     const { rerender } = renderWeb(<DocumentViewerPDF source="a.pdf" page={1} rotation={0} />);
     await attendreLeChargement();

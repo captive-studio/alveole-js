@@ -41,6 +41,20 @@ const getPdfJsAssetUrl = (filename: string) => {
   return urlDeLAssetPdfJs(filename, { scriptUrl: expoScript?.src ?? null, origin: window.location.origin });
 };
 
+const estUnObjet = (valeur: unknown): valeur is Record<string, unknown> =>
+  typeof valeur === 'object' && valeur !== null;
+
+const estPdfJs = (valeur: unknown): valeur is PdfJsModule =>
+  estUnObjet(valeur) && estUnObjet(valeur.GlobalWorkerOptions) && typeof valeur.getDocument === 'function';
+
+/** pdf.js tel que l'import dynamique le livre : un module que TypeScript n'a jamais vu. */
+export const pdfJsDuModule = (module: unknown): PdfJsModule => {
+  if (estUnObjet(module) && estPdfJs(module.default)) return module.default;
+  if (estPdfJs(module)) return module;
+
+  throw new Error("Le module charge n'est pas pdf.js.");
+};
+
 /**
  * Le chargement de pdf.js, memoise : un import dynamique plutot qu'un import statique, pour
  * ne jamais l'embarquer dans le bundle natif, qui n'en a pas l'usage. `new Function` construit
@@ -57,12 +71,10 @@ export const loadPdfJs = (() => {
 
     if (promise) return promise;
 
-    const dynamicImport = new Function('url', 'return import(url);') as (
-      url: string,
-    ) => Promise<{ default?: PdfJsModule }>;
+    const dynamicImport = new Function('url', 'return import(url);');
 
-    promise = dynamicImport(getPdfJsAssetUrl('pdf.min.mjs')).then(module => {
-      const pdfjs = (module.default ?? module) as PdfJsModule;
+    promise = Promise.resolve<unknown>(dynamicImport(getPdfJsAssetUrl('pdf.min.mjs'))).then(module => {
+      const pdfjs = pdfJsDuModule(module);
       pdfjs.GlobalWorkerOptions.workerSrc = getPdfJsAssetUrl('pdf.worker.min.mjs');
       return pdfjs;
     });

@@ -13,8 +13,10 @@ const serializeSvgToBase64 = (svg: SVGSVGElement): Promise<string> =>
     const blob = new Blob([svgString], { type: 'image/svg+xml' });
     const reader = new FileReader();
 
+    // readAsDataURL produit toujours une chaine : la garde ne fait que le dire au typage, qui
+    // prevoit aussi l'ArrayBuffer de readAsArrayBuffer.
     reader.onloadend = () => {
-      resolve(reader.result as string);
+      if (typeof reader.result === 'string') resolve(reader.result);
     };
 
     reader.readAsDataURL(blob);

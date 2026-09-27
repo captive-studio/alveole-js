@@ -1,4 +1,3 @@
-import { ComponentProps } from 'react';
 import { Platform, StyleProp, ViewStyle } from 'react-native';
 import { versStyleNatif } from '../../core/styleNatif/versStyleNatif';
 import { LucideIconName, LucideIconProps } from './LucideIcon.props';
@@ -13,11 +12,16 @@ export type IconProps = LucideIconProps;
 // Les deux paquets vendor exposent leurs icones comme exports nommes : c'est un objet de module,
 // pas une table indexable par un nom calcule. Les aplatir une fois au chargement donne la table
 // que le rendu cherchait, sans forcer le typage et sans la reconstruire a chaque icone rendue.
-const iconesLucide = Object.fromEntries(Object.entries(LucideIcons)) as Record<string, Icon | undefined>;
-const iconesLab = Object.fromEntries(Object.entries(LabIcons)) as Record<
-  string,
-  NonNullable<ComponentProps<typeof BaseIcon>['iconNode']>
->;
+// Le module Lucide exporte aussi son moteur de rendu : le retirer laisse les seules icones.
+const {
+  Icon: _moteur,
+  createLucideIcon: _fabrique,
+  useLucideContext: _contexte,
+  LucideProvider: _fournisseur,
+  ...seulesIconesLucide
+} = LucideIcons;
+const iconesLucide: Partial<Record<string, Icon>> = Object.fromEntries(Object.entries(seulesIconesLucide));
+const iconesLab = Object.fromEntries(Object.entries(LabIcons));
 
 // Chaque plateforme a une convention visuelle différente pour le partage :
 // iOS utilise la flèche vers le haut (Share), Android le symbole à trois points (Share2),

@@ -19,7 +19,7 @@ export type StoryMeta = {
 
 export type Story = StoryMeta;
 
-export type StoryExample = ComponentType<never>;
+export type StoryExample = ComponentType;
 
 export type StorySourceValue = string | (() => string);
 

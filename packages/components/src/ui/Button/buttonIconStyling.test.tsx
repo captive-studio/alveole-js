@@ -13,7 +13,7 @@ const etat = (surcharge: Partial<EtatDuBoutonIcone> = {}): EtatDuBoutonIcone => 
 });
 
 const cadre = async (surcharge?: Partial<EtatDuBoutonIcone>) =>
-  styleDuCadreDIcone(await styles(), etat(surcharge), false) as Record<string, unknown>;
+  styleDuCadreDIcone(await styles(), etat(surcharge), false);
 
 const icone = async (surcharge?: Partial<EtatDuBoutonIcone>) =>
   apparenceDeLIcone(await styles(), etat(surcharge), false);
