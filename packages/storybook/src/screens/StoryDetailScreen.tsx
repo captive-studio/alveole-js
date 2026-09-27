@@ -2,7 +2,7 @@ import { Box, Page, Section, Tabs, Typography } from '@alveole/components';
 import { useTheme } from '@alveole/theme';
 import React from 'react';
 import { EnTeteDeFiche } from '../components/EnTeteDeFiche';
-import { Exemple, ExemplesDeLaStory } from '../components/ExemplesDeLaStory';
+import { ExemplesDeLaStory } from '../components/ExemplesDeLaStory';
 import { JsonBlock } from '../components/JsonBlock';
 import { StoryLayout } from '../components/StoryLayout';
 import { StorySummary } from '../components/StorySummary';
@@ -50,7 +50,7 @@ export const StoryDetailScreen = ({
   if (!story) return <FicheIntrouvable message={notFoundMessage} {...cadre} />;
 
   const meta = story.default;
-  const exemples = getStoryExamples(story) as Exemple[];
+  const exemples = getStoryExamples(story);
   const gabarit = meta.tags.includes('Template');
 
   return (

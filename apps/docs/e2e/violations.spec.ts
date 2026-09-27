@@ -1,9 +1,7 @@
 import { expect, test } from '@playwright/test';
-import type { Result } from 'axe-core';
 import { countByRule, describeTargets } from './violations';
 
-const result = (id: string, targets: string[]) =>
-  ({ id, impact: 'serious', nodes: targets.map(target => ({ target: [target] })) }) as Result;
+const result = (id: string, targets: string[]) => ({ id, nodes: targets.map(target => ({ target: [target] })) });
 
 test('compte les occurrences de chaque règle, nœud par nœud', () => {
   expect(countByRule([result('label', ['#a', '#b']), result('image-alt', ['img'])])).toEqual({

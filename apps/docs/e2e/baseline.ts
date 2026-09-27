@@ -35,8 +35,20 @@ export type Baseline = Record<string, RuleCounts>;
 export function load(path: string): Baseline {
   if (!existsSync(path)) return {};
 
-  return JSON.parse(readFileSync(path, 'utf8')) as Baseline;
+  const contenu: unknown = JSON.parse(readFileSync(path, 'utf8'));
+  if (!estUneBaseline(contenu)) throw new Error(`Baseline a11y malformée : ${path}`);
+
+  return contenu;
 }
+
+const estUnObjet = (valeur: unknown): valeur is Record<string, unknown> =>
+  typeof valeur === 'object' && valeur !== null && !Array.isArray(valeur);
+
+const estUnCompteParRegle = (valeur: unknown): valeur is RuleCounts =>
+  estUnObjet(valeur) && Object.values(valeur).every(compte => typeof compte === 'number');
+
+const estUneBaseline = (valeur: unknown): valeur is Baseline =>
+  estUnObjet(valeur) && Object.values(valeur).every(estUnCompteParRegle);
 
 export function merge(existing: Baseline, fresh: Baseline, audited: string[]): Baseline {
   const kept = Object.keys(existing).filter(route => !audited.includes(route));
