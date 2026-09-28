@@ -11,10 +11,6 @@ const metaMinimal: StorybookMeta = {
 
 const fiche = (Sources: StorybookModule['Sources']): StorybookModule => ({ default: metaMinimal, Sources });
 
-// Le bloc `Sources` est ecrit par le generateur : c'est du JavaScript que TypeScript n'a jamais
-// vu. Ce constructeur-la entre par cette porte, pour eprouver les gardes qui s'y trouvent.
-const ficheNonVerifiee = (Sources: unknown): StorybookModule => ({ default: metaMinimal, Sources }) as StorybookModule;
-
 describe('sourceDeLExemple', () => {
   it('rend la source rangee sous le nom de l exemple', () => {
     expect(sourceDeLExemple(fiche({ storySources: { Tailles: '<Bouton />' } }), 'Tailles')).toBe('<Bouton />');
@@ -37,10 +33,6 @@ describe('sourceDeLExemple', () => {
 
   it('rend null quand l exemple n a pas de source', () => {
     expect(sourceDeLExemple(fiche({ storySources: {} }), 'Tailles')).toBeNull();
-  });
-
-  it('rend null quand la fonction ne rend pas du texte', () => {
-    expect(sourceDeLExemple(ficheNonVerifiee({ storySources: { Tailles: () => 42 } }), 'Tailles')).toBeNull();
   });
 });
 

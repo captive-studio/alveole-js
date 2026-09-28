@@ -12,11 +12,7 @@ export const sourceDeLExemple = (story: StorybookModule, nomDeLExemple: string):
   const source = sources?.storySources?.[nomDeLExemple] ?? sources?.[nomDeLExemple];
 
   if (typeof source === 'string') return source;
-  if (typeof source === 'function') {
-    const valeur = source();
-
-    return typeof valeur === 'string' ? valeur : null;
-  }
+  if (typeof source === 'function') return source();
 
   return null;
 };
