@@ -1,4 +1,5 @@
 import { renderHookOnDesktop } from '@/__tests__/helpers/renderWeb';
+import { useTheme } from '@alveole/theme';
 import { selectItemStyle } from './selectItemStyle';
 import { useStyles } from './SelectList.styles';
 
@@ -32,4 +33,14 @@ test('ne garde qu un retrait de 8 autour de la bande', () => {
     gauche: 'var(--spacing-1w)',
     droite: 'var(--spacing-1w)',
   });
+});
+
+// En 16, les options parlaient plus fort que le champ et le panneau paraissait grossier : Primer
+// et Atlassian ecrivent leurs options en 14, comme le corps de texte courant.
+test('ecrit les options en corps de texte SM', () => {
+  const { result } = renderHookOnDesktop(() => ({ styles: useStyles(), theme: useTheme() }));
+
+  expect(result.current.styles.itemLabel.fontSize).toBe(
+    result.current.theme.text['Corps de texte'].SM.Regular.fontSize,
+  );
 });
