@@ -8,5 +8,7 @@ export const useStyles = makeStyles(({ spacing }) => ({
     width: '100%',
     justifyContent: 'flex-end',
     alignItems: 'center',
+    // Poussées en bas de la carte : d'une carte à l'autre d'une ligne, les actions s'alignent.
+    marginTop: 'auto',
   },
 }));

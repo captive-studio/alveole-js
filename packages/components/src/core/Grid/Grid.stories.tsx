@@ -1,4 +1,7 @@
 import { Story } from '../../type';
+import { Button } from '../../ui/Button';
+import { Card } from '../../ui/Card';
+import { A } from '../A';
 import { Box } from '../Box';
 import { Typography } from '../Typography';
 import { Grid } from './Grid';
@@ -126,6 +129,37 @@ export const WithLargeGap = () => (
     </Grid.Column>
     <Grid.Column size={4}>
       <Col label="gap 24" />
+    </Grid.Column>
+  </Grid>
+);
+
+export const EqualHeightCards = () => (
+  <Grid gap={16}>
+    <Grid.Column size={{ mobile: 12, tablet: 6, desktop: 4 }}>
+      <Card>
+        <Card.Header titre="Titre court" sousTitre="Une ligne" />
+        <Card.Actions>
+          <Button variant="secondary" title="Voir" size="sm" />
+        </Card.Actions>
+      </Card>
+    </Grid.Column>
+    <Grid.Column size={{ mobile: 12, tablet: 6, desktop: 4 }}>
+      <Card>
+        <Card.Header
+          titre="Un titre bien plus long qui passe sur deux lignes"
+          sousTitre="Un sous-titre lui aussi assez long pour occuper plusieurs lignes dans la carte"
+        />
+        <Card.Actions>
+          <Button variant="secondary" title="Voir" size="sm" />
+        </Card.Actions>
+      </Card>
+    </Grid.Column>
+    <Grid.Column size={{ mobile: 12, tablet: 6, desktop: 4 }}>
+      <A href="/components/Card">
+        <Card>
+          <Card.Header titre="Carte cliquable" />
+        </Card>
+      </A>
     </Grid.Column>
   </Grid>
 );

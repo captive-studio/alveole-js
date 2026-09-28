@@ -12,4 +12,8 @@ export const useStyles = makeStyles(() => ({
     transitionDuration: '0.1s',
     transitionTimingFunction: 'ease-in-out',
   },
+  // Dans une `Grid.Column`, le lien remplit la cellule, pour que la carte qu'il porte aussi.
+  fill: {
+    flexGrow: 1,
+  },
 }));

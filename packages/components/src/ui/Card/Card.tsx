@@ -1,5 +1,6 @@
 import React from 'react';
 import { Box, BoxProps } from '../../core/Box';
+import { GridColumnContext } from '../../core/Grid';
 import { useStyles } from './Card.styles';
 import { CardActions } from './CardActions';
 import { CardHeader } from './CardHeader';
@@ -12,13 +13,14 @@ const CardBase = (props: CardProps) => {
   const { style, children, ...boxProps } = props;
 
   const styles = useStyles();
+  const inGridColumn = React.useContext(GridColumnContext);
 
   const allChildren = React.Children.toArray(children);
   const mediaChild = allChildren.find(child => React.isValidElement(child) && child.type === CardMedia);
   const contentChildren = allChildren.filter(child => !(React.isValidElement(child) && child.type === CardMedia));
 
   return (
-    <Box tag="card" style={[styles.card, style]} {...boxProps}>
+    <Box tag="card" style={[styles.card, inGridColumn && styles.fill, style]} {...boxProps}>
       {mediaChild}
       <Box tag="card-content" style={[styles.content]}>
         {contentChildren}
