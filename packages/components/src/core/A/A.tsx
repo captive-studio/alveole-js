@@ -3,6 +3,7 @@ import { Href, Link } from 'expo-router';
 import React, { CSSProperties, createContext, useContext } from 'react';
 import { Pressable, TextStyle } from 'react-native';
 import { Box } from '../Box';
+import { GridColumnContext } from '../Grid';
 import { useStyles } from './A.styles';
 
 export type CanAccessHref = (href: Href & string) => boolean;
@@ -36,6 +37,7 @@ export const A = (props: AProps) => {
   // `ViewStyle` ne connait pas. `TextStyle` l'etend et la decrit.
   const styleDuLien: TextStyle = styles.link;
   const canAccess = useCanAccessHref(canAccessProp);
+  const fill = useContext(GridColumnContext) ? styles.fill : undefined;
 
   const expoLink = (
     <Link
@@ -45,8 +47,13 @@ export const A = (props: AProps) => {
       push={direction === 'push'}
       dismissTo={direction === 'dismiss'}
     >
-      <Pressable accessibilityRole="link" aria-current={ariaCurrent} style={styleDuLien} {...focusRingProps()}>
-        <Box tag="a-pressable" style={{ ...styles.pressable, ...style }} hoverStyle={hoverStyle}>
+      <Pressable
+        accessibilityRole="link"
+        aria-current={ariaCurrent}
+        style={{ ...styleDuLien, ...fill }}
+        {...focusRingProps()}
+      >
+        <Box tag="a-pressable" style={{ ...styles.pressable, ...fill, ...style }} hoverStyle={hoverStyle}>
           {children}
         </Box>
       </Pressable>

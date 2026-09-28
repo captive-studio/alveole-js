@@ -5,6 +5,13 @@ import { useStyles } from './Grid.styles';
 
 export const GridGapContext = React.createContext<number>(0);
 
+/**
+ * Vrai dans une `Grid.Column`. La ligne étire ses colonnes à la hauteur de la plus haute :
+ * les composants qui habillent une cellule (`A`, `Card`) la remplissent, pour que les cartes
+ * d'une même ligne aient toutes la même hauteur.
+ */
+export const GridColumnContext = React.createContext<boolean>(false);
+
 type GridProps = Pick<BoxProps, 'children' | 'gap'> & BoxAdvancedStyle;
 type GridColumnSize = 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9 | 10 | 11 | 12;
 
@@ -56,21 +63,23 @@ const GridColumn = (props: GridColumnProps) => {
   }%`;
 
   return (
-    <Box
-      tag="grid-column"
-      style={[
-        {
-          width: widthPercent,
-          paddingLeft: gap / 2,
-          paddingRight: gap / 2,
-          paddingBottom: gap,
-        },
-        style,
-      ]}
-      {...advancedStyles}
-    >
-      {children}
-    </Box>
+    <GridColumnContext.Provider value={true}>
+      <Box
+        tag="grid-column"
+        style={[
+          {
+            width: widthPercent,
+            paddingLeft: gap / 2,
+            paddingRight: gap / 2,
+            paddingBottom: gap,
+          },
+          style,
+        ]}
+        {...advancedStyles}
+      >
+        {children}
+      </Box>
+    </GridColumnContext.Provider>
   );
 };
 
