@@ -1,3 +1,4 @@
+import { elementDuType } from '@/__tests__/helpers/elementDuType';
 import { renderWeb } from '@/__tests__/helpers/renderWeb';
 import { Avatar } from './Avatar';
 
@@ -10,8 +11,7 @@ it.each([
   const { container } = await renderWeb(<Avatar size={size} src="https://a/1" fallbackText="Jean Pierre" />);
 
   // react-native-web enveloppe <img> (toujours à 100 %) dans le bloc qui porte la taille.
-  const image = container.querySelector('img')?.parentElement;
-  expect(image).toBeTruthy();
-  const style = getComputedStyle(image as HTMLElement);
+  const image = elementDuType(container.querySelector('img')?.parentElement, HTMLElement);
+  const style = getComputedStyle(image);
   expect([style.width, style.height]).toEqual([`${px}px`, `${px}px`]);
 });
