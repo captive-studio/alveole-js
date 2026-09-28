@@ -19,7 +19,7 @@ export const selectItemStyle = (
   { selected, highlighted, disabled }: SelectItemState,
 ) => ({
   item: { ...styles.item, ...(disabled ? styles.itemDisabled : {}) },
-  band: { ...styles.band, ...(selected || highlighted ? styles.bandHighlighted : {}) },
+  band: { ...styles.band, ...(highlighted ? styles.bandHighlighted : {}) },
   // Le survol ne doit pas repondre sur une option qu'on ne peut pas choisir.
   bandHover: disabled ? undefined : styles.bandHighlighted,
   label: { ...styles.itemLabel, ...(disabled ? styles.itemLabelDisabled : {}) },
