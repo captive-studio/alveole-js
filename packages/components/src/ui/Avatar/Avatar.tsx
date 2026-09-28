@@ -48,7 +48,7 @@ export const Avatar = (props: AvatarProps) => {
       height={px}
       {...avatarProps}
     >
-      <TamaguiAvatar.Image src={src} width={px} height={px} />
+      <TamaguiAvatar.Image src={src} width={px} height={px} objectFit="cover" />
       <Typography style={styles.fallbackText}>{initials}</Typography>
     </TamaguiAvatar>
   );
