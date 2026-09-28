@@ -9,9 +9,8 @@ export const SELECT_ROW_HEIGHT = Platform.OS === 'web' ? 32 : 44;
 
 /**
  * Géométrie relevée sur la maquette (node 3682-5029) : la ligne occupe toute la largeur
- * du panneau, mais le fond de survol et de sélection n'est pas pleine largeur. Il forme
- * une bande arrondie en retrait de 16 px, et la barre de sélection vit dans la gouttière
- * ainsi dégagée : 8 px de marge, 4 px de barre, 4 px d'écart avant la bande.
+ * du panneau, mais le fond de l'option active n'est pas pleine largeur. Il forme une
+ * bande arrondie en retrait de 8 px, comme chez Primer.
  */
 
 type Theme = ReturnType<typeof useTheme>;
@@ -73,7 +72,7 @@ const ligne = ({ color, spacing, radius }: Theme) =>
     itemDisabled: {
       cursor: 'not-allowed',
     },
-    // Bande arrondie portant le fond de survol et de sélection
+    // Bande arrondie portant le fond de l option active
     band: {
       flex: 1,
       display: 'flex',
@@ -92,7 +91,7 @@ const ligne = ({ color, spacing, radius }: Theme) =>
 const contenuDeLaLigne = ({ text, color, spacingValue }: Theme) =>
   ({
     itemLabel: {
-      ...text['Corps de texte'].MD.Regular,
+      ...text['Corps de texte'].SM.Regular,
       color: color.light.text['default-grey'],
       flex: 1,
     },
