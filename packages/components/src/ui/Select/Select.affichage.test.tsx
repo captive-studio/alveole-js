@@ -18,6 +18,34 @@ describe('Select, affichage de la sélection', () => {
     expect(within(getByTestId('select-trigger')).getByText('Option B')).toBeTruthy();
   });
 
+  // Comme chez Primer, une coche en tête de ligne dit la sélection, et non un fond.
+  it('coche l’option sélectionnée dans le panneau', async () => {
+    const { getByTestId } = await renderSelect(<Select options={OPTIONS} value="b" />);
+
+    await press(getByTestId('select-trigger'));
+
+    expect(within(getByTestId('select-option-b')).getByTestId('select-item-coche')).toBeTruthy();
+  });
+
+  // Primer garde la place de la coche vide sur les autres options : les libelles restent alignes.
+  it('réserve la place de la coche sur une option non sélectionnée', async () => {
+    const { getByTestId } = await renderSelect(<Select options={OPTIONS} value="b" />);
+
+    await press(getByTestId('select-trigger'));
+
+    expect(within(getByTestId('select-option-a')).getByTestId('select-item-place-coche')).toBeTruthy();
+  });
+
+  // La coche suffit : Primer reserve sa barre a l'option active au clavier, que react-select
+  // ne distingue pas de l'option survolee.
+  it('ne marque plus l’option sélectionnée par une barre', async () => {
+    const { getByTestId } = await renderSelect(<Select options={OPTIONS} value="b" />);
+
+    await press(getByTestId('select-trigger'));
+
+    expect(within(getByTestId('select-option-b')).queryByTestId('select-item-indicator')).toBeNull();
+  });
+
   it('affiche un en-tête par groupe', async () => {
     const options: SelectOption[] = [
       { label: 'Option A', value: 'a', group: 'Contrats' },

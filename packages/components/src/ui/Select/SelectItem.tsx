@@ -8,7 +8,7 @@ import { selectItemStyle } from './selectItemStyle';
 export type SelectItemProps = {
   label: string;
   icon?: LucideIconProps['name'];
-  /** Option actuellement sélectionnée : fond + indicateur. */
+  /** Option actuellement sélectionnée : coche en tête de bande. */
   selected?: boolean;
   /** Option survolée ou active au clavier : fond seul. */
   highlighted?: boolean;
@@ -38,18 +38,22 @@ export const SelectItem = ({ label, icon, selected, highlighted, disabled, multi
 
   return (
     <Box tag="select-item" style={aspect.item}>
-      {selected && !multiple && (
-        <Box tag="select-item-indicator" style={styles.indicator}>
-          <Box style={styles.indicatorContent} />
-        </Box>
-      )}
-
       <Box tag="select-item-band" style={aspect.band} hoverStyle={aspect.bandHover}>
         {/* Simple visuel : la ligne entière reste l'unique zone pressable, un contrôle imbriqué
             dans un autre serait un anti-patron d'accessibilité. */}
         {multiple && (
           <Box tag="select-item-checkbox" style={aspect.caseACocher}>
             {selected && <LucideIcon size="xs" name="Check" color={aspect.coche} />}
+          </Box>
+        )}
+
+        {!multiple && (
+          <Box testID="select-item-place-coche" style={styles.placeCoche}>
+            {selected && (
+              <Box testID="select-item-coche">
+                <LucideIcon size="sm" name="Check" color={aspect.icone} />
+              </Box>
+            )}
           </Box>
         )}
 

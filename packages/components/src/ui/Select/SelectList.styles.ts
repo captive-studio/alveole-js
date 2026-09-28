@@ -64,8 +64,8 @@ const ligne = ({ color, spacing, radius }: Theme) =>
       display: 'flex',
       flexDirection: 'row',
       alignItems: 'stretch',
-      paddingLeft: spacing('2W'),
-      paddingRight: spacing('2W'),
+      paddingLeft: spacing('1W'),
+      paddingRight: spacing('1W'),
       minHeight: SELECT_ROW_HEIGHT,
       width: '100%',
       cursor: 'pointer',
@@ -89,7 +89,7 @@ const ligne = ({ color, spacing, radius }: Theme) =>
     },
   }) satisfies Table;
 
-const contenuDeLaLigne = ({ text, color, spacing, spacingValue, radius }: Theme) =>
+const contenuDeLaLigne = ({ text, color, spacingValue }: Theme) =>
   ({
     itemLabel: {
       ...text['Corps de texte'].MD.Regular,
@@ -99,21 +99,10 @@ const contenuDeLaLigne = ({ text, color, spacing, spacingValue, radius }: Theme)
     itemLabelDisabled: {
       color: color.light.text['disabled-grey'],
     },
-    // Indicateur de sélection : barre verticale dans la gouttière, à gauche de la bande
-    indicator: {
-      position: 'absolute',
-      left: spacing('1W'),
-      top: 0,
-      bottom: 0,
-      width: spacingValue('1V'),
-      display: 'flex',
-      justifyContent: 'center',
-    },
-    indicatorContent: {
-      width: '100%',
-      height: spacingValue('3W'),
-      borderRadius: radius('sm'),
-      backgroundColor: color.light.border['default-primary'],
+    // Place de la coche, vide sur les options non retenues : les libelles restent alignes.
+    placeCoche: {
+      width: spacingValue('100'),
+      flexShrink: 0,
     },
   }) satisfies Table;
 
