@@ -81,7 +81,7 @@ const ligne = ({ color, spacing, radius }: Theme) =>
       gap: spacing('1W'),
       paddingLeft: spacing('1W'),
       paddingRight: spacing('1W'),
-      borderRadius: radius('sm'),
+      borderRadius: radius('md'),
     },
     bandHighlighted: {
       backgroundColor: color.light.background['transparent-hover'],

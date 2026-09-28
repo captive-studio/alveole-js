@@ -44,3 +44,11 @@ test('ecrit les options en corps de texte SM', () => {
     result.current.theme.text['Corps de texte'].SM.Regular.fontSize,
   );
 });
+
+// A 4, la bande de l'option active paraissait anguleuse face au champ, arrondi a 6 : Primer
+// donne a ses options le meme rayon moyen que ses controles.
+test('arrondit la bande de l option active au rayon moyen', () => {
+  const { result } = renderHookOnDesktop(() => useStyles());
+
+  expect(result.current.band.borderRadius).toBe('var(--radius-md)');
+});
