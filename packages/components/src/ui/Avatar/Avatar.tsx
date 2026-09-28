@@ -42,14 +42,16 @@ export const Avatar = (props: AvatarProps) => {
 
   return (
     <TamaguiAvatar
-      style={{ ...styles.avatar, ...(carre ? styles.carre : {}), ...style }}
+      style={{ ...(carre ? styles.carre : {}), ...style }}
       circular={!carre}
       width={px}
       height={px}
       {...avatarProps}
     >
-      <TamaguiAvatar.Image src={src} width={px} height={px} objectFit="cover" />
-      <Typography style={styles.fallbackText}>{initials}</Typography>
+      <TamaguiAvatar.Image src={src} width={px} height={px} />
+      <TamaguiAvatar.Fallback style={styles.fallback}>
+        <Typography style={styles.fallbackText}>{initials}</Typography>
+      </TamaguiAvatar.Fallback>
     </TamaguiAvatar>
   );
 };
