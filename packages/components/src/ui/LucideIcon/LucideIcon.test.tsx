@@ -13,6 +13,12 @@ test('décrit les tailles et les noms des icônes dans le schéma du catalogue',
   });
 });
 
+test('ne propose au catalogue que des icônes, pas le moteur de rendu de Lucide', () => {
+  expect(LucideIconPropsJSON.properties?.name).not.toMatchObject({
+    enum: expect.arrayContaining(['createLucideIcon']),
+  });
+});
+
 describe('resolveShareIconName', () => {
   it.each([
     ['ios', 'Share'],
