@@ -42,10 +42,17 @@ export const Avatar = (props: AvatarProps) => {
 
   return (
     <TamaguiAvatar
-      style={{ ...(carre ? styles.carre : {}), ...style }}
+      style={{
+        width: px,
+        height: px,
+        minWidth: px,
+        maxWidth: px,
+        minHeight: px,
+        maxHeight: px,
+        ...(carre ? styles.carre : {}),
+        ...style,
+      }}
       circular={!carre}
-      width={px}
-      height={px}
       {...avatarProps}
     >
       <TamaguiAvatar.Image src={src} width={px} height={px} />
