@@ -36,7 +36,15 @@ export const selectStylesConfig = (
   indicatorSeparator: () => ({ display: 'none' }),
   dropdownIndicator: base => ({ ...base, padding: 0 }),
   clearIndicator: base => ({ ...base, padding: 0 }),
-  menu: base => ({ ...base, ...listStyles.panel, marginTop: 4, overflow: 'hidden' }),
+  // Au moins la largeur du champ, jusqu'au libelle le plus long : un champ etroit ne coupe plus les options.
+  menu: base => ({
+    ...base,
+    ...listStyles.panel,
+    width: 'max-content',
+    minWidth: '100%',
+    marginTop: 4,
+    overflow: 'hidden',
+  }),
   menuList: base => ({ ...base, padding: 0, maxHeight: SELECT_ROW_HEIGHT * 9 }),
   // Le fond et l'espacement appartiennent à SelectItem : react-select ne doit pas les doubler.
   option: () => ({ padding: 0, backgroundColor: 'transparent' }),
