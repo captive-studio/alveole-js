@@ -6,6 +6,9 @@ import { SELECT_ROW_HEIGHT, type useStyles as useListStyles } from './SelectList
 
 type Group = GroupBase<SelectOption>;
 
+// Au moins la largeur du champ, jusqu'au libelle le plus long : un champ etroit ne coupe plus les options.
+export const largeurDuPanneau = { width: 'max-content', minWidth: '100%' } as const;
+
 /**
  * La feuille de style que react-select attend. C'est une donnee, pas du rendu : la garder dans
  * le corps du composant en occupait le tiers et la recreait a chaque frappe.
@@ -36,12 +39,10 @@ export const selectStylesConfig = (
   indicatorSeparator: () => ({ display: 'none' }),
   dropdownIndicator: base => ({ ...base, padding: 0 }),
   clearIndicator: base => ({ ...base, padding: 0 }),
-  // Au moins la largeur du champ, jusqu'au libelle le plus long : un champ etroit ne coupe plus les options.
   menu: base => ({
     ...base,
     ...listStyles.panel,
-    width: 'max-content',
-    minWidth: '100%',
+    ...largeurDuPanneau,
     marginTop: 4,
     overflow: 'hidden',
   }),
