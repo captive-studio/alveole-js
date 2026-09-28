@@ -1,11 +1,13 @@
 import { makeStyles } from '@alveole/theme';
 
 export const useStyles = makeStyles(({ color, text, radius }) => ({
-  avatar: {
-    backgroundColor: color.dark.background['contrast-grey'],
-  },
   carre: {
     borderRadius: radius('md'),
+  },
+  fallback: {
+    backgroundColor: color.dark.background['contrast-grey'],
+    alignItems: 'center' as const,
+    justifyContent: 'center' as const,
   },
   fallbackText: {
     ...text['Corps de texte'].MD.Medium,
@@ -14,5 +16,4 @@ export const useStyles = makeStyles(({ color, text, radius }) => ({
     justifyContent: 'center',
     textAlign: 'center',
   },
-  image: {},
 }));
