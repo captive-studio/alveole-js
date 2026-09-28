@@ -35,14 +35,20 @@ export const Avatar = (props: AvatarProps) => {
     xl: spacingValue('8W'),
   };
 
+  // Pas de prop `size` : Tamagui y lit une valeur qui est aussi une clé de jeton de taille
+  // ($0 à $20) comme ce jeton. `xs` (20) donnait $20, soit 284 px, et la photo débordait du
+  // cercle. Largeur et hauteur en pixels n'ont pas cette ambiguïté.
+  const px = avatarSize[size];
+
   return (
     <TamaguiAvatar
       style={{ ...styles.avatar, ...(carre ? styles.carre : {}), ...style }}
       circular={!carre}
-      size={avatarSize[size]}
+      width={px}
+      height={px}
       {...avatarProps}
     >
-      <TamaguiAvatar.Image src={src} />
+      <TamaguiAvatar.Image src={src} width={px} height={px} />
       <Typography style={styles.fallbackText}>{initials}</Typography>
     </TamaguiAvatar>
   );
