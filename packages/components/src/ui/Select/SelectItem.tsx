@@ -10,10 +10,10 @@ export type SelectItemProps = {
   icon?: LucideIconProps['name'];
   /** Option actuellement sélectionnée : coche en tête de bande. */
   selected?: boolean;
-  /** Option survolée ou active au clavier : fond seul. */
+  /** Option survolée ou active au clavier : fond et barre d'accent. */
   highlighted?: boolean;
   disabled?: boolean;
-  /** Multi-sélection : la sélection se marque par une case à cocher en tête de bande, pas par la barre. */
+  /** Multi-sélection : la sélection se marque par une case à cocher en tête de bande, pas par la coche. */
   multiple?: boolean;
 };
 
@@ -38,6 +38,7 @@ export const SelectItem = ({ label, icon, selected, highlighted, disabled, multi
 
   return (
     <Box tag="select-item" style={aspect.item}>
+      {highlighted && <Box testID="select-item-barre" style={styles.barre} />}
       <Box tag="select-item-band" style={aspect.band} hoverStyle={aspect.bandHover}>
         {/* Simple visuel : la ligne entière reste l'unique zone pressable, un contrôle imbriqué
             dans un autre serait un anti-patron d'accessibilité. */}
