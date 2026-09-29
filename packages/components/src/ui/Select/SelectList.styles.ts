@@ -55,7 +55,7 @@ const panneau = ({ text, color, spacing, radius, shadows }: Theme) =>
     },
   }) satisfies Table;
 
-const ligne = ({ color, spacing, radius }: Theme) =>
+const ligne = ({ color, spacing, spacingValue, radius }: Theme) =>
   ({
     // Option : conteneur pleine largeur, sans fond propre
     item: {
@@ -85,6 +85,16 @@ const ligne = ({ color, spacing, radius }: Theme) =>
     },
     bandHighlighted: {
       backgroundColor: color.light.background['transparent-hover'],
+    },
+    // Barre d'accent de l'option active, dans la gouttiere laissee par le retrait de la bande (Primer).
+    barre: {
+      position: 'absolute',
+      left: 0,
+      top: spacing('1V'),
+      bottom: spacing('1V'),
+      width: spacingValue('1V'),
+      borderRadius: radius('md'),
+      backgroundColor: color.light.border['default-primary'],
     },
   }) satisfies Table;
 
