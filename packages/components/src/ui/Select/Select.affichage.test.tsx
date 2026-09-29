@@ -43,7 +43,7 @@ describe('Select, affichage de la sélection', () => {
 
     await press(getByTestId('select-trigger'));
 
-    expect(within(getByTestId('select-option-b')).queryByTestId('select-item-indicator')).toBeNull();
+    expect(within(getByTestId('select-option-b')).queryByTestId('select-item-barre')).toBeNull();
   });
 
   it('affiche un en-tête par groupe', async () => {
