@@ -13,7 +13,7 @@
 // compilateur n'a pas prouvé. Les casts du dépôt ont été remplacés par des types qui disent vrai ;
 // seuls restent ceux que TypeScript ne sait pas exprimer autrement, chacun isolé dans un fichier
 // qui ne fait que ça et qui explique pourquoi. Ils sont exemptés ici, nommément, et nulle part
-// ailleurs. `deepMerge.ts` l'est à titre provisoire.
+// ailleurs.
 const castsAssumes = [
   'src/helpers/mapValues.ts',
   'src/helpers/cssVarTypography.ts',
