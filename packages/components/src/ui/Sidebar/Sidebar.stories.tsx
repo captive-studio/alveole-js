@@ -10,6 +10,7 @@ import { Sidebar } from './Sidebar';
 import { useStyles } from './Sidebar.styles';
 import { SidebarGroup } from './SidebarGroup';
 import { SidebarItem } from './SidebarItem';
+import { useSidebar } from './useSidebar';
 
 export default {
   title: 'Sidebar',
@@ -25,26 +26,29 @@ export default {
   styleFn: useStyles,
 } satisfies Story;
 
-/**
- * Exemple d'intégration complète du composant avec un contrôleur, un logo et un footer.
- *
- * ```tsx
- * <Sidebar
- *   controller={sidebarController}
- *   logo={<Image source={require('../../assets/logo.png')} />}
- *   footer={<SidebarItem pressable icon="LogOut" title="Se déconnecter" onPress={onLogout} />}
- * >
- *   <SidebarItem title="Item 1" href="/admin/item-1" routeName="item-1" />
- *   <SidebarItem title="Item 2" href="/admin/item-2" routeName="item-2" />
- *
- *   <SidebarGroup title="Groupe">
- *     <SidebarItem title="Item group 1" href="/admin/gp-item-2" routeName="gp-item-1" />
- *     <SidebarItem title="Item group 2" href="/admin/gp-item-2" routeName="gp-item-2" />
- *   </SidebarGroup>
- * </Sidebar>
- * ```
- */
-export const ExampleUsage = () => null;
+export const ExampleUsage = () => {
+  const controller = useSidebar();
+
+  return (
+    <Sidebar
+      controller={controller}
+      logo={
+        <Typography fontSize={16} style={{ fontWeight: '700' }}>
+          Mon Application
+        </Typography>
+      }
+      footer={<SidebarItem pressable icon="LogOut" title="Se déconnecter" onPress={console.log} />}
+    >
+      <SidebarItem pressable title="Item 1" onPress={console.log} />
+      <SidebarItem pressable title="Item 2" onPress={console.log} />
+
+      <SidebarGroup title="Groupe">
+        <SidebarItem pressable title="Item group 1" onPress={console.log} />
+        <SidebarItem pressable title="Item group 2" onPress={console.log} />
+      </SidebarGroup>
+    </Sidebar>
+  );
+};
 
 export const AvecHeaderEtFooter = () => {
   const [orga, setOrga] = useState('Alvéole');
