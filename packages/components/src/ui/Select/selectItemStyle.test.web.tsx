@@ -52,3 +52,30 @@ test('arrondit la bande de l option active au rayon moyen', () => {
 
   expect(result.current.band.borderRadius).toBe('var(--radius-md)');
 });
+
+// SemiBold ne porte aucune intention : Primer ecrit ses en-tetes de groupe en gras, le cran Bold.
+test('ecrit les en-tetes de groupe en XS gras', () => {
+  const { result } = renderHookOnDesktop(() => ({ styles: useStyles(), theme: useTheme() }));
+
+  expect(result.current.styles.groupHeader.fontWeight).toBe(
+    result.current.theme.text['Corps de texte'].XS.Bold.fontWeight,
+  );
+});
+
+// Les capitales criaient plus fort que les options qu'elles rangent : Primer ne les emploie pas.
+test('n ecrit pas les en-tetes de groupe en capitales', () => {
+  const { result } = renderHookOnDesktop(() => useStyles());
+
+  expect(result.current.groupHeader).not.toHaveProperty('textTransform');
+});
+
+// A 24, l'en-tete depassait le contenu des options, qui commence a 16 (retrait 8 + bande 8) :
+// comme chez Primer, il s'aligne dessus.
+test('aligne les en-tetes de groupe sur le contenu des options', () => {
+  const { result } = renderHookOnDesktop(() => useStyles());
+
+  expect({ gauche: result.current.groupHeader.paddingLeft, droite: result.current.groupHeader.paddingRight }).toEqual({
+    gauche: 'var(--spacing-2w)',
+    droite: 'var(--spacing-2w)',
+  });
+});
