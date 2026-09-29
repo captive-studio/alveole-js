@@ -45,13 +45,12 @@ const panneau = ({ text, color, spacing, radius, shadows }: Theme) =>
     },
     // En-tête de groupe
     groupHeader: {
-      ...text['Corps de texte'].XS.SemiBold,
+      ...text['Corps de texte'].XS.Bold,
       color: color.light.text['mention-grey'],
-      textTransform: 'uppercase',
       paddingTop: spacing('3V'),
       paddingBottom: spacing('1V'),
-      paddingLeft: spacing('3W'),
-      paddingRight: spacing('3W'),
+      paddingLeft: spacing('2W'),
+      paddingRight: spacing('2W'),
     },
   }) satisfies Table;
 
