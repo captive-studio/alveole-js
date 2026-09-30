@@ -29,7 +29,7 @@ overrides:
   # pas, des peers (`*`) et expo-router en tiraient encore le patch précédent, ce qu'expo-doctor
   # refuse (un module natif ne doit exister qu'en une version).
   expo-asset: 57.0.18
-  expo-constants: 57.0.19
+  expo-constants: 57.0.20
 
 # Les scripts d'installation sont bloqués par défaut : ces trois paquets compilent un binaire
 # natif dont dépendent Jest, Metro et le résolveur ESLint. pnpm 11 a supprimé
@@ -44,7 +44,8 @@ allowBuilds:
 
 minimumReleaseAgeExclude:
   - expo-asset@57.0.18
-  - expo-constants@57.0.19
+  - expo-constants@57.0.20
+  - expo-document-picker@57.0.3
   - expo-linking@57.0.11
 
 patchedDependencies:
