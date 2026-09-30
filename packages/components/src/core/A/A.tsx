@@ -1,7 +1,8 @@
 import { focusRingProps } from '@alveole/theme';
 import { Href, Link } from 'expo-router';
+import { openBrowserAsync } from 'expo-web-browser';
 import React, { CSSProperties, createContext, useContext } from 'react';
-import { Pressable, TextStyle } from 'react-native';
+import { Platform, Pressable, TextStyle } from 'react-native';
 import { Box } from '../Box';
 import { GridColumnContext } from '../Grid';
 import { useStyles } from './A.styles';
@@ -27,10 +28,21 @@ export type AProps = React.PropsWithChildren<{
   canAccessHref?: CanAccessHref;
   /** Marque le lien comme représentant l'emplacement courant. "page" pour la page affichée. */
   ariaCurrent?: 'page' | 'step' | 'location' | 'date' | 'time';
+  /** Cible du lien. "_blank" ouvre un nouvel onglet sur le web ; en natif, une URL externe s'ouvre dans le navigateur intégré. */
+  target?: '_self' | '_blank' | '_parent' | '_top';
 }>;
 
 export const A = (props: AProps) => {
-  const { children, href, direction = 'push', style, hoverStyle, ariaCurrent, canAccessHref: canAccessProp } = props;
+  const {
+    children,
+    href,
+    direction = 'push',
+    style,
+    hoverStyle,
+    ariaCurrent,
+    target,
+    canAccessHref: canAccessProp,
+  } = props;
 
   const styles = useStyles();
   // Sur le web, ce Pressable rend le `<a>` lui-meme : il porte donc une couleur de texte, que
@@ -38,6 +50,33 @@ export const A = (props: AProps) => {
   const styleDuLien: TextStyle = styles.link;
   const canAccess = useCanAccessHref(canAccessProp);
   const fill = useContext(GridColumnContext) ? styles.fill : undefined;
+
+  // En natif il n'y a pas d'onglet : une URL externe en `_blank` s'ouvre dans le navigateur
+  // integre, une route interne garde la navigation de l'app.
+  const ouvreNavigateurIntegre = Platform.OS !== 'web' && target === '_blank' && /^https?:\/\//.test(href);
+
+  // react-native-web pose `target` et `rel` sur le `<a>` rendu ; `hrefAttrs` n'est pas type par RN.
+  const attributsWeb: Record<string, unknown> = {
+    hrefAttrs: target ? { target, rel: target === '_blank' ? 'noopener noreferrer' : undefined } : undefined,
+  };
+
+  const contenu = (
+    <Box tag="a-pressable" style={{ ...styles.pressable, ...fill, ...style }} hoverStyle={hoverStyle}>
+      {children}
+    </Box>
+  );
+
+  const navigateurIntegre = (
+    <Pressable
+      accessibilityRole="link"
+      aria-current={ariaCurrent}
+      style={{ ...styleDuLien, ...fill }}
+      onPress={() => openBrowserAsync(href)}
+      {...focusRingProps()}
+    >
+      {contenu}
+    </Pressable>
+  );
 
   const expoLink = (
     <Link
@@ -50,15 +89,15 @@ export const A = (props: AProps) => {
       <Pressable
         accessibilityRole="link"
         aria-current={ariaCurrent}
+        {...attributsWeb}
         style={{ ...styleDuLien, ...fill }}
         {...focusRingProps()}
       >
-        <Box tag="a-pressable" style={{ ...styles.pressable, ...fill, ...style }} hoverStyle={hoverStyle}>
-          {children}
-        </Box>
+        {contenu}
       </Pressable>
     </Link>
   );
 
-  return canAccess(href) ? expoLink : <>{children}</>;
+  if (!canAccess(href)) return <>{children}</>;
+  return ouvreNavigateurIntegre ? navigateurIntegre : expoLink;
 };
