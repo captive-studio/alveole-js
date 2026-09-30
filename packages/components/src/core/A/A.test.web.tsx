@@ -14,3 +14,38 @@ test('demande la bague de focus au theme', () => {
 
   expect(screen.getByRole('link').getAttribute(FOCUS_ATTRIBUTE)).toBe('ring');
 });
+
+test('ouvre le lien dans un nouvel onglet avec target="_blank"', () => {
+  renderWeb(
+    <A href="/quelque-part" target="_blank">
+      <span>Aller</span>
+    </A>,
+  );
+
+  const lien = screen.getByRole('link');
+  expect(lien.getAttribute('target')).toBe('_blank');
+  expect(lien.getAttribute('rel')).toContain('noopener');
+});
+
+test("n'impose aucune cible par defaut", () => {
+  renderWeb(
+    <A href="/quelque-part">
+      <span>Aller</span>
+    </A>,
+  );
+
+  expect(screen.getByRole('link').getAttribute('target')).toBeNull();
+});
+
+// Si le routeur interceptait le clic, il naviguerait dans l'onglet courant malgre la cible.
+test('laisse le navigateur gerer le clic quand target="_blank"', () => {
+  renderWeb(
+    <A href="/quelque-part" target="_blank">
+      <span>Aller</span>
+    </A>,
+  );
+
+  const clic = new MouseEvent('click', { bubbles: true, cancelable: true, button: 0 });
+  screen.getByRole('link').dispatchEvent(clic);
+  expect(clic.defaultPrevented).toBe(false);
+});

@@ -34,4 +34,10 @@ export const LinkBlock = () => (
   </A>
 );
 
+export const NouvelOnglet = () => (
+  <A href={'/ui-kit/components/A'} target="_blank">
+    <Typography>Ouvrir dans un nouvel onglet</Typography>
+  </A>
+);
+
 export * as Sources from './A.stories.sources';
