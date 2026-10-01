@@ -1,21 +1,6 @@
-import { A, Box, Divider, Sidebar, SidebarGroup, SidebarItem } from '@alveole/components';
-import { makeStyles, useTheme } from '@alveole/theme';
+import { A, Sidebar, SidebarDivider, SidebarGroup, SidebarItem } from '@alveole/components';
+import { useTheme } from '@alveole/theme';
 import React from 'react';
-
-const useStyles = makeStyles(({ spacingValue }) => ({
-  // Le filet est encadré plutôt que marginé : `Divider` se pose en `width: 100%`, et une marge
-  // droite serait ignorée. Le retrait passe donc par le padding de la boîte qui le porte, ce
-  // qui le garde à égale distance des deux bords.
-  //
-  // Il ne touche pas les bords de la colonne : pleine largeur, il se lit comme une frontière de
-  // panneau plutôt que comme une césure de liste. Le groupe porte l'écart sous le filet, cette
-  // marge porte celui du dessus, et les deux s'équilibrent.
-  dividerRow: {
-    paddingLeft: spacingValue('150'),
-    paddingRight: spacingValue('150'),
-    marginTop: spacingValue('100'),
-  },
-}));
 
 export type UIKitColumnItem = {
   key: string;
@@ -43,7 +28,6 @@ export type UIKitColumnProps = {
  */
 export const UIKitColumn = ({ groups }: UIKitColumnProps) => {
   const { isVariant } = useTheme();
-  const styles = useStyles();
 
   // Sous 992px la colonne se replie dans le menu de la barre, qui reste le seul contrôle.
   // Primer et Atlassian replient la leur dès 900px.
@@ -60,11 +44,7 @@ export const UIKitColumn = ({ groups }: UIKitColumnProps) => {
           {/* Filet entre deux blocs, comme chez GitHub : le blanc seul ne suffit pas à détacher
               un groupe d'une page, qui sans lui se lit comme la suite du groupe précédent.
               Jamais avant le premier, qui n'a rien au-dessus de quoi se détacher. */}
-          {rang > 0 && (
-            <Box style={styles.dividerRow}>
-              <Divider />
-            </Box>
-          )}
+          {rang > 0 && <SidebarDivider />}
           <SidebarGroup title={group.title}>
             {group.items.map(item => (
               <SidebarItem key={item.key} title={item.title} href={item.href} />
