@@ -5,10 +5,10 @@ import { Story } from '../../type';
 import { ActionMenu } from '../ActionMenu';
 import { Avatar } from '../Avatar';
 import { ButtonIcon } from '../Button';
+import { Divider } from '../Divider';
 import { LucideIcon } from '../LucideIcon';
 import { Sidebar } from './Sidebar';
 import { useStyles } from './Sidebar.styles';
-import { SidebarGroup } from './SidebarGroup';
 import { SidebarItem } from './SidebarItem';
 import { useSidebar } from './useSidebar';
 
@@ -100,10 +100,10 @@ export const AvecHeaderEtFooter = () => {
       <SidebarItem pressable icon="Users" title="Utilisateurs" onPress={console.log} />
       <SidebarItem pressable icon="FileText" title="Rapports" onPress={console.log} />
 
-      <SidebarGroup title="Paramètres">
-        <SidebarItem pressable icon="Settings" title="Configuration" onPress={console.log} />
-        <SidebarItem pressable icon="Bell" title="Notifications" onPress={console.log} />
-      </SidebarGroup>
+      <Divider />
+
+      <SidebarItem pressable icon="Settings" title="Configuration" onPress={console.log} />
+      <SidebarItem pressable icon="Bell" title="Notifications" onPress={console.log} />
     </Sidebar>
   );
 };
