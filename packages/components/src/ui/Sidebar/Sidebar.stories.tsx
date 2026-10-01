@@ -9,6 +9,7 @@ import { Divider } from '../Divider';
 import { LucideIcon } from '../LucideIcon';
 import { Sidebar } from './Sidebar';
 import { useStyles } from './Sidebar.styles';
+import { SidebarGroup } from './SidebarGroup';
 import { SidebarItem } from './SidebarItem';
 import { useSidebar } from './useSidebar';
 
