@@ -44,7 +44,7 @@
     "knip": "6.36.0",
     "prettier": "3.9.9",
     "prettier-plugin-organize-imports": "4.3.0",
-    "publint": "0.3.24",
+    "publint": "0.3.25",
     "typescript": "6.0.3"
   }
 }
