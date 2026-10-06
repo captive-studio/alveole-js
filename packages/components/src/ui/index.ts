@@ -20,6 +20,7 @@ export * from './FormControl';
 export * from './Header';
 export * from './InputButtonAdornment';
 export * from './InputHeading';
+export * from './Leading';
 export * from './Link';
 export * from './ListItem';
 export * from './LucideIcon';

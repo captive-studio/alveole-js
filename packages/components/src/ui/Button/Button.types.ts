@@ -1,6 +1,6 @@
 import { PressableProps } from 'react-native';
 import { BoxProps } from '../../core/Box';
-import { IconProps } from '../LucideIcon';
+import { Leading } from '../Leading';
 import { SpinnerDelay } from '../Spinner/Spinner.shared';
 import { ButtonTaille, ButtonVariant } from './buttonVariants';
 
@@ -15,8 +15,10 @@ export type ButtonProps = Omit<PressableProps, 'children' | 'style'> & {
   title: string;
   size?: ButtonTaille;
   variant: ButtonVariant;
-  startIcon?: IconProps['name'];
-  endIcon?: IconProps['name'];
+  /** Avant le libellé : le nom d'une icône, ou un élément (avatar, logo). */
+  leading?: Leading;
+  /** Après le libellé : le nom d'une icône, ou un élément. */
+  trailing?: Leading;
   selected?: boolean;
   ContainerProps?: BoxProps;
   fullWidth?: boolean;

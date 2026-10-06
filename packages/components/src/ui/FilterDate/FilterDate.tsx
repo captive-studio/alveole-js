@@ -210,7 +210,7 @@ export const FilterDate = (props: FilterDateProps) => {
       <Button
         variant="secondary"
         title={title}
-        endIcon="ChevronDown"
+        trailing="ChevronDown"
         size="sm"
         selected={!vide}
         expanded={open}

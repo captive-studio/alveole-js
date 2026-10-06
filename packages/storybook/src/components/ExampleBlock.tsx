@@ -65,7 +65,7 @@ const BarreDeSource = ({ onCopier }: { onCopier: () => void }) => {
         tsx
       </Typography>
 
-      <Button title="Copier" size="sm" variant="tertiary" startIcon="Copy" onPress={onCopier} />
+      <Button title="Copier" size="sm" variant="tertiary" leading="Copy" onPress={onCopier} />
     </Box>
   );
 };
@@ -86,7 +86,7 @@ const CommandeDeRepli = ({ deplie, onBascule }: { deplie: boolean; onBascule: ()
         title={deplie ? 'Replier' : 'Afficher tout'}
         size="sm"
         variant="tertiary"
-        endIcon={deplie ? 'ChevronUp' : 'ChevronDown'}
+        trailing={deplie ? 'ChevronUp' : 'ChevronDown'}
         onPress={onBascule}
       />
     </Box>
