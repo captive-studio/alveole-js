@@ -19,5 +19,7 @@ lire que la section utile à la zone touchée :
   catalogue : étiquette, badge, compteur, et les états qui les distinguent.
 - [Champs](docs/context/champs.md) : vocabulaire des composants de saisie :
   contrôle de saisie, champ.
+- [Composants](docs/context/composants.md) : vocabulaire transverse aux
+  composants : contenu de tête, contenu de fin.
 - [Qualité](docs/context/qualite.md) : vocabulaire des garde-fous mesurés du
   dépôt : cliquets, violations, clichés.
