@@ -1,6 +1,7 @@
 import React from 'react';
 import { Box } from '../../core/Box';
 import { Story } from '../../type';
+import { Avatar } from '../Avatar';
 import { Button } from './Button';
 import { useStyles } from './Button.styles';
 import { ButtonIcon } from './ButtonIcon';
@@ -99,18 +100,30 @@ export const Loading = () => {
   return (
     <Box display="flex" flexDirection="row" gap={24}>
       <Button variant="primary" title="Enregistrer" isLoading={isLoading} onPress={handlePress} />
-      <Button variant="secondary" title="Exporter" startIcon="Download" isLoading={isLoading} onPress={handlePress} />
+      <Button variant="secondary" title="Exporter" leading="Download" isLoading={isLoading} onPress={handlePress} />
       <Button variant="primary" title="Délai court" loadingDelay="short" isLoading={isLoading} onPress={handlePress} />
     </Box>
   );
 };
 
-/** `startIcon` place l'icône avant le libellé, `endIcon` après. Les deux peuvent coexister. */
+/** `leading` place l’icône avant le libellé, `trailing` après. Les deux peuvent coexister. */
 export const Icons = () => (
   <Box display="flex" flexDirection="row" gap={24}>
-    <Button variant="secondary" title="Ajouter" startIcon="Plus" />
-    <Button variant="secondary" title="Exporter" endIcon="Download" />
-    <Button variant="secondary" title="Filtres" startIcon="Plus" endIcon="ChevronDown" />
+    <Button variant="secondary" title="Ajouter" leading="Plus" />
+    <Button variant="secondary" title="Exporter" trailing="Download" />
+    <Button variant="secondary" title="Filtres" leading="Plus" trailing="ChevronDown" />
+  </Box>
+);
+
+/**
+ * `leading` et `trailing` acceptent aussi un élément : un avatar, un logo de réseau social.
+ * Il est posé dans un emplacement de la taille de l'icône, sans recevoir de couleur, si bien
+ * que le bouton garde sa hauteur et son alignement.
+ */
+export const TertiaireAvecAvatar = () => (
+  <Box display="flex" flexDirection="row" gap={24} style={{ alignItems: 'center' }}>
+    <Button variant="tertiary" title="Marie Curie" leading={<Avatar size="xs" fallbackText="Marie Curie" />} />
+    <Button variant="tertiary" title="Marie Curie" leading="User" />
   </Box>
 );
 

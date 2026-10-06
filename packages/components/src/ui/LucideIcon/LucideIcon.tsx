@@ -9,6 +9,14 @@ export const strokeWidth = 1.5;
 
 export type IconProps = LucideIconProps;
 
+export const tailleDesIcones: Record<IconProps['size'], number> = {
+  xs: 12,
+  sm: 16,
+  md: 24,
+  lg: 32,
+  xl: 64,
+};
+
 // Les deux paquets vendor exposent leurs icones comme exports nommes : c'est un objet de module,
 // pas une table indexable par un nom calcule. Les aplatir une fois au chargement donne la table
 // que le rendu cherchait, sans forcer le typage et sans la reconstruire a chaque icone rendue.
@@ -39,20 +47,12 @@ export const LucideIcon = (props: IconProps) => {
     name = resolveShareIconName(_platformOverride ?? Platform.OS);
   }
 
-  const sizeMap: Record<IconProps['size'], number> = {
-    xs: 12,
-    sm: 16,
-    md: 24,
-    lg: 32,
-    xl: 64,
-  };
-
   const mergedStyle = versStyleNatif<StyleProp<ViewStyle>>({ stroke: color ?? 'currentColor', ...style });
 
   const IconComponent = iconesLucide[name];
 
   if (IconComponent) {
-    return <IconComponent style={mergedStyle} strokeWidth={strokeWidth} color={color} size={sizeMap[size]} />;
+    return <IconComponent style={mergedStyle} strokeWidth={strokeWidth} color={color} size={tailleDesIcones[size]} />;
   }
 
   return (
@@ -61,7 +61,7 @@ export const LucideIcon = (props: IconProps) => {
       style={mergedStyle}
       strokeWidth={strokeWidth}
       color={color}
-      size={sizeMap[size]}
+      size={tailleDesIcones[size]}
     />
   );
 };

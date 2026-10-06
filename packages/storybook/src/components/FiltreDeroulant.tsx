@@ -37,7 +37,7 @@ export const FiltreDeroulant = <Cle extends string>({
       <Button
         variant="secondary"
         title={libelleDuFiltre({ libelle, options, choisi })}
-        endIcon="ChevronDown"
+        trailing="ChevronDown"
         size="sm"
         selected={choisi !== null}
         active={ouvert}

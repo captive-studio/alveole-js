@@ -1,6 +1,7 @@
 import { Box } from '../../core/Box';
 import { Typography } from '../../core/Typography';
-import { IconProps, LucideIcon } from '../LucideIcon';
+import { Leading, LeadingSlot } from '../Leading';
+import { IconProps } from '../LucideIcon';
 import { EtatDuPointeur } from '../pointeur';
 import { Spinner } from '../Spinner';
 import { useDelaiDAffichage } from '../Spinner/useDelaiDAffichage';
@@ -18,13 +19,13 @@ type ButtonContentProps = {
   props: ButtonProps;
 };
 
-type EmplacementProps = { spinner: boolean; nom?: IconProps['name']; apparence: Omit<IconProps, 'name'> };
+type EmplacementProps = { spinner: boolean; contenu?: Leading; apparence: Omit<IconProps, 'name'> };
 
-/** Un cote du libelle : son icone, ou le spinner venu prendre sa place. */
-const Emplacement = ({ spinner, nom, apparence }: EmplacementProps) => {
+/** Un cote du libelle : son contenu, ou le spinner venu prendre sa place. */
+const Emplacement = ({ spinner, contenu, apparence }: EmplacementProps) => {
   if (spinner) return <Spinner size="sm" />;
 
-  return nom ? <LucideIcon name={nom} {...apparence} /> : null;
+  return <LeadingSlot contenu={contenu} apparence={apparence} />;
 };
 
 /**
@@ -32,12 +33,12 @@ const Emplacement = ({ spinner, nom, apparence }: EmplacementProps) => {
  * rayons et du focus ; ce composant-ci decide de ce qui se voit dedans.
  */
 export const ButtonContent = ({ styles, etat, state, actif, props }: ButtonContentProps) => {
-  const { title, startIcon, endIcon, isLoading, loadingDelay = 'long', ContainerProps = {} } = props;
+  const { title, leading, trailing, isLoading, loadingDelay = 'long', ContainerProps = {} } = props;
   const { style, hoverStyle, ...containerProps } = ContainerProps;
   const hovered = !!state.hovered;
   const icone = styleDeLIcone(styles, etat, hovered);
 
-  const place = placeDuSpinner(useDelaiDAffichage(isLoading ? loadingDelay : false) && !!isLoading, startIcon, endIcon);
+  const place = placeDuSpinner(useDelaiDAffichage(isLoading ? loadingDelay : false) && !!isLoading, leading, trailing);
   const recouvreLeLibelle = place === 'libelle';
 
   return (
@@ -46,14 +47,14 @@ export const ButtonContent = ({ styles, etat, state, actif, props }: ButtonConte
       hoverStyle={{ ...styleDeSurvol(styles, etat), ...hoverStyle }}
       {...containerProps}
     >
-      <Emplacement spinner={place === 'tete'} nom={startIcon} apparence={icone} />
+      <Emplacement spinner={place === 'tete'} contenu={leading} apparence={icone} />
       <Typography
         user-select="false"
         style={{ ...styleDuLibelle(styles, etat, hovered), ...(recouvreLeLibelle ? styles.libelleMasque : {}) }}
       >
         {title}
       </Typography>
-      <Emplacement spinner={place === 'fin'} nom={endIcon} apparence={icone} />
+      <Emplacement spinner={place === 'fin'} contenu={trailing} apparence={icone} />
       {recouvreLeLibelle && (
         <Box style={styles.buttonLoader}>
           <Spinner size="sm" />
