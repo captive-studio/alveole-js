@@ -1,8 +1,8 @@
 import React from 'react';
-import { LucideIconProps } from '../LucideIcon';
+import { Leading } from '../Leading';
 
 export type ToastAPIOptions = {
-  icon?: LucideIconProps['name'];
+  leading?: Leading;
   duration?: number;
   variant?: 'default' | 'success' | 'error' | 'info' | 'warning';
 };

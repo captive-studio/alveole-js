@@ -2,7 +2,8 @@ import { Toast as TamaguiToast, useToastController, useToastState } from '@tamag
 import { Pressable } from 'react-native';
 import { Box, BoxProps } from '../../core/Box';
 import { Typography } from '../../core/Typography';
-import { LucideIcon, LucideIconProps } from '../LucideIcon';
+import { Leading } from '../Leading';
+import { LucideIcon } from '../LucideIcon';
 import { useStyles } from './Toast.styles';
 import type { ToastAPIOptions } from './ToastContext';
 import { ToastType } from './ToastType';
@@ -13,16 +14,16 @@ export type ToastViewProps = {
   title: string;
   message?: string;
   variant?: ToastVariant;
-  icon?: LucideIconProps['name'];
+  leading?: Leading;
   onClose?: () => void;
 };
 
-export function ToastView({ title, message, variant = 'default', icon, onClose }: ToastViewProps) {
+export function ToastView({ title, message, variant = 'default', leading, onClose }: ToastViewProps) {
   const styles = useStyles();
 
   return (
     <Box style={styles.container}>
-      <ToastType variant={variant} icon={icon} />
+      <ToastType variant={variant} leading={leading} />
       <Box style={styles.contenu}>
         <Box style={styles.titleContainer}>
           <Typography style={styles.title}>{title}</Typography>
@@ -62,7 +63,7 @@ export function Toast() {
         title={toast.title}
         message={toast.message}
         variant={toast.customData?.variant ?? 'default'}
-        icon={toast.customData?.icon}
+        leading={toast.customData?.leading}
         onClose={() => controller.hide()}
       />
     </TamaguiToast>

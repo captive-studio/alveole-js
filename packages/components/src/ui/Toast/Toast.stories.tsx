@@ -55,7 +55,7 @@ export const All = () => {
   const warningToast = () => toast.present('Attention', 'Message', { variant: 'warning' });
   const withoutMessageToast = () => toast.present('Sans message');
   const withoutMessageToastError = () => toast.present('Sans message', undefined, { variant: 'error' });
-  const withCustomIcon = () => toast.present('Avec icon custom', undefined, { icon: 'Worm' });
+  const withCustomIcon = () => toast.present('Avec icon custom', undefined, { leading: 'Worm' });
 
   return (
     <Box display="flex" flexDirection="column" gap={8}>
