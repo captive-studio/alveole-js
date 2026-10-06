@@ -1,6 +1,6 @@
 import React from 'react';
 import { Box } from '../../core/Box';
-import { LucideIcon, LucideIconProps } from '../LucideIcon';
+import { Leading, LeadingSlot } from '../Leading';
 import { useStyles } from './Toast.styles';
 import type { ToastAPIOptions } from './ToastContext';
 
@@ -8,10 +8,30 @@ type ToastVariant = NonNullable<ToastAPIOptions['variant']>;
 
 export type ToastTypeProps = {
   variant: ToastVariant;
-  icon?: LucideIconProps['name'];
+  leading?: Leading;
 };
 
-export function ToastType({ variant, icon }: ToastTypeProps) {
+/**
+ * Ce que la pastille du toast affiche : l'icone du `variant` par defaut, remplacee par
+ * `leading` quand l'appelant en donne un, et retiree par `leading={null}`.
+ */
+export const contenuDuToast = (variant: ToastVariant, leading?: Leading): Leading => {
+  if (leading !== undefined) return leading;
+  switch (variant) {
+    case 'success':
+      return 'CircleCheck';
+    case 'error':
+      return 'OctagonAlert';
+    case 'info':
+      return 'Info';
+    case 'warning':
+      return 'TriangleAlert';
+    default:
+      return null;
+  }
+};
+
+export function ToastType({ variant, leading }: ToastTypeProps) {
   const styles = useStyles();
 
   const iconBlockStyle = React.useMemo(() => {
@@ -31,30 +51,13 @@ export function ToastType({ variant, icon }: ToastTypeProps) {
     }
   }, [styles, variant]);
 
-  const iconName = React.useMemo<LucideIconProps['name'] | null>(() => {
-    if (icon) return icon;
-    switch (variant) {
-      case 'default':
-        return null;
-      case 'success':
-        return 'CircleCheck';
-      case 'error':
-        return 'OctagonAlert';
-      case 'info':
-        return 'Info';
-      case 'warning':
-        return 'TriangleAlert';
-      default:
-        ((_: never) => {})(variant);
-    }
-    return null;
-  }, [icon, variant]);
+  const contenu = contenuDuToast(variant, leading);
 
-  if (!iconName) return null;
+  if (contenu == null) return null;
 
   return (
     <Box style={[styles.iconBlock, iconBlockStyle]}>
-      <LucideIcon color="#FFFFFF" name={iconName} size="sm" />
+      <LeadingSlot contenu={contenu} apparence={{ size: 'sm', color: '#FFFFFF' }} />
     </Box>
   );
 }
