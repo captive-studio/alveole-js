@@ -69,7 +69,7 @@ export const AvecHeaderEtFooter = () => {
       renderTrigger={() => (
         <Button
           variant="tertiary"
-          size="lg"
+          size="md"
           alignContent="start"
           title={orga}
           leading={<LogoDOrganisation nom={orga} />}
@@ -98,7 +98,7 @@ export const AvecHeaderEtFooter = () => {
           size="lg"
           alignContent="start"
           title="Clément Prod'homme"
-          leading={<Avatar size="xs" src="https://www.loremfaces.net/96/id/1.jpg" fallbackText="Clément Prod'homme" />}
+          leading={<Avatar size="sm" src="https://www.loremfaces.net/96/id/1.jpg" fallbackText="Clément Prod'homme" />}
         />
       )}
     >
