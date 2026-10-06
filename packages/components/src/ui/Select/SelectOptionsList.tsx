@@ -81,13 +81,13 @@ export const SelectOptionsList = (props: SelectPanelProps) => {
     >
       {canCreate && (
         <Pressable testID="select-create" accessibilityRole="button" onPress={handleCreate}>
-          <SelectItem label={createLabel(query.trim())} icon="Plus" />
+          <SelectItem label={createLabel(query.trim())} leading="Plus" />
         </Pressable>
       )}
 
       {clearable && values.length > 0 && (
         <Pressable testID="select-clear" accessibilityRole="button" onPress={handleClear}>
-          <SelectItem label={clearLabel} icon="X" />
+          <SelectItem label={clearLabel} leading="X" />
         </Pressable>
       )}
 

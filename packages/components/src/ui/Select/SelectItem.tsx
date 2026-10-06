@@ -1,13 +1,14 @@
 import { useTheme } from '@alveole/theme';
 import { Box } from '../../core/Box';
 import { Typography } from '../../core/Typography';
-import { LucideIcon, LucideIconProps } from '../LucideIcon';
+import { Leading, LeadingSlot } from '../Leading';
+import { LucideIcon } from '../LucideIcon';
 import { useStyles } from './SelectList.styles';
 import { selectItemStyle } from './selectItemStyle';
 
 export type SelectItemProps = {
   label: string;
-  icon?: LucideIconProps['name'];
+  leading?: Leading;
   /** Option actuellement sélectionnée : coche en tête de bande. */
   selected?: boolean;
   /** Option survolée ou active au clavier : fond et barre d'accent. */
@@ -22,7 +23,7 @@ export type SelectItemProps = {
  * le conteneur porteur du clavier et de l'ARIA (web, via `components.Option`
  * de react-select) est fourni par l'appelant.
  */
-export const SelectItem = ({ label, icon, selected, highlighted, disabled, multiple }: SelectItemProps) => {
+export const SelectItem = ({ label, leading, selected, highlighted, disabled, multiple }: SelectItemProps) => {
   const styles = useStyles();
   const { color } = useTheme();
 
@@ -58,7 +59,7 @@ export const SelectItem = ({ label, icon, selected, highlighted, disabled, multi
           </Box>
         )}
 
-        {icon && <LucideIcon size="sm" name={icon} color={aspect.icone} />}
+        <LeadingSlot contenu={leading} apparence={{ size: 'sm', color: aspect.icone }} />
 
         <Typography style={aspect.label}>{label}</Typography>
       </Box>

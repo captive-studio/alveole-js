@@ -1,19 +1,19 @@
 import { Pressable } from 'react-native';
 import { Box, BoxProps } from '../../core/Box';
 import { Typography } from '../../core/Typography';
-import { LucideIcon, LucideIconProps } from '../LucideIcon';
+import { Leading, LeadingSlot } from '../Leading';
 import { useStyles } from '../Sidebar/Sidebar.styles';
 import { useStyles as useActionMenuItemStyles } from './ActionMenuItem.styles';
 
 export type ActionMenuItemProps = Omit<BoxProps, 'children'> & {
   title: string;
-  icon?: LucideIconProps['name'];
+  leading?: Leading;
   onPress?: () => void;
   selected?: boolean;
 };
 
 export const ActionMenuItem = (props: ActionMenuItemProps) => {
-  const { title, icon, onPress, selected = false, style, ...boxProps } = props;
+  const { title, leading, onPress, selected = false, style, ...boxProps } = props;
 
   const styles = useStyles();
   const actionMenuItemStyles = useActionMenuItemStyles();
@@ -39,17 +39,15 @@ export const ActionMenuItem = (props: ActionMenuItemProps) => {
             // le survol ne produisait rien.
             hoverStyle={{ ...styles.sidebarItemHover }}
           >
-            {icon && (
-              <LucideIcon
-                size="md"
-                name={icon}
-                color={
-                  selected
-                    ? styles.sidebarItemTitleSelectedDesktop.color
-                    : styles.sidebarItemTitleSelectedDesktop.stroke
-                }
-              />
-            )}
+            <LeadingSlot
+              contenu={leading}
+              apparence={{
+                size: 'md',
+                color: selected
+                  ? styles.sidebarItemTitleSelectedDesktop.color
+                  : styles.sidebarItemTitleSelectedDesktop.stroke,
+              }}
+            />
             <Typography
               style={{ ...styles.sidebarItemTitleDesktop, ...titleStyleSelected }}
               hoverStyle={{ ...sidebarItemTitleDesktop }}

@@ -11,7 +11,7 @@ import {
   FormControlHintProps,
   FormControlLabel,
 } from '../FormControl';
-import { LucideIcon, LucideIconProps } from '../LucideIcon';
+import { Leading, LeadingSlot } from '../Leading';
 import { useStyles } from './DragAndDropFile.styles';
 
 export type DragAndDropFileValue = FileInputValue;
@@ -19,11 +19,11 @@ export type DragAndDropFileProps = FormControlHintProps &
   FormControlCaptionProps &
   FileInputProps & {
     label: string;
-    icon?: LucideIconProps['name'];
+    leading?: Leading;
   };
 
 export const DragAndDropFile = (props: DragAndDropFileProps) => {
-  const { label, hint, icon, type, error, success, multiple } = props;
+  const { label, hint, leading, type, error, success, multiple } = props;
 
   const styles = useStyles();
 
@@ -40,7 +40,7 @@ export const DragAndDropFile = (props: DragAndDropFileProps) => {
     >
       <Box>
         <Box tag="drag-and-drop-file-icon" display="flex" flexDirection="row" justify="center" gap={'050'}>
-          <LucideIcon size="md" name={icon ?? 'Upload'} />
+          <LeadingSlot contenu={leading === undefined ? 'Upload' : leading} apparence={{ size: 'md' }} />
           <Box mt={'auto'} mb={'auto'}>
             <FormControlLabel label={label} />
           </Box>

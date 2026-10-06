@@ -1,12 +1,12 @@
 import { Box } from '../../core/Box';
 import { FileInput, FormControlCaption, FormControlHint, FormControlLabel } from '../FormControl';
-import { LucideIcon } from '../LucideIcon';
+import { LeadingSlot } from '../Leading';
 import { DragAndDropFileProps } from './DragAndDropFile';
 import { useStyles } from './DragAndDropFile.styles';
 import { useDepotFichier } from './useDepotFichier';
 
 export const DragAndDropFile = (props: DragAndDropFileProps) => {
-  const { label, hint, icon, type, error, success, multiple } = props;
+  const { label, hint, leading, type, error, success, multiple } = props;
 
   const styles = useStyles();
   const depot = useDepotFichier(props);
@@ -32,7 +32,10 @@ export const DragAndDropFile = (props: DragAndDropFileProps) => {
       style={styleContainer}
     >
       <Box tag="drag-and-drop-file-icon" display="flex" flexDirection="row" justify="center">
-        <LucideIcon size="xl" name={icon ?? 'Upload'} style={styles.icon} />
+        <LeadingSlot
+          contenu={leading === undefined ? 'Upload' : leading}
+          apparence={{ size: 'xl', style: styles.icon }}
+        />
       </Box>
 
       <Box tag="drag-and-drop-file-label" display="flex" flexDirection="row" justify="center">

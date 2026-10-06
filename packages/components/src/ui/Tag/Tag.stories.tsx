@@ -56,16 +56,16 @@ export const Fermable = () => (
 
 export const AvecIcone = () => (
   <Box display="flex" flexDirection="row" gap={24} flexWrap="wrap">
-    <Tag size="sm" icon="Check">
+    <Tag size="sm" leading="Check">
       Validé
     </Tag>
-    <Tag size="md" icon="Clock">
+    <Tag size="md" leading="Clock">
       En attente
     </Tag>
-    <Tag size="md" icon="Tag" closable onClose={() => {}}>
+    <Tag size="md" leading="Tag" closable onClose={() => {}}>
       Icône et croix
     </Tag>
-    <Tag size="md" icon="Tag" closable selected onClose={() => {}}>
+    <Tag size="md" leading="Tag" closable selected onClose={() => {}}>
       Tout à la fois
     </Tag>
   </Box>

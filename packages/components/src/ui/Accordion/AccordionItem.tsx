@@ -3,7 +3,8 @@ import React from 'react';
 import { Square, Accordion as TamaguiAccordion } from 'tamagui';
 import { Box } from '../../core/Box';
 import { Typography } from '../../core/Typography';
-import { LucideIcon, LucideIconProps } from '../LucideIcon';
+import { Leading, LeadingSlot } from '../Leading';
+import { LucideIcon } from '../LucideIcon';
 import { useStyles } from './Accordion.styles';
 
 export type AccordionItemProps = {
@@ -12,13 +13,13 @@ export type AccordionItemProps = {
   labelChildren?: React.ReactNode;
   afterLabel?: React.ReactNode;
   variant?: 'default' | 'alt' | 'outline';
-  startIcon?: LucideIconProps['name'];
+  leading?: Leading;
   children?: React.ReactNode;
   noPadding?: boolean;
 };
 
 export const AccordionItem = (props: AccordionItemProps) => {
-  const { children, label, labelChildren, startIcon, variant, noPadding, afterLabel, ...itemProps } = props;
+  const { children, label, labelChildren, leading, variant, noPadding, afterLabel, ...itemProps } = props;
 
   const styles = useStyles();
 
@@ -38,7 +39,7 @@ export const AccordionItem = (props: AccordionItemProps) => {
         {({ open }: { open: boolean }) => (
           <Box backgroundColor={headerStyle(open).backgroundColor}>
             <Box style={headerStyle(open)} hoverStyle={headerStyle(open)} focusStyle={headerStyle(open)}>
-              {startIcon && <LucideIcon name={startIcon} size="md" />}
+              <LeadingSlot contenu={leading} apparence={{ size: 'md' }} />
               <Typography style={styles.accordionItemLabel} mr={labelChildren ? undefined : 'auto'}>
                 {label}
               </Typography>

@@ -2,7 +2,7 @@ import React, { CSSProperties } from 'react';
 import { Pressable } from 'react-native';
 import { Box } from '../../core/Box';
 import { Typography } from '../../core/Typography';
-import { LucideIcon, LucideIconProps } from '../LucideIcon';
+import { Leading, LeadingSlot } from '../Leading';
 import { EtatDuPointeur } from '../pointeur';
 import { useStyles } from './Tag.styles';
 import { TagClose } from './TagClose';
@@ -19,12 +19,12 @@ export type TagProps = {
   interactive?: boolean;
   closable?: boolean;
   onClose?: () => void;
-  icon?: LucideIconProps['name'];
+  leading?: Leading;
   style?: CSSProperties;
 };
 
 export const Tag = (props: TagProps) => {
-  const { size, children, selected, interactive, closable, onClose, icon, style, ...tagProps } = props;
+  const { size, children, selected, interactive, closable, onClose, leading, style, ...tagProps } = props;
 
   const [croixSurvolee, setCroixSurvolee] = React.useState(false);
   const styles = useStyles();
@@ -57,12 +57,12 @@ export const Tag = (props: TagProps) => {
             >
               {/* L'icone est enveloppee : `react-native-svg` absorbe le `style` qu'on lui
                 passe et n'en garde que les proprietes SVG, la marge serait perdue. */}
-              {icon && (
+              {leading != null && (
                 <Box style={ecartDeLIcone(styles, size)}>
                   {/* Taille unique dans les deux crans, a la difference de la croix. L'icone
                     porte du sens et ne se clique pas : elle n'a pas a offrir une cible qui
                     suive la pastille. Primer ne dimensionne pas non plus son `leadingVisual`. */}
-                  <LucideIcon name={icon} size="sm" />
+                  <LeadingSlot contenu={leading} apparence={{ size: 'sm' }} />
                 </Box>
               )}
               {children}

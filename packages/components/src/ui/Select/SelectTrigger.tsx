@@ -3,6 +3,7 @@ import { Pressable, StyleProp, ViewStyle } from 'react-native';
 import { Box } from '../../core/Box';
 import { versStyleNatif } from '../../core/styleNatif/versStyleNatif';
 import { Typography } from '../../core/Typography';
+import { LeadingSlot } from '../Leading';
 import { LucideIcon } from '../LucideIcon';
 import { Tag } from '../Tag';
 import { useStyles } from './Select.styles';
@@ -42,7 +43,7 @@ const Puces = ({ options, onRemoveValue }: Pick<SelectTriggerProps, 'onRemoveVal
           key={option.value}
           size="md"
           selected
-          icon={option.icon}
+          leading={option.leading}
           closable={!!onRemoveValue}
           onClose={onRemoveValue && (() => onRemoveValue(option.value))}
         >
@@ -65,13 +66,13 @@ const ValeurSimple = ({
 
   return (
     <>
-      {option?.icon && (
-        <LucideIcon
-          size="sm"
-          name={option.icon}
-          color={disabled ? color.light.text['disabled-grey'] : color.light.text['default-grey']}
-        />
-      )}
+      <LeadingSlot
+        contenu={option?.leading}
+        apparence={{
+          size: 'sm',
+          color: disabled ? color.light.text['disabled-grey'] : color.light.text['default-grey'],
+        }}
+      />
 
       <Typography
         style={{

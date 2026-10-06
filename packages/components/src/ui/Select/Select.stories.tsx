@@ -55,10 +55,10 @@ const OPTIONS: SelectOption[] = [
 ];
 
 const ICON_OPTIONS: SelectOption[] = [
-  { label: 'Document', value: 'document', icon: 'File' },
-  { label: 'Contact', value: 'contact', icon: 'User' },
-  { label: 'Échéance', value: 'echeance', icon: 'Clock' },
-  { label: 'Dossier', value: 'dossier', icon: 'Folder' },
+  { label: 'Document', value: 'document', leading: 'File' },
+  { label: 'Contact', value: 'contact', leading: 'User' },
+  { label: 'Échéance', value: 'echeance', leading: 'Clock' },
+  { label: 'Dossier', value: 'dossier', leading: 'Folder' },
 ];
 
 const GROUPED_OPTIONS: SelectOption[] = [

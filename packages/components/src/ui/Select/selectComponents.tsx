@@ -8,6 +8,7 @@ import {
   OptionProps,
   SingleValueProps,
 } from 'react-select';
+import { LeadingSlot } from '../Leading';
 import { LucideIcon } from '../LucideIcon';
 import { Tag } from '../Tag';
 import type { SelectOption } from './Select.types';
@@ -45,7 +46,7 @@ export const useSelectComponents = ({ multiple, disabled, onRemoveValue }: Selec
     <components.Option {...optionProps} innerProps={optionInnerProps(optionProps, multiple)}>
       <SelectItem
         label={optionProps.data.label}
-        icon={optionProps.data.icon}
+        leading={optionProps.data.leading}
         selected={optionProps.isSelected}
         highlighted={optionProps.isFocused}
         disabled={optionProps.isDisabled}
@@ -57,9 +58,10 @@ export const useSelectComponents = ({ multiple, disabled, onRemoveValue }: Selec
   const SingleValue = (singleValueProps: SingleValueProps<SelectOption, boolean, Group>) => (
     <components.SingleValue {...singleValueProps}>
       <span style={{ display: 'flex', flexDirection: 'row', alignItems: 'center', gap: 8 }}>
-        {singleValueProps.data.icon && (
-          <LucideIcon size="sm" name={singleValueProps.data.icon} color={color.light.text['default-grey']} />
-        )}
+        <LeadingSlot
+          contenu={singleValueProps.data.leading}
+          apparence={{ size: 'sm', color: color.light.text['default-grey'] }}
+        />
         {singleValueProps.data.label}
       </span>
     </components.SingleValue>
@@ -70,7 +72,7 @@ export const useSelectComponents = ({ multiple, disabled, onRemoveValue }: Selec
       <Tag
         size="md"
         selected
-        icon={multiValueProps.data.icon}
+        leading={multiValueProps.data.leading}
         closable={!!onRemoveValue}
         onClose={onRemoveValue && (() => onRemoveValue(multiValueProps.data.value))}
       >

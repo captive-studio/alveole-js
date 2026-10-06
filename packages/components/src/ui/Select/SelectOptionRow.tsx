@@ -43,7 +43,7 @@ export const SelectOptionRow = ({
       >
         <SelectItem
           label={option.label}
-          icon={option.icon}
+          leading={option.leading}
           selected={selected}
           disabled={option.disabled}
           multiple={multiple}

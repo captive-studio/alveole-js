@@ -1,12 +1,12 @@
 import type { NativeSyntheticEvent, TargetedEvent } from 'react-native';
 import type { FormControlCaptionProps } from '../FormControl';
-import type { LucideIconProps } from '../LucideIcon';
+import type { Leading } from '../Leading';
 
 export type SelectOption = {
   value: string;
   label: string;
   /** Icône affichée à gauche du libellé, dans le panneau et dans le champ fermé. */
-  icon?: LucideIconProps['name'];
+  leading?: Leading;
   /** Les options consécutives partageant le même `group` sont regroupées sous un en-tête. */
   group?: string;
   disabled?: boolean;

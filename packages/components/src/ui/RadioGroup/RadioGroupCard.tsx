@@ -2,7 +2,7 @@ import React, { CSSProperties, useId } from 'react';
 import { Label, TamaguiElement, RadioGroupItemProps as TamaguiRadioGroupCardProps } from 'tamagui';
 import { Box } from '../../core/Box';
 import { Typography } from '../../core/Typography';
-import { LucideIcon, LucideIconProps } from '../LucideIcon';
+import { Leading, LeadingSlot } from '../Leading';
 import { useStyles } from './RadioGroup.styles';
 import { useRadioGroup } from './RadioGroupContext';
 import { RadioInput } from './RadioInput';
@@ -11,13 +11,13 @@ export type RadioGroupCardElement = TamaguiElement;
 
 export type RadioGroupCardProps = Pick<TamaguiRadioGroupCardProps, 'value'> & {
   label: string;
-  icon?: LucideIconProps['name'];
+  leading?: Leading;
   style?: CSSProperties;
   separator?: boolean;
 };
 
 export const RadioGroupCard = (props: RadioGroupCardProps) => {
-  const { label, style, icon, value, separator = true } = props;
+  const { label, style, leading, value, separator = true } = props;
   const rid = useId();
   const id = React.useMemo(() => `radiogroup-${value}-${rid}`, [value, rid]);
 
@@ -30,9 +30,9 @@ export const RadioGroupCard = (props: RadioGroupCardProps) => {
         <Box style={{ ...styles.itemCard, ...style }} hoverStyle={styles.itemCardHover}>
           <Box style={styles.radioGroupCardContent}>
             <RadioInput value={value} id={id} size="sm" />
-            {icon && (
+            {leading != null && (
               <Box display="flex" flexDirection="row" gap={'050'} style={styles.itemCardIcon}>
-                <LucideIcon size="sm" name={icon} />
+                <LeadingSlot contenu={leading} apparence={{ size: 'sm' }} />
               </Box>
             )}
             <Box style={{ ...styles.radioGroupCardLabelContainer, ...(separator ? styles.itemCardSeparator : {}) }}>

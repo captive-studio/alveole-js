@@ -28,8 +28,8 @@ export const Cards = () => {
   const [value, setValue] = useState('oui');
   return (
     <RadioGroup value={value} onChange={setValue} label="Confirmez-vous ?">
-      <RadioGroup.Card value="oui" label="Oui" icon="Check" />
-      <RadioGroup.Card value="non" label="Non" icon="X" />
+      <RadioGroup.Card value="oui" label="Oui" leading="Check" />
+      <RadioGroup.Card value="non" label="Non" leading="X" />
     </RadioGroup>
   );
 };
