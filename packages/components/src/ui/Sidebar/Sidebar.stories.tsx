@@ -1,11 +1,9 @@
 import { useState } from 'react';
-import { Box } from '../../core/Box';
 import { Typography } from '../../core/Typography';
 import { Story } from '../../type';
 import { ActionMenu } from '../ActionMenu';
 import { Avatar } from '../Avatar';
-import { ButtonIcon } from '../Button';
-import { LucideIcon } from '../LucideIcon';
+import { Button } from '../Button';
 import { Sidebar } from './Sidebar';
 import { useStyles } from './Sidebar.styles';
 import { SidebarDivider } from './SidebarDivider';
@@ -51,48 +49,62 @@ export const ExampleUsage = () => {
   );
 };
 
+// Faute de logo publie pour Alveole, une forme generee tient lieu de logo.
+const organisations = [
+  { nom: 'Alveole', logo: 'https://api.dicebear.com/9.x/shapes/png?seed=Alveole&size=64' },
+  { nom: 'Captive', logo: 'https://www.google.com/s2/favicons?domain=captive.fr&sz=64' },
+  { nom: 'Bonne Gueule', logo: 'https://www.google.com/s2/favicons?domain=bonnegueule.fr&sz=64' },
+];
+
+const LogoDOrganisation = ({ nom }: { nom: string }) => (
+  <Avatar size="xs" carre src={organisations.find(o => o.nom === nom)?.logo} fallbackText={nom} />
+);
+
 export const AvecHeaderEtFooter = () => {
-  const [orga, setOrga] = useState('Alvéole');
+  const [orga, setOrga] = useState('Alveole');
 
   const logo = (
     <ActionMenu
       placement="bottom-start"
       renderTrigger={() => (
-        <Box flexDirection="row" style={{ alignItems: 'center', gap: 8, cursor: 'pointer' }}>
-          <Typography fontSize={14} style={{ fontWeight: '600' }}>
-            {orga}
-          </Typography>
-          <LucideIcon name="ChevronDown" size="sm" />
-        </Box>
+        <Button
+          variant="tertiary"
+          ContainerProps={{ style: { justifyContent: 'flex-start' } }}
+          title={orga}
+          leading={<LogoDOrganisation nom={orga} />}
+          trailing="ChevronDown"
+        />
       )}
     >
-      <ActionMenu.Item title="Alvéole" onPress={() => setOrga('Alvéole')} />
-      <ActionMenu.Item title="Captive" onPress={() => setOrga('Captive')} />
-      <ActionMenu.Item title="Bonne Gueule" onPress={() => setOrga('Bonne Gueule')} />
+      {organisations.map(({ nom }) => (
+        <ActionMenu.Item
+          key={nom}
+          title={nom}
+          leading={<LogoDOrganisation nom={nom} />}
+          selected={nom === orga}
+          onPress={() => setOrga(nom)}
+        />
+      ))}
     </ActionMenu>
   );
 
   const footer = (
-    <Box flexDirection="row" style={{ alignItems: 'center', gap: 8 }}>
-      <Avatar size="sm" src="https://www.loremfaces.net/96/id/1.jpg" fallbackText="Clément Prod'homme" />
-      <Box flex={1}>
-        <Typography fontSize={14} style={{ fontWeight: '600' }}>
-          Clément Prod&apos;homme
-        </Typography>
-        <Typography fontSize={12}>Administrateur</Typography>
-      </Box>
-      <ActionMenu
-        placement="top-end"
-        renderTrigger={() => (
-          <ButtonIcon icon="MoreHorizontal" variant="tertiary" accessibilityLabel="Menu utilisateur" />
-        )}
-      >
-        <ActionMenu.Item title="Mon profil" leading="User" />
-        <ActionMenu.Item title="Paramètres" leading="Settings" />
-        <ActionMenu.Item title="Aide" leading="HelpCircle" />
-        <ActionMenu.Item title="Se déconnecter" leading="LogOut" />
-      </ActionMenu>
-    </Box>
+    <ActionMenu
+      placement="top-start"
+      renderTrigger={() => (
+        <Button
+          variant="tertiary"
+          ContainerProps={{ style: { justifyContent: 'flex-start' } }}
+          title="Clément Prod'homme"
+          leading={<Avatar size="xs" src="https://www.loremfaces.net/96/id/1.jpg" fallbackText="Clément Prod'homme" />}
+        />
+      )}
+    >
+      <ActionMenu.Item title="Mon profil" leading="User" />
+      <ActionMenu.Item title="Paramètres" leading="Settings" />
+      <ActionMenu.Item title="Aide" leading="HelpCircle" />
+      <ActionMenu.Item title="Se déconnecter" leading="LogOut" />
+    </ActionMenu>
   );
 
   return (
