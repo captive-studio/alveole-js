@@ -33,24 +33,37 @@ const Emplacement = ({ spinner, contenu, apparence }: EmplacementProps) => {
  * rayons et du focus ; ce composant-ci decide de ce qui se voit dedans.
  */
 export const ButtonContent = ({ styles, etat, state, actif, props }: ButtonContentProps) => {
-  const { title, leading, trailing, isLoading, loadingDelay = 'long', ContainerProps = {} } = props;
+  const {
+    title,
+    leading,
+    trailing,
+    alignContent = 'center',
+    isLoading,
+    loadingDelay = 'long',
+    ContainerProps = {},
+  } = props;
   const { style, hoverStyle, ...containerProps } = ContainerProps;
   const hovered = !!state.hovered;
   const icone = styleDeLIcone(styles, etat, hovered);
 
   const place = placeDuSpinner(useDelaiDAffichage(isLoading ? loadingDelay : false) && !!isLoading, leading, trailing);
   const recouvreLeLibelle = place === 'libelle';
+  const aGauche = alignContent === 'start';
 
   return (
     <Box
-      style={[styleDuConteneur(styles, etat, actif), style]}
+      style={[styleDuConteneur(styles, etat, actif), aGauche && { justifyContent: 'flex-start' }, style]}
       hoverStyle={{ ...styleDeSurvol(styles, etat), ...hoverStyle }}
       {...containerProps}
     >
       <Emplacement spinner={place === 'tete'} contenu={leading} apparence={icone} />
       <Typography
         user-select="false"
-        style={{ ...styleDuLibelle(styles, etat, hovered), ...(recouvreLeLibelle ? styles.libelleMasque : {}) }}
+        style={{
+          ...styleDuLibelle(styles, etat, hovered),
+          ...(recouvreLeLibelle ? styles.libelleMasque : {}),
+          ...(aGauche ? { flexGrow: 1, textAlign: 'left' } : {}),
+        }}
       >
         {title}
       </Typography>

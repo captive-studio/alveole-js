@@ -19,6 +19,12 @@ export type ButtonProps = Omit<PressableProps, 'children' | 'style'> & {
   leading?: Leading;
   /** Après le libellé : le nom d'une icône, ou un élément. */
   trailing?: Leading;
+  /**
+   * `center` par defaut. `start` cale le contenu a gauche et pousse `trailing` contre le bord
+   * droit : c'est l'`alignContent` de Primer, pour un bouton qui occupe toute une largeur
+   * (selecteur d'organisation, compte en pied de barre laterale).
+   */
+  alignContent?: 'center' | 'start';
   selected?: boolean;
   ContainerProps?: BoxProps;
   fullWidth?: boolean;
