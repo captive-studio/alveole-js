@@ -5,13 +5,13 @@ import { Pressable } from 'react-native';
 import { A, AProps } from '../../core/A';
 import { Box } from '../../core/Box';
 import { Typography } from '../../core/Typography';
-import { LucideIcon, LucideIconProps } from '../LucideIcon';
+import { Leading, LeadingSlot } from '../Leading';
 import { useStyles } from './Sidebar.styles';
 
 export type SidebarItemNavigable = {
   pressable?: undefined;
   title: string;
-  icon?: LucideIconProps['name'];
+  leading?: Leading;
   href: AProps['href'];
   direction?: AProps['direction'];
   routeName?: string;
@@ -20,7 +20,7 @@ export type SidebarItemNavigable = {
 export type SidebarItemPressable = {
   pressable: true;
   title: string;
-  icon?: LucideIconProps['name'];
+  leading?: Leading;
   onPress: () => void;
 };
 
@@ -62,7 +62,7 @@ const IndicateurPageCourante = () => {
 };
 
 const SidebarItemDesktop = (props: SidebarItemProps) => {
-  const { title, icon } = props;
+  const { title, leading } = props;
 
   const styles = useStyles();
   const isCurrentPage = useEstPageCourante(props);
@@ -86,7 +86,7 @@ const SidebarItemDesktop = (props: SidebarItemProps) => {
         >
           {/* 16px et non 24 : c'est l'icône qui fixerait la hauteur de la ligne, et une icône de
             24 rendrait l'item à 36px là où la maquette le veut à 32. */}
-          {icon && <LucideIcon size="sm" name={icon} />}
+          <LeadingSlot contenu={leading} apparence={{ size: 'sm' }} />
           <Typography
             style={{ ...styles.sidebarItemTitleDesktop, ...titleStyleSelected }}
             hoverStyle={{ ...sidebarItemTitleDesktop }}
@@ -100,7 +100,7 @@ const SidebarItemDesktop = (props: SidebarItemProps) => {
 };
 
 const SidebarItemMobile = (props: SidebarItemProps) => {
-  const { title, icon } = props;
+  const { title, leading } = props;
 
   const styles = useStyles();
   const isCurrentPage = useEstPageCourante(props);
@@ -119,17 +119,15 @@ const SidebarItemMobile = (props: SidebarItemProps) => {
           style={{ ...styles.sidebarItemMobile, ...itemStyleSelected }}
           hoverStyle={{ ...styles.sidebarItemHover }}
         >
-          {icon && (
-            <LucideIcon
-              size="md"
-              name={icon}
-              color={
-                isCurrentPage
-                  ? styles.sidebarItemTitleSelectedMobile.color
-                  : styles.sidebarItemTitleSelectedMobile.stroke
-              }
-            />
-          )}
+          <LeadingSlot
+            contenu={leading}
+            apparence={{
+              size: 'md',
+              color: isCurrentPage
+                ? styles.sidebarItemTitleSelectedMobile.color
+                : styles.sidebarItemTitleSelectedMobile.stroke,
+            }}
+          />
           <Typography
             style={{ ...styles.sidebarItemTitleMobile, ...titleStyleSelected }}
             hoverStyle={{ ...sidebarItemTitleMobile }}

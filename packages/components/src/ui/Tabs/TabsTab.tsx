@@ -3,14 +3,14 @@ import { Tabs as TamaguiTabs, TabsTabProps as TamaguiTabsTabProps } from 'tamagu
 import { Box } from '../../core/Box';
 import { Typography } from '../../core/Typography';
 import { Counter } from '../Counter';
-import { LucideIcon, LucideIconProps } from '../LucideIcon';
+import { Leading, LeadingSlot } from '../Leading';
 import { apparenceDeLOnglet, EtatDeLOnglet } from './Tabs.apparence';
 import { useStyles } from './Tabs.styles';
 
 export type TabsTabProps = {
   value: string;
   label: string;
-  icon?: LucideIconProps['name'];
+  leading?: Leading;
   counter?: number;
   etat: EtatDeLOnglet;
   disabled: boolean;
@@ -19,7 +19,7 @@ export type TabsTabProps = {
 };
 
 export const TabsTab = (props: TabsTabProps) => {
-  const { value, label, icon, counter, etat, disabled, onHover, onInteraction } = props;
+  const { value, label, leading, counter, etat, disabled, onHover, onInteraction } = props;
   const styles = useStyles();
   const { onglet, enveloppe, icone, libelle } = apparenceDeLOnglet(styles, etat);
 
@@ -37,7 +37,7 @@ export const TabsTab = (props: TabsTabProps) => {
       {...focusRingProps()}
     >
       <Box style={enveloppe}>
-        {icon && <LucideIcon name={icon} size="sm" color="currentColor" style={icone} />}
+        <LeadingSlot contenu={leading} apparence={{ size: 'sm', color: 'currentColor', style: icone }} />
         <Typography style={libelle}>{label}</Typography>
         {counter !== undefined && counter > 0 && (
           <Counter variant={etat.actif ? 'primary' : 'default'} count={counter} />

@@ -5,7 +5,7 @@ import { SidebarItem } from './SidebarItem';
 // 24 et rendrait l'item à 36px là où la maquette le veut à 32. D'où `sm`, soit 16, comme dans
 // le noeud Figma.
 test("rend l'icône d'un item en 16px", () => {
-  const { container } = renderOnDesktop(<SidebarItem title="Accueil" icon="House" href="/x" />);
+  const { container } = renderOnDesktop(<SidebarItem title="Accueil" leading="House" href="/x" />);
 
   expect(container.querySelector('sidebar-item svg')?.getAttribute('width')).toBe('16');
 });

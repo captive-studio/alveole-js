@@ -38,7 +38,7 @@ export const ExampleUsage = () => {
           Mon Application
         </Typography>
       }
-      footer={<SidebarItem pressable icon="LogOut" title="Se déconnecter" onPress={console.log} />}
+      footer={<SidebarItem pressable leading="LogOut" title="Se déconnecter" onPress={console.log} />}
     >
       <SidebarItem pressable title="Item 1" onPress={console.log} />
       <SidebarItem pressable title="Item 2" onPress={console.log} />
@@ -87,24 +87,24 @@ export const AvecHeaderEtFooter = () => {
           <ButtonIcon icon="MoreHorizontal" variant="tertiary" accessibilityLabel="Menu utilisateur" />
         )}
       >
-        <ActionMenu.Item title="Mon profil" icon="User" />
-        <ActionMenu.Item title="Paramètres" icon="Settings" />
-        <ActionMenu.Item title="Aide" icon="HelpCircle" />
-        <ActionMenu.Item title="Se déconnecter" icon="LogOut" />
+        <ActionMenu.Item title="Mon profil" leading="User" />
+        <ActionMenu.Item title="Paramètres" leading="Settings" />
+        <ActionMenu.Item title="Aide" leading="HelpCircle" />
+        <ActionMenu.Item title="Se déconnecter" leading="LogOut" />
       </ActionMenu>
     </Box>
   );
 
   return (
     <Sidebar logo={logo} footer={footer}>
-      <SidebarItem pressable icon="LayoutDashboard" title="Tableau de bord" onPress={console.log} />
-      <SidebarItem pressable icon="Users" title="Utilisateurs" onPress={console.log} />
-      <SidebarItem pressable icon="FileText" title="Rapports" onPress={console.log} />
+      <SidebarItem pressable leading="LayoutDashboard" title="Tableau de bord" onPress={console.log} />
+      <SidebarItem pressable leading="Users" title="Utilisateurs" onPress={console.log} />
+      <SidebarItem pressable leading="FileText" title="Rapports" onPress={console.log} />
 
       <SidebarDivider />
 
-      <SidebarItem pressable icon="Settings" title="Configuration" onPress={console.log} />
-      <SidebarItem pressable icon="Bell" title="Notifications" onPress={console.log} />
+      <SidebarItem pressable leading="Settings" title="Configuration" onPress={console.log} />
+      <SidebarItem pressable leading="Bell" title="Notifications" onPress={console.log} />
     </Sidebar>
   );
 };

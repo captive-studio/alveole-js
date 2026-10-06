@@ -51,9 +51,9 @@ export const Default = () => {
           placement={alignment}
           renderTrigger={() => <Button variant="secondary" title={alignment} />}
         >
-          <ActionMenu.Item title="Contenu de l'action menu" icon="Settings" selected />
-          <ActionMenu.Item title="Contenu de l'action menu" icon="Copy" />
-          <ActionMenu.Item title="Contenu de l'action menu" icon="Trash" />
+          <ActionMenu.Item title="Contenu de l'action menu" leading="Settings" selected />
+          <ActionMenu.Item title="Contenu de l'action menu" leading="Copy" />
+          <ActionMenu.Item title="Contenu de l'action menu" leading="Trash" />
         </ActionMenu>
       ))}
     </Box>
@@ -93,7 +93,7 @@ const FilterMenu = ({
         <Button
           variant="secondary"
           title={filter.multi ? filter.title : (selectedValues[0] ?? filter.title)}
-          endIcon="ChevronDown"
+          trailing="ChevronDown"
           size="sm"
           selected={hasSelection}
           expanded={isOpen}
@@ -191,13 +191,31 @@ export const AvatarMenu = () => {
           </Pressable>
         )}
       >
-        <ActionMenu.Item title="Mon profil" icon="User" />
-        <ActionMenu.Item title="Paramètres" icon="Settings" />
-        <ActionMenu.Item title="Aide" icon="Info" />
-        <ActionMenu.Item title="Déconnexion" icon="LogOut" />
+        <ActionMenu.Item title="Mon profil" leading="User" />
+        <ActionMenu.Item title="Paramètres" leading="Settings" />
+        <ActionMenu.Item title="Aide" leading="Info" />
+        <ActionMenu.Item title="Déconnexion" leading="LogOut" />
       </ActionMenu>
     </Box>
   );
 };
+
+/**
+ * `leading` accepte aussi un élément : ici un avatar par compte, pour passer de l'un à l'autre.
+ * L'avatar occupe l'emplacement de l'icône, si bien que les lignes gardent leur hauteur et
+ * restent alignées avec celles qui portent une icône.
+ */
+export const ChangerDeCompte = () => (
+  <Box display="flex" flexDirection="row" style={{ justifyContent: 'center' }}>
+    <ActionMenu
+      placement="bottom"
+      renderTrigger={() => <Button variant="tertiary" title="Changer de compte" trailing="ChevronDown" />}
+    >
+      <ActionMenu.Item title="Marie Curie" leading={<Avatar size="xs" fallbackText="Marie Curie" />} selected />
+      <ActionMenu.Item title="Pierre Curie" leading={<Avatar size="xs" fallbackText="Pierre Curie" />} />
+      <ActionMenu.Item title="Ajouter un compte" leading="Plus" />
+    </ActionMenu>
+  </Box>
+);
 
 export * as Sources from './ActionMenu.stories.sources';

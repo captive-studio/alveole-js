@@ -3,7 +3,7 @@ import React from 'react';
 import { Tabs as TamaguiTabs } from 'tamagui';
 import { toSlug } from '../../core/AnchorHeading/slug';
 import { Box, BoxProps } from '../../core/Box';
-import { LucideIconProps } from '../LucideIcon';
+import { Leading } from '../Leading';
 import { useStyles } from './Tabs.styles';
 import { TabsContent } from './TabsContent';
 import { TabsTab } from './TabsTab';
@@ -13,7 +13,7 @@ import { useTabsState } from './useTabsState';
 export type TabsProps = Omit<BoxProps, 'children'> & {
   tabs: {
     label: string;
-    icon?: LucideIconProps['name'];
+    leading?: Leading;
     counter?: number;
     value: string;
     content: React.ReactNode;
@@ -76,7 +76,7 @@ export const Tabs = (props: TabsProps) => {
               key={tab.value}
               value={tab.value}
               label={tab.label}
-              icon={tab.icon}
+              leading={tab.leading}
               counter={tab.counter}
               etat={etatDeLOnglet(tab.value)}
               disabled={tabs.length < 2}

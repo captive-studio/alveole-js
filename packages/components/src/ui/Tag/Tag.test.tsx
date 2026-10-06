@@ -57,7 +57,7 @@ it('n affiche aucune icone tant qu on ne lui en donne pas', async () => {
 // L'icone se place avant le libelle : c'est elle qui qualifie l'etiquette au premier coup
 // d'oeil, la lire apres le texte n'aurait pas d'interet.
 it('place l icone demandee avant le libelle', async () => {
-  const view = await etiquette({ icon: 'Check' });
+  const view = await etiquette({ leading: 'Check' });
   // Le libelle est le seul enfant textuel de la pastille : ce qui le precede dans la liste
   // des enfants est rendu avant lui. On exige un rang, pas une position : figer l'index a 1
   // ferait casser le test au premier element ajoute devant, sans qu'aucun ordre n'ait change.

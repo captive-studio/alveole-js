@@ -30,7 +30,7 @@ export const Example = () => {
           { label: 'Onglet 3', value: 'onglet-3', content: <Typography>Contenu de onglet 3</Typography> },
           {
             label: 'Onglet 4',
-            icon: 'Settings',
+            leading: 'Settings',
             value: 'onglet-4',
             content: <Typography>Contenu de onglet 4</Typography>,
           },

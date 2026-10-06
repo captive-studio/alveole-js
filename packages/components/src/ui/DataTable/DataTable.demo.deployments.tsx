@@ -184,10 +184,10 @@ const DeploymentActionsCell = () => {
           <ButtonIcon variant="tertiary" size="sm" icon="MoreHorizontal" accessibilityLabel="Actions du déploiement" />
         )}
       >
-        <ActionMenu.Item title="Voir les détails" icon="Eye" />
-        <ActionMenu.Item title="Redéployer" icon="RefreshCw" />
-        <ActionMenu.Item title="Copier l'URL" icon="Link" />
-        <ActionMenu.Item title="Supprimer" icon="Trash" />
+        <ActionMenu.Item title="Voir les détails" leading="Eye" />
+        <ActionMenu.Item title="Redéployer" leading="RefreshCw" />
+        <ActionMenu.Item title="Copier l'URL" leading="Link" />
+        <ActionMenu.Item title="Supprimer" leading="Trash" />
       </ActionMenu>
     </Box>
   );
