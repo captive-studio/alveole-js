@@ -21,10 +21,10 @@ export type ButtonProps = Omit<PressableProps, 'children' | 'style'> & {
   trailing?: Leading;
   /**
    * `center` par defaut. `start` cale le contenu a gauche et pousse `trailing` contre le bord
-   * droit : c'est l'`alignContent` de Primer, pour un bouton qui occupe toute une largeur
+   * droit : c'est l'`alignContent` de Primer (renomme, ce nom etant reserve aux props CSS par le lint), pour un bouton qui occupe toute une largeur
    * (selecteur d'organisation, compte en pied de barre laterale).
    */
-  alignContent?: 'center' | 'start';
+  contentAlign?: 'center' | 'start';
   selected?: boolean;
   ContainerProps?: BoxProps;
   fullWidth?: boolean;

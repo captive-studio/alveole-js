@@ -37,7 +37,7 @@ export const ButtonContent = ({ styles, etat, state, actif, props }: ButtonConte
     title,
     leading,
     trailing,
-    alignContent = 'center',
+    contentAlign = 'center',
     isLoading,
     loadingDelay = 'long',
     ContainerProps = {},
@@ -48,7 +48,7 @@ export const ButtonContent = ({ styles, etat, state, actif, props }: ButtonConte
 
   const place = placeDuSpinner(useDelaiDAffichage(isLoading ? loadingDelay : false) && !!isLoading, leading, trailing);
   const recouvreLeLibelle = place === 'libelle';
-  const aGauche = alignContent === 'start';
+  const aGauche = contentAlign === 'start';
 
   return (
     <Box
