@@ -70,7 +70,7 @@ export const AvecHeaderEtFooter = () => {
         <Button
           variant="tertiary"
           size="md"
-          alignContent="start"
+          contentAlign="start"
           title={orga}
           leading={<LogoDOrganisation nom={orga} />}
           trailing="ChevronDown"
@@ -96,7 +96,7 @@ export const AvecHeaderEtFooter = () => {
         <Button
           variant="tertiary"
           size="lg"
-          alignContent="start"
+          contentAlign="start"
           title="Clément Prod'homme"
           leading={<Avatar size="sm" src="https://www.loremfaces.net/96/id/1.jpg" fallbackText="Clément Prod'homme" />}
         />
