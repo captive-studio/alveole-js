@@ -34,3 +34,58 @@ test('porte la marque qui écarte le soulignement du texte', () => {
 
   expect(screen.getByRole('link').hasAttribute(LINK_ATTRIBUTE)).toBe(true);
 });
+
+test('ouvre un lien externe dans un nouvel onglet avec target="_blank"', () => {
+  renderWeb(
+    <Link href="https://www.captive.fr" target="_blank">
+      Site de Captive
+    </Link>,
+  );
+
+  const lien = screen.getByRole('link');
+  expect(lien.getAttribute('href')).toBe('https://www.captive.fr');
+  expect(lien.getAttribute('target')).toBe('_blank');
+  expect(lien.getAttribute('rel')).toContain('noopener');
+});
+
+// Si le routeur interceptait le clic, il naviguerait dans l'onglet courant malgré la cible.
+test('laisse le navigateur gérer le clic quand target="_blank"', () => {
+  renderWeb(
+    <Link href="https://www.captive.fr" target="_blank">
+      Site de Captive
+    </Link>,
+  );
+
+  const clic = new MouseEvent('click', { bubbles: true, cancelable: true, button: 0 });
+  screen.getByRole('link').dispatchEvent(clic);
+  expect(clic.defaultPrevented).toBe(false);
+});
+
+// WCAG 3.2.5 : changer de contexte sans prévenir désoriente, en particulier au lecteur d'écran.
+test('annonce le nouvel onglet dans le nom du lien', () => {
+  renderWeb(
+    <Link href="https://www.captive.fr" target="_blank">
+      Site de Captive
+    </Link>,
+  );
+
+  expect(screen.getByRole('link', { name: "Site de Captive (s'ouvre dans un nouvel onglet)" })).toBeTruthy();
+});
+
+test('affiche l\'icône de lien externe avec target="_blank"', () => {
+  renderWeb(
+    <Link href="https://www.captive.fr" target="_blank">
+      Site de Captive
+    </Link>,
+  );
+
+  expect(screen.getByRole('link').querySelector('svg')).not.toBeNull();
+});
+
+test("n'impose aucune cible ni icône par défaut", () => {
+  renderWeb(<Link href="/quelque-part">Aller</Link>);
+
+  const lien = screen.getByRole('link', { name: 'Aller' });
+  expect(lien.getAttribute('target')).toBeNull();
+  expect(lien.querySelector('svg')).toBeNull();
+});
