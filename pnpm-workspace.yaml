@@ -28,8 +28,8 @@ overrides:
   # Modules natifs Expo : forcés en version unique. Les pins directs de apps/docs ne suffisent
   # pas, des peers (`*`) et expo-router en tiraient encore le patch précédent, ce qu'expo-doctor
   # refuse (un module natif ne doit exister qu'en une version).
-  expo-asset: 57.0.18
-  expo-constants: 57.0.20
+  expo-asset: 57.0.19
+  expo-constants: 57.0.21
 
 # Les scripts d'installation sont bloqués par défaut : ces trois paquets compilent un binaire
 # natif dont dépendent Jest, Metro et le résolveur ESLint. pnpm 11 a supprimé
@@ -43,10 +43,12 @@ allowBuilds:
   unrs-resolver: true
 
 minimumReleaseAgeExclude:
-  - expo-asset@57.0.18
-  - expo-constants@57.0.20
+  - expo-asset@57.0.19
+  - expo-constants@57.0.21
   - expo-document-picker@57.0.3
-  - expo-linking@57.0.11 || 57.0.12
+  - expo-linking@57.0.12
+  - '@expo/image-utils@0.11.6'
+  - '@expo/require-utils@57.0.6'
 
 patchedDependencies:
   eslint-plugin-react@7.37.5: patches/eslint-plugin-react@7.37.5.patch
