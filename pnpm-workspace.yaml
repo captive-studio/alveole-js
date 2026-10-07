@@ -46,7 +46,7 @@ minimumReleaseAgeExclude:
   - expo-asset@57.0.18
   - expo-constants@57.0.20
   - expo-document-picker@57.0.3
-  - expo-linking@57.0.11
+  - expo-linking@57.0.11 || 57.0.12
 
 patchedDependencies:
   eslint-plugin-react@7.37.5: patches/eslint-plugin-react@7.37.5.patch
