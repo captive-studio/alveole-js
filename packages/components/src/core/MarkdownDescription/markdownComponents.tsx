@@ -1,7 +1,7 @@
 import { FOCUS_ATTRIBUTE, Theme } from '@alveole/theme';
 import React from 'react';
 import type { Components } from 'react-markdown';
-import { TextStyle as RNTextStyle, Text } from 'react-native';
+import { TextStyle as RNTextStyle } from 'react-native';
 import { Box } from '../Box';
 import { Code } from '../Code';
 import { Highlight, HighlightProps } from '../Highlight';
@@ -31,6 +31,8 @@ type MarkdownComponentsStyles = {
   /** Couleur du texte courant, hors titres et liens. Vide garde le gris par defaut. */
   textColor?: string;
   titres: Theme['text']['Titres'];
+  /** Couleur des titres : `textColor` s'il est fourni, sinon `title-grey`. */
+  titleColor: string;
   borderColor: string;
   headerBg: string;
   linkColor: string;
@@ -46,15 +48,39 @@ export const createTextComponents = ({ bodyStyle, boldStyle, textColor }: TextCo
       {c}
     </Typography>
   ),
-  strong: ({ children: c }: AvecEnfants) => <Text style={boldStyle}>{c}</Text>,
-  em: ({ children: c }: AvecEnfants) => <Text style={[bodyStyle, { fontStyle: 'italic' as const }]}>{c}</Text>,
+  strong: ({ children: c }: AvecEnfants) => (
+    <Typography style={boldStyle} color={textColor}>
+      {c}
+    </Typography>
+  ),
+  em: ({ children: c }: AvecEnfants) => (
+    <Typography style={[bodyStyle, { fontStyle: 'italic' as const }]} color={textColor}>
+      {c}
+    </Typography>
+  ),
 });
 
-const createHeadingComponents = (titres: Theme['text']['Titres']): Components => ({
-  h1: ({ children: c }: AvecEnfants) => <Typography style={titres['H3 - MD']}>{c}</Typography>,
-  h2: ({ children: c }: AvecEnfants) => <Typography style={titres['H4 - SM']}>{c}</Typography>,
-  h3: ({ children: c }: AvecEnfants) => <Typography style={titres['H5 - XS']}>{c}</Typography>,
-  h4: ({ children: c }: AvecEnfants) => <Typography style={titres['H6 - XXS']}>{c}</Typography>,
+export const createHeadingComponents = (titres: Theme['text']['Titres'], titleColor: string): Components => ({
+  h1: ({ children: c }: AvecEnfants) => (
+    <Typography style={titres['H3 - MD']} color={titleColor}>
+      {c}
+    </Typography>
+  ),
+  h2: ({ children: c }: AvecEnfants) => (
+    <Typography style={titres['H4 - SM']} color={titleColor}>
+      {c}
+    </Typography>
+  ),
+  h3: ({ children: c }: AvecEnfants) => (
+    <Typography style={titres['H5 - XS']} color={titleColor}>
+      {c}
+    </Typography>
+  ),
+  h4: ({ children: c }: AvecEnfants) => (
+    <Typography style={titres['H6 - XXS']} color={titleColor}>
+      {c}
+    </Typography>
+  ),
 });
 
 const createListComponents = (bodyStyle: TextStyle): Components => ({
@@ -185,7 +211,7 @@ const createTableComponents = ({ bodyStyle, boldStyle, borderColor, headerBg }: 
 
 export const createMarkdownComponents = (styles: MarkdownComponentsStyles): Components => ({
   ...createTextComponents(styles),
-  ...createHeadingComponents(styles.titres),
+  ...createHeadingComponents(styles.titres, styles.titleColor),
   ...createListComponents(styles.bodyStyle),
   ...createLinkComponents(styles),
   ...createBlockComponents(styles.borderColor),

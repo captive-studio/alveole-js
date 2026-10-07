@@ -57,6 +57,7 @@ export const MarkdownDescription = ({ children, taille = 'MD', color: textColor 
     boldStyle,
     textColor,
     titres: text.Titres,
+    titleColor: textColor ?? color.light.text['title-grey'],
     borderColor,
     headerBg,
     linkColor,
