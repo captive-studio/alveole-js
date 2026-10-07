@@ -29,3 +29,13 @@ test("garde la navigation de l'app pour une route interne", async () => {
   await fireEvent.press(screen.getByRole('link'));
   expect(openBrowserAsync).not.toHaveBeenCalled();
 });
+
+test('annonce l\'ouverture dans le navigateur avec target="_blank"', async () => {
+  await renderNative(
+    <A href="https://example.com" target="_blank">
+      <Text>Aller</Text>
+    </A>,
+  );
+
+  expect(screen.getByRole('link').props.accessibilityHint).toBe('Ouvre dans le navigateur');
+});

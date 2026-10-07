@@ -8,4 +8,7 @@ export const useStyles = makeStyles(({ color }) => ({
   linkHover: {
     textDecoration: 'none',
   },
+  icone: {
+    verticalAlign: 'middle',
+  },
 }));

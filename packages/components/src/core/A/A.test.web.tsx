@@ -49,3 +49,13 @@ test('laisse le navigateur gerer le clic quand target="_blank"', () => {
   screen.getByRole('link').dispatchEvent(clic);
   expect(clic.defaultPrevented).toBe(false);
 });
+
+test('annonce le nouvel onglet dans le nom du lien avec target="_blank"', () => {
+  renderWeb(
+    <A href="https://example.com" target="_blank">
+      <span>Aller</span>
+    </A>,
+  );
+
+  expect(screen.getByRole('link', { name: "Aller (s'ouvre dans un nouvel onglet)" })).toBeTruthy();
+});
