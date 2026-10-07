@@ -1,4 +1,4 @@
-import type React from 'react';
+import { CustomTypography } from '@alveole/theme';
 import { createHeadingComponents, createTextComponents } from './markdownComponents';
 
 // La couleur demandee a MarkdownDescription voyage jusqu'au Typography du paragraphe, qui la
@@ -20,11 +20,7 @@ it('donne au gras et a l italique la couleur de texte demandee', () => {
 });
 
 it('donne aux titres la couleur de titre demandee', () => {
-  const titres = { 'H3 - MD': {}, 'H4 - SM': {}, 'H5 - XS': {}, 'H6 - XXS': {} } as never;
-  const { h1, h4 } = createHeadingComponents(titres, 'red') as Record<
-    string,
-    (p: { children: string }) => React.ReactElement<{ color?: string }>
-  >;
+  const { h1, h4 } = createHeadingComponents(CustomTypography.Titres, 'red');
 
   expect(h1({ children: 'Titre' }).props.color).toBe('red');
   expect(h4({ children: 'Titre' }).props.color).toBe('red');

@@ -60,7 +60,7 @@ export const createTextComponents = ({ bodyStyle, boldStyle, textColor }: TextCo
   ),
 });
 
-export const createHeadingComponents = (titres: Theme['text']['Titres'], titleColor: string): Components => ({
+export const createHeadingComponents = (titres: Theme['text']['Titres'], titleColor: string) => ({
   h1: ({ children: c }: AvecEnfants) => (
     <Typography style={titres['H3 - MD']} color={titleColor}>
       {c}
