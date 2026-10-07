@@ -1,4 +1,5 @@
-import { createTextComponents } from './markdownComponents';
+import type React from 'react';
+import { createHeadingComponents, createTextComponents } from './markdownComponents';
 
 // La couleur demandee a MarkdownDescription voyage jusqu'au Typography du paragraphe, qui la
 // fait primer sur son defaut (couleurDuTexte.test.tsx). On le verifie sur l'element produit,
@@ -7,4 +8,24 @@ it('donne au paragraphe la couleur de texte demandee', () => {
   const { p } = createTextComponents({ bodyStyle: {}, boldStyle: {}, textColor: 'red' });
 
   expect(p({ children: 'Un texte.' }).props.color).toBe('red');
+});
+
+// Un `Text` React Native imbrique dans un Typography tamagui ne se sait pas imbrique et
+// retombe sur le noir par defaut : gras et italique passent donc eux aussi par Typography.
+it('donne au gras et a l italique la couleur de texte demandee', () => {
+  const { strong, em } = createTextComponents({ bodyStyle: {}, boldStyle: {}, textColor: 'red' });
+
+  expect(strong({ children: 'Gras' }).props.color).toBe('red');
+  expect(em({ children: 'Italique' }).props.color).toBe('red');
+});
+
+it('donne aux titres la couleur de titre demandee', () => {
+  const titres = { 'H3 - MD': {}, 'H4 - SM': {}, 'H5 - XS': {}, 'H6 - XXS': {} } as never;
+  const { h1, h4 } = createHeadingComponents(titres, 'red') as Record<
+    string,
+    (p: { children: string }) => React.ReactElement<{ color?: string }>
+  >;
+
+  expect(h1({ children: 'Titre' }).props.color).toBe('red');
+  expect(h4({ children: 'Titre' }).props.color).toBe('red');
 });
