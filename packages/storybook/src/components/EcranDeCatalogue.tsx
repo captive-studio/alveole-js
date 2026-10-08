@@ -1,4 +1,4 @@
-import { Page } from '@alveole/components';
+import { Box, Page } from '@alveole/components';
 import { useTheme } from '@alveole/theme';
 import React from 'react';
 import { PageTitle, PageTitleProps } from './PageTitle';
@@ -34,7 +34,7 @@ export const EcranDeCatalogue = ({
   sommaire,
   children,
 }: EcranDeCatalogueProps) => {
-  const { grilles } = useTheme();
+  const { grilles, spacingValue } = useTheme();
 
   return (
     <Page
@@ -47,8 +47,11 @@ export const EcranDeCatalogue = ({
     >
       {sommaire ? (
         <StoryLayout sommaire={<StorySummary entrees={sommaire} />}>
-          <PageTitle title={title} breadcrumbsProps={breadcrumbsProps} />
-          {children}
+          {/* Le meme ecart qu'entre l'en-tete et le contenu d'une fiche. */}
+          <Box display="flex" gap={spacingValue('6W')}>
+            <PageTitle title={title} breadcrumbsProps={breadcrumbsProps} />
+            {children}
+          </Box>
         </StoryLayout>
       ) : (
         <ScreenZone largeur={grilles['12 colonnes']}>

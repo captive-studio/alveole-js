@@ -35,7 +35,8 @@ describe('StoryLayout', () => {
   // lui qui explique pourquoi la lecture s'arrete a sept colonnes plutot qu'a neuf.
   it('sert au sommaire deux colonnes de la grille', () => {
     const { getByText } = rendu();
-    const volet = window.getComputedStyle(getByText('Sur cette page').parentElement!);
+    // Le sommaire est enveloppe par sa boite collante, elle-meme dans le volet.
+    const volet = window.getComputedStyle(getByText('Sur cette page').parentElement!.parentElement!);
 
     expect({ width: volet.width, flexShrink: volet.flexShrink }).toEqual({
       width: `${Grilles['2 colonnes']}px`,
