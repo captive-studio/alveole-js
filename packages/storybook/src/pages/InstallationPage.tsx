@@ -1,4 +1,4 @@
-import { Box, Typography } from '@alveole/components';
+import { AnchorHeading, Box, Typography } from '@alveole/components';
 import { useTheme } from '@alveole/theme';
 import React from 'react';
 import { EcranDeCatalogue } from '../components/EcranDeCatalogue';
@@ -10,7 +10,7 @@ const EtapeDInstallationSection = ({ titre, paragraphes, extraits = [] }: EtapeD
 
   return (
     <Box display="flex" gap={8} mb={'400'}>
-      <Typography style={text.Titres['H4 - SM']}>{titre}</Typography>
+      <AnchorHeading style={text.Titres['H4 - SM']}>{titre}</AnchorHeading>
       {paragraphes.map(paragraphe => (
         <Typography key={paragraphe} style={text['Corps de texte'].MD.Regular}>
           {paragraphe}
@@ -40,8 +40,9 @@ export const InstallationPage = ({ beforeContent, sidebar, footerContent }: Inst
       sidebar={sidebar}
       beforeContent={beforeContent}
       footerContent={footerContent}
+      sommaire={ETAPES_D_INSTALLATION.map(({ titre }) => titre)}
     >
-      <Box display="flex" gap={0} style={{ maxWidth: 720 }}>
+      <Box display="flex" gap={0}>
         {ETAPES_D_INSTALLATION.map(etape => (
           <EtapeDInstallationSection key={etape.titre} {...etape} />
         ))}

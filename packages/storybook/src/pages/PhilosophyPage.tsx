@@ -1,4 +1,4 @@
-import { Box, Typography } from '@alveole/components';
+import { AnchorHeading, Box, Typography } from '@alveole/components';
 import { useTheme } from '@alveole/theme';
 import React from 'react';
 import { EcranDeCatalogue } from '../components/EcranDeCatalogue';
@@ -9,7 +9,7 @@ const PhilosophySection = ({ titre, paragraphes }: SectionDePhilosophie) => {
 
   return (
     <Box display="flex" gap={8} mb={'400'}>
-      <Typography style={text.Titres['H4 - SM']}>{titre}</Typography>
+      <AnchorHeading style={text.Titres['H4 - SM']}>{titre}</AnchorHeading>
       {paragraphes.map(paragraphe => (
         <Typography key={paragraphe} style={text['Corps de texte'].MD.Regular}>
           {paragraphe}
@@ -33,8 +33,9 @@ export const PhilosophyPage = ({ beforeContent, sidebar, footerContent }: Philos
       sidebar={sidebar}
       beforeContent={beforeContent}
       footerContent={footerContent}
+      sommaire={SECTIONS_DE_PHILOSOPHIE.map(({ titre }) => titre)}
     >
-      <Box display="flex" gap={0} style={{ maxWidth: 720 }}>
+      <Box display="flex" gap={0}>
         {SECTIONS_DE_PHILOSOPHIE.map(section => (
           <PhilosophySection key={section.titre} {...section} />
         ))}

@@ -62,7 +62,7 @@ export const StoryDetailScreen = ({
         bord gauche de la page pendant que le corps se centre.
         `Section` n'a plus rien a border ici : son padding s'ajouterait a celui de la zone.
       */}
-      <StoryLayout sommaire={exemples.length > 0 ? <StorySummary exemples={exemples.map(([nom]) => nom)} /> : null}>
+      <StoryLayout sommaire={exemples.length > 0 ? <StorySummary entrees={exemples.map(([nom]) => nom)} /> : null}>
         {/* Ce que la fiche annonce d'un cote, ce qu'elle montre de l'autre : les trois
             references laissent 55 a 75 px entre les deux. */}
         <Box display="flex" gap={spacingValue('6W')}>
