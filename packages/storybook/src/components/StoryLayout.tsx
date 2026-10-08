@@ -1,6 +1,7 @@
 import { Box } from '@alveole/components';
 import { useTheme } from '@alveole/theme';
 import React from 'react';
+import { Platform } from 'react-native';
 import { ScreenZone } from './ScreenZone';
 
 export type StoryLayoutProps = {
@@ -23,15 +24,18 @@ export const StoryLayout = ({ children, sommaire }: StoryLayoutProps) => {
   // matières plutôt que de la comprimer, et rend la largeur à la lecture.
   const voletVisible = sommaire != null && isVariant('desktop');
 
+  // `position: sticky` n'existe pas nativement (RN n'accepte que absolute/relative) : sans le
+  // garde-fou web, la valeur traverserait telle quelle jusqu'à iOS/Android.
+  const collant = Platform.OS === 'web' ? { position: 'sticky' as const, top: spacingValue('3W') } : {};
+
   return (
     <ScreenZone largeur={grilles['9 colonnes']}>
       <Box style={{ flexDirection: 'row-reverse', gap: spacingValue('3W') }}>
         {voletVisible ? (
           <Box style={{ flexShrink: 0, width: grilles['2 colonnes'] }}>
             {/* Le volet s'étire sur toute la hauteur du corps ; c'est son contenu qui colle au
-                haut de la zone de défilement, pour rester à portée pendant la lecture. Le web
-                seul connaît `sticky`, d'où le transtypage. */}
-            <Box style={{ position: 'sticky' as 'relative', top: spacingValue('3W') }}>{sommaire}</Box>
+                haut de la zone de défilement, pour rester à portée pendant la lecture. */}
+            <Box style={collant}>{sommaire}</Box>
           </Box>
         ) : null}
         <Box style={{ flexGrow: 1, flexShrink: 1, minWidth: 0 }}>{children}</Box>
