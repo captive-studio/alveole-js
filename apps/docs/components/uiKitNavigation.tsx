@@ -27,6 +27,7 @@ export const storyList = toStoryModules(Stories);
  * tiers du temps. Voir docs/adr/0007.
  */
 const RUBRIQUES: (UIKitTopBarItem & { key: string })[] = [
+  { key: 'installation', label: 'Installation', href: '/installation' },
   { key: 'components', label: 'Composants', href: '/' },
   { key: 'theme', label: 'Thème', href: '/theme' },
   { key: 'constants', label: 'Constantes', href: '/constants' },
