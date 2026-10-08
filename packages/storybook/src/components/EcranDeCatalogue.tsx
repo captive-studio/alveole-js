@@ -3,6 +3,8 @@ import { useTheme } from '@alveole/theme';
 import React from 'react';
 import { PageTitle, PageTitleProps } from './PageTitle';
 import { ScreenZone } from './ScreenZone';
+import { StoryLayout } from './StoryLayout';
+import { StorySummary } from './StorySummary';
 
 export type EcranDeCatalogueProps = {
   title: string;
@@ -11,6 +13,8 @@ export type EcranDeCatalogueProps = {
   beforeContent?: React.ReactNode;
   footerContent?: React.ReactNode;
   breadcrumbsProps?: PageTitleProps['breadcrumbsProps'];
+  /** Les titres des sections de la page : fournis, l'ecran prend la mise en page d'une fiche, sommaire a droite. */
+  sommaire?: string[];
   children: React.ReactNode;
 };
 
@@ -27,6 +31,7 @@ export const EcranDeCatalogue = ({
   beforeContent,
   footerContent,
   breadcrumbsProps,
+  sommaire,
   children,
 }: EcranDeCatalogueProps) => {
   const { grilles } = useTheme();
@@ -40,10 +45,17 @@ export const EcranDeCatalogue = ({
       beforeContent={beforeContent}
       footerContent={footerContent}
     >
-      <ScreenZone largeur={grilles['12 colonnes']}>
-        <PageTitle title={title} breadcrumbsProps={breadcrumbsProps} />
-        {children}
-      </ScreenZone>
+      {sommaire ? (
+        <StoryLayout sommaire={<StorySummary entrees={sommaire} />}>
+          <PageTitle title={title} breadcrumbsProps={breadcrumbsProps} />
+          {children}
+        </StoryLayout>
+      ) : (
+        <ScreenZone largeur={grilles['12 colonnes']}>
+          <PageTitle title={title} breadcrumbsProps={breadcrumbsProps} />
+          {children}
+        </ScreenZone>
+      )}
     </Page>
   );
 };

@@ -9,7 +9,7 @@ describe('InstallationPage', () => {
     renderScreen(<InstallationPage />);
 
     for (const { titre, paragraphes } of ETAPES_D_INSTALLATION) {
-      expect(screen.getByText(titre)).toBeTruthy();
+      expect(screen.getByLabelText(`Lien vers la section ${titre}`)).toBeTruthy();
       for (const paragraphe of paragraphes) expect(screen.getByText(paragraphe)).toBeTruthy();
     }
   });

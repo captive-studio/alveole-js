@@ -9,7 +9,7 @@ describe('PhilosophyPage', () => {
     renderScreen(<PhilosophyPage />);
 
     for (const { titre } of SECTIONS_DE_PHILOSOPHIE) {
-      expect(screen.getByText(titre)).toBeTruthy();
+      expect(screen.getByLabelText(`Lien vers la section ${titre}`)).toBeTruthy();
     }
   });
 
