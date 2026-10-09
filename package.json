@@ -34,7 +34,7 @@
   "devDependencies": {
     "@alveole/eslint-config": "workspace:*",
     "@arethetypeswrong/cli": "0.18.5",
-    "@swc/core": "1.16.2",
+    "@swc/core": "1.16.13",
     "@swc/jest": "0.2.39",
     "@types/jest": "29.5.14",
     "@types/react": "19.2.17",
