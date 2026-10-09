@@ -36,7 +36,9 @@ const staticPage = (path, priority) =>
 
 const urls = [
   `  <url>\n    <loc>${BASE_URL}/</loc>\n    <lastmod>${lastmod}</lastmod>\n    <changefreq>daily</changefreq>\n    <priority>1.0000</priority>\n  </url>`,
-  staticPage('/philosophy', 0.6),
+  staticPage('/guides/installation', 0.6),
+  staticPage('/guides/philosophy', 0.6),
+  staticPage('/guides/migration-v2', 0.6),
   staticPage('/constants', 0.6),
   staticPage('/theme/colors', 0.6),
   staticPage('/theme/css-variables', 0.6),

@@ -23,21 +23,26 @@ export const storyList = toStoryModules(Stories);
 
 /**
  * Niveau 1 de la navigation. Couleurs, Typographies et Variables CSS sont repliées sous
- * `Thème` : trois rubriques pour trois pages laissaient la colonne sans niveau 2 les deux
+ * `Thème` (et Installation, Philosophie, Migration v2 sous `Guides`) : trois rubriques pour trois pages laissaient la colonne sans niveau 2 les deux
  * tiers du temps. Voir docs/adr/0007.
  */
 const RUBRIQUES: (UIKitTopBarItem & { key: string })[] = [
-  { key: 'installation', label: 'Installation', href: '/installation' },
+  { key: 'guides', label: 'Guides', href: '/guides' },
   { key: 'components', label: 'Composants', href: '/' },
   { key: 'theme', label: 'Thème', href: '/theme' },
   { key: 'constants', label: 'Constantes', href: '/constants' },
-  { key: 'philosophy', label: 'Philosophie', href: '/philosophy' },
 ];
 
 const THEME_PAGES: UIKitColumnItem[] = [
   { key: 'colors', title: 'Couleurs', href: '/theme/colors' },
   { key: 'typographies', title: 'Typographies', href: '/theme/typographies' },
   { key: 'css-variables', title: 'Variables CSS', href: '/theme/css-variables' },
+];
+
+const GUIDE_PAGES: UIKitColumnItem[] = [
+  { key: 'installation', title: 'Installation', href: '/guides/installation' },
+  { key: 'philosophy', title: 'Philosophie', href: '/guides/philosophy' },
+  { key: 'migration-v2', title: 'Migration v2', href: '/guides/migration-v2' },
 ];
 
 const componentGroups = (): UIKitColumnGroup[] =>
@@ -65,6 +70,7 @@ const constantGroups = (): UIKitColumnGroup[] => [
 
 const buildColumnGroups = (rubrique: string | undefined): UIKitColumnGroup[] => {
   if (rubrique === 'components') return componentGroups();
+  if (rubrique === 'guides') return [{ title: 'Guides', items: GUIDE_PAGES }];
   if (rubrique === 'theme') return [{ title: 'Thème', items: THEME_PAGES }];
   if (rubrique === 'constants') return constantGroups();
   return [];
