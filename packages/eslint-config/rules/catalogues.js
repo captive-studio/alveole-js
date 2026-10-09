@@ -8,10 +8,19 @@
 // sont déjà exclus de la même façon par `.jscpd.json` et par les `collectCoverageFrom` de Jest,
 // et cette règle les aligne sur les deux autres dispositifs plutôt que de diverger.
 //
+// Le guide de migration v2 (`pages/migrationV2.ts`) est un texte : le couper en deux fichiers
+// ne séparerait aucune responsabilité.
+//
 // Les autres exigences continuent de s'appliquer à ces fichiers : seule la taille est levée.
 /** @type {import('eslint').Linter.Config} */
 const config = {
-  files: ['**/*.stories.tsx', '**/*.demo.*', '**/src/constants/Color.ts', '**/src/constants/Palette.ts'],
+  files: [
+    '**/*.stories.tsx',
+    '**/*.demo.*',
+    '**/src/constants/Color.ts',
+    '**/src/constants/Palette.ts',
+    '**/src/pages/migrationV2.ts',
+  ],
   rules: {
     'max-lines': 'off',
   },

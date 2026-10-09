@@ -4,6 +4,7 @@ export * from './components/UIKitColumn';
 export * from './components/UIKitTopBar';
 export * from './navigation';
 export * from './pages/InstallationPage';
+export * from './pages/MigrationV2Page';
 export * from './pages/PhilosophyPage';
 export * from './pages/UIKitHomePage';
 export * from './pages/UIKitPage';
