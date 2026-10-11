@@ -34,6 +34,19 @@ test('refuse un fichier dont le type ne correspond pas à celui attendu', async 
   expect(onChange).not.toHaveBeenCalled();
 });
 
+test('accepte une image quand le champ attend image/*', async () => {
+  const onChange = jest.fn();
+  jest.mocked(DocumentPicker.getDocumentAsync).mockResolvedValue({
+    canceled: false,
+    assets: [{ name: 'photo.png', uri: 'file:///photo.png', mimeType: 'image/png', lastModified: 0 }],
+  });
+  renderOnDesktop(<FileInput type="image/*" value={null} onChange={onChange} />);
+
+  fireEvent.click(screen.getByText('Ajouter un fichier'));
+
+  await waitFor(() => expect(onChange).toHaveBeenCalledWith(expect.objectContaining({ name: 'photo.png' })));
+});
+
 test('ajoute la nouvelle sélection aux fichiers déjà choisis en mode multiple', async () => {
   const onChange = jest.fn();
   choisir('b.pdf');

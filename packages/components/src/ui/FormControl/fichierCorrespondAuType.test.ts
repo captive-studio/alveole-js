@@ -43,4 +43,11 @@ describe('fichierCorrespondAuType', () => {
     expect(fichierCorrespondAuType('image/png', undefined, 'image')).toBe(true);
     expect(fichierCorrespondAuType('application/pdf', undefined, 'image')).toBe(false);
   });
+
+  it('reconnait les types MIME du selecteur, generiques ou exacts', () => {
+    expect(fichierCorrespondAuType('image/png', 'a.png', 'image/*')).toBe(true);
+    expect(fichierCorrespondAuType('application/pdf', 'a.pdf', ['application/pdf'])).toBe(true);
+    expect(fichierCorrespondAuType('text/plain', 'a.txt', '*/*')).toBe(true);
+    expect(fichierCorrespondAuType('application/pdf', 'a.pdf', 'image/*')).toBe(false);
+  });
 });
