@@ -6,13 +6,16 @@
         "hooks": [
           {
             "type": "command",
-            "if": "Bash(git commit*)",
             "command": "set -e; STAGED=$(git diff --cached --name-only); npm run format; for f in $STAGED; do git add \"$f\" 2>/dev/null || true; done; npm run lint; npm run typecheck",
+            "if": "Bash(git commit*)",
             "timeout": 180,
             "statusMessage": "Format, lint et typecheck avant commit..."
           }
         ]
       }
     ]
+  },
+  "enabledPlugins": {
+    "ponytail@ponytail": true
   }
 }
