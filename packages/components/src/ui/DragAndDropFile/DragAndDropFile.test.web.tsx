@@ -1,6 +1,10 @@
 import { elementDuType } from '@/__tests__/helpers/elementDuType';
-import { fireEvent, renderWeb } from '@/__tests__/helpers/renderWeb';
+import { fireEvent, renderWeb, screen } from '@/__tests__/helpers/renderWeb';
 import { DragAndDropFile } from './DragAndDropFile.web';
+
+jest.mock('expo-document-picker', () => ({
+  getDocumentAsync: jest.fn(async () => ({ canceled: true, assets: null })),
+}));
 
 // jsdom n'implémente pas `URL.createObjectURL`/`revokeObjectURL`, utilisés par le composant
 // pour construire l'aperçu du fichier déposé.
@@ -83,4 +87,49 @@ test('un fichier depose garde sa date de derniere modification', () => {
   deposer(container, { items: [{ kind: 'file', getAsFile: () => fichier }] });
 
   expect(onChange).toHaveBeenCalledWith(expect.objectContaining({ lastModified: 1700000000000 }));
+});
+
+test('un depot multiple s ajoute aux fichiers deja presents', () => {
+  const onChange = jest.fn();
+  const present = { uri: 'file:///deja.pdf', name: 'deja.pdf', lastModified: 0 };
+  const fichier = new File(['contenu'], 'a.png', { type: 'image/png' });
+  const { container } = renderWeb(
+    <DragAndDropFile label="Piece jointe" value={[present]} onChange={onChange} multiple />,
+  );
+
+  deposer(container, { items: [{ kind: 'file', getAsFile: () => fichier }] });
+
+  expect(onChange).toHaveBeenCalledWith([present, expect.objectContaining({ name: 'a.png' })]);
+});
+
+test('seules les URL blob sorties de la valeur sont revoquees', () => {
+  const blob = (nom: string) => ({ uri: `blob:${nom}`, name: nom, lastModified: 0 });
+  const revoque = jest.mocked(URL.revokeObjectURL);
+  const { rerender, unmount } = renderWeb(
+    <DragAndDropFile label="Piece jointe" multiple value={[blob('a')]} onChange={jest.fn()} />,
+  );
+  revoque.mockClear();
+
+  rerender(<DragAndDropFile label="Piece jointe" multiple value={[blob('a'), blob('b')]} onChange={jest.fn()} />);
+  expect(revoque).not.toHaveBeenCalled();
+
+  rerender(<DragAndDropFile label="Piece jointe" multiple value={[blob('b')]} onChange={jest.fn()} />);
+  expect(revoque).toHaveBeenCalledWith('blob:a');
+  expect(revoque).not.toHaveBeenCalledWith('blob:b');
+
+  unmount();
+  expect(revoque).toHaveBeenCalledWith('blob:b');
+});
+
+test('retirer un fichier de la zone n ouvre pas le selecteur', async () => {
+  const DocumentPicker = jest.requireMock<typeof import('expo-document-picker')>('expo-document-picker');
+  const onChange = jest.fn();
+  const present = { uri: 'file:///deja.pdf', name: 'deja.pdf', lastModified: 0 };
+  renderWeb(<DragAndDropFile label="Piece jointe" multiple value={[present]} onChange={onChange} />);
+
+  fireEvent.click(screen.getByLabelText('Retirer deja.pdf'));
+
+  expect(onChange).toHaveBeenCalledWith(null);
+  await new Promise(resolve => setTimeout(resolve, 0));
+  expect(DocumentPicker.getDocumentAsync).not.toHaveBeenCalled();
 });

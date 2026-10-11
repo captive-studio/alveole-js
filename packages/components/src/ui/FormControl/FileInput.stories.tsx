@@ -1,5 +1,4 @@
 import { useState } from 'react';
-import { Box } from '../../core/Box';
 import { Story } from '../../type';
 import { FileInput, FileInputValue } from './FileInput';
 import { useStyles } from './FileInput.styles';
@@ -10,7 +9,7 @@ export default {
   tags: ['ui'],
   experimental: false,
   description:
-    'Sélection de fichier avec validation MIME, nue : on la place dans un FormControl pour son libellé, son aide et sa validation.',
+    'Sélection de fichiers avec validation MIME et liste des fichiers choisis. Sur natif, propose galerie, appareil photo ou document. Nue : on la place dans un FormControl pour son libellé, son aide et sa validation.',
   component: FileInput,
   styleFn: useStyles,
 } satisfies Story;
@@ -18,20 +17,9 @@ export default {
 export const Default = () => {
   const [file, setFile] = useState<FileInputValue>(null);
   return (
-    <Box display="flex" flexDirection="column" gap={24}>
-      <FormControl label="Document">
-        <FileInput value={file} onChange={setFile} />
-      </FormControl>
-      <FormControl label="Image uniquement">
-        <FileInput type="image/*" value={file} onChange={setFile} />
-      </FormControl>
-      <FormControl label="Avec erreur" error="Ce champ est requis">
-        <FileInput value={null} onChange={() => {}} />
-      </FormControl>
-      <FormControl label="Désactivé" disabled>
-        <FileInput value={null} onChange={() => {}} disabled />
-      </FormControl>
-    </Box>
+    <FormControl label="Document">
+      <FileInput value={file} onChange={setFile} />
+    </FormControl>
   );
 };
 
@@ -43,5 +31,85 @@ export const Multiple = () => {
     </FormControl>
   );
 };
+
+export const ImagesSeulement = () => {
+  const [files, setFiles] = useState<FileInputValue>(null);
+  return (
+    <FormControl label="Photos" hint="Formats acceptés : JPG, PNG">
+      <FileInput type="image/*" value={files} onChange={setFiles} multiple />
+    </FormControl>
+  );
+};
+
+export const AvecFichiersEnregistres = () => {
+  const [files, setFiles] = useState<FileInputValue>([
+    {
+      id: '1',
+      persisted: true,
+      uri: 'https://picsum.photos/id/10/200',
+      name: 'photo-chantier.jpg',
+      mimeType: 'image/jpeg',
+      lastModified: 0,
+    },
+    {
+      id: '2',
+      persisted: true,
+      uri: 'https://example.com/devis.pdf',
+      name: 'devis.pdf',
+      mimeType: 'application/pdf',
+      lastModified: 0,
+    },
+  ]);
+  return (
+    <FormControl label="Pièces jointes" hint="Un fichier enregistré retiré reste dans la valeur, marqué removed.">
+      <FileInput value={files} onChange={setFiles} multiple />
+    </FormControl>
+  );
+};
+
+export const LibellesPersonnalises = () => {
+  const [file, setFile] = useState<FileInputValue>(null);
+  return (
+    <FormControl label="Attachment">
+      <FileInput
+        value={file}
+        onChange={setFile}
+        labels={{ addFile: 'Add a file', gallery: 'Gallery', camera: 'Camera', document: 'Document', cancel: 'Cancel' }}
+      />
+    </FormControl>
+  );
+};
+
+export const Desactive = () => (
+  <FormControl label="Document" disabled>
+    <FileInput
+      value={{
+        uri: 'https://example.com/contrat.pdf',
+        name: 'contrat.pdf',
+        mimeType: 'application/pdf',
+        lastModified: 0,
+      }}
+      onChange={() => {}}
+      disabled
+    />
+  </FormControl>
+);
+
+export const NonRetirable = () => (
+  <FormControl label="Justificatif">
+    <FileInput
+      value={{
+        id: '3',
+        persisted: true,
+        uri: 'https://example.com/justificatif.pdf',
+        name: 'justificatif.pdf',
+        mimeType: 'application/pdf',
+        lastModified: 0,
+      }}
+      onChange={() => {}}
+      removable={false}
+    />
+  </FormControl>
+);
 
 export * as Sources from './FileInput.stories.sources';

@@ -1,14 +1,11 @@
 import React from 'react';
 import { TamaguiElement, RadioGroup as TamaguiRadioGroup, RadioGroupProps as TamaguiRadioGroupProps } from 'tamagui';
 import { Box } from '../../core/Box';
-import {
-  FormControlCaption,
-  FormControlCaptionProps,
-  FormControlHint,
-  FormControlHintProps,
-  FormControlLabel,
-  FormControlLabelProps,
-} from '../FormControl';
+// Imports directs, pas par l'index : FormControl contient FileInput, qui rend des ListItem, qui
+// rendent des RadioGroup. Passer par l'index refermerait le cycle.
+import { FormControlCaption, FormControlCaptionProps } from '../FormControl/FormControlCaption';
+import { FormControlHint, FormControlHintProps } from '../FormControl/FormControlHint';
+import { FormControlLabel, FormControlLabelProps } from '../FormControl/FormControlLabel';
 import { useStyles } from './RadioGroup.styles';
 import { RadioGroupContext } from './RadioGroupContext';
 

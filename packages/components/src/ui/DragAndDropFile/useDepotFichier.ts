@@ -1,6 +1,6 @@
 import React from 'react';
 import { Alert } from '../../core/Alert';
-import { fichierCorrespondAuType, FileInputProps, FileInputValue, valideLeType } from '../FormControl';
+import { ajoute, fichierCorrespondAuType, fichiersVisibles, FileInputProps, FileInputValue } from '../FormControl';
 import { fichiersDuDataTransfer } from './fichiersDuDataTransfer';
 
 const enAsset = (file: File) => ({
@@ -12,19 +12,15 @@ const enAsset = (file: File) => ({
   file,
 });
 
-// Chaque fichier depose est publie derriere une URL d'objet, que le navigateur garde en memoire
-// tant qu'on ne la revoque pas. Sans ce nettoyage au changement de valeur, un formulaire ou
-// l'utilisateur hesite accumule les fichiers relaches dans l'onglet.
-const revoquer = (value: FileInputValue) => {
-  const uris = (Array.isArray(value) ? value : [value]).map(fichier => fichier?.uri);
+const urisBlob = (value: FileInputValue) =>
+  (Array.isArray(value) ? value : [value]).map(fichier => fichier?.uri).filter(uri => uri?.startsWith('blob:'));
 
+const revoquer = (uris: (string | undefined)[]) =>
   uris.forEach(uri => {
-    if (!uri?.startsWith('blob:')) return;
     try {
-      URL.revokeObjectURL(uri);
+      URL.revokeObjectURL(uri!);
     } catch {}
   });
-};
 
 /**
  * Tout ce que la zone de depot fait en plus du champ de fichier ordinaire : suivre le survol et
@@ -42,9 +38,7 @@ export const useDepotFichier = ({
   const [isMouseOver, setIsMouseOver] = React.useState(false);
   const [forceOpen, setForceOpen] = React.useState(false);
 
-  const onValueChange = valideLeType({ type, onChange });
-
-  // `deposer` et `onDrop` etaient memoises en omettant `onValueChange` de leurs dependances,
+  // `deposer` et `onDrop` etaient memoises en omettant le gestionnaire de valeur de leurs dependances,
   // pour ne pas recreer les gestionnaires de glisser-deposer a chaque frappe du formulaire. Le
   // gain etait nul : `survol` reconstruit deja les quatre autres gestionnaires a chaque rendu.
   // Le cout, lui, etait reel : la memoisation figeait le gestionnaire du premier rendu, et un
@@ -57,7 +51,8 @@ export const useDepotFichier = ({
     }
 
     if (valides.length === 0) return;
-    onValueChange(multiple ? valides.map(enAsset) : enAsset(valides[0]));
+    if (!multiple && fichiersVisibles(value).length > 0) return;
+    onChange(ajoute(value, (multiple ? valides : [valides[0]]).map(enAsset), !!multiple));
   };
 
   const onDrop = (e: React.DragEvent<HTMLDivElement>) => {
@@ -74,7 +69,16 @@ export const useDepotFichier = ({
     appliquer(actif);
   };
 
-  React.useEffect(() => () => revoquer(value), [value]);
+  // Chaque fichier depose est publie derriere une URL d'objet, que le navigateur garde en memoire
+  // tant qu'on ne la revoque pas. La valeur s'accumule : on ne libere que les URL qui en sortent,
+  // et toutes au demontage.
+  const urisRef = React.useRef<(string | undefined)[]>([]);
+  React.useEffect(() => {
+    const actuelles = urisBlob(value);
+    revoquer(urisRef.current.filter(uri => !actuelles.includes(uri)));
+    urisRef.current = actuelles;
+  }, [value]);
+  React.useEffect(() => () => revoquer(urisRef.current), []);
 
   return {
     isOver,

@@ -50,6 +50,7 @@ git grep -nE "lucide-react-native|@lucide/lab|@react-native-picker/picker|expo-l
 | Paquet                                                                                                                       | Action                                                                                    |
 | ---------------------------------------------------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------------- |
 | \`expo-web-browser\`                                                                                                           | **Ajouter** (\`npx expo install expo-web-browser\`) : requis par \`A\` / \`Link\` (\`target\`).   |
+| \`expo-image-picker\` | **Ajouter** (\`npx expo install expo-image-picker\`) : requis par \`FileInput\` (galerie, appareil photo). |
 | \`lucide-react-native\`, \`@lucide/lab\`, \`@react-native-picker/picker\`, \`expo-linear-gradient\`, \`react-native-code-highlighter\` | Plus requis par Alveole. Retirer seulement si l'application ne les importe pas elle-même. |
 | \`eslint\`                                                                                                                     | \`@alveole/eslint-config\` accepte maintenant ESLint 9 **ou** 10.                           |
 
@@ -93,6 +94,31 @@ pas toujours (ex. \`onChange={setValue}\` avec un \`setState\` non typé).
 
 Ne concerne **pas** \`NumberInput\`, \`OtpInput\`, \`FileInput\`, \`Select\`, \`DateInput\`, \`TimeInput\`,
 \`DurationInput\` : leur \`onChange\` reçoit toujours la valeur.
+
+### Piège n°1 bis : \`FileInput\` affiche désormais une liste de fichiers
+
+\`\`\`bash
+git grep -nE "<(FileInput|DragAndDropFile)\\b"
+\`\`\`
+
+| Avant                                      | Après                                                                              |
+| ------------------------------------------ | ---------------------------------------------------------------------------------- |
+| \`placeholder="…"\`                          | \`labels={{ addFile: '…' }}\` (tous les libellés se règlent par \`labels\`)          |
+| \`previewURL={url}\`                         | un **fichier enregistré** dans \`value\` : \`{ id, uri: url, name, persisted: true }\` |
+| \`hideFilename\`, \`canChange\`, \`forcePlaceholder\` | retirer                                                                  |
+
+Changements de comportement :
+
+- Le champ montre un bouton « Ajouter un fichier » puis la **liste** des fichiers (aperçu, ouverture,
+  retrait). \`DragAndDropFile\` montre la même liste, sans miniature.
+- Sur natif, le bouton ouvre une feuille **Galerie / Appareil photo / Document** (ajouter
+  \`expo-image-picker\`, voir [Dépendances](#1-dependances)).
+- \`multiple\` : une nouvelle sélection ou un dépôt **s'ajoute** aux fichiers déjà présents au lieu de
+  les remplacer.
+- Champ simple : le bouton est **désactivé** tant qu'un fichier est affiché ; le retirer d'abord.
+- Retirer un fichier ajouté l'enlève de \`value\` ; retirer un **fichier enregistré** le garde, marqué
+  \`removed: true\`, pour le supprimer côté serveur à l'envoi.
+- Annuler le sélecteur n'appelle plus \`onChange(null)\` : la valeur reste inchangée.
 
 ### Piège n°2 : réglages imposés retirés
 

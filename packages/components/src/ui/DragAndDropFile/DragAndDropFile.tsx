@@ -1,6 +1,5 @@
 import React from 'react';
 import { Box } from '../../core/Box';
-import { Image } from '../../core/Image';
 import {
   FileInput,
   FileInputProps,
@@ -54,8 +53,6 @@ export const DragAndDropFile = (props: DragAndDropFileProps) => {
           <FileInput
             {...props}
             hideButton
-            hideFilename
-            canChange={false}
             reopen={forceOpen}
             onPickStart={() => setForceOpen(false)}
             type={type}
@@ -70,10 +67,6 @@ export const DragAndDropFile = (props: DragAndDropFileProps) => {
             </Box>
           </Box>
         )}
-      </Box>
-
-      <Box>
-        {props.previewURL && <Image source={{ uri: props.previewURL }} height={40} width={30} contentFit="cover" />}
       </Box>
     </Box>
   );

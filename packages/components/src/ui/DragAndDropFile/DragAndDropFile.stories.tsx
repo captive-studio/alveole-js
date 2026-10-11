@@ -1,6 +1,7 @@
+import { useState } from 'react';
 import { Box } from '../../core/Box';
 import { Story } from '../../type';
-import { DragAndDropFile } from './DragAndDropFile';
+import { DragAndDropFile, DragAndDropFileValue } from './DragAndDropFile';
 import { useStyles } from './DragAndDropFile.styles';
 
 export default {
@@ -13,16 +14,35 @@ export default {
   styleFn: useStyles,
 } satisfies Story;
 
-export const Default = () => (
-  <Box display="flex" flexDirection="column" gap={24}>
-    <DragAndDropFile label="Document" value={null} onChange={() => {}} />
-    <DragAndDropFile label="Image uniquement" type="image/*" value={null} onChange={() => {}} />
-  </Box>
-);
+export const Default = () => {
+  const [document, setDocument] = useState<DragAndDropFileValue>(null);
+  const [image, setImage] = useState<DragAndDropFileValue>(null);
+  return (
+    <Box display="flex" flexDirection="column" gap={24}>
+      <DragAndDropFile label="Document" value={document} onChange={setDocument} />
+      <DragAndDropFile label="Image uniquement" type="image/*" value={image} onChange={setImage} />
+    </Box>
+  );
+};
 
-export const Multiple = () => (
-  <DragAndDropFile label="Documents (plusieurs)" multiple value={null} onChange={() => {}} />
-);
+export const Multiple = () => {
+  const [files, setFiles] = useState<DragAndDropFileValue>(null);
+  return <DragAndDropFile label="Documents (plusieurs)" multiple value={files} onChange={setFiles} />;
+};
+
+export const AvecFichiersEnregistres = () => {
+  const [files, setFiles] = useState<DragAndDropFileValue>([
+    {
+      id: '1',
+      persisted: true,
+      uri: 'https://example.com/devis.pdf',
+      name: 'devis.pdf',
+      mimeType: 'application/pdf',
+      lastModified: 0,
+    },
+  ]);
+  return <DragAndDropFile label="Pièces jointes" multiple value={files} onChange={setFiles} />;
+};
 
 export const WithError = () => (
   <DragAndDropFile label="Document" error="Format non supporté" value={null} onChange={() => {}} />
