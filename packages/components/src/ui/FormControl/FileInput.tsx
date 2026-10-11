@@ -1,115 +1,63 @@
 import * as DocumentPicker from 'expo-document-picker';
 import React from 'react';
-import { Pressable } from 'react-native';
+import { Platform } from 'react-native';
 import { Box } from '../../core/Box';
-import { Typography } from '../../core/Typography';
+import { Button } from '../Button';
+import { FileInputLabels, FileInputValue, fichiersVisibles, libellesParDefaut, retire } from './fichiersDuChamp';
 import { useStyles } from './FileInput.styles';
-import { valideLeType } from './valideLeType';
+import { FileInputListe } from './FileInputListe';
+import { useChoixDeFichier } from './useChoixDeFichier';
 
-export type FileInputValue = DocumentPicker.DocumentPickerAsset | DocumentPicker.DocumentPickerAsset[] | null;
+export * from './fichiersDuChamp';
 
 export type FileInputProps = {
   value: FileInputValue;
-  previewURL?: string;
-  placeholder?: string;
-  forcePlaceholder?: boolean;
-  hideButton?: boolean;
-  hideFilename?: boolean;
-  canChange?: boolean;
-  disabled?: boolean;
+  onChange: (value: FileInputValue) => void;
   type?: DocumentPicker.DocumentPickerOptions['type'];
   multiple?: boolean;
-  onChange: (value: FileInputValue) => void;
+  disabled?: boolean;
+  removable?: boolean;
+  hideButton?: boolean;
+  labels?: Partial<FileInputLabels>;
+  /** Qualite des photos prises avec l'appareil photo, de 0 a 1. */
+  cameraQuality?: number;
   reopen?: boolean;
   onPickStart?: () => void;
 };
 
-// Le champ n'affiche jamais le detail d'une selection multiple : un fichier porte son nom, une
-// liste porte son compte. Cette table de cas se lisait au milieu du composant alors qu'elle ne
-// depend que de la valeur.
-export const nomAffiche = (value: FileInputValue, placeholder: string, forcePlaceholder?: boolean) => {
-  if (value == null || forcePlaceholder) return placeholder;
-
-  if (!Array.isArray(value)) return value.name || '1 fichier';
-  if (value.length === 0) return placeholder;
-  if (value.length === 1) return value[0].name ?? '1 fichier';
-
-  return `${value.length} fichiers`;
-};
-
-// Le selecteur rend toujours une liste ; le champ simple n'en veut que le premier element, et
-// une liste vide vaut une absence de choix dans les deux cas.
-export const choisis = (assets: DocumentPicker.DocumentPickerAsset[] | null, multiple: boolean) => {
-  if (!multiple) return assets?.[0] ?? null;
-
-  return assets && assets.length > 0 ? assets : null;
-};
-
 export const FileInput = (props: FileInputProps) => {
-  const {
-    value,
-    disabled,
-    onChange,
-    onPickStart,
-    placeholder = 'Aucun fichier choisi.',
-    type,
-    forcePlaceholder,
-    reopen = false,
-    multiple = false,
-    hideButton = false,
-  } = props;
+  const { value, disabled, onChange, reopen = false, multiple = false, hideButton = false, removable = true } = props;
 
   const styles = useStyles();
+  const labels = React.useMemo(() => ({ ...libellesParDefaut, ...props.labels }), [props.labels]);
+  const choisir = useChoixDeFichier({ ...props, multiple, cameraQuality: props.cameraQuality ?? 0.8, labels });
 
-  const displayValue = nomAffiche(value, placeholder, forcePlaceholder);
-
-  const isPickingRef = React.useRef(false);
-
-  const handlePickFile = React.useCallback(async () => {
-    if (isPickingRef.current) return;
-    onPickStart?.();
-    if (disabled) return;
-
-    isPickingRef.current = true;
-    try {
-      const result = await DocumentPicker.getDocumentAsync({ copyToCacheDirectory: true, multiple, type });
-      valideLeType({ type, onChange })(choisis(result.assets, multiple));
-    } finally {
-      isPickingRef.current = false;
-    }
-  }, [onPickStart, disabled, multiple, type, onChange]);
+  // Le champ simple ne remplace pas un fichier en silence : il faut d'abord retirer celui qu'il montre.
+  const visibles = fichiersVisibles(value);
+  const boutonDesactive = disabled || (!multiple && visibles.length > 0);
 
   React.useEffect(() => {
-    if (reopen) handlePickFile();
-  }, [reopen, handlePickFile]);
-
-  if (hideButton) return null;
+    if (reopen) choisir();
+  }, [reopen, choisir]);
 
   return (
-    <Pressable accessibilityRole="button" onPress={handlePickFile}>
-      <Box
-        tag="form-control-file-input-inner"
-        style={{
-          ...styles.fileInputContainer,
-        }}
-      >
-        <Box
-          tag="file-input-button"
-          hoverStyle={{ ...(!disabled && styles.fileInputButtonHovered) }}
-          style={{
-            ...styles.fileInputButton,
-            ...(disabled && styles.fileInputButtonDisabled),
-          }}
-        >
-          <Typography style={styles.inputFileText}>Choisir un fichier</Typography>
-        </Box>
-
-        <Box tag="file-input-text">
-          <Typography mt={'auto'} mb={'auto'} style={styles.placeholderText}>
-            {displayValue}
-          </Typography>
-        </Box>
-      </Box>
-    </Pressable>
+    <Box tag="file-input" style={styles.container}>
+      {!hideButton && (
+        <Button
+          fullWidth={Platform.OS !== 'web'}
+          onPress={choisir}
+          disabled={boutonDesactive}
+          variant="secondary"
+          title={labels.addFile}
+          leading="Paperclip"
+        />
+      )}
+      <FileInputListe
+        fichiers={visibles}
+        labels={labels}
+        retirable={!disabled && removable}
+        onRetirer={fichier => onChange(retire(value, fichier))}
+      />
+    </Box>
   );
 };

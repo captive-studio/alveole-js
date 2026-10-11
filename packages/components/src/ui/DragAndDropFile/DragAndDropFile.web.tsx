@@ -48,14 +48,7 @@ export const DragAndDropFile = (props: DragAndDropFileProps) => {
 
       <Box tag="drag-and-drop-file-input" display="flex" flexDirection="row" justify="center">
         <Box pt={16}>
-          <FileInput
-            {...props}
-            canChange={false}
-            reopen={depot.forceOpen}
-            onPickStart={depot.fermer}
-            multiple={multiple}
-            type={type}
-          />
+          <FileInput {...props} reopen={depot.forceOpen} onPickStart={depot.fermer} multiple={multiple} type={type} />
         </Box>
       </Box>
 
