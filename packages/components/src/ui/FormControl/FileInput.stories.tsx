@@ -9,7 +9,7 @@ export default {
   tags: ['ui'],
   experimental: false,
   description:
-    'Sélection de fichiers avec validation MIME et liste des fichiers choisis. Sur natif, propose galerie, appareil photo ou document. Nue : on la place dans un FormControl pour son libellé, son aide et sa validation.',
+    "Sélection de fichiers avec validation MIME et liste des fichiers choisis. Sur natif, propose galerie, appareil photo ou document. Nue : on la place dans un FormControl pour son libellé, son aide et sa validation. Pour déposer des fichiers sur tout un formulaire (web), l'envelopper dans une [FileDropZone](/components/FileDropZone).",
   component: FileInput,
   styleFn: useStyles,
 } satisfies Story;
