@@ -21,12 +21,16 @@ export const useStyles = makeStyles(({ color, radius, spacing, text }) => ({
     pointerEvents: 'none',
   },
   // Pastille opaque : le message reste lisible quel que soit le champ qu'il recouvre.
-  message: {
-    ...text['Corps de texte'].MD.Bold,
+  pastille: {
     backgroundColor: color.light.background['default-grey'],
     borderRadius: radius('lg'),
-    paddingHorizontal: spacing('2W'),
-    paddingVertical: spacing('1W'),
+    paddingLeft: spacing('2W'),
+    paddingRight: spacing('2W'),
+    paddingTop: spacing('1W'),
+    paddingBottom: spacing('1W'),
+  },
+  message: {
+    ...text['Corps de texte'].MD.Bold,
     color: color.light.text['default-info'],
   },
 }));

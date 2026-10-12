@@ -11,7 +11,7 @@ export default {
   experimental: false,
   webOnly: true,
   description:
-    'Zone de dépôt : enveloppe une région (souvent tout un formulaire) sur laquelle on peut glisser-déposer des fichiers. Se branche sur le même état que le FileInput du formulaire.',
+    "Zone de dépôt : enveloppe une région (souvent tout un formulaire) sur laquelle on peut glisser-déposer des fichiers. Se branche sur le même état que le FileInput du formulaire. À réserver aux formulaires qui n'ont qu'un seul champ de fichier : avec plusieurs FileInput, l'utilisateur ne peut pas savoir lequel recevra le fichier déposé.",
   component: FileDropZone,
   styleFn: useStyles,
 } satisfies Story;
