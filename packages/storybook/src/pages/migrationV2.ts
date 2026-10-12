@@ -110,7 +110,7 @@ git grep -nE "<(FileInput|DragAndDropFile)\\b"
 Changements de comportement :
 
 - Le champ montre un bouton « Ajouter un fichier » puis la **liste** des fichiers (aperçu, ouverture,
-  retrait). \`DragAndDropFile\` montre la même liste, sans miniature.
+  retrait).
 - Sur natif, le bouton ouvre une feuille **Galerie / Appareil photo / Document** (ajouter
   \`expo-image-picker\`, voir [Dépendances](#1-dependances)).
 - \`multiple\` : une nouvelle sélection ou un dépôt **s'ajoute** aux fichiers déjà présents au lieu de
@@ -119,6 +119,28 @@ Changements de comportement :
 - Retirer un fichier ajouté l'enlève de \`value\` ; retirer un **fichier enregistré** le garde, marqué
   \`removed: true\`, pour le supprimer côté serveur à l'envoi.
 - Annuler le sélecteur n'appelle plus \`onChange(null)\` : la valeur reste inchangée.
+
+### \`DragAndDropFile\` → \`FileDropZone\`
+
+\`DragAndDropFile\` est supprimé. La **zone de dépôt** \`FileDropZone\` enveloppe désormais toute une
+région (souvent le formulaire entier) et se branche sur le même état que le \`FileInput\`. Web
+uniquement : sur natif, elle rend simplement ses enfants. Elle n'ouvre plus le sélecteur au clic :
+c'est le bouton du \`FileInput\` qui s'en charge.
+
+\`\`\`tsx
+// Avant
+<DragAndDropFile label="Pièces jointes" hint="PDF ou image" multiple value={f} onChange={setF} />
+
+// Après
+<FileDropZone value={f} onChange={setF} multiple>
+  <FormControl label="Pièces jointes" hint="PDF ou image">
+    <FileInput value={f} onChange={setF} multiple />
+  </FormControl>
+</FileDropZone>
+\`\`\`
+
+\`label\`, \`hint\`, \`error\`, \`success\` montent sur \`FormControl\` ; \`leading\` disparaît. Pour couvrir
+tout le formulaire, placer \`FileDropZone\` autour du formulaire plutôt qu'autour du seul champ.
 
 ### Piège n°2 : réglages imposés retirés
 
@@ -475,7 +497,6 @@ git grep -nE "startIcon|endIcon|\\bicon[=:]"
 | \`SidebarItem\`                         | \`icon\`                  | \`leading\`              |
 | \`ActionMenu.Item\`                     | \`icon\`                  | \`leading\`              |
 | \`RadioGroupCard\`                      | \`icon\`                  | \`leading\`              |
-| \`DragAndDropFile\`                     | \`icon\`                  | \`leading\`              |
 | \`SelectOption\`                        | \`{ icon }\`              | \`{ leading }\`          |
 | \`ToastView\`, \`toast.present(…, opts)\` | \`icon\`                  | \`leading\`              |
 
@@ -488,7 +509,7 @@ ni \`name\` sur \`LucideIcon\`. Renommage mécanique : la valeur (nom d'icône) 
 <Button variant="secondary" title="Filtres" leading="Plus" trailing="ChevronDown" />
 \`\`\`
 
-\`leading={null}\` retire l'icône par défaut de \`Toast\` et \`DragAndDropFile\`.
+\`leading={null}\` retire l'icône par défaut de \`Toast\`.
 
 ### Noms d'icônes retirés
 

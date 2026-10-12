@@ -15,7 +15,7 @@ const refuser = (plusieurs: boolean) =>
  * et prevenir l'utilisateur sinon. Un fichier dont le type MIME est inconnu passe : c'est au
  * selecteur, qui filtre deja, d'avoir eu le dernier mot.
  *
- * Les trois champs de fichier (l'ancien FileField, DragAndDropFile natif et web) faisaient ce filtrage
+ * Les trois champs de fichier (l'ancien FileField, l'ancien DragAndDropFile natif et web) faisaient ce filtrage
  * chacun dans son coin, et avaient deja diverge : FileField reconnaissait les types avec ses
  * propres comparaisons de chaines, plus laches que celles des deux autres, et ne verifiait que
  * le premier fichier d'une selection multiple. Un meme fichier pouvait donc etre accepte ici et

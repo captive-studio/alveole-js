@@ -25,6 +25,12 @@ _À éviter_ : fichier persisté, `_persisted`.
 Un fichier choisi ou déposé pendant la saisie, pas encore envoyé. Le retirer l'enlève
 de la valeur.
 
+**Zone de dépôt** :
+Une région de l'écran (souvent tout un formulaire) sur laquelle l'utilisateur peut
+glisser-déposer des fichiers. Déposer revient à choisir avec le bouton d'un contrôle de
+fichier : mêmes types acceptés, même ajout à la valeur. Web uniquement.
+_À éviter_ : drag and drop, dropzone quand on parle du contrôle de fichier lui-même.
+
 ## Relations
 
 - Un **Champ** contient exactement un **Contrôle de saisie**.
