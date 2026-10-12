@@ -23,7 +23,9 @@ export const FileDropZone = (props: FileDropZoneProps) => {
       {children}
       {depot.actif && (
         <Box tag="file-drop-zone-overlay" style={styles.surcouche}>
-          <Typography style={styles.message}>{message}</Typography>
+          <Box tag="file-drop-zone-message" style={styles.pastille}>
+            <Typography style={styles.message}>{message}</Typography>
+          </Box>
         </Box>
       )}
     </div>

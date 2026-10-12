@@ -101,6 +101,15 @@ test('refuse un fichier dont le type ne correspond pas', () => {
   expect(onChange).not.toHaveBeenCalled();
 });
 
+test('accepte un fichier du type attendu', () => {
+  const onChange = jest.fn();
+  zone({ onChange, type: 'image/*' });
+
+  fireEvent.drop(laZone(), { dataTransfer: transfert(png('photo.png')) });
+
+  expect(onChange).toHaveBeenCalledWith(expect.objectContaining({ name: 'photo.png' }));
+});
+
 test('ignore survol et depot quand le champ simple montre deja un fichier', () => {
   const onChange = jest.fn();
   zone({ onChange, value: { uri: 'file:///deja.pdf', name: 'deja.pdf', lastModified: 0 } });
