@@ -33,6 +33,10 @@ export type ButtonProps = Omit<PressableProps, 'children' | 'style'> & {
   active?: boolean;
   /** Le bouton commande un menu ou un panneau actuellement deplie. */
   expanded?: boolean;
+  /**
+   * Inutile pour un `onPress` qui rend une promesse : le bouton se verrouille et charge seul
+   * jusqu'a sa fin, ce qui empeche le double envoi d'un formulaire.
+   */
   isLoading?: boolean;
   /**
    * Retard avant que le spinner de `isLoading` ne paraisse. Memes valeurs que la prop `delay`

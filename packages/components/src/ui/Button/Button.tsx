@@ -1,5 +1,5 @@
 import { focusRingProps } from '@alveole/theme';
-import React from 'react';
+import React, { useRef, useState } from 'react';
 import { Pressable, View } from 'react-native';
 import { EtatDuPointeur } from '../pointeur';
 import { useStyles } from './Button.styles';
@@ -9,7 +9,25 @@ import { styleDuPressable } from './buttonStyling';
 
 export * from './Button.types';
 
-export const Button = React.forwardRef<View, ButtonProps>(function Button(props, ref) {
+export const Button = React.forwardRef<View, ButtonProps>(function Button(propsDeLAppelant, ref) {
+  const verrou = useRef(false);
+  const [enCours, setEnCours] = useState(false);
+  // Un onPress qui rend une promesse (soumission de formulaire) verrouille le bouton jusqu'a sa
+  // fin. Le ref ferme la porte des le premier clic, avant que le state n'ait rafraichi le rendu :
+  // le second clic d'un double clic arrive sinon pendant que le bouton parait encore libre.
+  const onPress: ButtonProps['onPress'] = event => {
+    if (verrou.current) return;
+    const resultat: unknown = propsDeLAppelant.onPress?.(event);
+    if (!(resultat instanceof Promise)) return;
+    verrou.current = true;
+    setEnCours(true);
+    const liberer = () => {
+      verrou.current = false;
+      setEnCours(false);
+    };
+    resultat.then(liberer, liberer);
+  };
+  const props = { ...propsDeLAppelant, onPress, isLoading: propsDeLAppelant.isLoading || enCours };
   const { type, disabled, isLoading, active = false, expanded = false, ...buttonProps } = props;
   const styles = useStyles();
   const etat = etatDuBouton(props);
