@@ -18,7 +18,7 @@
     "start:ui-kit:clear": "pnpm --filter @alveole/docs run start -- --clear",
     "doctor": "pnpm --filter @alveole/docs run doctor",
     "doctor:fix": "pnpm --filter @alveole/docs run doctor:fix && pnpm --filter @alveole/components run doctor:fix",
-    "check:dead-code": "pnpm --filter @alveole/components run generate:sources && knip",
+    "check:dead-code": "pnpm --filter @alveole/components --filter @alveole/storybook run generate:sources && knip",
     "check:duplication": "jscpd",
     "check:lint-docs": "pnpm run build:packages && pnpm --filter @alveole/docs run lint:app",
     "check:packages": "scripts/check-packages",
