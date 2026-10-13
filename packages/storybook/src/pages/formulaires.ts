@@ -22,9 +22,7 @@ bordure. \`FormControl\` relie aussi le libellé au contrôle pour les lecteurs 
 reconstruire un champ à la main avec \`FormControlLabel\` et \`FormControlCaption\`.
 
 Les contrôles sont **contrôlés** : \`value\` + \`onChangeText\` pour les textes, \`value\` + \`onChange\`
-pour les autres, \`checked\` + \`onCheckedChange\` pour \`Checkbox\`.
-
-Les \`*Field\` d'Alveole 1.x (\`TextField\`, \`EmailField\`…) n'existent plus : voir le guide Migration v2.`,
+pour les autres, \`checked\` + \`onCheckedChange\` pour \`Checkbox\`.`,
     demo: 'Anatomie',
   },
   {
