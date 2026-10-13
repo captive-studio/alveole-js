@@ -3,6 +3,7 @@ export * from './components/JsonBlock';
 export * from './components/UIKitColumn';
 export * from './components/UIKitTopBar';
 export * from './navigation';
+export * from './pages/FormulairesPage';
 export * from './pages/InstallationPage';
 export * from './pages/MigrationV2Page';
 export * from './pages/PhilosophyPage';

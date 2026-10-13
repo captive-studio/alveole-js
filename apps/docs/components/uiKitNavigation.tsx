@@ -41,6 +41,7 @@ const THEME_PAGES: UIKitColumnItem[] = [
 
 const GUIDE_PAGES: UIKitColumnItem[] = [
   { key: 'installation', title: 'Installation', href: '/guides/installation' },
+  { key: 'formulaires', title: 'Formulaires', href: '/guides/formulaires' },
   { key: 'philosophy', title: 'Philosophie', href: '/guides/philosophy' },
   { key: 'migration-v2', title: 'Migration v2', href: '/guides/migration-v2' },
 ];
