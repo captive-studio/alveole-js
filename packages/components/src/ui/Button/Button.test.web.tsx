@@ -1,4 +1,4 @@
-import { fireEvent, renderWeb, screen } from '@/__tests__/helpers/renderWeb';
+import { act, fireEvent, renderWeb, screen } from '@/__tests__/helpers/renderWeb';
 import { FOCUS_ATTRIBUTE } from '@alveole/theme';
 import { Button } from './Button';
 
@@ -55,4 +55,32 @@ test('demande la bague de focus au theme plutot que de la peindre lui-meme', () 
   renderWeb(<Button variant="primary" title="Enregistrer" />);
 
   expect(screen.getByRole('button').getAttribute(FOCUS_ATTRIBUTE)).toBe('ring');
+});
+
+// Un onPress asynchrone (soumission de formulaire) verrouille le bouton jusqu'a sa fin : le
+// second clic d'un double clic ne relance pas l'envoi, sans que l'appelant gere `isLoading`.
+test('ignore les clics tant que la promesse de onPress est en cours', async () => {
+  let terminer = () => {};
+  const onPress = jest.fn(() => new Promise<void>(resolve => (terminer = resolve)));
+  renderWeb(<Button variant="primary" title="Envoyer" onPress={onPress} />);
+  const bouton = screen.getByRole('button');
+
+  fireEvent.click(bouton);
+  fireEvent.click(bouton);
+  expect(onPress).toHaveBeenCalledTimes(1);
+  expect(bouton.getAttribute('aria-disabled')).toBe('true');
+
+  await act(async () => terminer());
+  fireEvent.click(bouton);
+  expect(onPress).toHaveBeenCalledTimes(2);
+});
+
+test('ne verrouille pas un onPress synchrone', () => {
+  const onPress = jest.fn();
+  renderWeb(<Button variant="primary" title="Envoyer" onPress={onPress} />);
+
+  fireEvent.click(screen.getByRole('button'));
+  fireEvent.click(screen.getByRole('button'));
+
+  expect(onPress).toHaveBeenCalledTimes(2);
 });
