@@ -1,5 +1,6 @@
 import React from 'react';
 import { Box } from '../../core/Box';
+import { Typography } from '../../core/Typography';
 import { Story } from '../../type';
 import { Avatar } from '../Avatar';
 import { Button } from './Button';
@@ -102,6 +103,33 @@ export const Loading = () => {
       <Button variant="primary" title="Enregistrer" isLoading={isLoading} onPress={handlePress} />
       <Button variant="secondary" title="Exporter" leading="Download" isLoading={isLoading} onPress={handlePress} />
       <Button variant="primary" title="Délai court" loadingDelay="short" isLoading={isLoading} onPress={handlePress} />
+    </Box>
+  );
+};
+
+/**
+ * Un `onPress` qui rend une promesse verrouille le bouton jusqu'à sa fin, résolue ou rejetée :
+ * c'est la protection contre la double soumission d'un formulaire. Le verrou est posé dès le
+ * premier clic, avant même le rafraîchissement : le second clic d'un double clic est ignoré.
+ * Pas besoin de gérer `isLoading` : le bouton charge seul, avec le même `loadingDelay`.
+ *
+ * Avec react-hook-form, `onPress={handleSubmit(...)}` suffit, `handleSubmit` rendant une promesse.
+ * Un `onPress` synchrone n'est pas verrouillé.
+ *
+ * Double-cliquez sur le bouton : l'envoi de 3 secondes n'est compté qu'une fois.
+ */
+export const OnPressAsynchrone = () => {
+  const [envois, setEnvois] = React.useState(0);
+
+  const envoyer = async () => {
+    setEnvois(n => n + 1);
+    await new Promise(resolve => setTimeout(resolve, 3000));
+  };
+
+  return (
+    <Box display="flex" flexDirection="row" gap={24} style={{ alignItems: 'center' }}>
+      <Button variant="primary" title="Envoyer" loadingDelay="short" onPress={envoyer} />
+      <Typography>Envois : {envois}</Typography>
     </Box>
   );
 };
