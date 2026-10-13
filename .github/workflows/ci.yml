@@ -115,7 +115,7 @@ jobs:
     runs-on:
       - self-hosted
     timeout-minutes: 45
-    container: ghcr.io/captive-studio/node-ci-chromium:24.21.0@sha256:dc0ac701a00a8f3c72c5d8282504beb2dcfa266743e44a96f051d37ad97c6317
+    container: ghcr.io/captive-studio/node-ci-chromium:24.21.0@sha256:59aac72df31b97f379004642f682e8bae50cb02463da4ced5b1248aa8a59d29e
     steps:
       - name: Checkout
         uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
