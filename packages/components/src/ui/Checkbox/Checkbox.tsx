@@ -10,8 +10,8 @@ import { CheckboxLabel, CheckboxLabelProps } from './CheckboxLabel';
 export type CheckboxProps = CheckboxContainerProps & CheckboxIndicatorProps & CheckboxLabelProps;
 
 export const Checkbox = React.forwardRef<CheckboxElement, CheckboxProps>(function Checkbox(props, ref) {
-  const { size, variant, label, error, success, disabled, onCheckedChange } = props;
-  const baseProps = { size, variant, label, error, success, disabled, onCheckedChange };
+  const { size, variant, label, error, success, disabled } = props;
+  const baseProps = { size, variant, label, error, success, disabled };
 
   const { spacingValue } = useTheme();
   const styles = useStyles();
