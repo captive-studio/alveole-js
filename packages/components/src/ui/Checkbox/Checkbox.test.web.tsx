@@ -30,3 +30,11 @@ test('demande la bague de focus au theme plutot que de la peindre elle-meme', ()
 
   expect(screen.getByRole('checkbox').getAttribute(FOCUS_ATTRIBUTE)).toBe('ring');
 });
+
+test('ne transmet pas onCheckedChange au libelle HTML', () => {
+  const erreur = jest.spyOn(console, 'error').mockImplementation(() => {});
+  renderWeb(<Checkbox label="Accepter" onCheckedChange={() => {}} />);
+
+  expect(erreur.mock.calls.some(args => args.includes('onCheckedChange'))).toBe(false);
+  erreur.mockRestore();
+});
