@@ -1,4 +1,12 @@
 {
   "$schema": "https://docs.renovatebot.com/renovate-schema.json",
-  "extends": ["github>captive-studio/renovate-config:library"]
+  "extends": ["github>captive-studio/renovate-config:library"],
+  "packageRules": [
+    {
+      "matchFileNames": ["tools/compact-icons/**"],
+      "prBodyNotes": [
+        "⚠️ **Icônes `LucideIcon` à régénérer** : cette PR ne met à jour que le générateur. Sur cette branche, lancer `npm ci --prefix tools/compact-icons && npm run generate --prefix tools/compact-icons && npm run verify --prefix tools/compact-icons`, puis committer `packages/components/src/ui/LucideIcon/vendor`. Sans ça, le test `scripts/compact-icons.test.mjs` échoue. Voir `tools/compact-icons/README.md`."
+      ]
+    }
+  ]
 }
