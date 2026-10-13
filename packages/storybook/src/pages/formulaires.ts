@@ -60,8 +60,9 @@ au suivant ; le dernier champ prend \`returnKeyType="done"\`. Choisir le bon \`t
     demo: 'Clavier',
   },
   {
-    titre: 'Avec react-hook-form',
-    markdown: `Alveole ne dépend d'aucune bibliothèque de formulaire. Avec react-hook-form, un \`Controller\` relie
+    titre: 'Recommandation : react-hook-form',
+    markdown: `**Recommandé** : react-hook-form, utilisé dans les applications construites avec Alveole. Alveole
+n'en dépend pas, à installer dans l'application. Un \`Controller\` relie
 chaque champ ; le message vient de \`fieldState.error\` et va, comme toujours, sur \`FormControl\` et
 sur le contrôle.
 
