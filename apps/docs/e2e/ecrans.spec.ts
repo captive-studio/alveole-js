@@ -112,16 +112,19 @@ test.describe('l habillage de la fiche', () => {
   // Une démonstration posée sur le fond de la page flotte ; le gris est déjà pris par le bloc
   // de code en dessous. Une trame sépare ce qu'on montre de la façon de l'écrire.
   test('pose les démonstrations sur une trame', async ({ page }) => {
-    const trames = await page
-      .getByRole('tabpanel')
-      .evaluate(
-        panneau =>
-          Array.from(panneau.querySelectorAll('*')).filter(element =>
-            window.getComputedStyle(element).backgroundImage.includes('radial-gradient'),
-          ).length,
-      );
+    // La démonstration du premier exemple est un bouton ; sa scène est le premier ancêtre qui
+    // porte un fond dessiné.
+    const demonstration = page.getByRole('tabpanel').getByRole('button').first();
+    const fondDeLaScene = await demonstration.evaluate(noeud => {
+      for (let courant = noeud.parentElement; courant; courant = courant.parentElement) {
+        const { backgroundImage } = window.getComputedStyle(courant);
+        if (backgroundImage !== 'none') return backgroundImage;
+      }
 
-    expect(trames).toBeGreaterThan(0);
+      return 'none';
+    });
+
+    expect(fondDeLaScene).toContain('radial-gradient');
   });
 
   // L'état courant de la barre se signale par le contraste et la graisse seuls, sans fond.
