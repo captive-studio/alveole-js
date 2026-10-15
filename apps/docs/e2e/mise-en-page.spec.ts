@@ -1,4 +1,6 @@
 import { expect, test, type Page } from '@playwright/test';
+// L'entrée publique de `@alveole/theme` ne se charge pas sous Node (Playwright) : son `dist`
+// est écrit pour Metro. Le fichier des largeurs n'importe rien, on le lit à sa source.
 import { Grilles } from '../../../packages/theme/src/constants/Grille';
 import { blockThirdParties, openRoute } from './audit';
 
@@ -39,7 +41,20 @@ const miseEnPage = (page: Page) =>
         droite: style(enveloppe).paddingRight,
         haut: style(enveloppe).paddingTop,
       },
-      zone: { maxWidth: style(zone).maxWidth, centree: style(zone).marginLeft === style(zone).marginRight },
+      zone: {
+        maxWidth: style(zone).maxWidth,
+        // Le vide laissé de chaque côté de la zone, à l'intérieur des marges de l'enveloppe.
+        videAGauche: Math.round(
+          zone.getBoundingClientRect().left -
+            enveloppe.getBoundingClientRect().left -
+            parseFloat(style(enveloppe).paddingLeft),
+        ),
+        videADroite: Math.round(
+          enveloppe.getBoundingClientRect().right -
+            parseFloat(style(enveloppe).paddingRight) -
+            zone.getBoundingClientRect().right,
+        ),
+      },
       rangee: { gap: style(rangee).gap, enfants: rangee.children.length },
       volet:
         rangee.children.length > 1
@@ -67,11 +82,14 @@ test.describe('sur un écran large', () => {
 
     const { enveloppe, zone, rangee } = await miseEnPage(page);
 
-    expect({ enveloppe, zone, gap: rangee.gap }).toEqual({
+    expect({ enveloppe, maxWidth: zone.maxWidth, gap: rangee.gap }).toEqual({
       enveloppe: { tag: 'main', gauche: '48px', droite: '48px', haut: '96px' },
-      zone: { maxWidth: `${Grilles['9 colonnes']}px`, centree: true },
+      maxWidth: `${Grilles['9 colonnes']}px`,
       gap: '24px',
     });
+    // Deux vides nuls seraient égaux aussi : la zone doit en laisser un, et le même des deux côtés.
+    expect(zone.videAGauche).toBeGreaterThan(0);
+    expect(zone.videADroite).toBe(zone.videAGauche);
   });
 
   // Le sommaire a deux colonnes et ne les cède pas ; il est déclaré avant le corps et rendu à

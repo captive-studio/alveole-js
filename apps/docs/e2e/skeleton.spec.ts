@@ -19,11 +19,24 @@ test.beforeEach(async ({ page }) => {
   await openRoute(page, '/components/Skeleton');
 });
 
-// L'exemple Paragraphe pose un `<Skeleton />` sans dimension.
+// L'exemple Paragraphe est la seule boîte qui aligne quatre skeletons ; le deuxième n'a aucune
+// dimension.
 test('rend un bloc de 16 px sur toute la largeur par défaut', async ({ page }) => {
-  const parDefaut = (await blocs(page)).filter(({ largeur, hauteur, parent }) => hauteur === 16 && largeur === parent);
+  const parDefaut = await page.getByRole('main').evaluate(main => {
+    const paragraphe = Array.from(main.querySelectorAll('skeleton'))
+      .map(bloc => bloc.parentElement!)
+      .find(boite => boite.querySelectorAll(':scope > skeleton').length === 4);
+    if (!paragraphe) throw new Error('exemple Paragraphe introuvable');
 
-  expect(parDefaut.length).toBeGreaterThan(0);
+    const bloc = paragraphe.children[1].getBoundingClientRect();
+
+    return { largeur: bloc.width, hauteur: bloc.height, parent: paragraphe.getBoundingClientRect().width };
+  });
+
+  expect({ hauteur: parDefaut.hauteur, largeur: parDefaut.largeur }).toEqual({
+    hauteur: 16,
+    largeur: parDefaut.parent,
+  });
 });
 
 // L'exemple Carré demande 64 × 64.
