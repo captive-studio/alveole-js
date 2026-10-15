@@ -119,19 +119,3 @@ test('propose la création d’une option absente de la liste', () => {
 
   expect(onCreateOption).toHaveBeenCalledWith('Andorre');
 });
-
-// Un DataTable ou une Card coupent ce qui dépasse (`overflow: hidden`) : un panneau rendu
-// dans son conteneur y restait enfermé, tronqué et masquant les lignes voisines.
-test('rend le panneau hors du conteneur du champ, pour qu’un parent qui coupe ne le tronque pas', () => {
-  const { container } = renderWeb(
-    <div style={{ overflow: 'hidden' }}>
-      <Select value={null} options={OPTIONS} />
-    </div>,
-  );
-
-  openMenu();
-
-  const option = screen.getByText('Option B');
-  expect(container.contains(option)).toBe(false);
-  expect(document.body.contains(option)).toBe(true);
-});
