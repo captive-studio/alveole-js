@@ -24,6 +24,7 @@ export const PriceInput = React.forwardRef<NumberInputElement, PriceInputProps>(
           ref={ref}
           id={useFieldId()}
           autoFocus={autoFocus}
+          disabled={disabled}
           className="alveole-price-input"
           style={{
             ...styles.input,

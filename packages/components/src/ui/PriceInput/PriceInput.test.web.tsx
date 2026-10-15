@@ -11,3 +11,13 @@ test('associe le libellé du FormControl au champ', () => {
 
   expect(screen.getByLabelText('Prix')).toBeTruthy();
 });
+
+test('désactive le champ', () => {
+  renderWeb(
+    <FormControl label="Prix">
+      <PriceInput value={null} disabled />
+    </FormControl>,
+  );
+
+  expect(screen.getByLabelText('Prix')).toHaveProperty('disabled', true);
+});
