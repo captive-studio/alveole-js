@@ -18,6 +18,13 @@ Un cas d'usage affichable d'un composant, rendu dans sa fiche. Un composant en
 présente plusieurs (variants, tailles, états).
 _Éviter_ : story, cas, démo. Le type est `StoryExample`.
 
+**Exemple d'axe** :
+Un exemple qui montre une seule valeur d'un axe de variante (variante, taille,
+état, contenu de tête…), nommé comme la prop du code et l'axe Figma qu'il
+représente. Il vit dans la fiche du composant, à côté des autres exemples, et sert
+de point de mesure aux écarts de maquette.
+_Éviter_ : story de feature, matrice, story dev.
+
 **Bloc d'exemple** :
 Le cadre qui présente un exemple dans une fiche : la démonstration, puis une
 barre de commandes, puis sa source. Un seul cadre par exemple. Le titre et la

@@ -19,6 +19,16 @@ chiffrée, et une différence n'est ni une amélioration ni une dégradation mai
 changement qui demande un jugement humain.
 _Éviter_ : capture, snapshot, screenshot de référence.
 
+**Écart de maquette** :
+Une propriété d'un élément de composant (hauteur, marge intérieure, police,
+graisse, couleur, rayon, bordure) dont la valeur relevée dans le catalogue, en
+navigateur réel, diffère de celle du nœud Figma correspondant. Ni Figma ni le code
+ne fait foi : l'écart constate une divergence, il ne désigne pas le fautif. Un écart
+n'est jamais accepté : il se règle, soit en corrigeant le code, soit en alignant
+Figma sur une décision prise dans le code. Se
+distingue de la différence de cliché, qui compare deux rendus du code entre eux.
+_Éviter_ : désynchro, régression, bug visuel.
+
 **Exigence** :
 Une borne chiffrée posée au niveau voulu et non au niveau constaté. Contrairement
 au cliquet, aucune mesure ne la déplace : quand le code la dépasse, c'est au code
