@@ -1,6 +1,6 @@
 import { expect, test, type Page } from '@playwright/test';
 import { blockThirdParties, openRoute } from './audit';
-import { bords, cadresAutourDe, separationEntre, tailleDeTexte } from './mesures';
+import { bords, cadresAutourDe, separationEntre, tailleDeTexte, valeurCalculee } from './mesures';
 
 // Les mesures de mise en page des écrans du catalogue, montées de jsdom au navigateur
 // (ADR 0027). Le contrat de ces écrans (rôles, noms, interactions) reste dans les suites
@@ -14,13 +14,14 @@ test.beforeEach(async ({ page }) => {
 // des exemples. Un renommage ferait échouer l'ouverture, pas passer le test en silence.
 const FICHE = '/components/Button';
 
+const description = (page: Page) => page.getByText('Boutons de type Pressable');
+
 test.describe('la fiche', () => {
   test.beforeEach(async ({ page }) => {
     await openRoute(page, FICHE);
   });
 
   const titre = (page: Page) => page.getByRole('heading', { level: 1 });
-  const description = (page: Page) => page.getByText('Boutons de type Pressable');
   const lienFigma = (page: Page) => page.getByRole('link', { name: 'Ouvrir Figma' });
 
   // Ni Primer ni Atlassian n'encadrent le haut d'une fiche : la description y est du texte
@@ -92,6 +93,43 @@ test.describe('la fiche', () => {
     const titreDExemple = page.getByRole('tabpanel').locator('[id]').first();
 
     expect(await cadresAutourDe(titreDExemple)).toBe(0);
+  });
+});
+
+// Les couleurs, la trame et la graisse que pose le catalogue autour de ce qu'il documente.
+test.describe('l habillage de la fiche', () => {
+  test.beforeEach(async ({ page }) => {
+    await openRoute(page, FICHE);
+  });
+
+  // Le gris par défaut ferait de la description un second titre : elle se lit en retrait.
+  test('affiche la description en gris mention', async ({ page }) => {
+    const attendue = await valeurCalculee(page, 'color', 'var(--text-mention-grey)');
+
+    expect(await description(page).evaluate(noeud => window.getComputedStyle(noeud).color)).toBe(attendue);
+  });
+
+  // Une démonstration posée sur le fond de la page flotte ; le gris est déjà pris par le bloc
+  // de code en dessous. Une trame sépare ce qu'on montre de la façon de l'écrire.
+  test('pose les démonstrations sur une trame', async ({ page }) => {
+    const trames = await page
+      .getByRole('tabpanel')
+      .evaluate(
+        panneau =>
+          Array.from(panneau.querySelectorAll('*')).filter(element =>
+            window.getComputedStyle(element).backgroundImage.includes('radial-gradient'),
+          ).length,
+      );
+
+    expect(trames).toBeGreaterThan(0);
+  });
+
+  // L'état courant de la barre se signale par le contraste et la graisse seuls, sans fond.
+  test('affiche la rubrique active de la barre en graisse medium', async ({ page }) => {
+    const attendue = await valeurCalculee(page, 'fontWeight', 'var(--typography-corps-de-texte-md-medium-font-weight)');
+    const libelle = page.locator('header a[aria-current="page"] typography').first();
+
+    expect(await libelle.evaluate(noeud => window.getComputedStyle(noeud).fontWeight)).toBe(attendue);
   });
 });
 
