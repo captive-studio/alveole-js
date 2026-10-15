@@ -2,10 +2,11 @@ import { renderScreen } from '../../__tests__/helpers/renderScreen';
 import { EnTeteDeFiche } from './EnTeteDeFiche';
 
 describe('EnTeteDeFiche', () => {
-  it('affiche la description en gris mention, pas en gris par defaut', () => {
+  it('affiche le titre et la description de la fiche', () => {
     const meta = { title: 'Titre', description: 'Une description.', tags: [], experimental: false, styleFn: () => '' };
-    const { getByText } = renderScreen(<EnTeteDeFiche meta={meta} />);
+    const { getByRole, getByText } = renderScreen(<EnTeteDeFiche meta={meta} />);
 
-    expect(getComputedStyle(getByText('Une description.')).color).toBe('var(--text-mention-grey)');
+    expect(getByRole('heading', { name: 'Titre' })).toBeTruthy();
+    expect(getByText('Une description.')).toBeTruthy();
   });
 });

@@ -63,7 +63,7 @@ export const bords = async (element: Locator) => {
  * Ce que vaut, calculée, une valeur du thème posée sur une propriété CSS : la variable se résout
  * sur une sonde, comme pour `tailleDeTexte`.
  */
-export const valeurCalculee = (page: Page, propriete: 'color' | 'borderTopLeftRadius', valeur: string) =>
+export const valeurCalculee = (page: Page, propriete: 'color' | 'borderTopLeftRadius' | 'fontWeight', valeur: string) =>
   page.evaluate(
     ([nom, css]) => {
       const sonde = document.createElement('div');
