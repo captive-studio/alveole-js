@@ -11,7 +11,8 @@ export const useStyles = makeStyles(({ spacing, color, radius }) => ({
     borderStyle: 'solid',
     boxSizing: 'border-box',
     borderRadius: radius('md'),
-    overflow: 'hidden',
+    // Pas d'overflow: hidden : il dérangeait la mise en page du contenu de la carte (cartes
+    // de Projet du dashboard, pricer de Groove). Card.Media arrondit lui-même ses coins.
   },
   // Dans une `Grid.Column`, la carte prend la hauteur de la ligne.
   fill: {
