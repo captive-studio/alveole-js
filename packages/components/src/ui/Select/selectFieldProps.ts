@@ -42,6 +42,9 @@ export const selectFieldProps = (params: SelectFieldPropsParams): ReactSelectPro
     closeMenuOnSelect: !multiple,
     // Les options déjà retenues restent listées, comme dans le bottom sheet.
     hideSelectedOptions: false,
+    // Le panneau sort du conteneur du champ : un parent qui coupe ce qui dépasse
+    // (DataTable, Card) le tronquait et le laissait masquer les lignes voisines.
+    menuPortalTarget: typeof document === 'undefined' ? undefined : document.body,
     filterOption: localFilter === false ? () => true : undefined,
     loadingMessage: () => params.loadingMessage,
     noOptionsMessage: () => params.emptyMessage,
