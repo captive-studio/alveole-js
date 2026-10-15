@@ -46,8 +46,6 @@ export const selectStylesConfig = (
     marginTop: 4,
     overflow: 'hidden',
   }),
-  // Rendu dans le body, le panneau doit passer au-dessus de tout, BottomSheet et modales comprises.
-  menuPortal: base => ({ ...base, zIndex: 100_000 }),
   menuList: base => ({ ...base, padding: 0, maxHeight: SELECT_ROW_HEIGHT * 9 }),
   // Le fond et l'espacement appartiennent à SelectItem : react-select ne doit pas les doubler.
   option: () => ({ padding: 0, backgroundColor: 'transparent' }),
