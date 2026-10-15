@@ -26,10 +26,7 @@ const panneau = ({ text, color, spacing, radius, shadows }: Theme) =>
     panel: {
       paddingTop: spacing('1W'),
       paddingBottom: spacing('1W'),
-      borderRadius: radius('md'),
-      borderWidth: 1,
-      borderStyle: 'solid',
-      borderColor: color.light.border['default-grey'],
+      borderRadius: radius('lg'),
       backgroundColor: color.light.background['default-grey'],
       overflow: 'hidden',
       ...shadows('lifted'),
@@ -114,8 +111,9 @@ const contenuDeLaLigne = ({ text, color, spacingValue }: Theme) =>
     },
   }) satisfies Table;
 
-// Visuel de la case a cocher en multi-selection : reprend les tokens de `Checkbox` taille sm
+// Visuel de la case a cocher en multi-selection : reprend la geometrie de `Checkbox` taille sm
 // (voir `Checkbox.styles.ts`) sans en etre une instance, la ligne restant seule pressable.
+// Au repos, bordure grise comme chez Primer : la couleur d'action n'arrive qu'a la coche.
 const caseACocher = ({ color, spacingValue, radius }: Theme) =>
   ({
     checkbox: {
@@ -127,11 +125,12 @@ const caseACocher = ({ color, spacingValue, radius }: Theme) =>
       width: spacingValue('100'),
       borderWidth: 1,
       borderStyle: 'solid',
-      borderColor: color.light.border['action-high-primary'],
+      borderColor: color.light.border['contrast-grey'],
       borderRadius: radius('sm'),
       backgroundColor: 'transparent',
     },
     checkboxChecked: {
+      borderColor: color.light.border['action-high-primary'],
       backgroundColor: color.light.background['action-high-primary'],
     },
     checkboxDisabled: {

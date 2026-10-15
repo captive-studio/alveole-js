@@ -79,3 +79,34 @@ test('aligne les en-tetes de groupe sur le contenu des options', () => {
     droite: 'var(--spacing-2w)',
   });
 });
+
+// Primer detache son panneau par l'ombre seule : la bordure de 1 px doublait le contour.
+test('ne trace pas de bordure autour du panneau', () => {
+  const { result } = renderHookOnDesktop(() => useStyles());
+
+  expect(result.current.panel).not.toHaveProperty('borderWidth');
+});
+
+// Primer arrondit ses surfaces flottantes un cran au-dessus de ses controles.
+test('arrondit le panneau au grand rayon', () => {
+  const { result } = renderHookOnDesktop(() => useStyles());
+
+  expect(result.current.panel.borderRadius).toBe('var(--radius-lg)');
+});
+
+// Bordee de la couleur d'action, chaque case vide paraissait deja active : au repos, Primer la
+// borde d'un gris appuye.
+test('borde de gris la case a cocher au repos', () => {
+  const { result } = renderHookOnDesktop(() => ({ styles: useStyles(), theme: useTheme() }));
+
+  expect(result.current.styles.checkbox.borderColor).toBe(result.current.theme.color.light.border['contrast-grey']);
+});
+
+// Le gris du repos ne doit pas cercler le fond plein d'une case cochee.
+test('borde de la couleur d action la case cochee', () => {
+  const { result } = renderHookOnDesktop(() => ({ styles: useStyles(), theme: useTheme() }));
+
+  expect(result.current.styles.checkboxChecked.borderColor).toBe(
+    result.current.theme.color.light.border['action-high-primary'],
+  );
+});
