@@ -18,11 +18,7 @@ export type Controle = {
   cadre: Cadre;
   /** Le champ de prix n'a qu'un trait sous le montant en guise de cadre. */
   cote?: 'Top' | 'Bottom';
-  /**
-   * L'anneau encastré attendu, lu tel que rendu : son écart, ou `aucun` pour le champ de
-   * prix, dont `containerFocused` ne reprend de `focusBorder()` que l'épaisseur et la
-   * couleur, pour les poser sur son trait du bas.
-   */
+  /** L'anneau encastré attendu, lu tel que rendu : son écart. */
   anneau: string;
 };
 
@@ -45,7 +41,7 @@ export const CONTROLES: Record<string, Controle> = {
     champ: `.alveole-price-input${MODIFIABLE}`,
     cadre: 'grandParent',
     cote: 'Bottom',
-    anneau: 'aucun',
+    anneau: ENCASTRE,
   },
   Select: selecteur,
   OtpInput: { champ: `[data-testid="otp-input-hidden"]${MODIFIABLE}`, cadre: 'otp', anneau: ENCASTRE },
