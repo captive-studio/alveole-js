@@ -21,3 +21,13 @@ test('désactive le champ', () => {
 
   expect(screen.getByLabelText('Prix')).toHaveProperty('disabled', true);
 });
+
+test('donne au champ la largeur exacte de ses chiffres', () => {
+  renderWeb(
+    <FormControl label="Prix">
+      <PriceInput value={1250} />
+    </FormControl>,
+  );
+
+  expect((screen.getByLabelText('Prix') as HTMLInputElement).style.width).toBe('4ch');
+});
