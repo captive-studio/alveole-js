@@ -30,4 +30,18 @@ export const Default = () => {
   );
 };
 
+export const States = () => (
+  <Box display="flex" flexDirection="column" gap={24}>
+    <FormControl label="Erreur" error="Montant requis">
+      <PriceInput value={null} error="Montant requis" onChange={() => {}} />
+    </FormControl>
+    <FormControl label="Succès" success="Enregistré">
+      <PriceInput value={1250} success="Enregistré" onChange={() => {}} />
+    </FormControl>
+    <FormControl label="Désactivé" disabled>
+      <PriceInput value={1250} disabled onChange={() => {}} />
+    </FormControl>
+  </Box>
+);
+
 export * as Sources from './PriceInput.stories.sources';
