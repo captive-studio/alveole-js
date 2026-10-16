@@ -3,12 +3,13 @@ import { Box } from '../../core/Box';
 import { Typography } from '../../core/Typography';
 import { NumberInputElement, useFieldId } from '../FormControl';
 import { useFieldFocus } from '../FormControl/useFieldFocus';
+import { cadrePrix } from './cadrePrix';
 import type { PriceInputProps } from './PriceInput';
 import { useStyles } from './PriceInput.styles';
 import { useSaisieMontant } from './useSaisieMontant';
 
 export const PriceInput = React.forwardRef<NumberInputElement, PriceInputProps>(function PriceInput(props, ref) {
-  const { devise, autoFocus, value, disabled, readOnly, onChange } = props;
+  const { devise, autoFocus, value, disabled, readOnly, error, success, onChange } = props;
 
   const styles = useStyles();
   const champ = useFieldFocus({ disabled, readOnly });
@@ -18,7 +19,7 @@ export const PriceInput = React.forwardRef<NumberInputElement, PriceInputProps>(
   const largeur = `${affichage.length || 1}ch`;
 
   return (
-    <Box tag="price-input" style={{ ...styles.container, ...(champ.focus ? styles.containerFocused : {}) }}>
+    <Box tag="price-input" style={cadrePrix(styles, { focus: champ.focus, disabled, error, success })}>
       <Box tag="price-input-container" style={styles.priceInputContainer}>
         <input
           ref={ref}

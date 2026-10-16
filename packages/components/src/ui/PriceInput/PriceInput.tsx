@@ -21,7 +21,7 @@ export const PriceInput = React.forwardRef<TextInputElement, PriceInputProps>(fu
   const numberLength = value ? String(value).length : 1;
 
   return (
-    <Box tag="price-input" style={{ ...styles.container, ...(champ.focus ? styles.containerFocused : {}) }}>
+    <Box tag="price-input" style={{ ...styles.container, ...(champ.focus ? styles.inputFocused : {}) }}>
       <Box tag="price-input-container" style={styles.priceInputContainer}>
         <ReactNativeTextInput
           ref={ref}
