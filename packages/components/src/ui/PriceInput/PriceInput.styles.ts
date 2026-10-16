@@ -11,11 +11,20 @@ export const useStyles = makeStyles(({ text, color, spacing }) => ({
   },
   // Le champ de prix n'a qu'un trait sous le montant en guise de cadre : le focus le recolore,
   // et l'anneau encastre des autres champs (ADR 0017) entoure la zone du montant.
-  containerFocused: (({ borderWidth, borderColor, ...anneau }) => ({
+  inputFocused: (({ borderWidth, borderColor, ...anneau }) => ({
     ...anneau,
     borderBottomWidth: borderWidth,
     borderBottomColor: borderColor,
   }))(focusBorder()),
+  inputError: {
+    borderBottomColor: color.light.border['plain-error'],
+  },
+  inputSuccess: {
+    borderBottomColor: color.light.border['plain-success'],
+  },
+  inputDisabled: {
+    borderBottomColor: color.light.border['disabled-grey'],
+  },
   priceInputContainer: {
     display: 'flex',
     flexDirection: 'row',
