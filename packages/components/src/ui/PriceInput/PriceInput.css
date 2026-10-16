@@ -1,9 +1,0 @@
-.alveole-price-input::-webkit-inner-spin-button,
-.alveole-price-input::-webkit-outer-spin-button {
-  -webkit-appearance: none;
-  margin: 0;
-}
-
-.alveole-price-input {
-  -moz-appearance: textfield;
-}

@@ -4,10 +4,8 @@ import { Typography } from '../../core/Typography';
 import { NumberInputElement, useFieldId } from '../FormControl';
 import { useFieldFocus } from '../FormControl/useFieldFocus';
 import type { PriceInputProps } from './PriceInput';
-import './PriceInput.css';
 import { useStyles } from './PriceInput.styles';
-
-const MAX_VALUE = 99_999_999;
+import { useSaisieMontant } from './useSaisieMontant';
 
 export const PriceInput = React.forwardRef<NumberInputElement, PriceInputProps>(function PriceInput(props, ref) {
   const { devise, autoFocus, value, disabled, readOnly, onChange } = props;
@@ -15,7 +13,9 @@ export const PriceInput = React.forwardRef<NumberInputElement, PriceInputProps>(
   const styles = useStyles();
   const champ = useFieldFocus({ disabled, readOnly });
 
-  const numberLength = value ? String(value).length : 1;
+  const { affichage, saisir } = useSaisieMontant(value, onChange);
+  // Avec des chiffres tabulaires, un caractère occupe au plus 1 ch.
+  const largeur = `${affichage.length || 1}ch`;
 
   return (
     <Box tag="price-input" style={{ ...styles.container, ...(champ.focus ? styles.containerFocused : {}) }}>
@@ -29,20 +29,17 @@ export const PriceInput = React.forwardRef<NumberInputElement, PriceInputProps>(
           style={{
             ...styles.input,
             fontVariantNumeric: 'tabular-nums',
-            width: `${numberLength}ch`,
+            width: largeur,
             lineHeight: 'inherit',
             maxWidth: '100%',
           }}
-          value={value ?? ''}
+          value={affichage}
           placeholder="0"
-          onChange={e => {
-            const newValue = e.target.value;
-            onChange?.(newValue === '' ? null : Number(newValue));
-          }}
+          onChange={e => saisir(e.target.value)}
           onFocus={champ.handleFocus}
           onBlur={champ.handleBlur}
-          type="number"
-          max={MAX_VALUE}
+          type="text"
+          inputMode="decimal"
         />
 
         <Typography style={styles.inputDevise}>{devise || '€'}</Typography>
