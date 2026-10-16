@@ -29,7 +29,7 @@ export const PriceInput = React.forwardRef<NumberInputElement, PriceInputProps>(
           style={{
             ...styles.input,
             fontVariantNumeric: 'tabular-nums',
-            width: numberLength * 36,
+            width: `${numberLength}ch`,
             lineHeight: 'inherit',
             maxWidth: '100%',
           }}
