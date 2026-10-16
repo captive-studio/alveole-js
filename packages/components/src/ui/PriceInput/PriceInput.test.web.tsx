@@ -3,6 +3,16 @@ import { useState } from 'react';
 import { FormControl } from '../FormControl';
 import { PriceInput } from './PriceInput';
 
+// Un parent qui pilote le montant comme une app : il renvoie au champ ce que onChange lui donne.
+const Pilote = () => {
+  const [montant, setMontant] = useState<number | null>(null);
+  return (
+    <FormControl label="Prix">
+      <PriceInput value={montant} onChange={setMontant} />
+    </FormControl>
+  );
+};
+
 test('associe le libellé du FormControl au champ', () => {
   renderWeb(
     <FormControl label="Prix">
@@ -73,14 +83,6 @@ test('refuse une troisième décimale', () => {
 });
 
 test('garde la virgule tapée en attendant la décimale', () => {
-  const Pilote = () => {
-    const [montant, setMontant] = useState<number | null>(null);
-    return (
-      <FormControl label="Prix">
-        <PriceInput value={montant} onChange={setMontant} />
-      </FormControl>
-    );
-  };
   renderWeb(<Pilote />);
   const champ = screen.getByLabelText('Prix') as HTMLInputElement;
 
@@ -91,18 +93,20 @@ test('garde la virgule tapée en attendant la décimale', () => {
 });
 
 test('élargit le champ au texte tapé, centimes compris', () => {
-  const Pilote = () => {
-    const [montant, setMontant] = useState<number | null>(null);
-    return (
-      <FormControl label="Prix">
-        <PriceInput value={montant} onChange={setMontant} />
-      </FormControl>
-    );
-  };
   renderWeb(<Pilote />);
   const champ = screen.getByLabelText('Prix') as HTMLInputElement;
 
   fireEvent.change(champ, { target: { value: '12,50' } });
 
   expect(champ.style.width).toBe('5ch');
+});
+
+test('passe le champ en lecture seule', () => {
+  renderWeb(
+    <FormControl label="Prix">
+      <PriceInput value={12} readOnly />
+    </FormControl>,
+  );
+
+  expect(screen.getByLabelText('Prix')).toHaveProperty('readOnly', true);
 });
