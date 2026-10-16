@@ -10,10 +10,6 @@ test.beforeEach(async ({ page }) => {
 // prend le token de focus sans s'épaissir, rien ne déborde du cadre, et le repos revient au
 // blur. L'amendement de l'ADR 0016 rend un anneau aux champs, mais encastré : l'invariant
 // tient à l'écart négatif et à l'absence d'ombre, non à l'absence de contour.
-//
-// Le champ de prix fait exception : son `containerFocused` ne reprend de `focusBorder()`
-// que l'épaisseur et la couleur. Il n'a donc pas d'anneau du tout, et la ligne ci-dessous
-// fige le rendu réel : elle tombera le jour où il en recevra un.
 for (const [nom, controle] of Object.entries(CONTROLES)) {
   test(`focus ${nom}`, async ({ page }) => {
     await openRoute(page, `/components/${nom}`);

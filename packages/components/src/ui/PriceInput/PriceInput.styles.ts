@@ -9,12 +9,13 @@ export const useStyles = makeStyles(({ text, color, spacing }) => ({
     borderBottomColor: color.light.border['plain-grey'],
     paddingBottom: spacing('1W'),
   },
-  // Le champ de prix n'a qu'un trait sous le montant en guise de cadre : c'est donc lui que
-  // le focus recolore, avec la meme definition que la bordure complete des autres champs.
-  containerFocused: {
-    borderBottomWidth: focusBorder().borderWidth,
-    borderBottomColor: focusBorder().borderColor,
-  },
+  // Le champ de prix n'a qu'un trait sous le montant en guise de cadre : le focus le recolore,
+  // et l'anneau encastre des autres champs (ADR 0017) entoure la zone du montant.
+  containerFocused: (({ borderWidth, borderColor, ...anneau }) => ({
+    ...anneau,
+    borderBottomWidth: borderWidth,
+    borderBottomColor: borderColor,
+  }))(focusBorder()),
   priceInputContainer: {
     display: 'flex',
     flexDirection: 'row',
@@ -23,6 +24,8 @@ export const useStyles = makeStyles(({ text, color, spacing }) => ({
   input: {
     outline: 'none',
     borderWidth: 0,
+    // Le blanc par defaut d'un <input> recouvrirait l'anneau encastre du cadre.
+    backgroundColor: 'transparent',
     textAlign: 'center',
     color: color.light.text['title-grey'],
     fontFamily: text['Titres alternatifs'].MD.fontFamily,

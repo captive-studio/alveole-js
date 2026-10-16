@@ -148,3 +148,16 @@ test('grise le fond d un champ désactivé', async ({ page }) => {
 
   expect(fond).toBe('rgb(230, 234, 241)');
 });
+
+// L'anneau de focus du PriceInput est encastré dans la zone du montant (ADR 0017) : le fond
+// blanc que le navigateur donne à un `<input>` le recouvrait sur toute la largeur du chiffre.
+test('laisse voir l anneau de focus du PriceInput sous son montant', async ({ page }) => {
+  await openRoute(page, '/components/PriceInput');
+
+  const fond = await dansLaFiche(page)
+    .locator('.alveole-price-input')
+    .first()
+    .evaluate(champ => getComputedStyle(champ).backgroundColor);
+
+  expect(fond).toBe('rgba(0, 0, 0, 0)');
+});
