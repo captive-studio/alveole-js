@@ -1,4 +1,5 @@
-import { renderWeb, screen } from '@/__tests__/helpers/renderWeb';
+import { fireEvent, renderWeb, screen } from '@/__tests__/helpers/renderWeb';
+import { useState } from 'react';
 import { FormControl } from '../FormControl';
 import { PriceInput } from './PriceInput';
 
@@ -30,4 +31,78 @@ test('donne au champ la largeur exacte de ses chiffres', () => {
   );
 
   expect((screen.getByLabelText('Prix') as HTMLInputElement).style.width).toBe('4ch');
+});
+
+test('lit la virgule comme séparateur décimal', () => {
+  const onChange = jest.fn();
+  renderWeb(
+    <FormControl label="Prix">
+      <PriceInput value={null} onChange={onChange} />
+    </FormControl>,
+  );
+
+  fireEvent.change(screen.getByLabelText('Prix'), { target: { value: '12,5' } });
+
+  expect(onChange).toHaveBeenCalledWith(12.5);
+});
+
+test('ignore une frappe qui ne forme pas un montant', () => {
+  const onChange = jest.fn();
+  renderWeb(
+    <FormControl label="Prix">
+      <PriceInput value={12} onChange={onChange} />
+    </FormControl>,
+  );
+
+  fireEvent.change(screen.getByLabelText('Prix'), { target: { value: '12e' } });
+
+  expect(onChange).not.toHaveBeenCalled();
+});
+
+test('refuse une troisième décimale', () => {
+  const onChange = jest.fn();
+  renderWeb(
+    <FormControl label="Prix">
+      <PriceInput value={12.34} onChange={onChange} />
+    </FormControl>,
+  );
+
+  fireEvent.change(screen.getByLabelText('Prix'), { target: { value: '12.345' } });
+
+  expect(onChange).not.toHaveBeenCalled();
+});
+
+test('garde la virgule tapée en attendant la décimale', () => {
+  const Pilote = () => {
+    const [montant, setMontant] = useState<number | null>(null);
+    return (
+      <FormControl label="Prix">
+        <PriceInput value={montant} onChange={setMontant} />
+      </FormControl>
+    );
+  };
+  renderWeb(<Pilote />);
+  const champ = screen.getByLabelText('Prix') as HTMLInputElement;
+
+  fireEvent.change(champ, { target: { value: '12' } });
+  fireEvent.change(champ, { target: { value: '12,' } });
+
+  expect(champ.value).toBe('12,');
+});
+
+test('élargit le champ au texte tapé, centimes compris', () => {
+  const Pilote = () => {
+    const [montant, setMontant] = useState<number | null>(null);
+    return (
+      <FormControl label="Prix">
+        <PriceInput value={montant} onChange={setMontant} />
+      </FormControl>
+    );
+  };
+  renderWeb(<Pilote />);
+  const champ = screen.getByLabelText('Prix') as HTMLInputElement;
+
+  fireEvent.change(champ, { target: { value: '12,50' } });
+
+  expect(champ.style.width).toBe('5ch');
 });
