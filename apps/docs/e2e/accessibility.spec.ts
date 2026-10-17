@@ -1,6 +1,7 @@
 import { expect, test } from '@playwright/test';
 import { auditNavigation, auditRoute, blockThirdParties, openRoute } from './audit';
 import { BASELINE_PATH, NAVIGATION_KEY, compare, load } from './baseline';
+import { FROZEN_TIME, animatedZones, revealWhole, snapshotName } from './cliches';
 import { auditedRoutes, navigationRoute } from './pages';
 import { countByRule, describeTargets } from './violations';
 
@@ -8,15 +9,25 @@ const baseline = load(BASELINE_PATH);
 
 test.beforeEach(async ({ page }) => {
   await blockThirdParties(page);
+  await page.clock.setFixedTime(FROZEN_TIME);
 });
 
 for (const route of auditedRoutes()) {
-  test(`accessibilité ${route}`, async ({ page }) => {
+  test(`accessibilité et rendu ${route}`, async ({ page }) => {
     const violations = await auditRoute(page, route);
 
     const gaps = compare(countByRule(violations), baseline[route] ?? {});
 
-    expect(gaps, `${route}\n${describeTargets(violations)}`).toEqual([]);
+    expect.soft(gaps, `${route}\n${describeTargets(violations)}`).toEqual([]);
+
+    // La page vient d'être attendue jusqu'à ses images pour l'audit : la capturer ici ne
+    // coûte que la capture. Seul le repère <main> est comparé, le gabarit autour change
+    // trop souvent pour ce qu'il apprendrait (ADR 0011).
+    const main = page.getByRole('main');
+    await revealWhole(page, main);
+    const mask = animatedZones(route).map(selector => main.locator(selector));
+
+    await expect(main).toHaveScreenshot(snapshotName(route), { mask });
   });
 }
 

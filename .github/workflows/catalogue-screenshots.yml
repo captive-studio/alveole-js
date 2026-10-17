@@ -1,0 +1,92 @@
+name: Regenerate catalogue screenshots
+# Seule manière de produire les clichés du catalogue : le conteneur épinglé fixe le fuseau,
+# les polices et le moteur de rendu, qu'aucune machine de développement ne reproduit
+# (ADR 0011). On choisit la branche dans « Use workflow from » ; les clichés changés y sont
+# poussés, et ce geste vaut validation de la différence.
+on:
+  workflow_dispatch: null
+concurrency:
+  group: catalogue-screenshots-${{ github.ref }}
+jobs:
+  regenerate:
+    name: Regenerate catalogue screenshots
+    if: github.ref != 'refs/heads/main'
+    runs-on:
+      - self-hosted
+    timeout-minutes: 45
+    permissions:
+      contents: write
+      actions: write
+    # Même conteneur que le job qui compare : un cliché pris ailleurs différerait à chaque run.
+    container: ghcr.io/captive-studio/node-ci-chromium:24.21.0@sha256:59aac72df31b97f379004642f682e8bae50cb02463da4ced5b1248aa8a59d29e
+    env:
+      PLAYWRIGHT_BROWSERS_PATH: /ms-playwright
+    steps:
+      - name: Checkout
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+      - name: Enable corepack
+        run: corepack enable
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile
+      - name: Build workspace packages
+        run: pnpm run build:packages
+      - name: Restore Metro cache
+        uses: actions/cache@55cc8345863c7cc4c66a329aec7e433d2d1c52a9 # v6.1.0
+        with:
+          path: apps/docs/.metro-tmp
+          key: metro-cache-${{ runner.os }}-${{ hashFiles('package-lock.json') }}
+          restore-keys: |
+            metro-cache-${{ runner.os }}-
+      # Mêmes réglages que ci.yml : `expo export` dépasse sinon le budget mémoire du pool.
+      - name: Build docs
+        working-directory: apps/docs
+        env:
+          NODE_OPTIONS: --max-old-space-size=1536
+          DOCS_OUTPUT: single
+        run: |
+          mkdir -p "$PWD/.metro-tmp"
+          export TMPDIR="$PWD/.metro-tmp"
+          pnpm run build
+      # Une violation d'accessibilité fait échouer la commande sans empêcher la capture :
+      # l'audit est une assertion souple. Le verdict reste celui de ci.yml.
+      # Le dossier est vidé puis entièrement recapturé : une fiche retirée ou renommée ne
+      # laisse pas de cliché orphelin, et git ne retient que les images qui ont changé.
+      - name: Capture screenshots
+        working-directory: apps/docs
+        run: |
+          rm -rf e2e/__screenshots__
+          pnpm run test:a11y e2e/accessibility.spec.ts --update-snapshots=all || true
+      # Le `|| true` ci-dessus masquerait aussi un run interrompu : on exige exactement un
+      # cliché par page auditée, l'index du catalogue compris, avant de pousser quoi que ce soit.
+      - name: Check one screenshot per page
+        run: |
+          expected=$(( $(grep -c '/components/' apps/docs/dist/sitemap.xml) + 1 ))
+          actual=$(find apps/docs/e2e/__screenshots__ -name '*.png' | wc -l)
+          echo "$actual clichés pour $expected pages."
+          [ "$actual" -eq "$expected" ]
+      - name: Push changed screenshots
+        id: push
+        run: |
+          git config --global --add safe.directory "$GITHUB_WORKSPACE"
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add --all apps/docs/e2e/__screenshots__
+          if git diff --cached --quiet; then
+            echo "Aucun cliché modifié."
+            exit 0
+          fi
+          git commit -m "📸 Régénère les clichés du catalogue"
+          git push origin "HEAD:${GITHUB_REF_NAME}"
+          echo "pushed=true" >> "$GITHUB_OUTPUT"
+      # Le push ci-dessus, fait avec GITHUB_TOKEN, ne déclenche pas la CI : on la relance sur
+      # la branche, pour que la PR retrouve ses checks sur le commit des clichés.
+      - name: Rerun CI on the branch
+        if: steps.push.outputs.pushed == 'true'
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          curl -sSf -X POST \
+            -H "Authorization: Bearer $GH_TOKEN" \
+            -H "Accept: application/vnd.github+json" \
+            "$GITHUB_API_URL/repos/$GITHUB_REPOSITORY/actions/workflows/ci.yml/dispatches" \
+            -d "{\"ref\":\"$GITHUB_REF_NAME\"}"

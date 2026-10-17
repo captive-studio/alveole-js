@@ -1,12 +1,13 @@
 ---
-status: proposed
+status: accepted
 area: quality
 ---
 
 # La régression visuelle du catalogue se greffe sur l'audit d'accessibilité
 
-Décision prise, mise en œuvre repoussée. Ce document existe pour que le travail
-puisse être repris tel quel, sans refaire les arbitrages.
+Mise en œuvre : les clichés vivent dans `apps/docs/e2e/__screenshots__`, les
+masques fiche par fiche dans `apps/docs/e2e/cliches.ts`, et la régénération
+passe par le workflow `catalogue-screenshots.yml`.
 
 ## Pourquoi un filet visuel
 
