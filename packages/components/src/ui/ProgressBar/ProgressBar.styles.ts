@@ -57,6 +57,8 @@ const avancement = ({ text, color, spacing, radius }: Theme) =>
       width: '100%',
       borderRadius: radius('sm'),
       overflow: 'hidden',
+      // La barre animee s'y positionne en absolu : Tamagui v2 ne rend plus chaque vue relative.
+      position: 'relative',
     },
     bar: {
       position: 'absolute',
