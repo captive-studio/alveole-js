@@ -29,3 +29,22 @@ test('dimensionne la photo de chaque taille d avatar', async ({ page }) => {
 
   expect(tailles).toEqual([20, 24, 32, 40, 64].map(px => ({ largeur: px, hauteur: px })));
 });
+
+// Tamagui v2 rend un vrai <img>, là où react-native-web n'affichait jamais l'icône du navigateur :
+// une photo injoignable se montrait cassée par-dessus le repli au lieu de le laisser seul.
+test('cache la photo tant qu elle n est pas chargée', async ({ page }) => {
+  await blockThirdParties(page);
+  await openRoute(page, '/components/Avatar');
+
+  const cassees = await page
+    .getByRole('main')
+    .locator('img')
+    .evaluateAll(
+      images =>
+        (images as HTMLImageElement[]).filter(
+          image => image.naturalWidth === 0 && window.getComputedStyle(image).opacity !== '0',
+        ).length,
+    );
+
+  expect(cassees).toBe(0);
+});
