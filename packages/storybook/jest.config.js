@@ -80,7 +80,7 @@ module.exports = {
       statements: 82,
       branches: 64,
       functions: 82,
-      lines: 81,
+      lines: 83,
     },
   },
   collectCoverageFrom: [
