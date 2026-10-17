@@ -2,6 +2,7 @@
 // permet de le rendre sans module natif. Les paquets qui publient une variante web la
 // voient choisie ici, là où le preset iOS exigerait un binaire absent de tout test.
 const webPreset = require('jest-expo/web/jest-preset');
+const { withMjsTransform } = require('../../scripts/jest-mjs-transform.cjs');
 
 const ignoredPaths = ['/node_modules/', '/dist/'];
 
@@ -48,6 +49,8 @@ module.exports = {
     {
       ...webRest,
       displayName: 'render',
+      // Tamagui v2 publie des `.mjs` que jsdom résout : voir `scripts/jest-mjs-transform.cjs`.
+      transform: withMjsTransform(webPreset.transform),
       testMatch: ['**/?(*.)+(spec|test).tsx'],
       testPathIgnorePatterns: [...(webPreset.testPathIgnorePatterns ?? []), ...ignoredPaths],
       cacheDirectory: '<rootDir>/.jest-cache',
