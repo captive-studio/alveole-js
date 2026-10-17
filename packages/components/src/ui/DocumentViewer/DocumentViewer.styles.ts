@@ -80,6 +80,9 @@ const cadre = ({ color, spacing, radius, isVariant }: Theme) =>
       maxWidth: isVariant('tablet') ? '60%' : '40%',
       minWidth: 0,
       flexShrink: 1,
+      // Positionne, le panneau rendu apres la barre d'outils la recouvre quand elle deborde,
+      // comme en Tamagui v1 qui posait `position: relative` sur chaque vue.
+      position: 'relative',
       borderColor: color.light.border['default-grey'],
       borderWidth: 1,
       borderStyle: 'solid',
