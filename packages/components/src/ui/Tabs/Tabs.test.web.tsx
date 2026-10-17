@@ -1,3 +1,4 @@
+import { elementDuType } from '@/__tests__/helpers/elementDuType';
 import { fireEvent, renderWeb, screen, waitFor } from '@/__tests__/helpers/renderWeb';
 import { FOCUS_ATTRIBUTE } from '@alveole/theme';
 import { Tabs } from './Tabs';
@@ -141,5 +142,5 @@ test('colore l enveloppe de l onglet survole', () => {
 
   fireEvent.mouseEnter(onglet);
 
-  expect((onglet.firstElementChild as HTMLElement).style.backgroundColor).not.toBe('');
+  expect(elementDuType(onglet.firstElementChild, HTMLElement).style.backgroundColor).not.toBe('');
 });
