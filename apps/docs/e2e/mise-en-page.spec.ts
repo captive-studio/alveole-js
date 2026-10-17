@@ -141,3 +141,19 @@ test('cale chaque entrée du sommaire sur la hauteur de ligne de son libellé', 
 
   expect(hauteur).toBe(ligne);
 });
+
+// Le lien en flex rangeait son libellé en ligne, sans pouvoir le rétrécir sous la largeur de
+// son contenu : un nom d'exemple long débordait de la colonne au lieu de passer à la ligne.
+test('passe à la ligne une entrée du sommaire plus longue que sa colonne', async ({ page }) => {
+  await page.setViewportSize({ width: 1440, height: 900 });
+  await openRoute(page, '/components/Typography');
+  const entree = page
+    .getByText('Sur cette page', { exact: true })
+    .locator('..')
+    .locator('a[href="#typographypaddedwithcolor"]');
+
+  const lien = await entree.boundingBox();
+  const libelle = await entree.locator('typography').boundingBox();
+
+  expect(libelle!.width).toBeLessThanOrEqual(lien!.width);
+});
