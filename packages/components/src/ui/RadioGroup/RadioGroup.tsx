@@ -11,7 +11,7 @@ import { RadioGroupContext } from './RadioGroupContext';
 
 export type RadioGroupElement = TamaguiElement;
 
-export type RadioGroupProps = Omit<TamaguiRadioGroupProps, 'value' | 'onValueChange' | 'direction'> &
+export type RadioGroupProps = Omit<TamaguiRadioGroupProps, 'value' | 'onValueChange' | 'onChange' | 'direction'> &
   FormControlCaptionProps &
   FormControlLabelProps &
   FormControlHintProps & {

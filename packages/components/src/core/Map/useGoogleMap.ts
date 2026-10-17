@@ -1,5 +1,6 @@
 import Constants from 'expo-constants';
 import * as React from 'react';
+import type { TamaguiElement } from 'tamagui';
 import { GoogleMap, GoogleMarker, GoogleNamespace } from './googleMaps.types';
 import { LatLng, MapProps, Marker } from './Map.props';
 
@@ -114,7 +115,7 @@ function useBoundsFit({ mapRef, fitToMarkers, center, zoom, markers }: BoundsFit
 }
 
 type MapInitParams = {
-  containerRef: React.MutableRefObject<HTMLDivElement | null>;
+  containerRef: React.MutableRefObject<TamaguiElement | null>;
   mapRef: React.MutableRefObject<GoogleMap | null>;
   center: LatLng | undefined;
   markers: Marker[];
@@ -140,12 +141,13 @@ function useMapInit({
         await loadGoogleMaps();
 
         if (cancelled) return;
-        if (!containerRef.current) return;
+        const container = containerRef.current;
+        if (!(container instanceof HTMLElement)) return;
         const google = window.google;
         if (!google?.maps) throw new Error('Google Maps not available on window');
 
         const initialCenter: LatLng = center ?? markers[0]?.position ?? { lat: 48.8566, lng: 2.3522 };
-        mapRef.current = new google.maps.Map(containerRef.current, {
+        mapRef.current = new google.maps.Map(container, {
           center: initialCenter,
           zoom,
           clickableIcons: false,
@@ -168,7 +170,7 @@ function useMapInit({
 export function useGoogleMap(props: MapProps) {
   const { markers = [], center, zoom = 12, fitToMarkers, mapOptions, onMarkerClick } = props;
 
-  const containerRef = React.useRef<HTMLDivElement | null>(null);
+  const containerRef = React.useRef<TamaguiElement | null>(null);
   const mapRef = React.useRef<GoogleMap | null>(null);
 
   const { refreshMarkers, clearMarkers } = useMarkerSync(mapRef, markers, onMarkerClick);
