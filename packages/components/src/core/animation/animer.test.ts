@@ -1,5 +1,5 @@
 import { animer } from './animer';
 
-test('produit la prop d animation de la version de Tamagui courante', () => {
-  expect(animer('quicker')).toEqual({ animation: 'quicker' });
+test('produit la prop de transition de Tamagui', () => {
+  expect(animer('quicker')).toEqual({ transition: 'quicker' });
 });

@@ -11,9 +11,12 @@ const tamaguiConfig = createTamagui(config);
 // que le navigateur accepte. Le thème n'est pas simulé mais monté pour de vrai, la mise en
 // page des écrans dépendant des tokens réels. `loader={false}` court-circuite l'écran
 // d'attente du chargement des polices, qui n'aboutit jamais hors navigateur.
+// Tamagui v2 exige `defaultTheme` : même valeur que `TamaguiTestProvider` de components.
 const TestProvider = ({ children }: PropsWithChildren) => (
   <ThemeProvider loader={false} staticCSS>
-    <TamaguiProvider config={tamaguiConfig}>{children}</TamaguiProvider>
+    <TamaguiProvider config={tamaguiConfig} defaultTheme="light">
+      {children}
+    </TamaguiProvider>
   </ThemeProvider>
 );
 

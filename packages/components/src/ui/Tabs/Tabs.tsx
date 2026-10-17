@@ -70,7 +70,7 @@ export const Tabs = (props: TabsProps) => {
             entre les onglets. Elle doit donc montrer la bague, sans quoi la tabulation s'arrete
             la sans que rien ne l'indique - mesure en navigateur. La sortir de l'ordre de
             tabulation rendrait le composant entierement inatteignable. */}
-        <TamaguiTabs.List disablePassBorderRadius loop={false} style={styles.tabsList} {...focusRingProps()}>
+        <TamaguiTabs.List loop={false} style={styles.tabsList} {...focusRingProps()}>
           {tabs.map(tab => (
             <TabsTab
               key={tab.value}

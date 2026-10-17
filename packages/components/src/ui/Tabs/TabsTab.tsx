@@ -26,8 +26,8 @@ export const TabsTab = (props: TabsTabProps) => {
   return (
     <TamaguiTabs.Tab
       unstyled
-      onHoverIn={() => onHover(value)}
-      onHoverOut={() => onHover(null)}
+      onMouseEnter={() => onHover(value)}
+      onMouseLeave={() => onHover(null)}
       onInteraction={onInteraction}
       value={value}
       disabled={disabled}

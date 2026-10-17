@@ -18,3 +18,9 @@ it('derive l attribut CSS de la cle de la prop', () => {
   expect(FOCUS_ATTRIBUTE).toBe('data-alveole-focus');
   expect(FOCUS_DATA_SET_KEY).toBe('alveoleFocus');
 });
+
+// Tamagui v2 ne traduit plus `dataSet` en attributs : ses composants recoivent l'attribut
+// `data-*` tel quel, que react-native-web ignore.
+it('pose aussi l attribut CSS pour les composants Tamagui', () => {
+  expect(focusRingProps()[FOCUS_ATTRIBUTE]).toBe('ring');
+});

@@ -54,7 +54,7 @@ export const Box = React.forwardRef<BoxElement, BoxProps>(function Box(props, re
   return (
     <StyledView
       ref={ref}
-      tag={tag ?? 'box'}
+      render={tag ?? 'box'}
       style={style}
       {...radius}
       hoverStyle={versStyleTamagui<TamaguiViewProps['hoverStyle']>(hoverStyle)}

@@ -31,7 +31,7 @@ export const Typography = React.forwardRef<TypographyElement, TypographyProps>(f
     <StyledTypography
       ref={ref}
       hoverStyle={versStyleTamagui<TamaguiTextProps['hoverStyle']>(hoverStyle)}
-      tag={tag ?? 'typography'}
+      render={tag ?? 'typography'}
       style={style}
       textAlign={textAlign}
       // Le defaut vit ici et non dans une regle globale sur `body` : le paquet de theme
