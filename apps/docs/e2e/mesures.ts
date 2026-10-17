@@ -76,3 +76,12 @@ export const valeurCalculee = (page: Page, propriete: 'color' | 'borderTopLeftRa
     },
     [propriete, valeur] as const,
   );
+
+/**
+ * La hauteur d'un lien et la hauteur de ligne de son libellé : un lien qui garde la boîte de
+ * ligne de la police héritée dépasse son libellé et le décale.
+ */
+export const hauteurEtLigneDuLibelle = async (lien: Locator) => ({
+  hauteur: `${(await lien.boundingBox())?.height}px`,
+  ligne: await lien.locator('typography').evaluate(libelle => window.getComputedStyle(libelle).lineHeight),
+});
