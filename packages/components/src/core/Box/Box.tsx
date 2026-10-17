@@ -11,8 +11,11 @@ import { BoxStyle } from './Box.types';
 import { resolveSpacing } from './resolveSpacing';
 
 export type BoxProps = Pick<TamaguiViewProps, 'exitStyle' | 'focusStyle' | 'pressStyle' | 'disabledStyle'> &
-  RNTamaguiViewNonStyleProps &
+  Omit<RNTamaguiViewNonStyleProps, 'tag'> &
   BoxStyle & {
+    // Possede ici et non herite de Tamagui, qui retire `tag` en v2 : le passage a Tamagui
+    // se fait en un seul endroit, dans le rendu ci-dessous.
+    tag?: string;
     hoverStyle?: CSSProperties;
   };
 

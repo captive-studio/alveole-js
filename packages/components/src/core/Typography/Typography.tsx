@@ -12,9 +12,12 @@ import { useStyles } from './Typography.styles';
 import type { TypographyStyle } from './Typography.types';
 
 export type TypographyProps = Pick<TamaguiTextProps, 'exitStyle' | 'focusStyle' | 'pressStyle' | 'disabledStyle'> &
-  Omit<RNTamaguiTextNonStyleProps, 'children'> &
+  Omit<RNTamaguiTextNonStyleProps, 'children' | 'tag'> &
   TypographyStyle & {
     children: React.ReactNode;
+    // Possede ici et non herite de Tamagui, qui retire `tag` en v2 : le passage a Tamagui
+    // se fait en un seul endroit, dans le rendu ci-dessous.
+    tag?: string;
     hoverStyle?: CSSProperties;
   };
 
