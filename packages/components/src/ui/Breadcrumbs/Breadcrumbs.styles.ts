@@ -17,6 +17,7 @@ export const useStyles = makeStyles(({ text, color, spacing }) => ({
   },
   current: {
     color: color.light.text['active-grey'],
+    ...text['Corps de texte'].SM.Regular,
   },
   link: {
     color: color.light.text['default-info'],
