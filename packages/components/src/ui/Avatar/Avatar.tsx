@@ -1,5 +1,5 @@
 import { useTheme } from '@alveole/theme';
-import { CSSProperties } from 'react';
+import { CSSProperties, useState } from 'react';
 import { AvatarImageProps, Avatar as TamaguiAvatar } from 'tamagui';
 import { Typography } from '../../core/Typography';
 import { useStyles } from './Avatar.styles';
@@ -26,6 +26,7 @@ export const Avatar = (props: AvatarProps) => {
 
   const { spacingValue } = useTheme();
   const styles = useStyles();
+  const [chargee, setChargee] = useState(false);
 
   const avatarSize: Record<typeof size, number> = {
     xs: 20,
@@ -55,7 +56,18 @@ export const Avatar = (props: AvatarProps) => {
       circular={!carre}
       {...avatarProps}
     >
-      <TamaguiAvatar.Image src={src} width={px} height={px} />
+      {/* Tamagui v2 rend un vrai <img> : non chargee, la photo montrait l'icone cassee du
+          navigateur par-dessus le repli. Elle reste transparente tant qu'elle n'a pas charge. */}
+      <TamaguiAvatar.Image
+        src={src}
+        // Le nom de la personne quand on le connait ; sinon la photo est decorative, comme chez
+        // Primer. react-native-web n'exposait aucune image, Tamagui v2 rend un vrai <img>.
+        alt={fallbackText ?? ''}
+        width={px}
+        height={px}
+        opacity={chargee ? 1 : 0}
+        onLoadingStatusChange={status => setChargee(status === 'loaded')}
+      />
       <TamaguiAvatar.Fallback style={styles.fallback}>
         <Typography style={styles.fallbackText}>{initials}</Typography>
       </TamaguiAvatar.Fallback>
