@@ -17,8 +17,9 @@ export const UpdateRequired = (props: UpdateRequiredProps) => {
   return (
     <Box
       tag="update-required"
-      flex={1}
-      style={{ alignItems: 'center', justifyContent: 'center', paddingBottom: bottom }}
+      // `flexGrow` et non `flex: 1`, que Tamagui v2 traduit sur le web par une base nulle :
+      // l'écran remplit toujours la page, sans jamais descendre sous la hauteur de son contenu.
+      style={{ flexGrow: 1, alignItems: 'center', justifyContent: 'center', paddingBottom: bottom }}
     >
       <EmptyState
         title={title}
