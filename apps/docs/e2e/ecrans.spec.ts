@@ -1,6 +1,13 @@
 import { expect, test, type Page } from '@playwright/test';
 import { blockThirdParties, openRoute } from './audit';
-import { bords, cadresAutourDe, separationEntre, tailleDeTexte, valeurCalculee } from './mesures';
+import {
+  bords,
+  cadresAutourDe,
+  hauteurEtLigneDuLibelle,
+  separationEntre,
+  tailleDeTexte,
+  valeurCalculee,
+} from './mesures';
 
 // Les mesures de mise en page des écrans du catalogue, montées de jsdom au navigateur
 // (ADR 0027). Le contrat de ces écrans (rôles, noms, interactions) reste dans les suites
@@ -23,6 +30,14 @@ test.describe('la fiche', () => {
 
   const titre = (page: Page) => page.getByRole('heading', { level: 1 });
   const lienFigma = (page: Page) => page.getByRole('link', { name: 'Ouvrir Figma' });
+
+  // Tamagui v2 remet la police de l'app sur chaque vue : le lien brut héritait d'une hauteur
+  // de ligne de 23 px et poussait son libellé d'un demi-pixel.
+  test('cale le lien Figma sur la hauteur de ligne de son libellé', async ({ page }) => {
+    const { hauteur, ligne } = await hauteurEtLigneDuLibelle(lienFigma(page));
+
+    expect(hauteur).toBe(ligne);
+  });
 
   // Ni Primer ni Atlassian n'encadrent le haut d'une fiche : la description y est du texte
   // courant, pas un aparté.

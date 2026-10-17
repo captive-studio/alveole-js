@@ -3,6 +3,7 @@ import { expect, test, type Page } from '@playwright/test';
 // est écrit pour Metro. Le fichier des largeurs n'importe rien, on le lit à sa source.
 import { Grilles } from '../../../packages/theme/src/constants/Grille';
 import { blockThirdParties, openRoute } from './audit';
+import { hauteurEtLigneDuLibelle } from './mesures';
 
 // La mise en page d'une fiche (`StoryLayout` dans `ScreenZone`), montée de jsdom au navigateur
 // (ADR 0027) : une largeur, une marge ou un sens de rangée n'y valaient que ce que le style
@@ -127,4 +128,16 @@ test('resserre les marges de la page sur un téléphone', async ({ page }) => {
   const { enveloppe } = await miseEnPage(page);
 
   expect(enveloppe).toEqual({ tag: 'main', gauche: '24px', droite: '24px', haut: '48px' });
+});
+
+// Tamagui v2 remet la police de l'app sur chaque vue : le lien brut d'une entrée héritait
+// ainsi d'une hauteur de ligne de 23 px, plus haute que celle de son libellé, et décalait
+// le sommaire d'une fiche à l'autre.
+test('cale chaque entrée du sommaire sur la hauteur de ligne de son libellé', async ({ page }) => {
+  await ouvrirLaFicheEn(page, 1440);
+  const entree = page.getByText('Sur cette page', { exact: true }).locator('..').locator('a').first();
+
+  const { hauteur, ligne } = await hauteurEtLigneDuLibelle(entree);
+
+  expect(hauteur).toBe(ligne);
 });

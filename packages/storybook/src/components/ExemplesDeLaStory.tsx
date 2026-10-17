@@ -4,6 +4,7 @@ import { descriptionDeLExemple, sourceDeLExemple } from '../screens/sourcesDExem
 import { Exemple, StorybookMeta, StorybookModule } from '../types';
 import { getStoryFlags } from '../utils';
 import { ExampleBlock } from './ExampleBlock';
+import { styleDuLienBrut } from './styleDuLienBrut';
 
 type UnExempleProps = { story: StorybookModule; nom: string; Rendu: Exemple[1]; gabarit: boolean };
 
@@ -59,7 +60,7 @@ const StatutDeLaFiche = ({ meta }: { meta: StorybookMeta }) => {
         <a
           href={meta.figmaURL}
           rel="noreferrer"
-          style={{ textDecoration: 'none' }}
+          style={styleDuLienBrut}
           target="_blank"
           {...{ [FOCUS_ATTRIBUTE]: 'ring' }}
         >
