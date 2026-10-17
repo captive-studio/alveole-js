@@ -13,6 +13,7 @@ export const Badge = (props: BadgeProps) => {
 
   const styles = useStyles();
   const badgeSize = size === 'sm' ? styles.badgeSm : styles.badgeMd;
+  const badgeText = size === 'sm' ? styles.badgeTextSm : styles.badgeTextMd;
 
   const badgeVariant = () => {
     switch (variant) {
@@ -39,9 +40,9 @@ export const Badge = (props: BadgeProps) => {
     return (
       <Box tag="badge" testID="badge" style={[styles.badge, badgeVariant(), badgeSize, style]}>
         <LucideIcon name={icon} size={iconSize} />
-        <Typography tag="badge-text" {...badgeProps} />
+        <Typography tag="badge-text" style={badgeText} {...badgeProps} />
       </Box>
     );
   }
-  return <Typography tag="badge" style={[styles.badge, badgeVariant(), badgeSize, style]} {...badgeProps} />;
+  return <Typography tag="badge" style={[styles.badge, badgeVariant(), badgeSize, badgeText, style]} {...badgeProps} />;
 };

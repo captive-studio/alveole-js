@@ -42,13 +42,16 @@ export const useStyles = makeStyles(({ radius, text, color, pill }) => ({
     paddingLeft: pill('sm').paddingInline,
     paddingRight: pill('sm').paddingInline,
     gap: pill('sm').gap,
-    ...text['Corps de texte'].XS.CapsBold,
   },
   badgeMd: {
     height: pill('md').height,
     paddingLeft: pill('md').paddingInline,
     paddingRight: pill('md').paddingInline,
     gap: pill('md').gap,
-    ...text['Corps de texte'].SM.CapsBold,
   },
+
+  // Crans du libelle : portes par le texte lui-meme, Tamagui v2 ne faisant plus descendre un
+  // style de texte d'une vue a ses enfants.
+  badgeTextSm: text['Corps de texte'].XS.CapsBold,
+  badgeTextMd: text['Corps de texte'].SM.CapsBold,
 }));
