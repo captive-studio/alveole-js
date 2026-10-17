@@ -1,10 +1,7 @@
 import { ThemeProvider } from '@alveole/theme';
-import { config } from '@tamagui/config/v3';
 import { render, renderHook, RenderOptions } from '@testing-library/react';
 import { PropsWithChildren, ReactElement } from 'react';
-import { createTamagui, TamaguiProvider } from 'tamagui';
-
-const tamaguiConfig = createTamagui(config);
+import { TamaguiTestProvider } from './TamaguiTestProvider';
 
 // Le nom de fichier ne porte volontairement pas d'extension `.web` : Jest résout ces
 // extensions, TypeScript non. Tant que ce helper s'appelait `render.web.tsx` et exportait
@@ -21,7 +18,7 @@ const tamaguiConfig = createTamagui(config);
 // `staticCSS` évite l'injection de CSS global, inutile ici.
 const TestProvider = ({ children }: PropsWithChildren) => (
   <ThemeProvider loader={false} staticCSS>
-    <TamaguiProvider config={tamaguiConfig}>{children}</TamaguiProvider>
+    <TamaguiTestProvider>{children}</TamaguiTestProvider>
   </ThemeProvider>
 );
 
