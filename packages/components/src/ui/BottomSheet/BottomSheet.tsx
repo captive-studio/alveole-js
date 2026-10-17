@@ -1,6 +1,7 @@
 import React from 'react';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { Sheet as TamaguiSheet, SheetProps as TamaguiSheetProps } from 'tamagui';
+import { animer } from '../../core/animation/animer';
 import { Box } from '../../core/Box';
 import { Typography } from '../../core/Typography';
 import { ButtonIcon } from '../Button';
@@ -51,7 +52,7 @@ export const BottomSheet = (props: BottomSheetProps) => {
         position={position}
         onPositionChange={setPosition}
         zIndex={100_000}
-        animation="medium"
+        {...animer('medium')}
         moveOnKeyboardChange={moveOnKeyboardChange}
       >
         <TamaguiSheet.Overlay style={styles.overlay} />

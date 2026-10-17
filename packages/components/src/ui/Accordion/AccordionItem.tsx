@@ -1,6 +1,7 @@
 import { focusRingProps } from '@alveole/theme';
 import React from 'react';
 import { Square, Accordion as TamaguiAccordion } from 'tamagui';
+import { animer } from '../../core/animation/animer';
 import { Box } from '../../core/Box';
 import { Typography } from '../../core/Typography';
 import { Leading, LeadingSlot } from '../Leading';
@@ -49,7 +50,7 @@ export const AccordionItem = (props: AccordionItemProps) => {
                 </Box>
               )}
               <Square
-                animation="75ms"
+                {...animer('75ms')}
                 rotate={open ? '180deg' : '0deg'}
                 style={{ marginTop: 'auto', marginBottom: 'auto' }}
               >
@@ -67,9 +68,9 @@ export const AccordionItem = (props: AccordionItemProps) => {
           </Box>
         )}
       </TamaguiAccordion.Trigger>
-      <TamaguiAccordion.HeightAnimator animation="quicker" style={{ overflow: 'hidden', position: 'relative' }}>
+      <TamaguiAccordion.HeightAnimator {...animer('quicker')} style={{ overflow: 'hidden', position: 'relative' }}>
         <TamaguiAccordion.Content
-          animation="quickest"
+          {...animer('quickest')}
           style={{ ...styles.accordionItemContent, padding: noPadding ? 0 : undefined }}
         >
           {children}
