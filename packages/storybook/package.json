@@ -36,7 +36,7 @@
     "react-dom": "19.2.3",
     "react-native": "0.86.3",
     "react-native-web": "0.21.4",
-    "tamagui": "1.144.4"
+    "tamagui": "2.7.7"
   },
   "peerDependencies": {
     "@alveole/components": "*",
