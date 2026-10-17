@@ -2,6 +2,7 @@ const path = require('path');
 const nativePreset = require('jest-expo/ios/jest-preset');
 const androidPreset = require('jest-expo/android/jest-preset');
 const webPreset = require('jest-expo/web/jest-preset');
+const { withMjsTransform } = require('../../scripts/jest-mjs-transform.cjs');
 
 const TEST_MATCH = '**/?(*.)+(spec|test).[tj]s?(x)';
 const WEB_TEST_MATCH = '**/?(*.)+(spec|test).web.[tj]s?(x)';
@@ -105,6 +106,8 @@ module.exports = {
     // dans SidebarGroup et SidebarItem.
     project(webPreset, {
       displayName: 'web',
+      // Tamagui v2 publie des `.mjs` que jsdom résout : voir `scripts/jest-mjs-transform.cjs`.
+      transform: withMjsTransform(webPreset.transform),
       testMatch: [WEB_TEST_MATCH],
       setupFilesAfterEnv: [...(webPreset.setupFilesAfterEnv ?? []), '<rootDir>/__tests__/setup.web.js'],
       testPathIgnorePatterns: [...(webPreset.testPathIgnorePatterns ?? []), ...ignoredPaths],
