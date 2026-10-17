@@ -36,3 +36,15 @@ test('affiche le libellé d effacement de Signature à la taille sm', async ({ p
 
   expect(rendue).toBe(attendue);
 });
+
+// Tamagui v2 remet la police de l'app sur chaque vue, hauteur de ligne comprise : un texte sans
+// cran, comme le logo de la Sidebar, passait de la hauteur normale du navigateur aux 23 px de
+// la police par défaut de l'app, et grandissait tout ce qui l'entoure.
+test('laisse à un texte sans cran la hauteur de ligne normale', async ({ page }) => {
+  await openRoute(page, '/components/Sidebar');
+  const logo = page.getByRole('main').getByText('Mon Application', { exact: true }).first();
+
+  const hauteur = await logo.evaluate(texte => window.getComputedStyle(texte).lineHeight);
+
+  expect(hauteur).toBe('normal');
+});
