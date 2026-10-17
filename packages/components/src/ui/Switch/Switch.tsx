@@ -1,6 +1,7 @@
 import { focusRingProps, useTheme } from '@alveole/theme';
 import React, { CSSProperties, useId } from 'react';
 import { Label, TamaguiElement, Switch as TamaguiSwitch, SwitchProps as TamaguiSwitchProps } from 'tamagui';
+import { animer } from '../../core/animation/animer';
 import { Box } from '../../core/Box';
 import { Typography } from '../../core/Typography';
 import { FormControlCaption } from '../FormControl';
@@ -55,7 +56,7 @@ export const Switch = React.forwardRef<SwitchElement, SwitchProps>(function Swit
       focusVisibleStyle={styles.switchButtonFocused}
       {...switchProps}
     >
-      <TamaguiSwitch.Thumb animation="quicker" style={pouce} />
+      <TamaguiSwitch.Thumb {...animer('quicker')} style={pouce} />
     </TamaguiSwitch>
   );
 
