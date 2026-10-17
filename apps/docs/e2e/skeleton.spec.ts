@@ -43,3 +43,20 @@ test('rend un bloc de 16 px sur toute la largeur par défaut', async ({ page }) 
 test('applique les dimensions demandées', async ({ page }) => {
   expect(await blocs(page)).toContainEqual(expect.objectContaining({ largeur: 64, hauteur: 64 }));
 });
+
+// Tamagui v2 ne pose plus `position: relative` sur chaque vue : le reflet animé, absolu et
+// tendu sur les quatre bords, ne se rapportait plus à son squelette et voilait toute la fiche.
+test('tend le reflet sur son seul squelette', async ({ page }) => {
+  const debordements = await page.getByRole('main').evaluate(
+    main =>
+      Array.from(main.querySelectorAll('skeleton')).filter(bloc => {
+        const reflet = bloc.firstElementChild;
+        if (!reflet) return false;
+        const a = bloc.getBoundingClientRect();
+        const b = reflet.getBoundingClientRect();
+        return a.width !== b.width || a.height !== b.height || a.x !== b.x || a.y !== b.y;
+      }).length,
+  );
+
+  expect(debordements).toBe(0);
+});

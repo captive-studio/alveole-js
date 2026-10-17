@@ -3,6 +3,8 @@ import { makeStyles } from '@alveole/theme';
 export const useStyles = makeStyles(({ color }) => ({
   skeleton: {
     overflow: 'hidden',
+    // Le reflet s'y tend en absolu : Tamagui v2 ne rend plus chaque vue relative.
+    position: 'relative',
   },
   pulse: {
     position: 'absolute',
