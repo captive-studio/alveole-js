@@ -41,9 +41,9 @@ test('cache la photo tant qu elle n est pas chargée', async ({ page }) => {
     .locator('img')
     .evaluateAll(
       images =>
-        (images as HTMLImageElement[]).filter(
-          image => image.naturalWidth === 0 && window.getComputedStyle(image).opacity !== '0',
-        ).length,
+        images
+          .filter((image): image is HTMLImageElement => image instanceof HTMLImageElement)
+          .filter(image => image.naturalWidth === 0 && window.getComputedStyle(image).opacity !== '0').length,
     );
 
   expect(cassees).toBe(0);
