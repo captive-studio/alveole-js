@@ -24,7 +24,7 @@
     "react-native": "0.86.3"
   },
   "peerDependencies": {
-    "@tamagui/core": "*",
+    "@tamagui/core": "^2.7.7",
     "expo-font": "*",
     "expo-system-ui": "*",
     "react": "*",

@@ -140,7 +140,7 @@ const DeploymentDateCell = ({ deployment }: { deployment: Deployment }) => {
       open={open}
       setOpen={setOpen}
       renderTrigger={() => (
-        <Box onHoverIn={() => setOpen(true)} onHoverOut={() => setOpen(false)}>
+        <Box onMouseEnter={() => setOpen(true)} onMouseLeave={() => setOpen(false)}>
           <Typography style={{ ...text['Corps de texte'].XS.Regular, color: color.light.text['mention-grey'] }}>
             {format(deployment.date, 'd MMM', { locale: fr })}
           </Typography>
@@ -152,8 +152,8 @@ const DeploymentDateCell = ({ deployment }: { deployment: Deployment }) => {
         flexDirection="column"
         gap={'1W'}
         style={{ minWidth: 260 }}
-        onHoverIn={() => setOpen(true)}
-        onHoverOut={() => setOpen(false)}
+        onMouseEnter={() => setOpen(true)}
+        onMouseLeave={() => setOpen(false)}
       >
         <Typography style={text['Corps de texte'].SM.Regular}>
           {formatDistanceToNowStrict(deployment.date, { locale: fr, addSuffix: true })}

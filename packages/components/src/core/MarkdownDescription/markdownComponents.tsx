@@ -108,11 +108,11 @@ const createLinkComponents = ({ linkColor, linkStyle, linkHoverStyle }: LinkComp
   a: ({ href, children: c }: AvecEnfants & { href?: string }) => (
     <Typography
       tag="a"
-      href={href}
       color={linkColor}
       style={linkStyle}
       hoverStyle={linkHoverStyle}
-      {...{ [FOCUS_ATTRIBUTE]: 'ring' }}
+      // Tamagui v2 ne type plus `href` sur Text : l'attribut passe tel quel au DOM.
+      {...{ href, [FOCUS_ATTRIBUTE]: 'ring' }}
     >
       {c}
     </Typography>
