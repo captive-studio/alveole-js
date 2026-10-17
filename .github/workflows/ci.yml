@@ -6,6 +6,9 @@ on:
     tags:
       - v*
   pull_request: null
+  # Relancée par catalogue-screenshots.yml après son push : GitHub ne déclenche aucun
+  # workflow sur un push fait avec GITHUB_TOKEN, sauf par workflow_dispatch.
+  workflow_dispatch: null
 concurrency:
   group: ci-${{ github.workflow }}-${{ github.ref }}
   cancel-in-progress: ${{ github.event_name == 'pull_request' }}
@@ -110,7 +113,7 @@ jobs:
   # Les quatre anciens jobs partagent le build du commit courant. Aucun cache
   # de dist : publint, le lint docs et le navigateur vérifient bien ce build.
   web-and-packages:
-    name: Web, accessibility and publishable packages
+    name: Web, catalogue audit (accessibility, screenshots) and publishable packages
     if: github.event_name != 'push' || !startsWith(github.ref, 'refs/tags/')
     runs-on:
       - self-hosted
@@ -161,7 +164,9 @@ jobs:
           pnpm run build
         id: docs
         if: ${{ !cancelled() && steps.packages.outcome == 'success' }}
-      - name: Run axe audit
+      # Audit axe et comparaison des clichés du repère <main>, sur la même page chargée.
+      # Une différence de rendu se valide en relançant catalogue-screenshots.yml (ADR 0011).
+      - name: Run catalogue audit (axe + screenshots)
         working-directory: apps/docs
         run: pnpm run test:a11y
         if: ${{ !cancelled() && steps.docs.outcome == 'success' }}
@@ -220,7 +225,7 @@ jobs:
         if: ${{ always() }}
         uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7.0.2
         with:
-          name: a11y-report
+          name: catalogue-report
           path: apps/docs/playwright-report
           retention-days: 7
           if-no-files-found: ignore

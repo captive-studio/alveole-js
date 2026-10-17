@@ -19,6 +19,13 @@ export default defineConfig({
   use: {
     baseURL: BASE_URL,
   },
+  // Les clichés du catalogue ne se produisent et ne se comparent que dans le conteneur de la
+  // CI : fuseau horaire, polices et moteur de rendu diffèrent sur une machine de
+  // développement, où chaque comparaison échouerait (ADR 0011). On les régénère par le
+  // workflow « Regenerate catalogue screenshots ». Un seul jeu, sans suffixe de projet ni de
+  // plateforme : il n'y a qu'un projet, et qu'un environnement qui fait foi.
+  ignoreSnapshots: !process.env.CI,
+  snapshotPathTemplate: '{testDir}/__screenshots__/{arg}{ext}',
   // Playwright compte ses workers à partir d'`os.cpus()`, qui dans un conteneur rapporte les
   // cœurs du nœud Kubernetes et non ce que le pod peut consommer. Là où un plafond est
   // déclaré on le prend entier, ces suites calculant plus qu'elles n'attendent ; sinon on
