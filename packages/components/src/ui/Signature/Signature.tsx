@@ -5,7 +5,7 @@ import { Box, BoxProps } from '../../core/Box';
 import { useStyles } from './Signature.styles';
 import { SignatureHeader } from './SignatureHeader';
 
-export type SignatureProps = Omit<BoxProps, 'children'> & {
+export type SignatureProps = Omit<BoxProps, 'children' | 'onChange'> & {
   height: number;
   date?: string | Date;
   dateLabel?: string;

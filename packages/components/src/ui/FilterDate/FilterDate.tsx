@@ -12,7 +12,7 @@ import { useStyles } from './FilterDate.styles';
 
 export type FilterDateValue = { years: number[]; months: number[] };
 
-export type FilterDateProps = BoxProps & {
+export type FilterDateProps = Omit<BoxProps, 'onChange'> & {
   title: string;
   local?: 'fr' | 'en';
   /** Année de départ */

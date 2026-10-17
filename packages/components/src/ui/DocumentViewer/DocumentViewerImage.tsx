@@ -1,11 +1,10 @@
 import React from 'react';
-import type { PointerEvent } from 'react-native';
 import { Box, BoxProps } from '../../core/Box';
 import { Image } from '../../core/Image';
 import { useStyles } from './DocumentViewer.styles';
 import { DocumentViewerRotation } from './DocumentViewer.types';
 import { positionEnPourcentage } from './documentViewerPdfCalculs';
-import { lirePointeurWeb } from './pointeurWeb';
+import { type EvenementPointeur, lirePointeurWeb } from './pointeurWeb';
 
 export type DocumentViewerImageProps = {
   source: string;
@@ -22,7 +21,7 @@ export const DocumentViewerImage = (props: DocumentViewerImageProps) => {
   const hoveredScale = isHovered ? 2 : 1;
 
   const handlePointerMove = React.useCallback(
-    (event: PointerEvent) => {
+    (event: EvenementPointeur) => {
       const pointeur = lirePointeurWeb(event);
       if (!pointeur) return;
 

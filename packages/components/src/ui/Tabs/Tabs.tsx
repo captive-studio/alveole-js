@@ -10,7 +10,7 @@ import { TabsTab } from './TabsTab';
 import { useAnchorSync } from './useAnchorSync';
 import { useTabsState } from './useTabsState';
 
-export type TabsProps = Omit<BoxProps, 'children'> & {
+export type TabsProps = Omit<BoxProps, 'children' | 'onChange'> & {
   tabs: {
     label: string;
     leading?: Leading;
