@@ -482,7 +482,7 @@ de la liste : \`options={[...selectedOption ? [selectedOption] : [], ...suggesti
   },
   {
     titre: '5. Icônes → leading / trailing',
-    markdown: `Détail et justification : [leading-trailing.md](https://github.com/Captive-Studio/alveole-js/blob/main/docs/migrations/leading-trailing.md).
+    markdown: `Détail et justification : [leading-trailing.md](https://github.com/captive-studio/alveole-js/blob/main/docs/migrations/leading-trailing.md).
 
 \`\`\`bash
 git grep -nE "startIcon|endIcon|\\bicon[=:]"
@@ -608,7 +608,39 @@ Les clés de spacing dépréciées existent toujours (non cassant) mais leurs us
 l'échelle V/W quand on y passe.`,
   },
   {
-    titre: '8. Vérification finale',
+    titre: '8. Tamagui v2',
+    markdown: `Détail, changements de rendu et relevé par application : [tamagui-v2.md](https://github.com/captive-studio/alveole-js/blob/main/docs/migrations/tamagui-v2.md).
+
+Alveole 2.0 exige Tamagui \`^2.7.7\`. Monter **tous** les paquets \`tamagui\` / \`@tamagui/*\` de
+l'application au même numéro exact (\`@tamagui/babel-plugin\` et \`@tamagui/cli\` compris), et
+aligner la clé \`allowScripts\` sur la version des paquets \`@alveole/*\` (version unique, ADR 0029).
+
+\`\`\`bash
+git grep -nE "[^a-zA-Z]animation=|onHover(In|Out)|disablePassBorderRadius"
+\`\`\`
+
+| Avant                                                   | Après                             |
+| ------------------------------------------------------- | --------------------------------- |
+| \`animation="…"\` sur un composant Tamagui                | \`transition="…"\`                  |
+| \`onHoverIn\` / \`onHoverOut\` sur Tamagui ou \`Box\`         | \`onMouseEnter\` / \`onMouseLeave\`   |
+| \`disablePassBorderRadius\`                               | retirer                           |
+| \`dataSet\` sur un composant Tamagui                      | attribut direct \`data-x="…"\`      |
+
+\`onHoverIn\` reste valable sur un \`Pressable\` React Native. Ne change pas : \`tag\` de \`Box\` et
+\`Typography\`, et les éléments DOM rendus (un sélecteur CSS sur \`data-table\` reste valable).
+
+Changements de rendu, invisibles au typecheck et en jsdom :
+
+- **chaque vue reprend la police de l'app**, hauteur de ligne comprise : un style de texte posé sur
+  une vue ne descend plus aux enfants, et un texte sans hauteur de ligne prend celle de la config
+  (23 px en \`@tamagui/config\` v3). Les \`Typography\` d'Alveole posent \`normal\` par défaut ;
+- **plus de \`position: relative\` par défaut** : poser \`position: 'relative'\` sur le conteneur d'un
+  enfant absolu, ou \`settings.defaultPosition: 'relative'\` ;
+- **\`flex: 1\` devient \`1 1 0px\`** sur le web : \`flexGrow: 1\`, ou \`settings.styleCompat: 'legacy'\` ;
+- \`Image\` rend un vrai \`<img>\` (\`alt\` exigé) ; \`Switch\` ne compte plus padding ni bordure.`,
+  },
+  {
+    titre: '9. Vérification finale',
     markdown: `\`\`\`bash
 git grep -nE "\\b(TextField|TextareaField|EmailField|EmailInput|PasswordField|PhoneField|PhoneInput|NumberField|OtpField|FileField|SelectMultiple|Autocomplete\\w*|NativePicker|SelectInput)\\b|startIcon|endIcon|variant=['\\"]link['\\"]|size=['\\"]xs['\\"]|noPadding|borderNone|leftAlign|\\boptional(Text)?[=:]|onActions|actionsIcon|<Tag\\b[^>]*\\bcolor=|Inter-|Barlow-"
 \`\`\`
