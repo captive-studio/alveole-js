@@ -33,7 +33,7 @@ validation, ce qui vaut demande explicite au sens des règles globales :
    via `/pr`. Pas de draft.
 4. Attendre la CI : `gh pr checks <n> --watch --fail-fast`. Si elle est rouge,
    corriger, pousser, attendre de nouveau.
-5. CI verte : `gh pr merge <n> --merge --delete-branch`.
+5. CI verte : `gh pr merge <n> --rebase --delete-branch`.
 6. Commenter le ticket Jira ALV avec le lien de la PR mergée, puis le
    transitionner vers « Terminé ».
 7. Supprimer le worktree.
