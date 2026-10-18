@@ -3,9 +3,9 @@ import { Story } from '../../type';
 import { Button } from '../Button';
 import { Toast, ToastView } from './Toast';
 import { useStyles } from './Toast.styles';
-import { defaultDuration } from './ToastBridge';
+import { defaultDuration } from './ToastContext';
+import { useToast } from './Toasts';
 import { ToastType } from './ToastType';
-import { useToast } from './index';
 
 export default {
   title: 'Toast',
