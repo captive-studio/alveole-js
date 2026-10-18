@@ -12,7 +12,7 @@ test('loge le pouce dans sa piste, padding et bordure compris', async ({ page })
   const piste = page.getByRole('main').getByRole('switch').first();
 
   const boite = await piste.boundingBox();
-  const pouce = await piste.locator('.is_SwitchThumb').boundingBox();
+  const pouce = await piste.locator('[data-disable-theme]').boundingBox();
 
   expect({ largeur: boite?.width, hauteur: boite?.height }).toEqual({
     largeur: 2 * pouce!.width + 4,

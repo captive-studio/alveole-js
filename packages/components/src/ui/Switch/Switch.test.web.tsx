@@ -19,3 +19,13 @@ test('garde à la piste la taille de Tamagui v2', () => {
   const { width, height } = getComputedStyle(screen.getByRole('switch'));
   expect({ width, height }).toEqual({ width: '62px', height: '33px' });
 });
+
+// Le pouce tirait lui aussi sa taille du token `$true` : sans lui, Tamagui v3 le pose a 18 px
+// et il flotte dans la piste. Il en occupe la moitie, padding et bordure deduits.
+test('dimensionne le pouce sur la moitie de la piste', () => {
+  renderWeb(<Switch />);
+
+  const pouce = screen.getByRole('switch').querySelector('[data-disable-theme]')!;
+  const { width, height } = getComputedStyle(pouce);
+  expect({ width, height }).toEqual({ width: '29px', height: '29px' });
+});
