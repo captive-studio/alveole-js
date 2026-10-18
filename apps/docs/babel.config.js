@@ -14,26 +14,9 @@ const { expoRouterBabelPlugin } = (() => {
 })();
 
 module.exports = function (api) {
-  const isDevelopment = api.env('development');
+  api.cache(true);
   return {
     presets: ['babel-preset-expo'],
-    plugins: [
-      expoRouterBabelPlugin,
-      // En développement, Tamagui applique les styles à l'exécution. Le compilateur
-      // charge sinon tout @alveole/components dans Node, y compris ses modules natifs,
-      // ce qui pénalise fortement le premier bundle. Garder l'optimisation des exports.
-      ...(!isDevelopment
-        ? [
-            [
-              require.resolve('@tamagui/babel-plugin'),
-              {
-                components: ['tamagui', '@alveole/components'],
-                config: './tamagui.config.ts',
-                logTimings: true,
-              },
-            ],
-          ]
-        : []),
-    ],
+    plugins: [expoRouterBabelPlugin],
   };
 };
