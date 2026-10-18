@@ -3,6 +3,7 @@ import { ThemeProvider } from '@alveole/theme';
 import '@alveole/theme/dist/default.css';
 import { Stack } from 'expo-router';
 import { KeyboardProvider } from 'react-native-keyboard-controller';
+import { SafeAreaProvider } from 'react-native-safe-area-context';
 import { TamaguiProvider } from 'tamagui';
 import { useUIKitColumn, useUIKitTopBar } from '../components/uiKitNavigation';
 import { tamaguiConfig } from '../tamagui.config';
@@ -31,15 +32,19 @@ function UIKitChrome() {
 }
 
 export default function RootLayout() {
+  // Le Sheet de Tamagui v3 lit ses retraits dans `SafeAreaProvider`, qui enveloppe donc
+  // `TamaguiProvider`.
   return (
-    <TamaguiProvider config={tamaguiConfig} defaultTheme="light">
-      <KeyboardProvider>
-        <ThemeProvider loader={false} staticCSS>
-          <Toasts>
-            <UIKitChrome />
-          </Toasts>
-        </ThemeProvider>
-      </KeyboardProvider>
-    </TamaguiProvider>
+    <SafeAreaProvider>
+      <TamaguiProvider config={tamaguiConfig} defaultTheme="light">
+        <KeyboardProvider>
+          <ThemeProvider loader={false} staticCSS>
+            <Toasts>
+              <UIKitChrome />
+            </Toasts>
+          </ThemeProvider>
+        </KeyboardProvider>
+      </TamaguiProvider>
+    </SafeAreaProvider>
   );
 }
