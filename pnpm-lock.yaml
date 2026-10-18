@@ -357,8 +357,8 @@ importers:
         specifier: 10.12.0
         version: 10.12.0(jiti@2.7.0)(supports-color@8.1.1)
       expo-doctor:
-        specifier: 1.20.4
-        version: 1.20.4
+        specifier: 1.21.4
+        version: 1.21.4
       serve:
         specifier: 14.2.6
         version: 14.2.6(supports-color@8.1.1)
@@ -4923,9 +4923,9 @@ packages:
       expo: '*'
       react-native: '*'
 
-  expo-doctor@1.20.4:
-    resolution: {integrity: sha512-Jm1lIqVdO8br9wiqTg5QhJ1u4zLWAhoue4bXsEuzW543vC3XY+U0cpEOmiLkvJhTTgZgIK+24l4i8VzyZ2VLMg==}
-    engines: {node: ^20.19.4 || ^22.13.0 || ^24.3.0 || >= 25.0.0}
+  expo-doctor@1.21.4:
+    resolution: {integrity: sha512-JA2TeT7/o5WmSX+DHWkf4EfgdOsJ1RnRFX5OptlMXywo88j7T4IYPRRtM5ONVSvfGH/nL/3xBmhBgJ8t4fDE9w==}
+    engines: {node: ^22.13.0 || ^24.3.0 || ^26.0.0 || >=27.0.0}
     hasBin: true
 
   expo-document-picker@57.0.3:
@@ -13778,7 +13778,7 @@ snapshots:
     transitivePeerDependencies:
       - supports-color
 
-  expo-doctor@1.20.4: {}
+  expo-doctor@1.21.4: {}
 
   expo-document-picker@57.0.3(expo@57.0.30):
     dependencies:
