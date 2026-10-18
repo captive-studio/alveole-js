@@ -61,7 +61,7 @@ export const Switch = React.forwardRef<SwitchElement, SwitchProps>(function Swit
       {...focusRingProps()}
       {...switchProps}
     >
-      <TamaguiSwitch.Thumb {...animer('quicker')} style={pouce} />
+      <TamaguiSwitch.Thumb {...animer('quicker')} width={POUCE} height={POUCE} style={pouce} />
     </TamaguiSwitch>
   );
 
