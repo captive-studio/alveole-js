@@ -1,12 +1,6 @@
 import { focusRingProps, useTheme } from '@alveole/theme';
 import React, { CSSProperties, useId } from 'react';
-import {
-  getTokens,
-  getVariableValue,
-  TamaguiElement,
-  Switch as TamaguiSwitch,
-  SwitchProps as TamaguiSwitchProps,
-} from 'tamagui';
+import { TamaguiElement, Switch as TamaguiSwitch, SwitchProps as TamaguiSwitchProps } from 'tamagui';
 import { Label } from 'tamagui/unstyled';
 import { animer } from '../../core/animation/animer';
 import { Box } from '../../core/Box';
@@ -27,11 +21,10 @@ export type SwitchProps = Omit<TamaguiSwitchProps, 'value' | 'onChange'> & {
 
 // La piste du pouce, comme Tamagui v1 la dimensionnait : deux pouces de large, un de haut, plus
 // 4 px pour le padding et la bordure qu'Alveole pose de chaque cote. La v2 ne compte plus ces
-// 4 px, et le pouce debordait de sa piste.
-const dimensionsDeLaPiste = (taille: number) => {
-  const pouce = Math.round(taille * 0.65);
-  return { width: 2 * pouce + 4, height: pouce + 4, minHeight: pouce + 4 };
-};
+// 4 px, et le pouce debordait de sa piste. La taille de reference etait le token `$true` de la
+// config de l'application, 44 px ; la config v5 de Tamagui v3 ne le fournit plus, Alveole la fixe.
+const POUCE = Math.round(44 * 0.65);
+const DIMENSIONS_DE_LA_PISTE = { width: 2 * POUCE + 4, height: POUCE + 4, minHeight: POUCE + 4 };
 
 export const Switch = React.forwardRef<SwitchElement, SwitchProps>(function Switch(props, ref) {
   const { checked, style, label, error, success, disabled, noPadding, onCheckedChange, ...switchProps } = props;
@@ -59,7 +52,7 @@ export const Switch = React.forwardRef<SwitchElement, SwitchProps>(function Swit
       id={id}
       ref={ref}
       borderWidth={1}
-      {...dimensionsDeLaPiste(getVariableValue(getTokens().size.$true))}
+      {...DIMENSIONS_DE_LA_PISTE}
       checked={value}
       onCheckedChange={onChange}
       style={bouton}
