@@ -1,4 +1,5 @@
 import { makeStyles, StyleValue, useTheme } from '@alveole/theme';
+import { flexDuWeb } from '../../core/styleTamagui/flexDuWeb';
 
 type Theme = ReturnType<typeof useTheme>;
 
@@ -17,7 +18,7 @@ const coque = ({ color, spacing }: Theme) =>
       gap: spacing('3V'),
     },
     tabs: {
-      flex: 1,
+      ...flexDuWeb(1),
       minHeight: 0,
       flexDirection: 'column',
     },
@@ -32,7 +33,7 @@ const coque = ({ color, spacing }: Theme) =>
       overflowX: 'scroll', // On ajoute un scroll horizontal pour les petits écrans
     },
     tabsContent: {
-      flex: 1,
+      ...flexDuWeb(1),
       minHeight: 0,
       overflow: 'hidden',
     },
