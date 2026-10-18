@@ -1,10 +1,8 @@
 import { ThemeProvider } from '@alveole/theme';
-import { config } from '@tamagui/config/v3';
 import { render, RenderOptions } from '@testing-library/react';
 import { PropsWithChildren, ReactElement } from 'react';
-import { createTamagui, TamaguiProvider } from 'tamagui';
-
-const tamaguiConfig = createTamagui(config);
+import { TamaguiProvider } from 'tamagui';
+import { tamaguiTestConfig } from '../../../components/__tests__/helpers/tamaguiTestConfig';
 
 // Rendu dans le DOM via react-native-web, comme le projet web de `@alveole/components` : le
 // catalogue est une application web, et les primitives React Native refuseraient du texte
@@ -14,7 +12,7 @@ const tamaguiConfig = createTamagui(config);
 // Tamagui v2 exige `defaultTheme` : même valeur que `TamaguiTestProvider` de components.
 const TestProvider = ({ children }: PropsWithChildren) => (
   <ThemeProvider loader={false} staticCSS>
-    <TamaguiProvider config={tamaguiConfig} defaultTheme="light">
+    <TamaguiProvider config={tamaguiTestConfig} defaultTheme="light">
       {children}
     </TamaguiProvider>
   </ThemeProvider>

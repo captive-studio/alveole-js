@@ -1,7 +1,17 @@
-import { config } from '@tamagui/config/v3';
+import { defaultConfig } from '@tamagui/config/v5';
+import { animations } from '@tamagui/config/v5-css';
 import { createTamagui } from 'tamagui';
 
-export const tamaguiConfig = createTamagui(config);
+export const tamaguiConfig = createTamagui({
+  ...defaultConfig,
+  animations,
+  settings: {
+    mediaQueryDefaultActive: defaultConfig.settings.mediaQueryDefaultActive,
+    defaultFont: 'body',
+    fastSchemeChange: true,
+    shouldAddPrefersColorThemes: true,
+  },
+});
 
 export default tamaguiConfig;
 
