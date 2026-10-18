@@ -12,8 +12,8 @@ type PseudoEtats<Cible> = { hoverStyle?: CSSProperties } & { [Cle in PseudoEtat]
 /**
  * Le seul endroit ou les pseudo-etats poses par core rejoignent Tamagui. `Box` et
  * `Typography` repandent `pseudoEtats` sur leur vue Tamagui et le reste a part, si bien
- * qu'aucun pseudo-etat ne la rejoint par un autre chemin : la bascule vers les clauses de
- * Tamagui v3 (ADR 0031) ne modifiera que cette fonction.
+ * qu'aucun pseudo-etat ne la rejoint par un autre chemin : a la bascule vers les clauses de
+ * Tamagui v3 (ADR 0031), c'est ici seulement que core cessera de parler en `hoverStyle`.
  */
 export const pseudoEtatsTamagui =
   <Cible>() =>
