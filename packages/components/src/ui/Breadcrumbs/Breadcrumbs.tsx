@@ -2,6 +2,7 @@ import { usePathname } from 'expo-router';
 import React from 'react';
 import { A } from '../../core/A';
 import { Box } from '../../core/Box';
+import { soulignementAuSurvol } from '../../core/styleTamagui/soulignement';
 import { Typography } from '../../core/Typography';
 import { useStyles } from './Breadcrumbs.styles';
 
@@ -83,8 +84,8 @@ export const Breadcrumbs = (props: BreadcrumbsProps) => {
           {item.isCurrent || item.href === null ? (
             <Typography style={styles.current}>{item.label}</Typography>
           ) : (
-            <A href={item.href} style={styles.link} hoverStyle={styles.linkHover}>
-              <Typography style={styles.link} hoverStyle={styles.linkHover}>
+            <A href={item.href} style={styles.link}>
+              <Typography style={styles.link} textDecorationLine={soulignementAuSurvol}>
                 {item.label}
               </Typography>
             </A>

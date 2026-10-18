@@ -22,10 +22,11 @@ export type BoxAdvancedStyle = SizeStyle & {
   mt?: number | `${string}%` | SpacingKey | 'auto';
   mb?: number | `${string}%` | SpacingKey | 'auto';
 
-  backgroundColor?: string;
-  borderWidth?: number;
+  // Types de Tamagui : ils acceptent les clauses de la v3 (`bg="x hover:y"`, ADR 0031).
+  backgroundColor?: ViewProps['backgroundColor'];
+  borderWidth?: ViewProps['borderWidth'];
   borderRadius?: number | string;
-  borderColor?: string;
+  borderColor?: ViewProps['borderColor'];
   gap?: number | SpacingKey;
 };
 

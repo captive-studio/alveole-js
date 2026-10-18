@@ -1,5 +1,6 @@
 import { Pressable } from 'react-native';
 import { Box, BoxProps } from '../../core/Box';
+import { fondAuSurvol } from '../../core/styleTamagui/fondAuSurvol';
 import { Typography } from '../../core/Typography';
 import { Leading, LeadingSlot } from '../Leading';
 import { useStyles } from '../Sidebar/Sidebar.styles';
@@ -18,9 +19,11 @@ export const ActionMenuItem = (props: ActionMenuItemProps) => {
   const styles = useStyles();
   const actionMenuItemStyles = useActionMenuItemStyles();
 
-  const itemStyleSelected = selected ? styles.sidebarItemSelectedDesktop : {};
+  const { forme, fond } = fondAuSurvol(
+    selected ? styles.sidebarItemSelectedDesktop : {},
+    styles.sidebarItemHover.backgroundColor,
+  );
   const titleStyleSelected = selected ? styles.sidebarItemTitleSelectedDesktop : {};
-  const sidebarItemTitleDesktop = selected ? styles.sidebarItemTitleCurrentHoverDesktop : {};
 
   return (
     <Pressable accessibilityRole="button" onPress={onPress}>
@@ -33,11 +36,11 @@ export const ActionMenuItem = (props: ActionMenuItemProps) => {
           )}
           <Box
             tag="sidebar-item"
-            style={{ ...styles.sidebarItemDesktop, ...itemStyleSelected }}
+            style={{ ...styles.sidebarItemDesktop, ...forme }}
             // L'entrée sélectionnée se survole comme les autres. Lui réserver une teinte propre
             // n'ajoutait qu'un cas particulier, et celle qui était posée valait son fond de repos :
             // le survol ne produisait rien.
-            hoverStyle={{ ...styles.sidebarItemHover }}
+            backgroundColor={fond}
           >
             <LeadingSlot
               contenu={leading}
@@ -48,12 +51,7 @@ export const ActionMenuItem = (props: ActionMenuItemProps) => {
                   : styles.sidebarItemTitleSelectedDesktop.stroke,
               }}
             />
-            <Typography
-              style={{ ...styles.sidebarItemTitleDesktop, ...titleStyleSelected }}
-              hoverStyle={{ ...sidebarItemTitleDesktop }}
-            >
-              {title}
-            </Typography>
+            <Typography style={{ ...styles.sidebarItemTitleDesktop, ...titleStyleSelected }}>{title}</Typography>
           </Box>
         </Box>
       </Box>

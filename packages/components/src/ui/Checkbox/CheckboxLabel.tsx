@@ -1,4 +1,4 @@
-import { Label, LabelProps } from 'tamagui';
+import { Label, LabelProps } from 'tamagui/unstyled';
 import { Typography } from '../../core/Typography';
 import { useStyles } from './Checkbox.styles';
 import { CheckboxSize, CheckboxVariant, resolveCheckboxSize } from './Checkbox.utils';
@@ -20,7 +20,7 @@ export const CheckboxLabel = (props: CheckboxLabelProps & LabelProps) => {
   const resolvedSize = resolveCheckboxSize(size, variant);
 
   return (
-    <Label unstyled disabled={disabled} {...labelProps} width={'100%'}>
+    <Label disabled={disabled} {...labelProps} width={'100%'}>
       <Typography
         style={{
           ...styles.label,

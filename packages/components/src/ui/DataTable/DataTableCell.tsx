@@ -21,7 +21,7 @@ export const DataTableCell = (props: DataTableCellProps) => {
   const aspect = dataTableCellStyle(styles, { variant, size, align, width, noPadding, pressable: onPress != null });
 
   return (
-    <Box tag={aspect.tag} onPress={onPress} hoverStyle={aspect.hover} style={aspect.style}>
+    <Box tag={aspect.tag} onPress={onPress} opacity={aspect.opacite} style={aspect.style}>
       {children}
     </Box>
   );

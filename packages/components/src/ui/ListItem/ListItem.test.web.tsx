@@ -157,3 +157,11 @@ test('cumule le choix, l icone et l avatar devant le titre', () => {
   expect(screen.getByText('AL')).toBeTruthy();
   expect(container.querySelectorAll('svg')).toHaveLength(1);
 });
+
+// Le survol d'une ligne cliquable passe par une clause de Tamagui v3, rendue en classe
+// atomique : sans elle, la ligne ne reagit plus au pointeur.
+test("pose le fond de survol d'une ligne cliquable en classe Tamagui", () => {
+  const { container } = renderWeb(<ListItem title="Ada" onPress={() => {}} />);
+
+  expect(container.querySelector('resource-item')?.className).toMatch(/_b-/);
+});

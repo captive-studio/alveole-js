@@ -30,7 +30,7 @@ export const dataTableCellStyle = (
   return {
     tag: variant === 'header' ? ('data-table-header-cell' as const) : ('data-table-cell' as const),
     // Le survol ne repond que la ou il y a quelque chose a presser.
-    hover: pressable ? { opacity: 0.8 } : undefined,
+    opacite: pressable ? { hover: 0.8 } : undefined,
     style: [
       variant === 'header' ? styles.headerCell : styles.cell,
       noPadding ? {} : retrait,

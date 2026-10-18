@@ -1,4 +1,4 @@
-import { focusRing, makeStyles, StyleValue, useTheme } from '@alveole/theme';
+import { makeStyles, StyleValue, useTheme } from '@alveole/theme';
 import { Platform } from 'react-native';
 
 type Theme = ReturnType<typeof useTheme>;
@@ -10,9 +10,6 @@ type Table = Record<string, StyleValue>;
 
 const groupe = ({ text, color, spacing, radius }: Theme) =>
   ({
-    // Voir `RadioInput.tsx` : Tamagui impose sa propre bague en `!important`, seule sa prop
-    // `focusVisibleStyle` peut la remplacer. Meme source que la regle CSS du theme.
-    itemContainerFocused: focusRing('default'),
     container: {
       width: '100%',
       display: 'flex',
@@ -80,13 +77,13 @@ const carte = ({ text, color, spacing, radius }: Theme) =>
       flexDirection: 'row',
       alignItems: 'center',
       cursor: 'pointer',
+      // Pose au repos : sans fond ni bordure, il ne se voit qu'au survol.
+      borderRadius: radius('md'),
       transitionDuration: '0.1s',
       transitionTimingFunction: 'ease-in-out',
     },
     itemCardHover: {
       backgroundColor: color.background['default-hover'],
-      borderRadius: radius('md'),
-      boxShadow: undefined,
     },
     itemCardIcon: {
       display: 'flex',

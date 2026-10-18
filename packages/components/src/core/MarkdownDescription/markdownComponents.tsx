@@ -5,6 +5,7 @@ import { TextStyle as RNTextStyle } from 'react-native';
 import { Box } from '../Box';
 import { Code } from '../Code';
 import { Highlight, HighlightProps } from '../Highlight';
+import { soulignementDuLien } from '../styleTamagui/soulignement';
 import { Typography } from '../Typography';
 
 const HIGHLIGHT_LANGUAGES: HighlightProps['language'][] = [
@@ -36,8 +37,6 @@ type MarkdownComponentsStyles = {
   borderColor: string;
   headerBg: string;
   linkColor: string;
-  linkStyle: { textDecoration: 'underline' };
-  linkHoverStyle: { textDecoration: 'none' };
 };
 
 type TextComponentStyles = Pick<MarkdownComponentsStyles, 'bodyStyle' | 'boldStyle' | 'textColor'>;
@@ -102,15 +101,14 @@ const createListComponents = (bodyStyle: TextStyle): Components => ({
   ),
 });
 
-type LinkComponentStyles = Pick<MarkdownComponentsStyles, 'linkColor' | 'linkStyle' | 'linkHoverStyle'>;
+type LinkComponentStyles = Pick<MarkdownComponentsStyles, 'linkColor'>;
 
-const createLinkComponents = ({ linkColor, linkStyle, linkHoverStyle }: LinkComponentStyles): Components => ({
+const createLinkComponents = ({ linkColor }: LinkComponentStyles): Components => ({
   a: ({ href, children: c }: AvecEnfants & { href?: string }) => (
     <Typography
       tag="a"
       color={linkColor}
-      style={linkStyle}
-      hoverStyle={linkHoverStyle}
+      textDecorationLine={soulignementDuLien}
       // Tamagui v2 ne type plus `href` sur Text : l'attribut passe tel quel au DOM.
       {...{ href, [FOCUS_ATTRIBUTE]: 'ring' }}
     >

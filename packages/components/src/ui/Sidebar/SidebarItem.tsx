@@ -4,6 +4,7 @@ import React from 'react';
 import { Pressable } from 'react-native';
 import { A, AProps } from '../../core/A';
 import { Box } from '../../core/Box';
+import { fondAuSurvol } from '../../core/styleTamagui/fondAuSurvol';
 import { Typography } from '../../core/Typography';
 import { Leading, LeadingSlot } from '../Leading';
 import { useStyles } from './Sidebar.styles';
@@ -67,10 +68,11 @@ const SidebarItemDesktop = (props: SidebarItemProps) => {
   const styles = useStyles();
   const isCurrentPage = useEstPageCourante(props);
 
-  const itemStyleSelected = isCurrentPage ? styles.sidebarItemSelectedDesktop : {};
+  const { forme, fond } = fondAuSurvol(
+    isCurrentPage ? styles.sidebarItemSelectedDesktop : {},
+    styles.sidebarItemHover.backgroundColor,
+  );
   const titleStyleSelected = isCurrentPage ? styles.sidebarItemTitleSelectedDesktop : {};
-
-  const sidebarItemTitleDesktop = isCurrentPage ? styles.sidebarItemTitleCurrentHoverDesktop : {};
 
   return (
     <SidebarItemEnveloppe item={props} isCurrentPage={isCurrentPage}>
@@ -78,21 +80,16 @@ const SidebarItemDesktop = (props: SidebarItemProps) => {
         {isCurrentPage && <IndicateurPageCourante />}
         <Box
           tag="sidebar-item"
-          style={{ ...styles.sidebarItemDesktop, ...itemStyleSelected }}
+          style={{ ...styles.sidebarItemDesktop, ...forme }}
           // La ligne courante se survole comme ses voisines : elle est un lien au même titre, et
           // lui réserver une teinte propre n'ajoutait qu'un cas particulier. Son fond de repos
           // étant plus sombre, le survol commun l'éclaircit - la direction que prend Primer.
-          hoverStyle={{ ...styles.sidebarItemHover }}
+          backgroundColor={fond}
         >
           {/* 16px et non 24 : c'est l'icône qui fixerait la hauteur de la ligne, et une icône de
             24 rendrait l'item à 36px là où la maquette le veut à 32. */}
           <LeadingSlot contenu={leading} apparence={{ size: 'sm' }} />
-          <Typography
-            style={{ ...styles.sidebarItemTitleDesktop, ...titleStyleSelected }}
-            hoverStyle={{ ...sidebarItemTitleDesktop }}
-          >
-            {title}
-          </Typography>
+          <Typography style={{ ...styles.sidebarItemTitleDesktop, ...titleStyleSelected }}>{title}</Typography>
         </Box>
       </Box>
     </SidebarItemEnveloppe>
@@ -105,20 +102,22 @@ const SidebarItemMobile = (props: SidebarItemProps) => {
   const styles = useStyles();
   const isCurrentPage = useEstPageCourante(props);
 
-  const itemStyleSelected = isCurrentPage ? styles.sidebarItemSelectedMobile : {};
-  const titleStyleSelected = isCurrentPage ? styles.sidebarItemTitleSelectedMobile : {};
-
-  const sidebarItemTitleMobile = isCurrentPage ? styles.sidebarItemTitleCurrentHoverMobile : {};
+  const { forme, fond } = fondAuSurvol(
+    isCurrentPage ? styles.sidebarItemSelectedMobile : {},
+    styles.sidebarItemHover.backgroundColor,
+  );
+  // Comme le fond, la couleur du titre courant porte repos et survol sur sa seule prop.
+  const { color: couleurDuTitre, ...titre } = {
+    ...styles.sidebarItemTitleMobile,
+    ...(isCurrentPage ? styles.sidebarItemTitleSelectedMobile : {}),
+  };
+  const couleurAuSurvol = isCurrentPage ? styles.sidebarItemTitleCurrentHoverMobile.color : undefined;
 
   return (
     <SidebarItemEnveloppe item={props} isCurrentPage={isCurrentPage}>
       <Box>
         {isCurrentPage && <IndicateurPageCourante />}
-        <Box
-          tag="sidebar-item"
-          style={{ ...styles.sidebarItemMobile, ...itemStyleSelected }}
-          hoverStyle={{ ...styles.sidebarItemHover }}
-        >
+        <Box tag="sidebar-item" style={{ ...styles.sidebarItemMobile, ...forme }} backgroundColor={fond}>
           <LeadingSlot
             contenu={leading}
             apparence={{
@@ -128,10 +127,7 @@ const SidebarItemMobile = (props: SidebarItemProps) => {
                 : styles.sidebarItemTitleSelectedMobile.stroke,
             }}
           />
-          <Typography
-            style={{ ...styles.sidebarItemTitleMobile, ...titleStyleSelected }}
-            hoverStyle={{ ...sidebarItemTitleMobile }}
-          >
+          <Typography style={titre} color={{ default: couleurDuTitre, hover: couleurAuSurvol }}>
             {title}
           </Typography>
         </Box>

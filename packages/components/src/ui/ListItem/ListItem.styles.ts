@@ -27,10 +27,14 @@ const ligne = ({ color, radius, spacing }: Theme) =>
       alignSelf: 'stretch',
     },
 
-    itemHover: {
-      backgroundColor: color.alpha(color.light.background['alt-grey'], 0.75),
+    // Rayon et curseur au repos : sans fond, le rayon ne se voit qu'au survol, que porte la
+    // seule prop `backgroundColor` (clause de Tamagui v3).
+    itemPressable: {
       borderRadius: radius('md'),
       cursor: 'pointer',
+    },
+    itemHover: {
+      backgroundColor: color.alpha(color.light.background['alt-grey'], 0.75),
     },
 
     loading: {

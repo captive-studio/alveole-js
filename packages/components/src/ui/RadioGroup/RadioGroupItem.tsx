@@ -1,5 +1,6 @@
 import React, { useId } from 'react';
-import { Label, TamaguiElement, RadioGroupItemProps as TamaguiRadioGroupItemProps } from 'tamagui';
+import { TamaguiElement, RadioGroupItemProps as TamaguiRadioGroupItemProps } from 'tamagui';
+import { Label } from 'tamagui/unstyled';
 import { Box } from '../../core/Box';
 import { Typography } from '../../core/Typography';
 import { useStyles } from './RadioGroupItem.styles';
@@ -20,7 +21,7 @@ export const RadioGroupItem = (props: RadioGroupItemProps) => {
 
   return (
     <Box tag="radio-group-item" style={styles.item}>
-      <Label unstyled htmlFor={id} style={styles.labelContainer}>
+      <Label htmlFor={id} style={styles.labelContainer}>
         <Box>
           <RadioInput value={value} id={id} size="md" />
         </Box>

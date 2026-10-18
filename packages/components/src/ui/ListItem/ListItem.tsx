@@ -1,6 +1,5 @@
 import React from 'react';
-import { GestureResponderEvent } from 'react-native';
-import { Box } from '../../core/Box';
+import { Box, BoxProps } from '../../core/Box';
 import { Typography } from '../../core/Typography';
 import { Spinner } from '../Spinner';
 import { useStyles } from './ListItem.styles';
@@ -8,6 +7,8 @@ import { ListItemProps } from './ListItem.types';
 import { ListItemVisuel } from './ListItemVisuel';
 
 export * from './ListItem.types';
+
+type EvenementDePression = Parameters<NonNullable<BoxProps['onPress']>>[0];
 
 export const ListItem = (props: ListItemProps) => {
   const {
@@ -28,7 +29,7 @@ export const ListItem = (props: ListItemProps) => {
 
   // Presser la ligne vaut choix : c'est toute la ligne qui est la cible, pas le seul controle.
   const handlePress = React.useCallback(
-    (event: GestureResponderEvent) => {
+    (event: EvenementDePression) => {
       if (RadioProps) RadioProps.onChange?.(RadioProps.value);
       onPress?.(event);
     },
@@ -36,13 +37,14 @@ export const ListItem = (props: ListItemProps) => {
   );
 
   const styles = useStyles();
+  const cliquable = onPress != null || RadioProps != null;
 
   return (
     <Box style={styles.container}>
       <Box
         tag="resource-item"
-        style={[styles.item, style]}
-        hoverStyle={onPress || RadioProps ? styles.itemHover : {}}
+        style={[styles.item, cliquable && styles.itemPressable, style]}
+        backgroundColor={cliquable ? { hover: styles.itemHover.backgroundColor } : undefined}
         onPress={handlePress}
         {...itemProps}
       >

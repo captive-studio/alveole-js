@@ -118,3 +118,11 @@ test('demande la bague de focus au theme sur les liens', () => {
 
   expect(screen.getByRole('link').getAttribute(FOCUS_ATTRIBUTE)).toBe('ring');
 });
+
+// une clause ne vit que sur la prop qui porte le repos (ADR 0031) : le soulignement doit
+// porter repos et survol sur sa seule prop, jamais en inline.
+test('ne pose pas le soulignement des liens en inline, pour que le survol le retire', () => {
+  renderWeb(<MarkdownDescription>{'[lien](https://exemple.fr)'}</MarkdownDescription>);
+
+  expect(screen.getByRole('link').style.textDecoration).toBe('');
+});

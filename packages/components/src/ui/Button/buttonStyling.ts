@@ -27,10 +27,18 @@ const styleDeFond = (styles: Styles, { variant, selected, disabled }: EtatDuBout
   return { ...styles[etats.repos], ...styleDe(styles, cleDEtat(etats, { disabled, actif })) };
 };
 
-/** Le fond et les rembourrages : tout ce qui se pose sur le Box interieur. */
-export const styleDuConteneur = (styles: Styles, etat: EtatDuBouton, actif: boolean): StyleValue => ({
+/**
+ * Le fond et les rembourrages : tout ce qui se pose sur le Box interieur. Le survol suit l'etat
+ * du pointeur, comme le libelle et l'icone : Tamagui v3 a retire `hoverStyle`.
+ */
+export const styleDuConteneur = (
+  styles: Styles,
+  etat: EtatDuBouton,
+  { actif, survole = false }: { actif: boolean; survole?: boolean },
+): StyleValue => ({
   ...styles.container,
   ...styleDeFond(styles, etat, actif),
+  ...(survole ? styleDeSurvol(styles, etat) : {}),
   ...styleDe(styles, CONTENEUR_PAR_TAILLE[etat.taille]),
   // La bordure est posee sur le Pressable, pas ici : le Box doit donc annuler celle que son
   // style de variante lui aurait donnee, sans quoi les deux se superposeraient.
@@ -39,7 +47,7 @@ export const styleDuConteneur = (styles: Styles, etat: EtatDuBouton, actif: bool
   borderStyle: undefined,
 });
 
-/** Le survol n'est pas un etat rendu : c'est une prop que Tamagui appliquera lui-meme. */
+/** Le fond que prend le conteneur sous le pointeur. */
 export const styleDeSurvol = (styles: Styles, { variant, selected, disabled }: EtatDuBouton): StyleValue => {
   if (disabled) return {};
   if (selected) return styles.selectedContainerHover;

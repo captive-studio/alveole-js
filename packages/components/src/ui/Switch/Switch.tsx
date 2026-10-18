@@ -3,14 +3,13 @@ import React, { CSSProperties, useId } from 'react';
 import {
   getTokens,
   getVariableValue,
-  Label,
   TamaguiElement,
   Switch as TamaguiSwitch,
   SwitchProps as TamaguiSwitchProps,
 } from 'tamagui';
+import { Label } from 'tamagui/unstyled';
 import { animer } from '../../core/animation/animer';
 import { Box } from '../../core/Box';
-import { pseudoEtatsTamagui } from '../../core/styleTamagui/pseudoEtatsTamagui';
 import { Typography } from '../../core/Typography';
 import { FormControlCaption } from '../FormControl';
 import { apparenceDuSwitch } from './Switch.apparence';
@@ -54,14 +53,6 @@ export const Switch = React.forwardRef<SwitchElement, SwitchProps>(function Swit
   };
 
   const { bouton, pouce, libelle } = apparenceDuSwitch(styles, { value, disabled, noPadding, style });
-  const { pseudoEtats, autres } = pseudoEtatsTamagui<TamaguiSwitchProps>()({
-    // Tamagui injecte sa propre regle `:focus-visible` en `!important` derriere un selecteur
-    // `:root:root:root:root` : la regle CSS du theme ne peut pas la battre, et sans cette prop
-    // c'est le gris translucide de Tamagui qui s'affiche. La valeur vient de `focusRing()`,
-    // qui peint le meme bleu que la regle : un seul reglage, deux chemins pour l'appliquer.
-    focusVisibleStyle: styles.switchButtonFocused,
-    ...switchProps,
-  });
 
   const Toggle = (
     <TamaguiSwitch
@@ -73,9 +64,9 @@ export const Switch = React.forwardRef<SwitchElement, SwitchProps>(function Swit
       onCheckedChange={onChange}
       style={bouton}
       disabled={disabled}
+      // La bague passe par la seule marque du theme (ADR 0017, amendement Tamagui v3).
       {...focusRingProps()}
-      {...pseudoEtats}
-      {...autres}
+      {...switchProps}
     >
       <TamaguiSwitch.Thumb {...animer('quicker')} style={pouce} />
     </TamaguiSwitch>
@@ -83,7 +74,7 @@ export const Switch = React.forwardRef<SwitchElement, SwitchProps>(function Swit
 
   const ToggleWithLabel = (
     <>
-      <Label unstyled htmlFor={id} width={'100%'}>
+      <Label htmlFor={id} width={'100%'}>
         <Box tag="switch" style={styles.switch}>
           {Toggle}
 

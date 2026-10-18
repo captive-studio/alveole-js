@@ -36,10 +36,10 @@ export const AccordionItem = (props: AccordionItemProps) => {
 
   return (
     <TamaguiAccordion.Item {...itemProps}>
-      <TamaguiAccordion.Trigger unstyled style={styles.accordionItemTrigger} {...focusRingProps()}>
+      <TamaguiAccordion.Trigger style={styles.accordionItemTrigger} {...focusRingProps()}>
         {({ open }: { open: boolean }) => (
           <Box backgroundColor={headerStyle(open).backgroundColor}>
-            <Box style={headerStyle(open)} hoverStyle={headerStyle(open)} focusStyle={headerStyle(open)}>
+            <Box style={headerStyle(open)}>
               <LeadingSlot contenu={leading} apparence={{ size: 'md' }} />
               <Typography style={styles.accordionItemLabel} mr={labelChildren ? undefined : 'auto'}>
                 {label}
