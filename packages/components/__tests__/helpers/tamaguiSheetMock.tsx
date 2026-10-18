@@ -26,9 +26,13 @@ export const mockTamaguiSheet = () => {
   Handle.displayName = 'SheetHandle';
   Sheet.Handle = Handle;
 
-  const Frame = (props: { children: React.ReactNode }) => ReactActual.createElement(View, null, props.children);
-  Frame.displayName = 'SheetFrame';
-  Sheet.Frame = Frame;
+  const Container = (props: { children: React.ReactNode }) => ReactActual.createElement(View, null, props.children);
+  Container.displayName = 'SheetContainer';
+  Sheet.Container = Container;
+
+  const Background = () => null;
+  Background.displayName = 'SheetBackground';
+  Sheet.Background = Background;
 
   const SheetScrollView = ReactActual.forwardRef((props: object, ref: React.Ref<ScrollView>) =>
     ReactActual.createElement(View, { ref, ...props }),

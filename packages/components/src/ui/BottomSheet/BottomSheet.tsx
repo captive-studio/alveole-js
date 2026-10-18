@@ -41,9 +41,10 @@ export const BottomSheet = (props: BottomSheetProps) => {
 
   return (
     <Box tag="sheet" style={styles.container}>
+      {/* Tamagui v3 bloque le défilement de la page dès qu'un sheet modal est ouvert : la
+          prop `forceRemoveScrollEnabled` de la v1 n'existe plus. */}
       <TamaguiSheet
         modal
-        forceRemoveScrollEnabled={open}
         open={open}
         onOpenChange={setOpen}
         snapPoints={fitContent ? undefined : points}
@@ -56,10 +57,11 @@ export const BottomSheet = (props: BottomSheetProps) => {
         moveOnKeyboardChange={moveOnKeyboardChange}
       >
         <TamaguiSheet.Overlay style={styles.overlay} />
+        <TamaguiSheet.Handle style={styles.handle} />
         {/* Un panneau glissant est un dialogue : sans ce rôle, son ouverture n'est pas
             annoncée et son contenu compte comme hors de tout repère de page. */}
-        <TamaguiSheet.Frame role="dialog" aria-modal aria-label={title} style={styles.frame}>
-          <TamaguiSheet.Handle style={styles.handle} />
+        <TamaguiSheet.Container role="dialog" aria-modal aria-label={title} style={styles.sheetContainer}>
+          <TamaguiSheet.Background style={styles.background} />
 
           <Box tag="sheet-header" style={styles.header}>
             <Box>
@@ -90,7 +92,7 @@ export const BottomSheet = (props: BottomSheetProps) => {
           <Box tag="sheet-content" style={[styles.content, !fitContent && styles.contentFull]} pb={bottom}>
             {children}
           </Box>
-        </TamaguiSheet.Frame>
+        </TamaguiSheet.Container>
       </TamaguiSheet>
     </Box>
   );
