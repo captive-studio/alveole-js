@@ -1,5 +1,6 @@
 import { focusRingProps } from '@alveole/theme';
-import { RadioGroup as TamaguiRadioGroup } from 'tamagui';
+import { RadioGroupItemProps, RadioGroup as TamaguiRadioGroup } from 'tamagui';
+import { pseudoEtatsTamagui } from '../../core/styleTamagui/pseudoEtatsTamagui';
 import { useStyles } from './RadioGroup.styles';
 import { useRadioGroup } from './RadioGroupContext';
 
@@ -24,6 +25,16 @@ export const RadioInput = (props: RadioInputProps) => {
   const itemStyles = { ...styles.itemContainer, ...(size === 'sm' ? styles.itemContainerSm : styles.itemContainerMd) };
   const indicatorStyle = { ...styles.itemContainer, ...(isSelected ? styles.itemContainerActive : {}) };
 
+  const { pseudoEtats } = pseudoEtatsTamagui<RadioGroupItemProps>()({
+    hoverStyle: indicatorStyle,
+    pressStyle: styles.itemContainerActive,
+    // Tamagui injecte sa propre regle `:focus-visible` en `!important` derriere un selecteur
+    // `:root:root:root:root` : la regle CSS du theme ne peut pas la battre, et sans cette prop
+    // c'est le gris translucide de Tamagui qui s'affiche. La valeur vient de `focusRing()`,
+    // qui peint le meme bleu que la regle : un seul reglage, deux chemins pour l'appliquer.
+    focusVisibleStyle: styles.itemContainerFocused,
+  });
+
   const handleChange = () => {
     onInputChange?.(value);
     onGroupChange?.(value);
@@ -35,14 +46,8 @@ export const RadioInput = (props: RadioInputProps) => {
       id={id}
       aria-label={label}
       style={itemStyles}
-      hoverStyle={indicatorStyle}
-      pressStyle={styles.itemContainerActive}
       {...focusRingProps()}
-      // Tamagui injecte sa propre regle `:focus-visible` en `!important` derriere un selecteur
-      // `:root:root:root:root` : la regle CSS du theme ne peut pas la battre, et sans cette prop
-      // c'est le gris translucide de Tamagui qui s'affiche. La valeur vient de `focusRing()`,
-      // qui peint le meme bleu que la regle : un seul reglage, deux chemins pour l'appliquer.
-      focusVisibleStyle={styles.itemContainerFocused}
+      {...pseudoEtats}
       onPress={handleChange}
     >
       <TamaguiRadioGroup.Indicator style={styles.itemIndicator} />

@@ -10,6 +10,7 @@ import {
 } from 'tamagui';
 import { animer } from '../../core/animation/animer';
 import { Box } from '../../core/Box';
+import { pseudoEtatsTamagui } from '../../core/styleTamagui/pseudoEtatsTamagui';
 import { Typography } from '../../core/Typography';
 import { FormControlCaption } from '../FormControl';
 import { apparenceDuSwitch } from './Switch.apparence';
@@ -53,6 +54,14 @@ export const Switch = React.forwardRef<SwitchElement, SwitchProps>(function Swit
   };
 
   const { bouton, pouce, libelle } = apparenceDuSwitch(styles, { value, disabled, noPadding, style });
+  const { pseudoEtats, autres } = pseudoEtatsTamagui<TamaguiSwitchProps>()({
+    // Tamagui injecte sa propre regle `:focus-visible` en `!important` derriere un selecteur
+    // `:root:root:root:root` : la regle CSS du theme ne peut pas la battre, et sans cette prop
+    // c'est le gris translucide de Tamagui qui s'affiche. La valeur vient de `focusRing()`,
+    // qui peint le meme bleu que la regle : un seul reglage, deux chemins pour l'appliquer.
+    focusVisibleStyle: styles.switchButtonFocused,
+    ...switchProps,
+  });
 
   const Toggle = (
     <TamaguiSwitch
@@ -65,12 +74,8 @@ export const Switch = React.forwardRef<SwitchElement, SwitchProps>(function Swit
       style={bouton}
       disabled={disabled}
       {...focusRingProps()}
-      // Tamagui injecte sa propre regle `:focus-visible` en `!important` derriere un selecteur
-      // `:root:root:root:root` : la regle CSS du theme ne peut pas la battre, et sans cette prop
-      // c'est le gris translucide de Tamagui qui s'affiche. La valeur vient de `focusRing()`,
-      // qui peint le meme bleu que la regle : un seul reglage, deux chemins pour l'appliquer.
-      focusVisibleStyle={styles.switchButtonFocused}
-      {...switchProps}
+      {...pseudoEtats}
+      {...autres}
     >
       <TamaguiSwitch.Thumb {...animer('quicker')} style={pouce} />
     </TamaguiSwitch>

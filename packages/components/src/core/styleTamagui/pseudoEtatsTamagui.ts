@@ -7,13 +7,16 @@ type StyleDe<Cible, Cle extends string> = Cle extends keyof Cible ? Cible[Cle] :
 
 type PseudoEtat = 'pressStyle' | 'focusStyle' | 'focusVisibleStyle' | 'enterStyle' | 'exitStyle' | 'disabledStyle';
 
-type PseudoEtats<Cible> = { hoverStyle?: CSSProperties } & { [Cle in PseudoEtat]?: StyleDe<Cible, Cle> };
+type PseudoEtats<Cible> = { hoverStyle?: CSSProperties | StyleDe<Cible, 'hoverStyle'> } & {
+  [Cle in PseudoEtat]?: StyleDe<Cible, Cle>;
+};
 
 /**
- * Le seul endroit ou les pseudo-etats poses par core rejoignent Tamagui. `Box` et
- * `Typography` repandent `pseudoEtats` sur leur vue Tamagui et le reste a part, si bien
- * qu'aucun pseudo-etat ne la rejoint par un autre chemin : a la bascule vers les clauses de
- * Tamagui v3 (ADR 0031), c'est ici seulement que core cessera de parler en `hoverStyle`.
+ * Le seul endroit ou les pseudo-etats poses par Alveole rejoignent Tamagui. `Box`,
+ * `Typography` et les controles batis directement sur Tamagui (`Checkbox`, `RadioGroup`,
+ * `Switch`) repandent `pseudoEtats` sur leur composant Tamagui et le reste a part, si bien
+ * qu'aucun pseudo-etat ne le rejoint par un autre chemin : a la bascule vers les clauses de
+ * Tamagui v3 (ADR 0031), c'est ici seulement qu'Alveole cessera de parler en `hoverStyle`.
  */
 export const pseudoEtatsTamagui =
   <Cible>() =>
