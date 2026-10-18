@@ -13,9 +13,8 @@ type PseudoEtats<Cible> = { hoverStyle?: CSSProperties | StyleDe<Cible, 'hoverSt
 
 /**
  * Le seul endroit ou les pseudo-etats poses par Alveole rejoignent Tamagui. `Box`,
- * `Typography` et les controles batis directement sur Tamagui (`Checkbox`, `RadioGroup`,
- * `Switch`) repandent `pseudoEtats` sur leur composant Tamagui et le reste a part, si bien
- * qu'aucun pseudo-etat ne le rejoint par un autre chemin : a la bascule vers les clauses de
+ * `Typography` et les composants batis directement sur Tamagui repandent `pseudoEtats` sur
+ * leur composant Tamagui et le reste a part, si bien qu'aucun pseudo-etat ne le rejoint par un autre chemin : a la bascule vers les clauses de
  * Tamagui v3 (ADR 0031), c'est ici seulement qu'Alveole cessera de parler en `hoverStyle`.
  */
 export const pseudoEtatsTamagui =
