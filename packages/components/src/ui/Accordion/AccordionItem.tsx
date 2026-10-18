@@ -50,7 +50,7 @@ export const AccordionItem = (props: AccordionItemProps) => {
                 </Box>
               )}
               <Square
-                {...animer('75ms')}
+                {...animer('quickest')}
                 rotate={open ? '180deg' : '0deg'}
                 style={{ marginTop: 'auto', marginBottom: 'auto' }}
               >
