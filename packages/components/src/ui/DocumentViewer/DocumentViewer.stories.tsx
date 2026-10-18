@@ -50,7 +50,7 @@ export const WithChildren = () => (
       source="https://upload.wikimedia.org/wikipedia/commons/4/4e/Wikip%C3%A9dia.pdf"
       height="100%"
     >
-      <Box p={'2W'} minW={600}>
+      <Box p={'2W'}>
         <Typography>Contenu enfant</Typography>
       </Box>
     </DocumentViewer>
