@@ -234,7 +234,7 @@ jobs:
   publish-packages:
     name: Publish packages to npm
     if: github.event_name == 'push' && startsWith(github.ref, 'refs/tags/v')
-    uses: captive-studio/captive-ci/.github/workflows/release-npm.yml@9a0915bb9a2767685cb0856c3d990fc87e5c88c8 # main
+    uses: captive-studio/captive-ci/.github/workflows/release-npm.yml@128272f5f36d53585c6465e5711781b20f11b72e # main
     with:
       node-version: '24'
       packages-dir: packages
