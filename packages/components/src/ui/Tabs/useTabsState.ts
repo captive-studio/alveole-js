@@ -26,7 +26,7 @@ export const useTabsState = (initialValue: string, onChange?: (index: number) =>
   });
 
   const setCurrentTab = (currentTab: string, index: number) => {
-    setTabState({ ...tabState, currentTab });
+    setTabState(state => ({ ...state, currentTab }));
     onChange?.(index);
   };
 
@@ -34,13 +34,16 @@ export const useTabsState = (initialValue: string, onChange?: (index: number) =>
   // ne doit se declencher que sur un vrai clic, pas sur ce qui n'est qu'une reprise d'etat.
   const restoreCurrentTab = (currentTab: string) => setTabState(state => ({ ...state, currentTab }));
 
-  const setHoverTab = (hoverTab: string | null) => setTabState({ ...tabState, hoverTab });
+  // Chaque mise a jour part de l'etat courant, jamais de celui du rendu : en Tamagui v3, l'onglet
+  // emet son interaction `hover` dans le meme evenement que `onMouseEnter`, et une ecriture a
+  // partir de l'etat du rendu effacait le survol tout juste pose.
+  const setHoverTab = (hoverTab: string | null) => setTabState(state => ({ ...state, hoverTab }));
 
   const handleOnInteraction: TabsTabProps['onInteraction'] = (type, layout) => {
     if (type === 'select') {
-      setTabState({ ...tabState, prevActiveAt: tabState.activeAt, activeAt: layout });
+      setTabState(state => ({ ...state, prevActiveAt: state.activeAt, activeAt: layout }));
     } else {
-      setTabState({ ...tabState, intentAt: layout });
+      setTabState(state => ({ ...state, intentAt: layout }));
     }
   };
 
