@@ -61,7 +61,7 @@
   },
   "devDependencies": {
     "@alveole/eslint-config": "file:../../packages/eslint-config",
-    "@axe-core/playwright": "4.13.0",
+    "@axe-core/playwright": "4.14.0",
     "@playwright/test": "1.63.0",
     "@tamagui/babel-plugin": "2.7.7",
     "@types/node": "24.19.2",
