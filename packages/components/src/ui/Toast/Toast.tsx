@@ -1,6 +1,6 @@
-import { Toast as TamaguiToast, useToastController, useToastState } from '@tamagui/toast';
+import { Toast as TamaguiToast, type ToastItemRenderProps } from '@tamagui/toast';
 import { Pressable } from 'react-native';
-import { Box, BoxProps } from '../../core/Box';
+import { Box } from '../../core/Box';
 import { Typography } from '../../core/Typography';
 import { Leading } from '../Leading';
 import { LucideIcon } from '../LucideIcon';
@@ -41,34 +41,17 @@ export function ToastView({ title, message, variant = 'default', leading, onClos
   );
 }
 
-export type ToastProps = Omit<BoxProps, 'children'>;
+export type ToastProps = ToastItemRenderProps;
 
 const horsEcran = { opacity: 0, y: 10, scale: 0.98 };
-// Objets de condition v2, que Tamagui v3 ignore : ALV-129 les reecrit en clauses `enter:`/`exit:`.
-const animationDuToast = { enterStyle: horsEcran, exitStyle: horsEcran };
+const animationDuToast = { enter: horsEcran, exit: horsEcran };
 
-export function Toast() {
-  const toast = useToastState();
-  const controller = useToastController();
+export function Toast({ toast, index }: ToastProps) {
   const styles = useStyles();
 
-  if (!toast) return null;
-
   return (
-    <TamaguiToast
-      key={toast.id}
-      duration={toast.duration}
-      {...animationDuToast}
-      viewportName="app-toasts"
-      style={styles.tamaguiToastContainer}
-    >
-      <ToastView
-        title={toast.title}
-        message={toast.message}
-        variant={toast.customData?.variant ?? 'default'}
-        leading={toast.customData?.leading}
-        onClose={() => controller.hide()}
-      />
-    </TamaguiToast>
+    <TamaguiToast.Item toast={toast} index={index} {...animationDuToast} style={styles.tamaguiToastContainer}>
+      {toast.jsx}
+    </TamaguiToast.Item>
   );
 }
