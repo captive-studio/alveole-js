@@ -1,7 +1,12 @@
 import { Box, Card, Typography } from '@alveole/components';
 import { useTheme } from '@alveole/theme';
-import { TextStyle, View } from 'react-native';
+import { TextStyle as RNTextStyle, View } from 'react-native';
 import { EcranDeCatalogue, filDuTheme } from '../components/EcranDeCatalogue';
+
+// Les champs d'un style de la feuille de typographie, sans couleur : depuis Tamagui v3, le
+// `TextStyle` complet de React Native n'entre plus dans `style` (ses couleurs opaques ne sont
+// pas des couleurs CSS). Meme selection que `CustomStyle` du theme.
+type TextStyle = Pick<RNTextStyle, 'fontSize' | 'lineHeight' | 'fontWeight' | 'fontFamily' | 'letterSpacing'>;
 
 export type ThemeTypographyScreenProps = {
   typography: Record<string, unknown>;

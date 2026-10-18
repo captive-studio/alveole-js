@@ -40,7 +40,7 @@ export const SelectItem = ({ label, leading, selected, highlighted, disabled, mu
   return (
     <Box tag="select-item" style={aspect.item}>
       {highlighted && <Box testID="select-item-barre" style={styles.barre} />}
-      <Box tag="select-item-band" style={aspect.band} hoverStyle={aspect.bandHover}>
+      <Box tag="select-item-band" style={aspect.band} backgroundColor={aspect.fondDeBande}>
         {/* Simple visuel : la ligne entière reste l'unique zone pressable, un contrôle imbriqué
             dans un autre serait un anti-patron d'accessibilité. */}
         {multiple && (

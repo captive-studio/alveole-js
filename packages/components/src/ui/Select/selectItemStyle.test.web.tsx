@@ -11,7 +11,7 @@ test('ne donne pas de fond a une option cochee en multiple', () => {
 
   const aspect = selectItemStyle(result.current, COULEURS, { selected: true });
 
-  expect(aspect.band.backgroundColor).toBeUndefined();
+  expect(aspect.fondDeBande.default).toBeUndefined();
 });
 
 // En simple, la selection se confondait avec l'option active : meme fond gris. Comme chez
@@ -21,7 +21,7 @@ test('ne donne pas de fond a l option retenue en selection simple', () => {
 
   const aspect = selectItemStyle(result.current, COULEURS, { selected: true });
 
-  expect(aspect.band.backgroundColor).toBeUndefined();
+  expect(aspect.fondDeBande.default).toBeUndefined();
 });
 
 // La gouttiere de 16 logeait la barre de selection, remplacee par la coche : comme chez Primer,
@@ -109,4 +109,16 @@ test('borde de la couleur d action la case cochee', () => {
   expect(result.current.styles.checkboxChecked.borderColor).toBe(
     result.current.theme.color.light.border['action-high-primary'],
   );
+});
+
+// une clause ne vit que sur la prop qui porte le repos (ADR 0031) : le fond de l'option
+// active et celui du survol vivent sur une seule prop, jamais dans le style de la bande.
+test('porte le fond de l option active et celui du survol sur une seule prop', () => {
+  const { result } = renderHookOnDesktop(() => useStyles());
+  const fond = result.current.bandHighlighted.backgroundColor;
+
+  const aspect = selectItemStyle(result.current, COULEURS, { highlighted: true });
+
+  expect(aspect.fondDeBande).toEqual({ default: fond, hover: fond });
+  expect(aspect.band).not.toHaveProperty('backgroundColor');
 });

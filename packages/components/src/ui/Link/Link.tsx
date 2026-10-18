@@ -1,6 +1,7 @@
 import { linkProps } from '@alveole/theme';
 import { Link as ExpoLink } from 'expo-router';
 import { AProps, ouvertureDuLien, useCanAccessHref } from '../../core/A';
+import { soulignementDuLien } from '../../core/styleTamagui/soulignement';
 import { Typography } from '../../core/Typography';
 import { LucideIcon } from '../LucideIcon';
 import { useStyles } from './Link.styles';
@@ -19,7 +20,7 @@ export const Link = ({ href, target, children }: LinkProps) => {
       tag="a"
       accessibilityRole="link"
       style={styles.link}
-      hoverStyle={styles.linkHover}
+      textDecorationLine={soulignementDuLien}
       {...propsDuPressable}
       {...linkProps()}
     >

@@ -1,5 +1,6 @@
 import React, { CSSProperties, useId } from 'react';
-import { Label, TamaguiElement, RadioGroupItemProps as TamaguiRadioGroupCardProps } from 'tamagui';
+import { TamaguiElement, RadioGroupItemProps as TamaguiRadioGroupCardProps } from 'tamagui';
+import { Label } from 'tamagui/unstyled';
 import { Box } from '../../core/Box';
 import { Typography } from '../../core/Typography';
 import { Leading, LeadingSlot } from '../Leading';
@@ -26,8 +27,8 @@ export const RadioGroupCard = (props: RadioGroupCardProps) => {
 
   return (
     <Box tag="radio-group-card" style={styles.card}>
-      <Label unstyled htmlFor={id} display="flex" flexDirection="row" width={'100%'}>
-        <Box style={{ ...styles.itemCard, ...style }} hoverStyle={styles.itemCardHover}>
+      <Label htmlFor={id} display="flex" flexDirection="row" width={'100%'}>
+        <Box style={{ ...styles.itemCard, ...style }} backgroundColor={{ hover: styles.itemCardHover.backgroundColor }}>
           <Box style={styles.radioGroupCardContent}>
             <RadioInput value={value} id={id} size="sm" />
             {leading != null && (

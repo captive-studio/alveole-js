@@ -56,6 +56,8 @@ module.exports = {
   projects: [
     project(nativePreset, {
       displayName: 'native',
+      // Tamagui v3 importe aussi des `.mjs` en natif (`@tamagui/style-grammar`).
+      transform: withMjsTransform(nativePreset.transform),
       testMatch: [TEST_MATCH],
       setupFilesAfterEnv: [...(nativePreset.setupFilesAfterEnv ?? []), '<rootDir>/__tests__/setup.js'],
       testPathIgnorePatterns: [...(nativePreset.testPathIgnorePatterns ?? []), ...ignoredPaths, ...nonNatif],
@@ -76,6 +78,7 @@ module.exports = {
     // inaperçue jusqu'à ce qu'on la cherche. Ce projet rend ce fichier atteignable.
     project(androidPreset, {
       displayName: 'android',
+      transform: withMjsTransform(androidPreset.transform),
       testMatch: [ANDROID_TEST_MATCH],
       setupFilesAfterEnv: [
         ...(androidPreset.setupFilesAfterEnv ?? []),

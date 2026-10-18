@@ -14,3 +14,10 @@ test('rend un element typography par defaut', () => {
 
   expect(container.querySelector('typography')).not.toBeNull();
 });
+
+// ADR 0031 : comme Box, Typography laisse passer les clauses de Tamagui v3 telles quelles.
+test('rend une clause de survol en classe Tamagui', () => {
+  const { container } = renderOnDesktop(<Typography cursor="hover:pointer">Texte</Typography>);
+
+  expect(container.querySelector('typography')?.className).toMatch(/_c-/);
+});

@@ -1,5 +1,5 @@
 import React from 'react';
-import { Animated, Easing, LayoutChangeEvent } from 'react-native';
+import { Animated, Easing } from 'react-native';
 import { Box, BoxProps } from '../../core/Box';
 import { PROGRESS_BAR_GAP, PROGRESS_BAR_HEIGHT, PROGRESS_DURATION } from './ProgressBar.constants';
 import { useStyles } from './ProgressBar.styles';
@@ -55,7 +55,7 @@ export const ProgressBarLoop = (props: ProgressBarLoopProps) => {
   }, [progress]);
 
   const handleLayout = React.useCallback(
-    (event: LayoutChangeEvent) => {
+    (event: Parameters<NonNullable<BoxProps['onLayout']>>[0]) => {
       setWidth(event.nativeEvent.layout.width);
       onLayout?.(event);
     },

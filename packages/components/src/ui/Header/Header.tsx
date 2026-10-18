@@ -30,7 +30,11 @@ export const Header = ({ logo, title, right, homeHref = '/' }: HeaderProps) => {
     <Box tag="header" style={styles.container}>
       <Box style={styles.inner}>
         {homeHref != null ? (
-          <A href={homeHref} style={styles.identityLink} hoverStyle={styles.identityLinkHover}>
+          <A
+            href={homeHref}
+            style={styles.identityLink}
+            backgroundColor={{ hover: styles.identityLinkHover.backgroundColor }}
+          >
             {identity}
           </A>
         ) : (

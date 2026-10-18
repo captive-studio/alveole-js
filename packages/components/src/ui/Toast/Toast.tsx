@@ -1,12 +1,6 @@
-import {
-  Toast as TamaguiToast,
-  ToastProps as TamaguiToastProps,
-  useToastController,
-  useToastState,
-} from '@tamagui/toast';
+import { Toast as TamaguiToast, useToastController, useToastState } from '@tamagui/toast';
 import { Pressable } from 'react-native';
 import { Box, BoxProps } from '../../core/Box';
-import { pseudoEtatsTamagui } from '../../core/styleTamagui/pseudoEtatsTamagui';
 import { Typography } from '../../core/Typography';
 import { Leading } from '../Leading';
 import { LucideIcon } from '../LucideIcon';
@@ -50,10 +44,8 @@ export function ToastView({ title, message, variant = 'default', leading, onClos
 export type ToastProps = Omit<BoxProps, 'children'>;
 
 const horsEcran = { opacity: 0, y: 10, scale: 0.98 };
-const { pseudoEtats: animationDuToast } = pseudoEtatsTamagui<TamaguiToastProps>()({
-  enterStyle: horsEcran,
-  exitStyle: horsEcran,
-});
+// Objets de condition v2, que Tamagui v3 ignore : ALV-129 les reecrit en clauses `enter:`/`exit:`.
+const animationDuToast = { enterStyle: horsEcran, exitStyle: horsEcran };
 
 export function Toast() {
   const toast = useToastState();

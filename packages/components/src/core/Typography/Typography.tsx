@@ -5,34 +5,32 @@ import {
   TamaguiTextElement,
   TextProps as TamaguiTextProps,
 } from '@tamagui/core';
-import React, { CSSProperties } from 'react';
+import React from 'react';
 import { Platform } from 'react-native';
-import { pseudoEtatsTamagui } from '../styleTamagui/pseudoEtatsTamagui';
 import { couleurDuTexte } from './couleurDuTexte';
 import { useStyles } from './Typography.styles';
 import type { TypographyStyle } from './Typography.types';
 
-export type TypographyProps = Pick<TamaguiTextProps, 'exitStyle' | 'focusStyle' | 'pressStyle' | 'disabledStyle'> &
+// Comme Box : les props de style de Tamagui passent telles quelles, clauses comprises
+// (ADR 0031) ; seules celles dont Alveole fixe le sens restent les siennes.
+export type TypographyProps = Omit<TamaguiTextProps, keyof TypographyStyle | 'children' | 'tag' | 'style'> &
   Omit<RNTamaguiTextNonStyleProps, 'children' | 'tag'> &
   TypographyStyle & {
     children: React.ReactNode;
     // Possede ici et non herite de Tamagui, qui retire `tag` en v2 : le passage a Tamagui
     // se fait en un seul endroit, dans le rendu ci-dessous.
     tag?: string;
-    hoverStyle?: CSSProperties;
   };
 
 const StyledTypography = styled(TamaguiText, { name: 'Typography' });
 export type TypographyElement = TamaguiTextElement;
 
 export const Typography = React.forwardRef<TypographyElement, TypographyProps>(function Typography(props, ref) {
-  const { pseudoEtats, autres } = pseudoEtatsTamagui<TamaguiTextProps>()(props);
-  const { tag, style, textAlign, color, ...textProps } = autres;
+  const { tag, style, textAlign, color, ...textProps } = props;
   const styles = useStyles();
   return (
     <StyledTypography
       ref={ref}
-      {...pseudoEtats}
       render={tag ?? 'typography'}
       style={style}
       textAlign={textAlign}

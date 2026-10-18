@@ -1,4 +1,4 @@
-import { focusRing, makeStyles, StyleValue, useTheme } from '@alveole/theme';
+import { makeStyles, StyleValue, useTheme } from '@alveole/theme';
 
 type Theme = ReturnType<typeof useTheme>;
 
@@ -9,9 +9,6 @@ type Table = Record<string, StyleValue>;
 
 const coque = ({ spacing }: Theme) =>
   ({
-    // Voir `CheckboxContainer.tsx` : Tamagui impose sa propre bague en `!important`, seule sa
-    // prop `focusVisibleStyle` peut la remplacer. Meme source que la regle CSS du theme.
-    checkboxFocused: focusRing('default'),
     checkboxContainer: {
       display: 'flex',
       flexDirection: 'column',

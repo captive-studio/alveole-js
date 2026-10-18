@@ -19,7 +19,6 @@ const castsAssumes = [
   'src/helpers/cssVarTypography.ts',
   'src/helpers/deepMerge.ts',
   'src/core/styleNatif/versStyleNatif.ts',
-  'src/core/styleTamagui/versStyleTamagui.ts',
 ];
 
 /** @type {import('eslint').Linter.Config[]} */

@@ -5,26 +5,26 @@ import {
   View as TamaguiView,
   ViewProps as TamaguiViewProps,
 } from '@tamagui/core';
-import React, { CSSProperties } from 'react';
-import { pseudoEtatsTamagui } from '../styleTamagui/pseudoEtatsTamagui';
+import React from 'react';
 import { BoxStyle } from './Box.types';
 import { resolveSpacing } from './resolveSpacing';
 
-export type BoxProps = Pick<TamaguiViewProps, 'exitStyle' | 'focusStyle' | 'pressStyle' | 'disabledStyle'> &
+// Les props de style de Tamagui passent telles quelles, clauses comprises (`bg="x hover:y"`,
+// ADR 0031) : la doc officielle de Tamagui v3 s'applique a Box sans traduction. Seules les
+// props dont Alveole fixe le sens (espacements du theme, rayon, `tag`) restent les siennes.
+export type BoxProps = Omit<TamaguiViewProps, keyof BoxStyle | 'tag' | 'style'> &
   Omit<RNTamaguiViewNonStyleProps, 'tag'> &
   BoxStyle & {
     // Possede ici et non herite de Tamagui, qui retire `tag` en v2 : le passage a Tamagui
     // se fait en un seul endroit, dans le rendu ci-dessous.
     tag?: string;
-    hoverStyle?: CSSProperties;
   };
 
 const StyledView = styled(TamaguiView, { name: 'Box' });
 export type BoxElement = TamaguiElement;
 
 export const Box = React.forwardRef<BoxElement, BoxProps>(function Box(props, ref) {
-  const { pseudoEtats, autres } = pseudoEtatsTamagui<TamaguiViewProps>()(props);
-  const { tag, style, borderRadius, mt, mb, mr, ml, m, pt, pb, pl, pr, p, gap, ...viewProps } = autres;
+  const { tag, style, borderRadius, mt, mb, mr, ml, m, pt, pb, pl, pr, p, gap, ...viewProps } = props;
   const radius = {
     borderBottomRightRadius: borderRadius,
     borderTopRightRadius: borderRadius,
@@ -58,7 +58,6 @@ export const Box = React.forwardRef<BoxElement, BoxProps>(function Box(props, re
       render={tag ?? 'box'}
       style={style}
       {...radius}
-      {...pseudoEtats}
       {...viewProps}
       {...margins}
       {...paddings}

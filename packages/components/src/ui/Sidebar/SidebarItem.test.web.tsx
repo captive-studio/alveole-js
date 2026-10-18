@@ -1,3 +1,4 @@
+import { elementDuType } from '@/__tests__/helpers/elementDuType';
 import { fireEvent, renderOnDesktop, renderOnMobile } from '@/__tests__/helpers/renderWeb';
 import { SidebarItem } from './SidebarItem';
 
@@ -81,4 +82,17 @@ test('pose le filet de la page courante sur ordinateur', () => {
   const { container } = renderOnDesktop(<SidebarItem title="Accueil" href="/" />);
 
   expect(container.querySelector('sidebar-item-indicator')).not.toBeNull();
+});
+
+// une clause ne vit que sur la prop qui porte le repos (ADR 0031) : le fond de la page
+// courante et celui du survol vivent sur la seule prop `backgroundColor`, jamais en inline.
+test.each([
+  ['bureau', renderOnDesktop],
+  ['tiroir mobile', renderOnMobile],
+])('ne pose pas le fond de la page courante en inline (%s)', (_, rendre) => {
+  const { container } = rendre(<SidebarItem title="Accueil" href="/" />);
+  const item = elementDuType(container.querySelector('sidebar-item'), HTMLElement);
+
+  expect(item.style.backgroundColor).toBe('');
+  expect(item.className).toMatch(/_b-/);
 });

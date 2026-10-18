@@ -2,7 +2,7 @@ import { focusRingProps } from '@alveole/theme';
 import { Href, Link } from 'expo-router';
 import React, { CSSProperties, createContext, useContext } from 'react';
 import { Pressable, TextStyle } from 'react-native';
-import { Box } from '../Box';
+import { Box, BoxProps } from '../Box';
 import { GridColumnContext } from '../Grid';
 import { useStyles } from './A.styles';
 import { CibleDuLien, ouvertureDuLien } from './ouvertureDuLien';
@@ -23,7 +23,8 @@ export type AProps = React.PropsWithChildren<{
   /** default: "push" */
   direction?: 'push' | 'replace' | 'dismiss';
   style?: CSSProperties;
-  hoverStyle?: CSSProperties;
+  /** Fond du lien, clauses de Tamagui comprises (`{ hover: ... }`, ADR 0031). */
+  backgroundColor?: BoxProps['backgroundColor'];
   /** Override la logique d'accès (sinon utilise LinkAccessContext si fourni, sinon accès autorisé). */
   canAccessHref?: CanAccessHref;
   /** Marque le lien comme représentant l'emplacement courant. "page" pour la page affichée. */
@@ -38,7 +39,7 @@ export const A = (props: AProps) => {
     href,
     direction = 'push',
     style,
-    hoverStyle,
+    backgroundColor,
     ariaCurrent,
     target,
     canAccessHref: canAccessProp,
@@ -54,7 +55,7 @@ export const A = (props: AProps) => {
   const { navigateurIntegre, propsDuPressable, annonce } = ouvertureDuLien(href, target);
 
   const contenu = (
-    <Box tag="a-pressable" style={{ ...styles.pressable, ...fill, ...style }} hoverStyle={hoverStyle}>
+    <Box tag="a-pressable" style={{ ...styles.pressable, ...fill, ...style }} backgroundColor={backgroundColor}>
       {children}
       {annonce}
     </Box>

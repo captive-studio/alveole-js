@@ -34,11 +34,13 @@ test('SidebarItem garde son libelle pour nom accessible avec un element en leadi
 });
 
 test("l'emplacement d'un element est masque aux lecteurs d'ecran", () => {
-  const { container } = renderWeb(
+  renderWeb(
     <Tag size="md" leading={<Text>MC</Text>}>
       Brouillon
     </Tag>,
   );
 
-  expect(container.querySelector('[aria-hidden="true"]')?.textContent).toBe('MC');
+  // Cible l'emplacement par son contenu : Tamagui v3 pose aussi un `<span aria-hidden>` de
+  // revision de config en tete de l'arbre, qu'un selecteur generique attraperait d'abord.
+  expect(screen.getByText('MC').closest('[aria-hidden="true"]')).not.toBeNull();
 });

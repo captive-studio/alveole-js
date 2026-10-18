@@ -1,4 +1,5 @@
 import { renderHookOnDesktop } from '@/__tests__/helpers/renderWeb';
+import { soulignementDuLien } from '../../core/styleTamagui/soulignement';
 import { useStyles } from './Link.styles';
 
 // Un lien pris dans du texte ne doit pas se distinguer par sa seule couleur (WCAG 1.4.1) : il
@@ -8,11 +9,10 @@ import { useStyles } from './Link.styles';
 test("souligne le lien au repos, dans la couleur d'action du theme", () => {
   const { result } = renderHookOnDesktop(() => useStyles());
 
-  expect(result.current.link).toEqual({ color: 'var(--text-action-high-info)', textDecoration: 'underline' });
+  expect(result.current.link).toEqual({ color: 'var(--text-action-high-info)' });
+  expect(soulignementDuLien.default).toBe('underline');
 });
 
 test('retire le soulignement au survol', () => {
-  const { result } = renderHookOnDesktop(() => useStyles());
-
-  expect(result.current.linkHover.textDecoration).toBe('none');
+  expect(soulignementDuLien.hover).toBe('none');
 });

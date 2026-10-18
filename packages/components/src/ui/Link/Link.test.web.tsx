@@ -89,3 +89,11 @@ test("n'impose aucune cible ni icône par défaut", () => {
   expect(lien.getAttribute('target')).toBeNull();
   expect(lien.querySelector('svg')).toBeNull();
 });
+
+// une clause ne vit que sur la prop qui porte le repos (ADR 0031) : le soulignement doit
+// porter repos et survol sur sa seule prop, jamais en inline.
+test('ne pose pas le soulignement en inline, pour que le survol le retire', () => {
+  renderWeb(<Link href="/quelque-part">Aller</Link>);
+
+  expect(screen.getByRole('link').style.textDecoration).toBe('');
+});
