@@ -144,3 +144,12 @@ test('colore l enveloppe de l onglet survole', () => {
 
   expect(elementDuType(onglet.firstElementChild, HTMLElement).style.backgroundColor).not.toBe('');
 });
+
+// Voir Box : en `1 1 0px`, le panneau s'ecrasait a zero dans une page qui defile et coupait tout
+// son contenu (onglets du catalogue vides sous Tamagui v3).
+test('garde au panneau une base flex en pourcentage pour ne pas s ecraser', () => {
+  renderWeb(<Tabs defaultValue="a" tabs={[{ label: 'Onglet 1', value: 'a', content: <></> }]} />);
+
+  const chaine = [screen.getByRole('tabpanel'), screen.getByRole('tablist').parentElement!];
+  expect(chaine.map(element => getComputedStyle(element).flexBasis)).toEqual(['0%', '0%']);
+});

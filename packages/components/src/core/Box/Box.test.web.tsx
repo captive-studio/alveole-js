@@ -40,3 +40,12 @@ test('rend une clause en objet type en classe Tamagui', () => {
   expect(box.className).toMatch(/_b-/);
   expect(box.style.backgroundColor).toBe('');
 });
+
+// Tamagui v3 rend `flex: 1` en `1 1 0px` sur le web, là où react-native-web posait `1 1 0%` :
+// dans un parent de hauteur indéfinie, la base en pixels écrase la boîte à zéro (les onglets du
+// catalogue disparaissaient), la base en pourcentage lui rend la hauteur de son contenu.
+test('garde à flex la base en pourcentage de react-native-web', () => {
+  const { container } = renderOnDesktop(<Box style={{ flex: 1 }} />);
+
+  expect(getComputedStyle(container.querySelector('box')!).flexBasis).toBe('0%');
+});
