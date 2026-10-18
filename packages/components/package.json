@@ -42,7 +42,7 @@
     "@tamagui/core": "2.7.7",
     "@tamagui/toast": "2.7.7",
     "@testing-library/react": "16.3.3",
-    "@testing-library/react-native": "14.0.1",
+    "@testing-library/react-native": "14.1.0",
     "@types/react-syntax-highlighter": "15.5.13",
     "babel-preset-expo": "57.0.16",
     "eslint": "10.10.0",
