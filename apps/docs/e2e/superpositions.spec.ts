@@ -45,3 +45,18 @@ test('ouvre une BottomSheet au clic et la ferme par son bouton', async ({ page }
   await fermer.click();
   await expect(fermer).not.toBeInViewport();
 });
+
+// Tamagui v3 remplace le Frame du Sheet par un Container et un Background : la feuille
+// ouverte doit garder son fond blanc et le voile qui assombrit la page.
+test('ouvre une BottomSheet sur fond blanc derrière un voile', async ({ page }) => {
+  await openRoute(page, '/components/BottomSheet');
+
+  await page.getByRole('main').getByRole('button', { name: 'Ouvrir la modal' }).first().click();
+  const feuille = page.getByRole('dialog', { name: 'Titre' }).first();
+  await expect(feuille).toBeInViewport();
+
+  await expect(feuille.locator('[data-sheet-background]')).toHaveCSS('background-color', 'rgb(255, 255, 255)');
+  // Le voile ne porte aucun marqueur : c'est lui qui couvre le coin de la page.
+  const fondDuCoin = () => page.evaluate(() => getComputedStyle(document.elementFromPoint(5, 5)!).backgroundColor);
+  await expect.poll(fondDuCoin).toMatch(/^rgba\(.+, 0\.5\)$/);
+});
