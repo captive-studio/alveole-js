@@ -10,3 +10,9 @@ test('isole les pseudo-etats des autres props', () => {
     autres: { id: 'x' },
   });
 });
+
+test('accepte un survol deja au type de la cible Tamagui', () => {
+  const survol: ViewProps['hoverStyle'] = { backgroundColor: 'red' };
+
+  expect(pseudoEtatsTamagui<ViewProps>()({ hoverStyle: survol }).pseudoEtats.hoverStyle).toBe(survol);
+});

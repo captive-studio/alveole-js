@@ -1,6 +1,7 @@
 import { focusRingProps } from '@alveole/theme';
 import React from 'react';
 import { Checkbox as TamaguiCheckbox, CheckboxProps as TamaguiCheckboxProps, TamaguiElement } from 'tamagui';
+import { pseudoEtatsTamagui } from '../../core/styleTamagui/pseudoEtatsTamagui';
 import { useStyles } from './Checkbox.styles';
 import { CheckboxSize, CheckboxVariant, resolveCheckboxSize } from './Checkbox.utils';
 
@@ -33,21 +34,25 @@ export const CheckboxContainer = React.forwardRef<CheckboxElement, CheckboxConta
 
     const checkboxHoverStyles = disabled ? styles.checkboxDisabled : baseCheckboxStyles;
     const checkboxPressStyles = disabled ? styles.checkboxDisabled : baseCheckboxStyles;
+    const { pseudoEtats, autres } = pseudoEtatsTamagui<TamaguiCheckboxProps>()({
+      hoverStyle: checkboxHoverStyles,
+      pressStyle: checkboxPressStyles,
+      // Tamagui injecte sa propre regle `:focus-visible` en `!important` derriere un selecteur
+      // `:root:root:root:root` : la regle CSS du theme ne peut pas la battre, et sans cette prop
+      // c'est le gris translucide de Tamagui qui s'affiche. La valeur vient de `focusRing()`,
+      // qui peint le meme bleu que la regle : un seul reglage, deux chemins pour l'appliquer.
+      focusVisibleStyle: styles.checkboxFocused,
+      ...checkboxProps,
+    });
 
     return (
       <TamaguiCheckbox
         ref={ref}
         disabled={disabled}
         style={checkboxStyles}
-        hoverStyle={checkboxHoverStyles}
-        pressStyle={checkboxPressStyles}
         {...focusRingProps()}
-        // Tamagui injecte sa propre regle `:focus-visible` en `!important` derriere un selecteur
-        // `:root:root:root:root` : la regle CSS du theme ne peut pas la battre, et sans cette prop
-        // c'est le gris translucide de Tamagui qui s'affiche. La valeur vient de `focusRing()`,
-        // qui peint le meme bleu que la regle : un seul reglage, deux chemins pour l'appliquer.
-        focusVisibleStyle={styles.checkboxFocused}
-        {...checkboxProps}
+        {...pseudoEtats}
+        {...autres}
       />
     );
   },
