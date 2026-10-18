@@ -1,6 +1,8 @@
 import React from 'react';
 import { Leading } from '../Leading';
 
+export const defaultDuration = 8000;
+
 export type ToastAPIOptions = {
   leading?: Leading;
   duration?: number;

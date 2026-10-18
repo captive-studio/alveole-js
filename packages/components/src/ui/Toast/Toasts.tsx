@@ -1,22 +1,39 @@
-import { ToastProvider, ToastViewport } from '@tamagui/toast';
+import { Toast as TamaguiToast, toast } from '@tamagui/toast';
 import React from 'react';
-import { Toast } from './Toast';
-import { ToastBridge } from './ToastBridge';
-import { ToastContext } from './ToastContext';
+import { Toast, ToastView } from './Toast';
+import { defaultDuration, ToastContext, type ToastAPI } from './ToastContext';
 
 export type ToastsProps = React.PropsWithChildren<object>;
+
+const api: ToastAPI = {
+  present: (title, message, opts) => {
+    toast.custom(
+      id => (
+        <ToastView
+          title={title}
+          message={message}
+          variant={opts?.variant}
+          leading={opts?.leading}
+          onClose={() => toast.dismiss(id)}
+        />
+      ),
+      { duration: opts?.duration },
+    );
+  },
+};
 
 export function Toasts(props: ToastsProps) {
   const { children } = props;
 
   return (
-    <ToastProvider swipeDirection="horizontal">
-      <ToastBridge>
-        <Toast />
-        <ToastViewport name="app-toasts" multipleToasts bottom={32} left={0} right={0} />
+    <TamaguiToast position="bottom-center" duration={defaultDuration} swipeDirection="horizontal">
+      <ToastContext.Provider value={api}>
         {children}
-      </ToastBridge>
-    </ToastProvider>
+        <TamaguiToast.Viewport offset={32}>
+          <TamaguiToast.List renderItem={item => <Toast {...item} />} />
+        </TamaguiToast.Viewport>
+      </ToastContext.Provider>
+    </TamaguiToast>
   );
 }
 
