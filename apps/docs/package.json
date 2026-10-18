@@ -71,6 +71,6 @@
     "eslint": "10.10.0",
     "expo-doctor": "1.20.4",
     "serve": "14.2.6",
-    "typescript": "6.0.3"
+    "typescript": "7.0.2"
   }
 }

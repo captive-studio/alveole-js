@@ -45,6 +45,6 @@
     "prettier": "3.9.10",
     "prettier-plugin-organize-imports": "4.3.0",
     "publint": "0.3.25",
-    "typescript": "6.0.3"
+    "typescript": "7.0.2"
   }
 }
