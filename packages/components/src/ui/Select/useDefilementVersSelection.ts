@@ -1,5 +1,6 @@
 import React from 'react';
-import { LayoutChangeEvent, ScrollView } from 'react-native';
+import { LayoutChangeEvent } from 'react-native';
+import type { ScrollViewRef } from 'tamagui';
 import { SELECT_ROW_HEIGHT } from './SelectList.styles';
 
 /**
@@ -17,7 +18,7 @@ import { SELECT_ROW_HEIGHT } from './SelectList.styles';
 export const positionDeDefilement = (y: number) => Math.max(0, y - 2 * SELECT_ROW_HEIGHT);
 
 export const useDefilementVersSelection = (open: boolean) => {
-  const scrollRef = React.useRef<ScrollView>(null);
+  const scrollRef = React.useRef<ScrollViewRef>(null);
   const dejaDefile = React.useRef(false);
 
   // Le contenu du sheet est demonte a la fermeture : les `onLayout` se rejouent a chaque

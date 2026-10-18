@@ -19,9 +19,13 @@ export const selectItemStyle = (
   { selected, highlighted, disabled }: SelectItemState,
 ) => ({
   item: { ...styles.item, ...(disabled ? styles.itemDisabled : {}) },
-  band: { ...styles.band, ...(highlighted ? styles.bandHighlighted : {}) },
-  // Le survol ne doit pas repondre sur une option qu'on ne peut pas choisir.
-  bandHover: disabled ? undefined : styles.bandHighlighted,
+  band: styles.band,
+  // Repos et survol sur la seule prop `backgroundColor` (ADR 0031). Le survol ne repond pas sur
+  // une option qu'on ne peut pas choisir.
+  fondDeBande: {
+    default: highlighted ? styles.bandHighlighted.backgroundColor : undefined,
+    hover: disabled ? undefined : styles.bandHighlighted.backgroundColor,
+  },
   label: { ...styles.itemLabel, ...(disabled ? styles.itemLabelDisabled : {}) },
   icone: disabled ? couleurs.texteDesactive : couleurs.texte,
   caseACocher: caseACocherStyle(styles, { selected, disabled }),

@@ -6,7 +6,7 @@ import { EtatDuPointeur } from '../pointeur';
 import { Spinner } from '../Spinner';
 import { useDelaiDAffichage } from '../Spinner/useDelaiDAffichage';
 import { ButtonProps, EtatDuBouton } from './Button.types';
-import { styleDeLIcone, styleDeSurvol, styleDuConteneur, styleDuLibelle } from './buttonStyling';
+import { styleDeLIcone, styleDuConteneur, styleDuLibelle } from './buttonStyling';
 import { Styles } from './buttonVariants';
 import { placeDuSpinner } from './placeDuSpinner';
 
@@ -42,7 +42,7 @@ export const ButtonContent = ({ styles, etat, state, actif, props }: ButtonConte
     loadingDelay = 'long',
     ContainerProps = {},
   } = props;
-  const { style, hoverStyle, ...containerProps } = ContainerProps;
+  const { style, ...containerProps } = ContainerProps;
   const hovered = !!state.hovered;
   const icone = styleDeLIcone(styles, etat, hovered);
 
@@ -52,8 +52,11 @@ export const ButtonContent = ({ styles, etat, state, actif, props }: ButtonConte
 
   return (
     <Box
-      style={[styleDuConteneur(styles, etat, actif), aGauche && { justifyContent: 'flex-start' }, style]}
-      hoverStyle={{ ...styleDeSurvol(styles, etat), ...hoverStyle }}
+      style={[
+        styleDuConteneur(styles, etat, { actif, survole: hovered }),
+        aGauche && { justifyContent: 'flex-start' },
+        style,
+      ]}
       {...containerProps}
     >
       <Emplacement spinner={place === 'tete'} contenu={leading} apparence={icone} />

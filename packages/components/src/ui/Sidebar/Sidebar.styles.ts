@@ -178,10 +178,6 @@ const titreDeLItem = ({ text, color }: Theme) =>
       color: color.light.text['default-grey'],
       stroke: color.light.text['default-grey'],
     },
-    sidebarItemTitleCurrentHoverDesktop: {
-      ...text['Corps de texte'].SM.Bold,
-    },
-
     sidebarItemTitleCurrentHoverMobile: {
       ...text['Corps de texte'].MD.Medium,
       color: color.light.background['action-high-primary'],

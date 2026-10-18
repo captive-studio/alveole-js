@@ -32,7 +32,7 @@ export const BoxPaddedWithBackground = () => (
 );
 
 export const BoxHovered = () => (
-  <Box tag="hovered" hoverStyle={{ background: '#f0f0f0' }}>
+  <Box tag="hovered" backgroundColor="hover:#f0f0f0">
     <Typography>Box avec fond gris changeant au hover</Typography>
   </Box>
 );

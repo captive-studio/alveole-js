@@ -1,6 +1,5 @@
 import { focusRingProps } from '@alveole/theme';
-import { RadioGroupItemProps, RadioGroup as TamaguiRadioGroup } from 'tamagui';
-import { pseudoEtatsTamagui } from '../../core/styleTamagui/pseudoEtatsTamagui';
+import { RadioGroup as TamaguiRadioGroup } from 'tamagui';
 import { useStyles } from './RadioGroup.styles';
 import { useRadioGroup } from './RadioGroupContext';
 
@@ -23,17 +22,10 @@ export const RadioInput = (props: RadioInputProps) => {
   const styles = useStyles();
 
   const itemStyles = { ...styles.itemContainer, ...(size === 'sm' ? styles.itemContainerSm : styles.itemContainerMd) };
-  const indicatorStyle = { ...styles.itemContainer, ...(isSelected ? styles.itemContainerActive : {}) };
-
-  const { pseudoEtats } = pseudoEtatsTamagui<RadioGroupItemProps>()({
-    hoverStyle: indicatorStyle,
-    pressStyle: styles.itemContainerActive,
-    // Tamagui injecte sa propre regle `:focus-visible` en `!important` derriere un selecteur
-    // `:root:root:root:root` : la regle CSS du theme ne peut pas la battre, et sans cette prop
-    // c'est le gris translucide de Tamagui qui s'affiche. La valeur vient de `focusRing()`,
-    // qui peint le meme bleu que la regle : un seul reglage, deux chemins pour l'appliquer.
-    focusVisibleStyle: styles.itemContainerFocused,
-  });
+  // Survol et appui reprenaient fond et bordure de repos pour masquer ceux de Tamagui : en v3,
+  // le style inline l'emporte sur ses clauses. La bague de focus au clavier n'apparait pas :
+  // `RovingFocusGroup` v3 donne le focus sans `:focus-visible` (ADR 0017, amendement Tamagui
+  // v3). Son traitement est sorti d'ALV-128, a mesurer dans le kit.
 
   const handleChange = () => {
     onInputChange?.(value);
@@ -47,7 +39,6 @@ export const RadioInput = (props: RadioInputProps) => {
       aria-label={label}
       style={itemStyles}
       {...focusRingProps()}
-      {...pseudoEtats}
       onPress={handleChange}
     >
       <TamaguiRadioGroup.Indicator style={styles.itemIndicator} />

@@ -1,10 +1,10 @@
 import { renderHookOnDesktop } from '@/__tests__/helpers/renderWeb';
 import { useStyles } from './Button.styles';
 import { EtatDuBouton } from './Button.types';
-import { styleDeLIcone, styleDeSurvol } from './buttonStyling';
+import { styleDeLIcone, styleDeSurvol, styleDuConteneur } from './buttonStyling';
 
-// Le survol n'est observable sur aucune des deux plateformes : Tamagui consomme `hoverStyle`
-// sans le rendre, et jsdom n'evalue pas les pseudo-classes. C'est l'extraction de la decision
+// Le survol n'est pas observable en jsdom, qui ne simule pas le pointeur du Pressable et
+// n'evalue pas les pseudo-classes. C'est l'extraction de la decision
 // hors du composant qui la rend testable, et ce test est la raison d'etre de cette extraction.
 const styles = () => renderHookOnDesktop(useStyles).result.current;
 
@@ -63,4 +63,14 @@ test('ne grossit l icone que pour la taille lg', () => {
   expect(styleDeLIcone(table, etat({ taille: 'lg' }), false).size).toBe('md');
   expect(styleDeLIcone(table, etat({ taille: 'md' }), false).size).toBe('sm');
   expect(styleDeLIcone(table, etat({ taille: 'sm' }), false).size).toBe('sm');
+});
+
+// Tamagui v3 a retire `hoverStyle` : le conteneur suit l'etat du pointeur, comme le libelle et
+// l'icone, plutot qu'une clause qui perdrait face au fond que pose son `style`.
+test('pose le fond de survol sur le conteneur survole', () => {
+  const table = styles();
+
+  expect(styleDuConteneur(table, etat({ variant: 'tertiary' }), { actif: false, survole: true }).backgroundColor).toBe(
+    styleDeSurvol(table, etat({ variant: 'tertiary' })).backgroundColor,
+  );
 });

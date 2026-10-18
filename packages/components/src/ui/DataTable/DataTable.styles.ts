@@ -94,7 +94,6 @@ const ligne = ({ color }: Theme) =>
       display: 'flex',
       flexDirection: 'row',
       alignItems: 'stretch',
-      backgroundColor: color.light.background['default-grey'],
       borderBottomWidth: 1,
       borderBottomColor: color.light.border['default-grey'],
     },
@@ -109,6 +108,11 @@ const ligne = ({ color }: Theme) =>
     },
     rowHoverable: {
       cursor: 'pointer',
+    },
+    // Le fond vit hors de `row` : repos et survol passent par la seule prop `backgroundColor`
+    // (ADR 0031).
+    rowBackground: {
+      backgroundColor: color.light.background['default-grey'],
     },
     rowHover: {
       backgroundColor: color.light.background['alt-grey'],

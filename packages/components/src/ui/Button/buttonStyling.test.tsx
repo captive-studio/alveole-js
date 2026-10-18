@@ -18,7 +18,7 @@ const coque = async (surcharge?: Partial<EtatDuBouton>) =>
   styleDuPressable(await styles(), etat(surcharge), { hovered: false });
 
 const conteneur = async (surcharge?: Partial<EtatDuBouton>, actif = false) =>
-  styleDuConteneur(await styles(), etat(surcharge), actif);
+  styleDuConteneur(await styles(), etat(surcharge), { actif });
 
 // La taille est choisie par une table, et chaque cran pose sa hauteur depuis control
 // (ADR 0013) : `sm` et `lg` avaient la leur derivee des rembourrages, ce qui produisait une

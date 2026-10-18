@@ -21,13 +21,9 @@ export const useStyles = makeStyles(({ text, color, spacing }) => ({
   },
   link: {
     color: color.light.text['default-info'],
-    textDecoration: 'none',
     ...text['Corps de texte'].SM.Regular,
     transitionProperty: 'text-decoration',
     transitionDuration: '0.1s',
     transitionTimingFunction: 'ease-in-out',
-  },
-  linkHover: {
-    textDecoration: 'underline',
   },
 }));

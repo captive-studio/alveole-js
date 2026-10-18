@@ -1,10 +1,7 @@
-import { focusRing, makeStyles } from '@alveole/theme';
+import { makeStyles } from '@alveole/theme';
 
 export const useStyles = makeStyles(({ text, color, spacing }) => ({
   switchContainer: {},
-  // Voir `Switch.tsx` : Tamagui impose sa propre bague en `!important`, seule sa prop
-  // `focusVisibleStyle` peut la remplacer. La valeur vient de la meme source que la regle CSS.
-  switchButtonFocused: focusRing('default'),
   switch: {
     display: 'flex',
     flexDirection: 'row',

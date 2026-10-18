@@ -49,11 +49,13 @@ export const DataTableRow = <Row,>(props: DataTableRowProps<Row>) => {
     <Box
       tag="data-table-row"
       onPress={onPress}
-      hoverStyle={onPress ? styles.rowHover : {}}
+      backgroundColor={{
+        default: (selected ? styles.rowSelected : styles.rowBackground).backgroundColor,
+        hover: onPress ? styles.rowHover.backgroundColor : undefined,
+      }}
       style={[
         styles.row,
         styles[rowStyleBySize[size]],
-        selected ? styles.rowSelected : {},
         onPress ? styles.rowHoverable : {},
         noBorderBottom ? { borderBottomWidth: 0 } : {},
       ]}

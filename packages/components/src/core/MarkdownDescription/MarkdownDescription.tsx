@@ -49,8 +49,6 @@ export const MarkdownDescription = ({ children, taille = 'MD', color: textColor 
   // de la couleur) exige qu'un lien au milieu d'un bloc de texte se distingue de son
   // entourage par autre chose que sa seule couleur.
   const linkColor = color.light.text['default-info'];
-  const linkStyle = { textDecoration: 'underline' as const };
-  const linkHoverStyle = { textDecoration: 'none' as const };
 
   const components = createMarkdownComponents({
     bodyStyle,
@@ -61,8 +59,6 @@ export const MarkdownDescription = ({ children, taille = 'MD', color: textColor 
     borderColor,
     headerBg,
     linkColor,
-    linkStyle,
-    linkHoverStyle,
   });
 
   return (

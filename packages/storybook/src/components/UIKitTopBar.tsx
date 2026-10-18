@@ -100,7 +100,7 @@ const NavItem = ({ label, href, current, block = false }: NavItemProps) => {
       direction="replace"
       ariaCurrent={current ? 'page' : undefined}
       style={{ ...styles.container, alignItems: block ? 'flex-start' : 'center' }}
-      hoverStyle={styles.containerHover}
+      backgroundColor={{ hover: styles.containerHover.backgroundColor }}
     >
       <Typography style={current ? styles.labelCurrent : styles.label}>{label}</Typography>
       <Box aria-hidden>

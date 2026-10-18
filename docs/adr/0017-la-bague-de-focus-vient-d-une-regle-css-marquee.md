@@ -89,6 +89,31 @@ inline bat toute feuille de style. C'est sans danger parce que la règle ne
 touche que ce qui a explicitement demandé la bague : un champ, qui éteint son
 contour au profit de sa bordure (ADR 0016), ne porte pas la marque.
 
+### Amendement Tamagui v3 (ALV-122)
+
+L'exception ci-dessus est un constat v2. Mesurée en navigateur sur `tamagui@3.0.3` (banc
+`prototype/bague-focus/` de la branche `prototype/alv-122-bague-focus-tamagui3`), elle tombe
+pour `Switch` et `Checkbox` :
+
+- la bague par défaut existe encore, mais en `.classe:where(:focus-visible)`, sans
+  `!important` et sans couleur : relevé `solid 2px rgb(0, 95, 204)`, le bleu du navigateur ;
+- la règle marquée, **privée de son `!important`**, l'emporte seule
+  (`solid 2px rgb(10, 118, 246) offset 2px`) : `[data-alveole-focus]:focus-visible` pèse
+  deux, la règle Tamagui une ;
+- `focusVisibleStyle` n'existe plus ; sa clause `focus-visible:` fonctionne, mais n'a plus rien
+  à battre.
+
+La marque suffit donc pour ces deux composants, et le double chemin n'a plus d'objet. Le
+`!important` de la règle reste justifié tant que le `outline: none` inline sur certains
+conteneurs, constaté en v2, n'a pas été remesuré dans le kit v3 : le banc n'en a relevé aucun,
+mais il ne monte pas le kit.
+
+`RadioGroup` ne relève d'aucune des deux voies : `RovingFocusGroup` v3 donne le focus à l'option
+par `focus({ focusVisible: false })` quand on entre au Tab, et `:focus-visible` n'est jamais vrai
+à l'arrivée sur le groupe. Ni la marque ni une clause ne peuvent y montrer la bague ; le
+traitement est sorti d'ALV-128 pour un ticket dédié, mesure dans le kit à l'appui : en
+attendant, l'option de `RadioGroup` n'affiche pas de bague au clavier.
+
 ## Les champs gagnent un anneau encastré (amende l'ADR 0016)
 
 Le champ signalait son focus par un seul trait de 1 px recoloré. Une fois le

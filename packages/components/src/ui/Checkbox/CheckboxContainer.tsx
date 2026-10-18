@@ -1,7 +1,6 @@
 import { focusRingProps } from '@alveole/theme';
 import React from 'react';
 import { Checkbox as TamaguiCheckbox, CheckboxProps as TamaguiCheckboxProps, TamaguiElement } from 'tamagui';
-import { pseudoEtatsTamagui } from '../../core/styleTamagui/pseudoEtatsTamagui';
 import { useStyles } from './Checkbox.styles';
 import { CheckboxSize, CheckboxVariant, resolveCheckboxSize } from './Checkbox.utils';
 
@@ -32,28 +31,12 @@ export const CheckboxContainer = React.forwardRef<CheckboxElement, CheckboxConta
       marginBottom: 'auto',
     };
 
-    const checkboxHoverStyles = disabled ? styles.checkboxDisabled : baseCheckboxStyles;
-    const checkboxPressStyles = disabled ? styles.checkboxDisabled : baseCheckboxStyles;
-    const { pseudoEtats, autres } = pseudoEtatsTamagui<TamaguiCheckboxProps>()({
-      hoverStyle: checkboxHoverStyles,
-      pressStyle: checkboxPressStyles,
-      // Tamagui injecte sa propre regle `:focus-visible` en `!important` derriere un selecteur
-      // `:root:root:root:root` : la regle CSS du theme ne peut pas la battre, et sans cette prop
-      // c'est le gris translucide de Tamagui qui s'affiche. La valeur vient de `focusRing()`,
-      // qui peint le meme bleu que la regle : un seul reglage, deux chemins pour l'appliquer.
-      focusVisibleStyle: styles.checkboxFocused,
-      ...checkboxProps,
-    });
+    // Survol et appui reprenaient le style de repos pour masquer ceux de Tamagui : en v3, le
+    // style inline l'emporte sur ses clauses. La bague passe par la seule marque du theme
+    // (ADR 0017, amendement Tamagui v3).
 
     return (
-      <TamaguiCheckbox
-        ref={ref}
-        disabled={disabled}
-        style={checkboxStyles}
-        {...focusRingProps()}
-        {...pseudoEtats}
-        {...autres}
-      />
+      <TamaguiCheckbox ref={ref} disabled={disabled} style={checkboxStyles} {...focusRingProps()} {...checkboxProps} />
     );
   },
 );

@@ -35,6 +35,13 @@ style.
 
 ## Conséquences
 
+Une clause ne vit que sur la prop qui porte aussi la valeur de repos : Tamagui
+v3 abandonne la clause d'une propriété que `style` pose aussi (mesuré en jsdom
+à ALV-128, conforme au guide officiel : « the base value and every conditional
+clause for a style live on that style's single property »). Un composant qui
+survole une propriété la sort donc de son `style` et la passe en
+`{ default, hover }` sur sa prop.
+
 La suppression ne peut pas se préparer sur `main` tant qu'Alveole est en
 Tamagui v2, qui n'a pas de clauses : elle tombe dans le ticket de bascule. Le
 guide `docs/migrations/tamagui-v3.md` liste la réécriture prop par prop.
