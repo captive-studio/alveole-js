@@ -7,7 +7,7 @@ import {
 } from '@tamagui/core';
 import React, { CSSProperties } from 'react';
 import { Platform } from 'react-native';
-import { versStyleTamagui } from '../styleTamagui/versStyleTamagui';
+import { pseudoEtatsTamagui } from '../styleTamagui/pseudoEtatsTamagui';
 import { couleurDuTexte } from './couleurDuTexte';
 import { useStyles } from './Typography.styles';
 import type { TypographyStyle } from './Typography.types';
@@ -26,12 +26,13 @@ const StyledTypography = styled(TamaguiText, { name: 'Typography' });
 export type TypographyElement = TamaguiTextElement;
 
 export const Typography = React.forwardRef<TypographyElement, TypographyProps>(function Typography(props, ref) {
-  const { tag, style, textAlign, hoverStyle, color, ...textProps } = props;
+  const { pseudoEtats, autres } = pseudoEtatsTamagui<TamaguiTextProps>()(props);
+  const { tag, style, textAlign, color, ...textProps } = autres;
   const styles = useStyles();
   return (
     <StyledTypography
       ref={ref}
-      hoverStyle={versStyleTamagui<TamaguiTextProps['hoverStyle']>(hoverStyle)}
+      {...pseudoEtats}
       render={tag ?? 'typography'}
       style={style}
       textAlign={textAlign}
