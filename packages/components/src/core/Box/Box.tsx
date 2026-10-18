@@ -6,6 +6,7 @@ import {
   ViewProps as TamaguiViewProps,
 } from '@tamagui/core';
 import React from 'react';
+import { correctionFlexDuWeb } from '../styleTamagui/flexDuWeb';
 import { BoxStyle } from './Box.types';
 import { resolveSpacing } from './resolveSpacing';
 
@@ -52,11 +53,13 @@ export const Box = React.forwardRef<BoxElement, BoxProps>(function Box(props, re
     gap: resolveSpacing(gap),
   };
 
+  const correctionFlex = correctionFlexDuWeb(style);
+
   return (
     <StyledView
       ref={ref}
       render={tag ?? 'box'}
-      style={style}
+      style={correctionFlex ? [style, correctionFlex] : style}
       {...radius}
       {...viewProps}
       {...margins}
