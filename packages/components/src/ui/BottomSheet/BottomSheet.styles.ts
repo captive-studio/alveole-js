@@ -5,7 +5,7 @@ export const useStyles = makeStyles(({ spacing, text, color }) => ({
   sheetContainer: {
     marginBottom: spacing('3W'),
   },
-  background: {
+  sheetBackground: {
     backgroundColor: '#FFFFFF',
   },
   content: {
