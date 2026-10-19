@@ -1,4 +1,5 @@
 import { makeStyles } from '@alveole/theme';
+import { sansEstompage } from '../../core/styleTamagui/sansEstompage';
 
 export const useStyles = makeStyles(({ text, color, spacing }) => ({
   switchContainer: {},
@@ -23,11 +24,14 @@ export const useStyles = makeStyles(({ text, color, spacing }) => ({
   switchButtonDisabled: {
     backgroundColor: color.background['disabled-grey'],
     cursor: 'not-allowed',
+    ...sansEstompage,
   },
   switchThumb: {
     borderWidth: 1,
     borderColor: color.border['default-grey'],
     backgroundColor: color.background['default-active'],
+    // Tamagui v3 ombre son pouce ; celui d'Alveole est plat.
+    boxShadow: 'none',
   },
   switchThumbChecked: {
     backgroundColor: color.primary,
