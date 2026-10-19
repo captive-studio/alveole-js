@@ -4,6 +4,7 @@
   "version": "0.0.1",
   "main": "expo-router/entry",
   "scripts": {
+    "eas-build-post-install": "pnpm --dir ../.. run build:packages",
     "start": "pnpm --filter @alveole/storybook run generate:sources && node ./scripts/sync-pdfjs-web-assets.mjs && ALVEOLE_LIVE=1 expo start --web",
     "build": "node ./scripts/sync-pdfjs-web-assets.mjs && node ./scripts/generate-sitemap.mjs && expo export --platform web",
     "lint:app": "eslint . --cache --cache-strategy content",

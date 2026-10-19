@@ -1,0 +1,48 @@
+name: Build iOS
+
+on:
+  workflow_dispatch: null
+
+permissions:
+  contents: read
+
+# Ne pas interrompre une soumission en cours lorsqu'un autre build est demandé.
+concurrency:
+  group: build-ios
+  cancel-in-progress: false
+
+jobs:
+  build-and-submit:
+    name: Build and submit to TestFlight
+    runs-on: [self-hosted]
+    timeout-minutes: 60
+    container: ghcr.io/captive-studio/node-ci:24.22.0@sha256:2bb3afc1bc50472f50bfc8fbc638f2add3ccb4891ce48e653512c2769538018f
+    env:
+      EXPO_TOKEN: ${{ secrets.EXPO_TOKEN }}
+    steps:
+      - name: Check Expo access
+        run: |
+          if [ -z "$EXPO_TOKEN" ]; then
+            echo "::error::Ajouter le secret EXPO_TOKEN au dépôt avec accès au projet captivestudio/alveole."
+            exit 1
+          fi
+
+      - name: Checkout
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+
+      - name: Enable corepack
+        run: corepack enable
+
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile
+
+      - name: Install EAS CLI
+        run: npm install -g eas-cli
+
+      # Envoyer le checkout choisi dans GitHub, depuis la racine de l'application.
+      # --wait propage à GitHub le résultat du build ET de la soumission EAS.
+      - name: Run EAS build and submission
+        working-directory: apps/docs
+        run: |
+          git config --global --add safe.directory "$GITHUB_WORKSPACE"
+          eas workflow:run build-production.yml --non-interactive --wait

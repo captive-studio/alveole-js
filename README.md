@@ -4,6 +4,8 @@
 
 **Documentation** : [alveole.captive.fr](https://alveole.captive.fr)
 
+**Application iOS** : [Construire et soumettre le catalogue à TestFlight](apps/docs/README.md).
+
 ## Packages
 
 - `@alveole/theme` — thème partagé (tokens, typographies, helpers). Voir [packages/theme/README.md](./packages/theme/).
