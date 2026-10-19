@@ -128,9 +128,9 @@ Relevé du 2026-10-18, après `git pull` de chaque dépôt.
 - Tamagui `1.144.4` (dont `@tamagui/portal`), config **`@tamagui/config/v3`** : la
   hauteur de ligne par défaut de 23 px s'y applique.
 - Imports directs de `tamagui` dans 32 fichiers, dont 30 tests (`TamaguiProvider`).
-- `onHoverIn` / `onHoverOut` sur des composants Tamagui ou `Box` dans 6 fichiers :
-  `DatastoresTable`, `DateCell`, `DeploymentsTable`, `DomainsTable`, `AdminResourceMapScreen`,
-  `AppOverview/WorkloadStatusIcon` (sauf sa ligne sur `Pressable`, qui ne change pas).
+- `onHoverIn` / `onHoverOut` sur des `Box` dans 4 fichiers : `DatastoresTable`, `DateCell`,
+  `DeploymentsTable`, `DomainsTable`. Ceux d'`AdminResourceMapScreen` et
+  d'`AppOverview/WorkloadStatusIcon` sont sur le `Pressable` de React Native et ne changent pas.
 - Le correctif CSS `debordementDesInstances.web.ts` cible `workloads-section` et `data-table` : ces
   éléments sont toujours rendus, le correctif reste valable.
 

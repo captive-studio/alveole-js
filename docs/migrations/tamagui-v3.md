@@ -130,6 +130,15 @@ Ces changements ne font échouer ni le typecheck ni les tests jsdom. Ils se voie
   habillage, et les contrôles désactivés prennent `opacity: 0.45`. Alveole neutralise cette
   opacité sur ses propres contrôles (ALV-131) ; un `Switch` ou un `Tabs` Tamagui direct la garde.
 - **Animations** : grammaire `transition` unique, `animateOnly` et la forme tableau supprimés.
+- **`accessibilityLabel` n'est plus traduit en `aria-label`** sur `Box` ni sur un composant Tamagui
+  direct : il arrive brut dans le DOM (`accessibilitylabel="…"`) et le libellé est perdu pour les
+  lecteurs d'écran. Le typecheck l'accepte toujours, et seul un test qui cherche le libellé (`getByLabelText`) échoue. Passer
+  par `aria-label`. Les composants Alveole qui le relaient (`ButtonIcon`, `Button`, `TextInput`) et
+  les composants React Native ne sont pas concernés.
+
+  ```bash
+  git grep -nE -B6 'accessibilityLabel=' -- '*.tsx' | grep -E '<(Box|XStack|YStack|View)\b'
+  ```
 
 ## 5. Ce qui change dans Alveole
 
@@ -201,6 +210,8 @@ Relevé du 2026-10-19, après `git pull` de chaque dépôt.
   **en dessous** : les remonter au-dessus, et en ajouter aux autres (un helper de rendu commun
   évite 31 copies).
 - Aucun pseudo-état à réécrire, aucun import direct de composant Tamagui hors `TamaguiProvider` et `PortalProvider`.
+- `accessibilityLabel` sur une `Box` dans `DatastoresTable` et `DomainsTable` : passés en
+  `aria-label` (captive-dashboard#367). cae et groove n'en ont aucun.
 
 ## 7. Vérification
 
