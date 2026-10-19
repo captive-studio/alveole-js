@@ -45,3 +45,18 @@ portent les noms des props React (`packages/react/src/Button/Button.figma.tsx`).
 Les noms de Figma changent : axes en minuscules, en anglais, calqués sur l'API. Les
 variantes `Icône=Seule` sortent vers le composant `ButtonIcon`. Code Connect reste
 possible plus tard, sans être nécessaire au relevé.
+
+## Mise en œuvre
+
+- Le relevé est un skill d'agent : il lit le nœud par le MCP Figma et mesure le
+  catalogue par un helper Playwright versionné (styles calculés par exemple d'axe).
+  Lire Figma hors agent demanderait un jeton d'API REST à gérer.
+- Le nœud est trouvé par le `figmaURL` de la fiche. Code Connect est écarté pour
+  l'instant : il exige un plan Figma Organization, qu'on n'a pas. Un `figmaURL`
+  manquant s'ajoute au moment de relever le composant, jamais en masse.
+- Les variables Figma ne sont pas comparées au thème en bloc : leurs écarts
+  remontent par les composants qui les utilisent.
+- Chaque relevé ouvre un ticket Jira ALV par composant, ses écarts en checklist,
+  pour qu'ils ne restent pas sans suite.
+- Pilote : `Button`, après vérification que ses axes Figma portent les noms de
+  l'API.
