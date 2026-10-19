@@ -611,9 +611,10 @@ l'échelle V/W quand on y passe.`,
     titre: '8. Tamagui v2',
     markdown: `Détail, changements de rendu et relevé par application : [tamagui-v2.md](https://github.com/captive-studio/alveole-js/blob/main/docs/migrations/tamagui-v2.md).
 
-Alveole 2.0 exige Tamagui \`^2.7.7\`. Monter **tous** les paquets \`tamagui\` / \`@tamagui/*\` de
-l'application au même numéro exact (\`@tamagui/babel-plugin\` et \`@tamagui/cli\` compris), et
-aligner la clé \`allowScripts\` sur la version des paquets \`@alveole/*\` (version unique, ADR 0029).
+Alveole 2.0 exige Tamagui 3 (section 8 bis) : une application en Tamagui 1 fait d'abord ce saut
+vers la v2, puis celui vers la v3, dans cet ordre. Monter **tous** les paquets \`tamagui\` /
+\`@tamagui/*\` de l'application au même numéro exact, et aligner la clé \`allowScripts\` sur la
+version des paquets \`@alveole/*\` (version unique, ADR 0029).
 
 \`\`\`bash
 git grep -nE "[^a-zA-Z]animation=|onHover(In|Out)|disablePassBorderRadius"
@@ -638,6 +639,28 @@ Changements de rendu, invisibles au typecheck et en jsdom :
   enfant absolu, ou \`settings.defaultPosition: 'relative'\` ;
 - **\`flex: 1\` devient \`1 1 0px\`** sur le web : \`flexGrow: 1\`, ou \`settings.styleCompat: 'legacy'\` ;
 - \`Image\` rend un vrai \`<img>\` (\`alt\` exigé) ; \`Switch\` ne compte plus padding ni bordure.`,
+  },
+  {
+    titre: '8 bis. Tamagui v3',
+    markdown: `Détail, changements de rendu et relevé par application : [tamagui-v3.md](https://github.com/captive-studio/alveole-js/blob/main/docs/migrations/tamagui-v3.md).
+
+Les peer dependencies Tamagui d'Alveole sont en \`^3.0.0\` seul.
+
+- **config** : \`@tamagui/config/v3\` et \`/v4\` n'existent plus ; passer à \`@tamagui/config/v5\` avec
+  les animations de \`@tamagui/config/v5-css\` ;
+- **\`SafeAreaProvider\`** enveloppe \`TamaguiProvider\`, tests compris ;
+- **\`@tamagui/babel-plugin\`** n'a pas de version 3 : le retirer de \`package.json\` et de
+  \`babel.config.js\` ;
+- **pseudo-états en clauses** : \`hoverStyle\` et ses voisins disparaissent, de \`Box\` et
+  \`Typography\` aussi (ADR 0031). La valeur de repos et sa clause vivent sur la même prop :
+  \`backgroundColor={{ default: repos, hover: survol }}\`, propriété sortie de \`style\`.
+
+\`\`\`bash
+git grep -nwE "hoverStyle|pressStyle|focusStyle|focusVisibleStyle|enterStyle|exitStyle|disabledStyle"
+\`\`\`
+
+Ce qu'Alveole ne prend pas en charge suit le guide officiel :
+[How to upgrade](https://tamagui.dev/docs/guides/how-to-upgrade).`,
   },
   {
     titre: '9. Vérification finale',

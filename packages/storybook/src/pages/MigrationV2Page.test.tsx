@@ -12,4 +12,10 @@ describe('MigrationV2Page', () => {
       expect(screen.getByLabelText(`Lien vers la section ${titre}`)).toBeTruthy();
     }
   });
+
+  it('renvoie au guide de migration Tamagui v3', () => {
+    const guide = SECTIONS_DE_MIGRATION_V2.map(({ markdown }) => markdown).join('\n');
+
+    expect(guide).toContain('docs/migrations/tamagui-v3.md');
+  });
 });
