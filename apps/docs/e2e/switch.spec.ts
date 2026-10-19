@@ -19,3 +19,20 @@ test('loge le pouce dans sa piste, padding et bordure compris', async ({ page })
     hauteur: pouce!.height + 4,
   });
 });
+
+// Tamagui v3 estompe sa piste désactivée à 0.45 d'opacité, par-dessus les couleurs désactivées
+// qu'Alveole pose déjà.
+test('ne double pas les couleurs désactivées d une opacité', async ({ page }) => {
+  await openRoute(page, '/components/Switch');
+  const piste = page.getByRole('main').getByRole('switch', { disabled: true }).first();
+
+  await expect(piste).toHaveCSS('opacity', '1');
+});
+
+// Tamagui v3 ombre son pouce ; celui d'Alveole est plat, sa bordure suffit à le détacher.
+test('garde au pouce son aplat, sans ombre', async ({ page }) => {
+  await openRoute(page, '/components/Switch');
+  const pouce = page.getByRole('main').getByRole('switch').first().locator('[data-disable-theme]');
+
+  await expect(pouce).toHaveCSS('box-shadow', 'none');
+});

@@ -1,5 +1,6 @@
 import { makeStyles, StyleValue, useTheme } from '@alveole/theme';
 import { flexDuWeb } from '../../core/styleTamagui/flexDuWeb';
+import { sansEstompage } from '../../core/styleTamagui/sansEstompage';
 
 type Theme = ReturnType<typeof useTheme>;
 
@@ -45,6 +46,8 @@ const onglet = ({ color, spacing, radius }: Theme) =>
       appearance: 'none',
       backgroundColor: 'transparent',
       cursor: 'pointer',
+      // L'onglet seul est desactive.
+      ...sansEstompage,
       paddingTop: spacing('1W'),
       paddingBottom: spacing('1W'),
       paddingLeft: 0,

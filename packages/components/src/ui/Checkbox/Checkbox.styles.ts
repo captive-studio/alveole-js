@@ -1,4 +1,5 @@
 import { makeStyles, StyleValue, useTheme } from '@alveole/theme';
+import { sansEstompage } from '../../core/styleTamagui/sansEstompage';
 
 type Theme = ReturnType<typeof useTheme>;
 
@@ -37,6 +38,7 @@ const caseACocher = ({ color, spacingValue, radius }: Theme) =>
     checkboxDisabled: {
       borderColor: color.border['disabled-grey'],
       backgroundColor: 'transparent',
+      ...sansEstompage,
     },
     checkboxError: {
       borderColor: color.border['plain-error'],

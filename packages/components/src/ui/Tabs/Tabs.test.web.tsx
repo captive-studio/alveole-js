@@ -153,3 +153,11 @@ test('garde au panneau une base flex en pourcentage pour ne pas s ecraser', () =
   const chaine = [screen.getByRole('tabpanel'), screen.getByRole('tablist').parentElement!];
   expect(chaine.map(element => getComputedStyle(element).flexBasis)).toEqual(['0%', '0%']);
 });
+
+// Un onglet seul est désactivé, et Tamagui v3 estompe tout onglet désactivé à 0.45, variant
+// que `unstyled` ne retire pas : l'unique onglet passait à moitié transparent.
+test('n estompe pas l onglet unique', () => {
+  renderWeb(<Tabs defaultValue="a" tabs={[{ label: 'Onglet 1', value: 'a', content: <></> }]} />);
+
+  expect(getComputedStyle(screen.getByRole('tab')).opacity).toBe('1');
+});
