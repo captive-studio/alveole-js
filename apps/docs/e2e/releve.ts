@@ -35,8 +35,18 @@ export const releverExemple = async (page: Page, fiche: string, exemple: string)
           texte: libelle.color,
           fond: porteur('backgroundColor', 'rgba(0, 0, 0, 0)'),
         },
-        rayon: cadre.borderTopLeftRadius,
-        bordure: cadre.borderTop,
+        rayon: {
+          hautGauche: cadre.borderTopLeftRadius,
+          hautDroite: cadre.borderTopRightRadius,
+          basDroite: cadre.borderBottomRightRadius,
+          basGauche: cadre.borderBottomLeftRadius,
+        },
+        bordure: {
+          haut: cadre.borderTop,
+          droite: cadre.borderRight,
+          bas: cadre.borderBottom,
+          gauche: cadre.borderLeft,
+        },
       };
     });
 };

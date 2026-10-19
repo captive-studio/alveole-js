@@ -61,7 +61,8 @@ export const bords = async (element: Locator) => {
 
 /**
  * Ce que vaut, calculée, une valeur du thème posée sur une propriété CSS : la variable se résout
- * sur une sonde, comme pour `tailleDeTexte`.
+ * sur une sonde, comme pour `tailleDeTexte`. Une variable que le thème ne définit pas lève une
+ * erreur : sonde et élément mesuré retomberaient sur la même valeur par défaut.
  */
 export const valeurCalculee = (
   page: Page,
@@ -71,6 +72,13 @@ export const valeurCalculee = (
 ) =>
   page.evaluate(
     ([nom, css]) => {
+      const racine = window.getComputedStyle(document.documentElement);
+      const inconnue = [...css.matchAll(/var\((--[\w-]+)\)/g)]
+        .map(([, variable]) => variable)
+        .find(variable => !racine.getPropertyValue(variable));
+
+      if (inconnue) throw new Error(`variable du thème inconnue : ${inconnue}`);
+
       const sonde = document.createElement('div');
       sonde.style[nom] = css;
       document.body.appendChild(sonde);
