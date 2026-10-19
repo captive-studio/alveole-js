@@ -18,7 +18,7 @@ const hauteur = async (element: Locator) => {
 // bouton md il se lisait comme un cran plus petit que les autres commandes de la page.
 test('pose l onglet inactif au gabarit d un bouton md', async ({ page }) => {
   await openRoute(page, '/components/Button');
-  const bouton = await hauteur(page.getByRole('main').getByRole('button', { name: 'Bouton md' }));
+  const bouton = await hauteur(page.getByRole('main').getByRole('button', { name: 'Md', exact: true }));
   await openRoute(page, '/components/Tabs');
   // La pastille est l'enveloppe du libellé, premier enfant de l'onglet.
   const onglet = await hauteur(page.getByRole('main').getByRole('tab', { name: 'Onglet 3' }).locator('xpath=*[1]'));

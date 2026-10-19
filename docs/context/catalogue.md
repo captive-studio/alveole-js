@@ -20,9 +20,11 @@ _Éviter_ : story, cas, démo. Le type est `StoryExample`.
 
 **Exemple d'axe** :
 Un exemple qui montre une seule valeur d'un axe de variante (variante, taille,
-état, contenu de tête…), nommé comme la prop du code et l'axe Figma qu'il
-représente. Il vit dans la fiche du composant, à côté des autres exemples, et sert
-de point de mesure aux écarts de maquette.
+état, contenu de tête…). Son libellé est la valeur, avec une majuscule (`Primary`,
+`Sm`, `Default`, `Leading`), pour que le relevé le retrouve sans correspondance. Il vit
+dans la fiche du composant, à côté des autres exemples, et sert de point de mesure aux
+écarts de maquette. Un état de survol n'a pas d'exemple propre : il se mesure en
+survolant l'exemple `Default`.
 _Éviter_ : story de feature, matrice, story dev.
 
 **Bloc d'exemple** :

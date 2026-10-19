@@ -23,7 +23,7 @@ const hauteur = async (element: Locator) => {
 // Un bouton posé à côté d'un champ ne s'alignait plus.
 test('aligne la hauteur du champ texte sur celle du bouton md', async ({ page }) => {
   await openRoute(page, '/components/Button');
-  const bouton = await hauteur(dansLaFiche(page).getByRole('button', { name: 'Bouton md' }));
+  const bouton = await hauteur(dansLaFiche(page).getByRole('button', { name: 'Md', exact: true }));
   await openRoute(page, '/components/TextInput');
   const champ = await hauteur(dansLaFiche(page).getByLabel('Nom', { exact: true }).locator('xpath=..'));
 

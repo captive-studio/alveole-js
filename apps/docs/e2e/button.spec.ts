@@ -23,13 +23,13 @@ const boite = async (element: Locator) => {
 
 // Les crans de control (ADR 0013), mesurés sur des boutons bordés : sans boxSizing, la bordure
 // s'ajoutait au-delà de la hauteur voulue.
-for (const [taille, hauteur] of [
-  ['sm', 28],
-  ['md', 32],
-  ['lg', 40],
+for (const [taille, exemple, hauteur] of [
+  ['sm', 'Sm', 28],
+  ['md', 'Md', 32],
+  ['lg', 'Lg', 40],
 ] as const) {
   test(`rend le bouton ${taille} à ${hauteur}px de haut`, async ({ page }) => {
-    expect((await boite(bouton(page, `Bouton ${taille}`))).height).toBe(hauteur);
+    expect((await boite(bouton(page, exemple))).height).toBe(hauteur);
   });
 }
 
@@ -48,7 +48,7 @@ test('donne au bouton déplié le fond de l appui', async ({ page }) => {
   const fond = (nom: string) =>
     bouton(page, nom).evaluate(e => window.getComputedStyle(e.firstElementChild!).backgroundColor);
 
-  expect(await fond('Expanded')).not.toBe(await fond('Normal'));
+  expect(await fond('Expanded')).not.toBe(await fond('Default'));
 });
 
 for (const [taille, rang] of [
