@@ -13,7 +13,7 @@ import { usePageStatusBar } from './usePageStatusBar';
 export type PageContentProps = PageProps;
 
 export const PageContent = (props: PageContentProps) => {
-  const { scrollable = false, renderToolbar, sidebar, sideBarController, onScrollChange, statusBar } = props;
+  const { gradient, scrollable = false, renderToolbar, sidebar, sideBarController, onScrollChange, statusBar } = props;
 
   const { isVariant } = useTheme();
   const styles = useStyles();
@@ -73,7 +73,7 @@ export const PageContent = (props: PageContentProps) => {
     );
 
   return (
-    <PageBackground>
+    <PageBackground gradient={gradient}>
       {sidebar || renderToolbar ? renderPageWithSidebar(renderContent()) : renderContent()}
     </PageBackground>
   );

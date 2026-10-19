@@ -12,6 +12,7 @@ export const PageContentDefault = (props: PageContentDefaultProps) => {
     description,
     og,
     scrollable: _scrollable,
+    gradient: _gradient,
     sidebar: _sidebar,
     sideBarController: _sideBarController,
     onScrollToBottom: _onScrollToBottom,
