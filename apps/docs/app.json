@@ -1,8 +1,25 @@
 {
   "expo": {
-    "name": "Alveole Docs",
-    "slug": "alveole-docs",
+    "name": "Alvéole",
+    "slug": "alveole",
+    "owner": "captivestudio",
+    "icon": "./assets/images/logo.png",
     "scheme": "alveole-docs",
+    "ios": {
+      "bundleIdentifier": "dev.captive.alveole",
+      "appleTeamId": "9Y5A2Z67KL",
+      "infoPlist": {
+        "ITSAppUsesNonExemptEncryption": false
+      }
+    },
+    "android": {
+      "package": "dev.captive.alveole"
+    },
+    "extra": {
+      "eas": {
+        "projectId": "c49eaa10-1251-4047-b812-878adf06f99c"
+      }
+    },
     "web": {
       "bundler": "metro",
       "output": "static"
@@ -10,6 +27,10 @@
     "experiments": {
       "baseUrl": ""
     },
-    "plugins": ["expo-font", "expo-image", "expo-router"]
+    "plugins": [
+      "expo-font",
+      "expo-image",
+      "expo-router"
+    ]
   }
 }

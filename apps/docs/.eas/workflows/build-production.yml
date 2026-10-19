@@ -1,0 +1,19 @@
+name: iOS - Build and submit to TestFlight
+
+jobs:
+  build_ios:
+    name: Build iOS
+    type: build
+    environment: production
+    params:
+      platform: ios
+      profile: production
+
+  submit_ios:
+    name: Submit to TestFlight
+    type: submit
+    needs: [build_ios]
+    params:
+      # Soumettre le build de cette exécution, même si d'autres builds existent.
+      build_id: ${{ needs.build_ios.outputs.build_id }}
+      profile: production

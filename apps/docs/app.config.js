@@ -7,7 +7,12 @@
 // donc en SPA, sans rien perdre de ce qu'il vérifie. En développement sur les sources,
 // on évite aussi le bundle serveur et le pré-rendu à chaque démarrage. DOCS_OUTPUT=static
 // permet toujours de tester ce rendu explicitement ; les exports restent statiques par défaut.
+const { version: componentsVersion } = require('../../packages/components/package.json');
+
 module.exports = ({ config }) => ({
   ...config,
+  // Les stores attendent X.Y.Z, sans suffixe de préversion ni métadonnées SemVer.
+  version: componentsVersion.split(/[-+]/)[0],
+  extra: { ...config.extra, componentsVersion },
   web: { ...config.web, output: process.env.DOCS_OUTPUT ?? (process.env.ALVEOLE_LIVE === '1' ? 'single' : 'static') },
 });
