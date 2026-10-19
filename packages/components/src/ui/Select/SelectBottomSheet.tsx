@@ -10,7 +10,7 @@ import { textesDuPanneau } from './selectReglages';
 export type SelectBottomSheetProps = SelectPanelProps;
 
 export const SelectBottomSheet = (props: SelectBottomSheetProps) => {
-  const { open, setOpen, title, multiple, searchable, query, onQueryChange } = props;
+  const { open, setOpen, title, multiple, searchable, query, onQueryChange, sheetSnapPoints } = props;
 
   const { searchPlaceholder } = textesDuPanneau(props);
 
@@ -29,7 +29,7 @@ export const SelectBottomSheet = (props: SelectBottomSheetProps) => {
       open={open}
       setOpen={setOpen}
       title={title}
-      fitContent
+      {...(sheetSnapPoints != null ? { points: sheetSnapPoints } : { fitContent: true as const })}
       moveOnKeyboardChange={searchable}
       action={
         multiple ? (

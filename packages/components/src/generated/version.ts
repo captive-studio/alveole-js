@@ -1,1 +1,1 @@
-export const ALVEOLE_COMPONENTS_VERSION = "1.10.0" as const;
+export const ALVEOLE_COMPONENTS_VERSION = "2.0.0-alpha.8" as const;

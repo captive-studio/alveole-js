@@ -36,6 +36,7 @@ export type SelectPanelProps = {
   loading?: boolean;
   loadingMessage?: string;
   emptyMessage?: string;
+  sheetSnapPoints?: number[];
 };
 
 /**

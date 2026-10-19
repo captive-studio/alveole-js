@@ -33,6 +33,9 @@ type SelectSharedProps = FormControlCaptionProps & {
   /** Ajoute une entrée permettant de revenir à une sélection vide. */
   clearable?: boolean;
 
+  /** Points d'ancrage du bottom sheet (en % de la hauteur écran). Omis : le sheet s'adapte au contenu. */
+  sheetSnapPoints?: number[];
+
   /** Ajoute un champ de recherche au panneau. Par défaut : false. */
   searchable?: boolean;
   searchPlaceholder?: string;
