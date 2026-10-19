@@ -14,8 +14,10 @@ export default {
 
 - Occupe tout l'espace disponible (\`flex: 1\`, \`width: 100%\`).
 - Applique la couleur de palette \`background.default-grey\` du thème.
+- Avec \`gradient\`, applique un dégradé vertical \`default-grey\` → \`alt-grey\` (désactivé par défaut).
+- Avec \`gradient\`, applique un dégradé vertical \`default-grey\` → \`alt-grey\` (désactivé par défaut).
 
-## Pourquoi un fond uni ?
+## Pourquoi un fond uni par défaut ?
 
 Un dégradé ferait varier la couleur selon la hauteur : aucun contenu posé dessus ne pourrait s'accorder à une valeur du thème, et deux éléments identiques n'auraient pas le même fond selon leur position dans la page.`,
   shortDescription: 'Fond de page uni utilisant la couleur de palette default-grey du thème.',
@@ -27,6 +29,14 @@ export const Default = () => (
   <Box style={{ height: 300, width: '100%' }}>
     <PageBackground>
       <Typography>Contenu posé sur le fond de page</Typography>
+    </PageBackground>
+  </Box>
+);
+
+export const Gradient = () => (
+  <Box style={{ height: 300, width: '100%' }}>
+    <PageBackground gradient>
+      <Typography>Contenu posé sur le fond en dégradé</Typography>
     </PageBackground>
   </Box>
 );

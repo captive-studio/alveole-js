@@ -14,6 +14,7 @@ export type PageProps = BoxProps & {
   title: string;
   description?: string;
   defaultBackgroundColor?: string;
+  gradient?: boolean;
   og?: { title?: string; description?: string };
   meta?: MetaTagProps[];
   scrollable?: boolean | 'mobile-only' | 'desktop-only';

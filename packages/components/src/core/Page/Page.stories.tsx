@@ -81,6 +81,16 @@ export const WithScrollable = () => (
 );
 
 /**
+ * Active le fond en dégradé vertical (`default-grey` → `alt-grey`) via `gradient`.
+ * Désactivé par défaut : le fond est uni.
+ */
+export const WithGradient = () => (
+  <Page title="Page avec dégradé" gradient>
+    <Typography>Page avec un fond en dégradé.</Typography>
+  </Page>
+);
+
+/**
  * Intégration avec un contrôleur de sidebar via `useSidebar()`.
  *
  * ```tsx

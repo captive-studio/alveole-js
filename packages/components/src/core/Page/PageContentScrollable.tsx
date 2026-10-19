@@ -31,6 +31,7 @@ export const PageContentScrollable = React.forwardRef<PageContentScrollableHandl
     } = props;
     const {
       scrollable: _scrollable,
+      gradient: _gradient,
       sidebar: _sidebar,
       sideBarController: _sideBarController,
       ...boxProps
