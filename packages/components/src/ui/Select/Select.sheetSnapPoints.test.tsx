@@ -1,5 +1,4 @@
-import { press, OPTIONS, renderSelect } from '@/__tests__/helpers/selectHarness';
-import React from 'react';
+import { OPTIONS, press, renderSelect } from '@/__tests__/helpers/selectHarness';
 import { Select } from './Select';
 
 jest.mock('tamagui', () => jest.requireActual('@/__tests__/helpers/tamaguiSheetMock').mockTamaguiSheet());
@@ -12,7 +11,7 @@ jest.mock('@/src/ui/BottomSheet', () => {
   return {
     BottomSheet: (props: Record<string, unknown>) => {
       bottomSheetProps.push(props);
-      return props.open ? ReactActual.createElement(View, null, props.children as React.ReactNode) : null;
+      return props.open ? ReactActual.createElement(View, null, props.children) : null;
     },
   };
 });
@@ -27,7 +26,7 @@ describe('Select, sheetSnapPoints', () => {
 
     await press(getByTestId('select-trigger'));
 
-    const lastProps = bottomSheetProps.at(-1);
+    const lastProps = bottomSheetProps[bottomSheetProps.length - 1];
     expect(lastProps?.fitContent).toBe(true);
     expect(lastProps?.points).toBeUndefined();
   });
@@ -37,7 +36,7 @@ describe('Select, sheetSnapPoints', () => {
 
     await press(getByTestId('select-trigger'));
 
-    const lastProps = bottomSheetProps.at(-1);
+    const lastProps = bottomSheetProps[bottomSheetProps.length - 1];
     expect(lastProps?.points).toEqual([50]);
     expect(lastProps?.fitContent).toBeUndefined();
   });
