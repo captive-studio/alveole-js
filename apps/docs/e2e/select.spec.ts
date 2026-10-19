@@ -33,7 +33,7 @@ test('aligne la hauteur du champ sur celle du bouton md', async ({ page }) => {
     return bas - haut;
   };
   await openRoute(page, '/components/Button');
-  const bouton = await hauteur(page.getByRole('main').getByRole('button', { name: 'Bouton md' }));
+  const bouton = await hauteur(page.getByRole('main').getByRole('button', { name: 'Md', exact: true }));
   await openRoute(page, FICHE);
   const champ = await hauteur(
     selecteur(page, 'Sélection').locator('xpath=ancestor::div[contains(@class, "control")][1]'),

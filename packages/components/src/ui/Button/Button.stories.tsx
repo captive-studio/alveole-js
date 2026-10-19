@@ -47,9 +47,9 @@ export const Variants = () => (
 /** `md` par défaut. `sm` pour les zones denses, `lg` pour une action qu'on veut mettre en avant. */
 export const Sizes = () => (
   <Box display="flex" flexDirection="row" style={{ alignItems: 'center' }} gap={24}>
-    <Button variant="secondary" size="sm" title="Bouton sm" />
-    <Button variant="secondary" size="md" title="Bouton md" />
-    <Button variant="secondary" size="lg" title="Bouton lg" />
+    <Button variant="secondary" size="sm" title="Sm" />
+    <Button variant="secondary" size="md" title="Md" />
+    <Button variant="secondary" size="lg" title="Lg" />
   </Box>
 );
 
@@ -61,7 +61,7 @@ export const Sizes = () => (
  */
 export const States = () => (
   <Box display="flex" flexDirection="row" gap={24}>
-    <Button variant="secondary" title="Normal" />
+    <Button variant="secondary" title="Default" />
     <Button variant="secondary" title="Disabled" disabled />
     <Button variant="secondary" title="Selected" selected />
     <Button variant="secondary" title="Expanded" expanded />
@@ -137,8 +137,8 @@ export const OnPressAsynchrone = () => {
 /** `leading` place l’icône avant le libellé, `trailing` après. Les deux peuvent coexister. */
 export const Icons = () => (
   <Box display="flex" flexDirection="row" gap={24}>
-    <Button variant="secondary" title="Ajouter" leading="Plus" />
-    <Button variant="secondary" title="Exporter" trailing="Download" />
+    <Button variant="secondary" title="Leading" leading="Plus" />
+    <Button variant="secondary" title="Trailing" trailing="Download" />
     <Button variant="secondary" title="Filtres" leading="Plus" trailing="ChevronDown" />
   </Box>
 );
