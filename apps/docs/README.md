@@ -15,15 +15,26 @@ L'application est le projet Expo `captivestudio/alveole`, identifiant
   lors du premier build et de sa soumission. Aucune clé Apple n'est nécessaire
   dans le dépôt ni dans les secrets GitHub.
 
-## Construire et soumettre depuis GitHub
+## Construire et soumettre depuis le terminal
 
-Une fois ces fichiers intégrés à `main`, ouvrir **Actions → Build iOS → Run
-workflow** et sélectionner la branche à construire. Choisir une révision validée
-par la CI. Pour construire un tag précis, utiliser GitHub CLI :
+Une fois ces fichiers intégrés à `main`, installer GitHub CLI (`gh`) et se
+connecter une seule fois avec `gh auth login`. Depuis la racine du dépôt :
 
 ```sh
-gh workflow run build-ios.yml --repo Captive-Studio/alveole-js --ref v2.0.0
+pnpm run publish:ios
 ```
+
+La commande déclenche le workflow GitHub **Build iOS** sur `main` et affiche
+le lien de suivi. Pour choisir une branche ou un tag distant :
+
+```sh
+pnpm run publish:ios ios/deploiement
+pnpm run publish:ios v2.0.0
+```
+
+Choisir une révision validée par la CI. La commande utilise le contenu déjà
+poussé sur GitHub ; elle ne committe ni ne pousse les modifications locales.
+Le workflow doit être présent sur la branche par défaut pour être déclenchable.
 
 Le workflow installe les dépendances avec pnpm à la racine du monorepo, puis
 lance le workflow EAS depuis `apps/docs`. EAS construit iOS et soumet le build
