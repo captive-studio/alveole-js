@@ -27,10 +27,6 @@
     "experiments": {
       "baseUrl": ""
     },
-    "plugins": [
-      "expo-font",
-      "expo-image",
-      "expo-router"
-    ]
+    "plugins": ["expo-font", "expo-image", "expo-router"]
   }
 }
