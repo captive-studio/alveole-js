@@ -7,6 +7,7 @@ import {
 } from '@tamagui/core';
 import React from 'react';
 import { aplatirStyle } from '../styleTamagui/aplatirStyle';
+import { definis } from '../styleTamagui/definis';
 import { correctionFlexDuWeb } from '../styleTamagui/flexDuWeb';
 import { BoxStyle } from './Box.types';
 import { resolveSpacing } from './resolveSpacing';
@@ -24,11 +25,6 @@ export type BoxProps = Omit<TamaguiViewProps, keyof BoxStyle | 'tag' | 'style'> 
 
 const StyledView = styled(TamaguiView, { name: 'Box' });
 export type BoxElement = TamaguiElement;
-
-// Tamagui v3 lit un raccourci a `undefined` comme une valeur : `p` vide ecrasait le padding du
-// style, `gap` vide son gap. Seuls les espacements fournis passent.
-const definis = <T extends object>(valeurs: T) =>
-  Object.fromEntries(Object.entries(valeurs).filter(([, valeur]) => valeur !== undefined));
 
 export const Box = React.forwardRef<BoxElement, BoxProps>(function Box(props, ref) {
   const { tag, style, borderRadius, mt, mb, mr, ml, m, pt, pb, pl, pr, p, gap, ...viewProps } = props;
