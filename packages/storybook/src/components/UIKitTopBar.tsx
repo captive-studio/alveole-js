@@ -1,7 +1,9 @@
 import { A, Box, Divider, Header, LucideIcon, SidebarGroup, SidebarItem, Typography } from '@alveole/components';
 import { makeStyles, useTheme } from '@alveole/theme';
+import { usePathname } from 'expo-router';
 import React from 'react';
-import { Platform, Pressable } from 'react-native';
+import { Platform, Pressable, ScrollView, useWindowDimensions } from 'react-native';
+import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import type { UIKitColumnGroup } from './UIKitColumn';
 
 export type UIKitTopBarItem = {
@@ -110,29 +112,56 @@ const NavItem = ({ label, href, current, block = false }: NavItemProps) => {
   );
 };
 
-/**
- * La barre en version mobile : un menu qui se deplie sous l'entete. L'etat d'ouverture vit ici,
- * avec le seul rendu qui s'en sert, plutot que dans la barre qui n'en a pas besoin autrement.
- */
+const MobileMenuItems = ({ activeKey, items, columnGroups }: Required<UIKitTopBarProps>) => (
+  <>
+    {items.map(({ key, ...item }) => (
+      <NavItem key={key} {...item} current={activeKey === key} block />
+    ))}
+    {columnGroups.length > 0 && <Divider />}
+    {columnGroups.map(group => (
+      <SidebarGroup key={group.title} title={group.title}>
+        {group.items.map(item => (
+          <SidebarItem key={item.key} title={item.title} href={item.href} />
+        ))}
+      </SidebarGroup>
+    ))}
+  </>
+);
+
+/** La barre mobile garde sa commande visible et fait défiler le menu sous celle-ci. */
 const BarreMobile = ({ activeKey, items, columnGroups }: Required<UIKitTopBarProps>) => {
-  const { color, spacing } = useTheme();
-  // Les items sont des ancres : la navigation ne passe plus par un callback qui pourrait
-  // refermer le menu au clic. On retient donc la page pour laquelle le menu a été ouvert,
-  // et il se referme de lui-même dès qu'on arrive ailleurs, sans effet de synchronisation.
-  const [openedFor, setOpenedFor] = React.useState<string | null>(null);
-  const menuOpen = openedFor === activeKey;
-  const toggleMenu = () => setOpenedFor(menuOpen ? null : activeKey);
+  const { color, spacingValue } = useTheme();
+  const { height } = useWindowDimensions();
+  const { top, bottom } = useSafeAreaInsets();
+  const [barHeight, setBarHeight] = React.useState(0);
+  const [menuOpen, setMenuOpen] = React.useState(false);
+  const toggleMenu = () => setMenuOpen(open => !open);
+
+  const header = (
+    <Header
+      logo={<AlveoleLogo />}
+      right={
+        <Pressable
+          accessibilityRole="button"
+          accessibilityLabel={menuOpen ? 'Fermer le menu' : 'Ouvrir le menu'}
+          accessibilityState={{ expanded: menuOpen }}
+          onPress={toggleMenu}
+          style={{ padding: 8 }}
+        >
+          <LucideIcon name={menuOpen ? 'X' : 'Menu'} size="md" color={color.light.text['title-grey']} />
+        </Pressable>
+      }
+    />
+  );
 
   return (
     <>
-      <Header
-        logo={<AlveoleLogo />}
-        right={
-          <Pressable accessibilityRole="button" onPress={toggleMenu} style={{ padding: 8 }}>
-            <LucideIcon name={menuOpen ? 'X' : 'Menu'} size="md" color={color.light.text['title-grey']} />
-          </Pressable>
-        }
-      />
+      <Box
+        style={{ position: Platform.OS === 'web' ? 'sticky' : 'relative', top: 0, zIndex: 100, flexShrink: 0 }}
+        onLayout={event => setBarHeight(event.nativeEvent.layout.height)}
+      >
+        {header}
+      </Box>
       {menuOpen && (
         <Box
           style={{
@@ -144,28 +173,16 @@ const BarreMobile = ({ activeKey, items, columnGroups }: Required<UIKitTopBarPro
             backgroundColor: color.light.background['default-grey'],
             borderBottomWidth: 1,
             borderBottomColor: color.light.border['default-grey'],
-            paddingTop: spacing('2W'),
-            paddingBottom: spacing('2W'),
-            paddingLeft: spacing('2W'),
-            paddingRight: spacing('2W'),
-            display: 'flex',
-            flexDirection: 'column',
-            gap: spacing('050'),
+            flexShrink: 0,
           }}
         >
-          {items.map(({ key, ...item }) => (
-            <NavItem key={key} {...item} current={activeKey === key} block />
-          ))}
-
-          {columnGroups.length > 0 && <Divider />}
-
-          {columnGroups.map(group => (
-            <SidebarGroup key={group.title} title={group.title}>
-              {group.items.map(item => (
-                <SidebarItem key={item.key} title={item.title} href={item.href} />
-              ))}
-            </SidebarGroup>
-          ))}
+          <ScrollView
+            style={{ maxHeight: Math.max(0, height - top - bottom - barHeight), flexGrow: 0 }}
+            contentContainerStyle={{ padding: spacingValue('2W'), gap: spacingValue('050') }}
+            keyboardShouldPersistTaps="handled"
+          >
+            <MobileMenuItems activeKey={activeKey} items={items} columnGroups={columnGroups} />
+          </ScrollView>
         </Box>
       )}
     </>
@@ -174,9 +191,11 @@ const BarreMobile = ({ activeKey, items, columnGroups }: Required<UIKitTopBarPro
 
 export const UIKitTopBar = ({ activeKey, items, columnGroups = [] }: UIKitTopBarProps) => {
   const { isVariant } = useTheme();
+  const pathname = usePathname();
 
   if (isVariant('mobile')) {
-    return <BarreMobile activeKey={activeKey} items={items} columnGroups={columnGroups} />;
+    // Toute nouvelle fiche repart avec un menu fermé, y compris dans la même rubrique.
+    return <BarreMobile key={pathname} activeKey={activeKey} items={items} columnGroups={columnGroups} />;
   }
 
   const right = (
