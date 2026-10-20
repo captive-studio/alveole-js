@@ -17,6 +17,7 @@ import {
 import * as ThemeConstants from '@alveole/theme';
 import { usePathname } from 'expo-router';
 import React from 'react';
+import { Image } from 'react-native';
 
 export { DocFooter };
 export const storyList = toStoryModules(Stories);
@@ -88,7 +89,21 @@ const useCurrentRubrique = () => {
 export const useUIKitTopBar = () => {
   const { key, groups } = useCurrentRubrique();
 
-  return <UIKitTopBar activeKey={key ?? ''} items={RUBRIQUES} columnGroups={groups} />;
+  return (
+    <UIKitTopBar
+      activeKey={key ?? ''}
+      items={RUBRIQUES}
+      columnGroups={groups}
+      logo={
+        <Image
+          source={require('../assets/images/logo.png')}
+          accessibilityLabel="Alveole"
+          resizeMode="contain"
+          style={{ width: 32, height: 32 }}
+        />
+      }
+    />
+  );
 };
 
 export const useUIKitColumn = () => {
