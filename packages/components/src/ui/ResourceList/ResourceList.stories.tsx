@@ -100,6 +100,16 @@ export const WithPreviewImageAndTrailing = () => (
   />
 );
 
+/** Sans description, le contenu garde ses 52px de haut. */
+export const WithoutDescription = () => (
+  <ResourceList
+    data={exampleData}
+    keyExtractor={item => item.id}
+    renderItem={({ item, index }) => <ListItem title={item.name} showSeparateur={index !== 0} />}
+    renderNoContent={() => <EmptyState title="Aucun élément" description="Cliquez sur le bouton" iconName="House" />}
+  />
+);
+
 const aucunExemple: typeof exampleData = [];
 
 /**
