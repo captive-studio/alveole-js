@@ -26,7 +26,7 @@ export const extractLanguage = (className?: string): HighlightProps['language'] 
 type AvecEnfants = { children?: React.ReactNode };
 type TextStyle = Pick<RNTextStyle, 'fontSize' | 'lineHeight' | 'fontWeight' | 'fontFamily' | 'letterSpacing'>;
 
-type MarkdownComponentsStyles = {
+export type MarkdownComponentsStyles = {
   bodyStyle: TextStyle;
   boldStyle: TextStyle;
   /** Couleur du texte courant, hors titres et liens. Vide garde le gris par defaut. */
