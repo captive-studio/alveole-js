@@ -130,6 +130,11 @@ const config = {
         message: "Cette prop CSS ne fonctionne pas directement sur Box. Passer par style={{ justifyContent: '...' }}.",
       },
       {
+        selector:
+          "JSXOpeningElement[name.name='NumberInput'] > JSXAttribute[name.name='placeholder']:matches([value.value='0'], [value.expression.value='0'], [value.expression.value=0])",
+        message: 'Pas de placeholder à 0 sur NumberInput : il se confond avec une valeur saisie.',
+      },
+      {
         // Une double assertion `x as unknown as T` (ou `as any as T`) passe par un type qui
         // accepte tout, donc TypeScript ne verifie plus rien entre `x` et `T` : on peut lui
         // faire affirmer n'importe quoi. C'est exactement ce qui a laisse passer un faux

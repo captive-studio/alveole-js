@@ -20,7 +20,7 @@ export const Default = () => {
   const [value, setValue] = useState<number | null>(null);
   return (
     <FormControl label="Montant">
-      <NumberInput value={value} onChange={setValue} placeholder="0" />
+      <NumberInput value={value} onChange={setValue} placeholder="Quantité" />
     </FormControl>
   );
 };
