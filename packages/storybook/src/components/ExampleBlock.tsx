@@ -1,7 +1,8 @@
 import { Box, Button, Highlight, Typography } from '@alveole/components';
 import { useTheme } from '@alveole/theme';
 import React from 'react';
-import { Platform } from 'react-native';
+import { Platform, StyleSheet } from 'react-native';
+import Svg, { Circle, Defs, Pattern, Rect } from 'react-native-svg';
 import { decouperSource } from '../storySource';
 
 /** Au delà, la source prend plus de place que ce qu'elle documente. */
@@ -19,19 +20,45 @@ const PAS_DE_LA_TRAME = 16;
  */
 const Scene = ({ children, pleinEcran }: { children: React.ReactNode; pleinEcran: boolean }) => {
   const { color } = useTheme();
+  const trameId = `trame-${React.useId().replace(/[^a-zA-Z0-9_-]/g, '')}`;
 
   return (
     <Box
       p={Platform.OS === 'web' ? '3W' : '1W'}
       style={{
         backgroundColor: color.light.background['default-grey'],
-        backgroundImage: `radial-gradient(circle, ${color.light.border['default-grey']} 1px, transparent 1px)`,
-        backgroundSize: `${PAS_DE_LA_TRAME}px ${PAS_DE_LA_TRAME}px`,
+        ...(Platform.OS === 'web' && {
+          backgroundImage: `radial-gradient(circle, ${color.light.border['default-grey']} 1px, transparent 1px)`,
+          backgroundSize: `${PAS_DE_LA_TRAME}px ${PAS_DE_LA_TRAME}px`,
+        }),
         alignItems: pleinEcran ? undefined : 'center',
         justifyContent: 'center',
         minHeight: pleinEcran ? 420 : 160,
       }}
     >
+      {Platform.OS !== 'web' && (
+        <Svg
+          width="100%"
+          height="100%"
+          style={StyleSheet.absoluteFill}
+          pointerEvents="none"
+          accessible={false}
+          accessibilityElementsHidden
+          importantForAccessibility="no-hide-descendants"
+        >
+          <Defs>
+            <Pattern id={trameId} width={PAS_DE_LA_TRAME} height={PAS_DE_LA_TRAME} patternUnits="userSpaceOnUse">
+              <Circle
+                cx={PAS_DE_LA_TRAME / 2}
+                cy={PAS_DE_LA_TRAME / 2}
+                r={1}
+                fill={color.light.border['default-grey']}
+              />
+            </Pattern>
+          </Defs>
+          <Rect width="100%" height="100%" fill={`url(#${trameId})`} />
+        </Svg>
+      )}
       {children}
     </Box>
   );
