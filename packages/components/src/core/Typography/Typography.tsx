@@ -7,6 +7,7 @@ import {
 } from '@tamagui/core';
 import React from 'react';
 import { Platform } from 'react-native';
+import { aplatirStyle } from '../styleTamagui/aplatirStyle';
 import { definis } from '../styleTamagui/definis';
 import { couleurDuTexte } from './couleurDuTexte';
 import { useStyles } from './Typography.styles';
@@ -29,11 +30,18 @@ export type TypographyElement = TamaguiTextElement;
 export const Typography = React.forwardRef<TypographyElement, TypographyProps>(function Typography(props, ref) {
   const { tag, style, textAlign, color, ...textProps } = props;
   const styles = useStyles();
+  const nativeStyle = Platform.OS !== 'web' ? aplatirStyle(style) : undefined;
+  // Les styles React Native du theme portent des hauteurs absolues. Tamagui v3
+  // interprete aussi leurs nombres comme des ratios : 28 devenait 28 * fontSize.
+  const resolvedStyle =
+    nativeStyle && typeof nativeStyle.lineHeight === 'number'
+      ? { ...nativeStyle, lineHeight: `${nativeStyle.lineHeight}px` }
+      : style;
   return (
     <StyledTypography
       ref={ref}
       render={tag ?? 'typography'}
-      style={style}
+      style={resolvedStyle}
       {...definis({ textAlign })}
       // Le defaut vit ici et non dans une regle globale sur `body` : le paquet de theme
       // n'emet que `:root` et les polices (voir docs/adr/0009). Sans cela, le texte

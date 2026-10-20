@@ -124,8 +124,10 @@ Ces changements ne font échouer ni le typecheck ni les tests jsdom. Ils se voie
   concerné.
 - **Un `style` en tableau imbriqué est posé tel quel sur le DOM** par un composant Tamagui : la
   page tombe. `Box` d'Alveole aplatit son `style` ; un composant Tamagui direct ne le fait pas.
-- **`lineHeight` numérique devient un ratio** sur les composants Tamagui : `lineHeight: 20` vaut
-  20 fois la taille. Les `Typography` d'Alveole ne sont pas concernées.
+- **`lineHeight` numérique devient un ratio** sur les composants Tamagui, y compris dans
+  `style` sur natif : `lineHeight: 20` vaut 20 fois la taille. `Typography` d'Alveole convertit
+  les hauteurs numériques de son `style` en longueurs explicites sur natif pour conserver les
+  métriques du thème. Sa prop Tamagui `lineHeight={1.5}` reste un ratio.
 - **Peau par défaut des composants Tamagui** : les racines `Avatar`, `Tabs`, `Group` perdent leur
   habillage, et les contrôles désactivés prennent `opacity: 0.45`. Alveole neutralise cette
   opacité sur ses propres contrôles (ALV-131) ; un `Switch` ou un `Tabs` Tamagui direct la garde.
