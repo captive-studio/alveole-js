@@ -1,0 +1,18 @@
+name: Android - Build and submit to Google Play
+
+jobs:
+  build_android:
+    name: Build Android
+    type: build
+    environment: production
+    params:
+      platform: android
+      profile: production
+
+  submit_android:
+    name: Submit to Google Play internal testing (draft)
+    type: submit
+    needs: [build_android]
+    params:
+      build_id: ${{ needs.build_android.outputs.build_id }}
+      profile: production

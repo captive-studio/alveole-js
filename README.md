@@ -4,7 +4,7 @@
 
 **Documentation** : [alveole.captive.fr](https://alveole.captive.fr)
 
-**Application iOS** : [Construire et soumettre le catalogue à TestFlight](apps/docs/README.md).
+**Applications mobiles** : [Construire et soumettre le catalogue à TestFlight et Google Play](apps/docs/README.md).
 
 ## Packages
 
