@@ -1,4 +1,5 @@
 import { Box } from '@alveole/components';
+import { useTheme } from '@alveole/theme';
 import React from 'react';
 import { Platform, ScrollView } from 'react-native';
 import { StorybookFlag } from '../types';
@@ -32,6 +33,8 @@ export const BarreDeFiltres = ({
   indicateurChoisi,
   onIndicateur,
 }: BarreDeFiltresProps) => {
+  const { isVariant, spacingValue } = useTheme();
+  const marge = isVariant('mobile') ? spacingValue('3W') : 0;
   const [menuOuvert, setMenuOuvert] = React.useState<'tags' | 'indicateurs' | null>(null);
 
   const deroule = (menu: 'tags' | 'indicateurs') => ({
@@ -45,7 +48,11 @@ export const BarreDeFiltres = ({
       nestedScrollEnabled
       directionalLockEnabled={Platform.OS === 'ios'}
       showsHorizontalScrollIndicator={false}
-      contentContainerStyle={{ flexDirection: 'row', gap: 8, alignItems: 'center' }}
+      // La zone défile jusqu'aux bords ; seuls le premier et le dernier contrôle
+      // gardent la marge de ScreenZone, à l'intérieur du contenu défilant.
+      style={{ marginHorizontal: -marge, flexGrow: 0, flexShrink: 0 }}
+      contentInsetAdjustmentBehavior="never"
+      contentContainerStyle={{ flexDirection: 'row', gap: 8, alignItems: 'center', paddingHorizontal: marge }}
     >
       <Box style={{ minWidth: 200 }}>
         <SearchField placeholder="Button, Tabs, Card..." value={recherche} onChangeText={onRecherche} size="sm" />
