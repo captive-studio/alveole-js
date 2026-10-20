@@ -59,7 +59,9 @@ export const Popover = (props: PopoverProps) => {
       >
         {scrollable ? (
           <YStack style={{ overflow: 'hidden' }}>
-            <ScrollView style={{ maxHeight: maxH - spacingValue('025') }}>{children}</ScrollView>
+            <ScrollView style={{ maxHeight: maxH - spacingValue('025'), flexGrow: 0, flexShrink: 0 }}>
+              {children}
+            </ScrollView>
           </YStack>
         ) : (
           children

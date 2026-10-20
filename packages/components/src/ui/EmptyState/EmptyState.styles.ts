@@ -15,7 +15,6 @@ export const useStyles = makeStyles(({ externalPadding, text, color, spacing, ra
       paddingLeft: paddingValue,
       paddingRight: paddingValue,
       textAlign: 'center',
-      height: isVariant('mobile') ? '100%' : undefined,
       width: '100%',
     },
     contenu: {
@@ -23,7 +22,9 @@ export const useStyles = makeStyles(({ externalPadding, text, color, spacing, ra
       gap: spacing('2W'),
       alignItems: 'center',
       textAlign: 'center',
-      flex: isVariant('mobile') ? 1 : undefined,
+      // Grandir seulement si le parent impose une hauteur : une base nulle ou une
+      // hauteur à 100 % déforme les exemples et les pages défilantes.
+      flexGrow: isVariant('mobile') ? 1 : undefined,
       justifyContent: 'center',
       width: '100%',
     },
