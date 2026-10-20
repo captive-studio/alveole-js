@@ -1,5 +1,5 @@
 import React, { CSSProperties, ReactNode } from 'react';
-import { Platform, ScrollView, StyleSheet, Text, TextStyle, View } from 'react-native';
+import { ScrollView, StyleSheet, Text, TextStyle, View } from 'react-native';
 // Le type est importé en `import type` : il est effacé à l'exécution, donc l'index du
 // paquet, qui charge aussi toute la moitié highlight.js, n'est jamais évalué.
 import { CustomPalette, focusRingProps } from '@alveole/theme';
@@ -71,7 +71,7 @@ export const Highlight = ({ children, language, style, variant = 'standalone' }:
       focusable
       // En natif, ScrollView grandit par défaut. Dans la page défilante du catalogue,
       // le code doit garder sa hauteur de contenu au lieu de remplir la hauteur disponible.
-      style={Platform.OS === 'web' ? undefined : { flexGrow: 0, flexShrink: 0 }}
+      style={[styles.highlightContainer, variant === 'standalone' && styles.highlightContainerStandalone]}
       // La zone est focalisable exprès (cf. ci-dessus) : elle doit donc montrer la bague du
       // kit, et non le contour par defaut du navigateur.
       {...focusRingProps()}
@@ -82,20 +82,12 @@ export const Highlight = ({ children, language, style, variant = 'standalone' }:
       // design system, donc `styles.highlight` est posé après la base du thème.
       contentContainerStyle={styleDeLaSurface(styles, stylesheet, { variant, styleFourni: customStyle })}
     >
-      <View onStartShouldSetResponder={() => true}>{renderNode(rows)}</View>
+      <View style={styles.code}>{renderNode(rows)}</View>
     </ScrollView>
   );
 
   return (
-    <Prism
-      CodeTag={View}
-      PreTag={View}
-      customStyle={{}}
-      language={language}
-      renderer={renderer}
-      style={{}}
-      wrapLongLines
-    >
+    <Prism CodeTag={View} PreTag={View} customStyle={{}} language={language} renderer={renderer} style={{}}>
       {children}
     </Prism>
   );
