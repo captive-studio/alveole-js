@@ -65,12 +65,12 @@ groupe), Atlassian garde un `isSelected` visuel sans ARIA. Par ailleurs, le Butt
 
 ## 2. Usages dans les apps
 
-| Usage | Code (`origin/main`) | Motif réel |
-| --- | --- | --- |
-| groove, `IndexCRAFilters` | trois Button `selected={statut === ...}`, re-clic remet `null` (`screens/admin/IndexCRAPage/IndexCRAFilters.tsx:16-27`) | choix unique **facultatif** : radio qu'on peut décocher. Chaque bouton se comporte en bouton à bascule exclusif |
-| groove, `HomePageFilters` | `selected={hasSelected}` (filtre non vide), `active={isOpen}`, ouvre une BottomSheet de cases multiples (`screens/app/HomePage/HomePageFilters.tsx:83-127`) | **déclencheur de filtre appliqué** (même motif que `FilterDate`) |
-| dashboard, `AdminScreens` | `FILTRES` = Toutes / En erreur / Sans projet, `selected={filtre === valeur}`, `onPress={() => setFiltre(valeur)}` (`frontend/src/screens/AdminScreens/AdminScreens.tsx:12-16`, `:48-50`) | choix unique **obligatoire** (« Toutes » = aucun filtre) : groupe radio / contrôle segmenté |
-| dashboard, `AppLogsScreen` | `RANGES` = 30 min / 2h / 24h, `selected={range === r.value}` (`frontend/src/screens/AppLogsScreen/AppLogsScreen.tsx:12-16`, `:65-67`) | choix unique obligatoire : contrôle segmenté |
+| Usage                      | Code (`origin/main`)                                                                                                                                                                     | Motif réel                                                                                                      |
+| -------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | --------------------------------------------------------------------------------------------------------------- |
+| groove, `IndexCRAFilters`  | trois Button `selected={statut === ...}`, re-clic remet `null` (`screens/admin/IndexCRAPage/IndexCRAFilters.tsx:16-27`)                                                                  | choix unique **facultatif** : radio qu'on peut décocher. Chaque bouton se comporte en bouton à bascule exclusif |
+| groove, `HomePageFilters`  | `selected={hasSelected}` (filtre non vide), `active={isOpen}`, ouvre une BottomSheet de cases multiples (`screens/app/HomePage/HomePageFilters.tsx:83-127`)                              | **déclencheur de filtre appliqué** (même motif que `FilterDate`)                                                |
+| dashboard, `AdminScreens`  | `FILTRES` = Toutes / En erreur / Sans projet, `selected={filtre === valeur}`, `onPress={() => setFiltre(valeur)}` (`frontend/src/screens/AdminScreens/AdminScreens.tsx:12-16`, `:48-50`) | choix unique **obligatoire** (« Toutes » = aucun filtre) : groupe radio / contrôle segmenté                     |
+| dashboard, `AppLogsScreen` | `RANGES` = 30 min / 2h / 24h, `selected={range === r.value}` (`frontend/src/screens/AppLogsScreen/AppLogsScreen.tsx:12-16`, `:65-67`)                                                    | choix unique obligatoire : contrôle segmenté                                                                    |
 
 Aucun de ces écrans n'expose l'état à un lecteur d'écran : dans les quatre cas, seul l'œil voit
 quel bouton est choisi (conséquence directe de `Button.tsx:64`).
