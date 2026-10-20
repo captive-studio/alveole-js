@@ -58,6 +58,8 @@ const detail = ({ color, text, spacing }: Theme) =>
       alignSelf: 'stretch',
       gap: spacing('1W'),
       position: 'relative',
+      // Hauteur fixee par la maquette, avec ou sans description.
+      minHeight: 52,
     },
 
     // Pose en absolu sur le bord haut du detail, et non entre deux lignes : c'est ce qui lui
