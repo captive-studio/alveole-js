@@ -1,4 +1,5 @@
 import { Box } from '../../core/Box';
+import { Image } from '../../core/Image';
 import { Story } from '../../type';
 import { Avatar } from '../Avatar';
 import { Badge } from '../Badge';
@@ -73,7 +74,7 @@ export const cardWithMedia = () => {
     <Box style={{ width: '100%', maxWidth: 400 }}>
       <Card>
         <Card.Media>
-          <img src="https://picsum.photos/400/200" alt="" style={{ width: '100%', display: 'block' }} />
+          <Image source="https://picsum.photos/400/200" alt="" width="100%" height={200} />
         </Card.Media>
         <Card.Header
           titre="Titre lorem"
@@ -101,7 +102,7 @@ export const cardWithMediaDisabled = () => {
     <Box style={{ width: '100%', maxWidth: 400 }}>
       <Card>
         <Card.Media variant="disabled">
-          <img src="https://picsum.photos/400/200" alt="" style={{ width: '100%', display: 'block' }} />
+          <Image source="https://picsum.photos/400/200" alt="" width="100%" height={200} />
         </Card.Media>
         <Card.Header
           variant="disabled"
