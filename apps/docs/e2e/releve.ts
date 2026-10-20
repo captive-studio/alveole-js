@@ -1,6 +1,8 @@
 import type { Page } from '@playwright/test';
 import { openRoute } from './audit';
 
+type Cible = { fiche: string; exemple: string; survol?: boolean };
+
 /**
  * Le relevé d'un exemple d'axe (ADR 0030) : ouvre la fiche et rend, calculées par le
  * navigateur, les propriétés qu'on compare au nœud Figma.
@@ -8,45 +10,53 @@ import { openRoute } from './audit';
  * Un composant les répartit sur plusieurs nœuds : la racine porte la hauteur, le rayon et la
  * bordure, le premier nœud rembourré les marges intérieures, le premier nœud opaque le fond, et
  * le nœud du libellé la police, la graisse et la couleur du texte.
+ *
+ * Un état de survol n'a pas d'exemple propre : `survol` survole l'exemple et attend la fin de
+ * ses transitions, sans quoi la mesure tomberait au milieu du fondu.
  */
-export const releverExemple = async (page: Page, fiche: string, exemple: string) => {
+export const releverExemple = async (page: Page, { fiche, exemple, survol = false }: Cible) => {
   await openRoute(page, `/components/${fiche}`);
 
-  return page
-    .getByRole('main')
-    .getByRole('button', { name: exemple, exact: true })
-    .evaluate(racine => {
-      const elements = [racine, ...racine.querySelectorAll('*')];
-      const style = (element: Element) => window.getComputedStyle(element);
-      // Le premier nœud, de la racine vers les feuilles, où la propriété quitte sa valeur neutre.
-      const porteur = (propriete: 'padding' | 'backgroundColor', neutre: string) =>
-        style(elements.find(element => style(element)[propriete] !== neutre) ?? racine)[propriete];
-      const libelle = style(
-        elements.find(element => element.childElementCount === 0 && element.textContent?.trim()) ?? racine,
-      );
-      const cadre = style(racine);
+  const bouton = page.getByRole('main').getByRole('button', { name: exemple, exact: true });
 
-      return {
-        hauteur: cadre.height,
-        margesInterieures: porteur('padding', '0px'),
-        police: { famille: libelle.fontFamily, taille: libelle.fontSize },
-        graisse: libelle.fontWeight,
-        couleur: {
-          texte: libelle.color,
-          fond: porteur('backgroundColor', 'rgba(0, 0, 0, 0)'),
-        },
-        rayon: {
-          hautGauche: cadre.borderTopLeftRadius,
-          hautDroite: cadre.borderTopRightRadius,
-          basDroite: cadre.borderBottomRightRadius,
-          basGauche: cadre.borderBottomLeftRadius,
-        },
-        bordure: {
-          haut: cadre.borderTop,
-          droite: cadre.borderRight,
-          bas: cadre.borderBottom,
-          gauche: cadre.borderLeft,
-        },
-      };
-    });
+  if (survol) await bouton.hover();
+
+  return bouton.evaluate(async racine => {
+    // Le style de survol s'applique au rendu suivant : une frame, puis les transitions lancées.
+    await new Promise(requestAnimationFrame);
+    await Promise.all(racine.getAnimations({ subtree: true }).map(animation => animation.finished));
+
+    const elements = [racine, ...racine.querySelectorAll('*')];
+    const style = (element: Element) => window.getComputedStyle(element);
+    // Le premier nœud, de la racine vers les feuilles, où la propriété quitte sa valeur neutre.
+    const porteur = (propriete: 'padding' | 'backgroundColor', neutre: string) =>
+      style(elements.find(element => style(element)[propriete] !== neutre) ?? racine)[propriete];
+    const libelle = style(
+      elements.find(element => element.childElementCount === 0 && element.textContent?.trim()) ?? racine,
+    );
+    const cadre = style(racine);
+
+    return {
+      hauteur: cadre.height,
+      margesInterieures: porteur('padding', '0px'),
+      police: { famille: libelle.fontFamily, taille: libelle.fontSize },
+      graisse: libelle.fontWeight,
+      couleur: {
+        texte: libelle.color,
+        fond: porteur('backgroundColor', 'rgba(0, 0, 0, 0)'),
+      },
+      rayon: {
+        hautGauche: cadre.borderTopLeftRadius,
+        hautDroite: cadre.borderTopRightRadius,
+        basDroite: cadre.borderBottomRightRadius,
+        basGauche: cadre.borderBottomLeftRadius,
+      },
+      bordure: {
+        haut: cadre.borderTop,
+        droite: cadre.borderRight,
+        bas: cadre.borderBottom,
+        gauche: cadre.borderLeft,
+      },
+    };
+  });
 };

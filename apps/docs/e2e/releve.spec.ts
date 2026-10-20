@@ -18,7 +18,7 @@ let releve: Awaited<ReturnType<typeof releverExemple>>;
 test.beforeAll(async ({ browser }) => {
   page = await browser.newPage();
   await blockThirdParties(page);
-  releve = await releverExemple(page, 'Button', 'Secondary');
+  releve = await releverExemple(page, { fiche: 'Button', exemple: 'Secondary' });
 });
 
 test.afterAll(async () => {
@@ -64,4 +64,12 @@ test('relève la bordure de l exemple', async () => {
   const cote = await valeurCalculee(page, 'borderTop', '1px solid var(--border-default-grey)');
 
   expect(releve.bordure).toEqual({ haut: cote, droite: cote, bas: cote, gauche: cote });
+});
+
+test('relève le fond de l exemple survolé', async () => {
+  const survol = await releverExemple(page, { fiche: 'Button', exemple: 'Default', survol: true });
+
+  expect(survol.couleur.fond).toBe(
+    await valeurCalculee(page, 'backgroundColor', 'var(--background-transparent-hover)'),
+  );
 });
