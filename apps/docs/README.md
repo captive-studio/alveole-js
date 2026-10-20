@@ -1,4 +1,4 @@
-# Catalogue Alvéole sur iOS
+# Catalogue Alvéole sur iOS et Android
 
 L'application est le projet Expo `captivestudio/alveole`, identifiant
 `dev.captive.alveole`. La configuration EAS se trouve dans ce répertoire.
@@ -62,6 +62,68 @@ pnpm dlx eas-cli workflow:run build-production.yml --wait
 Cette commande envoie l'état local du projet, y compris les modifications non
 commitées qui ne sont pas ignorées. Elle construit et soumet automatiquement le
 nouveau build ; il n'est pas nécessaire de lancer `eas submit` ensuite.
+
+## Configuration initiale Android
+
+Depuis `apps/docs`, construire le premier Android App Bundle (`.aab`) :
+
+```sh
+pnpm dlx eas-cli build --platform android --profile production
+```
+
+Lors de la configuration initiale, laisser EAS générer un nouveau keystore pour
+`dev.captive.alveole` si cette application n'a pas encore de clé. EAS conservera
+la clé pour les builds suivants. Si un binaire a déjà été publié pour cette
+application, utiliser sa clé d'importation existante.
+
+Associer ensuite le compte de service de soumission :
+
+```sh
+pnpm dlx eas-cli credentials --platform android
+```
+
+Choisir `production`, puis **Google Service Account → Manage your Google
+Service Account Key for Play Store Submissions**. Sélectionner la clé du compte
+dédié `deploiement-alveole@groove-e9e23.iam.gserviceaccount.com`, enregistrée dans
+EAS. Ce compte appartient au projet Google Cloud existant `groove-e9e23` et
+dispose uniquement des droits de lecture et de publication sur les pistes de
+test d'Alvéole dans Google Play Console. La clé privée JSON reste hors du dépôt.
+Le compte de service de soumission est distinct du keystore de signature.
+
+Une fois le build terminé et la clé associée :
+
+```sh
+pnpm dlx eas-cli submit --platform android --profile production --latest
+```
+
+Le profil soumet sur la piste **Test interne**, avec le statut **Brouillon**.
+Ouvrir Google Play Console pour compléter les informations demandées, finaliser
+la release et configurer les testeurs. Le fichier `.aab` est destiné à Google
+Play et ne s'installe pas directement sur un téléphone.
+
+## Releases Android suivantes
+
+Après intégration du workflow sur `main`, depuis la racine du dépôt :
+
+```sh
+pnpm run publish:android
+# Ou une branche / un tag distant validé par la CI :
+pnpm run publish:android v2.0.0
+```
+
+Le workflow **Build Android** construit puis soumet exactement le build produit,
+en brouillon sur la piste de test interne. Il réutilise le secret `EXPO_TOKEN`
+déjà configuré sur GitHub et les accès Android enregistrés dans EAS. Finaliser
+chaque release dans Google Play Console pour la rendre disponible aux testeurs.
+La signature et le compte de service doivent être configurés avant ce lancement
+automatique, qui ne peut pas répondre aux questions de configuration initiale.
+
+Pour envoyer l'état local plutôt que le contenu poussé sur GitHub, depuis
+`apps/docs` :
+
+```sh
+pnpm dlx eas-cli workflow:run build-android.yml --wait
+```
 
 ## Version
 
