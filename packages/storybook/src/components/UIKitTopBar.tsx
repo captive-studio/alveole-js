@@ -136,6 +136,8 @@ const BarreMobile = ({ activeKey, items, columnGroups }: Required<UIKitTopBarPro
   const [barHeight, setBarHeight] = React.useState(0);
   const [menuOpen, setMenuOpen] = React.useState(false);
   const toggleMenu = () => setMenuOpen(open => !open);
+  // En natif, le menu remplit le bas de l'écran, zone de l'indicateur d'accueil comprise.
+  const menuHeight = Math.max(0, height - top - barHeight - (Platform.OS === 'web' ? bottom : 0));
 
   const header = (
     <Header
@@ -177,7 +179,7 @@ const BarreMobile = ({ activeKey, items, columnGroups }: Required<UIKitTopBarPro
           }}
         >
           <ScrollView
-            style={{ maxHeight: Math.max(0, height - top - bottom - barHeight), flexGrow: 0 }}
+            style={{ ...(Platform.OS === 'web' ? { maxHeight: menuHeight } : { height: menuHeight }), flexGrow: 0 }}
             contentContainerStyle={{ padding: spacingValue('2W'), gap: spacingValue('050') }}
             keyboardShouldPersistTaps="handled"
           >
