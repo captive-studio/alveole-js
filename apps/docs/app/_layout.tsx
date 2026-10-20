@@ -2,8 +2,9 @@ import { Box, Toasts } from '@alveole/components';
 import { ThemeProvider } from '@alveole/theme';
 import '@alveole/theme/dist/default.css';
 import { Stack } from 'expo-router';
+import { Platform } from 'react-native';
 import { KeyboardProvider } from 'react-native-keyboard-controller';
-import { SafeAreaProvider } from 'react-native-safe-area-context';
+import { initialWindowMetrics, SafeAreaProvider, useSafeAreaInsets } from 'react-native-safe-area-context';
 import { TamaguiProvider } from 'tamagui';
 import { useUIKitColumn, useUIKitTopBar } from '../components/uiKitNavigation';
 import { tamaguiConfig } from '../tamagui.config';
@@ -15,11 +16,12 @@ import './global.css';
  * navigation - la colonne perdrait alors sa position de scroll à chaque clic. Voir docs/adr/0007.
  */
 function UIKitChrome() {
+  const { top } = useSafeAreaInsets();
   const topBar = useUIKitTopBar();
   const column = useUIKitColumn();
 
   return (
-    <Box flex={1}>
+    <Box flex={1} style={{ paddingTop: Platform.OS === 'web' ? 0 : top }}>
       {topBar}
       <Box style={{ display: 'flex', flexDirection: 'row', flex: 1 }}>
         {column}
@@ -35,7 +37,7 @@ export default function RootLayout() {
   // Le Sheet de Tamagui v3 lit ses retraits dans `SafeAreaProvider`, qui enveloppe donc
   // `TamaguiProvider`.
   return (
-    <SafeAreaProvider>
+    <SafeAreaProvider initialMetrics={initialWindowMetrics}>
       <TamaguiProvider config={tamaguiConfig} defaultTheme="light">
         <KeyboardProvider>
           <ThemeProvider loader={false} staticCSS>

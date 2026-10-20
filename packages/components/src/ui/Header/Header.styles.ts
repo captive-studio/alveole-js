@@ -1,15 +1,15 @@
 import { makeStyles } from '@alveole/theme';
+import { Platform } from 'react-native';
 
-export const useStyles = makeStyles(({ color, text, spacing, spacingValue, radius, isVariant, shadows }) => ({
+export const useStyles = makeStyles(({ color, text, spacing, spacingValue, radius, isVariant }) => ({
   container: {
     // Barre blanche, séparée du contenu par la seule hairline : c'est ce que font Primer
     // et Atlassian. Un fond gris sur une page blanche ajoute un second séparateur au
     // filet, et écrase tout ce qu'on pose dessus.
     backgroundColor: color.light.background['default-grey'],
-    ...(isVariant('mobile')
-      ? shadows('raised')
-      : { borderBottomWidth: 1, borderBottomColor: color.light.border['default-grey'] }),
-    position: 'sticky',
+    borderBottomWidth: 1,
+    borderBottomColor: color.light.border['default-grey'],
+    position: Platform.OS === 'web' ? 'sticky' : 'relative',
     top: 0,
     zIndex: 100,
     width: '100%',

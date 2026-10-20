@@ -1,7 +1,7 @@
 import { A, Box, Divider, Header, LucideIcon, SidebarGroup, SidebarItem, Typography } from '@alveole/components';
 import { makeStyles, useTheme } from '@alveole/theme';
 import React from 'react';
-import { Pressable } from 'react-native';
+import { Platform, Pressable } from 'react-native';
 import type { UIKitColumnGroup } from './UIKitColumn';
 
 export type UIKitTopBarItem = {
@@ -136,8 +136,8 @@ const BarreMobile = ({ activeKey, items, columnGroups }: Required<UIKitTopBarPro
       {menuOpen && (
         <Box
           style={{
-            position: 'sticky',
-            top: 64,
+            position: Platform.OS === 'web' ? 'sticky' : 'relative',
+            top: Platform.OS === 'web' ? 64 : 0,
             left: 0,
             right: 0,
             zIndex: 99,
