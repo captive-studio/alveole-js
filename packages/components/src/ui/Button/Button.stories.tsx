@@ -11,7 +11,7 @@ export default {
   title: 'Button',
   tags: ['ui'],
   experimental: false,
-  figmaURL: 'https://www.figma.com/design/xJz8Z6vfrnZPKTtRbuT2W8/Composants?node-id=1002-548',
+  figmaURL: 'https://www.figma.com/design/xJz8Z6vfrnZPKTtRbuT2W8/Composants?node-id=3993-778',
   description: 'Boutons de type Pressable (React Native) avec différentes tailles et variants.',
   component: Button,
   styleFn: useStyles,
