@@ -22,10 +22,11 @@ export const useStyles = makeStyles(({ spacing, text, color }) => ({
     flexDirection: 'row',
   },
   handle: {
-    width: '90%',
-    margin: 'auto',
+    width: '100%',
+    margin: 0,
     height: Spacings['2W'],
-    backgroundColor: '#FFFFFF',
+    flexShrink: 0,
+    backgroundColor: 'transparent',
   },
   overlay: {
     backgroundColor: color.alpha(color.background.inverse, 0.5),
