@@ -43,6 +43,7 @@
     "@alveole/core": "*",
     "@alveole/theme": "*",
     "react": "*",
-    "react-native": "*"
+    "react-native": "*",
+    "react-native-svg": "^15.0.0"
   }
 }
