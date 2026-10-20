@@ -1,9 +1,10 @@
 import { makeStyles } from '@alveole/theme';
+import { Platform } from 'react-native';
 
 export const useStyles = makeStyles(({ color, radius, spacingValue }) => {
   const base = {
     overflow: 'scroll' as const,
-    padding: spacingValue('2W'),
+    padding: spacingValue(Platform.OS === 'web' ? '2W' : '1W'),
     width: '100%' as const,
     backgroundColor: color.light.background['alt-grey'],
   };

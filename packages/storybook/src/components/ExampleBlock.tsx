@@ -1,6 +1,7 @@
 import { Box, Button, Highlight, Typography } from '@alveole/components';
 import { useTheme } from '@alveole/theme';
 import React from 'react';
+import { Platform } from 'react-native';
 import { decouperSource } from '../storySource';
 
 /** Au delà, la source prend plus de place que ce qu'elle documente. */
@@ -21,7 +22,7 @@ const Scene = ({ children, pleinEcran }: { children: React.ReactNode; pleinEcran
 
   return (
     <Box
-      p={'150'}
+      p={Platform.OS === 'web' ? '3W' : '1W'}
       style={{
         backgroundColor: color.light.background['default-grey'],
         backgroundImage: `radial-gradient(circle, ${color.light.border['default-grey']} 1px, transparent 1px)`,
@@ -55,8 +56,8 @@ const BarreDeSource = ({ onCopier }: { onCopier: () => void }) => {
         justifyContent: 'space-between',
         // Les côtés s'alignent sur la colonne du code, qui est le contenu principal du bas
         // du bloc ; la hauteur reste au plus juste de ce que la barre porte.
-        paddingLeft: spacingValue('2W'),
-        paddingRight: spacingValue('2W'),
+        paddingLeft: spacingValue(Platform.OS === 'web' ? '2W' : '1W'),
+        paddingRight: spacingValue(Platform.OS === 'web' ? '2W' : '1W'),
         paddingTop: spacingValue('1W'),
         paddingBottom: spacingValue('1W'),
       }}
