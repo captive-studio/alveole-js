@@ -12,7 +12,7 @@ import { TextInput, TextInputElement, TextInputProps } from '../FormControl';
 
 type MinuteInterval = 1 | 2 | 3 | 4 | 5 | 6 | 10 | 12 | 15 | 20 | 30;
 
-export type DateInputProps = Omit<TextInputProps, 'type'> & {
+export type DateInputProps = Omit<TextInputProps, 'type' | 'onChange'> & {
   type?: 'date' | 'datetime' | 'month';
   display?: 'default' | 'spinner';
   value?: string;

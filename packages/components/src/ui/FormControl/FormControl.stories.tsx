@@ -3,11 +3,12 @@ import { Box } from '../../core/Box';
 import { Typography } from '../../core/Typography';
 import { Story } from '../../type';
 import { Button } from '../Button';
+import { DateInput as DateInputControl } from '../DateInput';
 import { InputHeading } from '../InputHeading';
+import { TimeInput } from '../TimeInput';
 import { FormControl } from './FormControl';
 import { useStyles } from './FormControl.styles';
 import { FormControlCaption } from './FormControlCaption';
-import { FormControlDateInput } from './FormControlDateInput';
 import { FormControlHint } from './FormControlHint';
 import { FormControlLabel } from './FormControlLabel';
 import { FormControlModal } from './FormControlModal';
@@ -101,19 +102,19 @@ export const DateInput = () => {
         <InputHeading>
           <FormControlLabel label="Date" />
         </InputHeading>
-        <FormControlDateInput type="date" value={date} onChange={setDate} />
+        <DateInputControl type="date" value={date} onChange={setDate} />
       </FormControl>
       <FormControl>
         <InputHeading>
           <FormControlLabel label="Heure" />
         </InputHeading>
-        <FormControlDateInput type="time" value={time} onChange={setTime} />
+        <TimeInput value={time} onChange={setTime} />
       </FormControl>
       <FormControl>
         <InputHeading>
           <FormControlLabel label="Mois" />
         </InputHeading>
-        <FormControlDateInput type="month" value={month} onChange={setMonth} />
+        <DateInputControl type="month" value={month} onChange={setMonth} />
       </FormControl>
     </Box>
   );
