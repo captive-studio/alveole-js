@@ -16,31 +16,13 @@ export type UIKitTopBarItem = {
 export type UIKitTopBarProps = {
   activeKey: string;
   items: UIKitTopBarItem[];
+  logo?: React.ReactNode;
   /**
    * Niveau 2 de la rubrique courante. Sur desktop il est rendu par la colonne ; sous 992px
    * la colonne se replie et son contenu descend ici, pour que le menu de la barre reste la
    * seule commande de navigation. Voir docs/adr/0007.
    */
   columnGroups?: UIKitColumnGroup[];
-};
-
-const AlveoleLogo = () => {
-  const { color, radius, text } = useTheme();
-  return (
-    <Box
-      style={{
-        width: 32,
-        height: 32,
-        borderRadius: radius('md'),
-        backgroundColor: color.light.background['action-high-primary'],
-        display: 'flex',
-        alignItems: 'center',
-        justifyContent: 'center',
-      }}
-    >
-      <Typography style={{ ...text['Corps de texte'].XS.Bold, color: '#fff' }}>A</Typography>
-    </Box>
-  );
 };
 
 type NavItemProps = Omit<UIKitTopBarItem, 'key'> & {
@@ -112,7 +94,7 @@ const NavItem = ({ label, href, current, block = false }: NavItemProps) => {
   );
 };
 
-const MobileMenuItems = ({ activeKey, items, columnGroups }: Required<UIKitTopBarProps>) => (
+const MobileMenuItems = ({ activeKey, items, columnGroups }: Required<Omit<UIKitTopBarProps, 'logo'>>) => (
   <>
     {items.map(({ key, ...item }) => (
       <NavItem key={key} {...item} current={activeKey === key} block />
@@ -129,7 +111,7 @@ const MobileMenuItems = ({ activeKey, items, columnGroups }: Required<UIKitTopBa
 );
 
 /** La barre mobile garde sa commande visible et fait défiler le menu sous celle-ci. */
-const BarreMobile = ({ activeKey, items, columnGroups }: Required<UIKitTopBarProps>) => {
+const BarreMobile = ({ activeKey, items, columnGroups, logo }: Required<UIKitTopBarProps>) => {
   const { color, spacingValue } = useTheme();
   const { height } = useWindowDimensions();
   const { top, bottom } = useSafeAreaInsets();
@@ -141,7 +123,7 @@ const BarreMobile = ({ activeKey, items, columnGroups }: Required<UIKitTopBarPro
 
   const header = (
     <Header
-      logo={<AlveoleLogo />}
+      logo={logo}
       right={
         <Pressable
           accessibilityRole="button"
@@ -191,13 +173,13 @@ const BarreMobile = ({ activeKey, items, columnGroups }: Required<UIKitTopBarPro
   );
 };
 
-export const UIKitTopBar = ({ activeKey, items, columnGroups = [] }: UIKitTopBarProps) => {
+export const UIKitTopBar = ({ activeKey, items, columnGroups = [], logo = null }: UIKitTopBarProps) => {
   const { isVariant } = useTheme();
   const pathname = usePathname();
 
   if (isVariant('mobile')) {
     // Toute nouvelle fiche repart avec un menu fermé, y compris dans la même rubrique.
-    return <BarreMobile key={pathname} activeKey={activeKey} items={items} columnGroups={columnGroups} />;
+    return <BarreMobile key={pathname} activeKey={activeKey} items={items} columnGroups={columnGroups} logo={logo} />;
   }
 
   const right = (
@@ -208,5 +190,5 @@ export const UIKitTopBar = ({ activeKey, items, columnGroups = [] }: UIKitTopBar
     </Box>
   );
 
-  return <Header logo={<AlveoleLogo />} title="Alveole UI Kit" right={right} />;
+  return <Header logo={logo} title="Alveole UI Kit" right={right} />;
 };
