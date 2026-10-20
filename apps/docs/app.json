@@ -5,6 +5,7 @@
     "owner": "captivestudio",
     "icon": "./assets/images/logo.png",
     "scheme": "alveole-docs",
+    "orientation": "portrait",
     "ios": {
       "bundleIdentifier": "dev.captive.alveole",
       "appleTeamId": "9Y5A2Z67KL",
