@@ -3,8 +3,8 @@ import React from 'react';
 import type { Components } from 'react-markdown';
 import { Platform } from 'react-native';
 import { Box } from '../Box';
-import { Typography } from '../Typography';
 import { createMarkdownComponents } from './markdownComponents';
+import { createNativeMarkdownComponents, preparerMarkdownNatif } from './markdownNatif';
 import { replierLesCoupuresDeLigne } from './replierLesCoupuresDeLigne';
 
 export type MarkdownDescriptionProps = {
@@ -24,18 +24,12 @@ export const MarkdownDescription = ({ children, taille = 'MD', color: textColor 
   const bodyStyle = text['Corps de texte'][taille].Regular;
   const boldStyle = text['Corps de texte'][taille].Bold;
 
-  if (Platform.OS !== 'web') {
-    return (
-      <Typography style={bodyStyle} color={textColor}>
-        {children}
-      </Typography>
-    );
-  }
-
   const ReactMarkdown: React.ComponentType<{
     children: string;
     remarkPlugins: unknown[];
     components: Components;
+    rehypePlugins: unknown[];
+    skipHtml: boolean;
   }> = require('react-markdown').default;
   const remarkGfm = require('remark-gfm').default;
 
@@ -50,7 +44,7 @@ export const MarkdownDescription = ({ children, taille = 'MD', color: textColor 
   // entourage par autre chose que sa seule couleur.
   const linkColor = color.light.text['default-info'];
 
-  const components = createMarkdownComponents({
+  const styles = {
     bodyStyle,
     boldStyle,
     textColor,
@@ -59,11 +53,17 @@ export const MarkdownDescription = ({ children, taille = 'MD', color: textColor 
     borderColor,
     headerBg,
     linkColor,
-  });
+  };
+  const components = Platform.OS === 'web' ? createMarkdownComponents(styles) : createNativeMarkdownComponents(styles);
 
   return (
     <Box tag="markdown-description" display="flex" gap={8}>
-      <ReactMarkdown remarkPlugins={[remarkGfm, replierLesCoupuresDeLigne]} components={components}>
+      <ReactMarkdown
+        remarkPlugins={[remarkGfm, replierLesCoupuresDeLigne]}
+        rehypePlugins={Platform.OS === 'web' ? [] : [preparerMarkdownNatif]}
+        skipHtml={Platform.OS !== 'web'}
+        components={components}
+      >
         {children}
       </ReactMarkdown>
     </Box>
