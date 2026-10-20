@@ -35,18 +35,19 @@ function UIKitChrome() {
 
 export default function RootLayout() {
   // Le Sheet de Tamagui v3 lit ses retraits dans `SafeAreaProvider`, qui enveloppe donc
-  // `TamaguiProvider`.
+  // `TamaguiProvider`. Le thème enveloppe aussi son hôte de portails natifs pour que
+  // les menus et popovers conservent le contexte Alveole.
   return (
     <SafeAreaProvider initialMetrics={initialWindowMetrics}>
-      <TamaguiProvider config={tamaguiConfig} defaultTheme="light">
-        <KeyboardProvider>
-          <ThemeProvider loader={false} staticCSS>
+      <ThemeProvider loader={false} staticCSS>
+        <TamaguiProvider config={tamaguiConfig} defaultTheme="light">
+          <KeyboardProvider>
             <Toasts>
               <UIKitChrome />
             </Toasts>
-          </ThemeProvider>
-        </KeyboardProvider>
-      </TamaguiProvider>
+          </KeyboardProvider>
+        </TamaguiProvider>
+      </ThemeProvider>
     </SafeAreaProvider>
   );
 }
