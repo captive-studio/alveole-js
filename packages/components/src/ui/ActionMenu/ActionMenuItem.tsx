@@ -1,4 +1,4 @@
-import { Pressable } from 'react-native';
+import { Platform, Pressable } from 'react-native';
 import { Box, BoxProps } from '../../core/Box';
 import { fondAuSurvol } from '../../core/styleTamagui/fondAuSurvol';
 import { Typography } from '../../core/Typography';
@@ -26,7 +26,13 @@ export const ActionMenuItem = (props: ActionMenuItemProps) => {
   const titleStyleSelected = selected ? styles.sidebarItemTitleSelectedDesktop : {};
 
   return (
-    <Pressable accessibilityRole="button" onPress={onPress}>
+    <Pressable
+      accessibilityRole="button"
+      onPress={onPress}
+      // En natif, les vues Tamagui du libellé et du survol peuvent capter le toucher.
+      // Toute la ligne appartient au Pressable ; le web garde le survol de ses enfants.
+      pointerEvents={Platform.OS === 'web' ? 'auto' : 'box-only'}
+    >
       <Box tag="action-menu-item" style={style} {...boxProps}>
         <Box style={{ ...styles.sidebarItemContainerDesktop, ...actionMenuItemStyles.actionMenuItemContainerDesktop }}>
           {selected && (
