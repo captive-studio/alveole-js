@@ -1,7 +1,7 @@
 import { focusRingProps } from '@alveole/theme';
 import { Href, Link } from 'expo-router';
 import React, { CSSProperties, createContext, useContext } from 'react';
-import { Pressable, TextStyle } from 'react-native';
+import { Platform, Pressable, TextStyle } from 'react-native';
 import { Box, BoxProps } from '../Box';
 import { GridColumnContext } from '../Grid';
 import { useStyles } from './A.styles';
@@ -55,7 +55,14 @@ export const A = (props: AProps) => {
   const { navigateurIntegre, propsDuPressable, annonce } = ouvertureDuLien(href, target);
 
   const contenu = (
-    <Box tag="a-pressable" style={{ ...styles.pressable, ...fill, ...style }} backgroundColor={backgroundColor}>
+    <Box
+      tag="a-pressable"
+      style={{ ...styles.pressable, ...fill, ...style }}
+      backgroundColor={backgroundColor}
+      // En natif, les clauses de survol des descendants ne doivent pas capter le toucher
+      // destiné au Pressable du lien. Le web garde ses interactions et son survol.
+      pointerEvents={Platform.OS === 'web' ? 'auto' : 'none'}
+    >
       {children}
       {annonce}
     </Box>
