@@ -14,7 +14,7 @@ describe('StoryDetailScreen, ce que la fiche annonce', () => {
     const { getByRole, queryByRole } = renderScreen(<StoryDetailScreen story={fiche} />);
 
     expect({
-      lien: getByRole('link', { name: 'Ouvrir Figma' }).getAttribute('href'),
+      lien: getByRole('link', { name: /Ouvrir Figma/ }).getAttribute('href'),
       bouton: queryByRole('button', { name: 'Ouvrir Figma' }),
     }).toEqual({ lien: 'https://figma.com/fiche', bouton: null });
   });
@@ -27,7 +27,7 @@ describe('StoryDetailScreen, ce que la fiche annonce', () => {
     const tabpanel = getByRole('tabpanel');
 
     expect(tabpanel.contains(getByText('Composant'))).toBe(true);
-    expect(tabpanel.contains(getByRole('link', { name: 'Ouvrir Figma' }))).toBe(true);
+    expect(tabpanel.contains(getByRole('link', { name: /Ouvrir Figma/ }))).toBe(true);
   });
 });
 

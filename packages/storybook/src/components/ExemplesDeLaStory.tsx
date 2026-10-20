@@ -1,10 +1,9 @@
-import { AnchorHeading, Box, MarkdownDescription, Tag, Typography } from '@alveole/components';
-import { FOCUS_ATTRIBUTE, useTheme } from '@alveole/theme';
+import { A, AnchorHeading, Box, MarkdownDescription, Tag, Typography } from '@alveole/components';
+import { useTheme } from '@alveole/theme';
 import { descriptionDeLExemple, sourceDeLExemple } from '../screens/sourcesDExemples';
 import { Exemple, StorybookMeta, StorybookModule } from '../types';
 import { getStoryFlags } from '../utils';
 import { ExampleBlock } from './ExampleBlock';
-import { styleDuLienBrut } from './styleDuLienBrut';
 
 type UnExempleProps = { story: StorybookModule; nom: string; Rendu: Exemple[1]; gabarit: boolean };
 
@@ -57,17 +56,11 @@ const StatutDeLaFiche = ({ meta }: { meta: StorybookMeta }) => {
       </Box>
 
       {meta.figmaURL ? (
-        <a
-          href={meta.figmaURL}
-          rel="noreferrer"
-          style={styleDuLienBrut}
-          target="_blank"
-          {...{ [FOCUS_ATTRIBUTE]: 'ring' }}
-        >
+        <A href={meta.figmaURL} target="_blank">
           <Typography style={{ ...text['Corps de texte'].SM.Bold, color: color.light.text['action-high-primary'] }}>
             Ouvrir Figma
           </Typography>
-        </a>
+        </A>
       ) : null}
     </Box>
   );
