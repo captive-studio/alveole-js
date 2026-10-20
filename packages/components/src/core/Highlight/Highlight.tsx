@@ -1,5 +1,5 @@
 import React, { CSSProperties, ReactNode } from 'react';
-import { ScrollView, StyleSheet, Text, TextStyle, View } from 'react-native';
+import { Platform, ScrollView, StyleSheet, Text, TextStyle, View } from 'react-native';
 // Le type est importé en `import type` : il est effacé à l'exécution, donc l'index du
 // paquet, qui charge aussi toute la moitié highlight.js, n'est jamais évalué.
 import { CustomPalette, focusRingProps } from '@alveole/theme';
@@ -69,6 +69,9 @@ export const Highlight = ({ children, language, style, variant = 'standalone' }:
     <ScrollView
       horizontal
       focusable
+      // En natif, ScrollView grandit par défaut. Dans la page défilante du catalogue,
+      // le code doit garder sa hauteur de contenu au lieu de remplir la hauteur disponible.
+      style={Platform.OS === 'web' ? undefined : { flexGrow: 0, flexShrink: 0 }}
       // La zone est focalisable exprès (cf. ci-dessus) : elle doit donc montrer la bague du
       // kit, et non le contour par defaut du navigateur.
       {...focusRingProps()}
