@@ -141,9 +141,7 @@ export const WithDivider = () => (
   <ResourceList
     data={exampleData}
     keyExtractor={item => item.id}
-    renderItem={({ item, index }) => (
-      <ListItem title={item.name} description={item.description} showSeparateur={false} />
-    )}
+    renderItem={({ item }) => <ListItem title={item.name} description={item.description} showSeparateur={false} />}
     ItemSeparatorComponent={ResourceListDivider}
     renderNoContent={() => <EmptyState title="Aucun élément" description="Cliquez sur le bouton" iconName="House" />}
   />
