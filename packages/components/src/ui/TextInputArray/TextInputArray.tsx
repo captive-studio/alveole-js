@@ -43,7 +43,7 @@ export const TextInputArray = (props: TextInputArrayProps) => {
   });
 
   return (
-    <Box tag="text-input-array">
+    <Box tag="text-input-array" gap="1V">
       {items.map((item, index) => (
         <TextInput
           key={item.id}
