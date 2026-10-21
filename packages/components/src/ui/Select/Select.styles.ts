@@ -70,9 +70,8 @@ const contenuDuChamp = ({ text, color, spacing }: Theme) =>
     valueDisabled: {
       color: color.light.text['disabled-grey'],
     },
-    /** Les puces repassent à la ligne : le champ s'aligne en haut et respire verticalement. */
+    /** Les puces repassent à la ligne ; le chevron et la valeur restent centrés dans le champ. */
     inputInnerMultiple: {
-      alignItems: 'flex-start',
       paddingTop: spacing('1V'),
       paddingBottom: spacing('1V'),
     },
