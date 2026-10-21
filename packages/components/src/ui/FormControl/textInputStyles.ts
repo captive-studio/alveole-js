@@ -28,6 +28,7 @@ export type InputFrameState = FieldBorderState & {
  */
 export const inputFrameStyle = (styles: Styles, state: InputFrameState) => ({
   ...styles.inputInner,
+  ...(!state.multiline ? { alignItems: 'center' as const } : {}),
   ...fieldBorderState(styles, state),
   ...(state.endAdornment ? { paddingRight: 0 } : {}),
   ...(state.startAdornment ? { paddingLeft: 0 } : {}),
