@@ -38,8 +38,6 @@ const Scene = ({ children, pleinEcran }: { children: React.ReactNode; pleinEcran
     >
       {Platform.OS !== 'web' && (
         <Svg
-          width="100%"
-          height="100%"
           style={StyleSheet.absoluteFill}
           pointerEvents="none"
           accessible={false}
