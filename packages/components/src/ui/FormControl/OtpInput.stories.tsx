@@ -17,16 +17,16 @@ export default {
 export const Default = () => (
   <Box display="flex" flexDirection="column" gap={24}>
     <FormControl label="Code de vérification">
-      <OtpInput onChange={() => {}} />
+      <OtpInput numberOfDigits={4} onChange={() => {}} />
     </FormControl>
     <FormControl label="Avec erreur" error="Code invalide">
-      <OtpInput onChange={() => {}} error="Code invalide" />
+      <OtpInput numberOfDigits={4} onChange={() => {}} error="Code invalide" />
     </FormControl>
     <FormControl label="Avec succès" success="Code vérifié">
-      <OtpInput onChange={() => {}} success="Code vérifié" />
+      <OtpInput numberOfDigits={4} onChange={() => {}} success="Code vérifié" />
     </FormControl>
     <FormControl label="Désactivé" disabled>
-      <OtpInput onChange={() => {}} disabled />
+      <OtpInput numberOfDigits={4} onChange={() => {}} disabled />
     </FormControl>
   </Box>
 );
