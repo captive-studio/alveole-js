@@ -15,13 +15,13 @@ export default {
 } satisfies Story;
 
 export const DocumentImageEx = () => (
-  <Box maxW={500} height={500}>
+  <Box width="100%" maxW={500} height={500}>
     <DocumentViewer title="Document image" type="image" source="https://picsum.photos/1000/2000" height="100%" />
   </Box>
 );
 
 export const DocumentPdf = () => (
-  <Box height={400} maxW={500}>
+  <Box width="100%" height={400} maxW={500}>
     <DocumentViewer
       title="Document PDF"
       type="pdf"
@@ -32,7 +32,7 @@ export const DocumentPdf = () => (
 );
 
 export const DocumentPdfError = () => (
-  <Box height={400} maxW={500}>
+  <Box width="100%" height={400} maxW={500}>
     <DocumentViewer
       title="Document PDF en erreur"
       type="pdf"
@@ -43,7 +43,7 @@ export const DocumentPdfError = () => (
 );
 
 export const WithChildren = () => (
-  <Box height={600}>
+  <Box width="100%" height={600}>
     <DocumentViewer
       title="Document PDF"
       type="pdf"
