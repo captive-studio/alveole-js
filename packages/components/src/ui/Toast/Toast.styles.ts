@@ -1,5 +1,5 @@
 import { makeStyles, StyleValue, useTheme } from '@alveole/theme';
-import { Dimensions, Platform } from 'react-native';
+import { Platform } from 'react-native';
 
 type Theme = ReturnType<typeof useTheme>;
 
@@ -13,11 +13,13 @@ const coque = ({ color, radius, spacing, shadows }: Theme) =>
     // Container
     tamaguiToastContainer: {
       padding: 0,
-      width: Platform.OS === 'web' ? 384 : Dimensions.get('window').width,
+      width: Platform.OS === 'web' ? 384 : '100%',
       backgroundColor: 'transparent',
       borderRadius: 0,
       // Sur mobile, overflow:hidden sur container clippe le shadow iOS — on le pose ici
-      ...(Platform.OS !== 'web' ? { borderRadius: radius('sm'), ...shadows(3) } : {}),
+      ...(Platform.OS !== 'web'
+        ? { maxWidth: 384, alignSelf: 'center', borderRadius: radius('sm'), ...shadows(3) }
+        : {}),
     },
     container: {
       backgroundColor: color.light.background['default-grey'],
@@ -51,6 +53,7 @@ const texte = ({ text, color }: Theme) =>
     },
     // Titre
     title: {
+      flexShrink: 1,
       ...text['Corps de texte'].SM.Bold,
       color: color.light.text['default-grey'],
     },
