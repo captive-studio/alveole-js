@@ -3,6 +3,13 @@ import { useState } from 'react';
 import { FormControl } from '../FormControl';
 import { PriceInput } from './PriceInput';
 
+// Le libellé désigne un <input> : le vérifier plutôt que l'affirmer par un cast.
+const champPrix = () => {
+  const champ = screen.getByLabelText('Prix');
+  if (!(champ instanceof HTMLInputElement)) throw new Error('Prix ne désigne pas un <input>');
+  return champ;
+};
+
 // Un parent qui pilote le montant comme une app : il renvoie au champ ce que onChange lui donne.
 const Pilote = () => {
   const [montant, setMontant] = useState<number | null>(null);
@@ -40,7 +47,7 @@ test('donne au champ la largeur exacte de ses chiffres', () => {
     </FormControl>,
   );
 
-  expect((screen.getByLabelText('Prix') as HTMLInputElement).style.width).toBe('4ch');
+  expect(champPrix().style.width).toBe('4ch');
 });
 
 test('lit la virgule comme séparateur décimal', () => {
@@ -84,7 +91,7 @@ test('refuse une troisième décimale', () => {
 
 test('garde la virgule tapée en attendant la décimale', () => {
   renderWeb(<Pilote />);
-  const champ = screen.getByLabelText('Prix') as HTMLInputElement;
+  const champ = champPrix();
 
   fireEvent.change(champ, { target: { value: '12' } });
   fireEvent.change(champ, { target: { value: '12,' } });
@@ -94,7 +101,7 @@ test('garde la virgule tapée en attendant la décimale', () => {
 
 test('élargit le champ au texte tapé, centimes compris', () => {
   renderWeb(<Pilote />);
-  const champ = screen.getByLabelText('Prix') as HTMLInputElement;
+  const champ = champPrix();
 
   fireEvent.change(champ, { target: { value: '12,50' } });
 
