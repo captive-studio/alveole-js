@@ -1,5 +1,6 @@
 import { focusRingProps, useTheme } from '@alveole/theme';
 import React, { CSSProperties, useId } from 'react';
+import { Platform, Pressable } from 'react-native';
 import { TamaguiElement, Switch as TamaguiSwitch, SwitchProps as TamaguiSwitchProps } from 'tamagui';
 import { Label } from 'tamagui/unstyled';
 import { animer } from '../../core/animation/animer';
@@ -18,6 +19,25 @@ export type SwitchProps = Omit<TamaguiSwitchProps, 'value' | 'onChange'> & {
   success?: string;
   noPadding?: boolean;
 };
+
+type SwitchLabelProps = React.PropsWithChildren<{
+  id: string;
+  checked?: boolean;
+  disabled?: boolean;
+  onChange: (checked: boolean) => void;
+}>;
+
+const SwitchLabel = ({ id, checked, disabled, onChange, children }: SwitchLabelProps) =>
+  Platform.OS === 'web' ? (
+    <Label htmlFor={id} width="100%">
+      {children}
+    </Label>
+  ) : (
+    // Un Label natif est un Text : la piste ne doit pas devenir une vue inline.
+    <Pressable accessible={false} disabled={disabled} pointerEvents="box-only" onPress={() => onChange(!checked)}>
+      {children}
+    </Pressable>
+  );
 
 // La piste du pouce, comme Tamagui v1 la dimensionnait : deux pouces de large, un de haut, plus
 // 4 px pour le padding et la bordure qu'Alveole pose de chaque cote. La v2 ne compte plus ces
@@ -57,6 +77,9 @@ export const Switch = React.forwardRef<SwitchElement, SwitchProps>(function Swit
       onCheckedChange={onChange}
       style={bouton}
       disabled={disabled}
+      accessibilityLabel={label}
+      accessibilityRole="switch"
+      accessibilityState={{ checked: Boolean(value), disabled: Boolean(disabled) }}
       // La bague passe par la seule marque du theme (ADR 0017, amendement Tamagui v3).
       {...focusRingProps()}
       {...switchProps}
@@ -67,7 +90,7 @@ export const Switch = React.forwardRef<SwitchElement, SwitchProps>(function Swit
 
   const ToggleWithLabel = (
     <>
-      <Label htmlFor={id} width={'100%'}>
+      <SwitchLabel id={id} checked={value} disabled={disabled} onChange={onChange}>
         <Box tag="switch" style={styles.switch}>
           {Toggle}
 
@@ -77,7 +100,7 @@ export const Switch = React.forwardRef<SwitchElement, SwitchProps>(function Swit
             </Typography>
           )}
         </Box>
-      </Label>
+      </SwitchLabel>
 
       {(error ?? success) && <FormControlCaption error={error} success={success} />}
     </>
