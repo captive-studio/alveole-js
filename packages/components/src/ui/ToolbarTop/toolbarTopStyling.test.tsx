@@ -13,10 +13,10 @@ import {
 const styles = async () => (await renderHook(() => useStyles())).result.current;
 
 describe('la barre', () => {
-  it('s empile quand la variante est large', async () => {
+  it('aligne la navigation et le grand titre sur une ligne en variante large', async () => {
     expect(dispositionDeLaBarre(await styles(), 'large')).toMatchObject({
-      flexDirection: 'column',
-      alignItems: 'flex-start',
+      flexDirection: 'row',
+      alignItems: 'center',
     });
   });
 

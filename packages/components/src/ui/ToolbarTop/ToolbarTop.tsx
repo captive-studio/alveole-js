@@ -24,7 +24,6 @@ export const ToolbarTop = (props: ToolbarTopProps) => {
   } = props;
 
   const styles = useStyles();
-  const empilee = variant === 'large';
   // Les props sont transmises entieres, et non recomposees champ par champ : reassembler les
   // trois separerait le geste de son nom, et il faudrait un cast pour recoller l'union.
   const navigation = <ToolbarTopNavigation {...props} />;
@@ -53,9 +52,7 @@ export const ToolbarTop = (props: ToolbarTopProps) => {
       {...toolbarProps}
     >
       {navigation}
-      {/* La variante `large` passe le titre sous la fleche : les deux ne sont plus cote a cote,
-          et c'est le seul point ou la structure change. */}
-      {empilee ? <Box tag="toolbar-bas">{contenu}</Box> : contenu}
+      {contenu}
     </Box>
   );
 };
