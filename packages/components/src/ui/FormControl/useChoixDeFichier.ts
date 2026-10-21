@@ -2,7 +2,7 @@ import { useTheme } from '@alveole/theme';
 import * as DocumentPicker from 'expo-document-picker';
 import * as ImagePicker from 'expo-image-picker';
 import React from 'react';
-import { Platform } from 'react-native';
+import { ActionSheetIOS, Platform } from 'react-native';
 import { Alert } from '../../core/Alert';
 import type { FileInputProps } from './FileInput';
 import {
@@ -88,16 +88,27 @@ export const useChoixDeFichier = (options: Options) => {
   const ouvrirLaFeuille = React.useCallback(() => {
     const lancer = (source: Source) => (source === 'document' ? choisirUnDocument() : choisirUneImage(source));
     const images = imagesSeulement(type);
+    const sources = sourcesProposees(type, grandEcran);
+
+    if (Platform.OS === 'ios') {
+      const options = [...sources.map(s => libelleDeLaSource(s, labels, { type, grandEcran })), labels.cancel];
+      ActionSheetIOS.showActionSheetWithOptions({ options, cancelButtonIndex: options.length - 1 }, index => {
+        if (index < sources.length) lancer(sources[index]);
+      });
+      return;
+    }
+
     Alert.alert({
       title: images ? labels.chooseImageTitle : labels.chooseDocumentTitle,
       message: images ? labels.chooseImageMessage : undefined,
       buttons: [
-        ...sourcesProposees(type, grandEcran).map(source => ({
+        ...sources.map(source => ({
           text: libelleDeLaSource(source, labels, { type, grandEcran }),
           onPress: () => lancer(source),
         })),
         { text: labels.cancel, style: 'cancel' },
       ],
+      options: { cancelable: true },
     });
   }, [type, labels, grandEcran, choisirUnDocument, choisirUneImage]);
 
