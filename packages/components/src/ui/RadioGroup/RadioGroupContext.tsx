@@ -2,6 +2,7 @@ import React from 'react';
 
 export type RadioGroupCtx = {
   value?: string;
+  disabled?: boolean;
   onChange?: (v: string) => void;
 };
 

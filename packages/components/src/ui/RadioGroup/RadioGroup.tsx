@@ -40,7 +40,7 @@ export const RadioGroup = React.forwardRef<RadioGroupElement, RadioGroupProps>(f
   const labelId = React.useId();
 
   return (
-    <RadioGroupContext.Provider value={{ value, onChange }}>
+    <RadioGroupContext.Provider value={{ value, onChange, disabled }}>
       <Box tag="radio-group" style={styles.container}>
         <Box tag="radio-group-heading">
           {!!label && <FormControlLabel id={labelId} labelRight={labelRight} label={label} disabled={disabled} />}
