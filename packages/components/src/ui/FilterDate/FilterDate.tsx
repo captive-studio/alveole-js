@@ -2,7 +2,7 @@ import { format } from 'date-fns/format';
 import { enUS } from 'date-fns/locale/en-US';
 import { fr } from 'date-fns/locale/fr';
 import React from 'react';
-import { ScrollView } from 'react-native';
+import { ScrollView } from 'react-native-gesture-handler';
 import { Box, BoxProps } from '../../core/Box';
 import { Grid } from '../../core/Grid';
 import { Typography } from '../../core/Typography';
