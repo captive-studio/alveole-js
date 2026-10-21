@@ -21,9 +21,7 @@ const permission = (status: ImagePicker.PermissionStatus) => ({
 });
 
 const feuilleOuverte = async (props: Partial<React.ComponentProps<typeof FileInput>> = {}) => {
-  const actionSheet = jest
-    .spyOn(ActionSheetIOS, 'showActionSheetWithOptions')
-    .mockImplementation((_opts, _cb) => {});
+  const actionSheet = jest.spyOn(ActionSheetIOS, 'showActionSheetWithOptions').mockImplementation((_opts, _cb) => {});
   const alerte = jest.spyOn(Alert, 'alert').mockImplementation(() => {});
   await renderNative(<FileInput value={null} onChange={jest.fn()} {...props} />);
   fireEvent.press(screen.getByText('Ajouter un fichier'));
