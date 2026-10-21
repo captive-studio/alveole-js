@@ -1,4 +1,5 @@
 import { Story } from '../../type';
+import { Box } from '../Box';
 import { Metabase } from './Metabase';
 import { useStyles } from './Metabase.styles';
 
@@ -6,13 +7,19 @@ export default {
   title: 'Metabase',
   tags: ['core'],
   experimental: false,
-  description: "Intègre une page Metabase en passant l'url",
+  description:
+    'Intègre une page Metabase depuis son URL. Cet exemple charge le tableau de bord public de démonstration de Metabase et nécessite une connexion Internet.',
   component: Metabase,
   styleFn: useStyles,
 } satisfies Story;
 
 export const Default = () => (
-  <Metabase source="https://spined-burst.metabaseapp.com/public/dashboard/a5f977a6-b6f4-4609-8e16-e422826c40ab" />
+  <Box width="100%" height={600}>
+    <Metabase
+      source="https://embedded-analytics-sdk-demo.metabase.com/admin/analytics/i5s-lcGYLc1GyFdIy4TxH"
+      title="Démonstration Metabase : suivi des stocks et des commandes"
+    />
+  </Box>
 );
 
 export * as Sources from './Metabase.stories.sources';
