@@ -1,11 +1,12 @@
 import React, { CSSProperties } from 'react';
-import { Pressable } from 'react-native';
+import { Platform, Pressable } from 'react-native';
 import { Box } from '../../core/Box';
 import { Typography } from '../../core/Typography';
 import { Leading, LeadingSlot } from '../Leading';
 import { EtatDuPointeur } from '../pointeur';
 import { useStyles } from './Tag.styles';
 import { TagClose } from './TagClose';
+import { TagNativeContent } from './TagNativeContent';
 import { apparenceDeLaPastille, ecartDeLIcone, reponseAuPointeur } from './tagStyling';
 
 export type TagProps = {
@@ -50,31 +51,42 @@ export const Tag = (props: TagProps) => {
             selectionnee: !!selected,
           });
 
+          const apparence = apparenceDeLaPastille(styles, {
+            size,
+            survolee,
+            selectionnee: !!selected,
+            fermable: !!closable,
+          });
+          const icone = leading != null && (
+            <Box style={ecartDeLIcone(styles, size)}>
+              <LeadingSlot contenu={leading} apparence={{ size: 'sm' }} />
+            </Box>
+          );
+          const croix = closable && (
+            <TagClose
+              size={size}
+              libelle={typeof children === 'string' ? children : undefined}
+              onSurvol={setCroixSurvolee}
+              fonce={fonce}
+              onClose={onClose}
+            />
+          );
+
+          if (Platform.OS !== 'web') {
+            return (
+              <TagNativeContent apparence={apparence} leading={icone} close={croix}>
+                {children}
+              </TagNativeContent>
+            );
+          }
+
           return (
-            <Typography
-              style={apparenceDeLaPastille(styles, { size, survolee, selectionnee: !!selected, fermable: !!closable })}
-              {...tagProps}
-            >
+            <Typography style={apparence} {...tagProps}>
               {/* L'icone est enveloppee : `react-native-svg` absorbe le `style` qu'on lui
                 passe et n'en garde que les proprietes SVG, la marge serait perdue. */}
-              {leading != null && (
-                <Box style={ecartDeLIcone(styles, size)}>
-                  {/* Taille unique dans les deux crans, a la difference de la croix. L'icone
-                    porte du sens et ne se clique pas : elle n'a pas a offrir une cible qui
-                    suive la pastille. Primer ne dimensionne pas non plus son `leadingVisual`. */}
-                  <LeadingSlot contenu={leading} apparence={{ size: 'sm' }} />
-                </Box>
-              )}
+              {icone}
               {children}
-              {closable && (
-                <TagClose
-                  size={size}
-                  libelle={typeof children === 'string' ? children : undefined}
-                  onSurvol={setCroixSurvolee}
-                  fonce={fonce}
-                  onClose={onClose}
-                />
-              )}
+              {croix}
             </Typography>
           );
         }}
