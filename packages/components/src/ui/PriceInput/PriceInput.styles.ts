@@ -1,6 +1,6 @@
 import { focusBorder, makeStyles } from '@alveole/theme';
 
-export const useStyles = makeStyles(({ text, color, spacing }) => ({
+export const useStyles = makeStyles(({ text, color, spacing, radius }) => ({
   container: {
     display: 'flex',
     flexDirection: 'column',
@@ -15,6 +15,8 @@ export const useStyles = makeStyles(({ text, color, spacing }) => ({
     ...anneau,
     borderBottomWidth: borderWidth,
     borderBottomColor: borderColor,
+    // Au focus seulement : au repos, un rayon courberait les extremites du seul trait visible.
+    borderRadius: radius('md'),
   }))(focusBorder()),
   inputError: {
     borderBottomColor: color.light.border['plain-error'],
