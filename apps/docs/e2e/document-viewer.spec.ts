@@ -11,12 +11,26 @@ test.beforeEach(async ({ page }) => {
 test('garde le contenu enfant au-dessus de la barre d outils qui déborde', async ({ page }) => {
   await openRoute(page, '/components/DocumentViewer');
   const exemple = page.getByRole('main').locator('document-viewer-wrapper').filter({ hasText: 'Contenu enfant' });
-  await exemple.scrollIntoViewIfNeeded();
+  // La story prend toute la largeur disponible : à cette taille la barre peut tenir
+  // sans déborder. On contraint le cadre pour reproduire le chevauchement à protéger.
+  await exemple.evaluate(element => {
+    element.style.width = '400px';
+  });
+  await exemple.locator('document-viewer-toolbar').scrollIntoViewIfNeeded();
   const bouton = await exemple.getByRole('button', { name: 'Page suivante' }).boundingBox();
+  const panneau = await exemple.locator('document-viewer-children').boundingBox();
+  expect(bouton).not.toBeNull();
+  expect(panneau).not.toBeNull();
+  const point = { x: bouton!.x + bouton!.width / 2, y: bouton!.y + bouton!.height / 2 };
+  // Le point sondé doit réellement être dans la zone de chevauchement.
+  expect(point.x).toBeGreaterThan(panneau!.x);
+  expect(point.x).toBeLessThan(panneau!.x + panneau!.width);
+  expect(point.y).toBeGreaterThan(panneau!.y);
+  expect(point.y).toBeLessThan(panneau!.y + panneau!.height);
 
   const auDessus = await exemple.evaluate(
     (_racine, { x, y }) => document.elementFromPoint(x, y)?.closest('document-viewer-children')?.tagName ?? null,
-    { x: bouton!.x + bouton!.width / 2, y: bouton!.y + bouton!.height / 2 },
+    point,
   );
 
   expect(auDessus).toBe('DOCUMENT-VIEWER-CHILDREN');
