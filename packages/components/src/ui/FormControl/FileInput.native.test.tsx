@@ -1,5 +1,6 @@
 import { fireEvent, renderNative, screen, waitFor } from '@/__tests__/helpers/renderNative';
 import * as ImagePicker from 'expo-image-picker';
+import { ActionSheetIOS } from 'react-native';
 import { Alert } from '../../core/Alert';
 import { FileInput } from './FileInput';
 
@@ -20,12 +21,25 @@ const permission = (status: ImagePicker.PermissionStatus) => ({
 });
 
 const feuilleOuverte = async (props: Partial<React.ComponentProps<typeof FileInput>> = {}) => {
+  const actionSheet = jest
+    .spyOn(ActionSheetIOS, 'showActionSheetWithOptions')
+    .mockImplementation((_opts, _cb) => {});
   const alerte = jest.spyOn(Alert, 'alert').mockImplementation(() => {});
   await renderNative(<FileInput value={null} onChange={jest.fn()} {...props} />);
   fireEvent.press(screen.getByText('Ajouter un fichier'));
-  const options = alerte.mock.calls[0][0];
-  alerte.mockClear();
-  return { ...options, alerte, bouton: (texte: string) => options.buttons?.find(b => b.text === texte) };
+  const [sheetOptions, callback] = actionSheet.mock.calls[0];
+  actionSheet.mockClear();
+  return {
+    title: sheetOptions.title,
+    buttons: sheetOptions.options?.map(text => ({ text })),
+    alerte,
+    bouton: (texte: string) => ({
+      onPress: () => {
+        const index = sheetOptions.options!.indexOf(texte);
+        if (index !== -1) callback(index);
+      },
+    }),
+  };
 };
 
 afterEach(() => jest.restoreAllMocks());
@@ -55,12 +69,12 @@ test('transmet la photo prise', async () => {
   });
   const { bouton } = await feuilleOuverte({ onChange });
 
-  bouton('Appareil photo')?.onPress?.();
+  bouton('Appareil photo').onPress();
 
   await waitFor(() => expect(onChange).toHaveBeenCalledWith(expect.objectContaining({ name: 'photo.jpg' })));
 });
 
-test('prévient quand l’accès à la galerie est refusé', async () => {
+test("prévient quand l'accès à la galerie est refusé", async () => {
   const onChange = jest.fn();
   jest
     .mocked(ImagePicker.requestMediaLibraryPermissionsAsync)
@@ -71,7 +85,7 @@ test('prévient quand l’accès à la galerie est refusé', async () => {
     labels: { permissionRequired: 'Accès refusé' },
   });
 
-  bouton('Sélectionner un fichier')?.onPress?.();
+  bouton('Sélectionner un fichier').onPress();
 
   await waitFor(() => expect(alerte).toHaveBeenCalledWith(expect.objectContaining({ title: 'Accès refusé' })));
   expect(ImagePicker.launchImageLibraryAsync).not.toHaveBeenCalled();
