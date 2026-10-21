@@ -1,10 +1,17 @@
 import React from 'react';
+import { Platform } from 'react-native';
 import { ButtonIcon } from '../Button';
 import { TextInputElement, TextInputProps } from './TextInput.types';
 import { TextInputInline } from './TextInputInline';
 
-// Le bouton se colle au bord du champ : ni coins arrondis, ni retrait vertical.
-const boutonAccole = { height: '100%', borderRadius: 0, paddingTop: 0, paddingBottom: 0 } as const;
+// En natif, une hauteur en pourcentage dans ce cadre de hauteur automatique
+// peut étirer toute la saisie. Le bouton y garde la hauteur de son cran.
+const boutonAccole = {
+  ...(Platform.OS === 'web' ? { height: '100%' as const } : {}),
+  borderRadius: 0,
+  paddingTop: 0,
+  paddingBottom: 0,
+};
 
 /** Le mot de passe : une saisie ordinaire, masquee, qu'un oeil permet de reveler. */
 export const TextInputPassword = React.forwardRef<TextInputElement, TextInputProps>(
