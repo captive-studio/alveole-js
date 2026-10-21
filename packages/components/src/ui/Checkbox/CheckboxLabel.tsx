@@ -1,3 +1,4 @@
+import { Platform } from 'react-native';
 import { Label, LabelProps } from 'tamagui/unstyled';
 import { Typography } from '../../core/Typography';
 import { useStyles } from './Checkbox.styles';
@@ -20,7 +21,12 @@ export const CheckboxLabel = (props: CheckboxLabelProps & LabelProps) => {
   const resolvedSize = resolveCheckboxSize(size, variant);
 
   return (
-    <Label disabled={disabled} {...labelProps} width={'100%'}>
+    <Label
+      disabled={disabled}
+      {...labelProps}
+      width={Platform.OS === 'web' ? '100%' : undefined}
+      flexShrink={Platform.OS === 'web' ? undefined : 1}
+    >
       <Typography
         style={{
           ...styles.label,

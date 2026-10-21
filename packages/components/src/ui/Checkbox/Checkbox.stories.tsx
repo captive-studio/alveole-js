@@ -1,3 +1,4 @@
+import { Platform } from 'react-native';
 import { Box } from '../../core/Box';
 import { Story } from '../../type';
 import { Checkbox } from './Checkbox';
@@ -13,7 +14,12 @@ export default {
 } satisfies Story;
 
 export const Default = () => (
-  <Box display="flex" flexDirection="column" gap={24}>
+  <Box
+    display="flex"
+    flexDirection="column"
+    gap={24}
+    style={Platform.OS === 'web' ? undefined : { alignSelf: 'stretch' }}
+  >
     <Checkbox label="Non coché" />
     <Checkbox label="Coché" checked />
     <Checkbox label="Désactivé" disabled />
@@ -24,7 +30,12 @@ export const Default = () => (
 );
 
 export const Sizes = () => (
-  <Box display="flex" flexDirection="row" gap={16}>
+  <Box
+    display="flex"
+    flexDirection="row"
+    gap={16}
+    style={Platform.OS === 'web' ? undefined : { alignSelf: 'stretch', flexWrap: 'wrap' }}
+  >
     <Checkbox label="Size MD" size="md" />
     <Checkbox label="Size SM" size="sm" />
   </Box>

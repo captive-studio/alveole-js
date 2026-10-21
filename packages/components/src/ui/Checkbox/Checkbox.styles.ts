@@ -1,4 +1,5 @@
 import { makeStyles, StyleValue, useTheme } from '@alveole/theme';
+import { Platform } from 'react-native';
 import { sansEstompage } from '../../core/styleTamagui/sansEstompage';
 
 type Theme = ReturnType<typeof useTheme>;
@@ -24,6 +25,7 @@ const coque = ({ spacing }: Theme) =>
 const caseACocher = ({ color, spacingValue, radius }: Theme) =>
   ({
     checkbox: {
+      flexShrink: 0,
       height: spacingValue('150'),
       width: spacingValue('150'),
       backgroundColor: 'transparent',
@@ -60,7 +62,7 @@ const caseACocher = ({ color, spacingValue, radius }: Theme) =>
 const libelle = ({ text, color }: Theme) =>
   ({
     label: {
-      width: '100%',
+      ...(Platform.OS === 'web' && { width: '100%' as const }),
       ...text['Corps de texte'].MD.Regular,
       cursor: 'pointer',
       color: color.text['label-grey'],
