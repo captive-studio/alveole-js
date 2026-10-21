@@ -28,3 +28,15 @@ it('passe le trait au jeton desactive, meme au focus', () => {
 it('couvre l erreur par la couleur de focus tant que le champ a le focus', () => {
   expect(trait({ error: 'Montant requis', focus: true })).toBe(focusBorder().borderColor);
 });
+
+// L'anneau de focus suit le rayon des champs, comme chez Primer, Atlassian et Base. Au repos,
+// le seul trait du bas resterait droit : un rayon permanent en courberait les extremites.
+it('arrondit le cadre au rayon des champs au focus seulement', () => {
+  const rayon = renderHookOnDesktop(() => useTheme().radius('md')).result.current;
+  const cadre = (focus: boolean) => {
+    const style: Record<string, unknown> = renderHookOnDesktop(() => cadrePrix(useStyles(), { focus })).result.current;
+    return style.borderRadius;
+  };
+
+  expect({ repos: cadre(false), focus: cadre(true) }).toEqual({ repos: undefined, focus: rayon });
+});
