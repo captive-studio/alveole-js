@@ -16,6 +16,22 @@ import {
 } from './fichiersDuChamp';
 import { valideLeType } from './valideLeType';
 
+type ShowActionSheetIOSOpts = {
+  sources: Source[];
+  lancer: (source: Source) => void;
+  titre: string;
+  labels: FileInputLabels;
+  type: FileInputProps['type'];
+  grandEcran: boolean;
+};
+
+const showActionSheetIOS = ({ sources, lancer, titre, labels, type, grandEcran }: ShowActionSheetIOSOpts) => {
+  const options = [...sources.map(s => libelleDeLaSource(s, labels, { type, grandEcran })), labels.cancel];
+  ActionSheetIOS.showActionSheetWithOptions({ title: titre, options, cancelButtonIndex: options.length - 1 }, index => {
+    if (index < sources.length) lancer(sources[index]);
+  });
+};
+
 const enFichier = (asset: ImagePicker.ImagePickerAsset): FileInputFile => ({
   uri: asset.uri,
   name: asset.fileName ?? 'image.jpg',
@@ -89,24 +105,12 @@ export const useChoixDeFichier = (options: Options) => {
     const lancer = (source: Source) => (source === 'document' ? choisirUnDocument() : choisirUneImage(source));
     const images = imagesSeulement(type);
     const sources = sourcesProposees(type, grandEcran);
+    const titre = images ? labels.chooseImageTitle : labels.chooseDocumentTitle;
 
-    if (Platform.OS === 'ios') {
-      const options = [...sources.map(s => libelleDeLaSource(s, labels, { type, grandEcran })), labels.cancel];
-      ActionSheetIOS.showActionSheetWithOptions(
-        {
-          title: images ? labels.chooseImageTitle : labels.chooseDocumentTitle,
-          options,
-          cancelButtonIndex: options.length - 1,
-        },
-        index => {
-          if (index < sources.length) lancer(sources[index]);
-        },
-      );
-      return;
-    }
+    if (Platform.OS === 'ios') return showActionSheetIOS({ sources, lancer, titre, labels, type, grandEcran });
 
     Alert.alert({
-      title: images ? labels.chooseImageTitle : labels.chooseDocumentTitle,
+      title: titre,
       message: images ? labels.chooseImageMessage : undefined,
       buttons: [
         ...sources.map(source => ({
