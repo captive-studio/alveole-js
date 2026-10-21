@@ -17,7 +17,19 @@ const cercleDeLaCroix = (cote: number, rayon: Radius, ecart: number) => ({
   height: cote,
 });
 
+const stylesNatifs = {
+  nativeContent: {
+    display: 'flex',
+    flexDirection: 'row',
+    alignItems: 'center',
+  },
+  nativeLabel: {
+    flexShrink: 1,
+  },
+} as const;
+
 export const useStyles = makeStyles(({ radius, text, color, pill }) => ({
+  ...stylesNatifs,
   tagContainer: {
     display: 'block',
     // Sans largeur minimale nulle, un element flex refuse de retrecir sous la taille de son

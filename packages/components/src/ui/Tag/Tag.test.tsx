@@ -1,13 +1,9 @@
-import { fireEvent, renderNative, RenderResult } from '@/__tests__/helpers/renderNative';
+import { fireEvent, renderNative } from '@/__tests__/helpers/renderNative';
 import { Typography } from '../../core/Typography';
 import { Tag } from './Tag';
 
 // Le style de l'etiquette se teste hors rendu (tagStyling.test.web.tsx) et se mesure dans le
 // navigateur (apps/docs/e2e/tag.spec.ts) : il ne reste ici que le contrat (ADR 0027).
-
-// Le libelle est le seul Text de l etiquette, et c est lui qui porte la pastille :
-// `Tag` rend un `Typography` stylé, pas une boite autour d un texte.
-const pastille = (view: RenderResult) => view.root?.queryAll(i => i.type === 'Text')[0];
 
 const etiquette = (props: Partial<Parameters<typeof Tag>[0]> = {}) =>
   renderNative(
@@ -58,13 +54,11 @@ it('n affiche aucune icone tant qu on ne lui en donne pas', async () => {
 // d'oeil, la lire apres le texte n'aurait pas d'interet.
 it('place l icone demandee avant le libelle', async () => {
   const view = await etiquette({ leading: 'Check' });
-  // Le libelle est le seul enfant textuel de la pastille : ce qui le precede dans la liste
-  // des enfants est rendu avant lui. On exige un rang, pas une position : figer l'index a 1
-  // ferait casser le test au premier element ajoute devant, sans qu'aucun ordre n'ait change.
-  const enfants = pastille(view)?.children ?? [];
-  const rangDuLibelle = enfants.findIndex(enfant => typeof enfant === 'string');
+  const contenu = JSON.stringify(view.toJSON());
+  const rangDeLIcone = contenu.indexOf('RNSVGSvgView');
 
-  expect(rangDuLibelle).toBeGreaterThan(0);
+  expect(rangDeLIcone).toBeGreaterThanOrEqual(0);
+  expect(rangDeLIcone).toBeLessThan(contenu.indexOf('Brouillon'));
 });
 
 // Primer ecrit `aria-label={'Remove token'}` en dur : « retirer un truc », sans dire lequel.
