@@ -92,9 +92,16 @@ export const useChoixDeFichier = (options: Options) => {
 
     if (Platform.OS === 'ios') {
       const options = [...sources.map(s => libelleDeLaSource(s, labels, { type, grandEcran })), labels.cancel];
-      ActionSheetIOS.showActionSheetWithOptions({ options, cancelButtonIndex: options.length - 1 }, index => {
-        if (index < sources.length) lancer(sources[index]);
-      });
+      ActionSheetIOS.showActionSheetWithOptions(
+        {
+          title: images ? labels.chooseImageTitle : labels.chooseDocumentTitle,
+          options,
+          cancelButtonIndex: options.length - 1,
+        },
+        index => {
+          if (index < sources.length) lancer(sources[index]);
+        },
+      );
       return;
     }
 
