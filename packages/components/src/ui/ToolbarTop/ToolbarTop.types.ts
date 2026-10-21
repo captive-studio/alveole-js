@@ -14,9 +14,8 @@ export type Navigation =
   | { onNavigate: () => void; navigationIcon?: IconProps['name']; navigationLabel: string };
 
 /**
- * `default` tient sur une ligne, `large` empile la navigation au-dessus du reste, et
- * `compactLarge` garde la ligne en grossissant le titre. Les deux dernieres partagent ce grand
- * titre, et rien d'autre.
+ * Les trois variantes alignent la navigation et le titre sur une ligne. `large` et
+ * `compactLarge` grossissent le titre ; `compactLarge` ajoute des retraits autour du contenu.
  */
 export type ToolbarTopVariant = 'default' | 'large' | 'compactLarge';
 

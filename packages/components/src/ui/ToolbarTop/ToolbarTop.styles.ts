@@ -28,12 +28,11 @@ const barre = ({ color, spacing }: Theme) =>
       paddingRight: spacing('2W'),
     },
     largeToolbarContainer: {
+      width: '100%',
       paddingTop: 0,
       paddingBottom: 0,
       paddingLeft: 0,
       paddingRight: 0,
-      flexDirection: 'column',
-      alignItems: 'flex-start',
     },
     toolbarInformationWithBorder: {
       borderBottomWidth: 1,
