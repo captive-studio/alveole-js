@@ -161,3 +161,38 @@ test('n estompe pas l onglet unique', () => {
 
   expect(getComputedStyle(screen.getByRole('tab')).opacity).toBe('1');
 });
+
+// Le parent choisit l'onglet actif (une carte cliquee, un bouton) : sans `value`, il fallait
+// remonter les Tabs avec un autre `defaultValue`, ce qui perdait l'onglet ecrit dans l'URL.
+test('suit l onglet impose par le parent via value', () => {
+  const tabs = [
+    { label: 'Onglet 1', value: 'a', content: <>Contenu A</> },
+    { label: 'Onglet 2', value: 'b', content: <>Contenu B</> },
+  ];
+  const { rerender } = renderWeb(<Tabs value="a" tabs={tabs} />);
+  expect(screen.getByText('Contenu A')).toBeTruthy();
+
+  rerender(<Tabs value="b" tabs={tabs} />);
+
+  expect(screen.getByText('Contenu B')).toBeTruthy();
+  expect(screen.queryByText('Contenu A')).toBeNull();
+});
+
+test('controle, un clic previent le parent sans changer d onglet a sa place', () => {
+  const onChange = jest.fn();
+  renderWeb(
+    <Tabs
+      value="a"
+      onChange={onChange}
+      tabs={[
+        { label: 'Onglet 1', value: 'a', content: <>Contenu A</> },
+        { label: 'Onglet 2', value: 'b', content: <>Contenu B</> },
+      ]}
+    />,
+  );
+
+  fireEvent.click(screen.getAllByRole('tab')[1]);
+
+  expect(onChange).toHaveBeenCalledWith(1);
+  expect(screen.getByText('Contenu A')).toBeTruthy();
+});
