@@ -20,8 +20,11 @@ test('pose l onglet inactif au gabarit d un bouton md', async ({ page }) => {
   await openRoute(page, '/components/Button');
   const bouton = await hauteur(page.getByRole('main').getByRole('button', { name: 'Md', exact: true }));
   await openRoute(page, '/components/Tabs');
-  // La pastille est l'enveloppe du libellé, premier enfant de l'onglet.
-  const onglet = await hauteur(page.getByRole('main').getByRole('tab', { name: 'Onglet 3' }).locator('xpath=*[1]'));
+  // La pastille est l'enveloppe du libellé, premier enfant de l'onglet. `first()` : la page
+  // porte plusieurs stories de Tabs, qui ont chacune un « Onglet 3 ».
+  const onglet = await hauteur(
+    page.getByRole('main').getByRole('tab', { name: 'Onglet 3' }).first().locator('xpath=*[1]'),
+  );
 
   expect(bouton).toBeGreaterThan(0);
   expect(onglet).toBe(bouton);
