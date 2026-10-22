@@ -6,6 +6,7 @@ export * from './Box';
 export * from './Code';
 export * from './Form';
 export * from './Grid';
+export * from './Heading';
 export * from './Highlight';
 export * from './Image';
 export * from './Lottie';

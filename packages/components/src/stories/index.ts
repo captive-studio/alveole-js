@@ -5,6 +5,7 @@ export * as AppUpdateProviderStories from '../core/AppUpdateProvider/AppUpdatePr
 export * as BoxStory from '../core/Box/Box.stories';
 export * as CodeStory from '../core/Code/Code.stories';
 export * as GridStory from '../core/Grid/Grid.stories';
+export * as HeadingStory from '../core/Heading/Heading.stories';
 export * as Highlight from '../core/Highlight/Highlight.stories';
 export * as ImageStory from '../core/Image/Image.stories';
 export * as LottieStory from '../core/Lottie/Lottie.stories';
