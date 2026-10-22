@@ -15,3 +15,21 @@ it('demande la bague de focus au theme', () => {
 
   expect(screen.getByRole('link').getAttribute(FOCUS_ATTRIBUTE)).toBe('ring');
 });
+
+it('rend la balise demandee par `as`', () => {
+  renderWeb(<AnchorHeading as="h3">Variantes</AnchorHeading>);
+
+  expect(screen.getByRole('heading', { level: 3, name: 'Variantes' })).toBeTruthy();
+});
+
+it("tire l'ancre du texte d'enfants non textuels", () => {
+  renderWeb(
+    <AnchorHeading>
+      Mes <strong>variantes</strong>
+    </AnchorHeading>,
+  );
+
+  expect(screen.getByRole('link', { name: 'Lien vers la section Mes variantes' }).getAttribute('href')).toBe(
+    '#mes-variantes',
+  );
+});

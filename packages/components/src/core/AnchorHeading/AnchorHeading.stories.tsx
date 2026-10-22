@@ -17,4 +17,6 @@ export const Default = () => {
   return <AnchorHeading style={text.Titres['H5 - XS']}>Mon exemple de titre</AnchorHeading>;
 };
 
+export const AvecNiveau = () => <AnchorHeading as="h3">Titre h3 avec ancre</AnchorHeading>;
+
 export * as Sources from './AnchorHeading.stories.sources';

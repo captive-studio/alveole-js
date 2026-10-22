@@ -2,6 +2,7 @@ import { FOCUS_ATTRIBUTE, Theme } from '@alveole/theme';
 import React from 'react';
 import type { Components } from 'react-markdown';
 import { TextStyle as RNTextStyle } from 'react-native';
+import { AnchorHeading } from '../AnchorHeading';
 import { Box } from '../Box';
 import { Code } from '../Code';
 import { Highlight, HighlightProps } from '../Highlight';
@@ -59,26 +60,27 @@ export const createTextComponents = ({ bodyStyle, boldStyle, textColor }: TextCo
   ),
 });
 
+// La balise suit le niveau markdown ; la taille est decalee de deux crans, ces titres vivant sous ceux de la page.
 export const createHeadingComponents = (titres: Theme['text']['Titres'], titleColor: string) => ({
   h1: ({ children: c }: AvecEnfants) => (
-    <Typography style={titres['H3 - MD']} color={titleColor}>
+    <AnchorHeading as="h1" style={titres['H3 - MD']} color={titleColor}>
       {c}
-    </Typography>
+    </AnchorHeading>
   ),
   h2: ({ children: c }: AvecEnfants) => (
-    <Typography style={titres['H4 - SM']} color={titleColor}>
+    <AnchorHeading as="h2" style={titres['H4 - SM']} color={titleColor}>
       {c}
-    </Typography>
+    </AnchorHeading>
   ),
   h3: ({ children: c }: AvecEnfants) => (
-    <Typography style={titres['H5 - XS']} color={titleColor}>
+    <AnchorHeading as="h3" style={titres['H5 - XS']} color={titleColor}>
       {c}
-    </Typography>
+    </AnchorHeading>
   ),
   h4: ({ children: c }: AvecEnfants) => (
-    <Typography style={titres['H6 - XXS']} color={titleColor}>
+    <AnchorHeading as="h4" style={titres['H6 - XXS']} color={titleColor}>
       {c}
-    </Typography>
+    </AnchorHeading>
   ),
 });
 
