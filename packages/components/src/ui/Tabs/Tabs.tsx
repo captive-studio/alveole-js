@@ -21,6 +21,12 @@ export type TabsProps = Omit<BoxProps, 'children' | 'onChange'> & {
     renderAction?: () => React.ReactNode;
   }[];
   defaultValue?: string;
+  /**
+   * L'onglet actif, impose par le parent : `Tabs` devient controle. Un clic sur un onglet appelle
+   * toujours `onChange`, au parent de mettre `value` a jour. Absent, `Tabs` garde l'onglet actif
+   * pour lui, a partir de `defaultValue`.
+   */
+  value?: string;
   onChange?: (index: number) => void;
   /**
    * Active l'Anchor Sync (voir ADR 0022) : au clic, l'onglet actif est ecrit dans l'etat
@@ -33,12 +39,12 @@ export type TabsProps = Omit<BoxProps, 'children' | 'onChange'> & {
 };
 
 export const Tabs = (props: TabsProps) => {
-  const { tabs, defaultValue = '', onChange, urlAnchorPrefix, style, ...boxProps } = props;
+  const { tabs, defaultValue = '', value, onChange, urlAnchorPrefix, style, ...boxProps } = props;
   const styles = useStyles();
 
   const initialValue = defaultValue || tabs[0]?.value || '';
   const { currentTab, etatDeLOnglet, setCurrentTab, restoreCurrentTab, setHoverTab, handleOnInteraction } =
-    useTabsState(initialValue, onChange);
+    useTabsState(initialValue, onChange, value);
 
   const { persist } = useAnchorSync(urlAnchorPrefix, anchor => {
     const tab = tabs.find(t => toSlug(t.label) === anchor);

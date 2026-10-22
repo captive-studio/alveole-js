@@ -16,7 +16,9 @@ type TabsState = {
 //
 // Le focus n'en fait pas partie : il est rendu par la regle CSS `:focus-visible` du theme, la
 // seule qui distingue le clavier de la souris. Suivi en React, il s'affichait aussi au clic.
-export const useTabsState = (initialValue: string, onChange?: (index: number) => void) => {
+// `value`, quand le parent la donne, fait foi sur l'onglet retenu en interne : `Tabs` est alors
+// controle, et c'est au parent de la mettre a jour depuis `onChange`.
+export const useTabsState = (initialValue: string, onChange?: (index: number) => void, value?: string) => {
   const [tabState, setTabState] = React.useState<TabsState>({
     activeAt: null,
     currentTab: initialValue,
@@ -47,13 +49,15 @@ export const useTabsState = (initialValue: string, onChange?: (index: number) =>
     }
   };
 
+  const currentTab = value ?? tabState.currentTab;
+
   const etatDeLOnglet = (tabValue: string): EtatDeLOnglet => ({
-    actif: tabState.currentTab === tabValue,
+    actif: currentTab === tabValue,
     survole: tabState.hoverTab === tabValue,
   });
 
   return {
-    currentTab: tabState.currentTab,
+    currentTab,
     etatDeLOnglet,
     setCurrentTab,
     restoreCurrentTab,
