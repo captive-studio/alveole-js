@@ -24,7 +24,7 @@ export default {
     'Le composant reste **strictement contrôlé**, y compris pour la création d’option : `onCreateOption` reçoit',
     'la saisie, à l’appelant d’ajouter l’option à `options` puis de mettre `value` à jour.',
     '',
-    '### Migration depuis `Autocomplete`',
+    '## Migration depuis `Autocomplete`',
     '',
     // Cellules en texte brut : le rendu Markdown du catalogue échoue sur du code
     // inline dans un tableau.
