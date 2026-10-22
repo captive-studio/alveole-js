@@ -16,7 +16,7 @@ jobs:
       github.event.workflow_run.head_branch == 'main' &&
       github.event.workflow_run.head_repository.full_name == github.repository
     runs-on: [self-hosted]
-    container: node:lts@sha256:925de64a85319052d6971ae81ef2417da956e8a3a2c4a0fac732327970f017f5
+    container: node:lts@sha256:6449e19d8184d84062525b6a7524def03146c2cb04a7f08b076680d0e8e4240a
     permissions:
       contents: write
     steps:
