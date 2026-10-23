@@ -96,3 +96,16 @@ test.each([
   expect(item.style.backgroundColor).toBe('');
   expect(item.className).toMatch(/_b-/);
 });
+
+// Le compteur est accolé au libellé ; à zéro il ne compte rien et disparaît.
+test('affiche le compteur quand il est positif', () => {
+  const { container } = renderOnDesktop(<SidebarItem title="Messages" href="/x" counter={3} />);
+
+  expect(container.querySelector('counter')?.textContent).toBe('3');
+});
+
+test('masque le compteur à zéro', () => {
+  const { container } = renderOnMobile(<SidebarItem title="Messages" href="/x" counter={0} />);
+
+  expect(container.querySelector('counter')).toBeNull();
+});

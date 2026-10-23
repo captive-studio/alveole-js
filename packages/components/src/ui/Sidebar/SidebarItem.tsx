@@ -6,10 +6,16 @@ import { A, AProps } from '../../core/A';
 import { Box } from '../../core/Box';
 import { fondAuSurvol } from '../../core/styleTamagui/fondAuSurvol';
 import { Typography } from '../../core/Typography';
+import { Counter, CounterProps } from '../Counter';
 import { Leading, LeadingSlot } from '../Leading';
 import { useStyles } from './Sidebar.styles';
 
-export type SidebarItemNavigable = {
+type SidebarItemCompteur = {
+  counter?: number;
+  counterVariant?: CounterProps['variant'];
+};
+
+export type SidebarItemNavigable = SidebarItemCompteur & {
   pressable?: undefined;
   title: string;
   leading?: Leading;
@@ -18,7 +24,7 @@ export type SidebarItemNavigable = {
   routeName?: string;
 };
 
-export type SidebarItemPressable = {
+export type SidebarItemPressable = SidebarItemCompteur & {
   pressable: true;
   title: string;
   leading?: Leading;
@@ -62,6 +68,14 @@ const IndicateurPageCourante = () => {
   );
 };
 
+// Un compteur à zéro ne compte rien : on ne l'affiche pas.
+const CompteurDItem = ({ counter, counterVariant = 'primary' }: SidebarItemCompteur) =>
+  counter != null && counter > 0 ? (
+    <Box mt="auto" mb="auto">
+      <Counter variant={counterVariant} count={counter} />
+    </Box>
+  ) : null;
+
 const SidebarItemDesktop = (props: SidebarItemProps) => {
   const { title, leading } = props;
 
@@ -89,7 +103,11 @@ const SidebarItemDesktop = (props: SidebarItemProps) => {
           {/* 16px et non 24 : c'est l'icône qui fixerait la hauteur de la ligne, et une icône de
             24 rendrait l'item à 36px là où la maquette le veut à 32. */}
           <LeadingSlot contenu={leading} apparence={{ size: 'sm' }} />
-          <Typography style={{ ...styles.sidebarItemTitleDesktop, ...titleStyleSelected }}>{title}</Typography>
+          {/* Le titre prend la place restante et se tronque avant le compteur. */}
+          <Typography style={{ ...styles.sidebarItemTitleDesktop, ...titleStyleSelected, flex: 1 }} numberOfLines={1}>
+            {title}
+          </Typography>
+          <CompteurDItem {...props} />
         </Box>
       </Box>
     </SidebarItemEnveloppe>
@@ -127,9 +145,14 @@ const SidebarItemMobile = (props: SidebarItemProps) => {
                 : styles.sidebarItemTitleSelectedMobile.stroke,
             }}
           />
-          <Typography style={titre} color={{ default: couleurDuTitre, hover: couleurAuSurvol }}>
+          <Typography
+            style={{ ...titre, flex: 1 }}
+            color={{ default: couleurDuTitre, hover: couleurAuSurvol }}
+            numberOfLines={1}
+          >
             {title}
           </Typography>
+          <CompteurDItem {...props} />
         </Box>
       </Box>
     </SidebarItemEnveloppe>

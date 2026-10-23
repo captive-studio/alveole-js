@@ -39,7 +39,7 @@ export const ExampleUsage = () => {
       footer={<SidebarItem pressable leading="LogOut" title="Se déconnecter" onPress={console.log} />}
     >
       <SidebarItem pressable title="Item 1" onPress={console.log} />
-      <SidebarItem pressable title="Item 2" onPress={console.log} />
+      <SidebarItem pressable title="Item 2" counter={3} onPress={console.log} />
 
       <SidebarGroup title="Groupe">
         <SidebarItem pressable title="Item group 1" onPress={console.log} />
