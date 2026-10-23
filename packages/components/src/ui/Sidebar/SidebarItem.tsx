@@ -69,7 +69,7 @@ const IndicateurPageCourante = () => {
 };
 
 // Un compteur à zéro ne compte rien : on ne l'affiche pas.
-const CompteurDItem = ({ counter, counterVariant = 'primary' }: SidebarItemCompteur) =>
+const CompteurDItem = ({ counter, counterVariant = 'default' }: SidebarItemCompteur) =>
   counter != null && counter > 0 ? (
     <Box mt="auto" mb="auto">
       <Counter variant={counterVariant} count={counter} />
@@ -103,8 +103,12 @@ const SidebarItemDesktop = (props: SidebarItemProps) => {
           {/* 16px et non 24 : c'est l'icône qui fixerait la hauteur de la ligne, et une icône de
             24 rendrait l'item à 36px là où la maquette le veut à 32. */}
           <LeadingSlot contenu={leading} apparence={{ size: 'sm' }} />
-          {/* Le titre prend la place restante et se tronque avant le compteur. */}
-          <Typography style={{ ...styles.sidebarItemTitleDesktop, ...titleStyleSelected, flex: 1 }} numberOfLines={1}>
+          {/* Le titre prend la place restante et se tronque avant le compteur ; aligné à gauche car un
+            item pressable est un <button>, qui centre son texte. */}
+          <Typography
+            style={{ ...styles.sidebarItemTitleDesktop, ...titleStyleSelected, flex: 1, textAlign: 'left' }}
+            numberOfLines={1}
+          >
             {title}
           </Typography>
           <CompteurDItem {...props} />
@@ -146,7 +150,7 @@ const SidebarItemMobile = (props: SidebarItemProps) => {
             }}
           />
           <Typography
-            style={{ ...titre, flex: 1 }}
+            style={{ ...titre, flex: 1, textAlign: 'left' }}
             color={{ default: couleurDuTitre, hover: couleurAuSurvol }}
             numberOfLines={1}
           >
