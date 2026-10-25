@@ -56,13 +56,13 @@ export const Box = React.forwardRef<BoxElement, BoxProps>(function Box(props, re
     gap: resolveSpacing(gap),
   };
 
-  const correctionFlex = correctionFlexDuWeb(style);
+  const correctionFlex = correctionFlexDuWeb(style, viewProps.flex);
 
   return (
     <StyledView
       ref={ref}
       render={elementDuTag(tag)}
-      style={correctionFlex ? { ...aplatirStyle(style), ...correctionFlex } : style}
+      style={{ ...aplatirStyle(style), ...correctionFlex }}
       {...radius}
       {...viewProps}
       {...definis(margins)}

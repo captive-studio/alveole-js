@@ -49,4 +49,31 @@ export const BoxSansTag = () => (
   </Box>
 );
 
+// Dans un parent de hauteur indéfinie, `flex: 1` garde la hauteur de son contenu, en prop comme en style.
+export const BoxFlexDansParentIndefini = () => (
+  <Box tag="box-flex-parent">
+    <Box tag="box-flex-en-prop" flex={1}>
+      <Typography>flex: 1 en prop</Typography>
+    </Box>
+    <Box tag="box-flex-en-style" style={{ flex: 1 }}>
+      <Typography>flex: 1 en style</Typography>
+    </Box>
+  </Box>
+);
+
+// Un style objet, en tableau ou en tableau imbriqué est fusionné avant d'atteindre le DOM.
+export const BoxStyles = () => (
+  <Box gap={8}>
+    <Box tag="box-style-objet" style={{ paddingLeft: 48 }}>
+      <Typography>Style objet</Typography>
+    </Box>
+    <Box tag="box-style-tableau" style={[{ paddingLeft: 48 }, { marginTop: 0 }]}>
+      <Typography>Style en tableau</Typography>
+    </Box>
+    <Box tag="box-style-imbrique" style={[[{ paddingLeft: 48 }], { marginTop: 0 }]}>
+      <Typography>Style en tableau imbriqué</Typography>
+    </Box>
+  </Box>
+);
+
 export * as Sources from './Box.stories.sources';
