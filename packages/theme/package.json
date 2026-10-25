@@ -20,8 +20,8 @@
     "@alveole/eslint-config": "file:../eslint-config",
     "esbuild": "0.28.2",
     "eslint": "10.13.0",
-    "react": "19.2.3",
-    "react-native": "0.86.3"
+    "react": "19.3.0",
+    "react-native": "0.88.0"
   },
   "peerDependencies": {
     "@tamagui/core": "^3.0.0",

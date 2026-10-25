@@ -41,17 +41,13 @@ const estGraisseNative = accepteSeulement<TextStyle['fontWeight']>([
   '900',
 ]);
 
-export const styleNatif = (style: CSSProperties = {}): TextStyle => {
-  const nativeStyle: TextStyle = {};
-
-  if (typeof style.color === 'string') nativeStyle.color = style.color;
-  if (typeof style.background === 'string') nativeStyle.backgroundColor = style.background;
-  if (typeof style.backgroundColor === 'string') nativeStyle.backgroundColor = style.backgroundColor;
-  if (estGraisseNative(style.fontWeight)) nativeStyle.fontWeight = style.fontWeight;
-  if (estStyleDePoliceNatif(style.fontStyle)) nativeStyle.fontStyle = style.fontStyle;
-
-  return nativeStyle;
-};
+export const styleNatif = (style: CSSProperties = {}): TextStyle => ({
+  ...(typeof style.color === 'string' && { color: style.color }),
+  ...(typeof style.background === 'string' && { backgroundColor: style.background }),
+  ...(typeof style.backgroundColor === 'string' && { backgroundColor: style.backgroundColor }),
+  ...(estGraisseNative(style.fontWeight) && { fontWeight: style.fontWeight }),
+  ...(estStyleDePoliceNatif(style.fontStyle) && { fontStyle: style.fontStyle }),
+});
 
 const getSyntaxStyleKeys = (selector: string): string[] => {
   if (selector.includes('pre[') || selector.includes('code[')) {
@@ -104,8 +100,8 @@ export const feuilleDeColoration = (syntaxStyle: Record<string, CSSProperties>, 
 };
 
 /** Le texte de base : la couleur du theme, puis la chasse fixe. */
-export const styleDuTexteDeBase = (feuille: NativeSyntaxStyle) =>
-  StyleSheet.flatten([{ color: feuille[BASE_STYLE_KEY]?.color }, feuille[BASE_STYLE_KEY], MonospaceFont]);
+export const styleDuTexteDeBase = (feuille: NativeSyntaxStyle): TextStyle =>
+  StyleSheet.flatten([{ color: feuille[BASE_STYLE_KEY]?.color }, feuille[BASE_STYLE_KEY], MonospaceFont]) ?? {};
 
 /**
  * La surface du bloc. Le theme de coloration ne fournit que les couleurs de jetons : la surface
@@ -117,10 +113,10 @@ export const styleDeLaSurface = (
   styles: Styles,
   feuille: NativeSyntaxStyle,
   { variant, styleFourni }: { variant: 'standalone' | 'embedded'; styleFourni: TextStyle },
-) =>
-  StyleSheet.flatten<TextStyle>([
+): TextStyle =>
+  StyleSheet.flatten([
     feuille[BASE_STYLE_KEY],
     variant === 'embedded' ? styles.highlightEmbedded : styles.highlight,
     { overflow: 'visible' as const },
     styleFourni,
-  ]);
+  ]) ?? {};

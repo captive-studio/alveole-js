@@ -123,7 +123,7 @@ const SectionAnnees = ({
   ouvert: boolean;
 }) => {
   const styles = useStyles();
-  const yearsScrollRef = React.useRef<ScrollView>(null);
+  const yearsScrollRef = React.useRef<React.ComponentRef<typeof ScrollView>>(null);
 
   const scrollYearsToEnd = React.useCallback(() => {
     yearsScrollRef.current?.scrollToEnd({ animated: false });

@@ -1,7 +1,7 @@
 import { Box, Typography } from '@alveole/components';
 import { useTheme } from '@alveole/theme';
 import React from 'react';
-import { Platform, TextInput as RNTextInput, TextInput } from 'react-native';
+import { Platform, TextInput, TextInputInstance } from 'react-native';
 
 export type SearchFieldProps = {
   label?: string;
@@ -13,7 +13,7 @@ export type SearchFieldProps = {
 
 export const SearchField = ({ label, placeholder, value, onChangeText, size = 'md' }: SearchFieldProps) => {
   const { text, color, radius, spacingValue } = useTheme();
-  const inputRef = React.useRef<RNTextInput>(null);
+  const inputRef = React.useRef<TextInputInstance>(null);
 
   React.useEffect(() => {
     if (Platform.OS !== 'web') return;

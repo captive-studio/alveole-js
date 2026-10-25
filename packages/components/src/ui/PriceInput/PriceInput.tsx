@@ -13,7 +13,7 @@ export type PriceInputProps = NumberInputProps & {
 };
 
 export const PriceInput = React.forwardRef<TextInputElement, PriceInputProps>(function PriceInput(props, ref) {
-  const { value, devise, onChange, ...inputProps } = props;
+  const { value, devise, onChange, onKeyDown: _k, ...inputProps } = props;
 
   const styles = useStyles();
   const champ = useFieldFocus({ disabled: props.disabled, readOnly: props.readOnly });

@@ -1,5 +1,4 @@
 import React from 'react';
-import { TextInput as ReactNativeTextInput } from 'react-native';
 import { Box, BoxProps } from '../../core/Box';
 import { InputHeading } from '../InputHeading';
 import { FieldIdProvider } from './FieldId';
@@ -7,6 +6,7 @@ import { useStyles } from './FormControl.styles';
 import { FormControlCaption, FormControlCaptionProps } from './FormControlCaption';
 import { FormControlHint, FormControlHintProps } from './FormControlHint';
 import { FormControlLabel, FormControlLabelProps } from './FormControlLabel';
+import { TextInputElement } from './TextInput.types';
 
 export type FormControlProps = React.PropsWithChildren &
   Pick<FormControlHintProps, 'hint'> &
@@ -18,7 +18,7 @@ export type FormControlProps = React.PropsWithChildren &
     style?: BoxProps['style'];
   };
 
-export const FormControl = React.forwardRef<ReactNativeTextInput, FormControlProps>(function FormControl(props, _ref) {
+export const FormControl = React.forwardRef<TextInputElement, FormControlProps>(function FormControl(props, _ref) {
   const { children, label, labelRight, hint, error, success, disabled, required, style } = props;
 
   const styles = useStyles();

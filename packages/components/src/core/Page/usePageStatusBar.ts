@@ -1,7 +1,7 @@
 import { useFocusEffect } from 'expo-router';
 import * as SystemUI from 'expo-system-ui';
 import React from 'react';
-import { AppState, Platform, StatusBar } from 'react-native';
+import { AppState, StatusBar } from 'react-native';
 import { PageStatusBarProps } from './Page.types';
 
 const DEFAULT_STATUS_BAR: Required<PageStatusBarProps> = {
@@ -9,9 +9,10 @@ const DEFAULT_STATUS_BAR: Required<PageStatusBarProps> = {
   backgroundColor: 'white',
 };
 
+// Pas de `StatusBar.setBackgroundColor` : sans effet en edge-to-edge, mode par défaut des apps
+// Expo, et retiré de React Native 0.88. Le fond sous la barre est celui que pose expo-system-ui.
 export const applyStatusBar = (statusBar: Required<PageStatusBarProps>) => {
   StatusBar.setBarStyle(statusBar.barStyle);
-  if (Platform.OS === 'android') StatusBar.setBackgroundColor(statusBar.backgroundColor);
   void SystemUI.setBackgroundColorAsync(statusBar.backgroundColor);
 };
 

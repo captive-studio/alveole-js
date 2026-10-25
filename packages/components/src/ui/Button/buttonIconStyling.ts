@@ -1,4 +1,5 @@
 import { CSSProperties } from 'react';
+import { ViewStyle } from 'react-native';
 import { IconProps } from '../LucideIcon';
 import type { ButtonIconProps } from './ButtonIcon';
 import { styleDuPressable } from './buttonStyling';
@@ -26,7 +27,11 @@ const ICONE_PAR_TAILLE: Record<ButtonTaille, NonNullable<ButtonIconProps['iconSi
   lg: 'lg',
 };
 
-export const styleDuCadreDIcone = (styles: Styles, etat: EtatDuBoutonIcone, hovered: boolean) => {
+// Les transitions ne valent que pour react-native-web, qui les passe telles quelles au CSS.
+type CadreDIcone = ViewStyle &
+  Pick<CSSProperties, 'transitionProperty' | 'transitionDuration' | 'transitionTimingFunction'>;
+
+export const styleDuCadreDIcone = (styles: Styles, etat: EtatDuBoutonIcone, hovered: boolean): CadreDIcone => {
   const { variant, taille, disabled, style } = etat;
   // Le survol tient ici le role que l'appui tient sur `Button` : c'est le seul etat actif
   // qu'un bouton sans libelle connaisse. D'ou l'etat actif emprunte a la table de survol,

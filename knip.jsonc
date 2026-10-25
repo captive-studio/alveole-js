@@ -81,6 +81,9 @@
     "apps/docs": {
       "entry": ["app/**/*.{ts,tsx}", "scripts/*.mjs", "tamagui.config.ts"],
       "project": ["**/*.{ts,tsx,js,mjs}"],
+      // Importé par react-native-svg sans le déclarer : React Native l'apportait jusqu'en 0.86,
+      // plus depuis 0.88. Aucun fichier de l'app ne l'importe.
+      "ignoreDependencies": ["@react-native/assets-registry"],
     },
   },
 }

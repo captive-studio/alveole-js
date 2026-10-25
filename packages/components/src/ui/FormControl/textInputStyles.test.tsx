@@ -53,7 +53,7 @@ it('laisse le retrait du texte inchange quand un ornement est present', async ()
   const texte = async (endAdornment?: string) =>
     StyleSheet.flatten((await renderHook(() => inputTextStyle(useStyles(), { endAdornment }))).result.current);
 
-  expect((await texte('ornement')).paddingRight).toBe((await texte()).paddingRight);
+  expect((await texte('ornement'))?.paddingRight).toBe((await texte())?.paddingRight);
 });
 
 it('garde la bordure de repos hors focus et hors validation', async () => {
