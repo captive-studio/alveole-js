@@ -28,8 +28,8 @@ overrides:
   # Modules natifs Expo : forcés en version unique. Les pins directs de apps/docs ne suffisent
   # pas, des peers (`*`) et expo-router en tiraient encore le patch précédent, ce qu'expo-doctor
   # refuse (un module natif ne doit exister qu'en une version).
-  expo-asset: 57.0.20
-  expo-constants: 57.0.22
+  expo-asset: 58.0.0
+  expo-constants: 58.0.0
 
 # Les scripts d'installation sont bloqués par défaut : ces trois paquets compilent un binaire
 # natif dont dépendent Jest, Metro et le résolveur ESLint. pnpm 11 a supprimé
