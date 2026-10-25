@@ -78,7 +78,7 @@ export const Signature = (props: SignatureProps) => {
   const ref = React.useRef<SignatureViewRef>(null);
   const { handleOk, handleEnd, handleClear } = useLectureDifferee(ref, onChange);
 
-  const webviewHeightWithBorders = height + spacingValue('200') + spacingValue('100') + 3;
+  const webviewHeightWithBorders = height + spacingValue('4W') + spacingValue('2W') + 3;
 
   return (
     <Box height={webviewHeightWithBorders} width={'100%'}>

@@ -106,7 +106,7 @@ const contenuDeLaLigne = ({ text, color, spacingValue }: Theme) =>
     },
     // Place de la coche, vide sur les options non retenues : les libelles restent alignes.
     placeCoche: {
-      width: spacingValue('100'),
+      width: spacingValue('2W'),
       flexShrink: 0,
     },
   }) satisfies Table;
@@ -121,8 +121,8 @@ const caseACocher = ({ color, spacingValue, radius }: Theme) =>
       alignItems: 'center',
       justifyContent: 'center',
       flexShrink: 0,
-      height: spacingValue('100'),
-      width: spacingValue('100'),
+      height: spacingValue('2W'),
+      width: spacingValue('2W'),
       borderWidth: 1,
       borderStyle: 'solid',
       borderColor: color.light.border['contrast-grey'],

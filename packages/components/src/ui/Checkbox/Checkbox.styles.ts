@@ -26,15 +26,15 @@ const caseACocher = ({ color, spacingValue, radius }: Theme) =>
   ({
     checkbox: {
       flexShrink: 0,
-      height: spacingValue('150'),
-      width: spacingValue('150'),
+      height: spacingValue('3W'),
+      width: spacingValue('3W'),
       backgroundColor: 'transparent',
       borderColor: color.light.border['action-high-primary'],
       borderRadius: radius('md'),
     },
     checkboxSm: {
-      height: spacingValue('100'),
-      width: spacingValue('100'),
+      height: spacingValue('2W'),
+      width: spacingValue('2W'),
       borderRadius: radius('sm'),
     },
     checkboxDisabled: {
@@ -49,8 +49,8 @@ const caseACocher = ({ color, spacingValue, radius }: Theme) =>
       borderColor: color.border['plain-success'],
     },
     indicator: {
-      height: spacingValue('150'),
-      width: spacingValue('150'),
+      height: spacingValue('3W'),
+      width: spacingValue('3W'),
       backgroundColor: color.light.background['action-high-primary'],
       borderRadius: radius('md'),
     },
