@@ -62,4 +62,12 @@ export const Controle = () => {
   );
 };
 
+// Un onglet seul est desactive : il garde pourtant sa pleine opacite.
+export const OngletUnique = () => (
+  <Tabs
+    defaultValue="seul"
+    tabs={[{ label: 'Onglet seul', value: 'seul', content: <Typography>Contenu de l onglet seul</Typography> }]}
+  />
+);
+
 export * as Sources from './Tabs.stories.sources';

@@ -30,4 +30,11 @@ export const TypographyTransformCapitalize = () => (
 
 export const TypographyTransformUppercase = () => <Typography textTransform="uppercase">En majuscule</Typography>;
 
+// Un `textAlign` pose par le style tient face aux props de Typography.
+export const TypographyAligneeADroite = () => (
+  <Typography tag="typography-alignee-a-droite" style={{ textAlign: 'right' }}>
+    Texte aligné à droite
+  </Typography>
+);
+
 export * as Sources from './Typography.stories.sources';

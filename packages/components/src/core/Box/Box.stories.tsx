@@ -68,6 +68,9 @@ export const BoxFlexDansParentIndefini = () => (
     <Box tag="box-flex-en-style" style={{ flex: 1 }}>
       <Typography>flex: 1 en style</Typography>
     </Box>
+    <Box tag="box-flex-en-tableau" style={[{ flex: 1 }, { paddingLeft: 48 }]}>
+      <Typography>flex: 1 en tableau, avec un autre style</Typography>
+    </Box>
   </Box>
 );
 

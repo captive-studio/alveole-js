@@ -29,3 +29,20 @@ test('pose l onglet inactif au gabarit d un bouton md', async ({ page }) => {
   expect(bouton).toBeGreaterThan(0);
   expect(onglet).toBe(bouton);
 });
+
+// Tamagui v3 estompe tout onglet désactivé à 0.45, variant que `unstyled` ne retire pas : un
+// onglet seul, donc désactivé, passait à moitié transparent.
+test('n estompe pas l onglet unique', async ({ page }) => {
+  await openRoute(page, '/components/Tabs');
+
+  await expect(page.getByRole('main').getByRole('tab', { name: 'Onglet seul' })).toHaveCSS('opacity', '1');
+});
+
+// En `1 1 0px`, le panneau s'écrasait à zéro dans une page qui défile et coupait tout son
+// contenu (onglets du catalogue vides sous Tamagui v3).
+test('donne au panneau la hauteur de son contenu', async ({ page }) => {
+  await openRoute(page, '/components/Tabs');
+  const panneau = await page.getByRole('main').getByRole('tabpanel').first().boundingBox();
+
+  expect(panneau?.height).toBeGreaterThan(0);
+});

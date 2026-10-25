@@ -29,7 +29,7 @@ test('une Box sans tag n’expose ni rôle ni nom accessible', async ({ page }) 
 
 // Tamagui v3 rend `flex: 1` en base `0px` : dans un parent de hauteur indéfinie, la boîte tombait
 // à zéro. jsdom ne met rien en page, seul le navigateur prouve la hauteur du contenu.
-for (const source of ['prop', 'style']) {
+for (const source of ['prop', 'style', 'tableau']) {
   test(`flex: 1 en ${source} garde la hauteur de son contenu`, async ({ page }) => {
     const { height } = await boite(page.locator(`box-flex-en-${source}`));
 
@@ -48,3 +48,8 @@ for (const forme of ['objet', 'tableau', 'imbrique']) {
     expect(paddingLeft).toBe('48px');
   });
 }
+
+// La correction de flex se fusionnait au style de l'appelant en perdant le reste d'un tableau.
+test('garde le style de l appelant avec la correction de flex', async ({ page }) => {
+  await expect(page.locator('box-flex-en-tableau')).toHaveCSS('padding-left', '48px');
+});

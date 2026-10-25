@@ -48,3 +48,11 @@ test('laisse à un texte sans cran la hauteur de ligne normale', async ({ page }
 
   expect(hauteur).toBe('normal');
 });
+
+// Un `textAlign` à `undefined` écrasait celui du style, et les boutons alignés à gauche
+// (`contentAlign="start"`) recentraient leur libellé.
+test('garde l alignement du texte posé par le style', async ({ page }) => {
+  await openRoute(page, '/components/Typography');
+
+  await expect(page.getByRole('main').locator('typography-alignee-a-droite')).toHaveCSS('text-align', 'right');
+});
