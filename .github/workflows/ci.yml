@@ -110,10 +110,41 @@ jobs:
       - name: Check coverage ratchet
         run: pnpm run check:coverage-ratchet
         if: ${{ !cancelled() }}
-  # Les quatre anciens jobs partagent le build du commit courant. Aucun cache
-  # de dist : publint, le lint docs et le navigateur vérifient bien ce build.
-  web-and-packages:
-    name: Web, catalogue audit (accessibility, screenshots) and publishable packages
+  # Sortis du job web, où ils s'enchaînaient avant l'export et l'audit sans que ceux-ci en
+  # dépendent : 25 à 45 s de moins sur le chemin critique. Chaque job reconstruit les
+  # paquets : aucun cache de dist, publint et le lint docs vérifient le build du commit.
+  packages:
+    name: Publishable packages (publint, attw, docs lint, Expo doctor)
+    if: github.event_name != 'push' || !startsWith(github.ref, 'refs/tags/')
+    runs-on:
+      - self-hosted
+    timeout-minutes: 20
+    container: ghcr.io/captive-studio/node-ci:24.22.1@sha256:4ba3b88b99c44ce8ed2b8fcc771b59fe14c98d1679a1c4fcf0ca9b9da62bc3c4
+    steps:
+      - name: Checkout
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+      - name: Enable corepack
+        run: corepack enable
+      - name: Install dependencies
+        id: dependencies
+        run: pnpm install --frozen-lockfile
+      - name: Build workspace packages
+        run: pnpm run build:packages
+        id: packages
+        if: ${{ !cancelled() && steps.dependencies.outcome == 'success' }}
+      - name: Validate packages (publint + attw)
+        run: pnpm run check:packages
+        if: ${{ !cancelled() && steps.packages.outcome == 'success' }}
+      - name: Run lint on apps/docs
+        run: pnpm --filter @alveole/docs run lint:app
+        if: ${{ !cancelled() && steps.packages.outcome == 'success' }}
+      - name: Expo doctor
+        working-directory: apps/docs
+        run: npx expo-doctor
+        if: ${{ !cancelled() && steps.dependencies.outcome == 'success' }}
+  # Le navigateur vérifie le build du commit courant : aucun cache de dist.
+  web:
+    name: Web, catalogue audit (accessibility, screenshots)
     if: github.event_name != 'push' || !startsWith(github.ref, 'refs/tags/')
     runs-on:
       - self-hosted
@@ -134,16 +165,6 @@ jobs:
       - name: Build workspace packages
         run: pnpm run build:packages
         id: packages
-        if: ${{ !cancelled() && steps.dependencies.outcome == 'success' }}
-      - name: Validate packages (publint + attw)
-        run: pnpm run check:packages
-        if: ${{ !cancelled() && steps.packages.outcome == 'success' }}
-      - name: Run lint on apps/docs
-        run: pnpm --filter @alveole/docs run lint:app
-        if: ${{ !cancelled() && steps.packages.outcome == 'success' }}
-      - name: Expo doctor
-        working-directory: apps/docs
-        run: npx expo-doctor
         if: ${{ !cancelled() && steps.dependencies.outcome == 'success' }}
       - name: Restore Metro cache
         uses: actions/cache@55cc8345863c7cc4c66a329aec7e433d2d1c52a9 # v6.1.0
