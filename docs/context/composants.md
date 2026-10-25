@@ -20,3 +20,9 @@ sur le web, dans le navigateur intégré sur mobile. C'est le développeur qui l
 déclare externe ; la forme de l'URL ne suffit pas, puisqu'une adresse absolue vers
 l'application elle-même reste un lien interne.
 _Éviter_ : lien sortant, URL externe (pour parler du lien).
+
+**Box** :
+La boîte générique d'Alveole, l'équivalent d'une `<div>`. Elle contient d'autres
+éléments et ne porte que des réglages de boîte : espacement, fond, bordure, rayon,
+disposition. Elle n'a ni sens, ni rôle, ni rendu propre.
+_Éviter_ : View, div, conteneur, block.
