@@ -1,7 +1,9 @@
 import React from 'react';
-import { TextInput as ReactNativeTextInput, TextInputProps as ReactNativeTextInputProps } from 'react-native';
+import { TextInputProps as ReactNativeTextInputProps, TextInputInstance } from 'react-native';
 
-export type TextInputElement = ReactNativeTextInput;
+// Une interface, pas un alias : la declaration publiee la nomme au lieu de deplier le type
+// d'instance, que React Native 0.88 ne publie que sous un chemin prive.
+export interface TextInputElement extends TextInputInstance {}
 
 export type TextInputProps = Omit<ReactNativeTextInputProps, 'style'> & {
   // ADR 0026 : la nature de la valeur, a la maniere de l'attribut HTML `type`.

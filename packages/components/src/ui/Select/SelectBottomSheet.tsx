@@ -1,5 +1,4 @@
 import React from 'react';
-import { InteractionManager } from 'react-native';
 import { Box } from '../../core/Box';
 import { BottomSheet } from '../BottomSheet';
 import { Button } from '../Button';
@@ -18,10 +17,11 @@ export const SelectBottomSheet = (props: SelectBottomSheetProps) => {
 
   // Le focus n'est pris qu'une fois l'animation d'ouverture terminée : pendant
   // celle-ci le champ n'est pas encore mesuré et le clavier se referme aussitôt.
+  // `requestIdleCallback` remplace `InteractionManager`, retiré de React Native 0.88.
   React.useEffect(() => {
     if (!open || !searchable) return;
-    const task = InteractionManager.runAfterInteractions(() => searchRef.current?.focus());
-    return () => task.cancel();
+    const handle = requestIdleCallback(() => searchRef.current?.focus());
+    return () => cancelIdleCallback(handle);
   }, [open, searchable]);
 
   return (

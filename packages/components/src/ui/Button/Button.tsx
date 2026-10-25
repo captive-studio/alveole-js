@@ -1,6 +1,6 @@
 import { focusRingProps } from '@alveole/theme';
 import React, { useRef, useState } from 'react';
-import { Pressable, View } from 'react-native';
+import { Pressable, PressableInstance } from 'react-native';
 import { EtatDuPointeur } from '../pointeur';
 import { useStyles } from './Button.styles';
 import { ButtonProps, etatDuBouton } from './Button.types';
@@ -9,7 +9,10 @@ import { styleDuPressable } from './buttonStyling';
 
 export * from './Button.types';
 
-export const Button = React.forwardRef<View, ButtonProps>(function Button(propsDeLAppelant, ref) {
+// Une interface, pas un alias : voir `TextInputElement`.
+export interface ButtonElement extends PressableInstance {}
+
+export const Button = React.forwardRef<ButtonElement, ButtonProps>(function Button(propsDeLAppelant, ref) {
   const verrou = useRef(false);
   const [enCours, setEnCours] = useState(false);
   // Un onPress qui rend une promesse (soumission de formulaire) verrouille le bouton jusqu'a sa

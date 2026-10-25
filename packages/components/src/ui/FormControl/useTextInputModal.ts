@@ -1,5 +1,6 @@
 import React from 'react';
-import { FocusEvent, Keyboard, TextInput as ReactNativeTextInput } from 'react-native';
+import { FocusEvent, Keyboard } from 'react-native';
+import { TextInputElement } from './TextInput.types';
 
 type Options = {
   disabled?: boolean | null;
@@ -17,8 +18,8 @@ type Options = {
 export const useTextInputModal = ({ disabled, readOnly, onFocus, onModalSubmit }: Options) => {
   const [isOpen, setIsOpen] = React.useState(false);
   const [isReady, setIsReady] = React.useState(false);
-  const inputRef = React.useRef<ReactNativeTextInput>(null);
-  const modalInputRef = React.useRef<ReactNativeTextInput>(null);
+  const inputRef = React.useRef<TextInputElement>(null);
+  const modalInputRef = React.useRef<TextInputElement>(null);
   const pendingFocusEventRef = React.useRef<FocusEvent | null>(null);
 
   React.useEffect(() => {

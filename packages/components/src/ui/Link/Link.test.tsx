@@ -1,4 +1,4 @@
-import { fireEvent, renderNative, screen } from '@/__tests__/helpers/renderNative';
+import { fireEvent, renderNative, renderNativeInRouter, screen } from '@/__tests__/helpers/renderNative';
 import { openBrowserAsync } from 'expo-web-browser';
 import { Link } from './Link';
 
@@ -19,12 +19,14 @@ test('ouvre un lien externe dans le navigateur intégré avec target="_blank"', 
 });
 
 test("garde la navigation de l'app pour une route interne", async () => {
-  await renderNative(
+  const router = await renderNativeInRouter(
     <Link href="/quelque-part" target="_blank">
       Aller
     </Link>,
+    '/quelque-part',
   );
 
   await fireEvent.press(screen.getByRole('link'));
   expect(openBrowserAsync).not.toHaveBeenCalled();
+  expect(router.getPathname()).toBe('/quelque-part');
 });
