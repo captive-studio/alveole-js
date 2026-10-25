@@ -38,6 +38,13 @@ possible. Une logique qui ne serait testable que par rendu est d'abord extraite
 dans un module pur, puis testée au niveau 1. Le rendu jsdom n'est pas le niveau
 par défaut : il est réservé au contrat.
 
+Seule exception à « aucune assertion nouvelle » au niveau 3 : une affirmation
+que jsdom ne sait pas établir du tout, faute de moteur de mise en page ou
+d'arbre d'accessibilité calculé. Elle naît directement au niveau 3, puisqu'aucun
+niveau inférieur ne pourrait la porter. C'est le cas de l'élément `<box>` : sa
+boîte face à une div et son absence de rôle dans l'arbre d'accessibilité du
+navigateur (`apps/docs/e2e/box.spec.ts`).
+
 ## L'accessibilité aux trois endroits
 
 La migration ne retire aucune vérification d'accessibilité, elle la répartit :
