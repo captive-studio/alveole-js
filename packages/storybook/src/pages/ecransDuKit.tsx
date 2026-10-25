@@ -45,7 +45,7 @@ export const HomeScreen = ({
   return (
     <Page scrollable title={title} description={description}>
       <Section withPaddingY>
-        <Box display="flex" gap={16}>
+        <Box display="flex" gap="2W">
           <MenuCard
             title="Composants"
             description="Catalogue des composants et de leurs variantes."

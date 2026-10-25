@@ -20,8 +20,8 @@ export const StoryCard = ({ story, href }: StoryCardProps) => {
   return (
     <A href={href} style={{ height }}>
       <Card height={height}>
-        <Box display="flex" gap={12} p={'100'} style={{ height }}>
-          <Box display="flex" flexDirection="row" flexWrap="wrap" gap={8}>
+        <Box display="flex" gap="3V" p="2W" style={{ height }}>
+          <Box display="flex" flexDirection="row" flexWrap="wrap" gap="1W">
             {meta.tags.map(tag => (
               <Badge key={tag} variant="info" size="sm" style={{ marginRight: 0 }}>
                 {tag}

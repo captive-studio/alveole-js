@@ -15,7 +15,7 @@ export default {
 } satisfies Story;
 
 export const Default = () => (
-  <Box display="flex" flexDirection="column" gap={24}>
+  <Box display="flex" flexDirection="column" gap="3W">
     <FormControl label="Code de vérification">
       <OtpInput numberOfDigits={4} onChange={() => {}} />
     </FormControl>

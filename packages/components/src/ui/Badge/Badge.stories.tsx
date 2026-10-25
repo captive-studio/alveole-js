@@ -15,7 +15,7 @@ export default {
 
 export const Variants = () => (
   <Box>
-    <Box display="flex" flexDirection="column" gap={24}>
+    <Box display="flex" flexDirection="column" gap="3W">
       <Badge size="md" variant="default">
         Badge default
       </Badge>
@@ -39,7 +39,7 @@ export const Variants = () => (
 );
 
 export const Sizes = () => (
-  <Box display="flex" flexDirection="row" gap={24} flexWrap="wrap">
+  <Box display="flex" flexDirection="row" gap="3W" flexWrap="wrap">
     <Badge size="sm" variant="info" m="auto">
       Badge small
     </Badge>
@@ -50,7 +50,7 @@ export const Sizes = () => (
 );
 
 export const Icons = () => (
-  <Box display="flex" flexDirection="row" gap={24} flexWrap="wrap">
+  <Box display="flex" flexDirection="row" gap="3W" flexWrap="wrap">
     <Badge size="sm" variant="info" icon="Check">
       Badge small
     </Badge>

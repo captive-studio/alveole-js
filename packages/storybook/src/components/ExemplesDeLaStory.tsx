@@ -17,9 +17,9 @@ const UnExemple = ({ story, nom, Rendu, gabarit }: UnExempleProps) => {
   const description = descriptionDeLExemple(story, nom);
 
   return (
-    <Box display="flex" gap={12}>
+    <Box display="flex" gap="3V">
       {!gabarit ? (
-        <Box display="flex" gap={6}>
+        <Box display="flex" gap="1,5V">
           <AnchorHeading style={text.Titres['H5 - XS']}>{nom}</AnchorHeading>
           {description ? <MarkdownDescription>{description}</MarkdownDescription> : null}
         </Box>
@@ -42,7 +42,7 @@ const StatutDeLaFiche = ({ meta }: { meta: StorybookMeta }) => {
 
   return (
     <Box display="flex" flexDirection="row" style={{ alignItems: 'center', justifyContent: 'space-between' }}>
-      <Box display="flex" flexDirection="row" flexWrap="wrap" gap={8}>
+      <Box display="flex" flexDirection="row" flexWrap="wrap" gap="1W">
         {meta.tags.map(tag => (
           <Tag key={tag} size="md">
             {tag}
@@ -77,7 +77,7 @@ export type ExemplesDeLaStoryProps = {
 export const ExemplesDeLaStory = ({ story, exemples, gabarit }: ExemplesDeLaStoryProps) => (
   // Le premier exemple se detache de la barre d'onglets comme les exemples se detachent
   // entre eux : a 6 px son titre se lisait comme le libelle de l'onglet actif.
-  <Box display="flex" gap={40} mt={'5W'}>
+  <Box display="flex" gap="5W" mt={'5W'}>
     <StatutDeLaFiche meta={story.default} />
 
     {exemples.map(([nom, Rendu]) => (

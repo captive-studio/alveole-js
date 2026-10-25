@@ -57,7 +57,7 @@ export const MarkdownDescription = ({ children, taille = 'MD', color: textColor 
   const components = Platform.OS === 'web' ? createMarkdownComponents(styles) : createNativeMarkdownComponents(styles);
 
   return (
-    <Box tag="markdown-description" display="flex" gap={8} style={{ alignSelf: 'stretch' }}>
+    <Box tag="markdown-description" display="flex" gap="1W" style={{ alignSelf: 'stretch' }}>
       <ReactMarkdown
         remarkPlugins={[remarkGfm, replierLesCoupuresDeLigne]}
         rehypePlugins={Platform.OS === 'web' ? [] : [preparerMarkdownNatif]}

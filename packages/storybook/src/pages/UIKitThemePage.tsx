@@ -33,7 +33,7 @@ export const UIKitThemePage = ({
       beforeContent={beforeContent}
     >
       <Section withPaddingY>
-        <Box display="flex" gap={16}>
+        <Box display="flex" gap="2W">
           <MenuCard title="Couleurs" description="Palette et couleurs du thème." onPress={onOpenColors} />
           <MenuCard
             title="Typographies"

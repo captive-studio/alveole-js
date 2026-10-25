@@ -14,7 +14,7 @@ export default {
 } satisfies Story;
 
 export const End = () => (
-  <Box display="flex" flexDirection="column" gap={24}>
+  <Box display="flex" flexDirection="column" gap="3W">
     <FormControl>
       <InputButtonAdornment icon="Eye" position="end" accessibilityLabel="Afficher" onPress={() => {}} />
     </FormControl>

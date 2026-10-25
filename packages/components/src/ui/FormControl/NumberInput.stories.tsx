@@ -1,3 +1,4 @@
+import { Spacings } from '@alveole/theme';
 import { useState } from 'react';
 import { Box } from '../../core/Box';
 import { Typography } from '../../core/Typography';
@@ -33,12 +34,12 @@ export const AvecUnites = () => {
         value={value}
         onChange={setValue}
         startAdornment={
-          <Box style={{ paddingLeft: 8, paddingRight: 4 }}>
+          <Box style={{ paddingLeft: Spacings['1W'], paddingRight: Spacings['1V'] }}>
             <Typography>€</Typography>
           </Box>
         }
         endAdornment={
-          <Box style={{ paddingLeft: 4, paddingRight: 8 }}>
+          <Box style={{ paddingLeft: Spacings['1V'], paddingRight: Spacings['1W'] }}>
             <Typography>TTC</Typography>
           </Box>
         }

@@ -9,7 +9,7 @@ const EtapeDInstallationSection = ({ titre, paragraphes, extraits = [] }: EtapeD
   const { text } = useTheme();
 
   return (
-    <Box display="flex" gap={8} mb={'400'}>
+    <Box display="flex" gap="1W" mb="8W">
       <AnchorHeading style={text.Titres['H4 - SM']}>{titre}</AnchorHeading>
       {paragraphes.map(paragraphe => (
         <Typography key={paragraphe} style={text['Corps de texte'].MD.Regular}>
@@ -17,7 +17,7 @@ const EtapeDInstallationSection = ({ titre, paragraphes, extraits = [] }: EtapeD
         </Typography>
       ))}
       {extraits.map(({ langage, fichier, source }) => (
-        <Box key={source} display="flex" gap={4}>
+        <Box key={source} display="flex" gap="1V">
           {fichier ? <Typography style={text['Corps de texte'].SM.Bold}>{fichier}</Typography> : null}
           <JsonBlock language={langage} value={source} />
         </Box>
@@ -42,7 +42,7 @@ export const InstallationPage = ({ beforeContent, sidebar, footerContent }: Inst
       footerContent={footerContent}
       sommaire={ETAPES_D_INSTALLATION.map(({ titre }) => titre)}
     >
-      <Box display="flex" gap={0}>
+      <Box display="flex" gap="0V">
         {ETAPES_D_INSTALLATION.map(etape => (
           <EtapeDInstallationSection key={etape.titre} {...etape} />
         ))}

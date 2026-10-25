@@ -32,7 +32,7 @@ export const RadioGroupCard = (props: RadioGroupCardProps) => {
           <Box style={styles.radioGroupCardContent}>
             <RadioInput value={value} id={id} size="sm" />
             {leading != null && (
-              <Box display="flex" flexDirection="row" gap={'050'} style={styles.itemCardIcon}>
+              <Box display="flex" flexDirection="row" gap="1W" style={styles.itemCardIcon}>
                 <LeadingSlot contenu={leading} apparence={{ size: 'sm' }} />
               </Box>
             )}

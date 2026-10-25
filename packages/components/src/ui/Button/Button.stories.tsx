@@ -36,7 +36,7 @@ export default {
  * Pour ce qui navigue, prendre `A`. Pour l'action discrète sans cadre, c'est `tertiary`.
  */
 export const Variants = () => (
-  <Box display="flex" flexDirection="row" flexWrap={'wrap'} gap={24}>
+  <Box display="flex" flexDirection="row" flexWrap={'wrap'} gap="3W">
     <Button variant="primary" title="Primary" />
     <Button variant="secondary" title="Secondary" />
     <Button variant="tertiary" title="Tertiary" />
@@ -46,7 +46,7 @@ export const Variants = () => (
 
 /** `md` par défaut. `sm` pour les zones denses, `lg` pour une action qu'on veut mettre en avant. */
 export const Sizes = () => (
-  <Box display="flex" flexDirection="row" flexWrap={'wrap'} style={{ alignItems: 'center' }} gap={24}>
+  <Box display="flex" flexDirection="row" flexWrap={'wrap'} style={{ alignItems: 'center' }} gap="3W">
     <Button variant="secondary" size="sm" title="Sm" />
     <Button variant="secondary" size="md" title="Md" />
     <Button variant="secondary" size="lg" title="Lg" />
@@ -60,7 +60,7 @@ export const Sizes = () => (
  *   l'état accessible correspondant, ce que `selected` ne fait pas.
  */
 export const States = () => (
-  <Box display="flex" flexDirection="row" flexWrap={'wrap'} gap={24}>
+  <Box display="flex" flexDirection="row" flexWrap={'wrap'} gap="3W">
     <Button variant="secondary" title="Default" />
     <Button variant="secondary" title="Disabled" disabled />
     <Button variant="secondary" title="Selected" selected />
@@ -99,7 +99,7 @@ export const Loading = () => {
   };
 
   return (
-    <Box display="flex" flexDirection="row" flexWrap={'wrap'} gap={24}>
+    <Box display="flex" flexDirection="row" flexWrap={'wrap'} gap="3W">
       <Button variant="primary" title="Enregistrer" isLoading={isLoading} onPress={handlePress} />
       <Button variant="secondary" title="Exporter" leading="Download" isLoading={isLoading} onPress={handlePress} />
       <Button variant="primary" title="Délai court" loadingDelay="short" isLoading={isLoading} onPress={handlePress} />
@@ -127,7 +127,7 @@ export const OnPressAsynchrone = () => {
   };
 
   return (
-    <Box display="flex" flexDirection="row" flexWrap={'wrap'} gap={24} style={{ alignItems: 'center' }}>
+    <Box display="flex" flexDirection="row" flexWrap={'wrap'} gap="3W" style={{ alignItems: 'center' }}>
       <Button variant="primary" title="Envoyer" loadingDelay="short" onPress={envoyer} />
       <Typography>Envois : {envois}</Typography>
     </Box>
@@ -136,7 +136,7 @@ export const OnPressAsynchrone = () => {
 
 /** `leading` place l’icône avant le libellé, `trailing` après. Les deux peuvent coexister. */
 export const Icons = () => (
-  <Box display="flex" flexDirection="row" flexWrap={'wrap'} gap={24}>
+  <Box display="flex" flexDirection="row" flexWrap={'wrap'} gap="3W">
     <Button variant="secondary" title="Leading" leading="Plus" />
     <Button variant="secondary" title="Trailing" trailing="Download" />
     <Button variant="secondary" title="Filtres" leading="Plus" trailing="ChevronDown" />
@@ -149,7 +149,7 @@ export const Icons = () => (
  * que le bouton garde sa hauteur et son alignement.
  */
 export const TertiaireAvecAvatar = () => (
-  <Box display="flex" flexDirection="row" flexWrap={'wrap'} gap={24} style={{ alignItems: 'center' }}>
+  <Box display="flex" flexDirection="row" flexWrap={'wrap'} gap="3W" style={{ alignItems: 'center' }}>
     <Button variant="tertiary" title="Marie Curie" leading={<Avatar size="xs" fallbackText="Marie Curie" />} />
     <Button variant="tertiary" title="Marie Curie" leading="User" />
   </Box>
@@ -172,7 +172,7 @@ export const TertiaireAvecAvatar = () => (
  * l'icône de celle du bouton.
  */
 export const IconOnly = () => (
-  <Box display="flex" flexDirection="row" flexWrap={'wrap'} gap={24} style={{ alignItems: 'center' }}>
+  <Box display="flex" flexDirection="row" flexWrap={'wrap'} gap="3W" style={{ alignItems: 'center' }}>
     <ButtonIcon variant="tertiary" size="sm" icon="MoreHorizontal" accessibilityLabel="Plus d'actions" />
     <ButtonIcon variant="tertiary" size="md" icon="MoreHorizontal" accessibilityLabel="Plus d'actions" />
     <ButtonIcon variant="tertiary" size="lg" icon="MoreHorizontal" accessibilityLabel="Plus d'actions" />

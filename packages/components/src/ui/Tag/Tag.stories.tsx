@@ -15,16 +15,16 @@ export default {
 } satisfies Story;
 
 export const Sizes = () => (
-  <Box display="flex" flexDirection="row" gap={24} flexWrap="wrap">
+  <Box display="flex" flexDirection="row" gap="3W" flexWrap="wrap">
     <Tag size="sm">Tag sm</Tag>
     <Tag size="md">Tag md</Tag>
   </Box>
 );
 
 export const Selection = () => (
-  <Box display="flex" flexDirection="column" gap={16}>
+  <Box display="flex" flexDirection="column" gap="2W">
     {(['sm', 'md'] as const).map(size => (
-      <Box key={size} display="flex" flexDirection="row" gap={24} flexWrap="wrap">
+      <Box key={size} display="flex" flexDirection="row" gap="3W" flexWrap="wrap">
         <Tag size={size}>Descriptive, inerte</Tag>
         <Tag size={size} interactive>
           Au repos, dans un groupe
@@ -41,7 +41,7 @@ export const Selection = () => (
 );
 
 export const Fermable = () => (
-  <Box display="flex" flexDirection="row" gap={24} flexWrap="wrap">
+  <Box display="flex" flexDirection="row" gap="3W" flexWrap="wrap">
     <Tag size="sm" closable onClose={() => {}}>
       Fermable sm
     </Tag>
@@ -55,7 +55,7 @@ export const Fermable = () => (
 );
 
 export const AvecIcone = () => (
-  <Box display="flex" flexDirection="row" gap={24} flexWrap="wrap">
+  <Box display="flex" flexDirection="row" gap="3W" flexWrap="wrap">
     <Tag size="sm" leading="Check">
       Validé
     </Tag>
@@ -72,7 +72,7 @@ export const AvecIcone = () => (
 );
 
 export const LibelleLong = () => (
-  <Box display="flex" flexDirection="row" gap={24} style={{ maxWidth: 260 }}>
+  <Box display="flex" flexDirection="row" gap="3W" style={{ maxWidth: 260 }}>
     <Tag size="md" closable onClose={() => {}}>
       Un libellé beaucoup trop long pour la place disponible
     </Tag>

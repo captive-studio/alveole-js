@@ -52,8 +52,8 @@ export const Controle = () => {
   const [ongletActif, setOngletActif] = React.useState('onglet-1');
 
   return (
-    <Box width={'100%'} gap={16}>
-      <Box flexDirection="row" gap={8}>
+    <Box width={'100%'} gap="2W">
+      <Box flexDirection="row" gap="1W">
         <Button title="Aller à l’onglet 1" variant="secondary" onPress={() => setOngletActif('onglet-1')} />
         <Button title="Aller à l’onglet 3" variant="secondary" onPress={() => setOngletActif('onglet-3')} />
       </Box>

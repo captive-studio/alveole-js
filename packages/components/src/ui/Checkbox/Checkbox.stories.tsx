@@ -17,7 +17,7 @@ export const Default = () => (
   <Box
     display="flex"
     flexDirection="column"
-    gap={24}
+    gap="3W"
     style={Platform.OS === 'web' ? undefined : { alignSelf: 'stretch' }}
   >
     <Checkbox label="Non coché" />
@@ -33,7 +33,7 @@ export const Sizes = () => (
   <Box
     display="flex"
     flexDirection="row"
-    gap={16}
+    gap="2W"
     style={Platform.OS === 'web' ? undefined : { alignSelf: 'stretch', flexWrap: 'wrap' }}
   >
     <Checkbox label="Size MD" size="md" />

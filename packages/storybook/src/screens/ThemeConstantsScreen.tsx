@@ -38,7 +38,7 @@ export const ThemeConstantsScreen = ({
       beforeContent={beforeContent}
       footerContent={footerContent}
     >
-      <Box display="flex" flexDirection="row" flexWrap="wrap" gap={16}>
+      <Box display="flex" flexDirection="row" flexWrap="wrap" gap="2W">
         {entries.map(([name, value]) => (
           <Box key={name} width={columns === 1 ? '100%' : columns === 2 ? '48%' : '31%'}>
             <Pressable
@@ -46,7 +46,7 @@ export const ThemeConstantsScreen = ({
               onPress={onSelectConstant ? () => onSelectConstant({ name, value }) : undefined}
             >
               <Card>
-                <Box p={'100'}>
+                <Box p="2W">
                   <Typography style={text.Titres['H5 - XS']}>{name}</Typography>
                 </Box>
               </Card>

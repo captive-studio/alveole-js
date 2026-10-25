@@ -12,7 +12,7 @@ export const StorySummary = ({ entrees }: StorySummaryProps) => {
   const { color, text } = useTheme();
 
   return (
-    <Box display="flex" gap={8}>
+    <Box display="flex" gap="1W">
       <Typography style={{ ...text['Corps de texte'].XS.CapsBold, color: color.light.text['mention-grey'] }}>
         Sur cette page
       </Typography>

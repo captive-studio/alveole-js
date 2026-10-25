@@ -15,7 +15,7 @@ export default {
 } satisfies Story;
 
 export const Default = () => (
-  <Box display="flex" flexDirection="row" gap={8} style={{ alignItems: 'center' }}>
+  <Box display="flex" flexDirection="row" gap="1W" style={{ alignItems: 'center' }}>
     <Counter variant="default" count={20} />
     <Counter variant="primary" count={20} />
   </Box>

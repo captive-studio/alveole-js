@@ -15,19 +15,19 @@ export default {
 } satisfies Story;
 
 export const Default = () => (
-  <Box p={4}>
+  <Box p="1V">
     <Breadcrumbs />
   </Box>
 );
 
 export const WithCustomRootLabel = () => (
-  <Box p={4}>
+  <Box p="1V">
     <Breadcrumbs rootLabel="Tableau de bord" />
   </Box>
 );
 
 export const WithCustomLabels = () => (
-  <Box p={4}>
+  <Box p="1V">
     <Breadcrumbs
       getLabel={(segment, _index, _path) => {
         const labels: Record<string, string> = {
@@ -44,7 +44,7 @@ export const WithCustomLabels = () => (
 );
 
 export const WithCustomHref = () => (
-  <Box p={4}>
+  <Box p="1V">
     <Breadcrumbs
       getHref={(segment, _index, path) => {
         const hrefs: Record<string, string> = {
@@ -57,7 +57,7 @@ export const WithCustomHref = () => (
 );
 
 export const WithNoLink = () => (
-  <Box p={4}>
+  <Box p="1V">
     <Breadcrumbs
       getHref={(segment, _index, path) => {
         const noLink = ['components'];
@@ -68,7 +68,7 @@ export const WithNoLink = () => (
 );
 
 export const WithSegmentsToSkip = () => (
-  <Box p={4}>
+  <Box p="1V">
     <Breadcrumbs
       segmentsToSkip={['admin', 'ui-kit', 'components']}
       getLabel={(segment, _index, _path) => {

@@ -1,5 +1,5 @@
 import { Accordion, Box, Typography, useToast } from '@alveole/components';
-import { useTheme } from '@alveole/theme';
+import { RadiusList, Spacings, useTheme } from '@alveole/theme';
 import React from 'react';
 import { Platform, Pressable } from 'react-native';
 import { EcranDeCatalogue, filDuTheme } from '../components/EcranDeCatalogue';
@@ -7,21 +7,25 @@ import { buildGroups, type CSSVarEntry } from './variablesCSSDuTheme';
 
 // ─── Preview components ────────────────────────────────────────────────────────
 
-const ColorPreview = ({ value }: { value: string }) => (
-  <Box
-    style={{
-      width: 28,
-      height: 28,
-      borderRadius: 6,
-      backgroundColor: value,
-      borderWidth: 1,
-      borderColor: 'rgba(0,0,0,0.1)',
-      flexShrink: 0,
-    }}
-  />
-);
+const ColorPreview = ({ value }: { value: string }) => {
+  const { color } = useTheme();
+  return (
+    <Box
+      style={{
+        width: 28,
+        height: 28,
+        borderRadius: RadiusList.md,
+        backgroundColor: value,
+        borderWidth: 1,
+        borderColor: color.light.border['default-grey'],
+        flexShrink: 0,
+      }}
+    />
+  );
+};
 
 const SpacingPreview = ({ value }: { value: string }) => {
+  const { color } = useTheme();
   const px = parseInt(value, 10);
   const width = Math.min(px, 96);
   return (
@@ -29,8 +33,8 @@ const SpacingPreview = ({ value }: { value: string }) => {
       style={{
         width,
         height: 12,
-        borderRadius: 2,
-        backgroundColor: '#3B82F6',
+        borderRadius: RadiusList.sm,
+        backgroundColor: color.light.background['flat-info'],
         flexShrink: 0,
         alignSelf: 'center',
       }}
@@ -39,6 +43,7 @@ const SpacingPreview = ({ value }: { value: string }) => {
 };
 
 const RadiusPreview = ({ value }: { value: string }) => {
+  const { color } = useTheme();
   const px = Math.min(parseInt(value, 10), 14);
   return (
     <Box
@@ -47,26 +52,28 @@ const RadiusPreview = ({ value }: { value: string }) => {
         height: 28,
         borderRadius: px,
         borderWidth: 2,
-        borderColor: '#3B82F6',
+        borderColor: color.light.border['plain-info'],
         flexShrink: 0,
       }}
     />
   );
 };
 
-const ElevationPreview = ({ value }: { value: string }) =>
-  Platform.OS === 'web' ? (
+const ElevationPreview = ({ value }: { value: string }) => {
+  const { color } = useTheme();
+  return Platform.OS === 'web' ? (
     <Box
       style={{
         width: 28,
         height: 28,
-        borderRadius: 4,
-        backgroundColor: 'white',
+        borderRadius: RadiusList.sm,
+        backgroundColor: color.light.background['default-grey'],
         boxShadow: value,
         flexShrink: 0,
       }}
     />
   ) : null;
+};
 
 // ─── Row ──────────────────────────────────────────────────────────────────────
 
@@ -89,10 +96,10 @@ const VarRow = ({ entry }: { entry: CSSVarEntry }) => {
           style={{
             flexDirection: 'row',
             alignItems: 'center',
-            gap: 12,
-            paddingVertical: 6,
-            paddingHorizontal: 12,
-            borderRadius: 6,
+            gap: Spacings['3V'],
+            paddingVertical: Spacings['1,5V'],
+            paddingHorizontal: Spacings['3V'],
+            borderRadius: RadiusList.md,
             backgroundColor: pressed ? color.light.background['transparent-hover'] : 'transparent',
           }}
         >
@@ -102,7 +109,7 @@ const VarRow = ({ entry }: { entry: CSSVarEntry }) => {
           {entry.preview === 'elevation' && <ElevationPreview value={entry.rawValue} />}
           {entry.preview === 'none' && <Box style={{ width: 28 }} />}
 
-          <Box style={{ flex: 1, gap: 1 }}>
+          <Box style={{ flex: 1, gap: Spacings['0,5V'] }}>
             <Typography
               style={{
                 fontSize: 12,

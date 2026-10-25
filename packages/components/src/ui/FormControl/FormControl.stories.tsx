@@ -54,7 +54,7 @@ export const WithSuccess = () => (
 );
 
 export const Label = () => (
-  <Box display="flex" flexDirection="column" gap={24}>
+  <Box display="flex" flexDirection="column" gap="3W">
     <FormControlLabel label="Label par defaut" />
     <FormControlLabel label="Desactive" disabled />
     <FormControlLabel label="Avec badge" labelRight={<Typography>Optionnel</Typography>} />
@@ -62,14 +62,14 @@ export const Label = () => (
 );
 
 export const Caption = () => (
-  <Box display="flex" flexDirection="column" gap={24}>
+  <Box display="flex" flexDirection="column" gap="3W">
     <FormControlCaption error="Champ requis" />
     <FormControlCaption success="Valeur correcte" />
   </Box>
 );
 
 export const Hint = () => (
-  <Box display="flex" flexDirection="column" gap={24}>
+  <Box display="flex" flexDirection="column" gap="3W">
     <FormControlHint hint="Texte descriptif du champ" />
     <FormControlHint hint="Texte desactive" disabled />
   </Box>
@@ -97,7 +97,7 @@ export const DateInput = () => {
   const [time, setTime] = useState('');
   const [month, setMonth] = useState('');
   return (
-    <Box display="flex" flexDirection="column" gap={12}>
+    <Box display="flex" flexDirection="column" gap="3V">
       <FormControl>
         <InputHeading>
           <FormControlLabel label="Date" />

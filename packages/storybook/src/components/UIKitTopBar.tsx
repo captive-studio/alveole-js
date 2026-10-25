@@ -183,7 +183,7 @@ export const UIKitTopBar = ({ activeKey, items, columnGroups = [], logo = null }
   }
 
   const right = (
-    <Box display="flex" flexDirection="row" flexWrap="wrap" gap={8}>
+    <Box display="flex" flexDirection="row" flexWrap="wrap" gap="1W">
       {items.map(({ key, ...item }) => (
         <NavItem key={key} {...item} current={activeKey === key} />
       ))}

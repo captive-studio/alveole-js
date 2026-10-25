@@ -8,7 +8,7 @@ const PhilosophySection = ({ titre, paragraphes }: SectionDePhilosophie) => {
   const { text } = useTheme();
 
   return (
-    <Box display="flex" gap={8} mb={'400'}>
+    <Box display="flex" gap="1W" mb="8W">
       <AnchorHeading style={text.Titres['H4 - SM']}>{titre}</AnchorHeading>
       {paragraphes.map(paragraphe => (
         <Typography key={paragraphe} style={text['Corps de texte'].MD.Regular}>
@@ -35,7 +35,7 @@ export const PhilosophyPage = ({ beforeContent, sidebar, footerContent }: Philos
       footerContent={footerContent}
       sommaire={SECTIONS_DE_PHILOSOPHIE.map(({ titre }) => titre)}
     >
-      <Box display="flex" gap={0}>
+      <Box display="flex" gap="0V">
         {SECTIONS_DE_PHILOSOPHIE.map(section => (
           <PhilosophySection key={section.titre} {...section} />
         ))}

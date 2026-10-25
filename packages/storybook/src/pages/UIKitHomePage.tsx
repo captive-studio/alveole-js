@@ -19,7 +19,7 @@ export const UIKitHomePage = ({
   return (
     <Page scrollable title={title} description={description}>
       <Section withPaddingY>
-        <Box display="flex" gap={16}>
+        <Box display="flex" gap="2W">
           <MenuCard
             title="Composants"
             description="Liste des composants disponibles pour le développement."

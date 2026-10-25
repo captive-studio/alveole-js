@@ -65,7 +65,7 @@ export const TextInputArray = (props: TextInputArrayProps) => {
         />
       ))}
 
-      <Box display="flex" flexDirection="row" pt={'100'} justify={'flex-start'}>
+      <Box display="flex" flexDirection="row" pt="2W" justify={'flex-start'}>
         <Button variant="tertiary" leading="Plus" title={addTitle} onPress={() => addItem()} />
       </Box>
     </Box>

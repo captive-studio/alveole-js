@@ -1,3 +1,4 @@
+import { Spacings } from '@alveole/theme';
 import type { Components } from 'react-markdown';
 import { Linking } from 'react-native';
 import { Box } from '../Box';
@@ -62,12 +63,12 @@ const tableauxNatifs = ({ bodyStyle, boldStyle, borderColor, headerBg }: Markdow
   tbody: ({ children }) => <Box>{children}</Box>,
   tr: ({ children }) => <Box style={{ flexDirection: 'row' }}>{children}</Box>,
   th: ({ children }) => (
-    <Box p={8} borderWidth={1} borderColor={borderColor} style={{ flex: 1, minWidth: 0 }}>
+    <Box p="1W" borderWidth={1} borderColor={borderColor} style={{ flex: 1, minWidth: 0 }}>
       <Typography style={boldStyle}>{children}</Typography>
     </Box>
   ),
   td: ({ children }) => (
-    <Box p={8} borderWidth={1} borderColor={borderColor} style={{ flex: 1, minWidth: 0 }}>
+    <Box p="1W" borderWidth={1} borderColor={borderColor} style={{ flex: 1, minWidth: 0 }}>
       <Typography style={bodyStyle}>{children}</Typography>
     </Box>
   ),
@@ -76,7 +77,7 @@ const tableauxNatifs = ({ bodyStyle, boldStyle, borderColor, headerBg }: Markdow
 export const createNativeMarkdownComponents = (styles: MarkdownComponentsStyles): Components => ({
   ...createMarkdownComponents(styles),
   ...tableauxNatifs(styles),
-  section: ({ children }) => <Box style={{ gap: 8 }}>{children}</Box>,
+  section: ({ children }) => <Box style={{ gap: Spacings['1W'] }}>{children}</Box>,
   sup: ({ children }) => <Typography style={styles.bodyStyle}>{children}</Typography>,
   h5: ({ children }) => (
     <Typography style={styles.titres['H6 - XXS']} color={styles.titleColor}>
@@ -102,9 +103,9 @@ export const createNativeMarkdownComponents = (styles: MarkdownComponentsStyles)
   li: ({ children, node }) => {
     const marque = node?.properties?.['data-marker'];
     return (
-      <Box style={{ flexDirection: 'row', gap: 8, alignItems: 'flex-start' }}>
+      <Box style={{ flexDirection: 'row', gap: Spacings['1W'], alignItems: 'flex-start' }}>
         <Typography style={styles.bodyStyle}>{typeof marque === 'string' ? marque : '•'}</Typography>
-        <Box style={{ flex: 1, gap: 4 }}>{children}</Box>
+        <Box style={{ flex: 1, gap: Spacings['1V'] }}>{children}</Box>
       </Box>
     );
   },

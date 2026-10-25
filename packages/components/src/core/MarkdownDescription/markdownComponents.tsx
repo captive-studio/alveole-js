@@ -1,4 +1,4 @@
-import { FOCUS_ATTRIBUTE, Theme } from '@alveole/theme';
+import { FOCUS_ATTRIBUTE, RadiusList, Spacings, Theme } from '@alveole/theme';
 import React from 'react';
 import type { Components } from 'react-markdown';
 import { TextStyle as RNTextStyle } from 'react-native';
@@ -86,17 +86,17 @@ export const createHeadingComponents = (titres: Theme['text']['Titres'], titleCo
 
 const createListComponents = (bodyStyle: TextStyle): Components => ({
   ul: ({ children: c }: AvecEnfants) => (
-    <Box display="flex" gap={4}>
+    <Box display="flex" gap="1V">
       {c}
     </Box>
   ),
   ol: ({ children: c }: AvecEnfants) => (
-    <Box display="flex" gap={4}>
+    <Box display="flex" gap="1V">
       {c}
     </Box>
   ),
   li: ({ children: c }: AvecEnfants) => (
-    <Box display="flex" flexDirection="row" gap={8} style={{ alignItems: 'flex-start' }}>
+    <Box display="flex" flexDirection="row" gap="1W" style={{ alignItems: 'flex-start' }}>
       <Typography style={bodyStyle}>{'•'}</Typography>
       <Typography style={[bodyStyle, { flex: 1 }]}>{c}</Typography>
     </Box>
@@ -127,8 +127,8 @@ const createBlockComponents = (borderColor: string): Components => ({
     <Box
       tag="blockquote"
       display="flex"
-      pl={12}
-      style={{ margin: 0, borderLeftWidth: 2, borderLeftColor: borderColor }}
+      pl="3V"
+      style={{ margin: Spacings['0V'], borderLeftWidth: 2, borderLeftColor: borderColor }}
     >
       {c}
     </Box>
@@ -153,7 +153,7 @@ type TableComponentStyles = Pick<MarkdownComponentsStyles, 'bodyStyle' | 'boldSt
 
 const createTableComponents = ({ bodyStyle, boldStyle, borderColor, headerBg }: TableComponentStyles) => ({
   table: ({ children: c }: AvecEnfants) => (
-    <Box tag="div" borderWidth={1} borderColor={borderColor} borderRadius={8} overflow="hidden">
+    <Box tag="div" borderWidth={1} borderColor={borderColor} borderRadius={RadiusList.md} overflow="hidden">
       <Box tag="table" style={{ display: 'table', borderCollapse: 'collapse', width: '100%' }}>
         {c}
       </Box>
@@ -184,10 +184,10 @@ const createTableComponents = ({ bodyStyle, boldStyle, borderColor, headerBg }: 
       tag="th"
       borderWidth={1}
       borderColor={borderColor}
-      pt={8}
-      pb={8}
-      pl={12}
-      pr={12}
+      pt="1W"
+      pb="1W"
+      pl="3V"
+      pr="3V"
       style={{ display: 'table-cell', textAlign: 'left', backgroundColor: headerBg }}
     >
       <Typography style={boldStyle}>{c}</Typography>
@@ -198,10 +198,10 @@ const createTableComponents = ({ bodyStyle, boldStyle, borderColor, headerBg }: 
       tag="td"
       borderWidth={1}
       borderColor={borderColor}
-      pt={8}
-      pb={8}
-      pl={12}
-      pr={12}
+      pt="1W"
+      pb="1W"
+      pl="3V"
+      pr="3V"
       style={{ display: 'table-cell' }}
     >
       <Typography style={bodyStyle}>{c}</Typography>

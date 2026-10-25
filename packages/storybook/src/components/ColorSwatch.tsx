@@ -1,5 +1,5 @@
 import { Box, Typography, useToast } from '@alveole/components';
-import { useTheme } from '@alveole/theme';
+import { Spacings, useTheme } from '@alveole/theme';
 import { Pressable } from 'react-native';
 import { copier } from '../pressePapiers';
 import { ColorEntry } from '../screens/paletteSections';
@@ -35,8 +35,8 @@ export const ColorSwatch = ({ entry }: { entry: ColorEntry }) => {
           <Box style={{ height: 56, backgroundColor: entry.value }} />
           <Box
             style={{
-              paddingHorizontal: 8,
-              paddingVertical: 6,
+              paddingHorizontal: Spacings['1W'],
+              paddingVertical: Spacings['1,5V'],
               backgroundColor: color.light.background['default-grey'],
             }}
           >

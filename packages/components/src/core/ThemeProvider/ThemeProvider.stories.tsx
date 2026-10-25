@@ -1,4 +1,4 @@
-import { useTheme } from '@alveole/theme';
+import { RadiusList, Spacings, useTheme } from '@alveole/theme';
 import type { ReactNode } from 'react';
 import { Story } from '../../type';
 import { Box } from '../Box';
@@ -25,17 +25,22 @@ const ModeBadge = ({ children }: { children: ReactNode }) => {
     <Box
       display="flex"
       flexDirection="row"
-      gap={8}
+      gap="1W"
       style={{
         alignItems: 'center',
-        paddingHorizontal: 12,
-        paddingVertical: 8,
-        borderRadius: 8,
+        paddingHorizontal: Spacings['3V'],
+        paddingVertical: Spacings['1W'],
+        borderRadius: RadiusList.md,
         backgroundColor: color.light.background['default-grey'],
       }}
     >
       <Box
-        style={{ width: 8, height: 8, borderRadius: 4, backgroundColor: color.light.background['active-primary'] }}
+        style={{
+          width: 8,
+          height: 8,
+          borderRadius: RadiusList.full,
+          backgroundColor: color.light.background['active-primary'],
+        }}
       />
       <Typography style={text['Corps de texte'].SM.Regular}>{children}</Typography>
     </Box>
@@ -59,7 +64,7 @@ const ModeBadge = ({ children }: { children: ReactNode }) => {
  * ```
  */
 export const UsageDefaut = () => (
-  <Box display="flex" flexDirection="column" gap={12}>
+  <Box display="flex" flexDirection="column" gap="3V">
     <ModeBadge>Mode actif : injection dynamique via balises &lt;style&gt;</ModeBadge>
     <Highlight language="tsx">
       {`import { ThemeProvider } from '@alveole/theme';
@@ -114,7 +119,7 @@ export const UsageCSSStatique = () => {
   const { color, text } = useTheme();
 
   return (
-    <Box display="flex" flexDirection="column" gap={12}>
+    <Box display="flex" flexDirection="column" gap="3V">
       <ModeBadge>Mode actif : CSS pré-compilé - aucune balise &lt;style&gt; injectée</ModeBadge>
       <Highlight language="tsx">
         {`import '@alveole/theme/dist/default.css';
@@ -131,11 +136,11 @@ export default function RootLayout() {
       <Box
         display="flex"
         flexDirection="column"
-        gap={8}
+        gap="1W"
         style={{
-          paddingHorizontal: 12,
-          paddingVertical: 10,
-          borderRadius: 8,
+          paddingHorizontal: Spacings['3V'],
+          paddingVertical: Spacings['3V'],
+          borderRadius: RadiusList.md,
           backgroundColor: color.light.background['action-high-error'],
         }}
       >

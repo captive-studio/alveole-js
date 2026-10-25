@@ -12,7 +12,7 @@ export const EnTeteDeFiche = ({ meta }: { meta: StorybookMeta }) => {
   const { color } = useTheme();
 
   return (
-    <Box display="flex" gap={16}>
+    <Box display="flex" gap="2W">
       <PageTitle title={meta.title} />
       <MarkdownDescription taille="LG" color={color.light.text['mention-grey']}>
         {meta.description}

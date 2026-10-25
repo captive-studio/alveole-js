@@ -21,7 +21,7 @@ export const Formulaire = () => {
   const [fichiers, setFichiers] = useState<FileInputValue>(null);
   return (
     <FileDropZone value={fichiers} onChange={setFichiers} multiple>
-      <Box display="flex" flexDirection="column" gap={16} p={16}>
+      <Box display="flex" flexDirection="column" gap="2W" p="2W">
         <FormControl label="Titre">
           <TextInput value={titre} onChangeText={setTitre} />
         </FormControl>
@@ -37,7 +37,7 @@ export const Desactivee = () => {
   const [fichiers, setFichiers] = useState<FileInputValue>(null);
   return (
     <FileDropZone value={fichiers} onChange={setFichiers} multiple disabled>
-      <Box p={16}>
+      <Box p="2W">
         <FormControl label="Pièces jointes" disabled>
           <FileInput value={fichiers} onChange={setFichiers} multiple disabled />
         </FormControl>
@@ -50,7 +50,7 @@ export const MessagePersonnalise = () => {
   const [photo, setPhoto] = useState<FileInputValue>(null);
   return (
     <FileDropZone value={photo} onChange={setPhoto} type="image/*" message="Lâchez la photo pour l'ajouter">
-      <Box p={16}>
+      <Box p="2W">
         <FormControl label="Photo">
           <FileInput value={photo} onChange={setPhoto} type="image/*" />
         </FormControl>
