@@ -32,3 +32,13 @@ test('aligne le titre de groupe sur la verticale des libellés de ses items', as
   expect(debutDuTitre).toBeGreaterThan(0);
   expect(libelle?.x).toBe(debutDuTitre);
 });
+
+test('applique la variante demandée au compteur', async ({ page }) => {
+  const fond = (titre: string) =>
+    navigation(page)
+      .locator('sidebar-item', { hasText: titre })
+      .locator('counter')
+      .evaluate(compteur => window.getComputedStyle(compteur).backgroundColor);
+
+  expect(await fond('Item 3')).not.toBe(await fond('Item 2'));
+});

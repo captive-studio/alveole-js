@@ -36,3 +36,18 @@ test('garde au pouce son aplat, sans ombre', async ({ page }) => {
 
   await expect(pouce).toHaveCSS('box-shadow', 'none');
 });
+
+// La piste se dimensionnait sur le token `$true` de la config de l'application, que la config
+// v5 de Tamagui v3 ne fournit plus : piste et pouce perdaient leur taille de Tamagui v2.
+test('garde à la piste et au pouce la taille de Tamagui v2', async ({ page }) => {
+  await openRoute(page, '/components/Switch');
+  const piste = page.getByRole('main').getByRole('switch').first();
+
+  const boite = await piste.boundingBox();
+  const pouce = await piste.locator('[data-disable-theme]').boundingBox();
+
+  expect({ piste: [boite?.width, boite?.height], pouce: [pouce?.width, pouce?.height] }).toEqual({
+    piste: [62, 33],
+    pouce: [29, 29],
+  });
+});

@@ -40,6 +40,7 @@ export const ExampleUsage = () => {
     >
       <SidebarItem pressable title="Item 1" onPress={console.log} />
       <SidebarItem pressable title="Item 2" counter={3} onPress={console.log} />
+      <SidebarItem pressable title="Item 3" counter={5} counterVariant="primary" onPress={console.log} />
 
       <SidebarGroup title="Groupe">
         <SidebarItem pressable title="Item group 1" onPress={console.log} />
