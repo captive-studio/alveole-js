@@ -163,7 +163,7 @@ export const cardSectionWithLink = () => {
 
 export const cardHeader = () => {
   return (
-    <Box display="flex" flexDirection="column" gap="100">
+    <Box display="flex" flexDirection="column" gap="2W">
       <Card.Header
         titre="Titre lorem"
         sousTitre="Sous-titre"

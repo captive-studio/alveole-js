@@ -23,9 +23,9 @@ export const GrilleDeFiches = ({ groupes, largeurDeFiche, getStoryHref, messageV
   if (groupes.length === 0) return <Typography style={text['Corps de texte'].MD.Regular}>{messageVide}</Typography>;
 
   return groupes.map(([tag, fiches]) => (
-    <Box key={tag} display="flex" gap={16}>
+    <Box key={tag} display="flex" gap="2W">
       <Typography style={text.Titres['H4 - SM']}>{tag}</Typography>
-      <Box display="flex" flexDirection="row" flexWrap="wrap" gap={16}>
+      <Box display="flex" flexDirection="row" flexWrap="wrap" gap="2W">
         {fiches.map(fiche => (
           <Box key={fiche.default.title} style={{ alignSelf: 'stretch', width: largeurDeFiche }}>
             <StoryCard story={fiche} href={getStoryHref(fiche)} />

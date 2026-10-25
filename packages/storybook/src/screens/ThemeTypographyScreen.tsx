@@ -1,5 +1,5 @@
 import { Box, Card, Typography } from '@alveole/components';
-import { useTheme } from '@alveole/theme';
+import { Spacings, useTheme } from '@alveole/theme';
 import { TextStyle as RNTextStyle, View } from 'react-native';
 import { EcranDeCatalogue, filDuTheme } from '../components/EcranDeCatalogue';
 
@@ -64,8 +64,8 @@ const MUTED_COLOR = '#6B7280';
 const PREVIEW_WIDTH = 96;
 
 const TableHeader = ({ labelStyle }: { labelStyle: TextStyle }) => (
-  <Box display="flex" gap={0}>
-    <Box display="flex" flexDirection="row" style={{ paddingVertical: 8 }}>
+  <Box display="flex" gap="0V">
+    <Box display="flex" flexDirection="row" style={{ paddingVertical: Spacings['1W'] }}>
       <Box style={{ width: PREVIEW_WIDTH }}>
         <Typography style={labelStyle}>Aperçu</Typography>
       </Box>
@@ -93,8 +93,8 @@ const TableRow = ({ entry, valueStyle }: { entry: StyleEntry; valueStyle: TextSt
   const { family, weight } = getFontInfo(entry.style);
 
   return (
-    <Box display="flex" gap={0}>
-      <Box display="flex" flexDirection="row" style={{ paddingVertical: 12, alignItems: 'center' }}>
+    <Box display="flex" gap="0V">
+      <Box display="flex" flexDirection="row" style={{ paddingVertical: Spacings['3V'], alignItems: 'center' }}>
         <Box style={{ width: PREVIEW_WIDTH }}>
           <Typography style={entry.style}>Aa</Typography>
         </Box>
@@ -146,12 +146,12 @@ export const ThemeTypographyScreen = ({
       footerContent={footerContent}
       breadcrumbsProps={filDuTheme}
     >
-      <Box display="flex" gap={16}>
+      <Box display="flex" gap="2W">
         {categories.map(({ key, entries }) => (
           <Card key={key}>
-            <Box display="flex" gap={16} p="150">
+            <Box display="flex" gap="2W" p="3W">
               <Typography style={text.Titres['H4 - SM']}>{key}</Typography>
-              <Box display="flex" gap={0}>
+              <Box display="flex" gap="0V">
                 <TableHeader labelStyle={labelStyle} />
                 {entries.map(entry => (
                   <TableRow key={entry.label} entry={entry} valueStyle={valueStyle} />

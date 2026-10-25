@@ -30,7 +30,7 @@ export const SearchField = ({ label, placeholder, value, onChangeText, size = 'm
   }, []);
 
   return (
-    <Box display="flex" gap={8}>
+    <Box display="flex" gap="1W">
       {label ? <Typography style={text['Corps de texte'].XS.CapsBold}>{label}</Typography> : null}
       <TextInput
         ref={inputRef}

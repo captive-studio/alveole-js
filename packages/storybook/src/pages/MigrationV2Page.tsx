@@ -8,7 +8,7 @@ const SectionDeMigrationV2 = ({ titre, markdown }: SectionDeMigration) => {
   const { text } = useTheme();
 
   return (
-    <Box display="flex" gap={8} mb={'400'}>
+    <Box display="flex" gap="1W" mb="8W">
       <AnchorHeading style={text.Titres['H4 - SM']}>{titre}</AnchorHeading>
       <MarkdownDescription>{markdown}</MarkdownDescription>
     </Box>
@@ -31,8 +31,8 @@ export const MigrationV2Page = ({ beforeContent, sidebar, footerContent }: Migra
       footerContent={footerContent}
       sommaire={SECTIONS_DE_MIGRATION_V2.map(({ titre }) => titre)}
     >
-      <Box display="flex" gap={0}>
-        <Box mb={'400'}>
+      <Box display="flex" gap="0V">
+        <Box mb="8W">
           <MarkdownDescription>{INTRODUCTION_DE_MIGRATION_V2}</MarkdownDescription>
         </Box>
         {SECTIONS_DE_MIGRATION_V2.map(section => (

@@ -2,7 +2,7 @@ import { Box } from '../../core/Box';
 import { Divider } from '../Divider';
 
 export const ResourceListDivider = () => (
-  <Box pl="100" pr="100">
+  <Box pl="2W" pr="2W">
     <Divider />
   </Box>
 );

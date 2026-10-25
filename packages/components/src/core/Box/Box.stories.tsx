@@ -1,3 +1,4 @@
+import { Spacings, useTheme } from '@alveole/theme';
 import { Story } from '../../type';
 import { Typography } from '../Typography';
 import { Box } from './Box';
@@ -20,34 +21,43 @@ export const BoxDefault = () => (
 );
 
 export const BoxPadded = () => (
-  <Box tag="padded" p={16}>
+  <Box tag="padded" p="2W">
     <Typography>Box avec padding</Typography>
   </Box>
 );
 
-export const BoxPaddedWithBackground = () => (
-  <Box tag="padded-with-background" backgroundColor={'#f0f0f0'} p={16}>
-    <Typography>Box avec fond gris clair et padding</Typography>
-  </Box>
-);
+export const BoxPaddedWithBackground = () => {
+  const { color } = useTheme();
+  return (
+    <Box tag="padded-with-background" backgroundColor={color.light.background['alt-grey']} p="2W">
+      <Typography>Box avec fond gris clair et padding</Typography>
+    </Box>
+  );
+};
 
-export const BoxHovered = () => (
-  <Box tag="hovered" backgroundColor="hover:#f0f0f0">
-    <Typography>Box avec fond gris changeant au hover</Typography>
-  </Box>
-);
+export const BoxHovered = () => {
+  const { color } = useTheme();
+  return (
+    <Box tag="hovered" backgroundColor={`hover:${color.light.background['alt-grey']}`}>
+      <Typography>Box avec fond gris changeant au hover</Typography>
+    </Box>
+  );
+};
 
 // Sans tag, Box rend l'element inconnu <box> : il se met en page comme une div.
-export const BoxSansTag = () => (
-  <Box tag="box-comparaison" gap={8}>
-    <Box backgroundColor={'#f0f0f0'} p={16}>
-      <Typography>Box sans tag</Typography>
+export const BoxSansTag = () => {
+  const { color } = useTheme();
+  return (
+    <Box tag="box-comparaison" gap="1W">
+      <Box backgroundColor={color.light.background['alt-grey']} p="2W">
+        <Typography>Box sans tag</Typography>
+      </Box>
+      <Box tag="div" backgroundColor={color.light.background['alt-grey']} p="2W">
+        <Typography>Box en div</Typography>
+      </Box>
     </Box>
-    <Box tag="div" backgroundColor={'#f0f0f0'} p={16}>
-      <Typography>Box en div</Typography>
-    </Box>
-  </Box>
-);
+  );
+};
 
 // Dans un parent de hauteur indéfinie, `flex: 1` garde la hauteur de son contenu, en prop comme en style.
 export const BoxFlexDansParentIndefini = () => (
@@ -63,14 +73,14 @@ export const BoxFlexDansParentIndefini = () => (
 
 // Un style objet, en tableau ou en tableau imbriqué est fusionné avant d'atteindre le DOM.
 export const BoxStyles = () => (
-  <Box gap={8}>
-    <Box tag="box-style-objet" style={{ paddingLeft: 48 }}>
+  <Box gap="1W">
+    <Box tag="box-style-objet" style={{ paddingLeft: Spacings['6W'] }}>
       <Typography>Style objet</Typography>
     </Box>
-    <Box tag="box-style-tableau" style={[{ paddingLeft: 48 }, { marginTop: 0 }]}>
+    <Box tag="box-style-tableau" style={[{ paddingLeft: Spacings['6W'] }, { marginTop: Spacings['0V'] }]}>
       <Typography>Style en tableau</Typography>
     </Box>
-    <Box tag="box-style-imbrique" style={[[{ paddingLeft: 48 }], { marginTop: 0 }]}>
+    <Box tag="box-style-imbrique" style={[[{ paddingLeft: Spacings['6W'] }], { marginTop: Spacings['0V'] }]}>
       <Typography>Style en tableau imbriqué</Typography>
     </Box>
   </Box>

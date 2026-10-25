@@ -35,7 +35,7 @@ export const Cards = () => {
 };
 
 export const WithError = () => (
-  <Box display="flex" flexDirection="column" gap={24}>
+  <Box display="flex" flexDirection="column" gap="3W">
     <RadioGroup value="a" label="Avec erreur" error="Veuillez faire un choix">
       <RadioGroup.Item value="a">Option A</RadioGroup.Item>
       <RadioGroup.Item value="b">Option B</RadioGroup.Item>
@@ -47,7 +47,7 @@ export const RadioInput = () => {
   const [value, setValue] = useState('tutu');
 
   return (
-    <Box display="flex" flexDirection="column" gap={24}>
+    <Box display="flex" flexDirection="column" gap="3W">
       <RadioGroup.Input
         id="exemple-input"
         label="Petit"

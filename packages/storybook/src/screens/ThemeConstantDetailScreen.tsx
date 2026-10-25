@@ -30,12 +30,12 @@ export const ThemeConstantDetailScreen = ({
       beforeContent={beforeContent}
       footerContent={footerContent}
     >
-      <Box display="flex" gap={16}>
+      <Box display="flex" gap="2W">
         {entries.length === 0 ? (
           <JsonBlock value={value} />
         ) : (
           entries.map(([entryName, entryValue]) => (
-            <Box key={entryName} display="flex" gap={8}>
+            <Box key={entryName} display="flex" gap="1W">
               <Typography style={text.Titres['H6 - XXS']}>{entryName}</Typography>
               <JsonBlock value={entryValue} />
             </Box>

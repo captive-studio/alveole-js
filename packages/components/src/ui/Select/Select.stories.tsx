@@ -92,7 +92,7 @@ const LONG_OPTIONS: SelectOption[] = Array.from({ length: 60 }, (_, index) => ({
 export const Default = () => {
   const [value, setValue] = useState<string | null>(null);
   return (
-    <Box display="flex" flexDirection="column" gap={24}>
+    <Box display="flex" flexDirection="column" gap="3W">
       <FormControl label="Sélection">
         <Select placeholder="Choisir..." options={OPTIONS} value={value} onChange={setValue} />
       </FormControl>
@@ -101,7 +101,7 @@ export const Default = () => {
 };
 
 export const States = () => (
-  <Box display="flex" flexDirection="column" gap={24}>
+  <Box display="flex" flexDirection="column" gap="3W">
     <FormControl label="Avec valeur">
       <Select options={OPTIONS} value="b" />
     </FormControl>
@@ -120,7 +120,7 @@ export const States = () => (
 export const WithIcons = () => {
   const [value, setValue] = useState<string | null>('contact');
   return (
-    <Box display="flex" flexDirection="column" gap={24}>
+    <Box display="flex" flexDirection="column" gap="3W">
       <FormControl label="Type de ressource">
         <Select options={ICON_OPTIONS} value={value} onChange={setValue} />
       </FormControl>
@@ -131,7 +131,7 @@ export const WithIcons = () => {
 export const Grouped = () => {
   const [value, setValue] = useState<string | null>(null);
   return (
-    <Box display="flex" flexDirection="column" gap={24}>
+    <Box display="flex" flexDirection="column" gap="3W">
       <FormControl label="Type de document">
         <Select placeholder="Tous les types" options={GROUPED_OPTIONS} value={value} onChange={setValue} />
       </FormControl>
@@ -142,7 +142,7 @@ export const Grouped = () => {
 export const LongList = () => {
   const [value, setValue] = useState<string | null>('option-42');
   return (
-    <Box display="flex" flexDirection="column" gap={24}>
+    <Box display="flex" flexDirection="column" gap="3W">
       <FormControl label="Liste défilante">
         <Select options={LONG_OPTIONS} value={value} onChange={setValue} />
       </FormControl>
@@ -153,7 +153,7 @@ export const LongList = () => {
 export const Clearable = () => {
   const [value, setValue] = useState<string | null>('b');
   return (
-    <Box display="flex" flexDirection="column" gap={24}>
+    <Box display="flex" flexDirection="column" gap="3W">
       <FormControl label="Effaçable">
         <Select placeholder="Choisir..." options={OPTIONS} value={value} onChange={setValue} clearable />
       </FormControl>
@@ -165,7 +165,7 @@ export const Clearable = () => {
 export const Searchable = () => {
   const [value, setValue] = useState<string | null>(null);
   return (
-    <Box display="flex" flexDirection="column" gap={24}>
+    <Box display="flex" flexDirection="column" gap="3W">
       <FormControl label="Ville">
         <Select placeholder="Choisir..." searchable options={CITY_OPTIONS} value={value} onChange={setValue} />
       </FormControl>
@@ -196,7 +196,7 @@ export const RemoteSearch = () => {
   };
 
   return (
-    <Box display="flex" flexDirection="column" gap={24}>
+    <Box display="flex" flexDirection="column" gap="3W">
       <FormControl label="Recherche distante">
         <Select
           placeholder="Saisir au moins 3 caractères..."
@@ -218,7 +218,7 @@ export const RemoteSearch = () => {
 export const Multiple = () => {
   const [values, setValues] = useState<string[]>(['a']);
   return (
-    <Box display="flex" flexDirection="column" gap={24}>
+    <Box display="flex" flexDirection="column" gap="3W">
       <FormControl label="Sélection multiple">
         <Select placeholder="Choisir..." multiple clearable options={OPTIONS} value={values} onChange={setValues} />
       </FormControl>
@@ -240,7 +240,7 @@ export const Creatable = () => {
   };
 
   return (
-    <Box display="flex" flexDirection="column" gap={24}>
+    <Box display="flex" flexDirection="column" gap="3W">
       <FormControl label="Étiquettes">
         <Select
           placeholder="Rechercher ou créer..."
@@ -275,7 +275,7 @@ export const Address = () => {
   };
 
   return (
-    <Box display="flex" flexDirection="column" gap={24}>
+    <Box display="flex" flexDirection="column" gap="3W">
       <FormControl label="Adresse">
         <Select
           placeholder="ex : 3 rue Robespierre"

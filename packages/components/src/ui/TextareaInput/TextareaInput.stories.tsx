@@ -25,7 +25,7 @@ const Champ = ({ label, children }: { label: string; children: ReactNode }) => (
 );
 
 export const Default = () => (
-  <Box display="flex" flexDirection="column" gap={24}>
+  <Box display="flex" flexDirection="column" gap="3W">
     <Champ label="Message">
       <TextareaInput placeholder="Votre message..." numberOfLines={4} />
     </Champ>

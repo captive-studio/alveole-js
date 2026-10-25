@@ -107,7 +107,7 @@ export const Switch = React.forwardRef<SwitchElement, SwitchProps>(function Swit
   );
 
   return (
-    <Box tag="switch" gap={error || success ? spacingValue('050') : 0} style={styles.switchContainer}>
+    <Box tag="switch" gap={error || success ? spacingValue('1W') : '0V'} style={styles.switchContainer}>
       {!label ? Toggle : ToggleWithLabel}
     </Box>
   );

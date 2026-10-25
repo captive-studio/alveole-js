@@ -19,7 +19,7 @@ export default {
 export const Default = () => {
   const [value, setValue] = useState<number | null>(null);
   return (
-    <Box display="flex" flexDirection="column" gap={24}>
+    <Box display="flex" flexDirection="column" gap="3W">
       <FormControl label="Montant">
         <PriceInput value={value} onChange={setValue} />
       </FormControl>
@@ -31,7 +31,7 @@ export const Default = () => {
 };
 
 export const States = () => (
-  <Box display="flex" flexDirection="column" gap={24}>
+  <Box display="flex" flexDirection="column" gap="3W">
     <FormControl label="Erreur" error="Montant requis">
       <PriceInput value={null} error="Montant requis" onChange={() => {}} />
     </FormControl>

@@ -43,7 +43,7 @@ export const FormulaireDeBase = () => {
 
   return (
     <Form>
-      <Box display="flex" flexDirection="column" gap={16}>
+      <Box display="flex" flexDirection="column" gap="2W">
         <FormControl label="Nom" required>
           <TextInput value={nom} onChangeText={setNom} />
         </FormControl>
@@ -66,7 +66,7 @@ export const Validation = () => {
 
   return (
     <Form>
-      <Box display="flex" flexDirection="column" gap={16}>
+      <Box display="flex" flexDirection="column" gap="2W">
         <FormControl label="Adresse email" error={error} success={success} required>
           <TextInput type="email" value={email} onChangeText={setEmail} error={error} success={success} />
         </FormControl>
@@ -80,7 +80,7 @@ export const Fichiers = () => {
   const [pieces, setPieces] = useState<FileInputValue>(null);
   return (
     <FileDropZone value={pieces} onChange={setPieces} multiple>
-      <Box p={16}>
+      <Box p="2W">
         <FormControl label="Pièces jointes" hint="Glissez des fichiers n'importe où sur le formulaire.">
           <FileInput value={pieces} onChange={setPieces} multiple />
         </FormControl>
@@ -93,7 +93,7 @@ export const Clavier = () => {
   const prenom = React.useRef<React.ComponentRef<typeof TextInput>>(null);
   return (
     <Form>
-      <Box display="flex" flexDirection="column" gap={16}>
+      <Box display="flex" flexDirection="column" gap="2W">
         <FormControl label="Nom">
           <TextInput returnKeyType="next" submitBehavior="submit" onSubmitEditing={() => prenom.current?.focus()} />
         </FormControl>

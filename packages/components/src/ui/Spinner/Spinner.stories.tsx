@@ -23,7 +23,7 @@ La prop \`delay\` permet de retarder l'apparition du spinner pour éviter un fla
 } satisfies Story;
 
 export const Sizes = () => (
-  <Box display="flex" flexDirection="row" style={{ alignItems: 'center' }} gap={16}>
+  <Box display="flex" flexDirection="row" style={{ alignItems: 'center' }} gap="2W">
     <Spinner size="sm" />
     <Spinner size="md" />
     <Spinner size="lg" />
@@ -38,7 +38,7 @@ export const Sizes = () => (
  * régler le retard de son propre spinner pendant `isLoading`.
  */
 export const WithDelay = () => (
-  <Box display="flex" flexDirection="row" style={{ alignItems: 'center' }} gap={16}>
+  <Box display="flex" flexDirection="row" style={{ alignItems: 'center' }} gap="2W">
     <Spinner size="md" delay="short" key="short" />
     <Spinner size="md" delay="long" key="long" />
   </Box>

@@ -1,5 +1,5 @@
 import { ALVEOLE_COMPONENTS_VERSION, Box, Typography } from '@alveole/components';
-import { useTheme } from '@alveole/theme';
+import { Spacings, useTheme } from '@alveole/theme';
 
 export const DocFooter = () => {
   const { color, text } = useTheme();
@@ -11,10 +11,10 @@ export const DocFooter = () => {
       style={{
         borderTopWidth: 1,
         borderTopColor: color.light.border['default-grey'],
-        paddingTop: 12,
-        paddingBottom: 12,
-        paddingLeft: 24,
-        paddingRight: 24,
+        paddingTop: Spacings['3V'],
+        paddingBottom: Spacings['3V'],
+        paddingLeft: Spacings['3W'],
+        paddingRight: Spacings['3W'],
         display: 'flex',
         alignItems: 'center',
       }}

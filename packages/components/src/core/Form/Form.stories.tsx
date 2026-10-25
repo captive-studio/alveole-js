@@ -20,7 +20,7 @@ const inputStyle = { borderWidth: 1, borderColor: '#ccc', borderRadius: 4, paddi
 /** Taper dans le champ — cliquer en dehors ferme le clavier. */
 export const WithKeyboardAware = () => (
   <Form>
-    <Box display="flex" flexDirection="column" gap={12}>
+    <Box display="flex" flexDirection="column" gap="3V">
       <RNTextInput placeholder="Prénom" style={inputStyle} />
       <RNTextInput placeholder="Email" keyboardType="email-address" style={inputStyle} />
     </Box>

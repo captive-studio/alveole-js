@@ -1,3 +1,4 @@
+import { Spacings } from '@alveole/theme';
 import { Box } from '../../core/Box';
 import { Typography } from '../../core/Typography';
 import { Story } from '../../type';
@@ -32,17 +33,17 @@ export const Colored = () => <LucideIcon name="AArrowDown" size="md" color="gree
  * La prop `_platformOverride` est utilisée ici uniquement pour forcer l'affichage de chaque variante dans la story.
  */
 export const SharePerPlatform = () => (
-  <Box style={{ gap: 24 }}>
-    <Box style={{ flexDirection: 'row', gap: 24 }}>
-      <Box style={{ alignItems: 'center', gap: 8 }}>
+  <Box style={{ gap: Spacings['3W'] }}>
+    <Box style={{ flexDirection: 'row', gap: Spacings['3W'] }}>
+      <Box style={{ alignItems: 'center', gap: Spacings['1W'] }}>
         <Typography>Web</Typography>
         <LucideIcon name="Share" size="md" _platformOverride="web" />
       </Box>
-      <Box style={{ alignItems: 'center', gap: 8 }}>
+      <Box style={{ alignItems: 'center', gap: Spacings['1W'] }}>
         <Typography>Android</Typography>
         <LucideIcon name="Share" size="md" _platformOverride="android" />
       </Box>
-      <Box style={{ alignItems: 'center', gap: 8 }}>
+      <Box style={{ alignItems: 'center', gap: Spacings['1W'] }}>
         <Typography>iOS</Typography>
         <LucideIcon name="Share" size="md" _platformOverride="ios" />
       </Box>

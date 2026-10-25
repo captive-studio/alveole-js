@@ -26,7 +26,7 @@ Le champ est nu : on le place dans un FormControl pour son libellé, son aide et
 } satisfies Story;
 
 export const Default = () => (
-  <Box width="100%" p={8}>
+  <Box width="100%" p="1W">
     <Grid gap={8}>
       <Grid.Column size={{ mobile: 12, desktop: 4 }}>
         <FormControl label="Heure">
@@ -48,7 +48,7 @@ export const Default = () => (
 );
 
 export const States = () => (
-  <Box width="100%" p={8}>
+  <Box width="100%" p="1W">
     <Grid gap={8}>
       <Grid.Column size={{ mobile: 12, desktop: 4 }}>
         <FormControl label="Erreur" error="Heure invalide (00:00–23:59)">

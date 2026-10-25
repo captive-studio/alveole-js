@@ -13,7 +13,7 @@ export const MenuCard = ({ title, description, onPress }: MenuCardProps) => {
 
   return (
     <Card onPress={onPress}>
-      <Box display="flex" gap={8} p={'150'}>
+      <Box display="flex" gap="1W" p="3W">
         <Typography style={text.Titres['H4 - SM']}>{title}</Typography>
         <Typography style={text['Corps de texte'].SM.Regular}>{description}</Typography>
       </Box>

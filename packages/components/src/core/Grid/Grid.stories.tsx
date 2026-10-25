@@ -1,3 +1,4 @@
+import { RadiusList } from '@alveole/theme';
 import { Story } from '../../type';
 import { Button } from '../../ui/Button';
 import { Card } from '../../ui/Card';
@@ -22,7 +23,7 @@ const colColor = '#88b2bd';
 const colColorAlt = '#b9c47f';
 
 const Col = ({ color = colColor, label }: { color?: string; label: string }) => (
-  <Box backgroundColor={color} p={'050'} style={{ borderRadius: 4 }}>
+  <Box backgroundColor={color} p="1W" style={{ borderRadius: RadiusList.sm }}>
     <Typography>{label}</Typography>
   </Box>
 );

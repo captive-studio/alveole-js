@@ -61,8 +61,8 @@ export const All = () => {
   const withCustomIcon = () => toast.present('Avec icon custom', undefined, { leading: 'Worm' });
 
   return (
-    <Box display="flex" flexDirection="column" gap={8}>
-      <Box display="flex" flexDirection="row" gap={24} flexWrap="wrap">
+    <Box display="flex" flexDirection="column" gap="1W">
+      <Box display="flex" flexDirection="row" gap="3W" flexWrap="wrap">
         <Button title="Default toast" variant="secondary" onPress={defaultToast} />
         <Button title="Success toast" variant="secondary" onPress={successToast} />
         <Button title="Error toast" variant="secondary" onPress={errorToast} />
@@ -104,7 +104,7 @@ export const PreviewSuccessSansDescription = () => (
 );
 
 export const ToastsTypes = () => (
-  <Box display="flex" flexDirection="row" gap={8}>
+  <Box display="flex" flexDirection="row" gap="1W">
     <ToastType variant="info" />
     <ToastType variant="success" />
     <ToastType variant="error" />

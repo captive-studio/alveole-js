@@ -13,11 +13,11 @@ const SectionDeFormulairesView = ({ titre, markdown, demo }: SectionDeFormulaire
   const Demo = demo ? DEMOS[demo] : null;
 
   return (
-    <Box display="flex" gap={8} mb={'400'}>
+    <Box display="flex" gap="1W" mb="8W">
       <AnchorHeading style={text.Titres['H4 - SM']}>{titre}</AnchorHeading>
       <MarkdownDescription>{markdown}</MarkdownDescription>
       {demo && Demo ? (
-        <Box display="flex" gap={8}>
+        <Box display="flex" gap="1W">
           <Demo />
           <JsonBlock language="tsx" value={Sources.storySources[demo]()} />
         </Box>
@@ -42,7 +42,7 @@ export const FormulairesPage = ({ beforeContent, sidebar, footerContent }: Formu
       footerContent={footerContent}
       sommaire={SECTIONS_DE_FORMULAIRES.map(({ titre }) => titre)}
     >
-      <Box display="flex" gap={0}>
+      <Box display="flex" gap="0V">
         {SECTIONS_DE_FORMULAIRES.map(section => (
           <SectionDeFormulairesView key={section.titre} {...section} />
         ))}

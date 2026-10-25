@@ -27,7 +27,7 @@ export const Default = () => (
 
 export const WithPaddingY = () => (
   <Section backgroundColor={paddingColor} withPaddingY>
-    <Box backgroundColor={innerBoxColor} p={'050'}>
+    <Box backgroundColor={innerBoxColor} p="1W">
       <Typography>Section avec background et padding Y</Typography>
     </Box>
   </Section>
@@ -38,7 +38,7 @@ export const WidthMdSize = () => {
 
   return (
     <Section backgroundColor={paddingColor} size="md">
-      <Box backgroundColor={innerBoxColor} p={'050'}>
+      <Box backgroundColor={innerBoxColor} p="1W">
         <Typography>Section avec background et size md ({styles.sectionContainerMD.maxWidth}px)</Typography>
       </Box>
     </Section>
@@ -47,7 +47,7 @@ export const WidthMdSize = () => {
 
 export const WidthFullSize = () => (
   <Section backgroundColor={paddingColor} size="full">
-    <Box backgroundColor={innerBoxColor} p={'050'}>
+    <Box backgroundColor={innerBoxColor} p="1W">
       <Typography>Section avec background et size full (taille par défaut)</Typography>
     </Box>
   </Section>
@@ -58,7 +58,7 @@ export const WidthSmSize = () => {
 
   return (
     <Section backgroundColor={paddingColor} size="sm">
-      <Box backgroundColor={innerBoxColor} p={'050'}>
+      <Box backgroundColor={innerBoxColor} p="1W">
         <Typography>Section avec background et size sm ({styles.sectionContainerSM.maxWidth}px)</Typography>
       </Box>
     </Section>

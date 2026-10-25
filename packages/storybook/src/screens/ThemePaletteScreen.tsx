@@ -1,5 +1,5 @@
 import { Accordion, Box, Typography } from '@alveole/components';
-import { useTheme } from '@alveole/theme';
+import { Spacings, useTheme } from '@alveole/theme';
 import React from 'react';
 import { ColorSwatch } from '../components/ColorSwatch';
 import { EcranDeCatalogue, filDuTheme } from '../components/EcranDeCatalogue';
@@ -30,7 +30,7 @@ const SectionDeCouleurs = ({ section }: { section: ColorSection }) => {
       }
       noPadding
     >
-      <Box style={{ flexDirection: 'row', flexWrap: 'wrap', gap: 8, padding: 8 }}>
+      <Box style={{ flexDirection: 'row', flexWrap: 'wrap', gap: Spacings['1W'], padding: Spacings['1W'] }}>
         {section.entries.map(entry => (
           <ColorSwatch key={entry.path} entry={entry} />
         ))}
