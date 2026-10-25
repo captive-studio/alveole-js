@@ -12,7 +12,7 @@ type Table = Record<string, StyleValue>;
 // le padding de ce conteneur, puis celui de la pastille qui porte le texte. Le titre n'en a
 // qu'un seul, d'où cette somme explicite : sans elle les deux dérivent au premier réglage.
 const retraitDuContenu = (spacingValue: Theme['spacingValue']) =>
-  spacingValue('075') + spacingValue('050') + spacingValue('050');
+  spacingValue('3V') + spacingValue('1W') + spacingValue('1W');
 
 const coque = ({ color, spacing, spacingValue, isVariant }: Theme) =>
   ({
@@ -29,7 +29,7 @@ const coque = ({ color, spacing, spacingValue, isVariant }: Theme) =>
     headerContent: {
       display: 'flex',
       flexDirection: 'row',
-      padding: spacingValue('050'),
+      padding: spacingValue('1W'),
     },
     logo: {
       marginLeft: isVariant('mobile') || isVariant('tablet') ? spacing('3W') : 0,
@@ -188,7 +188,7 @@ const indicateur = ({ color, spacing, spacingValue }: Theme) =>
   ({
     sidebarItemSelectedIndicator: {
       height: '100%',
-      width: spacingValue('025'),
+      width: spacingValue('1V'),
       position: 'absolute',
       left: 0,
     },

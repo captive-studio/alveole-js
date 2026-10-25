@@ -162,7 +162,7 @@ const BarreMobile = ({ activeKey, items, columnGroups, logo }: Required<UIKitTop
         >
           <ScrollView
             style={{ ...(Platform.OS === 'web' ? { maxHeight: menuHeight } : { height: menuHeight }), flexGrow: 0 }}
-            contentContainerStyle={{ padding: spacingValue('2W'), gap: spacingValue('050') }}
+            contentContainerStyle={{ padding: spacingValue('2W'), gap: spacingValue('1W') }}
             keyboardShouldPersistTaps="handled"
           >
             <MobileMenuItems activeKey={activeKey} items={items} columnGroups={columnGroups} />

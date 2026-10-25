@@ -31,12 +31,18 @@ validation, ce qui vaut demande explicite au sens des règles globales :
    (jamais `git add .` ni `-A`).
 3. `git push -u origin <branche>`, puis `gh pr create` avec un corps rédigé
    via `/pr`. Pas de draft.
-4. Attendre la CI : `gh pr checks <n> --watch --fail-fast`. Si elle est rouge,
+4. Rendu du catalogue touché : régénérer les clichés par
+   `gh workflow run catalogue-screenshots.yml --ref <branche>`, attendre son
+   commit 📸, puis vérifier que seules les pages attendues changent de rendu.
+5. Attendre le run `pull_request` de `ci.yml` sur le dernier SHA de la branche
+   (`gh run list --workflow ci.yml --branch <branche> --event pull_request`,
+   puis `gh run watch <id> --exit-status`). `gh pr checks --watch` rend vert
+   tant que ce run n'est pas encore attaché à la PR. Si elle est rouge,
    corriger, pousser, attendre de nouveau.
-5. CI verte : `gh pr merge <n> --rebase --delete-branch`.
-6. Commenter le ticket Jira ALV avec le lien de la PR mergée, puis le
+6. CI verte : `gh pr merge <n> --rebase --delete-branch`.
+7. Commenter le ticket Jira ALV avec le lien de la PR mergée, puis le
    transitionner vers « Terminé ».
-7. Supprimer le worktree.
+8. Supprimer le worktree.
 
 S'arrêter et demander dans ces cas :
 

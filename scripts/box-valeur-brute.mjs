@@ -1,8 +1,9 @@
 #!/usr/bin/env node
-import { readdirSync, readFileSync } from 'node:fs';
+import { readFileSync } from 'node:fs';
 import { join, relative } from 'node:path';
 import { pathToFileURL } from 'node:url';
 import ts from 'typescript';
+import { fichiersSource } from './fichiers-source.mjs';
 
 // Box n'accepte, pour l'espacement, la couleur et le rayon, que des tokens du theme (ALV-145).
 // Ce releve traque les valeurs brutes encore ecrites en dur dans les usages de Box : un nombre
@@ -14,14 +15,8 @@ const STYLE_COULEUR = /Color$/;
 const STYLE_RAYON = /Radius$/;
 const CLE_LEGACY = /^\d+$/;
 const COULEUR_BRUTE = /#[0-9a-f]{3,8}\b|\b(rgba?|hsla?)\(|^(white|black|red)$/i;
-const DOSSIERS_IGNORES = new Set(['node_modules', 'dist', 'build', '.expo', 'coverage']);
 
-const fichiersSource = dossier =>
-  readdirSync(dossier, { withFileTypes: true }).flatMap(entree => {
-    const chemin = join(dossier, entree.name);
-    if (entree.isDirectory()) return DOSSIERS_IGNORES.has(entree.name) ? [] : fichiersSource(chemin);
-    return /\.tsx$/.test(entree.name) && !/\.test(\.\w+)?\.tsx$/.test(entree.name) ? [chemin] : [];
-  });
+const estComposantHorsTest = nom => /\.tsx$/.test(nom) && !/\.test(\.\w+)?\.tsx$/.test(nom);
 
 // Les branches d'un ternaire ou d'un repli (`??`, `||`, `&&`) et les arguments d'un appel
 // (`spacingValue('050')`) sont autant de valeurs possibles ; un calcul (`gap / 2`) n'en est pas une.
@@ -118,7 +113,7 @@ export const releverDansSource = (code, fichier) => {
 
 export const releverValeursBrutes = racine =>
   ['packages', 'apps'].flatMap(dossier =>
-    fichiersSource(join(racine, dossier)).flatMap(chemin =>
+    fichiersSource(join(racine, dossier), estComposantHorsTest).flatMap(chemin =>
       releverDansSource(readFileSync(chemin, 'utf8'), relative(racine, chemin)),
     ),
   );
