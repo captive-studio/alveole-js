@@ -26,3 +26,25 @@ test('une Box sans tag a la même boîte qu’une Box en div', async ({ page }) 
 test('une Box sans tag n’expose ni rôle ni nom accessible', async ({ page }) => {
   expect(await sansTag(page).ariaSnapshot()).toBe('- text: Box sans tag');
 });
+
+// Tamagui v3 rend `flex: 1` en base `0px` : dans un parent de hauteur indéfinie, la boîte tombait
+// à zéro. jsdom ne met rien en page, seul le navigateur prouve la hauteur du contenu.
+for (const source of ['prop', 'style']) {
+  test(`flex: 1 en ${source} garde la hauteur de son contenu`, async ({ page }) => {
+    const { height } = await boite(page.locator(`box-flex-en-${source}`));
+
+    expect(height).toBeGreaterThan(0);
+  });
+}
+
+// Un style en tableau imbriqué posé tel quel sur le DOM faisait tomber la page entière : jsdom,
+// lui, perd seulement le style, seul le navigateur prouve que la page tient.
+for (const forme of ['objet', 'tableau', 'imbrique']) {
+  test(`un style ${forme} est appliqué`, async ({ page }) => {
+    const paddingLeft = await page
+      .locator(`box-style-${forme}`)
+      .evaluate(element => window.getComputedStyle(element).paddingLeft);
+
+    expect(paddingLeft).toBe('48px');
+  });
+}

@@ -13,9 +13,10 @@ const flexDuStyle = (style: unknown): unknown => {
   return undefined;
 };
 
-// Le style d'un appelant de Box peut porter `flex: n` : la correction passe apres lui.
-export const correctionFlexDuWeb = (style: unknown) => {
-  const flex = flexDuStyle(style);
+// Un appelant de Box peut porter `flex: n` en style comme en prop, la prop l'emportant : la
+// correction passe apres les deux.
+export const correctionFlexDuWeb = (style: unknown, flexEnProp?: unknown) => {
+  const flex = flexEnProp ?? flexDuStyle(style);
   if (Platform.OS !== 'web' || typeof flex !== 'number' || flex <= 0) return undefined;
   return flexDuWeb(flex);
 };
