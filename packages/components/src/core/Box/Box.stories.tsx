@@ -37,4 +37,16 @@ export const BoxHovered = () => (
   </Box>
 );
 
+// Sans tag, Box rend l'element inconnu <box> : il se met en page comme une div.
+export const BoxSansTag = () => (
+  <Box tag="box-comparaison" gap={8}>
+    <Box backgroundColor={'#f0f0f0'} p={16}>
+      <Typography>Box sans tag</Typography>
+    </Box>
+    <Box tag="div" backgroundColor={'#f0f0f0'} p={16}>
+      <Typography>Box en div</Typography>
+    </Box>
+  </Box>
+);
+
 export * as Sources from './Box.stories.sources';

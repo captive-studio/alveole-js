@@ -10,6 +10,7 @@ import { aplatirStyle } from '../styleTamagui/aplatirStyle';
 import { definis } from '../styleTamagui/definis';
 import { correctionFlexDuWeb } from '../styleTamagui/flexDuWeb';
 import { BoxStyle } from './Box.types';
+import { elementDuTag } from './elementDuTag';
 import { resolveSpacing } from './resolveSpacing';
 
 // Les props de style de Tamagui passent telles quelles, clauses comprises (`bg="x hover:y"`,
@@ -60,7 +61,7 @@ export const Box = React.forwardRef<BoxElement, BoxProps>(function Box(props, re
   return (
     <StyledView
       ref={ref}
-      render={tag ?? 'box'}
+      render={elementDuTag(tag)}
       style={correctionFlex ? { ...aplatirStyle(style), ...correctionFlex } : style}
       {...radius}
       {...viewProps}
