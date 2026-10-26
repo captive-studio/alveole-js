@@ -1,7 +1,10 @@
 import { ThemeConstantsScreen } from '@alveole/storybook';
 import * as ThemeConstants from '@alveole/theme';
 import { useRouter } from 'expo-router';
+import { metadonnees } from '../../components/metadonnees';
 import { DocFooter } from '../../components/uiKitNavigation';
+
+export const generateMetadata = () => metadonnees('UI Kit - Constantes', 'Constantes exposées par le thème');
 
 export default function ConstantsRoute() {
   const router = useRouter();

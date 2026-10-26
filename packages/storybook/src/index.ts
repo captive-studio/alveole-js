@@ -10,6 +10,7 @@ export * from './pages/PhilosophyPage';
 export * from './pages/UIKitHomePage';
 export * from './pages/UIKitPage';
 export * from './pages/UIKitThemePage';
+export { resumeDeLaFiche } from './screens/sourcesDExemples';
 export * from './screens/StoriesScreen';
 export * from './screens/StoryDetailScreen';
 export * from './screens/ThemeConstantDetailScreen';

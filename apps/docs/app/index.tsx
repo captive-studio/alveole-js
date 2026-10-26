@@ -1,5 +1,8 @@
 import { StoriesScreen } from '@alveole/storybook';
+import { metadonnees } from '../components/metadonnees';
 import { DocFooter, storyList } from '../components/uiKitNavigation';
+
+export const generateMetadata = () => metadonnees('UI Kit - Composants', 'Catalogue des composants partagés');
 
 export default function IndexRoute() {
   return (

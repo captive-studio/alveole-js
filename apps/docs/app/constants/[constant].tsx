@@ -1,11 +1,16 @@
 import { ThemeConstantDetailScreen, findConstantByName } from '@alveole/storybook';
 import * as ThemeConstants from '@alveole/theme';
 import { useLocalSearchParams } from 'expo-router';
+import type { GenerateMetadataFunction } from 'expo-router/server';
+import { metadonnees } from '../../components/metadonnees';
 import { DocFooter } from '../../components/uiKitNavigation';
 
 export function generateStaticParams(): { constant: string }[] {
   return Object.keys(ThemeConstants).map(constant => ({ constant }));
 }
+
+export const generateMetadata: GenerateMetadataFunction = (_, { constant }) =>
+  metadonnees(String(constant), String(constant));
 
 export default function ConstantDetailRoute() {
   const { constant } = useLocalSearchParams<{ constant: string }>();
