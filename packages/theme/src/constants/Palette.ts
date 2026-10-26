@@ -432,8 +432,14 @@ export type LeafFlexible<T> = T extends string
 export type PaletteSource = LeafStrings<typeof CustomPalette>;
 export type Palette = LeafThemeColors<typeof CustomPalette>;
 
-/** Seul point ou une couleur ecrite en dur devient une couleur du theme. */
-export const enCouleursDuTheme = <T extends PaletteSource>(palette: T) => palette as unknown as Palette;
+/**
+ * Seul point ou une couleur ecrite en dur devient une couleur du theme. La marque n'existe qu'au
+ * typage : la surcharge la pose sans assertion, la palette rendue est celle recue.
+ */
+export function enCouleursDuTheme(palette: PaletteSource): Palette;
+export function enCouleursDuTheme(palette: PaletteSource) {
+  return palette;
+}
 
 export type DeepPartial<T> = {
   [K in keyof T]?: T[K] extends object ? DeepPartial<T[K]> : T[K];
