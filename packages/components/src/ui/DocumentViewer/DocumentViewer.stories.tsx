@@ -22,12 +22,7 @@ export const DocumentImageEx = () => (
 
 export const DocumentPdf = () => (
   <Box width="100%" height={400} maxW={500}>
-    <DocumentViewer
-      title="Document PDF"
-      type="pdf"
-      source="/document-exemple.pdf"
-      height="100%"
-    />
+    <DocumentViewer title="Document PDF" type="pdf" source="/document-exemple.pdf" height="100%" />
   </Box>
 );
 
@@ -44,12 +39,7 @@ export const DocumentPdfError = () => (
 
 export const WithChildren = () => (
   <Box width="100%" height={600}>
-    <DocumentViewer
-      title="Document PDF"
-      type="pdf"
-      source="/document-exemple.pdf"
-      height="100%"
-    >
+    <DocumentViewer title="Document PDF" type="pdf" source="/document-exemple.pdf" height="100%">
       <Box p={'2W'}>
         <Typography>Contenu enfant</Typography>
       </Box>
