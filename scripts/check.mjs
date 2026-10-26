@@ -42,13 +42,19 @@ const onTerminate = () => interrupt('SIGTERM');
 process.on('SIGINT', onInterrupt);
 process.on('SIGTERM', onTerminate);
 
+// Un gestionnaire en JavaScript se lance par node ; le pnpm de corepack 12 est un binaire
+// natif, que node lirait comme du code source.
+const [gestionnaire, ...prefixe] = /\.[cm]?js$/.test(process.env.npm_execpath)
+  ? [process.execPath, process.env.npm_execpath]
+  : [process.env.npm_execpath];
+
 // Les options qui sélectionnent un workspace précèdent `run` : c'est la forme qu'attend
 // pnpm, et les placer après enverrait l'option au script plutôt qu'au gestionnaire.
 function run(name, managerArgs = []) {
   const start = performance.now();
   console.log(`[check] Début : ${name}`);
   return new Promise(resolveResult => {
-    const child = spawn(process.execPath, [process.env.npm_execpath, ...managerArgs, 'run', name], {
+    const child = spawn(gestionnaire, [...prefixe, ...managerArgs, 'run', name], {
       cwd: root,
       detached: process.platform !== 'win32',
       stdio: ['ignore', 'pipe', 'pipe'],

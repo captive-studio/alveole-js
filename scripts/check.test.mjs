@@ -1,6 +1,6 @@
 import assert from 'node:assert/strict';
 import { spawn } from 'node:child_process';
-import { copyFile, mkdir, mkdtemp, readFile, realpath, rm, writeFile } from 'node:fs/promises';
+import { chmod, copyFile, mkdir, mkdtemp, readFile, realpath, rm, writeFile } from 'node:fs/promises';
 import { tmpdir } from 'node:os';
 import { join } from 'node:path';
 import { test } from 'node:test';
@@ -52,7 +52,7 @@ if (process.env.DESCENDANT === '1' && task === 'test:unit') {
 }
 `;
 
-async function fixture(t, { args = [], fail = '', env = {} } = {}) {
+async function fixture(t, { args = [], fail = '', env = {}, natif = false } = {}) {
   const root = await realpath(await mkdtemp(join(tmpdir(), 'alveole-check-')));
   t.after(() => rm(root, { recursive: true, force: true }));
   await mkdir(join(root, 'scripts'));
@@ -67,8 +67,14 @@ async function fixture(t, { args = [], fail = '', env = {} } = {}) {
   await writeFile(argv, '');
   const npm = join(root, 'npm.mjs');
   await writeFile(npm, FAUX_NPM);
+  // Le pnpm de corepack 12 est un binaire natif : `node` ne sait pas l'executer.
+  const execpath = natif ? join(root, 'pnpm') : npm;
+  if (natif) {
+    await writeFile(execpath, `#!/bin/sh\nexec "${process.execPath}" "${npm}" "$@"\n`);
+    await chmod(execpath, 0o755);
+  }
   const child = spawn(process.execPath, [script, ...args], {
-    env: { ...process.env, ...env, npm_execpath: npm, EVENTS: events, ARGS: argv, FAIL: fail, FIXTURE_ROOT: root },
+    env: { ...process.env, ...env, npm_execpath: execpath, EVENTS: events, ARGS: argv, FAIL: fail, FIXTURE_ROOT: root },
     stdio: ['ignore', 'pipe', 'pipe'],
   });
   let output = '';
@@ -180,4 +186,11 @@ test('place les options du gestionnaire avant la sous-commande', async t => {
     (await readArgv()).find(argv => argv.includes('generate:sources')),
     ['--filter', '@alveole/components', 'run', 'generate:sources'],
   );
+});
+
+test('lance un gestionnaire natif sans passer par node', async t => {
+  const { done } = await fixture(t, { natif: true });
+  const result = await done;
+
+  assert.equal(result.code, 0, result.output);
 });
