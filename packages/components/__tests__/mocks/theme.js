@@ -1,19 +1,11 @@
 jest.mock('@alveole/theme', () => {
-  const { Colors } = jest.requireActual('../../../theme/src/constants/Color');
-  const { MonospaceFont } = jest.requireActual('../../../theme/src/constants/Font');
-  const { contrastRatio, withMinimumContrast } = jest.requireActual('../../../theme/src/helpers/contrastColor');
-  const { CustomPalette, enCouleursDuTheme } = jest.requireActual('../../../theme/src/constants/Palette');
-  const { CustomTypography } = jest.requireActual('../../../theme/src/constants/Typography');
+  // Le theme reel, que le mock ne fait que completer : un export ajoute au theme arrive ici
+  // sans qu'il faille le recopier.
+  const actual = jest.requireActual('../../../theme/src');
+  const { Colors, CustomPalette, Grilles, Heights, RadiusList, Sizes, Spacings } = actual;
+  // Ces modules ne sont pas exportes par l'index du theme.
   const { controlSizesFor } = jest.requireActual('../../../theme/src/constants/Control');
   const { PillSizes } = jest.requireActual('../../../theme/src/constants/Pill');
-  const { RadiusList } = jest.requireActual('../../../theme/src/constants/Radius');
-  const { Grilles } = jest.requireActual('../../../theme/src/constants/Grille');
-  const { focusBorder, focusRing, FOCUS_ATTRIBUTE } = jest.requireActual('../../../theme/src/constants/Focus');
-  const { focusRingProps } = jest.requireActual('../../../theme/src/constants/FocusProps');
-  const { linkProps } = jest.requireActual('../../../theme/src/constants/LinkProps');
-  const { isSpacingKey } = jest.requireActual('../../../theme/src/helpers/isSpacingKey');
-  const { Sizes, Heights } = jest.requireActual('../../../theme/src/constants/Sizes');
-  const { Spacings } = jest.requireActual('../../../theme/src/constants/Spacing');
   const { alpha } = jest.requireActual('../../../theme/src/helpers/alphaColor');
   const { darken } = jest.requireActual('../../../theme/src/helpers/darkenColor');
 
@@ -87,23 +79,8 @@ jest.mock('@alveole/theme', () => {
   };
 
   return {
-    Colors,
-    CustomPalette,
-    enCouleursDuTheme,
-    CustomTypography,
-    focusBorder,
-    focusRing,
-    // La bague de focus vient du CSS du theme : les composants ne posent qu'une marque.
-    focusRingProps,
-    linkProps,
-    FOCUS_ATTRIBUTE,
-    isSpacingKey,
+    ...actual,
     makeStyles: stylesFn => () => stylesFn(testTheme),
-    contrastRatio,
-    MonospaceFont,
-    withMinimumContrast,
-    RadiusList,
-    Spacings,
     useTheme: () => testTheme,
   };
 });
