@@ -1,5 +1,6 @@
 import { Box } from '../../core/Box';
 import { Image } from '../../core/Image';
+import { Typography } from '../../core/Typography';
 import { Story } from '../../type';
 import { Avatar } from '../Avatar';
 import { Badge } from '../Badge';
@@ -92,6 +93,42 @@ export const cardWithMedia = () => {
           <Button variant="secondary" title="Libellé" size="sm" />
           <Button variant="primary" title="Libellé" size="sm" />
         </Card.Actions>
+      </Card>
+    </Box>
+  );
+};
+
+export const cardFichier = () => {
+  return (
+    <Box style={{ width: 282 }}>
+      <Card>
+        <Card.Media>
+          <Image source={require('@/assets/images/apercu-pdf.png')} alt="" width="100%" height={159} />
+        </Card.Media>
+        <Box display="flex" flexDirection="row" gap="1,5V" style={{ alignItems: 'center' }}>
+          <Badge variant="error" size="sm">
+            PDF
+          </Badge>
+          <Typography numberOfLines={1}>PC-16100_Proposition_commerciale.pdf</Typography>
+        </Box>
+      </Card>
+    </Box>
+  );
+};
+
+export const cardFichierSansApercu = () => {
+  return (
+    <Box style={{ width: 282 }}>
+      <Card>
+        <Card.Media style={{ height: 159, alignItems: 'center', justifyContent: 'center' }}>
+          <LucideIcon name="File" size="md" />
+        </Card.Media>
+        <Box display="flex" flexDirection="row" gap="1,5V" style={{ alignItems: 'center' }}>
+          <Badge variant="error" size="sm">
+            PDF
+          </Badge>
+          <Typography numberOfLines={1}>PC-16100_Proposition_commerciale.pdf</Typography>
+        </Box>
       </Card>
     </Box>
   );
