@@ -50,7 +50,6 @@ export * as InputButtonAdornmentStory from '../ui/InputButtonAdornment/InputButt
 export * as InputHeadingStory from '../ui/InputHeading/InputHeading.stories';
 export * as LinkStory from '../ui/Link/Link.stories';
 export * as ListItemStory from '../ui/ListItem/ListItem.stories';
-export * as MediaCardStory from '../ui/MediaCard/MediaCard.stories';
 export * as LucideIconStory from '../ui/LucideIcon/LucideIcon.stories';
 export * as PageHeaderStory from '../ui/PageHeader/PageHeader.stories';
 export * as PopoverStory from '../ui/Popover/Popover.stories';
