@@ -46,3 +46,16 @@ test('donne au panneau la hauteur de son contenu', async ({ page }) => {
 
   expect(panneau?.height).toBeGreaterThan(0);
 });
+
+// Le survol d'un onglet colore son enveloppe : c'est le seul retour visuel avant le clic.
+test('colore l enveloppe de l onglet survolé', async ({ page }) => {
+  await openRoute(page, '/components/Tabs');
+  const onglet = page.getByRole('main').getByRole('tab', { name: 'Onglet 2' }).first();
+  const enveloppe = onglet.locator('xpath=*[1]');
+  const fond = () => enveloppe.evaluate(element => window.getComputedStyle(element).backgroundColor);
+  const auRepos = await fond();
+
+  await onglet.hover();
+
+  await expect.poll(fond).not.toBe(auRepos);
+});

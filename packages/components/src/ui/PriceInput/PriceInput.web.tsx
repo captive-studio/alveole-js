@@ -4,6 +4,7 @@ import { Typography } from '../../core/Typography';
 import { NumberInputElement, useFieldId } from '../FormControl';
 import { useFieldFocus } from '../FormControl/useFieldFocus';
 import { cadrePrix } from './cadrePrix';
+import { largeurDuChamp } from './largeurDuChamp';
 import type { PriceInputProps } from './PriceInput';
 import { useStyles } from './PriceInput.styles';
 import { useSaisieMontant } from './useSaisieMontant';
@@ -15,8 +16,7 @@ export const PriceInput = React.forwardRef<NumberInputElement, PriceInputProps>(
   const champ = useFieldFocus({ disabled, readOnly });
 
   const { affichage, saisir } = useSaisieMontant(value, onChange);
-  // Avec des chiffres tabulaires, un caractère occupe au plus 1 ch.
-  const largeur = `${affichage.length || 1}ch`;
+  const largeur = largeurDuChamp(affichage);
 
   return (
     <Box tag="price-input" style={cadrePrix(styles, { focus: champ.focus, disabled, error, success })}>
