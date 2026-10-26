@@ -19,7 +19,7 @@ export const Default = () => (
     <MediaCard
       nom="PC-16100_Proposition_commerciale.pdf"
       type="PDF"
-      apercu="https://picsum.photos/564/318"
+      apercu={require('@/assets/images/apercu-pdf.png')}
       onPress={() => {}}
     />
   </Box>
