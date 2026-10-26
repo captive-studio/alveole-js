@@ -1,4 +1,4 @@
-import { FOCUS_ATTRIBUTE, RadiusList, Spacings, Theme } from '@alveole/theme';
+import { FOCUS_ATTRIBUTE, Spacings, Theme, ThemeColor } from '@alveole/theme';
 import React from 'react';
 import type { Components } from 'react-markdown';
 import { TextStyle as RNTextStyle } from 'react-native';
@@ -35,8 +35,8 @@ export type MarkdownComponentsStyles = {
   titres: Theme['text']['Titres'];
   /** Couleur des titres : `textColor` s'il est fourni, sinon `title-grey`. */
   titleColor: string;
-  borderColor: string;
-  headerBg: string;
+  borderColor: ThemeColor;
+  headerBg: ThemeColor;
   linkColor: string;
 };
 
@@ -119,7 +119,7 @@ const createLinkComponents = ({ linkColor }: LinkComponentStyles): Components =>
   ),
 });
 
-const createBlockComponents = (borderColor: string): Components => ({
+const createBlockComponents = (borderColor: ThemeColor): Components => ({
   pre: ({ children: c }: AvecEnfants) => <Box display="flex">{c}</Box>,
   // `tag="blockquote"` pose un vrai `<blockquote>` DOM, qui garde la marge par
   // défaut du user-agent (`margin: 1em 40px`) tant qu'on ne la remet pas à zéro.
@@ -153,7 +153,7 @@ type TableComponentStyles = Pick<MarkdownComponentsStyles, 'bodyStyle' | 'boldSt
 
 const createTableComponents = ({ bodyStyle, boldStyle, borderColor, headerBg }: TableComponentStyles) => ({
   table: ({ children: c }: AvecEnfants) => (
-    <Box tag="div" borderWidth={1} borderColor={borderColor} borderRadius={RadiusList.md} overflow="hidden">
+    <Box tag="div" borderWidth={1} borderColor={borderColor} borderRadius="md" overflow="hidden">
       <Box tag="table" style={{ display: 'table', borderCollapse: 'collapse', width: '100%' }}>
         {c}
       </Box>

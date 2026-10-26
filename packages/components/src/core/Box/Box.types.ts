@@ -1,6 +1,17 @@
-import { SpacingKey } from '@alveole/theme';
+import { RadiusKey, SpacingKey, ThemeColor } from '@alveole/theme';
 import { ViewProps } from '@tamagui/core';
 import { SizeStyle } from '../../type/SizeStyle';
+
+// Les anciennes cles numeriques ('050', '100'...) sont depreciees au profit des cles V/W.
+type BoxSpacing = Exclude<SpacingKey, `${number}`>;
+type BoxMargin = BoxSpacing | `${string}%` | 'auto';
+
+type CouleurDeBox = ThemeColor | 'transparent';
+type EtatTamagui = 'default' | 'hover' | 'press' | 'focus' | 'focusVisible' | 'disabled';
+// Une couleur du theme, ou une clause en objet (`{ hover: y }`). La clause en chaine
+// (`'x hover:y'`) est refusee : interpolee, elle perd la marque des couleurs (ADR 0033).
+// Les etats sont nommes : une signature d'index fait exploser le temps de typecheck.
+type BoxColor = CouleurDeBox | Partial<Record<EtatTamagui, CouleurDeBox>>;
 
 export type BoxBaseStyle = Pick<
   ViewProps,
@@ -10,24 +21,23 @@ export type BoxBaseStyle = Pick<
 };
 
 export type BoxAdvancedStyle = SizeStyle & {
-  p?: number | SpacingKey;
-  pl?: number | SpacingKey;
-  pr?: number | SpacingKey;
-  pt?: number | SpacingKey;
-  pb?: number | SpacingKey;
+  p?: BoxSpacing;
+  pl?: BoxSpacing;
+  pr?: BoxSpacing;
+  pt?: BoxSpacing;
+  pb?: BoxSpacing;
 
-  m?: number | `${string}%` | SpacingKey | 'auto';
-  ml?: number | `${string}%` | SpacingKey | 'auto';
-  mr?: number | `${string}%` | SpacingKey | 'auto';
-  mt?: number | `${string}%` | SpacingKey | 'auto';
-  mb?: number | `${string}%` | SpacingKey | 'auto';
+  m?: BoxMargin;
+  ml?: BoxMargin;
+  mr?: BoxMargin;
+  mt?: BoxMargin;
+  mb?: BoxMargin;
 
-  // Types de Tamagui : ils acceptent les clauses de la v3 (`bg="x hover:y"`, ADR 0031).
-  backgroundColor?: ViewProps['backgroundColor'];
+  backgroundColor?: BoxColor;
   borderWidth?: ViewProps['borderWidth'];
-  borderRadius?: number | string;
-  borderColor?: ViewProps['borderColor'];
-  gap?: number | SpacingKey;
+  borderRadius?: RadiusKey;
+  borderColor?: BoxColor;
+  gap?: BoxSpacing;
 };
 
 export type BoxStyle = BoxBaseStyle & BoxAdvancedStyle;

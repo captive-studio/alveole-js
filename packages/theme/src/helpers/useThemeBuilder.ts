@@ -9,11 +9,12 @@ import {
   CustomPalette,
   CustomTypography,
   DeepPartial,
+  enCouleursDuTheme,
   Fonts,
   FontsMap,
   Grilles,
   Heights,
-  Palette,
+  PaletteSource,
   Sizes,
   Spacings,
 } from '../constants';
@@ -28,7 +29,7 @@ import { elevationStyle } from './elevationStyle';
 import { sanitizeCSSKey } from './sanitizeCSSKey';
 
 export type CustomBuilder = {
-  color?: DeepPartial<Palette>;
+  color?: DeepPartial<PaletteSource>;
 };
 
 export function useThemeBuilder(params: CustomBuilder): Theme & { isReady: boolean } {
@@ -90,7 +91,7 @@ export function useThemeBuilder(params: CustomBuilder): Theme & { isReady: boole
     isVariant: useCallback(match => variant === match, [variant]),
 
     // Colors
-    color: { _constants: Colors, _rawLight: rawMergedPalette.light, alpha, ...mergedPalette },
+    color: { _constants: Colors, _rawLight: rawMergedPalette.light, alpha, ...enCouleursDuTheme(mergedPalette) },
 
     // Shadows
     shadows: elevationStyle,

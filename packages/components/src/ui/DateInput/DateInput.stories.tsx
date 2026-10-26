@@ -17,7 +17,7 @@ export default {
 
 export const Default = () => (
   <Box width={'100%'}>
-    <Grid gap={8}>
+    <Grid gap="1W">
       <Grid.Column size={{ desktop: 6, mobile: 12 }}>
         <FormControl label="Default">
           <DateInput onChange={console.log} />
@@ -46,7 +46,7 @@ export const Types = () => {
 
   return (
     <Box width={'100%'}>
-      <Grid gap={8}>
+      <Grid gap="1W">
         <Grid.Column size={{ desktop: 6, mobile: 12 }}>
           <FormControl label="Date (default)">
             <DateInput value={date} onChange={e => setDate(e.toString())} />

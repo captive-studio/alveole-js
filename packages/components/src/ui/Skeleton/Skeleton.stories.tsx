@@ -22,9 +22,9 @@ export const Ligne = () => <Skeleton width="60%" />;
 
 export const Carre = () => <Skeleton width={64} height={64} />;
 
-export const Rond = () => <Skeleton width={48} height={48} borderRadius={24} />;
+export const Rond = () => <Skeleton width={48} height={48} borderRadius="full" />;
 
-export const Rectangle = () => <Skeleton height={160} borderRadius={8} />;
+export const Rectangle = () => <Skeleton height={160} borderRadius="md" />;
 
 /**
  * Des lignes de largeurs décroissantes imitent un paragraphe de texte.
@@ -45,7 +45,7 @@ export const ElementDeListe = () => (
   <Box display="flex" flexDirection="column" gap="2W" width="100%">
     {[0, 1, 2].map(i => (
       <Box key={i} display="flex" flexDirection="row" gap="1W" style={{ alignItems: 'center' }}>
-        <Skeleton width={40} height={40} borderRadius={20} />
+        <Skeleton width={40} height={40} borderRadius="full" />
         <Box display="flex" flexDirection="column" gap="1V" flex={1}>
           <Skeleton width="40%" height={18} />
           <Skeleton width="65%" height={14} />

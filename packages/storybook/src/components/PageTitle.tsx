@@ -19,10 +19,10 @@ export type PageTitleProps = {
  * prend le cran le plus haut de notre échelle, celui que les deux premiers emploient : 40.
  */
 export const PageTitle = ({ title, breadcrumbsProps }: PageTitleProps) => {
-  const { spacingValue, text, color } = useTheme();
+  const { text, color } = useTheme();
 
   return (
-    <Box display="flex" gap={spacingValue('4W')}>
+    <Box display="flex" gap="4W">
       <Breadcrumbs {...breadcrumbsProps} />
       <Typography tag="h1" style={{ ...text.Titres['H1 - XL'], color: color.light.text['title-grey'] }}>
         {title}

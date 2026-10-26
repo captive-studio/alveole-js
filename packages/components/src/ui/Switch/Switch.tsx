@@ -1,4 +1,4 @@
-import { focusRingProps, useTheme } from '@alveole/theme';
+import { focusRingProps } from '@alveole/theme';
 import React, { CSSProperties, useId } from 'react';
 import { Platform, Pressable } from 'react-native';
 import { TamaguiElement, Switch as TamaguiSwitch, SwitchProps as TamaguiSwitchProps } from 'tamagui';
@@ -54,7 +54,6 @@ export const Switch = React.forwardRef<SwitchElement, SwitchProps>(function Swit
   const [model, setModel] = React.useState(Boolean(checked));
   const value = isControlled ? checked : model;
 
-  const { spacingValue } = useTheme();
   const styles = useStyles();
 
   const uniqId = useId();
@@ -107,7 +106,7 @@ export const Switch = React.forwardRef<SwitchElement, SwitchProps>(function Swit
   );
 
   return (
-    <Box tag="switch" gap={error || success ? spacingValue('1W') : '0V'} style={styles.switchContainer}>
+    <Box tag="switch" gap={error || success ? '1W' : '0V'} style={styles.switchContainer}>
       {!label ? Toggle : ToggleWithLabel}
     </Box>
   );

@@ -50,7 +50,7 @@ const entete = ({ spacing, color }: Theme) => {
     },
     accordionItemHeader: {
       ...enTete,
-      backgroundColor: '#FFFFFF',
+      backgroundColor: color.light.background['default-grey'],
     },
     accordionItemHeaderAlt: {
       ...enTete,
@@ -58,7 +58,7 @@ const entete = ({ spacing, color }: Theme) => {
     },
     accordionItemHeaderOutline: {
       ...enTete,
-      backgroundColor: '#FFFFFF',
+      backgroundColor: color.light.background['default-grey'],
       outlineWidth: 1,
       outlineColor: color.border['default-grey'],
       outlineStyle: 'solid',

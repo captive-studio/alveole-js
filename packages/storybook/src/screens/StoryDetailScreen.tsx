@@ -45,8 +45,6 @@ export const StoryDetailScreen = ({
   notFoundMessage = 'Story not found.',
   ...cadre
 }: StoryDetailScreenProps) => {
-  const { spacingValue } = useTheme();
-
   if (!story) return <FicheIntrouvable message={notFoundMessage} {...cadre} />;
 
   const meta = story.default;
@@ -65,7 +63,7 @@ export const StoryDetailScreen = ({
       <StoryLayout sommaire={exemples.length > 0 ? <StorySummary entrees={exemples.map(([nom]) => nom)} /> : null}>
         {/* Ce que la fiche annonce d'un cote, ce qu'elle montre de l'autre : les trois
             references laissent 55 a 75 px entre les deux. */}
-        <Box display="flex" gap={spacingValue('6W')}>
+        <Box display="flex" gap="6W">
           <EnTeteDeFiche meta={meta} />
           <Tabs
             defaultValue="examples"

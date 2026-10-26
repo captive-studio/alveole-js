@@ -39,7 +39,12 @@ const SidebarHeaderMobile = (props: SidebarHeaderProps) => {
 
   return (
     <Box tag="sidebar-header" style={styles.header}>
-      <Box style={styles.headerContent} pt={(Platform.OS === 'android' ? top : 0) + styles.headerContent.padding}>
+      <Box
+        style={[
+          styles.headerContent,
+          { paddingTop: (Platform.OS === 'android' ? top : 0) + styles.headerContent.padding },
+        ]}
+      >
         <Box flex={1} />
         <ButtonIcon
           icon="X"

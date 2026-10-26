@@ -1,3 +1,4 @@
+import { CustomPalette, enCouleursDuTheme } from '@alveole/theme';
 import { Story } from '../../type';
 import { Box } from '../Box';
 import { Typography } from '../Typography';
@@ -14,8 +15,9 @@ export default {
   styleFn: useStyles,
 } satisfies Story;
 
-const paddingColor = '#b9c47f';
-const innerBoxColor = '#88b2bd';
+const { background } = enCouleursDuTheme(CustomPalette).light;
+const paddingColor = background['contrast-success'];
+const innerBoxColor = background['contrast-info'];
 
 export const Default = () => (
   <Section>

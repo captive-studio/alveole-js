@@ -8,7 +8,7 @@ export type SkeletonProps = Omit<BoxProps, 'children'>;
 const PULSE_DURATION = 700;
 
 export const Skeleton = (props: SkeletonProps) => {
-  const { width = '100%', height = 16, borderRadius = 4, style, ...rest } = props;
+  const { width = '100%', height = 16, borderRadius = 'sm', style, ...rest } = props;
   const styles = useStyles();
   const [opacity] = React.useState(() => new Animated.Value(0.5));
 

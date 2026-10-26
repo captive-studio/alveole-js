@@ -1,6 +1,10 @@
+import { paletteDuTheme } from '@/__tests__/helpers/paletteDuTheme';
 import { renderNative, screen } from '@/__tests__/helpers/renderNative';
+import { RadiusList } from '@alveole/theme';
 import { StyleSheet } from 'react-native';
 import { Box } from './Box';
+
+const { background, border } = paletteDuTheme;
 
 const styleRendu = () => StyleSheet.flatten(screen.getByTestId('box').props.style);
 
@@ -36,22 +40,28 @@ test('resout une marge globale en cle de Spacings', async () => {
 // Tamagui eclate couleur et epaisseur de bordure par cote, en natif ; la valeur resolue reste celle du web.
 test('applique fond, bordure et rayon comme sur le web', async () => {
   await renderNative(
-    <Box testID="box" backgroundColor="#f0f0f0" borderColor="#123456" borderWidth={1} borderRadius={8} />,
+    <Box
+      testID="box"
+      backgroundColor={background['alt-grey']}
+      borderColor={border['default-grey']}
+      borderWidth={1}
+      borderRadius="md"
+    />,
   );
 
   expect(styleRendu()).toMatchObject({
-    backgroundColor: '#f0f0f0',
-    borderTopColor: '#123456',
-    borderRightColor: '#123456',
-    borderBottomColor: '#123456',
-    borderLeftColor: '#123456',
+    backgroundColor: background['alt-grey'],
+    borderTopColor: border['default-grey'],
+    borderRightColor: border['default-grey'],
+    borderBottomColor: border['default-grey'],
+    borderLeftColor: border['default-grey'],
     borderTopWidth: 1,
     borderRightWidth: 1,
     borderBottomWidth: 1,
     borderLeftWidth: 1,
-    borderTopLeftRadius: 8,
-    borderTopRightRadius: 8,
-    borderBottomLeftRadius: 8,
-    borderBottomRightRadius: 8,
+    borderTopLeftRadius: RadiusList.md,
+    borderTopRightRadius: RadiusList.md,
+    borderBottomLeftRadius: RadiusList.md,
+    borderBottomRightRadius: RadiusList.md,
   });
 });

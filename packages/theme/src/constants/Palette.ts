@@ -415,7 +415,12 @@ export const CustomPalette = {
   },
 } as const;
 
+// Une couleur lue dans la palette du theme. La marque la distingue d'une couleur ecrite en dur :
+// Box n'accepte que celle-ci (ADR 0033).
+export type ThemeColor = string & { readonly __couleurDuTheme: true };
+
 export type LeafStrings<T> = T extends string ? string : { [K in keyof T]: LeafStrings<T[K]> };
+export type LeafThemeColors<T> = T extends string ? ThemeColor : { [K in keyof T]: LeafThemeColors<T[K]> };
 
 export type LeafFlexible<T> = T extends string
   ? string
@@ -423,7 +428,13 @@ export type LeafFlexible<T> = T extends string
     ? number | string
     : { [K in keyof T]: LeafFlexible<T[K]> };
 
-export type Palette = LeafStrings<typeof CustomPalette>;
+/** Palette telle qu'une app la fournit, en couleurs ecrites en dur. */
+export type PaletteSource = LeafStrings<typeof CustomPalette>;
+export type Palette = LeafThemeColors<typeof CustomPalette>;
+
+/** Seul point ou une couleur ecrite en dur devient une couleur du theme. */
+export const enCouleursDuTheme = <T extends PaletteSource>(palette: T) => palette as unknown as Palette;
+
 export type DeepPartial<T> = {
   [K in keyof T]?: T[K] extends object ? DeepPartial<T[K]> : T[K];
 };

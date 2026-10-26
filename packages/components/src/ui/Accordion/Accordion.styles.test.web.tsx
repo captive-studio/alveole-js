@@ -32,10 +32,10 @@ test('donne le meme socle de mise en page aux trois variantes d en-tete', () => 
 test('distingue les variantes d en-tete par leur fond et le contour de la variante outline', () => {
   const { result } = renderHookOnDesktop(() => useStyles());
 
-  expect(result.current.accordionItemHeader.backgroundColor).toBe('#FFFFFF');
+  expect(result.current.accordionItemHeader.backgroundColor).toBe('var(--background-default-grey)');
   expect(result.current.accordionItemHeaderAlt.backgroundColor).toBe('#F6F7F8');
   expect(result.current.accordionItemHeaderOutline).toMatchObject({
-    backgroundColor: '#FFFFFF',
+    backgroundColor: 'var(--background-default-grey)',
     outlineWidth: 1,
     outlineColor: '#DEE3EC',
     outlineStyle: 'solid',

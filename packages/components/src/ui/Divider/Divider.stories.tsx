@@ -13,6 +13,6 @@ export default {
   styleFn: useStyles,
 } satisfies Story;
 
-export const Default = () => <Divider mt={8} mb={16} />;
+export const Default = () => <Divider mt="1W" mb="2W" />;
 
 export * as Sources from './Divider.stories.sources';

@@ -1,4 +1,3 @@
-import { StyleValue } from '@alveole/theme';
 import { ViewStyle } from 'react-native';
 import { versStyleNatif } from '../../core/styleNatif/versStyleNatif';
 import { fieldBorderState } from './fieldBorderState';
@@ -26,10 +25,7 @@ export const otpTheme = (styles: OtpStyles, state: OtpThemeState) => ({
   containerStyle: versStyleNatif<ViewStyle>(styles.containerStyle),
   pinCodeContainerStyle: versStyleNatif<ViewStyle>({
     ...styles.pinCodeContainerStyle,
-    // Le parametre est explicite : la cellule desactivee ne pose qu'un fond, la cellule en
-    // erreur qu'une bordure. Sans lui, l'inference cherche un type commun aux quatre etats
-    // et n'en trouve aucun.
-    ...fieldBorderState<StyleValue>(
+    ...fieldBorderState(
       {
         inputFocused: styles.focusedPinCodeContainerStyle,
         inputError: styles.pinCodeContainerStyleError,

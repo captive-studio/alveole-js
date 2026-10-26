@@ -1,15 +1,26 @@
 ---
-status: proposed
+status: accepted
 area: code
 ---
 
 # Box n'accepte que les tokens du thème
 
 Box est le composant le plus réutilisé d'Alveole (46 dépendants directs). Ses props
-d'espacement, de couleur et de rayon n'acceptent que les clés du thème : `SpacingKey`, les
-couleurs du thème, `RadiusKey`. Les marges gardent `'auto'` et les pourcentages. Les autres
+d'espacement, de couleur et de rayon n'acceptent que les clés du thème : les clés V/W de
+`SpacingKey` (les anciennes clés numériques sont dépréciées), les couleurs du thème et
+`'transparent'`, `RadiusKey`. Les marges gardent `'auto'` et les pourcentages. Les autres
 props de style de Tamagui passent telles quelles (ADR 0031) : Box ne réinterprète que les
 props qui portent une dimension du thème.
+
+La palette se type en `string` : rien ne distingue `'#fff'` d'une couleur du thème. Les
+couleurs lues dans le thème portent donc une marque, `ThemeColor`, et `alpha()` la conserve.
+Une palette fournie par une app reste en couleurs écrites en dur (`PaletteSource`) ; le thème
+la marque à la construction, par `enCouleursDuTheme`, le seul point de passage.
+
+Une couleur à pseudo-état passe en clause objet (`{ default, hover }`), jamais en clause
+chaîne (`'x hover:y'`) : une chaîne interpolée perd la marque, et le type laisserait alors
+passer `'#f00 hover:#0f0'`. Une valeur qui vient de l'appareil et non du thème, comme les
+marges de la zone sûre, passe par `style`.
 
 ## Pourquoi
 
