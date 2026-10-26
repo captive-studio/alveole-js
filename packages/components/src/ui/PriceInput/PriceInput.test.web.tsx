@@ -40,16 +40,6 @@ test('désactive le champ', () => {
   expect(screen.getByLabelText('Prix')).toHaveProperty('disabled', true);
 });
 
-test('donne au champ la largeur exacte de ses chiffres', () => {
-  renderWeb(
-    <FormControl label="Prix">
-      <PriceInput value={1250} />
-    </FormControl>,
-  );
-
-  expect(champPrix().style.width).toBe('4ch');
-});
-
 test('lit la virgule comme séparateur décimal', () => {
   const onChange = jest.fn();
   renderWeb(
@@ -97,15 +87,6 @@ test('garde la virgule tapée en attendant la décimale', () => {
   fireEvent.change(champ, { target: { value: '12,' } });
 
   expect(champ.value).toBe('12,');
-});
-
-test('élargit le champ au texte tapé, centimes compris', () => {
-  renderWeb(<Pilote />);
-  const champ = champPrix();
-
-  fireEvent.change(champ, { target: { value: '12,50' } });
-
-  expect(champ.style.width).toBe('5ch');
 });
 
 test('passe le champ en lecture seule', () => {

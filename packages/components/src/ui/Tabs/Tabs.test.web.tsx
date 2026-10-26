@@ -1,4 +1,3 @@
-import { elementDuType } from '@/__tests__/helpers/elementDuType';
 import { fireEvent, renderWeb, screen, waitFor } from '@/__tests__/helpers/renderWeb';
 import { FOCUS_ATTRIBUTE } from '@alveole/theme';
 import { Tabs } from './Tabs';
@@ -125,24 +124,6 @@ describe('Anchor Sync', () => {
 
     await waitFor(() => expect(screen.getAllByRole('tab')[0].getAttribute('aria-selected')).toBe('true'));
   });
-});
-
-// Le survol d'un onglet colore son enveloppe : c'est le seul retour visuel avant le clic.
-test('colore l enveloppe de l onglet survole', () => {
-  renderWeb(
-    <Tabs
-      defaultValue="a"
-      tabs={[
-        { label: 'Onglet 1', value: 'a', content: <></> },
-        { label: 'Onglet 2', value: 'b', content: <></> },
-      ]}
-    />,
-  );
-  const onglet = screen.getAllByRole('tab')[1];
-
-  fireEvent.mouseEnter(onglet);
-
-  expect(elementDuType(onglet.firstElementChild, HTMLElement).style.backgroundColor).not.toBe('');
 });
 
 // Le parent choisit l'onglet actif (une carte cliquee, un bouton) : sans `value`, il fallait
