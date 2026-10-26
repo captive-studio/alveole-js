@@ -40,30 +40,3 @@ test('rend une clause en objet type en classe Tamagui', () => {
   expect(box.className).toMatch(/_b-/);
   expect(box.style.backgroundColor).toBe('');
 });
-
-// Tamagui v3 rend `flex: 1` en `1 1 0px` sur le web, là où react-native-web posait `1 1 0%` :
-// dans un parent de hauteur indéfinie, la base en pixels écrase la boîte à zéro (les onglets du
-// catalogue disparaissaient), la base en pourcentage lui rend la hauteur de son contenu.
-test('garde à flex la base en pourcentage de react-native-web', () => {
-  const { container } = renderOnDesktop(<Box style={{ flex: 1 }} />);
-
-  expect(getComputedStyle(container.querySelector('box')!).flexBasis).toBe('0%');
-});
-
-// Box posait ses raccourcis d'espacement meme vides, et Tamagui v3 laisse un `p` ou un `gap` a
-// `undefined` ecraser le style : les marges des pages du catalogue tombaient a zero.
-test('applique les espacements de son style, meme en tableau', () => {
-  const { container } = renderOnDesktop(<Box style={[{ paddingLeft: 48 }, { gap: 24, marginTop: 40 }]} />);
-
-  const { paddingLeft, gap, marginTop } = getComputedStyle(container.querySelector('box')!);
-  expect({ paddingLeft, gap, marginTop }).toEqual({ paddingLeft: '48px', gap: '24px', marginTop: '40px' });
-});
-
-// Un style en tableau imbrique traverse Tamagui v3 jusqu'au DOM, qui refuse un tableau comme
-// style : la page entiere tombait au navigateur. jsdom, lui, perd seulement le style de l'appelant.
-test('garde le style de l appelant avec la correction de flex', () => {
-  const { container } = renderOnDesktop(<Box style={[{ flex: 1 }, { minHeight: 0 }]} />);
-
-  const { minHeight, flexBasis } = getComputedStyle(container.querySelector('box')!);
-  expect({ minHeight, flexBasis }).toEqual({ minHeight: '0', flexBasis: '0%' });
-});

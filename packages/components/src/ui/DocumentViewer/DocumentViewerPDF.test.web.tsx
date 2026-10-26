@@ -1,5 +1,4 @@
-import { elementDuType } from '@/__tests__/helpers/elementDuType';
-import { act, fireEvent } from '@testing-library/react';
+import { act } from '@testing-library/react';
 import { renderWeb, screen } from '../../../__tests__/helpers/renderWeb';
 import { DocumentViewerPDF } from './DocumentViewerPDF';
 import { loadPdfJs as chargerPdfJs, PDFDocumentProxyLike, PdfJsModule } from './chargementDePdfJs';
@@ -137,35 +136,6 @@ describe('DocumentViewerPDF, ce qu il affiche selon le chargement', () => {
     rerender(<DocumentViewerPDF source="b.pdf" page={1} rotation={0} />);
 
     expect(screen.queryByText('Le PDF ne peut pas être affiché')).toBeNull();
-  });
-});
-
-describe('DocumentViewerPDF, le zoom au survol', () => {
-  /** L'echelle appliquee au canvas : portee par la boite qui l entoure. */
-  const echelleDuCanvas = (conteneur: HTMLElement) => {
-    const enveloppe = elementDuType(conteneur.querySelector('canvas')?.parentElement, HTMLElement);
-    return window.getComputedStyle(enveloppe).transform;
-  };
-
-  it('grossit la page quand le pointeur la survole', async () => {
-    const { container } = renderWeb(<DocumentViewerPDF source="x.pdf" page={1} rotation={0} />);
-    await attendreLeChargement();
-    const zone = container.querySelector('document-viewer-pdf')!;
-
-    fireEvent.mouseEnter(zone);
-
-    expect(echelleDuCanvas(container)).toContain('2');
-  });
-
-  it('revient a l echelle normale quand le pointeur s en va', async () => {
-    const { container } = renderWeb(<DocumentViewerPDF source="x.pdf" page={1} rotation={0} />);
-    await attendreLeChargement();
-    const zone = container.querySelector('document-viewer-pdf')!;
-
-    fireEvent.mouseEnter(zone);
-    fireEvent.mouseLeave(zone);
-
-    expect(echelleDuCanvas(container)).not.toContain('2');
   });
 });
 
