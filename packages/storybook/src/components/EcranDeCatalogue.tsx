@@ -34,7 +34,7 @@ export const EcranDeCatalogue = ({
   sommaire,
   children,
 }: EcranDeCatalogueProps) => {
-  const { grilles, spacingValue } = useTheme();
+  const { grilles } = useTheme();
 
   return (
     <Page
@@ -48,7 +48,7 @@ export const EcranDeCatalogue = ({
       {sommaire ? (
         <StoryLayout sommaire={<StorySummary entrees={sommaire} />}>
           {/* Le meme ecart qu'entre l'en-tete et le contenu d'une fiche. */}
-          <Box display="flex" gap={spacingValue('6W')}>
+          <Box display="flex" gap="6W">
             <PageTitle title={title} breadcrumbsProps={breadcrumbsProps} />
             {children}
           </Box>

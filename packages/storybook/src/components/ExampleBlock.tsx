@@ -130,7 +130,7 @@ export type ExampleBlockProps = {
 
 /** Le bloc d'exemple : une démonstration et sa source, dans un seul cadre. */
 export const ExampleBlock = ({ children, source, pleinEcran = false }: ExampleBlockProps) => {
-  const { color, radius } = useTheme();
+  const { color } = useTheme();
   const [deplie, setDeplie] = React.useState(false);
 
   const { visible, tronque } = decouperSource(source ?? '', LIGNES_VISIBLES);
@@ -144,7 +144,7 @@ export const ExampleBlock = ({ children, source, pleinEcran = false }: ExampleBl
   return (
     <Box
       borderColor={color.light.border['default-grey']}
-      borderRadius={radius('md')}
+      borderRadius="md"
       borderWidth={1}
       style={{ overflow: 'hidden' }}
     >

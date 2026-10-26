@@ -30,7 +30,7 @@ Le champ est nu : on le place dans un FormControl pour son libellé, son aide et
 
 export const Default = () => (
   <Box width="100%" p="1W">
-    <Grid gap={8}>
+    <Grid gap="1W">
       <Grid.Column size={{ mobile: 12, desktop: 4 }}>
         <FormControl label="Durée">
           <DurationInput />
@@ -52,7 +52,7 @@ export const Default = () => (
 
 export const States = () => (
   <Box width="100%" p="1W">
-    <Grid gap={8}>
+    <Grid gap="1W">
       <Grid.Column size={{ mobile: 12, desktop: 4 }}>
         <FormControl label="Erreur" error="Heure invalide (minutes 00–59)">
           <DurationInput value="25:70" error="Heure invalide (minutes 00–59)" />

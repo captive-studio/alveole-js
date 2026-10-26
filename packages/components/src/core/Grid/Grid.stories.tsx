@@ -1,4 +1,4 @@
-import { RadiusList } from '@alveole/theme';
+import { CustomPalette, enCouleursDuTheme, RadiusList, ThemeColor } from '@alveole/theme';
 import { Story } from '../../type';
 import { Button } from '../../ui/Button';
 import { Card } from '../../ui/Card';
@@ -19,17 +19,18 @@ export default {
   styleFn: useStyles,
 } satisfies Story;
 
-const colColor = '#88b2bd';
-const colColorAlt = '#b9c47f';
+const { background } = enCouleursDuTheme(CustomPalette).light;
+const colColor = background['contrast-info'];
+const colColorAlt = background['contrast-success'];
 
-const Col = ({ color = colColor, label }: { color?: string; label: string }) => (
+const Col = ({ color = colColor, label }: { color?: ThemeColor; label: string }) => (
   <Box backgroundColor={color} p="1W" style={{ borderRadius: RadiusList.sm }}>
     <Typography>{label}</Typography>
   </Box>
 );
 
 export const TwoEqualColumns = () => (
-  <Grid gap={8}>
+  <Grid gap="1W">
     <Grid.Column size={6}>
       <Col label="6 colonnes" />
     </Grid.Column>
@@ -40,7 +41,7 @@ export const TwoEqualColumns = () => (
 );
 
 export const AsymmetricColumns = () => (
-  <Grid gap={8}>
+  <Grid gap="1W">
     <Grid.Column size={4}>
       <Col label="4 colonnes" />
     </Grid.Column>
@@ -51,7 +52,7 @@ export const AsymmetricColumns = () => (
 );
 
 export const ThreeColumns = () => (
-  <Grid gap={8}>
+  <Grid gap="1W">
     <Grid.Column size={4}>
       <Col label="4 colonnes" />
     </Grid.Column>
@@ -65,7 +66,7 @@ export const ThreeColumns = () => (
 );
 
 export const FourColumns = () => (
-  <Grid gap={8}>
+  <Grid gap="1W">
     <Grid.Column size={3}>
       <Col label="3" />
     </Grid.Column>
@@ -82,7 +83,7 @@ export const FourColumns = () => (
 );
 
 export const FullWidthColumn = () => (
-  <Grid gap={8}>
+  <Grid gap="1W">
     <Grid.Column size={12}>
       <Col label="12 colonnes (pleine largeur)" />
     </Grid.Column>
@@ -96,7 +97,7 @@ export const FullWidthColumn = () => (
 );
 
 export const ResponsiveColumns = () => (
-  <Grid gap={8}>
+  <Grid gap="1W">
     <Grid.Column size={{ mobile: 12, desktop: 6 }}>
       <Col label="12 mobile / 6 desktop" />
     </Grid.Column>
@@ -107,7 +108,7 @@ export const ResponsiveColumns = () => (
 );
 
 export const ResponsiveThreeColumns = () => (
-  <Grid gap={8}>
+  <Grid gap="1W">
     <Grid.Column size={{ mobile: 12, tablet: 6, desktop: 4 }}>
       <Col label="12 mobile / 6 tablet / 4 desktop" />
     </Grid.Column>
@@ -121,7 +122,7 @@ export const ResponsiveThreeColumns = () => (
 );
 
 export const WithLargeGap = () => (
-  <Grid gap={24}>
+  <Grid gap="3W">
     <Grid.Column size={4}>
       <Col label="gap 24" />
     </Grid.Column>
@@ -135,7 +136,7 @@ export const WithLargeGap = () => (
 );
 
 export const EqualHeightCards = () => (
-  <Grid gap={16}>
+  <Grid gap="2W">
     <Grid.Column size={{ mobile: 12, tablet: 6, desktop: 4 }}>
       <Card>
         <Card.Header titre="Titre court" sousTitre="Une ligne" />

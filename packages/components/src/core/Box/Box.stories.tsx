@@ -38,7 +38,7 @@ export const BoxPaddedWithBackground = () => {
 export const BoxHovered = () => {
   const { color } = useTheme();
   return (
-    <Box tag="hovered" backgroundColor={`hover:${color.light.background['alt-grey']}`}>
+    <Box tag="hovered" backgroundColor={{ hover: color.light.background['alt-grey'] }}>
       <Typography>Box avec fond gris changeant au hover</Typography>
     </Box>
   );
@@ -85,6 +85,14 @@ export const BoxStyles = () => (
     </Box>
     <Box tag="box-style-imbrique" style={[[{ paddingLeft: Spacings['6W'] }], { marginTop: Spacings['0V'] }]}>
       <Typography>Style en tableau imbriqué</Typography>
+    </Box>
+  </Box>
+);
+
+export const BoxTokens = () => (
+  <Box tag="box-tokens-parent" width={400}>
+    <Box tag="box-tokens" width={100} p="2W" ml="auto" mr="10%" borderRadius="md">
+      <Typography>Tokens</Typography>
     </Box>
   </Box>
 );

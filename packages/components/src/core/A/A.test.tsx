@@ -1,3 +1,4 @@
+import { paletteDuTheme } from '@/__tests__/helpers/paletteDuTheme';
 import { fireEvent, renderNative, renderNativeInRouter, screen, userEvent } from '@/__tests__/helpers/renderNative';
 import { openBrowserAsync } from 'expo-web-browser';
 import { Text } from 'react-native';
@@ -20,7 +21,9 @@ test('ouvre une URL externe dans le navigateur integre avec target="_blank"', as
   expect(openBrowserAsync).toHaveBeenCalledWith('https://example.com');
 });
 
-test.each([undefined, { hover: '#eee' }])(
+const { background } = paletteDuTheme;
+
+test.each([undefined, { hover: background['alt-grey'] }])(
   "garde la navigation de l'app pour une route interne (%j)",
   async backgroundColor => {
     const router = await renderNativeInRouter(
@@ -39,7 +42,7 @@ test.each([undefined, { hover: '#eee' }])(
 test('navigue au toucher du libellé malgré le survol des descendants', async () => {
   const router = await renderNativeInRouter(
     <A href="/components/Button">
-      <Box backgroundColor={{ default: '#fff', hover: '#eee' }}>
+      <Box backgroundColor={{ default: background['default-grey'], hover: background['alt-grey'] }}>
         <Text>Button</Text>
       </Box>
     </A>,

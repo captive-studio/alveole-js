@@ -53,3 +53,15 @@ for (const forme of ['objet', 'tableau', 'imbrique']) {
 test('garde le style de l appelant avec la correction de flex', async ({ page }) => {
   await expect(page.locator('box-flex-en-tableau')).toHaveCSS('padding-left', '48px');
 });
+
+// ADR 0033 : Box resout les tokens du theme. jsdom ne calcule aucun style, seul le navigateur
+// prouve la valeur rendue de chaque forme acceptee.
+test('rend les tokens du theme, auto et les pourcentages', async ({ page }) => {
+  const box = page.locator('box-tokens');
+
+  // Dans un parent de 400px, une boite de 100px : `mr="10%"` vaut 40px, `ml="auto"` le reste.
+  await expect(box).toHaveCSS('padding-top', '16px');
+  await expect(box).toHaveCSS('margin-right', '40px');
+  await expect(box).toHaveCSS('margin-left', '260px');
+  await expect(box).toHaveCSS('border-top-left-radius', '6px');
+});

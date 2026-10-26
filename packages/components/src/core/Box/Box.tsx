@@ -1,3 +1,4 @@
+import { RadiusList } from '@alveole/theme';
 import {
   RNTamaguiViewNonStyleProps,
   styled,
@@ -29,11 +30,12 @@ export type BoxElement = TamaguiElement;
 
 export const Box = React.forwardRef<BoxElement, BoxProps>(function Box(props, ref) {
   const { tag, style, borderRadius, mt, mb, mr, ml, m, pt, pb, pl, pr, p, gap, ...viewProps } = props;
+  const rayon = borderRadius && RadiusList[borderRadius];
   const radius = {
-    borderBottomRightRadius: borderRadius,
-    borderTopRightRadius: borderRadius,
-    borderBottomLeftRadius: borderRadius,
-    borderTopLeftRadius: borderRadius,
+    borderBottomRightRadius: rayon,
+    borderTopRightRadius: rayon,
+    borderBottomLeftRadius: rayon,
+    borderTopLeftRadius: rayon,
   };
 
   const margins = {

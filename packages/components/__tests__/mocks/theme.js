@@ -2,7 +2,7 @@ jest.mock('@alveole/theme', () => {
   const { Colors } = jest.requireActual('../../../theme/src/constants/Color');
   const { MonospaceFont } = jest.requireActual('../../../theme/src/constants/Font');
   const { contrastRatio, withMinimumContrast } = jest.requireActual('../../../theme/src/helpers/contrastColor');
-  const { CustomPalette } = jest.requireActual('../../../theme/src/constants/Palette');
+  const { CustomPalette, enCouleursDuTheme } = jest.requireActual('../../../theme/src/constants/Palette');
   const { CustomTypography } = jest.requireActual('../../../theme/src/constants/Typography');
   const { controlSizesFor } = jest.requireActual('../../../theme/src/constants/Control');
   const { PillSizes } = jest.requireActual('../../../theme/src/constants/Pill');
@@ -89,6 +89,7 @@ jest.mock('@alveole/theme', () => {
   return {
     Colors,
     CustomPalette,
+    enCouleursDuTheme,
     CustomTypography,
     focusBorder,
     focusRing,

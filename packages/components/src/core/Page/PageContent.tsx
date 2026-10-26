@@ -44,7 +44,9 @@ export const PageContent = (props: PageContentProps) => {
             tag="mobile-menu"
             style={statusBar?.backgroundColor ? { backgroundColor: statusBar.backgroundColor } : undefined}
           >
-            <Box pt={Platform.OS === 'android' ? top : '0V'}>{renderToolbar?.({ isScrolled })}</Box>
+            <Box style={{ paddingTop: Platform.OS === 'android' ? top : undefined }}>
+              {renderToolbar?.({ isScrolled })}
+            </Box>
           </Box>
         )}
 

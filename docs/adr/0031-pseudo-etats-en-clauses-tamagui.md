@@ -45,3 +45,6 @@ survole une propriété la sort donc de son `style` et la passe en
 La suppression ne peut pas se préparer sur `main` tant qu'Alveole est en
 Tamagui v2, qui n'a pas de clauses : elle tombe dans le ticket de bascule. Le
 guide `docs/migrations/tamagui-v3.md` liste la réécriture prop par prop.
+
+Exception (ADR 0033) : les props de couleur de Box n'acceptent que la clause objet, la seule
+qui garde la marque des couleurs du thème.

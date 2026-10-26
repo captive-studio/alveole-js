@@ -1,4 +1,14 @@
-import type { Colors, CustomTypography, Fonts, Grilles, Palette, Spacing, SpacingKey, Variant } from '../constants';
+import type {
+  Colors,
+  CustomTypography,
+  Fonts,
+  Grilles,
+  Palette,
+  PaletteSource,
+  Spacing,
+  SpacingKey,
+  Variant,
+} from '../constants';
 import type { ControlSize, ControlSizeKey } from '../constants/Control';
 import type { PillSize, PillSizeKey } from '../constants/Pill';
 import { Radius, RadiusKey } from '../constants/Radius';
@@ -45,7 +55,7 @@ export interface Theme {
     /** @deprecated Utiliser la palette */
     _constants: typeof Colors;
     /** Palette light avec valeurs hex brutes, utilisée par injectVariableCSS */
-    _rawLight: Palette['light'];
+    _rawLight: PaletteSource['light'];
   } & Palette & {
       alpha: typeof alpha;
     };

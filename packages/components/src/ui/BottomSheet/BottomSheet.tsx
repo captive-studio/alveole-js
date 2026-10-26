@@ -89,7 +89,10 @@ export const BottomSheet = (props: BottomSheetProps) => {
             <Divider />
           </Box>
 
-          <Box tag="sheet-content" style={[styles.content, !fitContent && styles.contentFull]} pb={bottom}>
+          <Box
+            tag="sheet-content"
+            style={[styles.content, !fitContent && styles.contentFull, { paddingBottom: bottom }]}
+          >
             {children}
           </Box>
         </TamaguiSheet.Container>

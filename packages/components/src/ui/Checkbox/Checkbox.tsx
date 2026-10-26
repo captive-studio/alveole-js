@@ -1,4 +1,3 @@
-import { useTheme } from '@alveole/theme';
 import React, { useId } from 'react';
 import { Box } from '../../core/Box';
 import { FormControlCaption } from '../FormControl';
@@ -13,13 +12,12 @@ export const Checkbox = React.forwardRef<CheckboxElement, CheckboxProps>(functio
   const { size, variant, label, error, success, disabled } = props;
   const baseProps = { size, variant, label, error, success, disabled };
 
-  const { spacingValue } = useTheme();
   const styles = useStyles();
 
   const id = useId();
 
   return (
-    <Box tag="check-box-container" gap={error || success ? spacingValue('1W') : '0V'} style={styles.checkboxContainer}>
+    <Box tag="check-box-container" gap={error || success ? '1W' : '0V'} style={styles.checkboxContainer}>
       <Box tag="check-box" style={styles.container}>
         <CheckboxContainer id={id} ref={ref} {...props}>
           <CheckboxIndicator {...baseProps} indeterminate={props.checked === 'indeterminate'} />

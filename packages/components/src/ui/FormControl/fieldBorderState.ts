@@ -23,10 +23,10 @@ export type FieldBorderState = {
  * est commune. Sans ce point unique, la famille FormControl et Select divergeraient des la
  * premiere retouche, et c'est exactement la variante locale que l'ADR supprime.
  */
-export const fieldBorderState = <T extends object>(
-  styles: FieldBorderStyles<T>,
+export const fieldBorderState = <S extends FieldBorderStyles<object>>(
+  styles: S,
   state: FieldBorderState,
-): Partial<T> => {
+): Partial<S[keyof FieldBorderStyles<object>]> => {
   if (state.disabled) return styles.inputDisabled;
   if (state.focus) return styles.inputFocused;
   if (state.error) return styles.inputError;
