@@ -1,5 +1,6 @@
 export * from './A';
 export * from './Alert';
+export * from './AlveoleProvider';
 export * from './AnchorHeading';
 export * from './AppUpdateProvider';
 export * from './Box';
