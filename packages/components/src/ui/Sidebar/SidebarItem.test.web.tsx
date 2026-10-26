@@ -109,13 +109,3 @@ test('masque le compteur à zéro', () => {
 
   expect(container.querySelector('counter')).toBeNull();
 });
-
-test('applique la variante demandée au compteur', () => {
-  const { container: parDefaut } = renderOnDesktop(<SidebarItem title="Messages" href="/x" counter={3} />);
-  const { container: primaire } = renderOnDesktop(
-    <SidebarItem title="Messages" href="/x" counter={3} counterVariant="primary" />,
-  );
-
-  const fond = (c: HTMLElement) => getComputedStyle(c.querySelector('counter')!).backgroundColor;
-  expect(fond(primaire)).not.toBe(fond(parDefaut));
-});

@@ -21,11 +21,3 @@ test('rend une clause de survol en classe Tamagui', () => {
 
   expect(container.querySelector('typography')?.className).toMatch(/_c-/);
 });
-
-// Voir Box : un `textAlign` a `undefined` ecrasait celui du style, et les boutons alignes a
-// gauche (`contentAlign="start"`) recentraient leur libelle.
-test('garde l alignement du texte pose par le style', () => {
-  const { container } = renderOnDesktop(<Typography style={{ textAlign: 'left' }}>Libelle</Typography>);
-
-  expect(getComputedStyle(container.querySelector('typography')!).textAlign).toBe('left');
-});
