@@ -37,6 +37,7 @@ export const BottomSheet = (props: BottomSheetProps) => {
   const styles = useStyles();
 
   const { bottom } = useSafeAreaInsets();
+  const styleDuContenu = [styles.content, !fitContent && styles.contentFull, { paddingBottom: bottom }];
   const snapPointsMode: TamaguiSheetProps['snapPointsMode'] = fitContent ? 'fit' : 'percent';
 
   return (
@@ -89,10 +90,7 @@ export const BottomSheet = (props: BottomSheetProps) => {
             <Divider />
           </Box>
 
-          <Box
-            tag="sheet-content"
-            style={[styles.content, !fitContent && styles.contentFull, { paddingBottom: bottom }]}
-          >
+          <Box tag="sheet-content" style={styleDuContenu}>
             {children}
           </Box>
         </TamaguiSheet.Container>
