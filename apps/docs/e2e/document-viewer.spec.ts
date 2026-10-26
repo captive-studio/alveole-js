@@ -35,3 +35,23 @@ test('garde le contenu enfant au-dessus de la barre d outils qui déborde', asyn
 
   expect(auDessus).toBe('DOCUMENT-VIEWER-CHILDREN');
 });
+
+// Le zoom au survol ne se voit que sur une page réellement rendue : sans PDF chargé, le canvas
+// reste à une taille nulle et doubler zéro ne prouve rien.
+test('agrandit la page rendue au survol du PDF', async ({ page }) => {
+  await openRoute(page, '/components/DocumentViewer');
+  const cadre = page
+    .getByRole('main')
+    .locator('document-viewer-wrapper')
+    .filter({ hasNotText: 'Contenu enfant' })
+    .locator('document-viewer-pdf')
+    .first();
+  const canvas = cadre.locator('canvas');
+  await cadre.scrollIntoViewIfNeeded();
+  await expect.poll(async () => (await canvas.boundingBox())?.width ?? 0).toBeGreaterThan(50);
+  const auRepos = (await canvas.boundingBox())!;
+
+  await cadre.hover();
+
+  await expect.poll(async () => (await canvas.boundingBox())?.width ?? 0).toBeCloseTo(auRepos.width * 2, 0);
+});

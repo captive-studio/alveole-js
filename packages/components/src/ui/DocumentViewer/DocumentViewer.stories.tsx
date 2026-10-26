@@ -25,7 +25,7 @@ export const DocumentPdf = () => (
     <DocumentViewer
       title="Document PDF"
       type="pdf"
-      source="https://upload.wikimedia.org/wikipedia/commons/4/4e/Wikip%C3%A9dia.pdf"
+      source="/document-exemple.pdf"
       height="100%"
     />
   </Box>
@@ -47,7 +47,7 @@ export const WithChildren = () => (
     <DocumentViewer
       title="Document PDF"
       type="pdf"
-      source="https://upload.wikimedia.org/wikipedia/commons/4/4e/Wikip%C3%A9dia.pdf"
+      source="/document-exemple.pdf"
       height="100%"
     >
       <Box p={'2W'}>
