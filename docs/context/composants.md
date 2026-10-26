@@ -26,3 +26,14 @@ La boîte générique d'Alveole, l'équivalent d'une `<div>`. Elle contient d'au
 éléments et ne porte que des réglages de boîte : espacement, fond, bordure, rayon,
 disposition. Elle n'a ni sens, ni rôle, ni rendu propre.
 _Éviter_ : View, div, conteneur, block.
+
+**Pile obligatoire** :
+L'ensemble des providers sans lesquels un composant Alveole ne fonctionne pas,
+dans un ordre imposé. Le design system la fournit d'un bloc.
+_Éviter_ : providers globaux, root providers.
+
+**Provider d'application** :
+Un provider qui porte une décision propre à l'application (mise à jour forcée,
+droits d'accès aux liens, balises de page). L'application le compose elle-même,
+sous la pile obligatoire.
+_Éviter_ : provider optionnel.

@@ -148,37 +148,28 @@ export default config;`,
     ],
   },
   {
-    titre: '5. Brancher le ThemeProvider',
+    titre: '5. Brancher l’AlveoleProvider',
     paragraphes: [
-      'ThemeProvider (@alveole/theme) charge les polices et fournit les couleurs et typographies à tous les composants. Il se place à la racine, dans app/_layout.tsx, au-dessus du TamaguiProvider de l’application.',
-      'Par défaut, ThemeProvider affiche un indicateur de chargement le temps de charger les polices. Une application qui a son propre splash screen passe loader={false} et masque son splash dans onReady.',
-      'Toasts (@alveole/components) est nécessaire pour afficher les notifications ; PageMetaProvider gère les balises <meta> sur le web.',
+      'AlveoleProvider (@alveole/components) monte, dans l’ordre attendu par les composants, la pile obligatoire : zones sûres, thème Alveole (polices, couleurs, typographies), Tamagui, clavier et notifications. Il se place à la racine, dans app/_layout.tsx, et reçoit la config Tamagui de l’application.',
+      'Par défaut, AlveoleProvider affiche un indicateur de chargement le temps de charger les polices. Une application qui a son propre splash screen passe loader={false} et masque son splash dans onReady.',
+      'Les providers propres à l’application (PageMetaProvider pour les balises <meta> sur le web, AppUpdateProvider, LinkAccessContext) se placent sous AlveoleProvider. Une application qui monte déjà son propre KeyboardProvider passe keyboardProvider={false}.',
     ],
     extraits: [
       {
         langage: 'tsx',
         fichier: 'app/_layout.tsx',
-        source: `import { PageMetaProvider, Toasts } from '@alveole/components';
-import { ThemeProvider } from '@alveole/theme';
+        source: `import { AlveoleProvider, PageMetaProvider } from '@alveole/components';
 import { Slot } from 'expo-router';
-import { SafeAreaProvider } from 'react-native-safe-area-context';
-import { TamaguiProvider } from 'tamagui';
 import tamaguiConfig from '../tamagui.config';
 import config from '../alveole.config';
 
 export default function RootLayout() {
   return (
-    <ThemeProvider color={config.palette}>
-      <SafeAreaProvider>
-        <TamaguiProvider defaultTheme="light" config={tamaguiConfig}>
-          <PageMetaProvider meta={[]}>
-            <Toasts>
-              <Slot />
-            </Toasts>
-          </PageMetaProvider>
-        </TamaguiProvider>
-      </SafeAreaProvider>
-    </ThemeProvider>
+    <AlveoleProvider tamaguiConfig={tamaguiConfig} palette={config.palette}>
+      <PageMetaProvider meta={[]}>
+        <Slot />
+      </PageMetaProvider>
+    </AlveoleProvider>
   );
 }`,
       },
@@ -187,7 +178,7 @@ export default function RootLayout() {
   {
     titre: '6. Personnaliser les couleurs',
     paragraphes: [
-      'Les couleurs se surchargent dans un fichier alveole.config.ts à la racine du projet, importé par le layout et passé au ThemeProvider via la prop color.',
+      'Les couleurs se surchargent dans un fichier alveole.config.ts à la racine du projet, importé par le layout et passé à AlveoleProvider via la prop palette.',
       'La palette est partielle : seules les clés fournies remplacent celles d’Alveole. Les valeurs viennent de préférence des nuanciers exportés par @alveole/theme (Colors.RougeGroseille, Colors.BleuCaptive…) ; la rubrique Thème › Couleurs liste les clés disponibles.',
       'La clé light cible les jetons sémantiques du thème clair (artwork, background, border, text) ; les clés de premier niveau (primary, background.button, stepper…) ciblent les couleurs propres aux composants.',
     ],
