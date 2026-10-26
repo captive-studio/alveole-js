@@ -55,6 +55,16 @@ describe('pdfJsDuModule', () => {
     expect(pdfJsDuModule(pdfjs)).toBe(pdfjs);
   });
 
+  // C'est la forme livree par la version de pdf.js embarquee : sans elle, aucun PDF ne s'affiche.
+  it('accepte des options de worker exposees par une classe', () => {
+    class GlobalWorkerOptions {
+      static workerSrc = '';
+    }
+    const pdfjsModerne = { GlobalWorkerOptions, getDocument: jest.fn() };
+
+    expect(pdfJsDuModule(pdfjsModerne)).toBe(pdfjsModerne);
+  });
+
   // Un asset remplace ou mal servi livrerait autre chose : l'echec doit se lire au chargement,
   // pas plus loin sous la forme d'un appel a une fonction absente.
   it('refuse un module qui n est pas pdf.js', () => {
