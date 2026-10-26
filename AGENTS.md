@@ -27,8 +27,8 @@ Sous `/implement`, l'agent mène le ticket jusqu'au bout sans demander de
 validation, ce qui vaut demande explicite au sens des règles globales :
 
 1. Créer la branche `ALV-<n>-<slug>` dans un worktree frère.
-2. Commiter en français avec gitmoji, en stageant des fichiers explicites
-   (jamais `git add .` ni `-A`).
+2. `pnpm run check` vert, puis commiter en français avec gitmoji, en stageant
+   des fichiers explicites (jamais `git add .` ni `-A`).
 3. `git push -u origin <branche>`, puis `gh pr create` avec un corps rédigé
    via `/pr`. Pas de draft.
 4. Rendu du catalogue touché : régénérer les clichés par
