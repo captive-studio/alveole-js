@@ -3,6 +3,7 @@ import { Pressable } from 'react-native';
 import { Box } from '../../core/Box';
 import { Image, ImageProps } from '../../core/Image';
 import { Typography } from '../../core/Typography';
+import { Card } from '../Card';
 import { LucideIcon } from '../LucideIcon';
 import { EtatDuPointeur } from '../pointeur';
 import { useStyles } from './MediaCard.styles';
@@ -25,8 +26,8 @@ export const MediaCard = ({ nom, type, apercu, onPress }: MediaCardProps) => {
   return (
     <Pressable onPress={onPress} accessibilityRole={onPress ? 'button' : undefined} accessibilityLabel={nom}>
       {(state: EtatDuPointeur) => (
-        <Box tag="media-card" style={[styles.card, state.hovered && styles.survole]}>
-          <Box style={styles.media}>
+        <Card tag="media-card" style={state.hovered ? styles.survole : styles.repos}>
+          <Card.Media style={styles.media}>
             {afficheApercu ? (
               <Image
                 testID="media-card-apercu"
@@ -40,14 +41,14 @@ export const MediaCard = ({ nom, type, apercu, onPress }: MediaCardProps) => {
               <LucideIcon name="File" size="md" />
             )}
             {state.hovered && <Box style={styles.overlay} />}
-          </Box>
+          </Card.Media>
           <Box style={styles.corps}>
             {type && <Typography style={styles.type}>{type}</Typography>}
             <Typography style={styles.nom} numberOfLines={1}>
               {nom}
             </Typography>
           </Box>
-        </Box>
+        </Card>
       )}
     </Pressable>
   );

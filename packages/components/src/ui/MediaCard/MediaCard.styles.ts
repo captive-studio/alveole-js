@@ -1,18 +1,8 @@
 import { makeStyles } from '@alveole/theme';
 
-export const useStyles = makeStyles(({ spacing, color, radius, shadows, text }) => ({
-  card: {
-    display: 'flex',
-    flexDirection: 'column',
-    width: '100%',
-    backgroundColor: color.light.background['default-grey'],
-    borderWidth: 1,
-    borderColor: color.light.border['default-grey'],
-    borderStyle: 'solid',
-    borderRadius: radius('md'),
-    overflow: 'hidden',
-    ...shadows('raised'),
-  },
+export const useStyles = makeStyles(({ spacing, color, shadows, text }) => ({
+  // Le reste de la coque (bordure, rayon, fond) vient de Card.
+  repos: { ...shadows('raised') },
   survole: { ...shadows('overlap') },
   media: {
     width: '100%',
@@ -35,7 +25,6 @@ export const useStyles = makeStyles(({ spacing, color, radius, shadows, text }) 
     flexDirection: 'row',
     alignItems: 'center',
     gap: spacing('1,5V'),
-    padding: spacing('3V'),
   },
   type: {
     ...text['Corps de texte'].XS.Bold,
