@@ -31,6 +31,16 @@ module.exports = [
             "CallExpression[callee.name='getComputedStyle'], CallExpression[callee.property.name='getComputedStyle']",
           message: 'Style calculé en jsdom (ADR 0027) : tester la logique au niveau 1, ou le rendu dans apps/docs/e2e.',
         },
+        {
+          // Comparer `element.style.x` a `''` reste permis : c'est le contrat d'un style qui ne
+          // doit pas etre pose inline (ADR 0031). Toute autre valeur affirme un rendu.
+          selector: [
+            "CallExpression[callee.object.callee.name='expect'][callee.object.arguments.0.object.property.name='style']:not([arguments.0.value=''])",
+            "CallExpression[callee.object.property.name='not'][callee.object.object.arguments.0.object.property.name='style']",
+          ].join(', '),
+          message:
+            'Valeur de style lue en jsdom (ADR 0027) : tester la logique au niveau 1, ou le rendu dans apps/docs/e2e.',
+        },
       ],
     },
   },
