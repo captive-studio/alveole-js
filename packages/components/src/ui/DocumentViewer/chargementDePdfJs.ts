@@ -44,8 +44,11 @@ const getPdfJsAssetUrl = (filename: string) => {
 const estUnObjet = (valeur: unknown): valeur is Record<string, unknown> =>
   typeof valeur === 'object' && valeur !== null;
 
+// Dans pdf.js 6 (la version embarquée), `GlobalWorkerOptions` est une classe, plus un objet
+const estDesOptionsDeWorker = (valeur: unknown) => estUnObjet(valeur) || typeof valeur === 'function';
+
 const estPdfJs = (valeur: unknown): valeur is PdfJsModule =>
-  estUnObjet(valeur) && estUnObjet(valeur.GlobalWorkerOptions) && typeof valeur.getDocument === 'function';
+  estUnObjet(valeur) && estDesOptionsDeWorker(valeur.GlobalWorkerOptions) && typeof valeur.getDocument === 'function';
 
 /** pdf.js tel que l'import dynamique le livre : un module que TypeScript n'a jamais vu. */
 export const pdfJsDuModule = (module: unknown): PdfJsModule => {
