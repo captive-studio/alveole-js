@@ -107,9 +107,12 @@ apparaît : les violations déjà connues sont figées dans `apps/docs/e2e/a11y-
 Le raisonnement derrière ce cliquet est dans [l'ADR 0006](./docs/adr/0006-audit-accessibilite-en-cliquet.md).
 
 ```bash
-npm run build --workspace=apps/docs   # le site auditable
-npm run test:a11y --workspace=apps/docs
+npm run test:e2e:local --workspace=apps/docs                      # tout le catalogue
+npm run test:e2e:local --workspace=apps/docs -- e2e/box.spec.ts   # une spec
 ```
+
+Le script construit les paquets, puis le site en SPA (`DOCS_OUTPUT=single`), comme la CI : le
+rendu statique par défaut sert l'accueil sur toutes les routes, et chaque test y échoue.
 
 Après avoir corrigé une violation, resserrer la référence, sinon la CI signale l'écart :
 
