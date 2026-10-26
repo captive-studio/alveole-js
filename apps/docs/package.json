@@ -10,6 +10,7 @@
     "lint:app": "eslint . --cache --cache-strategy content",
     "typecheck": "pnpm --filter @alveole/components --filter @alveole/storybook run generate:sources && tsc -p tsconfig.typecheck.json --noEmit",
     "test:a11y": "playwright test",
+    "test:e2e:local": "pnpm --dir ../.. run build:packages && DOCS_OUTPUT=single pnpm run build && playwright test",
     "test:a11y:baseline": "node scripts/generate-a11y-baseline.mts",
     "doctor": "expo-doctor",
     "doctor:fix": "npx expo install --check"
