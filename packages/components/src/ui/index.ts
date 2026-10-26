@@ -23,6 +23,7 @@ export * from './InputHeading';
 export * from './Leading';
 export * from './Link';
 export * from './ListItem';
+export * from './MediaCard';
 export * from './LucideIcon';
 export * from './PageHeader';
 export * from './Popover';
