@@ -19,10 +19,23 @@ export type DocumentViewerToolbarProps = {
   onRotateRight: () => void;
   onPreviousPage?: () => void;
   onNextPage?: () => void;
+  /** Absent quand le plein ecran n'est pas disponible : le bouton n'est alors pas affiche. */
+  pleinEcran?: boolean;
+  onTogglePleinEcran?: () => void;
 };
 
 export const DocumentViewerToolbar = (props: DocumentViewerToolbarProps) => {
-  const { title, state, withChildren, onRotateLeft, onRotateRight, onNextPage, onPreviousPage } = props;
+  const {
+    title,
+    state,
+    withChildren,
+    onRotateLeft,
+    onRotateRight,
+    onNextPage,
+    onPreviousPage,
+    pleinEcran,
+    onTogglePleinEcran,
+  } = props;
 
   const styles = useStyles();
 
@@ -72,7 +85,24 @@ export const DocumentViewerToolbar = (props: DocumentViewerToolbarProps) => {
             accessibilityLabel="Page suivante"
           />
         </Box>
+
+        {pleinEcran !== undefined && <BoutonPleinEcran pleinEcran={pleinEcran} onPress={onTogglePleinEcran} />}
       </Box>
     </Box>
+  );
+};
+
+const BoutonPleinEcran = ({ pleinEcran, onPress }: { pleinEcran: boolean; onPress?: () => void }) => {
+  const styles = useStyles();
+
+  return (
+    <>
+      <Box style={styles.toolbarDivider} />
+      <ToolbarButton
+        onPress={onPress}
+        icon={pleinEcran ? 'Minimize' : 'Maximize'}
+        accessibilityLabel={pleinEcran ? 'Quitter le plein ecran' : 'Afficher en plein ecran'}
+      />
+    </>
   );
 };

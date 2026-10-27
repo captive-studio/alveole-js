@@ -5,6 +5,7 @@ import { DocumentViewerImage } from './DocumentViewerImage';
 import { DocumentViewerPDF } from './DocumentViewerPDF';
 import { DocumentViewerToolbar } from './DocumentViewerToolbar';
 import { usePilotageDeDocument } from './usePilotageDeDocument';
+import { usePleinEcran } from './usePleinEcran';
 
 export const DocumentViewer = (props: DocumentViewerProps) => {
   const { children, title, source, type, height = '100%', ChildrenProps, pdfErrorLabel, ...boxProps } = props;
@@ -12,10 +13,20 @@ export const DocumentViewer = (props: DocumentViewerProps) => {
   const styles = useStyles();
   const { rotation, page, state, onPdfReady, onRotateLeft, onRotateRight, onNextPage, onPreviousPage } =
     usePilotageDeDocument(type);
+  const pleinEcran = usePleinEcran();
+  const { poserLeCadre } = pleinEcran;
 
   return (
     <Box tag="document-viewer-wrapper" height={height} style={styles.viewerWrapper}>
-      <Box tag="document-viewer" flex={1} height={'100%'} minW={0} style={{ flexBasis: 0 }} {...boxProps}>
+      <Box
+        tag="document-viewer"
+        ref={poserLeCadre}
+        flex={1}
+        height={'100%'}
+        minW={0}
+        style={{ flexBasis: 0 }}
+        {...boxProps}
+      >
         <DocumentViewerToolbar
           title={title}
           state={state}
@@ -24,6 +35,8 @@ export const DocumentViewer = (props: DocumentViewerProps) => {
           onRotateRight={onRotateRight}
           onNextPage={onNextPage}
           onPreviousPage={onPreviousPage}
+          pleinEcran={pleinEcran.disponible ? pleinEcran.pleinEcran : undefined}
+          onTogglePleinEcran={pleinEcran.basculer}
         />
 
         <Box

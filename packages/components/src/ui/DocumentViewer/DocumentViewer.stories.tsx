@@ -9,7 +9,8 @@ export default {
   tags: ['ui'],
   experimental: false,
   webOnly: true,
-  description: 'Viewer de documents (PDF, Image)',
+  description:
+    'Viewer de documents (PDF, Image). Ctrl/⌘ + molette pour zoomer, double-clic pour revenir à 100 %, bouton plein écran dans la barre d’outils.',
   component: DocumentViewer,
   styleFn: useStyles,
 } satisfies Story;
