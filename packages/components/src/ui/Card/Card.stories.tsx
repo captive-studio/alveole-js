@@ -103,7 +103,8 @@ export const cardFichier = () => {
     <Box style={{ width: 282 }}>
       <Card>
         <Card.Media>
-          <Image source={require('@/assets/images/apercu-pdf.png')} alt="" width="100%" height={159} />
+          {/* URL absolue de la doc : un require d'asset ne se résout pas dans les apps qui affichent ces stories */}
+          <Image source="https://alveole.captive.fr/apercu-pdf.png" alt="" width="100%" height={159} />
         </Card.Media>
         <Box display="flex" flexDirection="row" gap="1,5V" style={{ alignItems: 'center' }}>
           <Badge variant="error" size="sm">
