@@ -4,6 +4,8 @@ import { SECTIONS_DE_MIGRATION_V2 } from './migrationV2';
 
 // La page se rend a partir de ses donnees : ajouter une section au fichier doit suffire a la
 // voir a l'ecran. Le test verifie ce lien, pas la prose, qui est libre de changer.
+const texteDuGuide = () => SECTIONS_DE_MIGRATION_V2.map(({ markdown }) => markdown).join('\n');
+
 describe('MigrationV2Page', () => {
   it('montre une section par entree du guide de migration', () => {
     renderScreen(<MigrationV2Page />);
@@ -14,8 +16,10 @@ describe('MigrationV2Page', () => {
   });
 
   it('renvoie au guide de migration Tamagui v3', () => {
-    const guide = SECTIONS_DE_MIGRATION_V2.map(({ markdown }) => markdown).join('\n');
+    expect(texteDuGuide()).toContain('docs/migrations/tamagui-v3.md');
+  });
 
-    expect(guide).toContain('docs/migrations/tamagui-v3.md');
+  it('renvoie au guide de migration de Box', () => {
+    expect(texteDuGuide()).toContain('docs/migrations/box-tokens.md');
   });
 });
