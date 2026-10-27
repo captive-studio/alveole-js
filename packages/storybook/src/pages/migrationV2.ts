@@ -604,8 +604,8 @@ git grep -nE "\\b(Mandarine|Shakespeare|Pacifika|ButteryWhite|CoralRed|Lochmara|
 | \`injectVariableCSS(theme: Theme)\`, \`generateCSSVariables(theme: Theme)\`                                                  | même appel ; le paramètre est typé \`SourceDuCSS\` (un \`Theme\` reste accepté s'il fournit les mêmes clés)                                                                                                                                                                                              |
 | \`Radius\` / \`Box.borderRadius\` : \`number\`                                                                                 | \`number \\| 'var(--radius-…)'\` sur web : ne plus faire de calcul sur un rayon du thème                                                                                                                                                                                                                |
 
-Les clés de spacing dépréciées existent toujours (non cassant) mais leurs usages sont à migrer vers
-l'échelle V/W quand on y passe.`,
+Les clés de spacing dépréciées existent toujours pour \`theme.spacing()\` (non cassant) mais leurs
+usages sont à migrer vers l'échelle V/W quand on y passe. \`Box\` les refuse (section 8 ter).`,
   },
   {
     titre: '8. Tamagui v2',
@@ -661,6 +661,17 @@ git grep -nwE "hoverStyle|pressStyle|focusStyle|focusVisibleStyle|enterStyle|exi
 
 Ce qu'Alveole ne prend pas en charge suit le guide officiel :
 [How to upgrade](https://tamagui.dev/docs/guides/how-to-upgrade).`,
+  },
+  {
+    titre: '8 ter. Box : tokens du thème uniquement',
+    markdown: `Tables de correspondance, valeurs hors échelle, couleurs et relevé par application : [box-tokens.md](https://github.com/captive-studio/alveole-js/blob/main/docs/migrations/box-tokens.md).
+
+Les espacements, rayons et couleurs de \`Box\` n'acceptent plus que les clés du thème (ADR 0033) :
+
+- **espacements** : \`p={8}\` → \`p="1W"\`, \`mt="100"\` → \`mt="2W"\` ; les marges gardent \`'auto'\` et les pourcentages ;
+- **rayons** : \`'sm'\`, \`'md'\`, \`'lg'\`, \`'full'\` ; \`1000\` → \`'full'\` ;
+- **couleurs** : lues dans \`useTheme().color\`, \`'transparent'\` ou clause objet \`{ hover }\` ; une couleur
+  venue des données passe par \`style\`.`,
   },
   {
     titre: '9. Vérification finale',
