@@ -16,6 +16,7 @@ export * as PageStory from '../core/Page/Page.stories';
 export * as PageBackgroundStory from '../core/Page/PageBackground.stories';
 export * as PdfViewerStory from '../core/PdfViewer/PdfViewer.stories';
 export * as SectionStory from '../core/Section/Section.stories';
+export * as StorySummaryStory from '../core/StorySummary/StorySummary.stories';
 export * as ThemeProviderStory from '../core/ThemeProvider/ThemeProvider.stories';
 export * as TypographyStory from '../core/Typography/Typography.stories';
 export * as VersionStory from '../core/Version/Version.stories';
