@@ -40,9 +40,9 @@ validation, ce qui vaut demande explicite au sens des règles globales :
    tant que ce run n'est pas encore attaché à la PR. Si elle est rouge,
    corriger, pousser, attendre de nouveau.
 6. CI verte : `gh pr merge <n> --rebase --delete-branch`.
-7. Commenter le ticket Jira ALV avec le lien de la PR mergée, puis le
-   transitionner vers « Terminé ».
-8. Supprimer le worktree.
+7. Commenter le ticket Jira ALV avec le lien de la PR mergée, puis le fermer :
+   `acli jira workitem transition --key ALV-<n> --status "15. Done" --yes`.
+8. Supprimer le worktree s'il figure encore dans `git worktree list`.
 
 S'arrêter et demander dans ces cas :
 
@@ -50,7 +50,7 @@ S'arrêter et demander dans ces cas :
 - `/code-review` remonte un point bloquant ;
 - le changement exige un bump de version, une publication ou une modification
   de pin de dépendance ;
-- le ticket ne se ferme pas faute de transition « Terminé ».
+- le ticket ne passe pas en `15. Done`.
 
 ### Domain docs
 
