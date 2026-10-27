@@ -1,10 +1,9 @@
-import { Box, Page } from '@alveole/components';
+import { Box, Page, StorySummary } from '@alveole/components';
 import { useTheme } from '@alveole/theme';
 import React from 'react';
 import { PageTitle, PageTitleProps } from './PageTitle';
 import { ScreenZone } from './ScreenZone';
 import { StoryLayout } from './StoryLayout';
-import { StorySummary } from './StorySummary';
 
 export type EcranDeCatalogueProps = {
   title: string;
