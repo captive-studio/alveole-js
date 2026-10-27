@@ -1,11 +1,10 @@
-import { Box, toSlug, Typography } from '@alveole/components';
 import { FOCUS_ATTRIBUTE, useTheme } from '@alveole/theme';
+import { toSlug } from '../AnchorHeading';
+import { Box } from '../Box';
+import { Typography } from '../Typography';
 import { styleDuLienBrut } from './styleDuLienBrut';
 
-export type StorySummaryProps = {
-  /** Les titres des sections de la page, dans l'ordre où elle les présente. */
-  entrees: string[];
-};
+import type { StorySummaryProps } from './StorySummary';
 
 /** Le sommaire d'une page : une entrée par section, vers l'ancre que pose son titre. */
 export const StorySummary = ({ entrees }: StorySummaryProps) => {

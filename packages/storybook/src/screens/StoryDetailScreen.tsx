@@ -1,11 +1,10 @@
-import { Box, Page, Section, Tabs, Typography } from '@alveole/components';
+import { Box, Page, Section, StorySummary, Tabs, Typography } from '@alveole/components';
 import { useTheme } from '@alveole/theme';
 import React from 'react';
 import { EnTeteDeFiche } from '../components/EnTeteDeFiche';
 import { ExemplesDeLaStory } from '../components/ExemplesDeLaStory';
 import { JsonBlock } from '../components/JsonBlock';
 import { StoryLayout } from '../components/StoryLayout';
-import { StorySummary } from '../components/StorySummary';
 import { StorybookModule } from '../types';
 import { getStoryExamples } from '../utils';
 import { resumeDeLaFiche } from './sourcesDExemples';
