@@ -12,4 +12,6 @@ export type DocumentViewerProps = BoxProps & {
   height?: BoxProps['height'];
   ChildrenProps?: Omit<BoxProps, 'children'>;
   pdfErrorLabel?: string;
+  /** Affiche le bouton plein ecran dans la barre d'outils (web, si le navigateur le permet). */
+  allowFullscreen?: boolean;
 };
