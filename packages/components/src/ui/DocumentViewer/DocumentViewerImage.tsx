@@ -1,10 +1,8 @@
-import React from 'react';
 import { Box, BoxProps } from '../../core/Box';
 import { Image } from '../../core/Image';
 import { useStyles } from './DocumentViewer.styles';
 import { DocumentViewerRotation } from './DocumentViewer.types';
-import { positionEnPourcentage } from './documentViewerPdfCalculs';
-import { type EvenementPointeur, lirePointeurWeb } from './pointeurWeb';
+import { useZoomMolette } from './useZoomMolette';
 
 export type DocumentViewerImageProps = {
   source: string;
@@ -16,33 +14,17 @@ export type DocumentViewerImageProps = {
 export const DocumentViewerImage = (props: DocumentViewerImageProps) => {
   const { source, rotation, height, scale = 1 } = props;
   const styles = useStyles();
-  const [isHovered, setIsHovered] = React.useState(false);
-  const [transformOrigin, setTransformOrigin] = React.useState('50% 50%');
-  const hoveredScale = isHovered ? 2 : 1;
-
-  const handlePointerMove = React.useCallback(
-    (event: EvenementPointeur) => {
-      const pointeur = lirePointeurWeb(event);
-      if (!pointeur) return;
-
-      const { x, y } = positionEnPourcentage(pointeur);
-      const origin = getRotatedTransformOrigin(x, y, rotation);
-
-      setTransformOrigin(`${origin.x}% ${origin.y}%`);
-    },
-    [rotation],
-  );
+  const { poserLeCadre, ...zoom } = useZoomMolette();
+  const origine = getRotatedTransformOrigin(zoom.position.x, zoom.position.y, rotation);
+  const transformOrigin = `${origine.x}% ${origine.y}%`;
 
   return (
     <Box
       tag="document-viewer-image"
       width={'100%'}
       height={height}
-      onMouseEnter={() => setIsHovered(true)}
-      onMouseLeave={() => setIsHovered(false)}
-      onPointerEnter={() => setIsHovered(true)}
-      onPointerLeave={() => setIsHovered(false)}
-      onPointerMove={handlePointerMove}
+      ref={poserLeCadre}
+      onPointerMove={zoom.onDeplacement}
       style={styles.viewerImageContent}
     >
       <Box width={'100%'} height={'100%'} p={'1V'}>
@@ -50,7 +32,7 @@ export const DocumentViewerImage = (props: DocumentViewerImageProps) => {
           <Box
             width={'100%'}
             height={'100%'}
-            style={[styles.viewerImageZoomLayer, { transformOrigin }, { transform: [{ scale: scale * hoveredScale }] }]}
+            style={[styles.viewerImageZoomLayer, { transformOrigin }, { transform: [{ scale: scale * zoom.echelle }] }]}
           >
             <Image source={{ uri: source }} contentFit="contain" width={'100%'} height={'100%'} pointerEvents="none" />
           </Box>
