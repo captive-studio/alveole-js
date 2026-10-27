@@ -10,20 +10,26 @@ export default {
   experimental: false,
   webOnly: true,
   description:
-    'Viewer de documents (PDF, Image). Ctrl/⌘ + molette pour zoomer, double-clic pour revenir à 100 %, bouton plein écran dans la barre d’outils.',
+    'Viewer de documents (PDF, Image). Ctrl/⌘ + molette pour zoomer, double-clic pour revenir à 100 %, bouton plein écran avec `allowFullscreen`.',
   component: DocumentViewer,
   styleFn: useStyles,
 } satisfies Story;
 
 export const DocumentImageEx = () => (
   <Box width="100%" maxW={500} height={500}>
-    <DocumentViewer title="Document image" type="image" source="https://picsum.photos/1000/2000" height="100%" />
+    <DocumentViewer
+      title="Document image"
+      type="image"
+      allowFullscreen
+      source="https://picsum.photos/1000/2000"
+      height="100%"
+    />
   </Box>
 );
 
 export const DocumentPdf = () => (
   <Box width="100%" height={400} maxW={500}>
-    <DocumentViewer title="Document PDF" type="pdf" source="/document-exemple.pdf" height="100%" />
+    <DocumentViewer title="Document PDF" type="pdf" source="/document-exemple.pdf" height="100%" allowFullscreen />
   </Box>
 );
 

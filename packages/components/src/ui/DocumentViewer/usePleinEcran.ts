@@ -1,14 +1,14 @@
 import React from 'react';
 
 /**
- * Le plein ecran du visualiseur, par la Fullscreen API du navigateur. Indisponible hors du web
+ * Le plein ecran du visualiseur, par la Fullscreen API du navigateur. Indisponible s'il n'est pas `actif`, hors du web
  * ou quand le navigateur le refuse (`document.fullscreenEnabled`). La sortie par Echap passe par
  * le navigateur : l'etat suit donc `fullscreenchange` plutot que les appuis sur le bouton.
  */
-export const usePleinEcran = () => {
+export const usePleinEcran = (actif: boolean) => {
   const [cadre, poserLeCadre] = React.useState<unknown>(null);
   const [pleinEcran, setPleinEcran] = React.useState(false);
-  const disponible = typeof document !== 'undefined' && document.fullscreenEnabled === true;
+  const disponible = actif && typeof document !== 'undefined' && document.fullscreenEnabled === true;
 
   React.useEffect(() => {
     if (!disponible) return;

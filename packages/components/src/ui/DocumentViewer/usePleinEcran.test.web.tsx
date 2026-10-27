@@ -2,8 +2,15 @@ import { act, fireEvent } from '@testing-library/react';
 import { renderWeb, screen } from '../../../__tests__/helpers/renderWeb';
 import { DocumentViewer } from './DocumentViewer';
 
-const viewer = () =>
-  renderWeb(<DocumentViewer title="Document" type="image" source="https://exemple.test/image.png" />);
+const viewer = (allowFullscreen = true) =>
+  renderWeb(
+    <DocumentViewer
+      title="Document"
+      type="image"
+      source="https://exemple.test/image.png"
+      allowFullscreen={allowFullscreen}
+    />,
+  );
 
 afterEach(() => {
   Object.defineProperty(document, 'fullscreenEnabled', { configurable: true, value: undefined });
@@ -11,6 +18,13 @@ afterEach(() => {
 
 test('masque le bouton plein ecran quand le navigateur ne le permet pas', () => {
   viewer();
+
+  expect(screen.queryByLabelText('Afficher en plein ecran')).toBeNull();
+});
+
+test('masque le bouton plein ecran sans allowFullscreen', () => {
+  Object.defineProperty(document, 'fullscreenEnabled', { configurable: true, value: true });
+  viewer(false);
 
   expect(screen.queryByLabelText('Afficher en plein ecran')).toBeNull();
 });
