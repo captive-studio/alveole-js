@@ -7,8 +7,8 @@ import { DocumentViewerRotation } from './DocumentViewer.types';
 import { useDocumentPdfCharge } from './useDocumentPdfCharge';
 import { useEtatReinitialiseParCle } from './useEtatReinitialiseParCle';
 import { useRenduDePage } from './useRenduDePage';
-import { useSurvolAvecZoom } from './useSurvolAvecZoom';
 import { useTailleParResizeObserver } from './useTailleParResizeObserver';
+import { useZoomMolette } from './useZoomMolette';
 
 export type DocumentViewerPDFProps = {
   source: string;
@@ -24,15 +24,25 @@ type ZonePdfProps = {
   mesureRef: React.RefObject<HTMLDivElement | null>;
   canvasRef: React.RefObject<HTMLCanvasElement | null>;
   tailleRendue: { width: number; height: number };
-  survol: ReturnType<typeof useSurvolAvecZoom>;
+  poserLeCadre: ReturnType<typeof useZoomMolette>['poserLeCadre'];
+  zoom: Omit<ReturnType<typeof useZoomMolette>, 'poserLeCadre'>;
   hasError: boolean;
   errorLabel: string;
   height: BoxProps['height'];
 };
 
-/** Le cadre du visualiseur : la mesure invisible, le canvas a l'echelle du survol, et
+/** Le cadre du visualiseur : la mesure invisible, le canvas a l'echelle du zoom, et
  *  l'incrustation d'erreur quand le document ou la page n'a pas pu se rendre. */
-const ZonePdf = ({ mesureRef, canvasRef, tailleRendue, survol, hasError, errorLabel, height }: ZonePdfProps) => {
+const ZonePdf = ({
+  mesureRef,
+  canvasRef,
+  tailleRendue,
+  poserLeCadre,
+  zoom,
+  hasError,
+  errorLabel,
+  height,
+}: ZonePdfProps) => {
   const styles = useStyles();
 
   return (
@@ -40,11 +50,8 @@ const ZonePdf = ({ mesureRef, canvasRef, tailleRendue, survol, hasError, errorLa
       tag="document-viewer-pdf"
       width={'100%'}
       height={height}
-      onMouseEnter={survol.onEntree}
-      onMouseLeave={survol.onSortie}
-      onPointerEnter={survol.onEntree}
-      onPointerLeave={survol.onSortie}
-      onPointerMove={survol.onDeplacement}
+      ref={poserLeCadre}
+      onPointerMove={zoom.onDeplacement}
       style={[styles.viewerPdfContent, { position: 'relative' }]}
     >
       {/* React Native for Web ne declenche pas `onLayout` sur cette balise personnalisee :
@@ -57,8 +64,8 @@ const ZonePdf = ({ mesureRef, canvasRef, tailleRendue, survol, hasError, errorLa
             {
               width: tailleRendue.width,
               height: tailleRendue.height,
-              transformOrigin: survol.origine,
-              transform: [{ scale: survol.echelle }],
+              transformOrigin: zoom.origine,
+              transform: [{ scale: zoom.echelle }],
             },
           ]}
         >
@@ -95,14 +102,15 @@ export const DocumentViewerPDF = (props: DocumentViewerPDFProps) => {
   const [erreurDeRendu, setErreurDeRendu] = useEtatReinitialiseParCle(source);
   const onErreurDeRendu = React.useCallback(() => setErreurDeRendu(true), [setErreurDeRendu]);
   const tailleRendue = useRenduDePage({ pdf, page, rotation, scale, cadre, canvasRef, onErreur: onErreurDeRendu });
-  const survol = useSurvolAvecZoom();
+  const { poserLeCadre, ...zoom } = useZoomMolette();
 
   return (
     <ZonePdf
       mesureRef={mesureRef}
       canvasRef={canvasRef}
       tailleRendue={tailleRendue}
-      survol={survol}
+      poserLeCadre={poserLeCadre}
+      zoom={zoom}
       hasError={erreurDeChargement || erreurDeRendu}
       errorLabel={errorLabel}
       height={height}
