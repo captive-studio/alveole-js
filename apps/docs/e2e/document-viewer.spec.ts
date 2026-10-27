@@ -1,4 +1,4 @@
-import { expect, test } from '@playwright/test';
+import { expect, type Page, test } from '@playwright/test';
 import { blockThirdParties, openRoute } from './audit';
 
 test.beforeEach(async ({ page }) => {
@@ -36,22 +36,43 @@ test('garde le contenu enfant au-dessus de la barre d outils qui déborde', asyn
   expect(auDessus).toBe('DOCUMENT-VIEWER-CHILDREN');
 });
 
-// Le zoom au survol ne se voit que sur une page réellement rendue : sans PDF chargé, le canvas
-// reste à une taille nulle et doubler zéro ne prouve rien.
-test('agrandit la page rendue au survol du PDF', async ({ page }) => {
-  await openRoute(page, '/components/DocumentViewer');
-  const cadre = page
+const cadrePdf = (page: Page) =>
+  page
     .getByRole('main')
     .locator('document-viewer-wrapper')
     .filter({ hasNotText: 'Contenu enfant' })
     .locator('document-viewer-pdf')
     .first();
+
+// Le zoom ne se voit que sur une page réellement rendue : sans PDF chargé, le canvas reste à
+// une taille nulle et agrandir zéro ne prouve rien.
+test('zoome la page à Ctrl + molette, et laisse la molette seule faire défiler', async ({ page }) => {
+  await openRoute(page, '/components/DocumentViewer');
+  const cadre = cadrePdf(page);
   const canvas = cadre.locator('canvas');
   await cadre.scrollIntoViewIfNeeded();
   await expect.poll(async () => (await canvas.boundingBox())?.width ?? 0).toBeGreaterThan(50);
   const auRepos = (await canvas.boundingBox())!;
 
   await cadre.hover();
+  await page.mouse.wheel(0, 100);
+  await cadre.hover();
+  expect((await canvas.boundingBox())!.width).toBeCloseTo(auRepos.width, 0);
 
-  await expect.poll(async () => (await canvas.boundingBox())?.width ?? 0).toBeCloseTo(auRepos.width * 2, 0);
+  await page.keyboard.down('Control');
+  await page.mouse.wheel(0, -100);
+  await page.keyboard.up('Control');
+
+  await expect.poll(async () => (await canvas.boundingBox())?.width ?? 0).toBeCloseTo(auRepos.width * 1.25, 0);
+});
+
+test('affiche le visualiseur en plein écran puis en sort', async ({ page }) => {
+  await openRoute(page, '/components/DocumentViewer');
+  const viewer = page.getByRole('main').locator('document-viewer').first();
+
+  await viewer.getByRole('button', { name: 'Afficher en plein ecran' }).click();
+  await expect.poll(() => page.evaluate(() => document.fullscreenElement?.tagName ?? null)).toBe('DOCUMENT-VIEWER');
+
+  await viewer.getByRole('button', { name: 'Quitter le plein ecran' }).click();
+  await expect.poll(() => page.evaluate(() => document.fullscreenElement)).toBeNull();
 });
