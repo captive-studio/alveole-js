@@ -194,16 +194,18 @@ export default function ThemeConstantsPage() {
 }
 ```
 
-## Exemple pour la palette
+## Exemple pour les tokens sémantiques
 
 ```tsx
-import { CustomPalette } from '@alveole/theme';
 import { ThemePaletteScreen } from '@alveole/storybook';
 
-export default function ThemePalettePage() {
-  return <ThemePaletteScreen palette={CustomPalette} />;
+export default function ThemeTokensPage() {
+  return <ThemePaletteScreen />;
 }
 ```
+
+L'écran lit le catalogue des couleurs extrait au build du source du thème (ADR 0035) : une
+ligne par token, avec son chemin complet, sa nuance, son hex et son statut déprécié.
 
 ## Exemple pour la typographie
 
@@ -247,7 +249,8 @@ export default function ThemeTypographyPage() {
 
 ### `ThemePaletteScreen`
 
-- `palette`: objet de palette
+- `catalogue`: catalogue des couleurs, par défaut celui du thème Alveole
+- `palette`: dépréciée et ignorée, retirée au prochain bump majeur
 - `title`: titre de page
 - `description`: description de page
 

@@ -14,6 +14,7 @@ public/json-form/schema.json
 packages/components/src/generated/version.ts
 **/**/*.hbs
 **/*.stories.sources.ts
+**/*.generated.ts
 **/eslint-suppressions.json
 
 # Verrou généré, réécrit à son propre format par chaque `pnpm install` : le formater

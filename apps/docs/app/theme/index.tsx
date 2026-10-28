@@ -11,7 +11,7 @@ export default function ThemeRoute() {
   return (
     <UIKitThemePage
       footerContent={<DocFooter />}
-      onOpenColors={() => router.push('/theme/colors')}
+      onOpenColors={() => router.push('/theme/tokens-semantiques')}
       onOpenTypography={() => router.push('/theme/typographies')}
       onOpenCSSVariables={() => router.push('/theme/css-variables')}
     />

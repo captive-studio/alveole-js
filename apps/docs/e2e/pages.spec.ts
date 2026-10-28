@@ -22,7 +22,7 @@ test('énumère une route par composant du sitemap, dans un ordre stable', () =>
 });
 
 test('ignore les routes qui ne sont pas des composants', () => {
-  expect(auditedRoutes(fakeSitemap('/', '/philosophy', '/theme/colors', '/components/TextField'))).toEqual([
+  expect(auditedRoutes(fakeSitemap('/', '/philosophy', '/theme/tokens-semantiques', '/components/TextField'))).toEqual([
     '/components',
     '/components/TextField',
   ]);

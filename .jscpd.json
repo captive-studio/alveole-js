@@ -4,6 +4,7 @@
   "ignore": [
     "**/*.stories.tsx",
     "**/*.stories.sources.ts",
+    "**/*.generated.ts",
     "**/*.test.*",
     "**/__tests__/**",
     "**/node_modules/**",

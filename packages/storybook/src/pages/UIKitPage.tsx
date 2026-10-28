@@ -1,5 +1,5 @@
 import { Page, Section } from '@alveole/components';
-import { CustomPalette, CustomTypography } from '@alveole/theme';
+import { CustomTypography } from '@alveole/theme';
 import React from 'react';
 import { StoriesScreen } from '../screens/StoriesScreen';
 import { StoryDetailScreen } from '../screens/StoryDetailScreen';
@@ -33,6 +33,7 @@ type UIKitRoute =
 export type UIKitPageProps = {
   stories: StorybookModule[];
   constants: Record<string, unknown>;
+  /** @deprecated Ignoree : la page des tokens lit le catalogue extrait du theme. Retiree au prochain bump majeur. */
   palette?: Record<string, unknown>;
   typography?: Record<string, unknown>;
   title?: string;
@@ -44,7 +45,6 @@ export type UIKitPageProps = {
 type ContexteDEcran = {
   stories: StorybookModule[];
   constants: Record<string, unknown>;
-  palette: Record<string, unknown>;
   typography: Record<string, unknown>;
   title: string;
   description: string;
@@ -152,14 +152,7 @@ const ecranDuTheme = (route: UIKitRoute, ctx: ContexteDEcran): React.ReactNode |
   }
 
   if (route.name === 'theme-colors') {
-    return (
-      <ThemePaletteScreen
-        beforeContent={ctx.beforeContent}
-        palette={ctx.palette}
-        title="UI Kit - Couleurs du thème"
-        description="Palette et couleurs du thème"
-      />
-    );
+    return <ThemePaletteScreen beforeContent={ctx.beforeContent} title="UI Kit - Tokens sémantiques" />;
   }
 
   if (route.name === 'theme-typography') {
@@ -207,7 +200,6 @@ const ecranDesConstantes = (route: UIKitRoute, ctx: ContexteDEcran): React.React
 export const UIKitPage = ({
   stories,
   constants,
-  palette = CustomPalette,
   typography = CustomTypography,
   title = 'UI Kit',
   description = 'Documentation du design system',
@@ -218,7 +210,6 @@ export const UIKitPage = ({
   const ctx: ContexteDEcran = {
     stories,
     constants,
-    palette,
     typography,
     title,
     description,

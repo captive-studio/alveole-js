@@ -16,6 +16,7 @@ apps/**/dist/*
 # Les shims de types sont écrits à la main, pas produits par un build.
 !apps/docs/shims/*.d.ts
 *.stories.sources.ts
+*.generated.ts
 packages/**/.eslintcache
 apps/**/.eslintcache
 apps/docs/.metro-tmp/

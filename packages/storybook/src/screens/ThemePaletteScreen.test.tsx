@@ -1,5 +1,6 @@
 import { Toasts } from '@alveole/components';
 import { fireEvent, renderScreen, screen } from '../../__tests__/helpers/renderScreen';
+import type { CatalogueDesCouleurs, TokenSemantique } from '../couleurs/catalogueDesCouleurs';
 import { ThemePaletteScreen } from './ThemePaletteScreen';
 
 /**
@@ -13,52 +14,54 @@ const rendreLaPalette = (props: Parameters<typeof ThemePaletteScreen>[0]) =>
     </Toasts>,
   );
 
-const palette = {
-  light: {
-    text: { 'title-grey': '#151617', 'mention-grey': '#5F6571' },
-    border: { 'default-grey': '#DEE3EC' },
-  },
-  dark: { text: { 'title-grey': '#FFFFFF' } },
-  primary: '#0055FF',
-};
-
-// Le rangement et le compte sont calcules par `paletteSections` : l'ecran n'a qu'a les
-// porter jusqu'a l'en-tete de chaque section.
-it('nomme chaque famille et compte ses jetons dans son en-tete', async () => {
-  rendreLaPalette({ palette });
-
-  expect(screen.getByText('light / text')).toBeTruthy();
-  expect(screen.getByText('2 tokens')).toBeTruthy();
+const token = (champs: Partial<TokenSemantique>): TokenSemantique => ({
+  chemin: 'light.border.default-grey',
+  famille: 'light / border',
+  nuance: { echelle: 'Neutre', numero: '900' },
+  hex: '#DDDDDD',
+  deprecie: false,
+  remplacant: null,
+  ...champs,
 });
 
-it('montre le nom court du jeton et sa valeur', async () => {
-  rendreLaPalette({ palette });
+const catalogue: CatalogueDesCouleurs = { tokens: [token({})] };
 
-  expect(screen.getByText('title-grey')).toBeTruthy();
-  expect(screen.getByText('#151617')).toBeTruthy();
+it('montre le chemin complet, la nuance referencee et le hex de chaque token', async () => {
+  rendreLaPalette({ catalogue });
+
+  expect(screen.getByText('light.border.default-grey')).toBeTruthy();
+  expect(screen.getByText('Neutre 900')).toBeTruthy();
+  expect(screen.getByText('#DDDDDD')).toBeTruthy();
 });
 
-/** La pastille cliquable qui porte une valeur : c'est elle que l'utilisateur vise. */
-const pastilleDe = (valeur: string) => screen.getByRole('button', { name: new RegExp(valeur) });
+// Le barre se verifie sur les cliches (ADR 0027) : jsdom prouve le signal textuel, que les
+// lecteurs d'ecran annoncent quand le barre ne se lit pas.
+it('signale un token deprecie et donne son remplacant', async () => {
+  const remplacant = "Utiliser light.border['default-grey']";
+  rendreLaPalette({ catalogue: { tokens: [token({ chemin: 'border.base', deprecie: true, remplacant })] } });
 
-it('copie la valeur au presse-papiers quand on presse la pastille', async () => {
+  expect(screen.getByText('Déprécié')).toBeTruthy();
+  expect(screen.getByText(remplacant)).toBeTruthy();
+});
+
+/** La ligne cliquable qui porte un token : c'est elle que l'utilisateur vise. */
+const ligneDe = (chemin: string) => screen.getByRole('button', { name: new RegExp(chemin) });
+
+it('copie la valeur au presse-papiers quand on presse la ligne et l annonce', async () => {
   const writeText = jest.fn().mockResolvedValue(undefined);
   Object.defineProperty(navigator, 'clipboard', { configurable: true, value: { writeText } });
 
-  rendreLaPalette({ palette });
-  fireEvent.click(pastilleDe('#151617'));
+  rendreLaPalette({ catalogue });
+  fireEvent.click(ligneDe('light.border.default-grey'));
 
-  expect(writeText).toHaveBeenCalledWith('#151617');
-});
-
-it('annonce la valeur copiee', async () => {
-  const writeText = jest.fn().mockResolvedValue(undefined);
-  Object.defineProperty(navigator, 'clipboard', { configurable: true, value: { writeText } });
-
-  rendreLaPalette({ palette });
-  fireEvent.click(pastilleDe('#151617'));
-
+  expect(writeText).toHaveBeenCalledWith('#DDDDDD');
   expect(await screen.findByText('Copié !')).toBeTruthy();
+});
+
+it('nomme la famille de chaque groupe de tokens', async () => {
+  rendreLaPalette({ catalogue });
+
+  expect(screen.getByText('light / border')).toBeTruthy();
 });
 
 // Sans presse-papiers, presser ne doit rien casser : l'ecran est rendu par un navigateur qui
@@ -66,24 +69,28 @@ it('annonce la valeur copiee', async () => {
 it('ne casse pas quand le presse-papiers est indisponible', async () => {
   Object.defineProperty(navigator, 'clipboard', { configurable: true, value: undefined });
 
-  rendreLaPalette({ palette });
+  rendreLaPalette({ catalogue });
 
-  expect(() => fireEvent.click(pastilleDe('#151617'))).not.toThrow();
+  expect(() => fireEvent.click(ligneDe('light.border.default-grey'))).not.toThrow();
 });
 
-// Les familles s'ouvrent, l'historique reste replie : c'est ce qui reste a migrer, pas ce qu'on
-// vient consulter. L'accordion ne rend pas le contenu replie, l'ecart se voit donc aux pastilles.
-it('deplie les familles et laisse l historique replie', async () => {
-  rendreLaPalette({ palette });
-
-  expect(screen.getByText('#151617')).toBeTruthy();
-  expect(screen.queryByText('#0055FF')).toBeNull();
-});
-
-// L'ecran sert aussi bien la palette du theme qu'une palette d'application : le titre et la
-// description sont donc repris par l'appelant, et seulement par defaut ceux du theme.
-it('reprend le titre et la description que l appelant donne', async () => {
-  rendreLaPalette({ palette, title: 'Couleurs de la marque', description: 'Palette du client' });
+// Les applications montent l'ecran sous leur propre titre.
+it('reprend le titre que l appelant donne', async () => {
+  rendreLaPalette({ catalogue, title: 'Couleurs de la marque' });
 
   expect(screen.getAllByText('Couleurs de la marque').length).toBeGreaterThan(0);
+});
+
+// `transparent` et les `rgba(...)` sont ecrits en dur dans la palette : aucune nuance a citer.
+it('indique une valeur directe quand le token ne reference aucune nuance', async () => {
+  rendreLaPalette({ catalogue: { tokens: [token({ nuance: null, hex: 'transparent' })] } });
+
+  expect(screen.getByText('Valeur directe')).toBeTruthy();
+});
+
+// Les applications montent l'ecran sans catalogue : il montre alors celui extrait du theme.
+it('montre par defaut les tokens du theme Alveole', async () => {
+  rendreLaPalette({});
+
+  expect(screen.getByText('light.text.title-grey')).toBeTruthy();
 });

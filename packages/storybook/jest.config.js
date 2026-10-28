@@ -89,5 +89,6 @@ module.exports = {
     '!src/**/index.ts',
     '!src/**/*.stories.tsx',
     '!src/**/*.stories.sources.ts',
+    '!src/**/*.generated.ts',
   ],
 };
