@@ -59,9 +59,10 @@ it('conserve une icône hors de la sélection des applications clientes', async 
 });
 
 it('préserve le dessin, la taille, la couleur et le trait Lucide', async () => {
-  const { toJSON, root } = await renderNative(<LucideIcon name="Check" size="lg" color="#123456" />);
+  const couleur = '#123456';
+  const { toJSON, root } = await renderNative(<LucideIcon name="Check" size="lg" color={couleur} />);
   expect(toJSON()).toMatchObject({
-    props: { width: 32, height: 32, stroke: '#123456', strokeWidth: 1.5 },
+    props: { width: 32, height: 32, stroke: couleur, strokeWidth: 1.5 },
   });
   const paths = root?.queryAll(instance => instance.type === 'RNSVGPath') ?? [];
   expect(paths).toHaveLength(1);

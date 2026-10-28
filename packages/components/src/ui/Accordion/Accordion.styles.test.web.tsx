@@ -1,4 +1,5 @@
 import { renderHookOnDesktop } from '@/__tests__/helpers/renderWeb';
+import { CustomPalette } from '@alveole/theme';
 import { useStyles } from './Accordion.styles';
 
 test('utilise le rayon de bordure de l echelle du theme sur l accordeon arrondi', () => {
@@ -33,11 +34,11 @@ test('distingue les variantes d en-tete par leur fond et le contour de la varian
   const { result } = renderHookOnDesktop(() => useStyles());
 
   expect(result.current.accordionItemHeader.backgroundColor).toBe('var(--background-default-grey)');
-  expect(result.current.accordionItemHeaderAlt.backgroundColor).toBe('#F9FBFC');
+  expect(result.current.accordionItemHeaderAlt.backgroundColor).toBe(CustomPalette.light.background['alt-grey']);
   expect(result.current.accordionItemHeaderOutline).toMatchObject({
     backgroundColor: 'var(--background-default-grey)',
     outlineWidth: 1,
-    outlineColor: '#DEE3EC',
+    outlineColor: CustomPalette.light.border['default-grey'],
     outlineStyle: 'solid',
   });
 });
