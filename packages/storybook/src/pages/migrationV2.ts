@@ -83,6 +83,33 @@ Props qui **montent sur \`FormControl\`** : \`label\`, \`labelRight\`, \`hint\`,
 \`required\`, \`disabled\` (et \`disabled\` reste aussi sur le contrôle).
 Tout le reste reste sur le contrôle.
 
+### \`FormControl\` composé à la main → props
+
+En 1.x, \`FormControl\` n'était qu'un conteneur : le libellé, l'aide et la légende s'y assemblaient
+à la main. Il les porte désormais, et relie le libellé au champ (\`id\`, \`required\`, \`disabled\`), ce
+que la composition manuelle ne fait pas.
+
+\`\`\`bash
+git grep -nE "<(InputHeading|FormControlLabel|FormControlHint|FormControlCaption)\\b"
+\`\`\`
+
+\`\`\`tsx
+// Avant
+<FormControl>
+  <InputHeading>
+    <FormControlLabel label="Adresse email" />
+    <FormControlHint hint="Votre email professionnel" />
+  </InputHeading>
+  <TextInput value={email} onChangeText={setEmail} />
+  <FormControlCaption error={error} />
+</FormControl>
+
+// Après
+<FormControl label="Adresse email" hint="Votre email professionnel" error={error}>
+  <TextInput type="email" value={email} onChangeText={setEmail} error={error} />
+</FormControl>
+\`\`\`
+
 ### Piège n°1 : \`onChange\` des champs texte
 
 Les anciens \`TextField\`, \`TextareaField\`, \`EmailField\`, \`PasswordField\`, \`PhoneField\`, \`PhoneInput\`
