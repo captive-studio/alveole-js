@@ -19,7 +19,7 @@
   "sideEffects": false,
   "scripts": {
     "build": "pnpm run generate:sources && tsc -p tsconfig.build.json",
-    "generate:sources": "node ../components/scripts/generate-stories-sources.mjs",
+    "generate:sources": "node ../components/scripts/generate-stories-sources.mjs && node ../../scripts/generer-catalogue-des-couleurs.mjs",
     "lint": "pnpm run generate:sources && eslint . --cache --cache-strategy content",
     "typecheck": "pnpm run generate:sources && tsc -p tsconfig.typecheck.json --noEmit",
     "test:unit": "pnpm run generate:sources && npx jest --coverage --maxWorkers=$(node ../../scripts/print-allocated-cpus.mjs) --ci"

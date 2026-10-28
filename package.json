@@ -30,7 +30,7 @@
     "publish:ios": "node scripts/publish-mobile.mjs ios",
     "publish:android": "node scripts/publish-mobile.mjs android",
     "check": "node scripts/check.mjs",
-    "test:scripts": "node --test scripts/allocated-cpus.test.mjs scripts/box-valeur-brute.test.mjs scripts/check.test.mjs scripts/check-adr-numbers.test.mjs scripts/check-coverage-ratchet.test.mjs scripts/check-suppressions.test.mjs scripts/compact-icons.test.mjs scripts/jest-mjs-transform.test.mjs scripts/spacing-deprecie.test.mjs scripts/time-test-unit.test.mjs",
+    "test:scripts": "node --test scripts/allocated-cpus.test.mjs scripts/box-valeur-brute.test.mjs scripts/check.test.mjs scripts/check-adr-numbers.test.mjs scripts/check-coverage-ratchet.test.mjs scripts/check-suppressions.test.mjs scripts/catalogue-des-couleurs.test.mjs scripts/compact-icons.test.mjs scripts/jest-mjs-transform.test.mjs scripts/spacing-deprecie.test.mjs scripts/time-test-unit.test.mjs",
     "pretest:unit": "pnpm run test:scripts"
   },
   "devDependencies": {

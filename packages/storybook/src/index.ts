@@ -2,6 +2,7 @@ export * from './components/DocFooter';
 export * from './components/JsonBlock';
 export * from './components/UIKitColumn';
 export * from './components/UIKitTopBar';
+export type * from './couleurs/catalogueDesCouleurs';
 export * from './navigation';
 export * from './pages/FormulairesPage';
 export * from './pages/InstallationPage';

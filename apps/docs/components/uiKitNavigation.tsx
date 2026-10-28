@@ -35,7 +35,7 @@ const RUBRIQUES: (UIKitTopBarItem & { key: string })[] = [
 ];
 
 const THEME_PAGES: UIKitColumnItem[] = [
-  { key: 'colors', title: 'Couleurs', href: '/theme/colors' },
+  { key: 'colors', title: 'Couleurs', href: '/theme/tokens-semantiques' },
   { key: 'typographies', title: 'Typographies', href: '/theme/typographies' },
   { key: 'css-variables', title: 'Variables CSS', href: '/theme/css-variables' },
 ];

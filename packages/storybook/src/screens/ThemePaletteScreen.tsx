@@ -1,12 +1,17 @@
-import { Accordion, Box, Typography } from '@alveole/components';
-import { Spacings, useTheme } from '@alveole/theme';
+import { Accordion, Typography } from '@alveole/components';
+import { useTheme } from '@alveole/theme';
 import React from 'react';
-import { ColorSwatch } from '../components/ColorSwatch';
 import { EcranDeCatalogue, filDuTheme } from '../components/EcranDeCatalogue';
-import { buildSections, ColorSection, compteDeJetons, sectionsOuvertesAuDepart } from './paletteSections';
+import { LigneDeToken } from '../components/LigneDeToken';
+import type { CatalogueDesCouleurs } from '../couleurs/catalogueDesCouleurs';
+import { catalogueDuTheme } from '../couleurs/catalogueDesCouleurs.generated';
+import { FamilleDeTokens, famillesDuCatalogue } from './famillesDuCatalogue';
 
 export type ThemePaletteScreenProps = {
-  palette: Record<string, unknown>;
+  /** Le catalogue extrait du source du theme (ADR 0035). Par defaut, celui d'Alveole. */
+  catalogue?: CatalogueDesCouleurs;
+  /** @deprecated Ignoree : l'ecran lit le catalogue extrait du theme. Retiree au prochain bump majeur. */
+  palette?: Record<string, unknown>;
   title?: string;
   description?: string;
   beforeContent?: React.ReactNode;
@@ -14,43 +19,25 @@ export type ThemePaletteScreenProps = {
   footerContent?: React.ReactNode;
 };
 
-/** Une famille de couleurs, depliable, avec le nombre de jetons qu'elle contient. */
-const SectionDeCouleurs = ({ section }: { section: ColorSection }) => {
-  const { color } = useTheme();
-
-  return (
-    <Accordion.Item
-      value={section.title}
-      label={section.title}
-      variant="alt"
-      labelChildren={
-        <Typography style={{ fontSize: 11, color: color.light.text['mention-grey'] }}>
-          {compteDeJetons(section)}
-        </Typography>
-      }
-      noPadding
-    >
-      <Box style={{ flexDirection: 'row', flexWrap: 'wrap', gap: Spacings['1W'], padding: Spacings['1W'] }}>
-        {section.entries.map(entry => (
-          <ColorSwatch key={entry.path} entry={entry} />
-        ))}
-      </Box>
-    </Accordion.Item>
-  );
-};
+const SectionDeTokens = ({ famille }: { famille: FamilleDeTokens }) => (
+  <Accordion.Item value={famille.titre} label={famille.titre} variant="alt" noPadding>
+    {famille.tokens.map(token => (
+      <LigneDeToken key={token.chemin} token={token} />
+    ))}
+  </Accordion.Item>
+);
 
 export const ThemePaletteScreen = ({
-  palette,
-  title = 'UI Kit - Couleurs du thème',
-  description = 'Palette et couleurs du thème',
+  catalogue = catalogueDuTheme,
+  title = 'Tokens sémantiques',
+  description = 'Les tokens de couleur du thème, leur nuance et leur statut',
   beforeContent,
   sidebar,
   footerContent,
 }: ThemePaletteScreenProps) => {
   const { color } = useTheme();
-  const sections = React.useMemo(() => buildSections(palette), [palette]);
-
-  const [openSections, setOpenSections] = React.useState(() => sectionsOuvertesAuDepart(sections));
+  const familles = React.useMemo(() => famillesDuCatalogue(catalogue), [catalogue]);
+  const [ouvertes, setOuvertes] = React.useState(() => familles.map(famille => famille.titre));
 
   return (
     <EcranDeCatalogue
@@ -62,11 +49,11 @@ export const ThemePaletteScreen = ({
       breadcrumbsProps={filDuTheme}
     >
       <Typography style={{ fontSize: 14, color: color.light.text['mention-grey'], marginBottom: 24 }}>
-        {'Cliquez sur un swatch pour copier sa valeur dans le presse-papiers.'}
+        {'Cliquez sur un token pour copier sa valeur dans le presse-papiers.'}
       </Typography>
-      <Accordion type="multiple" value={openSections} onValueChange={setOpenSections}>
-        {sections.map(section => (
-          <SectionDeCouleurs key={section.title} section={section} />
+      <Accordion type="multiple" value={ouvertes} onValueChange={setOuvertes}>
+        {familles.map(famille => (
+          <SectionDeTokens key={famille.titre} famille={famille} />
         ))}
       </Accordion>
     </EcranDeCatalogue>
