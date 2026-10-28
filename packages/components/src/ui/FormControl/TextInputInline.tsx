@@ -53,6 +53,7 @@ export const TextInputInline = React.forwardRef<TextInputElement, TextInputProps
     onFocus,
     onBlur,
     onPressIn,
+    resize,
     ...inputProps
   } = props;
 
@@ -83,7 +84,7 @@ export const TextInputInline = React.forwardRef<TextInputElement, TextInputProps
         ref={ref}
         id={inputProps.id ?? fieldId}
         aria-required={required}
-        style={inputTextStyle(styles, { startAdornment, endAdornment })}
+        style={inputTextStyle(styles, { startAdornment, endAdornment, resize })}
         readOnly={readOnly === true}
         editable={editable}
         onFocus={champ.handleFocus}

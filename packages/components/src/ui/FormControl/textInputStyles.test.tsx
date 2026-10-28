@@ -59,3 +59,11 @@ it('laisse le retrait du texte inchange quand un ornement est present', async ()
 it('garde la bordure de repos hors focus et hors validation', async () => {
   expect((await cadre({})).borderColor).toBe((await styles()).inputInner.borderColor);
 });
+
+// Sans `resize`, le champ garde le comportement de la plateforme.
+it('transmet la poignee de redimensionnement au champ', async () => {
+  const texte = async (resize?: 'vertical') =>
+    StyleSheet.flatten((await renderHook(() => inputTextStyle(useStyles(), { resize }))).result.current);
+  expect(await texte('vertical')).toMatchObject({ resize: 'vertical' });
+  expect(await texte()).not.toHaveProperty('resize');
+});
