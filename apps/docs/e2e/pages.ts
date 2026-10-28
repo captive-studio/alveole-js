@@ -26,9 +26,13 @@ export function auditedRoutes(dist: string = DIST): string[] {
     );
   }
 
+  // Les pages du thème sont rendues par le catalogue, et leur rendu se vérifie en cliché
+  // comme celui d'une fiche : le barré d'un token déprécié n'a pas d'autre preuve (ADR 0027).
+  const theme = [...xml.matchAll(/<loc>[^<]*(\/theme\/[^<]+)<\/loc>/g)].map(([, route]) => route).sort();
+
   // La page d'index du catalogue n'est pas un composant et n'apparaît donc pas parmi les
   // routes ci-dessus, mais elle est rendue par le design system et mérite d'être auditée.
-  return ['/components', ...components];
+  return ['/components', ...components, ...theme];
 }
 
 export function matching(routes: string[], pattern?: string): string[] {
