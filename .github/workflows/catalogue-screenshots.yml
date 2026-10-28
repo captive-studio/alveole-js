@@ -58,10 +58,10 @@ jobs:
           rm -rf e2e/__screenshots__
           pnpm run test:a11y e2e/accessibility.spec.ts --update-snapshots=all || true
       # Le `|| true` ci-dessus masquerait aussi un run interrompu : on exige exactement un
-      # cliché par page auditée, l'index du catalogue compris, avant de pousser quoi que ce soit.
+      # cliché par page auditée, l'index du catalogue et les pages du thème compris, avant de pousser quoi que ce soit.
       - name: Check one screenshot per page
         run: |
-          expected=$(( $(grep -c '/components/' apps/docs/dist/sitemap.xml) + 1 ))
+          expected=$(( $(grep -cE '/(components|theme)/' apps/docs/dist/sitemap.xml) + 1 ))
           actual=$(find apps/docs/e2e/__screenshots__ -name '*.png' | wc -l)
           echo "$actual clichés pour $expected pages."
           [ "$actual" -eq "$expected" ]
