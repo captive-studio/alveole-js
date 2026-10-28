@@ -1,8 +1,6 @@
-import { ReactNode } from 'react';
 import { Box } from '../../core/Box';
 import { Story } from '../../type';
-import { FormControl, FormControlLabel } from '../FormControl';
-import { InputHeading } from '../InputHeading';
+import { FormControl } from '../FormControl';
 import { TextareaInput } from './TextareaInput';
 
 export default {
@@ -14,38 +12,28 @@ export default {
   styleFn: () => ({}),
 } satisfies Story;
 
-// TextareaInput est le champ nu : c'est FormControl qui porte le libellé et le relie au champ.
-const Champ = ({ label, children }: { label: string; children: ReactNode }) => (
-  <FormControl>
-    <InputHeading>
-      <FormControlLabel label={label} />
-    </InputHeading>
-    {children}
-  </FormControl>
-);
-
 export const Default = () => (
   <Box display="flex" flexDirection="column" gap="3W">
-    <Champ label="Message">
+    <FormControl label="Message">
       <TextareaInput placeholder="Votre message..." numberOfLines={4} />
-    </Champ>
-    <Champ label="Avec valeur">
+    </FormControl>
+    <FormControl label="Avec valeur">
       <TextareaInput value="Contenu du message" numberOfLines={4} />
-    </Champ>
-    <Champ label="Désactivé">
+    </FormControl>
+    <FormControl label="Désactivé">
       <TextareaInput placeholder="Désactivé" disabled numberOfLines={4} />
-    </Champ>
+    </FormControl>
   </Box>
 );
 
 export const Redimensionnable = () => (
   <Box display="flex" flexDirection="column" gap="3W">
-    <Champ label="Verticalement">
+    <FormControl label="Verticalement">
       <TextareaInput placeholder="Tirer le coin pour agrandir..." numberOfLines={4} resize="vertical" />
-    </Champ>
-    <Champ label="Dans les deux sens">
+    </FormControl>
+    <FormControl label="Dans les deux sens">
       <TextareaInput placeholder="Tirer le coin pour agrandir..." numberOfLines={4} resize="both" />
-    </Champ>
+    </FormControl>
   </Box>
 );
 
