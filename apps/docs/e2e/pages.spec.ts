@@ -21,10 +21,20 @@ test('énumère une route par composant du sitemap, dans un ordre stable', () =>
   ]);
 });
 
-test('ignore les routes qui ne sont pas des composants', () => {
-  expect(auditedRoutes(fakeSitemap('/', '/philosophy', '/theme/tokens-semantiques', '/components/TextField'))).toEqual([
+test('ignore les routes qui ne sont ni des composants ni des pages du thème', () => {
+  expect(auditedRoutes(fakeSitemap('/', '/philosophy', '/components/TextField'))).toEqual([
     '/components',
     '/components/TextField',
+  ]);
+});
+
+// Les pages du thème sont rendues par le catalogue : leur rendu se vérifie aussi en cliché
+// (ADR 0027), comme le barré d'un token déprécié.
+test('audite les pages du thème après les composants', () => {
+  expect(auditedRoutes(fakeSitemap('/theme/tokens-semantiques', '/components/TextField'))).toEqual([
+    '/components',
+    '/components/TextField',
+    '/theme/tokens-semantiques',
   ]);
 });
 
