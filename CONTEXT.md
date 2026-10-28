@@ -21,5 +21,7 @@ lire que la section utile à la zone touchée :
   contrôle de saisie, champ.
 - [Composants](docs/context/composants.md) : vocabulaire transverse aux
   composants : contenu de tête, contenu de fin.
+- [Couleurs](docs/context/couleurs.md) : vocabulaire des couleurs du thème :
+  nuance, token sémantique.
 - [Qualité](docs/context/qualite.md) : vocabulaire des garde-fous mesurés du
   dépôt : cliquets, violations, clichés.
