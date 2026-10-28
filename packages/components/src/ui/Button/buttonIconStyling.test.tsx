@@ -1,3 +1,4 @@
+import { CustomPalette } from '@alveole/theme';
 import { renderHook } from '@testing-library/react-native';
 import { useStyles } from './Button.styles';
 import { apparenceDeLIcone, EtatDuBoutonIcone, styleDuCadreDIcone } from './buttonIconStyling';
@@ -22,11 +23,11 @@ const icone = async (surcharge?: Partial<EtatDuBoutonIcone>) =>
 // distingue une table juste d'une table permutee, ce qu'une comparaison entre deux variantes
 // ne ferait pas.
 it('applique le fond de la variante primary', async () => {
-  expect((await cadre()).backgroundColor).toBe('#002764'); // background['action-high-primary']
+  expect((await cadre()).backgroundColor).toBe(CustomPalette.light.background['action-high-primary']);
 });
 
 it('remplace le fond par celui de l etat desactive', async () => {
-  expect((await cadre({ disabled: true })).backgroundColor).toBe('#E6EAF1'); // background['disabled-grey']
+  expect((await cadre({ disabled: true })).backgroundColor).toBe(CustomPalette.light.background['disabled-grey']);
 });
 
 // Les trois crans posent une hauteur (ADR 0013), ce qui les distingue tous les trois.
@@ -94,13 +95,13 @@ it('fond son changement de fond comme Button', async () => {
 // La teinte rejoue la table des variantes independamment du fond : les deux peuvent donc se
 // desynchroniser. Ce test ancre le couple primary -> teinte.
 it('teinte l icone selon la variante', async () => {
-  expect((await icone()).color).toBe('#F2F9FF'); // text['inverted-primary']
+  expect((await icone()).color).toBe(CustomPalette.light.text['inverted-primary']);
 });
 
 // Fond et teinte desactives sont decides par deux gardes separees : une icone claire sur fond
 // clair passerait si seule la premiere etait observee.
 it('teinte l icone en gris quand le bouton est desactive', async () => {
-  expect((await icone({ disabled: true })).color).toBe('#8D97AC'); // text['disabled-grey']
+  expect((await icone({ disabled: true })).color).toBe(CustomPalette.light.text['disabled-grey']);
 });
 
 it('deduit la taille de l icone de celle du bouton', async () => {

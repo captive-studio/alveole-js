@@ -41,6 +41,13 @@ module.exports = [
           message:
             'Valeur de style lue en jsdom (ADR 0027) : tester la logique au niveau 1, ou le rendu dans apps/docs/e2e.',
         },
+        {
+          // Un hex de token recopie dans une attente casse le test a chaque reglage du theme,
+          // sans rapport avec le composant teste.
+          selector:
+            'CallExpression[callee.property.name=/^(toBe|toEqual|toStrictEqual|toMatchObject)$/] Literal[value=/^#[0-9A-Fa-f]{3,8}$/]',
+          message: 'Hex en dur dans une attente : lire la valeur dans CustomPalette (@alveole/theme).',
+        },
       ],
     },
   },

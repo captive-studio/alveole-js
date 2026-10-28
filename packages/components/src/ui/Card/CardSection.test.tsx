@@ -1,4 +1,5 @@
 import { renderNative, RenderResult } from '@/__tests__/helpers/renderNative';
+import { CustomPalette } from '@alveole/theme';
 import { CardSection } from './CardSection';
 
 // La couleur demandee a `LucideIcon` ne ressort que sur le SVG, en `stroke` : c'est la seule
@@ -34,7 +35,7 @@ it('affiche la description seule', async () => {
 it('teinte l icone du titre avec la couleur du titre', async () => {
   const view = await renderNative(<CardSection titre="Coordonnees" titreIcone="User" />);
 
-  expect(svg(view).stroke).toBe('#151617'); // text['title-grey']
+  expect(svg(view).stroke).toBe(CustomPalette.light.text['title-grey']);
 });
 
 // La description a sa propre teinte de repos, plus claire que celle du titre : les deux
@@ -42,7 +43,7 @@ it('teinte l icone du titre avec la couleur du titre', async () => {
 it('teinte l icone de la description avec la couleur de la description', async () => {
   const view = await renderNative(<CardSection description="Adresse" descriptionIcone="MapPin" />);
 
-  expect(svg(view).stroke).toBe('#373A3F'); // text['default-grey']
+  expect(svg(view).stroke).toBe(CustomPalette.light.text['default-grey']);
 });
 
 // La variante desactivee ecrase la teinte de la ligne, texte comme icone. Sans cet ancrage,
@@ -50,7 +51,7 @@ it('teinte l icone de la description avec la couleur de la description', async (
 it('grise l icone quand la variante est disabled', async () => {
   const view = await renderNative(<CardSection variant="disabled" titre="Coordonnees" titreIcone="User" />);
 
-  expect(svg(view).stroke).toBe('#8D97AC'); // text['disabled-grey']
+  expect(svg(view).stroke).toBe(CustomPalette.light.text['disabled-grey']);
 });
 
 // Le lien n'enveloppe la description que si les deux sont fournis : un `descriptionLink`
