@@ -38,4 +38,15 @@ export const Default = () => (
   </Box>
 );
 
+export const Redimensionnable = () => (
+  <Box display="flex" flexDirection="column" gap="3W">
+    <Champ label="Verticalement">
+      <TextareaInput placeholder="Tirer le coin pour agrandir..." numberOfLines={4} resize="vertical" />
+    </Champ>
+    <Champ label="Dans les deux sens">
+      <TextareaInput placeholder="Tirer le coin pour agrandir..." numberOfLines={4} resize="both" />
+    </Champ>
+  </Box>
+);
+
 export * as Sources from './TextareaInput.stories.sources';

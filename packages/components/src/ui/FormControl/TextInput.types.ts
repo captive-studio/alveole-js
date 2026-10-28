@@ -19,4 +19,6 @@ export type TextInputProps = Omit<ReactNativeTextInputProps, 'style'> & {
   openModal?: boolean;
   modalSubmitLabel?: string;
   onModalSubmit?: () => void;
+  /** Poignee de redimensionnement du champ multiligne, web uniquement : ignoree sur natif. */
+  resize?: 'none' | 'vertical' | 'horizontal' | 'both';
 };

@@ -3,6 +3,7 @@ import { StyleProp, TextStyle } from 'react-native';
 import { versStyleNatif } from '../../core/styleNatif/versStyleNatif';
 import { FieldBorderState, fieldBorderState } from './fieldBorderState';
 import { useStyles } from './FormControl.styles';
+import { TextInputProps } from './TextInput.types';
 
 type Styles = ReturnType<typeof useStyles>;
 
@@ -38,9 +39,14 @@ export const inputFrameStyle = (styles: Styles, state: InputFrameState) => ({
 /** Centrer le texte n'a de sens qu'encadre des deux cotes, sinon il fuit vers l'ornement. */
 export const inputTextStyle = (
   styles: Styles,
-  { startAdornment, endAdornment }: Pick<InputFrameState, 'startAdornment' | 'endAdornment'>,
+  {
+    startAdornment,
+    endAdornment,
+    resize,
+  }: Pick<InputFrameState, 'startAdornment' | 'endAdornment'> & Pick<TextInputProps, 'resize'>,
 ) =>
   versStyleNatif<StyleProp<TextStyle>>({
     ...styles.input,
     ...(startAdornment && endAdornment ? { textAlign: 'center' as const } : {}),
+    ...(resize ? { resize } : {}),
   });
