@@ -4,7 +4,6 @@ import { Typography } from '../../core/Typography';
 import { Story } from '../../type';
 import { Button } from '../Button';
 import { DateInput as DateInputControl } from '../DateInput';
-import { InputHeading } from '../InputHeading';
 import { TimeInput } from '../TimeInput';
 import { FormControl } from './FormControl';
 import { useStyles } from './FormControl.styles';
@@ -24,32 +23,20 @@ export default {
 } satisfies Story;
 
 export const WithTextInput = () => (
-  <FormControl>
-    <InputHeading>
-      <FormControlLabel label="Adresse email" />
-      <FormControlHint hint="Votre email professionnel" />
-    </InputHeading>
-    <TextInput placeholder="jean@exemple.fr" />
+  <FormControl label="Adresse email" hint="Votre email professionnel" required>
+    <TextInput type="email" placeholder="jean@exemple.fr" />
   </FormControl>
 );
 
 export const WithError = () => (
-  <FormControl>
-    <InputHeading>
-      <FormControlLabel label="Adresse email" />
-    </InputHeading>
-    <TextInput placeholder="jean@exemple.fr" />
-    <FormControlCaption error="Format invalide" />
+  <FormControl label="Adresse email" error="Format invalide">
+    <TextInput type="email" placeholder="jean@exemple.fr" error="Format invalide" />
   </FormControl>
 );
 
 export const WithSuccess = () => (
-  <FormControl>
-    <InputHeading>
-      <FormControlLabel label="Adresse email" />
-    </InputHeading>
-    <TextInput placeholder="jean@exemple.fr" />
-    <FormControlCaption success="Email valide" />
+  <FormControl label="Adresse email" success="Email valide">
+    <TextInput type="email" placeholder="jean@exemple.fr" success="Email valide" />
   </FormControl>
 );
 
@@ -98,22 +85,13 @@ export const DateInput = () => {
   const [month, setMonth] = useState('');
   return (
     <Box display="flex" flexDirection="column" gap="3V">
-      <FormControl>
-        <InputHeading>
-          <FormControlLabel label="Date" />
-        </InputHeading>
+      <FormControl label="Date">
         <DateInputControl type="date" value={date} onChange={setDate} />
       </FormControl>
-      <FormControl>
-        <InputHeading>
-          <FormControlLabel label="Heure" />
-        </InputHeading>
+      <FormControl label="Heure">
         <TimeInput value={time} onChange={setTime} />
       </FormControl>
-      <FormControl>
-        <InputHeading>
-          <FormControlLabel label="Mois" />
-        </InputHeading>
+      <FormControl label="Mois">
         <DateInputControl type="month" value={month} onChange={setMonth} />
       </FormControl>
     </Box>
