@@ -14,6 +14,15 @@ test('distingue le survol du fond de repos de la ligne courante', () => {
   );
 });
 
+// Le survol du blanc est passé sur 950, la valeur de contrast-grey : comparer les noms de
+// variables ne voyait pas que les deux rendaient le même gris. La ligne courante prend le cran
+// de pression, plus marqué que le survol.
+test('marque la ligne courante du gris de pression', () => {
+  const { result } = renderHookOnDesktop(() => useStyles());
+
+  expect(result.current.sidebarItemSelectedDesktop.backgroundColor).toBe('var(--background-default-grey-active)');
+});
+
 // Le thème web rend ses décisions en variables CSS, que jsdom ne résout pas faute de moteur de
 // rendu : on épingle donc le jeton, ce qui est de toute façon l'intention. Les tailles rendues,
 // elles, se mesurent dans le navigateur (apps/docs/e2e/sidebar.spec.ts).

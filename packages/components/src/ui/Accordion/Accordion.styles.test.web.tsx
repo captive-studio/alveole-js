@@ -33,7 +33,7 @@ test('distingue les variantes d en-tete par leur fond et le contour de la varian
   const { result } = renderHookOnDesktop(() => useStyles());
 
   expect(result.current.accordionItemHeader.backgroundColor).toBe('var(--background-default-grey)');
-  expect(result.current.accordionItemHeaderAlt.backgroundColor).toBe('#F6F7F8');
+  expect(result.current.accordionItemHeaderAlt.backgroundColor).toBe('#F9FBFC');
   expect(result.current.accordionItemHeaderOutline).toMatchObject({
     backgroundColor: 'var(--background-default-grey)',
     outlineWidth: 1,

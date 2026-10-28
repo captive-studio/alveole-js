@@ -126,7 +126,7 @@ const item = ({ color, spacing }: Theme) =>
 const etatDeLItem = ({ color, spacing, radius }: Theme) =>
   ({
     sidebarItemSelectedDesktop: {
-      backgroundColor: color.light.background['contrast-grey'],
+      backgroundColor: color.light.background['default-grey-active'],
     },
     sidebarItemSelectedMobile: {
       borderRadius: radius('lg'),

@@ -6,7 +6,7 @@ export const useStyles = makeStyles(({ color, text, spacing, spacingValue, radiu
     // Barre blanche, séparée du contenu par la seule hairline : c'est ce que font Primer
     // et Atlassian. Un fond gris sur une page blanche ajoute un second séparateur au
     // filet, et écrase tout ce qu'on pose dessus.
-    backgroundColor: color.light.background['default-grey'],
+    backgroundColor: color.light.background['alt-grey'],
     borderBottomWidth: 1,
     borderBottomColor: color.light.border['default-grey'],
     position: Platform.OS === 'web' ? 'sticky' : 'relative',
