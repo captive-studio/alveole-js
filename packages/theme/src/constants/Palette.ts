@@ -18,7 +18,7 @@ export const CustomPalette = {
       'contrast-info': Colors['BleuCaptive']['950'],
       'contrast-warning': Colors['OrangeWarning']['950'],
       'default-grey': Colors['Neutre']['1000'],
-      'default-grey-hover': Colors['Neutre']['975'],
+      'default-grey-hover': Colors['Neutre']['950'],
       'default-grey-active': Colors['Neutre']['925'],
       'active-primary': Colors['BleuCaptive']['sun-172'],
       'disabled-grey': Colors['Neutre']['925'],
@@ -311,7 +311,7 @@ export const CustomPalette = {
     /** @deprecated Utiliser light.background['disabled-grey'] */
     'disabled-grey': Colors['Neutre']['925'],
     /** @deprecated Utiliser light.background['default-grey-hover'] */
-    'default-hover': Colors['Neutre']['975'],
+    'default-hover': Colors['Neutre']['950'],
     /** @deprecated Utiliser light.background['open-primary'] */
     'open-bleu-captive': Colors['BleuCaptive']['925'],
     /** @deprecated Utiliser light.background['open-primary'] */
@@ -350,13 +350,13 @@ export const CustomPalette = {
       /** @deprecated Utiliser light.background (transparent-hover) */
       secondary: {
         default: 'transparent',
-        hover: Colors['Neutre']['975'],
+        hover: Colors['Neutre']['950'],
         disabled: 'transparent',
       },
       /** @deprecated Utiliser light.background (transparent-hover) */
       tertiary: {
         default: 'transparent',
-        hover: Colors['Neutre']['975'],
+        hover: Colors['Neutre']['950'],
         disabled: 'transparent',
       },
       /** @deprecated Utiliser light.background['action-high-error'] et light.background['flat-error'] */
