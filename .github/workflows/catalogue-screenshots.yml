@@ -58,11 +58,14 @@ jobs:
           rm -rf e2e/__screenshots__
           pnpm run test:a11y e2e/accessibility.spec.ts --update-snapshots=all || true
       # Le `|| true` ci-dessus masquerait aussi un run interrompu : on exige exactement un
-      # cliché par page auditée, l'index du catalogue et les pages du thème compris, avant de pousser quoi que ce soit.
+      # cliché par page auditée avant de pousser quoi que ce soit. Les pages se comptent par
+      # `auditedRoutes`, la fonction qui les choisit : un second filtre écrit ici divergerait
+      # dès que la suite photographie une nouvelle famille de pages.
       - name: Check one screenshot per page
+        working-directory: apps/docs
         run: |
-          expected=$(( $(grep -cE '/(components|theme)/' apps/docs/dist/sitemap.xml) + 1 ))
-          actual=$(find apps/docs/e2e/__screenshots__ -name '*.png' | wc -l)
+          expected=$(node --input-type=module -e "const { auditedRoutes } = await import('./e2e/pages.ts'); console.log(auditedRoutes().length)")
+          actual=$(find e2e/__screenshots__ -name '*.png' | wc -l)
           echo "$actual clichés pour $expected pages."
           [ "$actual" -eq "$expected" ]
       - name: Push changed screenshots
