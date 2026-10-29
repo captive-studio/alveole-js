@@ -18,7 +18,7 @@ jobs:
       contents: write
       actions: write
     # Même conteneur que le job qui compare : un cliché pris ailleurs différerait à chaque run.
-    container: ghcr.io/captive-studio/node-ci-chromium:24.22.1@sha256:63942eb38c1df994d4b2db742d7cd673e7b21723418d799480c5b1eaff96bf91
+    container: ghcr.io/captive-studio/node-ci-chromium:24.22.1@sha256:86baaa5237d6c84f75abedabaf2c757fc6ecd99f1f2c52f4dd4b49810cef3693
     env:
       PLAYWRIGHT_BROWSERS_PATH: /ms-playwright
     steps:
