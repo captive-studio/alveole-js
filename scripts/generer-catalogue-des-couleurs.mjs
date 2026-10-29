@@ -19,6 +19,13 @@ const contenu = [
   '  tokens: [',
   ...catalogue.tokens.map(token => `    ${JSON.stringify(token)},`),
   '  ],',
+  // Une echelle par ligne : ses nuances se lisent cote a cote et le fichier reste sous la
+  // limite de taille du lint, que deux cents nuances une par ligne depasseraient.
+  '  nuances: [',
+  ...Object.values(Object.groupBy(catalogue.nuances, nuance => nuance.echelle)).map(
+    nuances => `    ${nuances.map(nuance => JSON.stringify(nuance)).join(', ')},`,
+  ),
+  '  ],',
   '};',
   '',
 ].join('\n');

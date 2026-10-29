@@ -64,6 +64,16 @@ const lireValeur = (valeur, echelles, cheminComplet) => {
   return { nuance, hex };
 };
 
+/** Chaque nuance des echelles, avec les chemins des tokens qui la citent, actifs puis deprecies. */
+const nuancesCitees = (echelles, tokens) =>
+  Object.entries(echelles).flatMap(([echelle, nuances]) =>
+    Object.entries(nuances).map(([numero, hex]) => {
+      const citants = tokens.filter(token => token.nuance?.echelle === echelle && token.nuance.numero === numero);
+      const chemins = deprecie => citants.filter(token => token.deprecie === deprecie).map(token => token.chemin);
+      return { echelle, numero, hex, tokens: chemins(false), tokensDeprecies: chemins(true) };
+    }),
+  );
+
 export const extraireCatalogueDesCouleurs = ({ palette, echelles }) => {
   const valeursDesEchelles = lireEchelles(echelles);
   const tokens = [];
@@ -92,5 +102,5 @@ export const extraireCatalogueDesCouleurs = ({ palette, echelles }) => {
   };
 
   parcourir(objetDeclare(palette, 'CustomPalette'), [], null);
-  return { tokens };
+  return { tokens, nuances: nuancesCitees(valeursDesEchelles, tokens) };
 };

@@ -119,3 +119,24 @@ test('echoue en nommant le groupe quand il etale un autre objet', () => {
 
   assert.throws(() => extraireCatalogueDesCouleurs({ palette, echelles }), /light\.text/);
 });
+
+// La page des nuances liste, sous chaque cran, les tokens qui le citent : actifs et deprecies
+// comptent a part, et une nuance que rien ne cite ressort avec deux listes vides.
+test('rend chaque nuance avec ses tokens actifs et deprecies', () => {
+  const palette = `export const CustomPalette = {
+  light: { border: { 'default-grey': Colors['Neutre']['900'] } },
+  /** @deprecated Utiliser light.border['default-grey'] */
+  bordure: Colors['Neutre']['900'],
+} as const;`;
+
+  assert.deepEqual(extraireCatalogueDesCouleurs({ palette, echelles }).nuances, [
+    { echelle: 'Neutre', numero: '50', hex: '#161616', tokens: [], tokensDeprecies: [] },
+    {
+      echelle: 'Neutre',
+      numero: '900',
+      hex: '#DDDDDD',
+      tokens: ['light.border.default-grey'],
+      tokensDeprecies: ['bordure'],
+    },
+  ]);
+});

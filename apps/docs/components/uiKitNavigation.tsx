@@ -34,8 +34,13 @@ const RUBRIQUES: (UIKitTopBarItem & { key: string })[] = [
   { key: 'constants', label: 'Constantes', href: '/constants' },
 ];
 
+// Les deux pages des couleurs se lisent ensemble : une nuance mene aux tokens qui la citent.
+const COULEURS_PAGES: UIKitColumnItem[] = [
+  { key: 'nuances', title: 'Nuances', href: '/theme/nuances' },
+  { key: 'tokens-semantiques', title: 'Tokens sémantiques', href: '/theme/tokens-semantiques' },
+];
+
 const THEME_PAGES: UIKitColumnItem[] = [
-  { key: 'colors', title: 'Couleurs', href: '/theme/tokens-semantiques' },
   { key: 'typographies', title: 'Typographies', href: '/theme/typographies' },
   { key: 'css-variables', title: 'Variables CSS', href: '/theme/css-variables' },
 ];
@@ -73,7 +78,12 @@ const constantGroups = (): UIKitColumnGroup[] => [
 const buildColumnGroups = (rubrique: string | undefined): UIKitColumnGroup[] => {
   if (rubrique === 'components') return componentGroups();
   if (rubrique === 'guides') return [{ title: 'Guides', items: GUIDE_PAGES }];
-  if (rubrique === 'theme') return [{ title: 'Thème', items: THEME_PAGES }];
+  if (rubrique === 'theme') {
+    return [
+      { title: 'Couleurs', items: COULEURS_PAGES },
+      { title: 'Thème', items: THEME_PAGES },
+    ];
+  }
   if (rubrique === 'constants') return constantGroups();
   return [];
 };
