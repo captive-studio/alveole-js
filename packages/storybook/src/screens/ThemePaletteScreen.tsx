@@ -27,6 +27,16 @@ const SectionDeTokens = ({ famille }: { famille: FamilleDeTokens }) => (
   </Accordion.Item>
 );
 
+/**
+ * La page des nuances lie chaque token a sa ligne, ancree sur son chemin. Le lien navigue cote
+ * client : le navigateur ne defile pas de lui-meme vers l'ancre, l'ecran le fait. Le routeur ne
+ * pose la nouvelle adresse qu'apres le montage de l'ecran, d'ou la lecture differee d'une tâche.
+ */
+const defilerVersLAncre = () => {
+  if (typeof document === 'undefined' || !window.location?.hash) return;
+  document.getElementById(decodeURIComponent(window.location.hash.slice(1)))?.scrollIntoView();
+};
+
 export const ThemePaletteScreen = ({
   catalogue = catalogueDuTheme,
   title = 'Tokens sémantiques',
@@ -38,6 +48,10 @@ export const ThemePaletteScreen = ({
   const { color } = useTheme();
   const familles = React.useMemo(() => famillesDuCatalogue(catalogue), [catalogue]);
   const [ouvertes, setOuvertes] = React.useState(() => familles.map(famille => famille.titre));
+  React.useEffect(() => {
+    const differe = setTimeout(defilerVersLAncre, 0);
+    return () => clearTimeout(differe);
+  }, []);
 
   return (
     <EcranDeCatalogue

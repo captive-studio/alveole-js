@@ -25,7 +25,7 @@ export const LigneDeToken = ({ token }: { token: TokenSemantique }) => {
   };
 
   return (
-    <Pressable accessibilityRole="button" onPress={copierLaValeur}>
+    <Pressable accessibilityRole="button" nativeID={token.chemin} onPress={copierLaValeur}>
       <Box
         style={{
           flexDirection: 'row',

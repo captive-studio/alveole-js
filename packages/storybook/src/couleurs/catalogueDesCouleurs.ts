@@ -14,4 +14,13 @@ export type TokenSemantique = {
   remplacant: string | null;
 };
 
-export type CatalogueDesCouleurs = { tokens: TokenSemantique[] };
+/** Un cran d'une echelle de `Colors`, avec les chemins des tokens qui le citent dans le source. */
+export type Nuance = {
+  echelle: string;
+  numero: string;
+  hex: string;
+  tokens: string[];
+  tokensDeprecies: string[];
+};
+
+export type CatalogueDesCouleurs = { tokens: TokenSemantique[]; nuances: Nuance[] };

@@ -1,5 +1,5 @@
 import { Toasts } from '@alveole/components';
-import { fireEvent, renderScreen, screen } from '../../__tests__/helpers/renderScreen';
+import { fireEvent, renderScreen, screen, waitFor } from '../../__tests__/helpers/renderScreen';
 import type { CatalogueDesCouleurs, TokenSemantique } from '../couleurs/catalogueDesCouleurs';
 import { ThemePaletteScreen } from './ThemePaletteScreen';
 
@@ -24,7 +24,7 @@ const token = (champs: Partial<TokenSemantique>): TokenSemantique => ({
   ...champs,
 });
 
-const catalogue: CatalogueDesCouleurs = { tokens: [token({})] };
+const catalogue: CatalogueDesCouleurs = { tokens: [token({})], nuances: [] };
 
 it('montre le chemin complet, la nuance referencee et le hex de chaque token', async () => {
   rendreLaPalette({ catalogue });
@@ -38,7 +38,9 @@ it('montre le chemin complet, la nuance referencee et le hex de chaque token', a
 // lecteurs d'ecran annoncent quand le barre ne se lit pas.
 it('signale un token deprecie et donne son remplacant', async () => {
   const remplacant = "Utiliser light.border['default-grey']";
-  rendreLaPalette({ catalogue: { tokens: [token({ chemin: 'border.base', deprecie: true, remplacant })] } });
+  rendreLaPalette({
+    catalogue: { tokens: [token({ chemin: 'border.base', deprecie: true, remplacant })], nuances: [] },
+  });
 
   expect(screen.getByText('Déprécié')).toBeTruthy();
   expect(screen.getByText(remplacant)).toBeTruthy();
@@ -83,7 +85,7 @@ it('reprend le titre que l appelant donne', async () => {
 
 // `transparent` et les `rgba(...)` sont ecrits en dur dans la palette : aucune nuance a citer.
 it('indique une valeur directe quand le token ne reference aucune nuance', async () => {
-  rendreLaPalette({ catalogue: { tokens: [token({ nuance: null, hex: 'transparent' })] } });
+  rendreLaPalette({ catalogue: { tokens: [token({ nuance: null, hex: 'transparent' })], nuances: [] } });
 
   expect(screen.getByText('Valeur directe')).toBeTruthy();
 });
@@ -93,4 +95,24 @@ it('montre par defaut les tokens du theme Alveole', async () => {
   rendreLaPalette({});
 
   expect(screen.getByText('light.text.title-grey')).toBeTruthy();
+});
+
+// La page des nuances lie chaque token a sa ligne : l'ancre est son chemin complet.
+it('ancre chaque ligne sur le chemin complet du token', async () => {
+  rendreLaPalette({ catalogue });
+
+  expect(document.getElementById('light.border.default-grey')).toBe(ligneDe('light.border.default-grey'));
+});
+
+// Le lien d'une nuance navigue cote client, et le routeur ne pose la nouvelle adresse qu'apres
+// le montage de l'ecran (mesure en navigateur) : l'ecran lit l'ancre une fois ce montage passe.
+it('amene a la ligne du token que designe l ancre posee apres le montage', async () => {
+  const scrollIntoView = jest.fn();
+  Element.prototype.scrollIntoView = scrollIntoView;
+
+  rendreLaPalette({ catalogue });
+  window.history.pushState(null, '', '#light.border.default-grey');
+
+  await waitFor(() => expect(scrollIntoView.mock.contexts[0]).toBe(ligneDe('light.border.default-grey')));
+  window.history.replaceState(null, '', '#');
 });
