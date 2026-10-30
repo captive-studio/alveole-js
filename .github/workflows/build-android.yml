@@ -15,7 +15,7 @@ jobs:
     name: Build and submit to Google Play
     runs-on: [self-hosted]
     timeout-minutes: 60
-    container: ghcr.io/captive-studio/node-ci:24.22.1@sha256:2e88e8f4fe792bf32141256277c84dec4a9c1b43ece250b40ff6a0fe196fd96a
+    container: ghcr.io/captive-studio/node-ci:24.22.2@sha256:f755567711d7c32e39a69cfb01e38ad30047b3fe9617289531310cb6ddfeb470
     env:
       EXPO_TOKEN: ${{ secrets.EXPO_TOKEN }}
     steps:
