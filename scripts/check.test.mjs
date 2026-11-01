@@ -113,9 +113,19 @@ test('prépare les sources avant les trois contrôles, avec deux tâches au maxi
       .filter(e => e.event === 'end')
       .map(e => e.task)
       .sort(),
-    ['format:check', 'generate:sources', 'lint', 'test:unit', 'typecheck'],
+    ['check:coverage-ratchet', 'format:check', 'generate:sources', 'lint', 'test:unit', 'typecheck'],
   );
   assert.equal(peak(events), 2);
+});
+
+// La CI refuse un gain de couverture que le cliquet ne protège pas : la validation locale
+// doit le refuser aussi, sinon elle rend un vert que la CI contredit.
+test('vérifie le cliquet de couverture une fois les tests unitaires terminés', async t => {
+  const { done, readEvents } = await fixture(t);
+  assert.equal((await done).code, 0);
+  const events = (await readEvents()).map(e => `${e.task}:${e.event}`);
+  assert.ok(events.includes('check:coverage-ratchet:start'));
+  assert.ok(events.indexOf('test:unit:end') < events.indexOf('check:coverage-ratchet:start'));
 });
 
 test('termine tous les contrôles indépendants et remonte chaque échec', async t => {
@@ -123,7 +133,7 @@ test('termine tous les contrôles indépendants et remonte chaque échec', async
   const result = await done;
   assert.equal(result.code, 1);
   for (const task of ['format:check', 'typecheck', 'lint']) assert.match(result.output, new RegExp(`ÉCHEC ${task}`));
-  assert.equal((await readEvents()).filter(e => e.event === 'end').length, 5);
+  assert.equal((await readEvents()).filter(e => e.event === 'end').length, 6);
 });
 
 test('une erreur de génération empêche les contrôles dépendants', async t => {
