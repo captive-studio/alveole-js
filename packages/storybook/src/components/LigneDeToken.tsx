@@ -14,17 +14,26 @@ const Texte = (props: React.ComponentProps<typeof Typography>) => <Typography te
 /** La largeur des colonnes nuance et hex : alignees d'une ligne a l'autre. */
 const LARGEUR_DE_COLONNE = 160;
 
+/** L'intitule devant les consommateurs : un token deprecie encore cite est une migration restante. */
+const intituleDesConsommateurs = (consommateurs: Consommateur[], deprecie: boolean) => {
+  if (consommateurs.length === 0) return { texte: 'sans usage', enMigration: false };
+  return deprecie ? { texte: 'Encore utilisé par', enMigration: true } : { texte: 'Utilisé par', enMigration: false };
+};
+
 /**
  * Les composants qui citent le token, chacun lie a sa page du catalogue. Hors de la ligne
  * pressable : un lien ne s'imbrique pas dans le `<button>` qu'elle rend sur le web.
  */
-const UtilisePar = ({ consommateurs }: { consommateurs: Consommateur[] }) => {
+const UtilisePar = ({ consommateurs, deprecie }: { consommateurs: Consommateur[]; deprecie: boolean }) => {
   const { color } = useTheme();
+  const intitule = intituleDesConsommateurs(consommateurs, deprecie);
 
   return (
     <Box style={{ flexDirection: 'row', flexWrap: 'wrap', gap: Spacings['1W'], paddingLeft: Spacings['1W'] }}>
-      <Texte style={{ color: color.light.text['mention-grey'] }}>
-        {consommateurs.length === 0 ? 'sans usage' : 'Utilisé par'}
+      <Texte
+        style={{ color: intitule.enMigration ? color.light.text['default-warning'] : color.light.text['mention-grey'] }}
+      >
+        {intitule.texte}
       </Texte>
       {consommateurs.map(({ nom, story }) =>
         story ? (
@@ -86,7 +95,7 @@ export const LigneDeToken = ({ token }: { token: TokenSemantique }) => {
           <Texte style={{ width: LARGEUR_DE_COLONNE, fontFamily: 'monospace' }}>{token.hex}</Texte>
         </Box>
       </Pressable>
-      {token.consommateurs && <UtilisePar consommateurs={token.consommateurs} />}
+      {token.consommateurs && <UtilisePar consommateurs={token.consommateurs} deprecie={token.deprecie} />}
     </Box>
   );
 };
