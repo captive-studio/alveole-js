@@ -142,3 +142,23 @@ it('signale un token qu aucun composant ne cite', async () => {
 
   expect(screen.getByText('sans usage')).toBeTruthy();
 });
+
+// Un token deprecie encore cite marque une migration restante : la ligne l'avertit.
+it('avertit qu un token deprecie est encore utilise et liste ses consommateurs', async () => {
+  rendreLaPalette({
+    catalogue: {
+      tokens: [token({ deprecie: true, consommateurs: [{ nom: 'Page', story: 'Pages' }] })],
+      nuances: [],
+    },
+  });
+
+  expect(screen.getByText('Encore utilisé par')).toBeTruthy();
+  expect(screen.getByRole('link', { name: 'Page' })).toBeTruthy();
+});
+
+it('n avertit pas pour un token deprecie qu aucun composant ne cite', async () => {
+  rendreLaPalette({ catalogue: { tokens: [token({ deprecie: true, consommateurs: [] })], nuances: [] } });
+
+  expect(screen.getByText('sans usage')).toBeTruthy();
+  expect(screen.queryByText('Encore utilisé par')).toBeNull();
+});
