@@ -28,7 +28,7 @@
     "@alveole/core": "*",
     "@alveole/storybook": "*",
     "@alveole/theme": "*",
-    "@lottiefiles/dotlottie-react": "0.20.0",
+    "@lottiefiles/dotlottie-react": "0.21.0",
     "@react-native-community/datetimepicker": "9.2.1",
     "@react-native/assets-registry": "0.88.0",
     "@shopify/flash-list": "2.3.2",
