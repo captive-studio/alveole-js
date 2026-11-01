@@ -84,8 +84,14 @@ async function lancerLesControles() {
   if (!generated.ok || interrupted) return;
 
   const pending = ['test:unit', 'typecheck', 'lint'];
+  // Le cliquet lit la couverture que `test:unit` vient d'ecrire : il le suit sur le meme worker.
+  const suites = { 'test:unit': 'check:coverage-ratchet' };
   const worker = async () => {
-    while (pending.length && !interrupted) await run(pending.shift());
+    while (pending.length && !interrupted) {
+      const tache = pending.shift();
+      const resultat = await run(tache);
+      if (suites[tache] && resultat.ok && !interrupted) await run(suites[tache]);
+    }
   };
   await Promise.all(Array.from({ length: args.includes('--serial') ? 1 : 2 }, worker));
 }
