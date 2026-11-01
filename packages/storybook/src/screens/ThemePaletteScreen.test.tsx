@@ -116,3 +116,29 @@ it('amene a la ligne du token que designe l ancre posee apres le montage', async
   await waitFor(() => expect(scrollIntoView.mock.contexts[0]).toBe(ligneDe('light.border.default-grey')));
   window.history.replaceState(null, '', '#');
 });
+
+// Le catalogue nomme la page d'un composant par le titre de sa story.
+it('lie chaque composant consommateur a sa page du catalogue', async () => {
+  rendreLaPalette({
+    catalogue: { tokens: [token({ consommateurs: [{ nom: 'Page', story: 'Pages' }] })], nuances: [] },
+  });
+
+  expect(screen.getByText('Utilisé par')).toBeTruthy();
+  expect(screen.getByRole('link', { name: 'Page' }).getAttribute('href')).toBe('/components/Pages');
+});
+
+// Sans story, le composant n'a pas de page ou mener.
+it('nomme sans lien un consommateur qui n a pas de story', async () => {
+  rendreLaPalette({
+    catalogue: { tokens: [token({ consommateurs: [{ nom: 'PageHead', story: null }] })], nuances: [] },
+  });
+
+  expect(screen.getByText('PageHead')).toBeTruthy();
+  expect(screen.queryByRole('link', { name: 'PageHead' })).toBeNull();
+});
+
+it('signale un token qu aucun composant ne cite', async () => {
+  rendreLaPalette({ catalogue: { tokens: [token({ consommateurs: [] })], nuances: [] } });
+
+  expect(screen.getByText('sans usage')).toBeTruthy();
+});

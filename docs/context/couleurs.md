@@ -22,3 +22,12 @@ Une entrée de `CustomPalette` nommée par son usage (`border.default-grey`,
 `text.mention-grey`) et qui référence une nuance. C'est la seule couleur qu'un
 composant lit.
 _Éviter_ : rôle de couleur, variable de couleur.
+
+**Composant consommateur** :
+Un composant publié par `@alveole/components` qui cite lui-même un token sémantique
+dans son code : « Select est un composant consommateur de `border.default-grey` ».
+Seule la citation directe compte : un composant qui en contient un autre ne
+consomme pas les tokens de ce dernier. Les exemples, tests et démonstrations ne
+font pas d'un composant un consommateur. Le catalogue l'affiche « Utilisé par ».
+_Éviter_ : usage, utilisation. L'usage d'un token est le rôle que son nom et sa
+phrase d'usage annoncent, pas le constat de qui le cite.
