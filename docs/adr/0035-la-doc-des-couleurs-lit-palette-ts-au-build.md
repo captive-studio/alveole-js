@@ -28,3 +28,16 @@ pas de copie à tenir.
 
 Une écriture de `Palette.ts` que l'extraction ne reconnaît pas (valeur calculée, alias
 indirect) doit faire échouer le build de la doc plutôt que d'afficher une ligne vide.
+
+## Amendement : les composants consommateurs
+
+La page « Tokens sémantiques » montre aussi, pour chaque token, ses composants
+consommateurs. Ils sont extraits au build du source de `packages/components`, et non
+déclarés à la main, pour la même raison que la nuance d'un token : une liste tenue à
+part diverge. Un composant est son dossier (`ui/Select/` compte pour Select), et seuls
+les composants exportés par le paquet sont retenus ; stories, tests et `*.demo.*` sont
+ignorés. Seule la citation directe compte, sinon les composants de base feraient de
+chaque token un token « utilisé partout ».
+
+Un accès à un token par une clé calculée doit faire échouer le build de la doc : un
+« sans usage » faux inciterait à supprimer un token qui sert.

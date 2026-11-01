@@ -1,5 +1,6 @@
 import fs from 'node:fs/promises';
 import { extraireCatalogueDesCouleurs } from './catalogue-des-couleurs.mjs';
+import { extraireConsommateurs } from './composants-consommateurs.mjs';
 
 const racine = new URL('..', import.meta.url);
 const constantes = new URL('packages/theme/src/constants/', racine);
@@ -10,6 +11,18 @@ const catalogue = extraireCatalogueDesCouleurs({
   echelles: await fs.readFile(new URL('Color.ts', constantes), 'utf8'),
 });
 
+// Les composants consommateurs se lisent dans le source du paquet, chemins relatifs a `src/`.
+const sources = new URL('packages/components/src/', racine);
+const fichiersDesComposants = Object.fromEntries(
+  await Promise.all(
+    (await fs.readdir(sources, { recursive: true }))
+      .filter(chemin => /\.tsx?$/.test(chemin))
+      .map(async chemin => [chemin, await fs.readFile(new URL(chemin, sources), 'utf8')]),
+  ),
+);
+const consommateurs = extraireConsommateurs(fichiersDesComposants);
+const tokens = catalogue.tokens.map(token => ({ ...token, consommateurs: consommateurs[token.chemin] ?? [] }));
+
 const contenu = [
   '// Ce fichier est genere par scripts/generer-catalogue-des-couleurs.mjs. Ne pas le modifier.',
   "import type { CatalogueDesCouleurs } from './catalogueDesCouleurs';",
@@ -17,7 +30,7 @@ const contenu = [
   // Un token par ligne : le fichier reste lisible et sous la limite de longueur du lint.
   'export const catalogueDuTheme: CatalogueDesCouleurs = {',
   '  tokens: [',
-  ...catalogue.tokens.map(token => `    ${JSON.stringify(token)},`),
+  ...tokens.map(token => `    ${JSON.stringify(token)},`),
   '  ],',
   // Une echelle par ligne : ses nuances se lisent cote a cote et le fichier reste sous la
   // limite de taille du lint, que deux cents nuances une par ligne depasseraient.
