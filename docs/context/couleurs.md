@@ -17,6 +17,19 @@ numéro d'une nuance dit sa luminosité, son rang dit son usage : la nuance
 Neutre 950 est de rang 3.
 _Éviter_ : palier, niveau, step.
 
+**Famille d'échelles** :
+Le groupe auquel appartient une échelle de nuances selon ce à quoi le thème
+la destine : Neutre, Marque, Statut ou Accent. « BleuCaptive est de la
+famille d'échelles Marque. »
+_Éviter_ : rôle, catégorie, groupe, et « famille » seul, qui se confond avec
+la famille de tokens. « Rôle de couleur » est déjà écarté au profit de token
+sémantique.
+
+**Famille de tokens** :
+Le groupe de tokens sémantiques qui partagent le début de leur chemin, comme
+`light / border` : c'est une section de la page des tokens.
+_Éviter_ : « famille » seul, qui se confond avec la famille d'échelles.
+
 **Token sémantique** :
 Une entrée de `CustomPalette` nommée par son usage (`border.default-grey`,
 `text.mention-grey`) et qui référence une nuance. C'est la seule couleur qu'un
