@@ -17,8 +17,9 @@ runs:
           packages/*/src/**/*.generated.ts
           packages/components/src/generated
         # Sources et scripts des paquets, configs de build, script du catalogue des couleurs
-        # (racine `scripts/`), lockfile et patches : pdfjs et tsc viennent de node_modules.
-        key: packages-build-${{ runner.os }}-${{ hashFiles('packages/*/src/**', 'packages/*/scripts/**', 'packages/*/package.json', 'packages/*/tsconfig*.json', 'tsconfig.json', 'package.json', 'scripts/**', 'pnpm-lock.yaml', 'patches/**') }}
+        # (racine `scripts/`), lockfile, workspace et patches : pdfjs et tsc viennent de node_modules.
+        # L'action elle-même aussi : changer la commande de build doit invalider le cache.
+        key: packages-build-${{ runner.os }}-${{ hashFiles('packages/*/src/**', 'packages/*/scripts/**', 'packages/*/package.json', 'packages/*/tsconfig*.json', 'tsconfig.json', 'package.json', 'scripts/**', 'pnpm-lock.yaml', 'pnpm-workspace.yaml', 'patches/**', '.github/actions/build-packages/**') }}
     - name: Build workspace packages
       if: steps.restore.outputs.cache-hit != 'true'
       shell: sh
