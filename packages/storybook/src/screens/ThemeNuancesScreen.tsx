@@ -4,7 +4,7 @@ import React from 'react';
 import { EcranDeCatalogue, filDuTheme } from '../components/EcranDeCatalogue';
 import type { CatalogueDesCouleurs, Nuance } from '../couleurs/catalogueDesCouleurs';
 import { catalogueDuTheme } from '../couleurs/catalogueDesCouleurs.generated';
-import { echellesDuCatalogue } from './echellesDuCatalogue';
+import { type EchelleDeNuances, famillesDEchellesDuCatalogue } from './echellesDuCatalogue';
 
 export type ThemeNuancesScreenProps = {
   /** Le catalogue extrait du source du theme (ADR 0035). Par defaut, celui d'Alveole. */
@@ -17,10 +17,12 @@ export type ThemeNuancesScreenProps = {
 /** Le contraste sur blanc, a une decimale et a la francaise : `1,4:1`. */
 const contrasteSurBlanc = (hex: string) => `${contrastRatio(hex, '#FFFFFF').toFixed(1).replace('.', ',')}:1 sur blanc`;
 
+const pageDesTokens = '/theme/tokens-semantiques';
+
 /** Chaque chemin mene a la ligne du token sur la page des tokens, ancree sur ce chemin. */
 const LiensDesTokens = ({ chemins }: { chemins: string[] }) =>
   chemins.map(chemin => (
-    <Link key={chemin} href={`/theme/tokens-semantiques#${chemin}`}>
+    <Link key={chemin} href={`${pageDesTokens}#${chemin}`}>
       {chemin}
     </Link>
   ));
@@ -59,6 +61,19 @@ const LigneDeNuance = ({ nuance }: { nuance: Nuance }) => {
   );
 };
 
+const BlocDEchelle = ({ echelle }: { echelle: EchelleDeNuances }) => {
+  const { text } = useTheme();
+
+  return (
+    <Box style={{ marginBottom: Spacings['3W'] }}>
+      <Typography style={text.Titres['H5 - XS']}>{echelle.titre}</Typography>
+      {echelle.nuances.map(nuance => (
+        <LigneDeNuance key={nuance.numero} nuance={nuance} />
+      ))}
+    </Box>
+  );
+};
+
 export const ThemeNuancesScreen = ({
   catalogue = catalogueDuTheme,
   title = 'Nuances',
@@ -66,7 +81,7 @@ export const ThemeNuancesScreen = ({
   footerContent,
 }: ThemeNuancesScreenProps) => {
   const { text } = useTheme();
-  const echelles = React.useMemo(() => echellesDuCatalogue(catalogue), [catalogue]);
+  const familles = React.useMemo(() => famillesDEchellesDuCatalogue(catalogue), [catalogue]);
 
   return (
     <EcranDeCatalogue
@@ -75,11 +90,15 @@ export const ThemeNuancesScreen = ({
       footerContent={footerContent}
       breadcrumbsProps={filDuTheme}
     >
-      {echelles.map(echelle => (
-        <Box key={echelle.titre} style={{ marginBottom: Spacings['3W'] }}>
-          <Typography style={text.Titres['H5 - XS']}>{echelle.titre}</Typography>
-          {echelle.nuances.map(nuance => (
-            <LigneDeNuance key={nuance.numero} nuance={nuance} />
+      <Box style={{ flexDirection: 'row', flexWrap: 'wrap', gap: Spacings['1V'], marginBottom: Spacings['3W'] }}>
+        <Typography>{'Un composant lit un token sémantique, jamais une nuance. Voir les'}</Typography>
+        <Link href={pageDesTokens}>{'tokens sémantiques'}</Link>
+      </Box>
+      {familles.map(famille => (
+        <Box key={famille.titre} style={{ marginBottom: Spacings['3W'] }}>
+          <Typography style={text.Titres['H4 - SM']}>{famille.titre}</Typography>
+          {famille.echelles.map(echelle => (
+            <BlocDEchelle key={echelle.titre} echelle={echelle} />
           ))}
         </Box>
       ))}
