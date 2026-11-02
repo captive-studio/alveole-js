@@ -57,17 +57,21 @@ jobs:
         run: |
           rm -rf e2e/__screenshots__
           pnpm run test:a11y e2e/accessibility.spec.ts --update-snapshots=all || true
-      # Le `|| true` ci-dessus masquerait aussi un run interrompu : on exige exactement un
-      # cliché par page auditée avant de pousser quoi que ce soit. Les pages se comptent par
+      # Le `|| true` ci-dessus masquerait aussi un run interrompu : on exige au moins un
+      # cliché par page auditée avant de pousser quoi que ce soit, l'image de la fiche ou, pour
+      # une fiche capturée par démonstration, son dossier (ADR 0036). Les pages se comptent par
       # `auditedRoutes`, la fonction qui les choisit : un second filtre écrit ici divergerait
       # dès que la suite photographie une nouvelle famille de pages.
       - name: Check one screenshot per page
         working-directory: apps/docs
         run: |
-          expected=$(node --input-type=module -e "const { auditedRoutes } = await import('./e2e/pages.ts'); console.log(auditedRoutes().length)")
-          actual=$(find e2e/__screenshots__ -name '*.png' | wc -l)
-          echo "$actual clichés pour $expected pages."
-          [ "$actual" -eq "$expected" ]
+          node --input-type=module -e "
+            const { auditedRoutes } = await import('./e2e/pages.ts');
+            const { missingSnapshots } = await import('./e2e/cliches.ts');
+            const missing = missingSnapshots(auditedRoutes(), 'e2e/__screenshots__');
+            console.log(missing.length + ' page(s) sans cliché.', missing.join(' '));
+            process.exit(missing.length === 0 ? 0 : 1);
+          "
       - name: Push changed screenshots
         id: push
         run: |

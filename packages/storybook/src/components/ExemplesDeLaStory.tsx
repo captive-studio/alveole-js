@@ -25,7 +25,7 @@ const UnExemple = ({ story, nom, Rendu, gabarit }: UnExempleProps) => {
         </Box>
       ) : null}
 
-      <ExampleBlock source={sourceDeLExemple(story, nom)} pleinEcran={gabarit}>
+      <ExampleBlock nom={nom} source={sourceDeLExemple(story, nom)} pleinEcran={gabarit}>
         <Rendu />
       </ExampleBlock>
     </Box>

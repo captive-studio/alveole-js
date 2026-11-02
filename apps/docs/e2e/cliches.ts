@@ -1,14 +1,17 @@
 import type { Locator, Page } from '@playwright/test';
+import { existsSync, readdirSync } from 'node:fs';
+import { resolve } from 'node:path';
 
 // Une date figée, pour les fiches qui affichent « aujourd'hui » (Signature) : sans elle, le
 // cliché changerait chaque jour. Figer l'horloge vaut mieux qu'un masque, qui cacherait aussi
 // la mise en forme de la date.
 export const FROZEN_TIME = new Date('2026-01-15T10:00:00Z');
 
-// Un cliché par fiche, rangé comme sa route : `/components/Button` devient
-// `components/Button.png`, lisible tel quel dans la revue d'une PR.
-export function snapshotName(route: string): string[] {
-  const segments = route.slice(1).split('/');
+// Un cliché rangé comme sa route : `/components/Button` devient `components/Button.png`, et la
+// démonstration `Variants` de `/components/Badge` devient `components/Badge/Variants.png`,
+// lisibles tels quels dans la revue d'une PR.
+export function snapshotName(route: string, exemple?: string): string[] {
+  const segments = [...route.slice(1).split('/'), ...(exemple ? [exemple] : [])];
   const last = segments.pop();
 
   return [...segments, `${last}.png`];
@@ -44,4 +47,29 @@ export async function revealWhole(page: Page, area: Locator): Promise<void> {
   if (overflow <= 0) return;
 
   await page.setViewportSize({ width: viewport.width, height: viewport.height + overflow });
+}
+
+// Les fiches capturées démonstration par démonstration plutôt qu'en entier : la documentation
+// reste hors du cadre (ADR 0036). Badge ouvre la voie, sans couche ouverte ni zone animée, pour
+// mesurer le prix avant de généraliser.
+const BY_DEMONSTRATION = ['/components/Badge'];
+
+export function byDemonstration(route: string): boolean {
+  return BY_DEMONSTRATION.includes(route);
+}
+
+// Le repère que `@alveole/storybook` pose sur chaque démonstration, suivi du nom de l'exemple.
+export const DEMONSTRATION_PREFIX = 'demonstration-';
+
+// Les pages restées sans cliché après une régénération : un run interrompu en laisse, et le
+// workflow refuse alors de pousser. Une fiche capturée par démonstration a son dossier, qui doit
+// contenir au moins une image ; les autres ont leur image.
+function hasSnapshot(chemin: string): boolean {
+  if (existsSync(`${chemin}.png`)) return true;
+
+  return existsSync(chemin) && readdirSync(chemin).some(file => file.endsWith('.png'));
+}
+
+export function missingSnapshots(routes: string[], dir: string): string[] {
+  return routes.filter(route => !hasSnapshot(resolve(dir, route.slice(1))));
 }
