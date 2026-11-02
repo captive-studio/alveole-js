@@ -32,9 +32,13 @@ validation, ce qui vaut demande explicite au sens des règles globales :
    stageant des fichiers explicites (jamais `git add .` ni `-A`).
 3. `git push -u origin <branche>`, puis `gh pr create` avec un corps rédigé
    via `/pr`. Pas de draft.
-4. Rendu du catalogue touché : régénérer les clichés par
-   `gh workflow run catalogue-screenshots.yml --ref <branche>`, attendre son
-   commit 📸, puis vérifier que seules les pages attendues changent de rendu.
+4. Ticket qui change le rendu du catalogue : lancer la régénération juste
+   après le premier push, sans attendre le rouge de la CI, par
+   `gh workflow run catalogue-screenshots.yml --ref <branche>`. Ce lancement
+   valide la différence (ADR 0011) : ne le faire que si le changement de rendu
+   est voulu. Attendre son commit 📸, `git pull` la branche, puis vérifier que
+   seules les pages attendues changent de rendu. Ce commit déclenche lui-même
+   le run `pull_request` de `ci.yml` : c'est celui-là qu'attend l'étape 5.
 5. Attendre le run `pull_request` de `ci.yml` sur le dernier SHA de la branche
    (`gh run list --workflow ci.yml --branch <branche> --event pull_request`,
    puis `gh run watch <id> --exit-status`). `gh pr checks --watch` rend vert
