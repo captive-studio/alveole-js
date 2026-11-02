@@ -52,7 +52,8 @@ cas plutôt que de payer une route isolée pour tout le catalogue.
 ## Conséquences
 
 - Environ 295 clichés au lieu de 76, plus petits chacun. Le poids et le temps
-  CI se mesurent sur un premier composant avant la généralisation.
+  CI se sont mesurés sur Badge avant la généralisation à tout le catalogue,
+  hors les quatre fiches à couche ouverte.
 - La démonstration reçoit un repère ciblable dans `@alveole/storybook`, ce que
   0011 refusait comme du code de catalogue modifié pour le test. Le coût est
   accepté : c'est lui qui retire la documentation du cadre.
