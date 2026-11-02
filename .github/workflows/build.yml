@@ -1,0 +1,66 @@
+name: Build
+
+# Point d'entrée de `captive-release build` (captive-release.json → expo.build_workflow).
+on:
+  workflow_dispatch:
+    inputs:
+      profile:
+        description: 'Profil EAS'
+        required: true
+        type: choice
+        options:
+          - production
+          - staging
+
+permissions:
+  contents: read
+
+concurrency:
+  group: build-${{ inputs.profile }}
+  cancel-in-progress: false
+
+jobs:
+  build-and-submit:
+    name: Build and submit (${{ matrix.workflow }})
+    runs-on: [self-hosted]
+    timeout-minutes: 60
+    container: ghcr.io/captive-studio/node-ci:24.22.2@sha256:f755567711d7c32e39a69cfb01e38ad30047b3fe9617289531310cb6ddfeb470
+    strategy:
+      fail-fast: false
+      matrix:
+        workflow:
+          - build-production.yml
+          - build-android.yml
+    env:
+      EXPO_TOKEN: ${{ secrets.EXPO_TOKEN }}
+    steps:
+      - name: Check profile
+        if: inputs.profile != 'production'
+        run: |
+          echo "::error::Seul le profil production existe dans apps/docs/eas.json."
+          exit 1
+
+      - name: Check Expo access
+        run: |
+          if [ -z "$EXPO_TOKEN" ]; then
+            echo "::error::Ajouter le secret EXPO_TOKEN au dépôt avec accès au projet captivestudio/alveole."
+            exit 1
+          fi
+
+      - name: Checkout
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+
+      - name: Enable corepack
+        run: corepack enable
+
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile
+
+      - name: Install EAS CLI
+        run: npm install -g eas-cli
+
+      - name: Run EAS build and submission
+        working-directory: apps/docs
+        run: |
+          git config --global --add safe.directory "$GITHUB_WORKSPACE"
+          eas workflow:run ${{ matrix.workflow }} --non-interactive --wait
