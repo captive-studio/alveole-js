@@ -1,9 +1,14 @@
 ---
-status: accepted
+status: amended
 area: quality
 ---
 
 # La régression visuelle du catalogue se greffe sur l'audit d'accessibilité
+
+> **Amendé par l'ADR 0034.** Le cliché ne porte plus sur le repère `<main>` mais
+> sur la démonstration de chaque exemple : la documentation de la fiche faisait
+> échouer la CI sans changement visuel. Ce qui tient toujours : la greffe sur
+> l'audit, le masquage zone par zone, la régénération par workflow.
 
 Mise en œuvre : les clichés vivent dans `apps/docs/e2e/__screenshots__`, les
 masques fiche par fiche dans `apps/docs/e2e/cliches.ts`, et la régénération
