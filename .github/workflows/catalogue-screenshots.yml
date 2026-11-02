@@ -72,10 +72,15 @@ jobs:
             console.log(missing.length + ' page(s) sans cliché.', missing.join(' '));
             process.exit(missing.length === 0 ? 0 : 1);
           "
+      # Le rendu flotte d'un run à l'autre sous le seuil de `toHaveScreenshot` : sans ce
+      # filtre, des clichés que la CI tient pour inchangés encombreraient le diff de la PR.
+      - name: Restore screenshots the CI would not tell apart
+        run: |
+          git config --global --add safe.directory "$GITHUB_WORKSPACE"
+          node scripts/cliches-identiques.mjs apps/docs/e2e/__screenshots__
       - name: Push changed screenshots
         id: push
         run: |
-          git config --global --add safe.directory "$GITHUB_WORKSPACE"
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
           git add --all apps/docs/e2e/__screenshots__
