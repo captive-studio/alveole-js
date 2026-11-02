@@ -33,8 +33,7 @@ stage_release_files() {
     files+=("$file")
   done < <(
     find packages -type f \( \
-      -path '*/src/generated/version.ts' \
-      -o -name '*.stories.ts' \
+      -name '*.stories.ts' \
       -o -name '*.stories.tsx' \
     \) -print0
   )
@@ -42,7 +41,7 @@ stage_release_files() {
   if [[ ${#files[@]} -gt 0 ]]; then
     git add -- "${files[@]}"
   else
-    info "Aucun fichier généré de stories/version à ajouter."
+    info "Aucun fichier de stories à ajouter."
   fi
 }
 

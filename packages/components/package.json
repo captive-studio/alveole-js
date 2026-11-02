@@ -24,14 +24,14 @@
   ],
   "sideEffects": false,
   "scripts": {
-    "build": "pnpm run generate:sources && node ./scripts/generate-version.mjs && tsc -p tsconfig.build.json && node ./scripts/copy-assets.mjs && node ./scripts/prepare-pdfjs-web-assets.mjs",
+    "build": "pnpm run generate:sources && tsc -p tsconfig.build.json && node ./scripts/copy-assets.mjs && node ./scripts/prepare-pdfjs-web-assets.mjs",
     "lint": "pnpm run generate:sources && eslint . --cache --cache-strategy content",
     "postinstall": "node ./scripts/postinstall.mjs",
     "pretest:unit": "node --test scripts/generate-stories-sources.test.mjs",
-    "test:unit": "NODE_OPTIONS=--max-old-space-size=4096 npx jest --coverage --maxWorkers=$(node ../../scripts/print-allocated-cpus.mjs) --ci",
+    "test:unit": "pnpm run generate:sources && NODE_OPTIONS=--max-old-space-size=4096 npx jest --coverage --maxWorkers=$(node ../../scripts/print-allocated-cpus.mjs) --ci",
     "test:dev": "NODE_OPTIONS=--max-old-space-size=4096 jest --maxWorkers=$(node ../../scripts/print-allocated-cpus.mjs) --coverage=false",
     "typecheck": "pnpm run generate:sources && tsc -p tsconfig.typecheck.json --noEmit",
-    "generate:sources": "node scripts/generate-stories-sources.mjs",
+    "generate:sources": "node scripts/generate-stories-sources.mjs && node scripts/generate-version.mjs",
     "doctor:fix": "npx expo install --check"
   },
   "devDependencies": {
