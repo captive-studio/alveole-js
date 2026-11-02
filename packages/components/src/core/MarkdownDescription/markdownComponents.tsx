@@ -1,4 +1,4 @@
-import { FOCUS_ATTRIBUTE, Spacings, Theme, ThemeColor } from '@alveole/theme';
+import { FOCUS_ATTRIBUTE, focusRingProps, Spacings, Theme, ThemeColor } from '@alveole/theme';
 import React from 'react';
 import type { Components } from 'react-markdown';
 import { TextStyle as RNTextStyle } from 'react-native';
@@ -153,7 +153,15 @@ type TableComponentStyles = Pick<MarkdownComponentsStyles, 'bodyStyle' | 'boldSt
 
 const createTableComponents = ({ bodyStyle, boldStyle, borderColor, headerBg }: TableComponentStyles) => ({
   table: ({ children: c }: AvecEnfants) => (
-    <Box tag="div" borderWidth={1} borderColor={borderColor} borderRadius="md" overflow="hidden">
+    <Box
+      tag="div"
+      borderWidth={1}
+      borderColor={borderColor}
+      borderRadius="md"
+      style={{ minWidth: 0, maxWidth: '100%', overflowX: 'auto', overflowY: 'hidden' }}
+      tabIndex={0}
+      {...focusRingProps()}
+    >
       <Box tag="table" style={{ display: 'table', borderCollapse: 'collapse', width: '100%' }}>
         {c}
       </Box>

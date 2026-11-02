@@ -1,4 +1,5 @@
 import { Story } from '../../type';
+import { Box } from '../Box';
 import { MarkdownDescription } from './MarkdownDescription';
 
 export default {
@@ -66,6 +67,19 @@ export const WithTable = () => (
   <MarkdownDescription>{`| Nom | Type | Description |
 |-----|------|-------------|
 | children | string | Contenu Markdown à afficher |`}</MarkdownDescription>
+);
+
+// Une largeur de lecture mobile, même lorsque le catalogue est ouvert sur desktop.
+export const WithWideTable = () => (
+  <Box style={{ width: 320, maxWidth: '100%', minWidth: 0 }}>
+    <MarkdownDescription>{`Faites défiler le tableau horizontalement pour voir toutes les colonnes.
+
+| Outil | Application | Environnement | Permission | Description |
+|-------|-------------|---------------|------------|-------------|
+| variables_list | captive-dashboard | production | Lecture | Liste les variables de l'application |
+| scheduled_tasks_create | captive-dashboard | staging | Écriture | Crée une tâche planifiée |
+| application_restart | captive-platform | production | Administration | Redémarre l'application |`}</MarkdownDescription>
+  </Box>
 );
 
 export const WithLink = () => (
