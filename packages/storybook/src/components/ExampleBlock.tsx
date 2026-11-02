@@ -18,12 +18,15 @@ const PAS_DE_LA_TRAME = 16;
  * le reprendre ici effacerait la frontière entre ce qu'on montre et la façon de l'écrire. La
  * trame dit « surface de démonstration » sans dépenser une seconde valeur de fond.
  */
-const Scene = ({ children, pleinEcran }: { children: React.ReactNode; pleinEcran: boolean }) => {
+const Scene = ({ children, nom, pleinEcran }: { children: React.ReactNode; nom: string; pleinEcran: boolean }) => {
   const { color } = useTheme();
   const trameId = `trame-${React.useId().replace(/[^a-zA-Z0-9_-]/g, '')}`;
 
   return (
     <Box
+      // Le cliché de régression ne cadre que ce repère : la documentation autour peut changer
+      // sans changer d'image (ADR 0036).
+      testID={`demonstration-${nom}`}
       p={Platform.OS === 'web' ? '3W' : '1W'}
       style={{
         backgroundColor: color.light.background['default-grey'],
@@ -126,10 +129,12 @@ export type ExampleBlockProps = {
   source?: string | null;
   /** Les gabarits sont des écrans entiers : ils réclament de la hauteur, pas un centrage. */
   pleinEcran?: boolean;
+  /** Le nom de l'exemple, qui nomme le repère de sa démonstration et donc son cliché. */
+  nom: string;
 };
 
 /** Le bloc d'exemple : une démonstration et sa source, dans un seul cadre. */
-export const ExampleBlock = ({ children, source, pleinEcran = false }: ExampleBlockProps) => {
+export const ExampleBlock = ({ children, source, pleinEcran = false, nom }: ExampleBlockProps) => {
   const { color } = useTheme();
   const [deplie, setDeplie] = React.useState(false);
 
@@ -148,7 +153,9 @@ export const ExampleBlock = ({ children, source, pleinEcran = false }: ExampleBl
       borderWidth={1}
       style={{ overflow: 'hidden' }}
     >
-      <Scene pleinEcran={pleinEcran}>{children}</Scene>
+      <Scene nom={nom} pleinEcran={pleinEcran}>
+        {children}
+      </Scene>
 
       {source ? (
         <>
