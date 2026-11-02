@@ -16,7 +16,6 @@ jobs:
     timeout-minutes: 45
     permissions:
       contents: write
-      actions: write
     # Même conteneur que le job qui compare : un cliché pris ailleurs différerait à chaque run.
     container: ghcr.io/captive-studio/node-ci-chromium:24.22.2@sha256:895ed878bcbc9fd105dde66429d83990c1591b96d80a14bf6f5886092031fcfd
     env:
@@ -78,8 +77,9 @@ jobs:
         run: |
           git config --global --add safe.directory "$GITHUB_WORKSPACE"
           node scripts/cliches-identiques.mjs apps/docs/e2e/__screenshots__
+      # Ce push déclenche le run `pull_request` de ci.yml sur le commit des clichés (constaté
+      # sur les PR d'ALV-173 et ALV-176) : le relancer à la main doublait la CI sur ce SHA.
       - name: Push changed screenshots
-        id: push
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
@@ -90,16 +90,3 @@ jobs:
           fi
           git commit -m "📸 Régénère les clichés du catalogue"
           git push origin "HEAD:${GITHUB_REF_NAME}"
-          echo "pushed=true" >> "$GITHUB_OUTPUT"
-      # Le push ci-dessus, fait avec GITHUB_TOKEN, ne déclenche pas la CI : on la relance sur
-      # la branche, pour que la PR retrouve ses checks sur le commit des clichés.
-      - name: Rerun CI on the branch
-        if: steps.push.outputs.pushed == 'true'
-        env:
-          GH_TOKEN: ${{ github.token }}
-        run: |
-          curl -sSf -X POST \
-            -H "Authorization: Bearer $GH_TOKEN" \
-            -H "Accept: application/vnd.github+json" \
-            "$GITHUB_API_URL/repos/$GITHUB_REPOSITORY/actions/workflows/ci.yml/dispatches" \
-            -d "{\"ref\":\"$GITHUB_REF_NAME\"}"
