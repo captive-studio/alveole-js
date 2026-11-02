@@ -1,4 +1,4 @@
-import { expect, test } from '@playwright/test';
+import { type Locator, expect, test } from '@playwright/test';
 import { auditNavigation, auditRoute, blockThirdParties, openRoute } from './audit';
 import { BASELINE_PATH, NAVIGATION_KEY, compare, load } from './baseline';
 import {
@@ -8,6 +8,7 @@ import {
   byDemonstration,
   revealWhole,
   snapshotName,
+  withoutSnapshot,
 } from './cliches';
 import { auditedRoutes, navigationRoute } from './pages';
 import { countByRule, describeTargets } from './violations';
@@ -27,15 +28,18 @@ for (const route of auditedRoutes()) {
 
     expect.soft(gaps, `${route}\n${describeTargets(violations)}`).toEqual([]);
 
+    if (withoutSnapshot(route)) return;
+
     // La page vient d'être attendue jusqu'à ses images pour l'audit : la capturer ici ne
     // coûte que la capture. Seul le repère <main> est comparé, le gabarit autour change
     // trop souvent pour ce qu'il apprendrait (ADR 0011).
     const main = page.getByRole('main');
     await revealWhole(page, main);
-    const mask = animatedZones(route).map(selector => main.locator(selector));
+    const zones = animatedZones(route);
+    const maskIn = (area: Locator) => zones.map(selector => area.locator(selector));
 
     if (!byDemonstration(route)) {
-      await expect(main).toHaveScreenshot(snapshotName(route), { mask });
+      await expect(main).toHaveScreenshot(snapshotName(route), { mask: maskIn(main) });
       return;
     }
 
@@ -48,7 +52,7 @@ for (const route of auditedRoutes()) {
       const testId = (await demonstration.getAttribute('data-testid')) ?? '';
       const exemple = testId.slice(DEMONSTRATION_PREFIX.length);
 
-      await expect(demonstration).toHaveScreenshot(snapshotName(route, exemple), { mask });
+      await expect(demonstration).toHaveScreenshot(snapshotName(route, exemple), { mask: maskIn(demonstration) });
     }
   });
 }

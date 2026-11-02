@@ -49,13 +49,22 @@ export async function revealWhole(page: Page, area: Locator): Promise<void> {
   await page.setViewportSize({ width: viewport.width, height: viewport.height + overflow });
 }
 
-// Les fiches capturées démonstration par démonstration plutôt qu'en entier : la documentation
-// reste hors du cadre (ADR 0036). Badge ouvre la voie, sans couche ouverte ni zone animée, pour
-// mesurer le prix avant de généraliser.
-const BY_DEMONSTRATION = ['/components/Badge'];
+// Toute fiche est capturée démonstration par démonstration plutôt qu'en entier : la
+// documentation reste hors du cadre (ADR 0036). Font exception les fiches dont une couche
+// ouverte déborde de sa démonstration et y serait coupée ; elles gardent leur cliché de fiche
+// en attendant d'être traitées au cas par cas.
+const OPEN_LAYERS = ['/components/ActionMenu', '/components/Button', '/components/DataTable', '/components/Spinner'];
 
 export function byDemonstration(route: string): boolean {
-  return BY_DEMONSTRATION.includes(route);
+  return route.startsWith('/components/') && !OPEN_LAYERS.includes(route);
+}
+
+// Les pages de texte n'ont pas de cliché : leur image ne prouverait rien que l'audit ne vérifie
+// déjà. Les pages du thème qui rendent ses valeurs gardent le leur (ADR 0036).
+const TEXT_PAGES = ['/components', '/theme/css-variables'];
+
+export function withoutSnapshot(route: string): boolean {
+  return TEXT_PAGES.includes(route);
 }
 
 // Le repère que `@alveole/storybook` pose sur chaque démonstration, suivi du nom de l'exemple.
@@ -63,7 +72,8 @@ export const DEMONSTRATION_PREFIX = 'demonstration-';
 
 // Les pages restées sans cliché après une régénération : un run interrompu en laisse, et le
 // workflow refuse alors de pousser. Une fiche capturée par démonstration a son dossier, qui doit
-// contenir au moins une image ; les autres ont leur image.
+// contenir au moins une image ; les pages de texte n'en attendent aucune ; les autres ont leur
+// image.
 function hasSnapshot(chemin: string): boolean {
   if (existsSync(`${chemin}.png`)) return true;
 
@@ -71,5 +81,5 @@ function hasSnapshot(chemin: string): boolean {
 }
 
 export function missingSnapshots(routes: string[], dir: string): string[] {
-  return routes.filter(route => !hasSnapshot(resolve(dir, route.slice(1))));
+  return routes.filter(route => !withoutSnapshot(route) && !hasSnapshot(resolve(dir, route.slice(1))));
 }
