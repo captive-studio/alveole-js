@@ -39,30 +39,36 @@ test('souligne les liens au repos dans la couleur d information, et plus au surv
 
 // jsdom ne calcule ni les largeurs intrinsèques d'un tableau ni son défilement.
 for (const largeur of [390, 1280]) {
-  test(`fait défiler un tableau large sans élargir la page à ${largeur}px`, async ({ page }) => {
-    await page.setViewportSize({ width: largeur, height: 844 });
-    const tableau = principal(page).getByRole('table').filter({ hasText: 'scheduled_tasks_create' });
-    const conteneur = tableau.locator('..');
+  test.describe(`tableau large à ${largeur}px`, () => {
+    // Fixer la largeur avant openRoute : un redimensionnement après hydratation peut
+    // remonter le contenu du catalogue entre l'attente de visibilité et la mesure.
+    test.use({ viewport: { width: largeur, height: 844 } });
 
-    await expect(tableau).toBeVisible();
-    const dimensions = await conteneur.evaluate(e => ({ largeur: e.clientWidth, contenu: e.scrollWidth }));
-    expect(dimensions.contenu).toBeGreaterThan(dimensions.largeur);
-    expect(dimensions.largeur).toBeLessThanOrEqual(320);
-    expect(await page.evaluate(() => document.documentElement.scrollWidth)).toBeLessThanOrEqual(largeur);
+    test('fait défiler le tableau sans élargir la page', async ({ page }) => {
+      const tableau = principal(page).getByRole('table').filter({ hasText: 'scheduled_tasks_create' });
+      const conteneur = tableau.locator('..');
 
-    await conteneur.focus();
-    await page.keyboard.press('ArrowRight');
-    await expect.poll(() => conteneur.evaluate(e => e.scrollLeft)).toBeGreaterThan(0);
+      await expect(conteneur).toBeVisible();
+      // Une mesure ponctuelle peut lire 0 pendant un remontage du contenu. Attendre
+      // la boîte rendue et son débordement, sans délai fixe ni retry du test entier.
+      await expect.poll(() => conteneur.evaluate(e => e.clientWidth > 0 && e.scrollWidth > e.clientWidth)).toBe(true);
+      await expect.poll(() => conteneur.evaluate(e => e.clientWidth)).toBeLessThanOrEqual(320);
+      await expect.poll(() => page.evaluate(() => document.documentElement.scrollWidth)).toBeLessThanOrEqual(largeur);
 
-    await conteneur.evaluate(e => {
-      e.scrollLeft = e.scrollWidth;
+      await conteneur.focus();
+      await page.keyboard.press('ArrowRight');
+      await expect.poll(() => conteneur.evaluate(e => e.scrollLeft)).toBeGreaterThan(0);
+
+      await conteneur.evaluate(e => {
+        e.scrollLeft = e.scrollWidth;
+      });
+      expect(await conteneur.evaluate(e => e.scrollLeft)).toBeGreaterThan(0);
+      const derniereCellule = tableau.getByRole('cell', { name: "Redémarre l'application", exact: true });
+      const cadre = await conteneur.boundingBox();
+      const cellule = await derniereCellule.boundingBox();
+      expect(cadre).not.toBeNull();
+      expect(cellule).not.toBeNull();
+      expect(cellule!.x + cellule!.width).toBeLessThanOrEqual(cadre!.x + cadre!.width);
     });
-    expect(await conteneur.evaluate(e => e.scrollLeft)).toBeGreaterThan(0);
-    const derniereCellule = tableau.getByRole('cell', { name: "Redémarre l'application", exact: true });
-    const cadre = await conteneur.boundingBox();
-    const cellule = await derniereCellule.boundingBox();
-    expect(cadre).not.toBeNull();
-    expect(cellule).not.toBeNull();
-    expect(cellule!.x + cellule!.width).toBeLessThanOrEqual(cadre!.x + cadre!.width);
   });
 }
