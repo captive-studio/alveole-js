@@ -36,3 +36,33 @@ test('souligne les liens au repos dans la couleur d information, et plus au surv
   expect(repos).toEqual({ couleur: attendue, soulignement: 'underline' });
   await expect.poll(async () => (await rendu()).soulignement).toBe('none');
 });
+
+// jsdom ne calcule ni les largeurs intrinsèques d'un tableau ni son défilement.
+for (const largeur of [390, 1280]) {
+  test(`fait défiler un tableau large sans élargir la page à ${largeur}px`, async ({ page }) => {
+    await page.setViewportSize({ width: largeur, height: 844 });
+    const tableau = principal(page).getByRole('table').filter({ hasText: 'scheduled_tasks_create' });
+    const conteneur = tableau.locator('..');
+
+    await expect(tableau).toBeVisible();
+    const dimensions = await conteneur.evaluate(e => ({ largeur: e.clientWidth, contenu: e.scrollWidth }));
+    expect(dimensions.contenu).toBeGreaterThan(dimensions.largeur);
+    expect(dimensions.largeur).toBeLessThanOrEqual(320);
+    expect(await page.evaluate(() => document.documentElement.scrollWidth)).toBeLessThanOrEqual(largeur);
+
+    await conteneur.focus();
+    await page.keyboard.press('ArrowRight');
+    await expect.poll(() => conteneur.evaluate(e => e.scrollLeft)).toBeGreaterThan(0);
+
+    await conteneur.evaluate(e => {
+      e.scrollLeft = e.scrollWidth;
+    });
+    expect(await conteneur.evaluate(e => e.scrollLeft)).toBeGreaterThan(0);
+    const derniereCellule = tableau.getByRole('cell', { name: "Redémarre l'application", exact: true });
+    const cadre = await conteneur.boundingBox();
+    const cellule = await derniereCellule.boundingBox();
+    expect(cadre).not.toBeNull();
+    expect(cellule).not.toBeNull();
+    expect(cellule!.x + cellule!.width).toBeLessThanOrEqual(cadre!.x + cadre!.width);
+  });
+}
