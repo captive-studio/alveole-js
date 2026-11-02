@@ -41,7 +41,7 @@ jobs:
         run: pnpm install --frozen-lockfile
 
       - name: Build workspace packages
-        run: pnpm run build:packages
+        uses: ./.github/actions/build-packages
 
       # Même plafond que le job d'accessibilité de ci.yml : `expo export` monte sinon à
       # 2,47 Gio de RSS, plus du double du budget mémoire par job du pool.
