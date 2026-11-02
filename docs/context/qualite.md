@@ -13,8 +13,11 @@ par élément fautif et non par règle.
 _Éviter_ : erreur, problème a11y.
 
 **Cliché** :
-L'image de référence du repère principal d'une fiche, contre laquelle la CI
-compare le rendu courant. N'est pas un cliquet : ce n'est pas une borne
+L'image de référence de la démonstration d'un exemple, contre laquelle la CI
+compare le rendu courant. Le titre, la description et la source de l'exemple
+n'y figurent pas : un changement de documentation ne change aucun cliché. Les
+pages du thème qui rendent ses valeurs (couleurs, nuances, typographies) ont
+chacune un cliché de page, faute de démonstration ; une page de texte n'en a pas. N'est pas un cliquet : ce n'est pas une borne
 chiffrée, et une différence n'est ni une amélioration ni une dégradation mais un
 changement qui demande un jugement humain.
 _Éviter_ : capture, snapshot, screenshot de référence.
