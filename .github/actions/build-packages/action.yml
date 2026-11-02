@@ -1,0 +1,35 @@
+name: Build workspace packages
+description: >-
+  Restaure le build des paquets depuis le cache, ou le construit puis le sauvegarde.
+  La clé hache tout ce qui entre dans le build : un cache restauré est le build exact
+  du commit, jamais celui d'un commit voisin. D'où l'absence de restore-keys.
+runs:
+  using: composite
+  steps:
+    - name: Restore package build
+      id: restore
+      uses: actions/cache/restore@55cc8345863c7cc4c66a329aec7e433d2d1c52a9 # v6.1.0
+      with:
+        # Outre `dist`, les fichiers générés dans `src` que lisent les étapes suivantes.
+        path: |
+          packages/*/dist
+          packages/*/src/**/*.stories.sources.ts
+          packages/*/src/**/*.generated.ts
+          packages/components/src/generated
+        # Sources et scripts des paquets, configs de build, script du catalogue des couleurs
+        # (racine `scripts/`), lockfile et patches : pdfjs et tsc viennent de node_modules.
+        key: packages-build-${{ runner.os }}-${{ hashFiles('packages/*/src/**', 'packages/*/scripts/**', 'packages/*/package.json', 'packages/*/tsconfig*.json', 'tsconfig.json', 'package.json', 'scripts/**', 'pnpm-lock.yaml', 'patches/**') }}
+    - name: Build workspace packages
+      if: steps.restore.outputs.cache-hit != 'true'
+      shell: sh
+      run: pnpm run build:packages
+    - name: Save package build
+      if: steps.restore.outputs.cache-hit != 'true'
+      uses: actions/cache/save@55cc8345863c7cc4c66a329aec7e433d2d1c52a9 # v6.1.0
+      with:
+        path: |
+          packages/*/dist
+          packages/*/src/**/*.stories.sources.ts
+          packages/*/src/**/*.generated.ts
+          packages/components/src/generated
+        key: ${{ steps.restore.outputs.cache-primary-key }}

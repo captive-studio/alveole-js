@@ -111,8 +111,9 @@ jobs:
         run: pnpm run check:coverage-ratchet
         if: ${{ !cancelled() }}
   # Sortis du job web, où ils s'enchaînaient avant l'export et l'audit sans que ceux-ci en
-  # dépendent : 25 à 45 s de moins sur le chemin critique. Chaque job reconstruit les
-  # paquets : aucun cache de dist, publint et le lint docs vérifient le build du commit.
+  # dépendent : 25 à 45 s de moins sur le chemin critique. Le build des paquets
+  # vient du cache quand ses entrées n'ont pas changé : la clé les hache toutes, publint et
+  # le lint docs vérifient donc toujours le build du commit.
   packages:
     name: Publishable packages (publint, attw, docs lint, Expo doctor)
     if: github.event_name != 'push' || !startsWith(github.ref, 'refs/tags/')
@@ -129,7 +130,7 @@ jobs:
         id: dependencies
         run: pnpm install --frozen-lockfile
       - name: Build workspace packages
-        run: pnpm run build:packages
+        uses: ./.github/actions/build-packages
         id: packages
         if: ${{ !cancelled() && steps.dependencies.outcome == 'success' }}
       - name: Validate packages (publint + attw)
@@ -142,7 +143,7 @@ jobs:
         working-directory: apps/docs
         run: npx expo-doctor
         if: ${{ !cancelled() && steps.dependencies.outcome == 'success' }}
-  # Le navigateur vérifie le build du commit courant : aucun cache de dist.
+  # Le navigateur vérifie le build du commit courant : le cache de dist est clé sur ses entrées.
   web:
     name: Web, catalogue audit (accessibility, screenshots)
     if: github.event_name != 'push' || !startsWith(github.ref, 'refs/tags/')
@@ -163,7 +164,7 @@ jobs:
         id: dependencies
         run: pnpm install --frozen-lockfile
       - name: Build workspace packages
-        run: pnpm run build:packages
+        uses: ./.github/actions/build-packages
         id: packages
         if: ${{ !cancelled() && steps.dependencies.outcome == 'success' }}
       # Une clé par commit, restaurée depuis le plus récent : la clé hachait `package-lock.json`,
