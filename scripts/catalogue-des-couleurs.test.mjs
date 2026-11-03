@@ -142,6 +142,8 @@ test('rend chaque nuance avec ses tokens actifs et deprecies', () => {
   ]);
 });
 
+const paletteVide = `export const CustomPalette = {} as const;`;
+
 // Un cran deprecie dans Colors sort de la bande des nuances : l'extraction le releve.
 test('releve un cran deprecie dans Colors', () => {
   const echellesDepreciees = `export const Colors = {
@@ -151,9 +153,8 @@ test('releve un cran deprecie dans Colors', () => {
     75: '#0B220B',
   },
 };`;
-  const palette = `export const CustomPalette = {} as const;`;
 
-  const nuances = extraireCatalogueDesCouleurs({ palette, echelles: echellesDepreciees }).nuances;
+  const nuances = extraireCatalogueDesCouleurs({ palette: paletteVide, echelles: echellesDepreciees }).nuances;
 
   assert.deepEqual(
     nuances.map(({ numero, deprecie }) => [numero, deprecie]),
@@ -171,7 +172,9 @@ test('echoue en nommant la nuance quand son ecriture dans Colors n est pas recon
     50: assombrir('#FFFFFF'),
   },
 };`;
-  const palette = `export const CustomPalette = {} as const;`;
 
-  assert.throws(() => extraireCatalogueDesCouleurs({ palette, echelles: echellesIllisibles }), /Neutre\.50/);
+  assert.throws(
+    () => extraireCatalogueDesCouleurs({ palette: paletteVide, echelles: echellesIllisibles }),
+    /Neutre\.50/,
+  );
 });

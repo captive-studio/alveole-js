@@ -30,9 +30,10 @@ const nonReconnue = (endroit, noeud) =>
 
 /** Un cran de `Colors` : sa valeur ecrite en dur et sa depreciation (ADR 0035). */
 const lireNuance = (nuance, echelle) => {
-  const endroit = `${echelle}.${cle(nuance.name)}`;
-  if (!ts.isPropertyAssignment(nuance) || !ts.isStringLiteral(nuance.initializer)) throw nonReconnue(endroit, nuance);
-  return [cle(nuance.name), { hex: nuance.initializer.text, deprecie: deprecation(nuance) !== null }];
+  const numero = cle(nuance.name);
+  if (!ts.isPropertyAssignment(nuance) || !ts.isStringLiteral(nuance.initializer))
+    throw nonReconnue(`${echelle}.${numero}`, nuance);
+  return [numero, { hex: nuance.initializer.text, deprecie: deprecation(nuance) !== null }];
 };
 
 const lireEchelles = texte => {

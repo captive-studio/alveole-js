@@ -10,6 +10,7 @@ import {
   contrasteAvecLeBlanc,
   type EchelleDeNuances,
   famillesDEchellesDuCatalogue,
+  type RaisonHorsBande,
 } from './echellesDuCatalogue';
 
 export type ThemeNuancesScreenProps = {
@@ -38,7 +39,7 @@ const LiensDesTokens = ({ chemins }: { chemins: string[] }) =>
 /** Une nuance se designe par son echelle et son numero : `Neutre 900`. */
 const nomDe = (nuance: Nuance) => `${nuance.echelle} ${nuance.numero}`;
 
-/** Le contraste sur la nuance la plus foncee de l'echelle, celle qui sert de fond sous du texte. */
+/** Le contraste de la nuance sur un fond, nomme : `15,5:1 sur Neutre 900`. */
 const contrasteSur = (nuance: Nuance, fond: Nuance) =>
   `${rapport(contrastRatio(nuance.hex, fond.hex))} sur ${nomDe(fond)}`;
 
@@ -52,7 +53,9 @@ const DetailDeNuance = ({ nuance, plusFoncee }: { nuance: Nuance; plusFoncee?: N
         <Typography>{nomDe(nuance)}</Typography>
         <Typography style={{ fontFamily: 'monospace' }}>{nuance.hex}</Typography>
         <Typography style={discret}>{contrasteSurBlanc(nuance.hex)}</Typography>
-        {plusFoncee && <Typography style={discret}>{contrasteSur(nuance, plusFoncee)}</Typography>}
+        {plusFoncee && plusFoncee !== nuance && (
+          <Typography style={discret}>{contrasteSur(nuance, plusFoncee)}</Typography>
+        )}
       </Box>
       <Box style={{ flex: 1, gap: Spacings['1V'] }}>
         {nuance.tokens.length === 0 && <Typography style={discret}>{'sans usage'}</Typography>}
@@ -77,6 +80,11 @@ const fonce = '#000000';
 /** La teinte, claire ou foncee, qui se lit le mieux sur la nuance. */
 const teinteLisibleSur = (fond: string) => (contrastRatio(fonce, fond) >= contrasteAvecLeBlanc(fond) ? fonce : blanc);
 
+const libelleDe: Record<RaisonHorsBande, string> = { horsEchelle: 'hors échelle', deprecie: 'déprécié' };
+
+/** Les raisons de sortir de la bande, en toutes lettres : `hors échelle, déprécié`. */
+const marquageDe = (raisons: RaisonHorsBande[]) => raisons.map(raison => libelleDe[raison]).join(', ');
+
 const CaseDeNuance = ({
   nuance,
   selectionnee,
@@ -94,7 +102,7 @@ const CaseDeNuance = ({
   return (
     <Pressable
       accessibilityRole="button"
-      accessibilityLabel={nomDe(nuance)}
+      accessibilityLabel={marquage ? `${nomDe(nuance)} ${marquage}` : nomDe(nuance)}
       aria-pressed={selectionnee}
       onPress={onPress}
       style={
@@ -119,7 +127,7 @@ const CaseDeNuance = ({
       >
         <Typography style={{ color: teinte, paddingHorizontal: Spacings['1W'] }}>{nuance.numero}</Typography>
       </Box>
-      {marquage && <Typography>{` ${marquage}`}</Typography>}
+      {marquage && <Typography>{marquage}</Typography>}
     </Pressable>
   );
 };
@@ -128,9 +136,7 @@ type Selection = { nuanceSelectionnee: Nuance | null; selectionner: (nuance: Nua
 
 const BlocDEchelle = ({ echelle, nuanceSelectionnee, selectionner }: { echelle: EchelleDeNuances } & Selection) => {
   const { text } = useTheme();
-  const detail = [...echelle.nuances, ...echelle.horsBande.map(({ nuance }) => nuance)].find(
-    nuance => nuance === nuanceSelectionnee,
-  );
+  const detail = echelle.toutes.find(nuance => nuance === nuanceSelectionnee);
 
   return (
     <Box style={{ marginBottom: Spacings['3W'] }}>
@@ -150,18 +156,18 @@ const BlocDEchelle = ({ echelle, nuanceSelectionnee, selectionner }: { echelle: 
       </Box>
       {echelle.horsBande.length > 0 && (
         <Box style={{ flexDirection: 'row', flexWrap: 'wrap', gap: Spacings['2W'], marginTop: Spacings['1W'] }}>
-          {echelle.horsBande.map(({ nuance, marquage }) => (
+          {echelle.horsBande.map(({ nuance, raisons }) => (
             <CaseDeNuance
               key={nuance.numero}
               nuance={nuance}
-              marquage={marquage}
+              marquage={marquageDe(raisons)}
               selectionnee={nuance === nuanceSelectionnee}
               onPress={() => selectionner(nuance)}
             />
           ))}
         </Box>
       )}
-      {detail && <DetailDeNuance nuance={detail} plusFoncee={echelle.nuances[echelle.nuances.length - 1]} />}
+      {detail && <DetailDeNuance nuance={detail} plusFoncee={echelle.plusFoncee} />}
     </Box>
   );
 };
