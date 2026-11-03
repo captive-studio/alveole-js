@@ -1,13 +1,22 @@
+import { contrastRatio } from '@alveole/theme';
 import type { CatalogueDesCouleurs, Nuance } from '../couleurs/catalogueDesCouleurs';
 import { grouperDansLOrdre } from './grouperDansLOrdre';
 
 export type EchelleDeNuances = { titre: string; nuances: Nuance[] };
 
-/** Les nuances rangees par echelle, dans l'ordre ou le source du theme les declare. */
+export const blanc = '#FFFFFF';
+
+/** Plus une nuance est foncee, plus elle contraste avec le blanc : c'est aussi son rang. */
+export const contrasteAvecLeBlanc = (hex: string) => contrastRatio(hex, blanc);
+
+/**
+ * Les echelles dans l'ordre ou le source du theme les declare, chacune rangee du plus clair au
+ * plus fonce : deux numerotations inverses cohabitent, seul le rang les rend comparables.
+ */
 const echellesDuCatalogue = ({ nuances }: Pick<CatalogueDesCouleurs, 'nuances'>): EchelleDeNuances[] =>
   grouperDansLOrdre(nuances, nuance => nuance.echelle).map(([titre, nuancesDeLEchelle]) => ({
     titre,
-    nuances: nuancesDeLEchelle,
+    nuances: [...nuancesDeLEchelle].sort((a, b) => contrasteAvecLeBlanc(a.hex) - contrasteAvecLeBlanc(b.hex)),
   }));
 
 export type FamilleDEchelles = { titre: string; echelles: EchelleDeNuances[] };

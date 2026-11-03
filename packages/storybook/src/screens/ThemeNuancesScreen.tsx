@@ -1,10 +1,16 @@
 import { Box, Link, Typography } from '@alveole/components';
 import { contrastRatio, Spacings, useTheme } from '@alveole/theme';
 import React from 'react';
+import { Pressable } from 'react-native';
 import { EcranDeCatalogue, filDuTheme } from '../components/EcranDeCatalogue';
 import type { CatalogueDesCouleurs, Nuance } from '../couleurs/catalogueDesCouleurs';
 import { catalogueDuTheme } from '../couleurs/catalogueDesCouleurs.generated';
-import { type EchelleDeNuances, famillesDEchellesDuCatalogue } from './echellesDuCatalogue';
+import {
+  blanc,
+  contrasteAvecLeBlanc,
+  type EchelleDeNuances,
+  famillesDEchellesDuCatalogue,
+} from './echellesDuCatalogue';
 
 export type ThemeNuancesScreenProps = {
   /** Le catalogue extrait du source du theme (ADR 0035). Par defaut, celui d'Alveole. */
@@ -15,7 +21,7 @@ export type ThemeNuancesScreenProps = {
 };
 
 /** Le contraste sur blanc, a une decimale et a la francaise : `1,4:1`. */
-const contrasteSurBlanc = (hex: string) => `${contrastRatio(hex, '#FFFFFF').toFixed(1).replace('.', ',')}:1 sur blanc`;
+const contrasteSurBlanc = (hex: string) => `${contrasteAvecLeBlanc(hex).toFixed(1).replace('.', ',')}:1 sur blanc`;
 
 const pageDesTokens = '/theme/tokens-semantiques';
 
@@ -27,23 +33,17 @@ const LiensDesTokens = ({ chemins }: { chemins: string[] }) =>
     </Link>
   ));
 
-const LigneDeNuance = ({ nuance }: { nuance: Nuance }) => {
+/** Une nuance se designe par son echelle et son numero : `Neutre 900`. */
+const nomDe = (nuance: Nuance) => `${nuance.echelle} ${nuance.numero}`;
+
+const DetailDeNuance = ({ nuance }: { nuance: Nuance }) => {
   const { color } = useTheme();
   const discret = { color: color.light.text['mention-grey'] };
 
   return (
     <Box style={{ flexDirection: 'row', alignItems: 'flex-start', gap: Spacings['2W'], padding: Spacings['1W'] }}>
-      <Box
-        style={{
-          width: 32,
-          height: 32,
-          backgroundColor: nuance.hex,
-          borderWidth: 1,
-          borderColor: color.light.border['default-grey'],
-        }}
-      />
       <Box style={{ width: 160 }}>
-        <Typography>{`${nuance.echelle} ${nuance.numero}`}</Typography>
+        <Typography>{nomDe(nuance)}</Typography>
         <Typography style={{ fontFamily: 'monospace' }}>{nuance.hex}</Typography>
         <Typography style={discret}>{contrasteSurBlanc(nuance.hex)}</Typography>
       </Box>
@@ -61,15 +61,75 @@ const LigneDeNuance = ({ nuance }: { nuance: Nuance }) => {
   );
 };
 
-const BlocDEchelle = ({ echelle }: { echelle: EchelleDeNuances }) => {
+/**
+ * Le noir et le blanc purs : l'un des deux contraste toujours a 4,58:1 au moins avec une nuance,
+ * ce que ne garantit aucune paire de `Colors` (Neutre 50 et 1000 echouent sur Neutre 525).
+ */
+const fonce = '#000000';
+
+/** La teinte, claire ou foncee, qui se lit le mieux sur la nuance. */
+const teinteLisibleSur = (fond: string) => (contrastRatio(fonce, fond) >= contrasteAvecLeBlanc(fond) ? fonce : blanc);
+
+const CaseDeNuance = ({
+  nuance,
+  selectionnee,
+  onPress,
+}: {
+  nuance: Nuance;
+  selectionnee: boolean;
+  onPress: () => void;
+}) => {
+  const teinte = teinteLisibleSur(nuance.hex);
+
+  return (
+    <Pressable
+      accessibilityRole="button"
+      accessibilityLabel={nomDe(nuance)}
+      aria-pressed={selectionnee}
+      onPress={onPress}
+    >
+      <Box
+        style={{
+          width: 64,
+          height: 48,
+          justifyContent: 'center',
+          alignItems: 'center',
+          backgroundColor: nuance.hex,
+          // La nuance choisie est cernee de la teinte de son numero, en retrait pour ne pas decaler
+          // la bande.
+          outlineStyle: 'solid',
+          outlineWidth: selectionnee ? 3 : 0,
+          outlineOffset: -3,
+          outlineColor: teinte,
+        }}
+      >
+        <Typography style={{ color: teinte }}>{nuance.numero}</Typography>
+      </Box>
+    </Pressable>
+  );
+};
+
+type Selection = { nuanceSelectionnee: Nuance | null; selectionner: (nuance: Nuance) => void };
+
+const BlocDEchelle = ({ echelle, nuanceSelectionnee, selectionner }: { echelle: EchelleDeNuances } & Selection) => {
   const { text } = useTheme();
+  const detail = echelle.nuances.find(nuance => nuance === nuanceSelectionnee);
 
   return (
     <Box style={{ marginBottom: Spacings['3W'] }}>
       <Typography style={text.Titres['H5 - XS']}>{echelle.titre}</Typography>
-      {echelle.nuances.map(nuance => (
-        <LigneDeNuance key={nuance.numero} nuance={nuance} />
-      ))}
+      {/* Une case a largeur fixe : une echelle courte, comme Focus, donne une bande courte. */}
+      <Box style={{ flexDirection: 'row', flexWrap: 'wrap' }}>
+        {echelle.nuances.map(nuance => (
+          <CaseDeNuance
+            key={nuance.numero}
+            nuance={nuance}
+            selectionnee={nuance === nuanceSelectionnee}
+            onPress={() => selectionner(nuance)}
+          />
+        ))}
+      </Box>
+      {detail && <DetailDeNuance nuance={detail} />}
     </Box>
   );
 };
@@ -82,6 +142,7 @@ export const ThemeNuancesScreen = ({
 }: ThemeNuancesScreenProps) => {
   const { text } = useTheme();
   const familles = React.useMemo(() => famillesDEchellesDuCatalogue(catalogue), [catalogue]);
+  const [nuanceSelectionnee, selectionner] = React.useState<Nuance | null>(null);
 
   return (
     <EcranDeCatalogue
@@ -98,7 +159,12 @@ export const ThemeNuancesScreen = ({
         <Box key={famille.titre} style={{ marginBottom: Spacings['3W'] }}>
           <Typography style={text.Titres['H4 - SM']}>{famille.titre}</Typography>
           {famille.echelles.map(echelle => (
-            <BlocDEchelle key={echelle.titre} echelle={echelle} />
+            <BlocDEchelle
+              key={echelle.titre}
+              echelle={echelle}
+              nuanceSelectionnee={nuanceSelectionnee}
+              selectionner={selectionner}
+            />
           ))}
         </Box>
       ))}
