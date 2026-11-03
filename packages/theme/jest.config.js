@@ -11,6 +11,8 @@ module.exports = {
   transformIgnorePatterns: ['node_modules/(?!@expo-google-fonts)'],
   moduleNameMapper: { '\\.(ttf|otf|woff2?)$': '<rootDir>/src/test/fontFileMock.js' },
   watchman: false,
+  // Comme une app React Native en developpement : les avertissements gardes par `__DEV__` parlent.
+  globals: { __DEV__: true },
 
   // Seuils en cliquet : ils valent la couverture mesurée au moment où ils ont été posés,
   // arrondie à l'entier inférieur. Ils ne sont pas un objectif de qualité mais un garde-fou
