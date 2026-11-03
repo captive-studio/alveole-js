@@ -127,7 +127,8 @@ const CaseDeNuance = ({
       >
         <Typography style={{ color: teinte, paddingHorizontal: Spacings['1W'] }}>{nuance.numero}</Typography>
       </Box>
-      {marquage && <Typography>{marquage}</Typography>}
+      {/* L'espace de tete separe numero et marquage dans le texte lu : axe exige que le libelle le contienne. */}
+      {marquage && <Typography>{` ${marquage}`}</Typography>}
     </Pressable>
   );
 };
