@@ -35,8 +35,20 @@ export async function openRoute(page: Page, route: string): Promise<void> {
   // DOM dépend donc de l'avancement du chargement : la fiche Image comptait 5 violations
   // image-alt en local et 8 en CI. `complete` passe à vrai aussi bien sur une image chargée
   // que sur une image en échec, ce qui rend l'attente sûre malgré le trafic tiers coupé.
+  // Une image `loading="lazy"` sous le pli ne se charge jamais, <main> défilant dans son
+  // conteneur sans qu'on le fasse défiler : elle restait incomplète et les fiches Image et
+  // Card épuisaient les 15 s (ALV-184). Elle passe donc en chargement immédiat, à chaque
+  // sondage puisque expo-image pose ses <img> au fil de sa transition.
   await page
-    .waitForFunction(() => Array.from(document.images).every(image => image.complete), null, { timeout: 15_000 })
+    .waitForFunction(
+      () =>
+        Array.from(document.images).every(image => {
+          image.loading = 'eager';
+          return image.complete;
+        }),
+      null,
+      { timeout: 15_000 },
+    )
     .catch(() => undefined);
 }
 
