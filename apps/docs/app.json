@@ -1,6 +1,6 @@
 {
   "expo": {
-    "name": "Alvéole",
+    "name": "Alveole",
     "slug": "alveole",
     "owner": "captivestudio",
     "icon": "./assets/images/logo.png",
@@ -10,6 +10,7 @@
       "bundleIdentifier": "dev.captive.alveole",
       "appleTeamId": "9Y5A2Z67KL",
       "infoPlist": {
+        "CFBundleDisplayName": "Alvéole",
         "ITSAppUsesNonExemptEncryption": false
       }
     },
