@@ -15,6 +15,12 @@ export default defineConfig({
   // la machine. Le plafond par défaut de 30 s déclenchait des échecs sans rapport avec
   // l'accessibilité.
   timeout: 90_000,
+  // `toHaveScreenshot` doit stabiliser son repère avant de capturer, dans le délai de 5 s
+  // d'`expect` par défaut. La fiche /theme/css-variables (994 x 39 197 px) le dépassait sur un
+  // nœud chargé, sans qu'aucune image ne soit prise : 16 échecs sur 40 au délai par défaut,
+  // 0 sur 40 à 30 s (run 41557337988, ALV-185). 30 s laisse l'audit tenir dans les 90 s du
+  // test, ces pages tournant entre 22 et 29 s au total.
+  expect: { toHaveScreenshot: { timeout: 30_000 } },
   reporter: process.env.CI ? [['github'], ['list'], ['html', { open: 'never' }]] : [['list']],
   use: {
     baseURL: BASE_URL,
