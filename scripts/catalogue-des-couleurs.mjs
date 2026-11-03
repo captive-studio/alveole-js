@@ -18,12 +18,28 @@ const objetDeclare = (texte, nom) => {
 const cle = noeud =>
   ts.isStringLiteral(noeud) || ts.isNumericLiteral(noeud) || ts.isIdentifier(noeud) ? noeud.text : null;
 
+/** Le texte du `@deprecated` pose sur la propriete, `null` si elle n'en porte pas. */
+const deprecation = propriete => {
+  const tag = ts.getJSDocDeprecatedTag(propriete);
+  return tag ? (ts.getTextOfJSDocComment(tag.comment) ?? '') : null;
+};
+
+/** L'echec qui nomme l'endroit de la palette que l'extraction ne sait pas lire (ADR 0035). */
+const nonReconnue = (endroit, noeud) =>
+  new Error(`Ecriture de la palette non reconnue pour ${endroit} : ${noeud.getText()}`);
+
+/** Un cran de `Colors` : sa valeur ecrite en dur et sa depreciation (ADR 0035). */
+const lireNuance = (nuance, echelle) => {
+  const endroit = `${echelle}.${cle(nuance.name)}`;
+  if (!ts.isPropertyAssignment(nuance) || !ts.isStringLiteral(nuance.initializer)) throw nonReconnue(endroit, nuance);
+  return [cle(nuance.name), { hex: nuance.initializer.text, deprecie: deprecation(nuance) !== null }];
+};
+
 const lireEchelles = texte => {
   const echelles = {};
   for (const echelle of objetDeclare(texte, 'Colors').properties) {
-    echelles[cle(echelle.name)] = Object.fromEntries(
-      echelle.initializer.properties.map(nuance => [cle(nuance.name), nuance.initializer.text]),
-    );
+    const nom = cle(echelle.name);
+    echelles[nom] = Object.fromEntries(echelle.initializer.properties.map(nuance => lireNuance(nuance, nom)));
   }
   return echelles;
 };
@@ -45,21 +61,11 @@ const nuanceReferencee = valeur => {
   return echelle && numero ? { echelle, numero } : null;
 };
 
-/** Le texte du `@deprecated` pose sur la propriete, `null` si elle n'en porte pas. */
-const deprecation = propriete => {
-  const tag = ts.getJSDocDeprecatedTag(propriete);
-  return tag ? (ts.getTextOfJSDocComment(tag.comment) ?? '') : null;
-};
-
-/** L'echec qui nomme l'endroit de la palette que l'extraction ne sait pas lire (ADR 0035). */
-const nonReconnue = (endroit, noeud) =>
-  new Error(`Ecriture de la palette non reconnue pour ${endroit} : ${noeud.getText()}`);
-
 /** La nuance et la valeur d'une feuille : ecrite en dur, ou lue dans l'echelle qu'elle cite. */
 const lireValeur = (valeur, echelles, cheminComplet) => {
   if (ts.isStringLiteral(valeur)) return { nuance: null, hex: valeur.text };
   const nuance = nuanceReferencee(valeur);
-  const hex = nuance && echelles[nuance.echelle]?.[nuance.numero];
+  const hex = nuance && echelles[nuance.echelle]?.[nuance.numero]?.hex;
   if (!hex) throw nonReconnue(cheminComplet, valeur);
   return { nuance, hex };
 };
@@ -67,10 +73,10 @@ const lireValeur = (valeur, echelles, cheminComplet) => {
 /** Chaque nuance des echelles, avec les chemins des tokens qui la citent, actifs puis deprecies. */
 const nuancesCitees = (echelles, tokens) =>
   Object.entries(echelles).flatMap(([echelle, nuances]) =>
-    Object.entries(nuances).map(([numero, hex]) => {
+    Object.entries(nuances).map(([numero, { hex, deprecie }]) => {
       const citants = tokens.filter(token => token.nuance?.echelle === echelle && token.nuance.numero === numero);
       const chemins = deprecie => citants.filter(token => token.deprecie === deprecie).map(token => token.chemin);
-      return { echelle, numero, hex, tokens: chemins(false), tokensDeprecies: chemins(true) };
+      return { echelle, numero, hex, deprecie, tokens: chemins(false), tokensDeprecies: chemins(true) };
     }),
   );
 

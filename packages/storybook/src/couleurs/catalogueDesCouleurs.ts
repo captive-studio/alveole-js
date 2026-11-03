@@ -24,6 +24,8 @@ export type Nuance = {
   echelle: string;
   numero: string;
   hex: string;
+  /** Le cran porte un `@deprecated` dans `Colors`. */
+  deprecie: boolean;
   tokens: string[];
   tokensDeprecies: string[];
 };
