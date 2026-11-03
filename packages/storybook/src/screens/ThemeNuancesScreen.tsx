@@ -13,7 +13,7 @@ import {
   famillesDEchellesDuCatalogue,
 } from './echellesDuCatalogue';
 import { type NuanceChoisie, PanneauDeNuance } from './PanneauDeNuance';
-import { nomDe, pageDesTokens, useStylesDesNuances } from './presentationDesNuances';
+import { compte, nomDe, pageDesTokens, useStylesDesNuances } from './presentationDesNuances';
 
 export type ThemeNuancesScreenProps = {
   /** Le catalogue extrait du source du theme (ADR 0035). Par defaut, celui d'Alveole. */
@@ -111,7 +111,7 @@ const TitreDeFamille = ({ famille }: { famille: FamilleDEchelles }) => {
       }}
     >
       <Typography style={styles.titreDeFamille}>{famille.titre}</Typography>
-      <Typography style={[styles.petit, styles.discret]}>{`${nombre} échelle${nombre > 1 ? 's' : ''}`}</Typography>
+      <Typography style={[styles.petit, styles.discret]}>{compte(nombre, 'échelle')}</Typography>
     </Box>
   );
 };
