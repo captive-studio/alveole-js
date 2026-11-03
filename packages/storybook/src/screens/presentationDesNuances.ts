@@ -1,0 +1,24 @@
+import { useTheme } from '@alveole/theme';
+import type { Nuance } from '../couleurs/catalogueDesCouleurs';
+
+export const pageDesTokens = '/theme/tokens-semantiques';
+
+/** Les styles de la page, tous tires du theme. */
+export const useStylesDesNuances = () => {
+  const { text, color } = useTheme();
+  const { text: texte, border, background } = color.light;
+  return {
+    titreDeFamille: text.Titres['H4 - SM'],
+    nomFort: text['Corps de texte'].SM.Bold,
+    petit: text['Corps de texte'].XS.Regular,
+    petitGras: text['Corps de texte'].XS.Bold,
+    rubrique: { ...text['Corps de texte'].XS.CapsBold, color: texte['mention-grey'] },
+    discret: { color: texte['mention-grey'] },
+    mono: { fontFamily: 'ui-monospace, SFMono-Regular, Menlo, monospace' },
+    filet: border['default-grey'],
+    surbrillance: background['alt-grey'],
+  };
+};
+
+/** Une nuance se designe par son echelle et son numero : `Neutre 900`. */
+export const nomDe = (nuance: Nuance) => `${nuance.echelle} ${nuance.numero}`;
