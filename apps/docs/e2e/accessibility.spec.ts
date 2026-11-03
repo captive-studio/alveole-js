@@ -14,6 +14,15 @@ import { countByRule, describeTargets } from './violations';
 
 const baseline = load(BASELINE_PATH);
 
+// `toHaveScreenshot` doit stabiliser son repère avant de capturer, dans le délai de 5 s
+// d'`expect` par défaut. La fiche /theme/css-variables (994 x 39 197 px) le dépassait sur un
+// nœud chargé, sans qu'aucune image ne soit prise : 16 échecs sur 40 au délai par défaut,
+// 0 sur 40 à 30 s (run 41557337988, ALV-185). 30 s laisse l'audit tenir dans les 90 s du
+// test, ces pages tournant entre 22 et 29 s au total.
+// Le délai se passe à l'appel : la configuration de Playwright ne type pas `timeout` sous
+// `expect.toHaveScreenshot`.
+const SCREENSHOT_TIMEOUT = 30_000;
+
 test.beforeEach(async ({ page }) => {
   await blockThirdParties(page);
   await page.clock.setFixedTime(FROZEN_TIME);
@@ -35,7 +44,7 @@ for (const route of auditedRoutes()) {
     const mask = animatedZones(route).map(selector => main.locator(selector));
 
     if (!byDemonstration(route)) {
-      await expect(main).toHaveScreenshot(snapshotName(route), { mask });
+      await expect(main).toHaveScreenshot(snapshotName(route), { mask, timeout: SCREENSHOT_TIMEOUT });
       return;
     }
 
@@ -48,7 +57,7 @@ for (const route of auditedRoutes()) {
       const testId = (await demonstration.getAttribute('data-testid')) ?? '';
       const exemple = testId.slice(DEMONSTRATION_PREFIX.length);
 
-      await expect(demonstration).toHaveScreenshot(snapshotName(route, exemple), { mask });
+      await expect(demonstration).toHaveScreenshot(snapshotName(route, exemple), { mask, timeout: SCREENSHOT_TIMEOUT });
     }
   });
 }
