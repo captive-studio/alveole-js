@@ -16,7 +16,7 @@ jobs:
       github.event.workflow_run.head_branch == 'main' &&
       github.event.workflow_run.head_repository.full_name == github.repository
     runs-on: [self-hosted]
-    container: node:lts@sha256:6d2c7d5d074bf72f81ddc252b4fbb5d625bc028eeda49cb4b8c2ff8eda1ee617
+    container: ghcr.io/captive-studio/node-ci:26.13.0@sha256:1350c8740b42b5273651a0a38da5d344ef5dec8f78ed8b8934aed2287828f2f2
     permissions:
       contents: write
     steps:
@@ -25,11 +25,6 @@ jobs:
         with:
           # main peut avoir avancé depuis la CI : construire le commit validé.
           ref: ${{ github.event.workflow_run.head_sha }}
-
-      - name: Setup Node.js
-        uses: actions/setup-node@949feb2413d6458794dcd2491c4babbbce0c15c1 # v7.1.0
-        with:
-          node-version: lts/*
 
       # Ni `cache: npm` ni `npm ci` : ce job déballait un node_modules complet sur le même
       # NVMe que les runners, en plus des trois déballages de ci.yml. pnpm le matérialise
