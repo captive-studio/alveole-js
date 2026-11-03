@@ -159,7 +159,10 @@ it('affiche sous la bande, marquee hors echelle, une cle non numerique', async (
     />,
   );
 
-  expect(screen.getAllByRole('button').map(bouton => bouton.textContent)).toEqual(['50', 'main-646 hors échelle']);
+  expect(screen.getAllByRole('button').map(bouton => bouton.getAttribute('aria-label'))).toEqual([
+    'Neutre 50',
+    'Neutre main-646 hors échelle',
+  ]);
 });
 
 // Un cran deprecie ne compte plus dans la progression : il quitte la bande, sans disparaitre.
@@ -173,7 +176,10 @@ it('affiche sous la bande, marque deprecie, un cran deprecie', async () => {
     />,
   );
 
-  expect(screen.getAllByRole('button').map(bouton => bouton.textContent)).toEqual(['75', '300 déprécié']);
+  expect(screen.getAllByRole('button').map(bouton => bouton.getAttribute('aria-label'))).toEqual([
+    'VertPrairie 75',
+    'VertPrairie 300 déprécié',
+  ]);
 });
 
 it('detaille une nuance hors de la bande comme les autres', async () => {
@@ -185,7 +191,7 @@ it('detaille une nuance hors de la bande comme les autres', async () => {
     />,
   );
 
-  selectionner('BleuCaptive main-646');
+  selectionner('BleuCaptive main-646 hors échelle');
 
   expect(screen.getByText('#0379EF')).toBeTruthy();
   expect(screen.getByRole('link', { name: 'light.text.action-high-blue' })).toBeTruthy();
@@ -198,4 +204,45 @@ it('detaille le contraste de la nuance sur la plus foncee de son echelle', async
   selectionner('Neutre 50');
 
   expect(screen.getByText('15,5:1 sur Neutre 900')).toBeTruthy();
+});
+
+it('nomme une nuance sous la bande avec son marquage', async () => {
+  renderScreen(<ThemeNuancesScreen catalogue={catalogue(nuance({ numero: 'main-646', hex: '#0379EF' }))} />);
+
+  expect(screen.getByRole('button', { name: 'Neutre main-646 hors échelle' })).toBeTruthy();
+});
+
+// #DDDDDD sur #222222 : (0,7231 + 0,05) / (0,0160 + 0,05) = 11,7. Seule la bande sert de reference : une nuance hors de la bande, meme plus foncee, n'en est pas une.
+it('ne prend pas une nuance hors de la bande pour reference du contraste', async () => {
+  renderScreen(
+    <ThemeNuancesScreen
+      catalogue={catalogue(
+        nuance({ numero: '50' }),
+        nuance({ hex: '#222222' }),
+        nuance({ numero: '1000', hex: '#000000', deprecie: true }),
+        nuance({ numero: 'main-1', hex: '#000000' }),
+      )}
+    />,
+  );
+
+  selectionner('Neutre 50');
+
+  expect(screen.getByText('11,7:1 sur Neutre 900')).toBeTruthy();
+});
+
+// Le contraste d'une nuance sur elle-meme vaut toujours 1:1 : la ligne n'apprend rien.
+it('ne detaille pas le contraste de la plus foncee sur elle-meme', async () => {
+  renderScreen(<ThemeNuancesScreen catalogue={catalogue(nuance({ numero: '50' }), nuance({ hex: '#000000' }))} />);
+
+  selectionner('Neutre 900');
+
+  expect(screen.queryByText(/sur Neutre 900/)).toBeNull();
+});
+
+it('marque hors echelle et deprecie une cle non numerique depreciee', async () => {
+  renderScreen(
+    <ThemeNuancesScreen catalogue={catalogue(nuance({ numero: 'main-646', hex: '#0379EF', deprecie: true }))} />,
+  );
+
+  expect(screen.getByRole('button', { name: 'Neutre main-646 hors échelle, déprécié' })).toBeTruthy();
 });
