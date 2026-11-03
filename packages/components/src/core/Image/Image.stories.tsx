@@ -14,7 +14,7 @@ export default {
   styleFn: () => 'Aucun style appliqué',
 } satisfies Story;
 
-export const Cover = () => {
+export const Dimensions = () => {
   return (
     <Box>
       <Box>
