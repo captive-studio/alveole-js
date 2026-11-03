@@ -20,8 +20,10 @@ export type ThemeNuancesScreenProps = {
   footerContent?: React.ReactNode;
 };
 
-/** Le contraste sur blanc, a une decimale et a la francaise : `1,4:1`. */
-const contrasteSurBlanc = (hex: string) => `${contrasteAvecLeBlanc(hex).toFixed(1).replace('.', ',')}:1 sur blanc`;
+/** Un rapport de contraste a une decimale et a la francaise : `1,4:1`. */
+const rapport = (contraste: number) => `${contraste.toFixed(1).replace('.', ',')}:1`;
+
+const contrasteSurBlanc = (hex: string) => `${rapport(contrasteAvecLeBlanc(hex))} sur blanc`;
 
 const pageDesTokens = '/theme/tokens-semantiques';
 
@@ -36,7 +38,11 @@ const LiensDesTokens = ({ chemins }: { chemins: string[] }) =>
 /** Une nuance se designe par son echelle et son numero : `Neutre 900`. */
 const nomDe = (nuance: Nuance) => `${nuance.echelle} ${nuance.numero}`;
 
-const DetailDeNuance = ({ nuance }: { nuance: Nuance }) => {
+/** Le contraste sur la nuance la plus foncee de l'echelle, celle qui sert de fond sous du texte. */
+const contrasteSur = (nuance: Nuance, fond: Nuance) =>
+  `${rapport(contrastRatio(nuance.hex, fond.hex))} sur ${nomDe(fond)}`;
+
+const DetailDeNuance = ({ nuance, plusFoncee }: { nuance: Nuance; plusFoncee?: Nuance }) => {
   const { color } = useTheme();
   const discret = { color: color.light.text['mention-grey'] };
 
@@ -46,6 +52,7 @@ const DetailDeNuance = ({ nuance }: { nuance: Nuance }) => {
         <Typography>{nomDe(nuance)}</Typography>
         <Typography style={{ fontFamily: 'monospace' }}>{nuance.hex}</Typography>
         <Typography style={discret}>{contrasteSurBlanc(nuance.hex)}</Typography>
+        {plusFoncee && <Typography style={discret}>{contrasteSur(nuance, plusFoncee)}</Typography>}
       </Box>
       <Box style={{ flex: 1, gap: Spacings['1V'] }}>
         {nuance.tokens.length === 0 && <Typography style={discret}>{'sans usage'}</Typography>}
@@ -154,7 +161,7 @@ const BlocDEchelle = ({ echelle, nuanceSelectionnee, selectionner }: { echelle: 
           ))}
         </Box>
       )}
-      {detail && <DetailDeNuance nuance={detail} />}
+      {detail && <DetailDeNuance nuance={detail} plusFoncee={echelle.nuances[echelle.nuances.length - 1]} />}
     </Box>
   );
 };

@@ -190,3 +190,12 @@ it('detaille une nuance hors de la bande comme les autres', async () => {
   expect(screen.getByText('#0379EF')).toBeTruthy();
   expect(screen.getByRole('link', { name: 'light.text.action-high-blue' })).toBeTruthy();
 });
+
+// #DDDDDD sur #000000 : (0,7231 + 0,05) / (0 + 0,05) = 15,46, arrondi a une decimale.
+it('detaille le contraste de la nuance sur la plus foncee de son echelle', async () => {
+  renderScreen(<ThemeNuancesScreen catalogue={catalogue(nuance({ numero: '50' }), nuance({ hex: '#000000' }))} />);
+
+  selectionner('Neutre 50');
+
+  expect(screen.getByText('15,5:1 sur Neutre 900')).toBeTruthy();
+});
