@@ -3,8 +3,33 @@ import { contrastRatio, withMinimumContrast } from './contrastColor';
 const SURFACE_DU_CODE = '#F6F7F8';
 
 describe('contrastRatio', () => {
+  afterEach(() => jest.restoreAllMocks());
+
   it('donne le rapport maximal entre le noir et le blanc', () => {
     expect(contrastRatio('#000000', '#FFFFFF')).toBe(21);
+  });
+
+  // Sur le web, `useTheme()` rend des variables CSS : le rapport vaudrait NaN sans un mot.
+  it('signale en developpement une couleur qu il ne sait pas lire', () => {
+    const avertissement = jest.spyOn(console, 'warn').mockImplementation(() => {});
+
+    contrastRatio('var(--text-title-grey)', '#FFFFFF');
+
+    expect(avertissement).toHaveBeenCalledWith('Warning:', expect.stringContaining('var(--text-title-grey)'));
+  });
+
+  // Une app en production ne doit rien journaliser, meme pour une couleur illisible.
+  it('reste muet hors developpement', () => {
+    const avertissement = jest.spyOn(console, 'warn').mockImplementation(() => {});
+    globalThis.__DEV__ = false;
+
+    try {
+      contrastRatio('var(--text-title-grey)', '#FFFFFF');
+    } finally {
+      globalThis.__DEV__ = true;
+    }
+
+    expect(avertissement).not.toHaveBeenCalled();
   });
 });
 

@@ -26,8 +26,25 @@ const luminance = (canaux: Canal[]): number => {
   return 0.2126 * r + 0.7152 * v + 0.0722 * b;
 };
 
+/**
+ * Signale en developpement les couleurs que le calcul ne sait pas lire. Sur le web, `useTheme()`
+ * rend des variables CSS : sans ce signal, le rapport vaut NaN et tout calcul qui en depend se
+ * trompe sans bruit. Hors de React Native, `__DEV__` n'existe pas et rien n'est signale.
+ */
+const signalerLesIllisibles = (couleurs: string[]) => {
+  if (typeof __DEV__ === 'undefined' || !__DEV__) return;
+
+  couleurs
+    .filter(couleur => !EST_HEXADECIMAL.test(couleur))
+    .forEach(couleur =>
+      console.warn('Warning:', `contrastRatio ne sait pas lire ${couleur} : passez une couleur hexadécimale.`),
+    );
+};
+
 /** Le rapport de contraste entre deux couleurs, de 1 (identiques) à 21 (noir sur blanc). */
 export const contrastRatio = (premiere: string, seconde: string): number => {
+  signalerLesIllisibles([premiere, seconde]);
+
   const a = luminance(versCanaux(premiere));
   const b = luminance(versCanaux(seconde));
 
