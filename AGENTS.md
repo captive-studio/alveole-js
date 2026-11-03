@@ -26,7 +26,10 @@ Le dépôt utilise les cinq labels de triage standards. Voir
 Sous `/implement`, l'agent mène le ticket jusqu'au bout sans demander de
 validation, ce qui vaut demande explicite au sens des règles globales :
 
-1. Créer la branche `ALV-<n>-<slug>` dans un worktree frère.
+1. Créer la branche `ALV-<n>-<slug>` dans un worktree frère, puis y lancer
+   `pnpm install` et
+   `pnpm --filter @alveole/components --filter @alveole/storybook run generate:sources` :
+   sans les sources générées, Jest ciblé refuse de charger les suites.
 2. `/code-review` et ses corrections d'abord, puis `pnpm run check` vert, une
    seule fois, sur l'état final. Commiter ensuite en français avec gitmoji, en
    stageant des fichiers explicites (jamais `git add .` ni `-A`).
@@ -39,6 +42,8 @@ validation, ce qui vaut demande explicite au sens des règles globales :
    est voulu. Attendre son commit 📸, `git pull` la branche, puis vérifier que
    seules les pages attendues changent de rendu. Ce commit déclenche lui-même
    le run `pull_request` de `ci.yml` : c'est celui-là qu'attend l'étape 5.
+   Poussé par le bot, ce run reste en `action_required` : le lancer par
+   `gh run rerun <id>`.
 5. Attendre le run `pull_request` de `ci.yml` sur le dernier SHA de la branche
    (`gh run list --workflow ci.yml --branch <branche> --event pull_request`,
    puis `gh run watch <id> --exit-status`). `gh pr checks --watch` rend vert
