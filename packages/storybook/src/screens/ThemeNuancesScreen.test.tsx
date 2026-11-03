@@ -1,3 +1,4 @@
+import { libellesSansTexteVisible } from '../../__tests__/helpers/libellesSansTexteVisible';
 import { fireEvent, renderScreen, screen } from '../../__tests__/helpers/renderScreen';
 import type { CatalogueDesCouleurs, Nuance } from '../couleurs/catalogueDesCouleurs';
 import { ThemeNuancesScreen } from './ThemeNuancesScreen';
@@ -245,4 +246,14 @@ it('marque hors echelle et deprecie une cle non numerique depreciee', async () =
   );
 
   expect(screen.getByRole('button', { name: 'Neutre main-646 hors échelle, déprécié' })).toBeTruthy();
+});
+
+// Le texte visible d'une nuance sous la bande doit se retrouver dans son nom accessible : sans
+// espace, « 300déprécié » n'est pas dans « SlateGrey 300 déprécié » (axe en navigateur).
+it('garde le texte visible de chaque nuance dans son nom accessible', async () => {
+  const { container } = renderScreen(
+    <ThemeNuancesScreen catalogue={catalogue(nuance({}), nuance({ numero: '300', deprecie: true }))} />,
+  );
+
+  expect(libellesSansTexteVisible(container)).toEqual([]);
 });
