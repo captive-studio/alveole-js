@@ -2,7 +2,23 @@ import { contrastRatio } from '@alveole/theme';
 import type { CatalogueDesCouleurs, Nuance } from '../couleurs/catalogueDesCouleurs';
 import { grouperDansLOrdre } from './grouperDansLOrdre';
 
-export type EchelleDeNuances = { titre: string; nuances: Nuance[] };
+/** Une nuance montree sous la bande, avec la raison qui l'en sort. */
+export type NuanceHorsBande = { nuance: Nuance; marquage: string };
+
+/** `nuances` forment la bande, rangees par rang ; `horsBande` vivent sous elle. */
+export type EchelleDeNuances = { titre: string; nuances: Nuance[]; horsBande: NuanceHorsBande[] };
+
+/**
+ * Ce qui sort une nuance de la progression : une cle comme `main-646` n'est pas un cran, un cran
+ * deprecie ne compte plus. `null` pour une nuance de la bande.
+ */
+const marquageDe = (nuance: Nuance) => {
+  if (!/^\d+$/.test(nuance.numero)) return 'hors échelle';
+  return nuance.deprecie ? 'déprécié' : null;
+};
+
+const parRang = (nuances: Nuance[]) =>
+  [...nuances].sort((a, b) => contrasteAvecLeBlanc(a.hex) - contrasteAvecLeBlanc(b.hex));
 
 export const blanc = '#FFFFFF';
 
@@ -16,7 +32,11 @@ export const contrasteAvecLeBlanc = (hex: string) => contrastRatio(hex, blanc);
 const echellesDuCatalogue = ({ nuances }: Pick<CatalogueDesCouleurs, 'nuances'>): EchelleDeNuances[] =>
   grouperDansLOrdre(nuances, nuance => nuance.echelle).map(([titre, nuancesDeLEchelle]) => ({
     titre,
-    nuances: [...nuancesDeLEchelle].sort((a, b) => contrasteAvecLeBlanc(a.hex) - contrasteAvecLeBlanc(b.hex)),
+    nuances: parRang(nuancesDeLEchelle.filter(nuance => marquageDe(nuance) === null)),
+    horsBande: nuancesDeLEchelle.flatMap(nuance => {
+      const marquage = marquageDe(nuance);
+      return marquage ? [{ nuance, marquage }] : [];
+    }),
   }));
 
 export type FamilleDEchelles = { titre: string; echelles: EchelleDeNuances[] };

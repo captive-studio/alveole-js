@@ -130,13 +130,48 @@ test('rend chaque nuance avec ses tokens actifs et deprecies', () => {
 } as const;`;
 
   assert.deepEqual(extraireCatalogueDesCouleurs({ palette, echelles }).nuances, [
-    { echelle: 'Neutre', numero: '50', hex: '#161616', tokens: [], tokensDeprecies: [] },
+    { echelle: 'Neutre', numero: '50', hex: '#161616', deprecie: false, tokens: [], tokensDeprecies: [] },
     {
       echelle: 'Neutre',
       numero: '900',
       hex: '#DDDDDD',
+      deprecie: false,
       tokens: ['light.border.default-grey'],
       tokensDeprecies: ['bordure'],
     },
   ]);
+});
+
+// Un cran deprecie dans Colors sort de la bande des nuances : l'extraction le releve.
+test('releve un cran deprecie dans Colors', () => {
+  const echellesDepreciees = `export const Colors = {
+  VertPrairie: {
+    /** @deprecated */
+    50: '#F3FDE7',
+    75: '#0B220B',
+  },
+};`;
+  const palette = `export const CustomPalette = {} as const;`;
+
+  const nuances = extraireCatalogueDesCouleurs({ palette, echelles: echellesDepreciees }).nuances;
+
+  assert.deepEqual(
+    nuances.map(({ numero, deprecie }) => [numero, deprecie]),
+    [
+      ['50', true],
+      ['75', false],
+    ],
+  );
+});
+
+// Une nuance calculee ou etalee echapperait au releve de la depreciation (ADR 0035).
+test('echoue en nommant la nuance quand son ecriture dans Colors n est pas reconnue', () => {
+  const echellesIllisibles = `export const Colors = {
+  Neutre: {
+    50: assombrir('#FFFFFF'),
+  },
+};`;
+  const palette = `export const CustomPalette = {} as const;`;
+
+  assert.throws(() => extraireCatalogueDesCouleurs({ palette, echelles: echellesIllisibles }), /Neutre\.50/);
 });

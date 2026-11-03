@@ -74,10 +74,13 @@ const CaseDeNuance = ({
   nuance,
   selectionnee,
   onPress,
+  marquage,
 }: {
   nuance: Nuance;
   selectionnee: boolean;
   onPress: () => void;
+  /** Present pour une nuance sous la bande : la case garde sa taille et porte son marquage a cote. */
+  marquage?: string;
 }) => {
   const teinte = teinteLisibleSur(nuance.hex);
 
@@ -87,7 +90,11 @@ const CaseDeNuance = ({
       accessibilityLabel={nomDe(nuance)}
       aria-pressed={selectionnee}
       onPress={onPress}
-      style={{ flexBasis: 64, flexShrink: 1, minWidth: 36 }}
+      style={
+        marquage
+          ? { flexDirection: 'row', alignItems: 'center', gap: Spacings['1W'] }
+          : { flexBasis: 64, flexShrink: 1, minWidth: 36 }
+      }
     >
       <Box
         style={{
@@ -103,8 +110,9 @@ const CaseDeNuance = ({
           outlineColor: teinte,
         }}
       >
-        <Typography style={{ color: teinte }}>{nuance.numero}</Typography>
+        <Typography style={{ color: teinte, paddingHorizontal: Spacings['1W'] }}>{nuance.numero}</Typography>
       </Box>
+      {marquage && <Typography>{` ${marquage}`}</Typography>}
     </Pressable>
   );
 };
@@ -113,7 +121,9 @@ type Selection = { nuanceSelectionnee: Nuance | null; selectionner: (nuance: Nua
 
 const BlocDEchelle = ({ echelle, nuanceSelectionnee, selectionner }: { echelle: EchelleDeNuances } & Selection) => {
   const { text } = useTheme();
-  const detail = echelle.nuances.find(nuance => nuance === nuanceSelectionnee);
+  const detail = [...echelle.nuances, ...echelle.horsBande.map(({ nuance }) => nuance)].find(
+    nuance => nuance === nuanceSelectionnee,
+  );
 
   return (
     <Box style={{ marginBottom: Spacings['3W'] }}>
@@ -131,6 +141,19 @@ const BlocDEchelle = ({ echelle, nuanceSelectionnee, selectionner }: { echelle: 
           />
         ))}
       </Box>
+      {echelle.horsBande.length > 0 && (
+        <Box style={{ flexDirection: 'row', flexWrap: 'wrap', gap: Spacings['2W'], marginTop: Spacings['1W'] }}>
+          {echelle.horsBande.map(({ nuance, marquage }) => (
+            <CaseDeNuance
+              key={nuance.numero}
+              nuance={nuance}
+              marquage={marquage}
+              selectionnee={nuance === nuanceSelectionnee}
+              onPress={() => selectionner(nuance)}
+            />
+          ))}
+        </Box>
+      )}
       {detail && <DetailDeNuance nuance={detail} />}
     </Box>
   );

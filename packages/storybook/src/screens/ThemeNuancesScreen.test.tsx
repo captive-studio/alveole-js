@@ -6,6 +6,7 @@ const nuance = (champs: Partial<Nuance>): Nuance => ({
   echelle: 'Neutre',
   numero: '900',
   hex: '#DDDDDD',
+  deprecie: false,
   tokens: [],
   tokensDeprecies: [],
   ...champs,
@@ -148,4 +149,44 @@ it('distingue sur la bande la nuance selectionnee', async () => {
   selectionner('Neutre 900');
 
   expect(screen.getByRole('button', { pressed: true }).textContent).toBe('900');
+});
+
+// La bande ne montre que la progression : une cle qui n'est pas un cran vit sous elle.
+it('affiche sous la bande, marquee hors echelle, une cle non numerique', async () => {
+  renderScreen(
+    <ThemeNuancesScreen
+      catalogue={catalogue(nuance({ numero: '50' }), nuance({ numero: 'main-646', hex: '#0379EF' }))}
+    />,
+  );
+
+  expect(screen.getAllByRole('button').map(bouton => bouton.textContent)).toEqual(['50', 'main-646 hors échelle']);
+});
+
+// Un cran deprecie ne compte plus dans la progression : il quitte la bande, sans disparaitre.
+it('affiche sous la bande, marque deprecie, un cran deprecie', async () => {
+  renderScreen(
+    <ThemeNuancesScreen
+      catalogue={catalogue(
+        nuance({ echelle: 'VertPrairie', numero: '300', hex: '#9EED61', deprecie: true }),
+        nuance({ echelle: 'VertPrairie', numero: '75', hex: '#0B220B' }),
+      )}
+    />,
+  );
+
+  expect(screen.getAllByRole('button').map(bouton => bouton.textContent)).toEqual(['75', '300 déprécié']);
+});
+
+it('detaille une nuance hors de la bande comme les autres', async () => {
+  renderScreen(
+    <ThemeNuancesScreen
+      catalogue={catalogue(
+        nuance({ echelle: 'BleuCaptive', numero: 'main-646', hex: '#0379EF', tokens: ['light.text.action-high-blue'] }),
+      )}
+    />,
+  );
+
+  selectionner('BleuCaptive main-646');
+
+  expect(screen.getByText('#0379EF')).toBeTruthy();
+  expect(screen.getByRole('link', { name: 'light.text.action-high-blue' })).toBeTruthy();
 });
