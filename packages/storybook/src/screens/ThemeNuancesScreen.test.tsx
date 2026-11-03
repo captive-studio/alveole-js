@@ -1,4 +1,4 @@
-import { renderScreen, screen } from '../../__tests__/helpers/renderScreen';
+import { fireEvent, renderScreen, screen } from '../../__tests__/helpers/renderScreen';
 import type { CatalogueDesCouleurs, Nuance } from '../couleurs/catalogueDesCouleurs';
 import { ThemeNuancesScreen } from './ThemeNuancesScreen';
 
@@ -13,9 +13,21 @@ const nuance = (champs: Partial<Nuance>): Nuance => ({
 
 const catalogue = (...nuances: Nuance[]): CatalogueDesCouleurs => ({ tokens: [], nuances });
 
-// #DDDDDD sur blanc : (1 + 0,05) / (0,7231 + 0,05) = 1,36, arrondi a une decimale.
-it('montre chaque nuance avec son hex et son contraste sur blanc', async () => {
+/** Selectionne la nuance de la bande par son nom, `Neutre 900`. */
+const selectionner = (nom: string) => fireEvent.click(screen.getByRole('button', { name: nom }));
+
+// La page s'ouvre sur la vue d'ensemble : aucun detail tant qu'on n'a rien choisi.
+it('n affiche aucun detail a l ouverture', async () => {
   renderScreen(<ThemeNuancesScreen catalogue={catalogue(nuance({}))} />);
+
+  expect(screen.queryByText('#DDDDDD')).toBeNull();
+});
+
+// #DDDDDD sur blanc : (1 + 0,05) / (0,7231 + 0,05) = 1,36, arrondi a une decimale.
+it('detaille la nuance selectionnee : nom, hex et contraste sur blanc', async () => {
+  renderScreen(<ThemeNuancesScreen catalogue={catalogue(nuance({}))} />);
+
+  selectionner('Neutre 900');
 
   expect(screen.getByText('Neutre 900')).toBeTruthy();
   expect(screen.getByText('#DDDDDD')).toBeTruthy();
@@ -24,6 +36,8 @@ it('montre chaque nuance avec son hex et son contraste sur blanc', async () => {
 
 it('liste sous la nuance les tokens qui la citent, chacun lie a sa ligne', async () => {
   renderScreen(<ThemeNuancesScreen catalogue={catalogue(nuance({ tokens: ['light.border.default-grey'] }))} />);
+
+  selectionner('Neutre 900');
 
   expect(screen.getByRole('link', { name: 'light.border.default-grey' }).getAttribute('href')).toBe(
     '/theme/tokens-semantiques#light.border.default-grey',
@@ -34,6 +48,8 @@ it('liste sous la nuance les tokens qui la citent, chacun lie a sa ligne', async
 it('liste a part les tokens deprecies qui citent la nuance', async () => {
   renderScreen(<ThemeNuancesScreen catalogue={catalogue(nuance({ tokensDeprecies: ['border.base'] }))} />);
 
+  selectionner('Neutre 900');
+
   expect(screen.getByText('Déprécié')).toBeTruthy();
   expect(screen.getByRole('link', { name: 'border.base' }).getAttribute('href')).toBe(
     '/theme/tokens-semantiques#border.base',
@@ -43,15 +59,12 @@ it('liste a part les tokens deprecies qui citent la nuance', async () => {
 // Un token deprecie ne fait pas vivre une nuance : elle reste candidate a la depreciation.
 it('marque sans usage une nuance qu aucun token actif ne cite', async () => {
   renderScreen(
-    <ThemeNuancesScreen
-      catalogue={catalogue(
-        nuance({ numero: '50', tokensDeprecies: ['border.base'] }),
-        nuance({ tokens: ['light.border.default-grey'] }),
-      )}
-    />,
+    <ThemeNuancesScreen catalogue={catalogue(nuance({ numero: '50', tokensDeprecies: ['border.base'] }))} />,
   );
 
-  expect(screen.getAllByText('sans usage')).toHaveLength(1);
+  selectionner('Neutre 50');
+
+  expect(screen.getByText('sans usage')).toBeTruthy();
 });
 
 // Une nuance n'est pas un token : la page renvoie le lecteur vers ce qu'un composant doit lire.
@@ -84,14 +97,14 @@ it('range les echelles sous le titre de leur famille, dans l ordre Neutre, Marqu
   expect(
     dansLOrdre(container.textContent ?? '', [
       'Neutre',
-      'GrisPolaire 900',
-      'SlateGrey 900',
+      'GrisPolaire',
+      'SlateGrey',
       'Marque',
-      'BleuCaptive 900',
+      'BleuCaptive',
       'Statut',
-      'Focus 900',
+      'Focus',
       'Accent',
-      'Inconnue 900',
+      'Inconnue',
     ]),
   ).toBe(true);
 });
@@ -110,12 +123,29 @@ it('range a la fin, quelle que soit sa famille, une echelle qu aucun token ne ci
   );
 
   expect(
-    dansLOrdre(container.textContent ?? '', [
-      'Neutre 900',
-      'Accent',
-      'Lilas 900',
-      'Non utilisées par le thème',
-      'Focus 900',
-    ]),
+    dansLOrdre(container.textContent ?? '', ['Neutre', 'Accent', 'Lilas', 'Non utilisées par le thème', 'Focus']),
   ).toBe(true);
+});
+
+// Lilas numerote vers le fonce, VertPrairie vers le clair : la bande ne lit que la luminosite.
+it('range les nuances d une echelle du plus clair au plus fonce, quel que soit le numero', async () => {
+  renderScreen(
+    <ThemeNuancesScreen
+      catalogue={catalogue(
+        nuance({ echelle: 'Lilas', numero: '100', hex: '#222222' }),
+        nuance({ echelle: 'Lilas', numero: '200', hex: '#EEEEEE' }),
+        nuance({ echelle: 'Lilas', numero: '300', hex: '#888888' }),
+      )}
+    />,
+  );
+
+  expect(screen.getAllByRole('button').map(bouton => bouton.textContent)).toEqual(['200', '300', '100']);
+});
+
+it('distingue sur la bande la nuance selectionnee', async () => {
+  renderScreen(<ThemeNuancesScreen catalogue={catalogue(nuance({ numero: '50' }), nuance({}))} />);
+
+  selectionner('Neutre 900');
+
+  expect(screen.getByRole('button', { pressed: true }).textContent).toBe('900');
 });
