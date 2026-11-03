@@ -87,10 +87,10 @@ const CaseDeNuance = ({
       accessibilityLabel={nomDe(nuance)}
       aria-pressed={selectionnee}
       onPress={onPress}
+      style={{ flexBasis: 64, flexShrink: 1, minWidth: 36 }}
     >
       <Box
         style={{
-          width: 64,
           height: 48,
           justifyContent: 'center',
           alignItems: 'center',
@@ -118,7 +118,9 @@ const BlocDEchelle = ({ echelle, nuanceSelectionnee, selectionner }: { echelle: 
   return (
     <Box style={{ marginBottom: Spacings['3W'] }}>
       <Typography style={text.Titres['H5 - XS']}>{echelle.titre}</Typography>
-      {/* Une case a largeur fixe : une echelle courte, comme Focus, donne une bande courte. */}
+      {/* Une case vise 64 px : une echelle courte, comme Focus, donne une bande courte. Une longue
+          echelle retrecit ses cases pour rester d'un seul tenant, et ne passe a la ligne que sur
+          un ecran etroit. */}
       <Box style={{ flexDirection: 'row', flexWrap: 'wrap' }}>
         {echelle.nuances.map(nuance => (
           <CaseDeNuance
