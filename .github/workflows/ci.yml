@@ -74,8 +74,10 @@ jobs:
   test-unit:
     name: Test Unit workspaces
     if: github.event_name != 'push' || !startsWith(github.ref, 'refs/tags/')
+    # Sur captive-small comme Source checks : même conteneur node-ci, aucune compilation
+    # native. Le pool self-hosted, plafonné par l'IO du NVMe, reste à l'audit du catalogue.
     runs-on:
-      - self-hosted
+      - captive-small
     timeout-minutes: 25
     container: ghcr.io/captive-studio/node-ci:24.22.2@sha256:f755567711d7c32e39a69cfb01e38ad30047b3fe9617289531310cb6ddfeb470
     steps:
@@ -114,8 +116,9 @@ jobs:
   packages:
     name: Publishable packages (publint, attw, docs lint, Expo doctor)
     if: github.event_name != 'push' || !startsWith(github.ref, 'refs/tags/')
+    # Sur captive-small pour la même raison que Test Unit workspaces.
     runs-on:
-      - self-hosted
+      - captive-small
     timeout-minutes: 20
     container: ghcr.io/captive-studio/node-ci:24.22.2@sha256:f755567711d7c32e39a69cfb01e38ad30047b3fe9617289531310cb6ddfeb470
     steps:
