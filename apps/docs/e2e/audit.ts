@@ -41,11 +41,14 @@ export async function openRoute(page: Page, route: string): Promise<void> {
   // sondage puisque expo-image pose ses <img> au fil de sa transition.
   await page
     .waitForFunction(
-      () =>
-        Array.from(document.images).every(image => {
+      () => {
+        const images = Array.from(document.images);
+        images.forEach(image => {
           image.loading = 'eager';
-          return image.complete;
-        }),
+        });
+
+        return images.every(image => image.complete);
+      },
       null,
       { timeout: 15_000 },
     )
@@ -56,14 +59,14 @@ export async function openRoute(page: Page, route: string): Promise<void> {
 // jamais : il ne compare que les violations. `resultTypes` limite ce détail aux violations sans
 // rien retirer des règles évaluées. Mesuré en local sur les 76 pages : 3,5 s d'axe par page
 // sur ~6 s, ramenées à 1,9 s (ALV-184).
-function axe(page: Page): AxeBuilder {
+function violationsOnlyAxe(page: Page): AxeBuilder {
   return new AxeBuilder({ page }).options({ resultTypes: ['violations'] });
 }
 
 // La colonne liste les 75 fiches et pèse les deux tiers du DOM d'une fiche simple : la
 // relire à chaque page revenait à payer 75 fois le même audit. Elle est auditée à part.
 export async function auditPage(page: Page): Promise<Result[]> {
-  const { violations } = await axe(page).exclude(NAVIGATION).analyze();
+  const { violations } = await violationsOnlyAxe(page).exclude(NAVIGATION).analyze();
 
   return violations;
 }
@@ -71,7 +74,7 @@ export async function auditPage(page: Page): Promise<Result[]> {
 // La colonne n'est pas la même selon la page : elle marque l'entrée courante. L'auditer
 // depuis une fiche couvre donc un état que la page d'index ne montre jamais.
 export async function auditNavigation(page: Page): Promise<Result[]> {
-  const { violations } = await axe(page).include(NAVIGATION).analyze();
+  const { violations } = await violationsOnlyAxe(page).include(NAVIGATION).analyze();
 
   return violations;
 }

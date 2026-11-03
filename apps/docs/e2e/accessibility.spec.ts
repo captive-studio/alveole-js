@@ -20,8 +20,6 @@ const baseline = load(BASELINE_PATH);
 // nœud chargé, sans qu'aucune image ne soit prise : 16 échecs sur 40 au délai par défaut,
 // 0 sur 40 à 30 s (run 41557337988, ALV-185). 30 s laisse l'audit tenir dans les 90 s du
 // test, ces pages tournant entre 22 et 29 s au total.
-// Le délai se passe à l'appel : la configuration de Playwright ne type pas `timeout` sous
-// `expect.toHaveScreenshot`.
 const SCREENSHOT_TIMEOUT = 30_000;
 
 test.beforeEach(async ({ page }) => {
@@ -45,10 +43,15 @@ for (const route of auditedRoutes()) {
     const main = page.getByRole('main');
     await revealWhole(page, main);
     const zones = animatedZones(route);
-    const maskIn = (area: Locator) => zones.map(selector => area.locator(selector));
+    // Le délai se passe à l'appel : la configuration de Playwright ne type pas `timeout` sous
+    // `expect.toHaveScreenshot`.
+    const captureOf = (area: Locator) => ({
+      mask: zones.map(selector => area.locator(selector)),
+      timeout: SCREENSHOT_TIMEOUT,
+    });
 
     if (!byDemonstration(route)) {
-      await expect(main).toHaveScreenshot(snapshotName(route), { mask: maskIn(main) , timeout: SCREENSHOT_TIMEOUT });
+      await expect(main).toHaveScreenshot(snapshotName(route), captureOf(main));
       return;
     }
 
@@ -61,7 +64,7 @@ for (const route of auditedRoutes()) {
       const testId = (await demonstration.getAttribute('data-testid')) ?? '';
       const exemple = testId.slice(DEMONSTRATION_PREFIX.length);
 
-      await expect(demonstration).toHaveScreenshot(snapshotName(route, exemple), { mask: maskIn(demonstration) , timeout: SCREENSHOT_TIMEOUT });
+      await expect(demonstration).toHaveScreenshot(snapshotName(route, exemple), captureOf(demonstration));
     }
   });
 }
