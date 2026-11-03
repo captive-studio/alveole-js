@@ -2,7 +2,7 @@ import { Box, Link, Typography } from '@alveole/components';
 import { contrastRatio, Spacings, useTheme } from '@alveole/theme';
 import type { Nuance } from '../couleurs/catalogueDesCouleurs';
 import { contrasteAvecLeBlanc, type EchelleDeNuances, type RaisonHorsBande } from './echellesDuCatalogue';
-import { nomDe, pageDesTokens, useStylesDesNuances } from './presentationDesNuances';
+import { compte, nomDe, pageDesTokens, useStylesDesNuances } from './presentationDesNuances';
 
 /** Un rapport de contraste a une decimale et a la francaise : `1,4:1`. */
 const rapport = (contraste: number) => `${contraste.toFixed(1).replace('.', ',')}:1`;
@@ -77,7 +77,7 @@ const usageDe = (nuance: Nuance, raisons: RaisonHorsBande[]) => {
   if (raisons.length > 0) return marquageDe(raisons);
   const nombre = nuance.tokens.length;
   if (nombre === 0) return 'sans usage';
-  return `${nombre} token${nombre > 1 ? 's' : ''}`;
+  return compte(nombre, 'token');
 };
 
 const TableauDeLEchelle = ({
@@ -108,18 +108,19 @@ const TableauDeLEchelle = ({
               borderTopWidth: 1,
               borderColor: styles.filet,
               backgroundColor: nuance === nuanceSelectionnee ? styles.surbrillance : undefined,
-              // Un cran deprecie ou hors echelle reste lisible, mais en retrait de la progression.
-              opacity: raisons.length > 0 ? 0.55 : 1,
             }}
           >
             <Box role="cell">
               <Aplat hex={nuance.hex} taille={20} rayon="sm" />
             </Box>
             <Box role="cell" style={{ width: 72 }}>
-              <Typography style={styles.petitGras}>{nuance.numero}</Typography>
+              {/* Un cran deprecie ou hors echelle reste lisible, mais grise, en retrait de la progression. */}
+              <Typography style={[styles.petitGras, raisons.length > 0 && styles.discret]}>{nuance.numero}</Typography>
             </Box>
             <Box role="cell" style={{ width: 72 }}>
-              <Typography style={[styles.petit, styles.mono]}>{nuance.hex}</Typography>
+              <Typography style={[styles.petit, styles.mono, raisons.length > 0 && styles.discret]}>
+                {nuance.hex}
+              </Typography>
             </Box>
             <Box role="cell" style={{ flex: 1 }}>
               <Typography style={[styles.petit, styles.discret, { textAlign: 'right' }]}>

@@ -22,3 +22,6 @@ export const useStylesDesNuances = () => {
 
 /** Une nuance se designe par son echelle et son numero : `Neutre 900`. */
 export const nomDe = (nuance: Nuance) => `${nuance.echelle} ${nuance.numero}`;
+
+/** Un nombre et son mot, accorde : `1 token`, `2 tokens`. */
+export const compte = (nombre: number, mot: string) => `${nombre} ${mot}${nombre > 1 ? 's' : ''}`;
