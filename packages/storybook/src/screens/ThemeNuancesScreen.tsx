@@ -1,5 +1,5 @@
 import { Box, Link, Typography } from '@alveole/components';
-import { contrastRatio, Spacings, useTheme } from '@alveole/theme';
+import { contrastRatio, Spacings } from '@alveole/theme';
 import React from 'react';
 import { Pressable } from 'react-native';
 import { EcranDeCatalogue, filDuTheme } from '../components/EcranDeCatalogue';
@@ -9,9 +9,11 @@ import {
   blanc,
   contrasteAvecLeBlanc,
   type EchelleDeNuances,
+  type FamilleDEchelles,
   famillesDEchellesDuCatalogue,
-  type RaisonHorsBande,
 } from './echellesDuCatalogue';
+import { type NuanceChoisie, PanneauDeNuance } from './PanneauDeNuance';
+import { nomDe, pageDesTokens, useStylesDesNuances } from './presentationDesNuances';
 
 export type ThemeNuancesScreenProps = {
   /** Le catalogue extrait du source du theme (ADR 0035). Par defaut, celui d'Alveole. */
@@ -19,56 +21,6 @@ export type ThemeNuancesScreenProps = {
   title?: string;
   description?: string;
   footerContent?: React.ReactNode;
-};
-
-/** Un rapport de contraste a une decimale et a la francaise : `1,4:1`. */
-const rapport = (contraste: number) => `${contraste.toFixed(1).replace('.', ',')}:1`;
-
-const contrasteSurBlanc = (hex: string) => `${rapport(contrasteAvecLeBlanc(hex))} sur blanc`;
-
-const pageDesTokens = '/theme/tokens-semantiques';
-
-/** Chaque chemin mene a la ligne du token sur la page des tokens, ancree sur ce chemin. */
-const LiensDesTokens = ({ chemins }: { chemins: string[] }) =>
-  chemins.map(chemin => (
-    <Link key={chemin} href={`${pageDesTokens}#${chemin}`}>
-      {chemin}
-    </Link>
-  ));
-
-/** Une nuance se designe par son echelle et son numero : `Neutre 900`. */
-const nomDe = (nuance: Nuance) => `${nuance.echelle} ${nuance.numero}`;
-
-/** Le contraste de la nuance sur un fond, nomme : `15,5:1 sur Neutre 900`. */
-const contrasteSur = (nuance: Nuance, fond: Nuance) =>
-  `${rapport(contrastRatio(nuance.hex, fond.hex))} sur ${nomDe(fond)}`;
-
-const DetailDeNuance = ({ nuance, plusFoncee }: { nuance: Nuance; plusFoncee?: Nuance }) => {
-  const { color } = useTheme();
-  const discret = { color: color.light.text['mention-grey'] };
-
-  return (
-    <Box style={{ flexDirection: 'row', alignItems: 'flex-start', gap: Spacings['2W'], padding: Spacings['1W'] }}>
-      <Box style={{ width: 160 }}>
-        <Typography>{nomDe(nuance)}</Typography>
-        <Typography style={{ fontFamily: 'monospace' }}>{nuance.hex}</Typography>
-        <Typography style={discret}>{contrasteSurBlanc(nuance.hex)}</Typography>
-        {plusFoncee && plusFoncee !== nuance && (
-          <Typography style={discret}>{contrasteSur(nuance, plusFoncee)}</Typography>
-        )}
-      </Box>
-      <Box style={{ flex: 1, gap: Spacings['1V'] }}>
-        {nuance.tokens.length === 0 && <Typography style={discret}>{'sans usage'}</Typography>}
-        <LiensDesTokens chemins={nuance.tokens} />
-        {nuance.tokensDeprecies.length > 0 && (
-          <>
-            <Typography style={{ color: color.light.text['default-warning'] }}>{'Déprécié'}</Typography>
-            <LiensDesTokens chemins={nuance.tokensDeprecies} />
-          </>
-        )}
-      </Box>
-    </Box>
-  );
 };
 
 /**
@@ -80,98 +32,129 @@ const fonce = '#000000';
 /** La teinte, claire ou foncee, qui se lit le mieux sur la nuance. */
 const teinteLisibleSur = (fond: string) => (contrastRatio(fonce, fond) >= contrasteAvecLeBlanc(fond) ? fonce : blanc);
 
-const libelleDe: Record<RaisonHorsBande, string> = { horsEchelle: 'hors échelle', deprecie: 'déprécié' };
+const sansUsage = (nuance: Nuance) => nuance.tokens.length === 0;
 
-/** Les raisons de sortir de la bande, en toutes lettres : `hors échelle, déprécié`. */
-const marquageDe = (raisons: RaisonHorsBande[]) => raisons.map(raison => libelleDe[raison]).join(', ');
+/** Chaque case prend une part egale de la ligne : le rang N tombe sous le rang N de l'echelle voisine. */
+const partDeLigne = { flexGrow: 1, flexBasis: 0, minWidth: 0 };
 
 const CaseDeNuance = ({
   nuance,
   selectionnee,
   onPress,
-  marquage,
 }: {
   nuance: Nuance;
   selectionnee: boolean;
   onPress: () => void;
-  /** Present pour une nuance sous la bande : la case garde sa taille et porte son marquage a cote. */
-  marquage?: string;
 }) => {
+  const styles = useStylesDesNuances();
   const teinte = teinteLisibleSur(nuance.hex);
 
   return (
     <Pressable
       accessibilityRole="button"
-      accessibilityLabel={marquage ? `${nomDe(nuance)} ${marquage}` : nomDe(nuance)}
+      accessibilityLabel={nomDe(nuance)}
       aria-pressed={selectionnee}
       onPress={onPress}
-      style={
-        marquage
-          ? { flexDirection: 'row', alignItems: 'center', gap: Spacings['1W'] }
-          : { flexBasis: 64, flexShrink: 1, minWidth: 36 }
-      }
+      style={partDeLigne}
     >
       <Box
+        borderRadius="sm"
         style={{
-          height: 48,
+          height: 44,
           justifyContent: 'center',
           alignItems: 'center',
           backgroundColor: nuance.hex,
+          borderWidth: 1,
+          borderColor: styles.filet,
           // La nuance choisie est cernee de la teinte de son numero, en retrait pour ne pas decaler
-          // la bande.
+          // la ligne.
           outlineStyle: 'solid',
-          outlineWidth: selectionnee ? 3 : 0,
-          outlineOffset: -3,
+          outlineWidth: selectionnee ? 2 : 0,
+          outlineOffset: -4,
           outlineColor: teinte,
         }}
       >
-        <Typography style={{ color: teinte, paddingHorizontal: Spacings['1W'] }}>{nuance.numero}</Typography>
+        <Typography style={[styles.petit, { color: teinte }]}>{nuance.numero}</Typography>
+        {sansUsage(nuance) && (
+          <Box
+            style={{
+              position: 'absolute',
+              top: Spacings['1V'],
+              right: Spacings['1V'],
+              width: 4,
+              height: 4,
+              borderRadius: 2,
+              backgroundColor: teinte,
+              opacity: 0.5,
+            }}
+          />
+        )}
       </Box>
-      {/* L'espace de tete separe numero et marquage dans le texte lu : axe exige que le libelle le contienne. */}
-      {marquage && <Typography>{` ${marquage}`}</Typography>}
     </Pressable>
   );
 };
 
-type Selection = { nuanceSelectionnee: Nuance | null; selectionner: (nuance: Nuance) => void };
-
-const BlocDEchelle = ({ echelle, nuanceSelectionnee, selectionner }: { echelle: EchelleDeNuances } & Selection) => {
-  const { text } = useTheme();
-  const detail = echelle.toutes.find(nuance => nuance === nuanceSelectionnee);
+const TitreDeFamille = ({ famille }: { famille: FamilleDEchelles }) => {
+  const styles = useStylesDesNuances();
+  const nombre = famille.echelles.length;
 
   return (
-    <Box style={{ marginBottom: Spacings['3W'] }}>
-      <Typography style={text.Titres['H5 - XS']}>{echelle.titre}</Typography>
-      {/* Une case vise 64 px : une echelle courte, comme Focus, donne une bande courte. Une longue
-          echelle retrecit ses cases pour rester d'un seul tenant ; sur un ecran etroit, la bande
-          defile seule plutot que de passer a la ligne. */}
-      <Box style={{ flexDirection: 'row', overflowX: 'auto' }}>
-        {echelle.nuances.map(nuance => (
-          <CaseDeNuance
-            key={nuance.numero}
-            nuance={nuance}
-            selectionnee={nuance === nuanceSelectionnee}
-            onPress={() => selectionner(nuance)}
-          />
-        ))}
-      </Box>
-      {echelle.horsBande.length > 0 && (
-        <Box style={{ flexDirection: 'row', flexWrap: 'wrap', gap: Spacings['2W'], marginTop: Spacings['1W'] }}>
-          {echelle.horsBande.map(({ nuance, raisons }) => (
-            <CaseDeNuance
-              key={nuance.numero}
-              nuance={nuance}
-              marquage={marquageDe(raisons)}
-              selectionnee={nuance === nuanceSelectionnee}
-              onPress={() => selectionner(nuance)}
-            />
-          ))}
-        </Box>
-      )}
-      {detail && <DetailDeNuance nuance={detail} plusFoncee={echelle.plusFoncee} />}
+    <Box
+      style={{
+        flexDirection: 'row',
+        alignItems: 'baseline',
+        gap: Spacings['1W'],
+        borderBottomWidth: 1,
+        borderColor: styles.filet,
+        paddingBottom: Spacings['1W'],
+        marginBottom: Spacings['3W'],
+      }}
+    >
+      <Typography style={styles.titreDeFamille}>{famille.titre}</Typography>
+      <Typography style={[styles.petit, styles.discret]}>{`${nombre} échelle${nombre > 1 ? 's' : ''}`}</Typography>
     </Box>
   );
 };
+
+type Selection = { nuanceSelectionnee: Nuance | null; selectionner: (choix: NuanceChoisie) => void };
+
+const LigneDEchelle = ({
+  echelle,
+  rangs,
+  nuanceSelectionnee,
+  selectionner,
+}: { echelle: EchelleDeNuances; rangs: number } & Selection) => {
+  const styles = useStylesDesNuances();
+  const horsBande = echelle.horsBande.length;
+
+  return (
+    <Box style={{ flexDirection: 'row', alignItems: 'center', marginBottom: Spacings['1W'] }}>
+      <Typography style={[styles.petitGras, { width: 128 }]}>{echelle.titre}</Typography>
+      <Box style={{ flex: 1, flexDirection: 'row', gap: 2 }}>
+        {Array.from({ length: rangs }, (_, rang) => {
+          const nuance = echelle.nuances[rang];
+          return nuance ? (
+            <CaseDeNuance
+              key={nuance.numero}
+              nuance={nuance}
+              selectionnee={nuance === nuanceSelectionnee}
+              onPress={() => selectionner({ nuance, echelle })}
+            />
+          ) : (
+            <Box key={`vide-${rang}`} style={partDeLigne} />
+          );
+        })}
+      </Box>
+      <Typography style={[styles.petit, styles.discret, { width: 72, textAlign: 'right' }]}>
+        {horsBande > 0 ? `+${horsBande} hors` : ''}
+      </Typography>
+    </Box>
+  );
+};
+
+/** Le nombre de rangs de la plus longue echelle : toutes les lignes en ont autant. */
+const rangsDe = (familles: FamilleDEchelles[]) =>
+  Math.max(0, ...familles.flatMap(famille => famille.echelles.map(echelle => echelle.nuances.length)));
 
 export const ThemeNuancesScreen = ({
   catalogue = catalogueDuTheme,
@@ -179,9 +162,11 @@ export const ThemeNuancesScreen = ({
   description = 'Les échelles de couleurs du thème et les tokens qui citent chaque nuance',
   footerContent,
 }: ThemeNuancesScreenProps) => {
-  const { text } = useTheme();
+  const styles = useStylesDesNuances();
   const familles = React.useMemo(() => famillesDEchellesDuCatalogue(catalogue), [catalogue]);
-  const [nuanceSelectionnee, selectionner] = React.useState<Nuance | null>(null);
+  const [choix, selectionner] = React.useState<NuanceChoisie | null>(null);
+  const nuanceSelectionnee = choix?.nuance ?? null;
+  const rangs = rangsDe(familles);
 
   return (
     <EcranDeCatalogue
@@ -194,19 +179,28 @@ export const ThemeNuancesScreen = ({
         <Typography>{'Un composant lit un token sémantique, jamais une nuance. Voir les'}</Typography>
         <Link href={pageDesTokens}>{'tokens sémantiques'}</Link>
       </Box>
-      {familles.map(famille => (
-        <Box key={famille.titre} style={{ marginBottom: Spacings['3W'] }}>
-          <Typography style={text.Titres['H4 - SM']}>{famille.titre}</Typography>
-          {famille.echelles.map(echelle => (
-            <BlocDEchelle
-              key={echelle.titre}
-              echelle={echelle}
-              nuanceSelectionnee={nuanceSelectionnee}
-              selectionner={selectionner}
-            />
+      <Box style={{ flexDirection: 'row', alignItems: 'flex-start', gap: Spacings['4W'] }}>
+        <Box style={{ flex: 1, minWidth: 0 }}>
+          {familles.map(famille => (
+            <Box key={famille.titre} style={{ marginBottom: Spacings['5W'] }}>
+              <TitreDeFamille famille={famille} />
+              {famille.echelles.map(echelle => (
+                <LigneDEchelle
+                  key={echelle.titre}
+                  echelle={echelle}
+                  rangs={rangs}
+                  nuanceSelectionnee={nuanceSelectionnee}
+                  selectionner={selectionner}
+                />
+              ))}
+            </Box>
           ))}
+          <Typography style={[styles.petit, styles.discret]}>
+            {'Point dans la case : nuance sans usage. Colonnes alignées par rang, du plus clair au plus foncé.'}
+          </Typography>
         </Box>
-      ))}
+        <PanneauDeNuance choix={choix} />
+      </Box>
     </EcranDeCatalogue>
   );
 };

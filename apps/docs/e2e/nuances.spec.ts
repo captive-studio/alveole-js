@@ -33,3 +33,12 @@ test('selectionne une nuance au clavier, avec un focus visible', async ({ page }
   await expect(caseFocus(page)).toHaveAttribute('aria-pressed', 'true');
   await expect(page.getByRole('main').getByText('Focus 525')).toBeVisible();
 });
+
+// `position: sticky` n'existe pas en jsdom : seul le navigateur montre que le panneau suit le
+// defilement jusqu'au bas de la grille.
+test('garde le detail de la nuance selectionnee a l ecran pendant le defilement', async ({ page }) => {
+  await caseFocus(page).click();
+  await page.mouse.wheel(0, 100_000);
+
+  await expect(page.getByRole('main').getByRole('table', { name: 'Échelle Focus' })).toBeInViewport();
+});

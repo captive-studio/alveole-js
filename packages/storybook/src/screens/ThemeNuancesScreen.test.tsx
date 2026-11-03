@@ -1,5 +1,5 @@
 import { libellesSansTexteVisible } from '../../__tests__/helpers/libellesSansTexteVisible';
-import { fireEvent, renderScreen, screen } from '../../__tests__/helpers/renderScreen';
+import { fireEvent, renderScreen, screen, within } from '../../__tests__/helpers/renderScreen';
 import type { CatalogueDesCouleurs, Nuance } from '../couleurs/catalogueDesCouleurs';
 import { ThemeNuancesScreen } from './ThemeNuancesScreen';
 
@@ -18,11 +18,20 @@ const catalogue = (...nuances: Nuance[]): CatalogueDesCouleurs => ({ tokens: [],
 /** Selectionne la nuance de la bande par son nom, `Neutre 900`. */
 const selectionner = (nom: string) => fireEvent.click(screen.getByRole('button', { name: nom }));
 
+/** L'en-tete du panneau, qui detaille la nuance selectionnee par son nom. */
+const detailDe = (nom: string) => within(screen.getByRole('group', { name: nom }));
+
 // La page s'ouvre sur la vue d'ensemble : aucun detail tant qu'on n'a rien choisi.
 it('n affiche aucun detail a l ouverture', async () => {
   renderScreen(<ThemeNuancesScreen catalogue={catalogue(nuance({}))} />);
 
   expect(screen.queryByText('#DDDDDD')).toBeNull();
+});
+
+it('invite a selectionner une nuance tant qu aucune ne l est', async () => {
+  renderScreen(<ThemeNuancesScreen catalogue={catalogue(nuance({}))} />);
+
+  expect(screen.getByText('Sélectionnez une nuance pour voir son échelle en détail.')).toBeTruthy();
 });
 
 // #DDDDDD sur blanc : (1 + 0,05) / (0,7231 + 0,05) = 1,36, arrondi a une decimale.
@@ -31,9 +40,9 @@ it('detaille la nuance selectionnee : nom, hex et contraste sur blanc', async ()
 
   selectionner('Neutre 900');
 
-  expect(screen.getByText('Neutre 900')).toBeTruthy();
-  expect(screen.getByText('#DDDDDD')).toBeTruthy();
-  expect(screen.getByText('1,4:1 sur blanc')).toBeTruthy();
+  expect(detailDe('Neutre 900').getByText('Neutre 900')).toBeTruthy();
+  expect(detailDe('Neutre 900').getByText('#DDDDDD')).toBeTruthy();
+  expect(detailDe('Neutre 900').getByText('1,4:1 sur blanc')).toBeTruthy();
 });
 
 it('liste sous la nuance les tokens qui la citent, chacun lie a sa ligne', async () => {
@@ -66,7 +75,7 @@ it('marque sans usage une nuance qu aucun token actif ne cite', async () => {
 
   selectionner('Neutre 50');
 
-  expect(screen.getByText('sans usage')).toBeTruthy();
+  expect(detailDe('Neutre 50').getByText('sans usage')).toBeTruthy();
 });
 
 // Une nuance n'est pas un token : la page renvoie le lecteur vers ce qu'un composant doit lire.
@@ -152,50 +161,17 @@ it('distingue sur la bande la nuance selectionnee', async () => {
   expect(screen.getByRole('button', { pressed: true }).textContent).toBe('900');
 });
 
-// La bande ne montre que la progression : une cle qui n'est pas un cran vit sous elle.
-it('affiche sous la bande, marquee hors echelle, une cle non numerique', async () => {
+// La bande ne montre que la progression : une cle qui n'est pas un cran n'y a pas de case, seul
+// son compte apparait en fin de ligne.
+it('compte en fin de ligne, sans case, les nuances hors de la bande', async () => {
   renderScreen(
     <ThemeNuancesScreen
       catalogue={catalogue(nuance({ numero: '50' }), nuance({ numero: 'main-646', hex: '#0379EF' }))}
     />,
   );
 
-  expect(screen.getAllByRole('button').map(bouton => bouton.getAttribute('aria-label'))).toEqual([
-    'Neutre 50',
-    'Neutre main-646 hors échelle',
-  ]);
-});
-
-// Un cran deprecie ne compte plus dans la progression : il quitte la bande, sans disparaitre.
-it('affiche sous la bande, marque deprecie, un cran deprecie', async () => {
-  renderScreen(
-    <ThemeNuancesScreen
-      catalogue={catalogue(
-        nuance({ echelle: 'VertPrairie', numero: '300', hex: '#9EED61', deprecie: true }),
-        nuance({ echelle: 'VertPrairie', numero: '75', hex: '#0B220B' }),
-      )}
-    />,
-  );
-
-  expect(screen.getAllByRole('button').map(bouton => bouton.getAttribute('aria-label'))).toEqual([
-    'VertPrairie 75',
-    'VertPrairie 300 déprécié',
-  ]);
-});
-
-it('detaille une nuance hors de la bande comme les autres', async () => {
-  renderScreen(
-    <ThemeNuancesScreen
-      catalogue={catalogue(
-        nuance({ echelle: 'BleuCaptive', numero: 'main-646', hex: '#0379EF', tokens: ['light.text.action-high-blue'] }),
-      )}
-    />,
-  );
-
-  selectionner('BleuCaptive main-646 hors échelle');
-
-  expect(screen.getByText('#0379EF')).toBeTruthy();
-  expect(screen.getByRole('link', { name: 'light.text.action-high-blue' })).toBeTruthy();
+  expect(screen.getAllByRole('button').map(bouton => bouton.getAttribute('aria-label'))).toEqual(['Neutre 50']);
+  expect(screen.getByText('+1 hors')).toBeTruthy();
 });
 
 // #DDDDDD sur #000000 : (0,7231 + 0,05) / (0 + 0,05) = 15,46, arrondi a une decimale.
@@ -205,12 +181,6 @@ it('detaille le contraste de la nuance sur la plus foncee de son echelle', async
   selectionner('Neutre 50');
 
   expect(screen.getByText('15,5:1 sur Neutre 900')).toBeTruthy();
-});
-
-it('nomme une nuance sous la bande avec son marquage', async () => {
-  renderScreen(<ThemeNuancesScreen catalogue={catalogue(nuance({ numero: 'main-646', hex: '#0379EF' }))} />);
-
-  expect(screen.getByRole('button', { name: 'Neutre main-646 hors échelle' })).toBeTruthy();
 });
 
 // #DDDDDD sur #222222 : (0,7231 + 0,05) / (0,0160 + 0,05) = 11,7. Seule la bande sert de reference : une nuance hors de la bande, meme plus foncee, n'en est pas une.
@@ -240,12 +210,79 @@ it('ne detaille pas le contraste de la plus foncee sur elle-meme', async () => {
   expect(screen.queryByText(/sur Neutre 900/)).toBeNull();
 });
 
-it('marque hors echelle et deprecie une cle non numerique depreciee', async () => {
+/** Les lignes du tableau de l'echelle, chacune lue cellule par cellule. */
+const lignesDeLEchelle = () =>
+  within(screen.getByRole('table', { name: 'Échelle Neutre' }))
+    .getAllByRole('row')
+    .map(ligne =>
+      within(ligne)
+        .getAllByRole('cell')
+        .map(cellule => cellule.textContent),
+    );
+
+// Le tableau montre toute l'echelle : la bande dans l'ordre, puis ce qui en sort, qualifie.
+it('detaille toute l echelle de la nuance selectionnee, hors bande en fin', async () => {
   renderScreen(
-    <ThemeNuancesScreen catalogue={catalogue(nuance({ numero: 'main-646', hex: '#0379EF', deprecie: true }))} />,
+    <ThemeNuancesScreen
+      catalogue={catalogue(
+        nuance({ numero: 'main-646', hex: '#0379EF', tokens: ['light.text.a'] }),
+        nuance({ numero: '50', tokens: ['light.text.a', 'light.text.b'] }),
+        nuance({ hex: '#222222', tokens: ['light.text.c'] }),
+        nuance({ numero: '1000', hex: '#000000', deprecie: true }),
+      )}
+    />,
   );
 
-  expect(screen.getByRole('button', { name: 'Neutre main-646 hors échelle, déprécié' })).toBeTruthy();
+  selectionner('Neutre 50');
+
+  expect(lignesDeLEchelle()).toEqual([
+    ['', '50', '#DDDDDD', '2 tokens'],
+    ['', '900', '#222222', '1 token'],
+    ['', 'main-646', '#0379EF', 'hors échelle'],
+    ['', '1000', '#000000', 'déprécié'],
+  ]);
+});
+
+it('annonce le nombre de tokens qui citent la nuance selectionnee', async () => {
+  renderScreen(<ThemeNuancesScreen catalogue={catalogue(nuance({ tokens: ['light.text.a', 'light.text.b'] }))} />);
+
+  selectionner('Neutre 900');
+
+  expect(detailDe('Neutre 900').getByText('Tokens (2)')).toBeTruthy();
+});
+
+it('compte les echelles de chaque famille sous son titre', async () => {
+  const cite = { tokens: ['light.text.a'] };
+  renderScreen(
+    <ThemeNuancesScreen
+      catalogue={catalogue(
+        nuance({ ...cite, echelle: 'GrisPolaire' }),
+        nuance({ ...cite, echelle: 'SlateGrey' }),
+        nuance({ ...cite, echelle: 'Focus' }),
+      )}
+    />,
+  );
+
+  expect(screen.getByText('2 échelles')).toBeTruthy();
+  expect(screen.getByText('1 échelle')).toBeTruthy();
+});
+
+it('legende le signe des nuances sans usage', async () => {
+  renderScreen(<ThemeNuancesScreen catalogue={catalogue(nuance({}))} />);
+
+  expect(
+    screen.getByText(
+      'Point dans la case : nuance sans usage. Colonnes alignées par rang, du plus clair au plus foncé.',
+    ),
+  ).toBeTruthy();
+});
+
+it('distingue dans le tableau la ligne de la nuance selectionnee', async () => {
+  renderScreen(<ThemeNuancesScreen catalogue={catalogue(nuance({ numero: '50' }), nuance({ hex: '#222222' }))} />);
+
+  selectionner('Neutre 900');
+
+  expect(within(screen.getByRole('row', { selected: true })).getAllByRole('cell')[1]?.textContent).toBe('900');
 });
 
 // Le texte visible d'une nuance sous la bande doit se retrouver dans son nom accessible : sans
