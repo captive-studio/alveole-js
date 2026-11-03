@@ -119,9 +119,9 @@ const BlocDEchelle = ({ echelle, nuanceSelectionnee, selectionner }: { echelle: 
     <Box style={{ marginBottom: Spacings['3W'] }}>
       <Typography style={text.Titres['H5 - XS']}>{echelle.titre}</Typography>
       {/* Une case vise 64 px : une echelle courte, comme Focus, donne une bande courte. Une longue
-          echelle retrecit ses cases pour rester d'un seul tenant, et ne passe a la ligne que sur
-          un ecran etroit. */}
-      <Box style={{ flexDirection: 'row', flexWrap: 'wrap' }}>
+          echelle retrecit ses cases pour rester d'un seul tenant ; sur un ecran etroit, la bande
+          defile seule plutot que de passer a la ligne. */}
+      <Box style={{ flexDirection: 'row', overflowX: 'auto' }}>
         {echelle.nuances.map(nuance => (
           <CaseDeNuance
             key={nuance.numero}
