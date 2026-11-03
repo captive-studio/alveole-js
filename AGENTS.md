@@ -42,8 +42,10 @@ validation, ce qui vaut demande explicite au sens des règles globales :
 5. Attendre le run `pull_request` de `ci.yml` sur le dernier SHA de la branche
    (`gh run list --workflow ci.yml --branch <branche> --event pull_request`,
    puis `gh run watch <id> --exit-status`). `gh pr checks --watch` rend vert
-   tant que ce run n'est pas encore attaché à la PR. Si elle est rouge,
-   corriger, pousser, attendre de nouveau.
+   tant que ce run n'est pas encore attaché à la PR. Aucun run au bout de
+   2 min : une branche en conflit avec sa base n'en déclenche pas, vérifier
+   `gh pr view <n> --json mergeable` et rebaser sur la base. Si elle est
+   rouge, corriger, pousser, attendre de nouveau.
 6. CI verte : `gh pr merge <n> --rebase --delete-branch`.
 7. Commenter le ticket Jira ALV avec le lien de la PR mergée, puis le fermer :
    `acli jira workitem transition --key ALV-<n> --status "15. Done" --yes`.
