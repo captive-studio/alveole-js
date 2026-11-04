@@ -239,8 +239,8 @@ importers:
         specifier: '*'
         version: link:../../packages/theme
       '@lottiefiles/dotlottie-react':
-        specifier: 0.21.0
-        version: 0.21.0(react@19.3.0)
+        specifier: 0.21.1
+        version: 0.21.1(react@19.3.0)
       '@react-native-community/datetimepicker':
         specifier: 9.2.1
         version: 9.2.1(expo@58.0.22)(react-native@0.88.1(@babel/core@7.29.7(supports-color@8.1.1))(@react-native/metro-config@0.88.1(@babel/core@7.29.7(supports-color@8.1.1))(supports-color@8.1.1))(@types/react@19.3.0)(react@19.3.0)(supports-color@8.1.1))(react@19.3.0)
@@ -303,7 +303,7 @@ importers:
         version: 58.0.7(expo@58.0.22)(react-native@0.88.1(@babel/core@7.29.7(supports-color@8.1.1))(@react-native/metro-config@0.88.1(@babel/core@7.29.7(supports-color@8.1.1))(supports-color@8.1.1))(@types/react@19.3.0)(react@19.3.0)(supports-color@8.1.1))
       lottie-react-native:
         specifier: 7.5.0
-        version: 7.5.0(@lottiefiles/dotlottie-react@0.21.0(react@19.3.0))(react-native@0.88.1(@babel/core@7.29.7(supports-color@8.1.1))(@react-native/metro-config@0.88.1(@babel/core@7.29.7(supports-color@8.1.1))(supports-color@8.1.1))(@types/react@19.3.0)(react@19.3.0)(supports-color@8.1.1))(react@19.3.0)
+        version: 7.5.0(@lottiefiles/dotlottie-react@0.21.1(react@19.3.0))(react-native@0.88.1(@babel/core@7.29.7(supports-color@8.1.1))(@react-native/metro-config@0.88.1(@babel/core@7.29.7(supports-color@8.1.1))(supports-color@8.1.1))(@types/react@19.3.0)(react@19.3.0)(supports-color@8.1.1))(react@19.3.0)
       react:
         specifier: 19.3.0
         version: 19.3.0
@@ -385,7 +385,7 @@ importers:
         version: link:../theme
       '@lottiefiles/dotlottie-react':
         specifier: '*'
-        version: 0.21.0(react@19.3.0)
+        version: 0.21.1(react@19.3.0)
       '@tamagui/accordion':
         specifier: ^3.0.0
         version: 3.1.10(43d3444f7cef6d0e11497d1fe2cc2b47)
@@ -433,7 +433,7 @@ importers:
         version: 58.0.18(expo@58.0.22)(react-native-web@0.21.4(react-dom@19.3.0(react@19.3.0))(react@19.3.0))(react-native@0.88.1(@babel/core@7.29.7(supports-color@8.1.1))(@react-native/metro-config@0.88.1(@babel/core@7.29.7(supports-color@8.1.1))(supports-color@8.1.1))(@types/react@19.3.0)(react@19.3.0)(supports-color@8.1.1))(react@19.3.0)
       lottie-react-native:
         specifier: '*'
-        version: 7.5.0(@lottiefiles/dotlottie-react@0.21.0(react@19.3.0))(react-native@0.88.1(@babel/core@7.29.7(supports-color@8.1.1))(@react-native/metro-config@0.88.1(@babel/core@7.29.7(supports-color@8.1.1))(supports-color@8.1.1))(@types/react@19.3.0)(react@19.3.0)(supports-color@8.1.1))(react@19.3.0)
+        version: 7.5.0(@lottiefiles/dotlottie-react@0.21.1(react@19.3.0))(react-native@0.88.1(@babel/core@7.29.7(supports-color@8.1.1))(@react-native/metro-config@0.88.1(@babel/core@7.29.7(supports-color@8.1.1))(supports-color@8.1.1))(@types/react@19.3.0)(react@19.3.0)(supports-color@8.1.1))(react@19.3.0)
       react-markdown:
         specifier: 10.1.0
         version: 10.1.0(@types/react@19.3.0)(react@19.3.0)(supports-color@8.1.1)
@@ -1883,14 +1883,14 @@ packages:
   '@loaderkit/resolve@1.0.6':
     resolution: {integrity: sha512-G8FdIoF5CypfwmD9rl8BXod5HDn8JqB0CCNBXDTaRZ+yRYhARrrSToX1zg1zy9jX3zLqigsELwhT4gNtkdQAUg==}
 
-  '@lottiefiles/dotlottie-react@0.21.0':
-    resolution: {integrity: sha512-ccacY0zPQNwKEbokVZujydBq1InfIY3xYfoV50AW1bMfTSWynZRag7aW8TU8ImncqMrlh/wvPI38sGPj8Nf54Q==}
+  '@lottiefiles/dotlottie-react@0.21.1':
+    resolution: {integrity: sha512-y5ec2Ipko1TvUfoUmS9zn+g0Ud+oYtUEJS5Xj27edv1kO8ZAowoA2v6DUWNniZ/+A9m5wjEswqPzShOK6+pdAw==}
     engines: {node: '>=18.17.0', npm: '>=9.5.0'}
     peerDependencies:
       react: ^17 || ^18 || ^19
 
-  '@lottiefiles/dotlottie-web@0.82.0':
-    resolution: {integrity: sha512-Gp0rKaBAWHs3KXO69oNu7tgh+9VYVaJqv6NDYvH0YdUJR4JxDujvX1kE03yp6o9NgeQiYnvUgHZgnZisw1Mr+Q==}
+  '@lottiefiles/dotlottie-web@0.82.1':
+    resolution: {integrity: sha512-hLPdAL0dUeHKvQvXqw1p3FtvzZUHRtBsTMt3FLLgphFThsUPNUj2+U+GyttJ5H5qSt5JreLzoaD+IaKO8H/VnA==}
     engines: {node: '>=18.17.0', npm: '>=9.5.0'}
 
   '@napi-rs/canvas-android-arm64@1.1.0':
@@ -9445,12 +9445,12 @@ snapshots:
     dependencies:
       '@braidai/lang': 1.1.2
 
-  '@lottiefiles/dotlottie-react@0.21.0(react@19.3.0)':
+  '@lottiefiles/dotlottie-react@0.21.1(react@19.3.0)':
     dependencies:
-      '@lottiefiles/dotlottie-web': 0.82.0
+      '@lottiefiles/dotlottie-web': 0.82.1
       react: 19.3.0
 
-  '@lottiefiles/dotlottie-web@0.82.0': {}
+  '@lottiefiles/dotlottie-web@0.82.1': {}
 
   '@napi-rs/canvas-android-arm64@1.1.0':
     optional: true
@@ -15389,12 +15389,12 @@ snapshots:
     dependencies:
       js-tokens: 4.0.0
 
-  lottie-react-native@7.5.0(@lottiefiles/dotlottie-react@0.21.0(react@19.3.0))(react-native@0.88.1(@babel/core@7.29.7(supports-color@8.1.1))(@react-native/metro-config@0.88.1(@babel/core@7.29.7(supports-color@8.1.1))(supports-color@8.1.1))(@types/react@19.3.0)(react@19.3.0)(supports-color@8.1.1))(react@19.3.0):
+  lottie-react-native@7.5.0(@lottiefiles/dotlottie-react@0.21.1(react@19.3.0))(react-native@0.88.1(@babel/core@7.29.7(supports-color@8.1.1))(@react-native/metro-config@0.88.1(@babel/core@7.29.7(supports-color@8.1.1))(supports-color@8.1.1))(@types/react@19.3.0)(react@19.3.0)(supports-color@8.1.1))(react@19.3.0):
     dependencies:
       react: 19.3.0
       react-native: 0.88.1(@babel/core@7.29.7(supports-color@8.1.1))(@react-native/metro-config@0.88.1(@babel/core@7.29.7(supports-color@8.1.1))(supports-color@8.1.1))(@types/react@19.3.0)(react@19.3.0)(supports-color@8.1.1)
     optionalDependencies:
-      '@lottiefiles/dotlottie-react': 0.21.0(react@19.3.0)
+      '@lottiefiles/dotlottie-react': 0.21.1(react@19.3.0)
 
   lowlight@1.20.0:
     dependencies:
