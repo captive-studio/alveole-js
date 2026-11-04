@@ -28,6 +28,7 @@ export const CustomPalette = {
       'active-primary': Colors['BleuCaptive']['sun-172'],
       /** Fond d'un élément désactivé. */
       'disabled-grey': Colors['Neutre']['925'],
+      /** Fond d'une surface flottante, comme le contenu d'un popover. */
       'active-inverted': Colors['Neutre']['1000'],
       'transparent-hover': 'rgba(0, 0, 0, 0.04)',
       'action-high-primary': Colors['BleuCaptive']['sun-172'],
