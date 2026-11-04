@@ -3,9 +3,8 @@ import { useTheme } from '@alveole/theme';
 import React from 'react';
 import { EcranDeCatalogue, filDuTheme } from '../components/EcranDeCatalogue';
 import { LigneDeToken } from '../components/LigneDeToken';
-import { blanc } from '../couleurs/blanc';
-import { cheminDuFondParDefaut } from '../couleurs/contraste';
 import type { CatalogueDesCouleurs } from '../couleurs/catalogueDesCouleurs';
+import { fondParDefautDe } from '../couleurs/contrasteDuToken';
 import { catalogueDuTheme } from '../couleurs/catalogueDesCouleurs.generated';
 import { FamilleDeTokens, famillesDuCatalogue } from './famillesDuCatalogue';
 
@@ -20,10 +19,6 @@ export type ThemePaletteScreenProps = {
   sidebar?: React.ReactNode;
   footerContent?: React.ReactNode;
 };
-
-/** Le fond sur lequel se juge un texte : `background.default-grey`, blanc s'il manque au catalogue. */
-const fondParDefautDe = (catalogue: CatalogueDesCouleurs) =>
-  catalogue.tokens.find(({ chemin }) => chemin === cheminDuFondParDefaut)?.hex ?? blanc;
 
 const SectionDeTokens = ({ famille, fondParDefaut }: { famille: FamilleDeTokens; fondParDefaut: string }) => (
   <Accordion.Item value={famille.titre} label={famille.titre} variant="alt" noPadding>
@@ -52,7 +47,7 @@ export const ThemePaletteScreen = ({
   footerContent,
 }: ThemePaletteScreenProps) => {
   const { color } = useTheme();
-  const fondParDefaut = fondParDefautDe(catalogue);
+  const fondParDefaut = fondParDefautDe(catalogue.tokens);
   const familles = React.useMemo(() => famillesDuCatalogue(catalogue), [catalogue]);
   const [ouvertes, setOuvertes] = React.useState(() => familles.map(famille => famille.titre));
   React.useEffect(() => {
