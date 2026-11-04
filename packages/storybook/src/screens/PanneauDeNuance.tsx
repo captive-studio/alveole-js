@@ -47,7 +47,7 @@ const DetailDeNuance = ({ nuance, plusFoncee }: { nuance: Nuance; plusFoncee?: N
   return (
     <Box role="group" aria-label={nomDe(nuance)} style={{ gap: Spacings['2W'] }}>
       <Box style={{ flexDirection: 'row', alignItems: 'center', gap: Spacings['2W'] }}>
-        <Aplat hex={nuance.hex} taille={64} rayon="lg" />
+        <Aplat hex={nuance.hex} taille={Spacings['8W']} rayon="lg" />
         <Box style={{ flex: 1 }}>
           <Typography style={styles.nomFort}>{nomDe(nuance)}</Typography>
           <Typography style={[styles.petit, styles.mono, styles.discret]}>{nuance.hex}</Typography>
@@ -118,7 +118,7 @@ const TableauDeLEchelle = ({
               }}
             >
               <Box role="cell">
-                <Aplat hex={nuance.hex} taille={20} rayon="sm" />
+                <Aplat hex={nuance.hex} taille={Spacings['3W']} rayon="sm" />
               </Box>
               <Box role="cell" style={{ width: largeurDeColonne }}>
                 {/* Un cran deprecie ou hors echelle reste lisible, mais grise, en retrait de la progression. */}
