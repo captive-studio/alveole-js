@@ -39,8 +39,19 @@ const fonce = '#000000';
 /** La teinte, claire ou foncee, qui se lit le mieux sur la nuance. */
 const teinteLisibleSur = (fond: string) => (contrastRatio(fonce, fond) >= contrasteAvecLeBlanc(fond) ? fonce : blanc);
 
-/** Chaque case prend une part egale de la ligne : le rang N tombe sous le rang N de l'echelle voisine. */
-const partDeLigne = { flexGrow: 1, flexBasis: 0, minWidth: 0 };
+/**
+ * Chaque case prend une part egale de la ligne : le rang N tombe sous le rang N de l'echelle voisine.
+ * Elle ne descend pas sous la largeur d'un numero a quatre chiffres : faute de place, c'est le
+ * panneau qui passe sous la grille, jamais les numeros qui se chevauchent.
+ */
+const largeurMinimaleDeCase = Spacings['4W'];
+const partDeLigne = { flexGrow: 1, flexBasis: 0, minWidth: largeurMinimaleDeCase };
+const ecartEntreCases = Spacings['0,5V'];
+const largeurDuNom = 128;
+
+/** La grille ne se serre pas sous ses cases minimales : le panneau passe dessous plutot. */
+const largeurMinimaleDeGrille = (nombreDeRangs: number) =>
+  largeurDuNom + nombreDeRangs * (largeurMinimaleDeCase + ecartEntreCases) - ecartEntreCases + largeurDeColonne;
 
 const CaseDeNuance = ({
   nuance,
@@ -134,8 +145,8 @@ const LigneDEchelle = ({
 
   return (
     <Box style={{ flexDirection: 'row', alignItems: 'center', marginBottom: Spacings['1W'] }}>
-      <Typography style={[styles.petitGras, { width: 128 }]}>{echelle.titre}</Typography>
-      <Box style={{ flex: 1, flexDirection: 'row', gap: Spacings['0,5V'] }}>
+      <Typography style={[styles.petitGras, { width: largeurDuNom }]}>{echelle.titre}</Typography>
+      <Box style={{ flex: 1, flexDirection: 'row', gap: ecartEntreCases }}>
         {Array.from({ length: nombreDeRangs }, (_, rang) => {
           const nuance = echelle.nuances[rang];
           return nuance ? (
@@ -184,8 +195,8 @@ export const ThemeNuancesScreen = ({
         <Typography>{'Un composant lit un token sémantique, jamais une nuance. Voir les'}</Typography>
         <Link href={pageDesTokens}>{'tokens sémantiques'}</Link>
       </Box>
-      <Box style={{ flexDirection: 'row', alignItems: 'flex-start', gap: Spacings['4W'] }}>
-        <Box style={{ flex: 1, minWidth: 0 }}>
+      <Box style={{ flexDirection: 'row', flexWrap: 'wrap', alignItems: 'flex-start', gap: Spacings['4W'] }}>
+        <Box style={{ flexGrow: 1, flexBasis: 0, minWidth: largeurMinimaleDeGrille(nombreDeRangs) }}>
           {familles.map(famille => (
             <Box key={famille.titre} style={{ marginBottom: Spacings['5W'] }}>
               <TitreDeFamille famille={famille} />

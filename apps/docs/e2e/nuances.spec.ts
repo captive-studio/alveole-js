@@ -44,3 +44,27 @@ test('garde le detail de la nuance selectionnee a l ecran pendant le defilement'
 
   await expect(page.getByRole('main').getByRole('table', { name: 'Échelle Focus' })).toBeInViewport();
 });
+
+// La repartition flex des cases n'existe qu'au navigateur : jsdom ne calcule aucune largeur.
+test('etale les cases d une echelle sur toute la ligne, chaque numero tenant dans sa case', async ({ page }) => {
+  const premiere = page.getByRole('main').getByRole('button', { name: 'Neutre 50' });
+  const mesure = await premiere.evaluate(element => {
+    const cases = element.parentElement as HTMLElement;
+    const ligne = cases.parentElement as HTMLElement;
+    const nom = ligne.firstElementChild as HTMLElement;
+    const horsBande = ligne.lastElementChild as HTMLElement;
+    const debordements = Array.from(cases.children).filter(
+      caseDeNuance => caseDeNuance.scrollWidth > caseDeNuance.clientWidth,
+    ).length;
+    return {
+      occupee: cases.getBoundingClientRect().width,
+      contenu: cases.scrollWidth - cases.clientWidth,
+      disponible: horsBande.getBoundingClientRect().left - nom.getBoundingClientRect().right,
+      debordements,
+    };
+  });
+
+  expect(mesure.occupee).toBeGreaterThan(mesure.disponible - 1);
+  expect(mesure.contenu).toBe(0);
+  expect(mesure.debordements).toBe(0);
+});

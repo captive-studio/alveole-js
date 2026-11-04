@@ -150,7 +150,9 @@ export const PanneauDeNuance = ({ choix }: { choix: NuanceChoisie | null }) => {
     <Box
       borderRadius="lg"
       style={{
-        width: 340,
+        flexGrow: 1,
+        flexBasis: 280,
+        maxWidth: 340,
         position: 'sticky',
         top: Spacings['3W'],
         maxHeight: '90vh',
