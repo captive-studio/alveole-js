@@ -77,13 +77,13 @@ const CaseDeNuance = ({
         <Typography style={[styles.petit, { color: teinte }]}>{nuance.numero}</Typography>
         {sansUsage(nuance) && (
           <Box
+            borderRadius="sm"
             style={{
               position: 'absolute',
               top: Spacings['1V'],
               right: Spacings['1V'],
               width: 4,
               height: 4,
-              borderRadius: 2,
               backgroundColor: teinte,
               opacity: 0.5,
             }}
@@ -130,7 +130,7 @@ const LigneDEchelle = ({
   return (
     <Box style={{ flexDirection: 'row', alignItems: 'center', marginBottom: Spacings['1W'] }}>
       <Typography style={[styles.petitGras, { width: 128 }]}>{echelle.titre}</Typography>
-      <Box style={{ flex: 1, flexDirection: 'row', gap: 2 }}>
+      <Box style={{ flex: 1, flexDirection: 'row', gap: Spacings['0,5V'] }}>
         {Array.from({ length: rangs }, (_, rang) => {
           const nuance = echelle.nuances[rang];
           return nuance ? (
