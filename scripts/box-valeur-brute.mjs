@@ -25,7 +25,7 @@ const REPLIS = new Set([
   ts.SyntaxKind.BarBarToken,
   ts.SyntaxKind.AmpersandAmpersandToken,
 ]);
-const feuilles = noeud => {
+export const feuilles = noeud => {
   if (ts.isParenthesizedExpression(noeud)) return feuilles(noeud.expression);
   if (ts.isConditionalExpression(noeud)) return [...feuilles(noeud.whenTrue), ...feuilles(noeud.whenFalse)];
   if (ts.isBinaryExpression(noeud) && REPLIS.has(noeud.operatorToken.kind))
@@ -36,12 +36,12 @@ const feuilles = noeud => {
   return [noeud];
 };
 
-const estNombre = noeud =>
+export const estNombre = noeud =>
   ts.isNumericLiteral(noeud) ||
   (ts.isPrefixUnaryExpression(noeud) &&
     noeud.operator === ts.SyntaxKind.MinusToken &&
     ts.isNumericLiteral(noeud.operand));
-const estTexte = noeud => ts.isStringLiteral(noeud) || ts.isNoSubstitutionTemplateLiteral(noeud);
+export const estTexte = noeud => ts.isStringLiteral(noeud) || ts.isNoSubstitutionTemplateLiteral(noeud);
 
 const espacementBrut = noeud => estNombre(noeud) || (estTexte(noeud) && CLE_LEGACY.test(noeud.text));
 const couleurBrute = noeud => estTexte(noeud) && COULEUR_BRUTE.test(noeud.text);
