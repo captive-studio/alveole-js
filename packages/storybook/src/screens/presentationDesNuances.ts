@@ -1,4 +1,4 @@
-import { useTheme } from '@alveole/theme';
+import { MonospaceFont, Spacings, useTheme } from '@alveole/theme';
 import type { Nuance } from '../couleurs/catalogueDesCouleurs';
 
 export const pageDesTokens = '/theme/tokens-semantiques';
@@ -15,7 +15,7 @@ export const useStylesDesNuances = () => {
     rubrique: { ...text['Corps de texte'].XS.CapsBold, color: texte['mention-grey'] },
     discret: { color: texte['mention-grey'] },
     alerte: { color: texte['default-warning'] },
-    mono: { fontFamily: 'ui-monospace, SFMono-Regular, Menlo, monospace' },
+    mono: MonospaceFont,
     filet: border['default-grey'],
     surbrillance: background['alt-grey'],
   };
@@ -33,4 +33,4 @@ export const sansUsage = (nuance: Nuance) => nuance.tokens.length === 0;
 export const libelleSansUsage = 'sans usage';
 
 /** La largeur d'une colonne etroite : numero, hex, compte hors bande. */
-export const largeurDeColonne = 72;
+export const largeurDeColonne = Spacings['8W'];

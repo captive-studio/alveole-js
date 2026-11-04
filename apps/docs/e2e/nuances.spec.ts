@@ -83,8 +83,12 @@ test('garde le panneau a droite de la grille a 1280 px', async ({ page }) => {
 const debordementDeLaGrille = (page: Page) =>
   page
     .getByRole('main')
-    .getByRole('region', { name: 'Échelles de nuances' })
-    .evaluate(zone => zone.scrollWidth - zone.clientWidth);
+    .getByRole('button', { name: 'GrisPolaire 50', exact: true })
+    .evaluate(caseDeNuance => {
+      let zone = caseDeNuance.parentElement as HTMLElement;
+      while (getComputedStyle(zone).overflowX !== 'auto') zone = zone.parentElement as HTMLElement;
+      return zone.scrollWidth - zone.clientWidth;
+    });
 
 // Faute de place, c'est la zone de grille qui defile, jamais le panneau qui descend.
 test('fait defiler la grille a 1280 px et la montre entiere a 1440 px', async ({ page }) => {

@@ -47,7 +47,7 @@ const teinteLisibleSur = (fond: string) => (contrastRatio(fonce, fond) >= contra
 const largeurMinimaleDeCase = Spacings['4W'];
 const partDeLigne = { flexGrow: 1, flexBasis: 0, minWidth: largeurMinimaleDeCase };
 const ecartEntreCases = Spacings['0,5V'];
-const largeurDuNom = 128;
+const largeurDuNom = Spacings['15W'];
 
 /** La grille ne se serre pas sous ses cases minimales : elle defile plutot. */
 const largeurMinimaleDeGrille = (nombreDeRangs: number) =>
@@ -77,7 +77,7 @@ const CaseDeNuance = ({
       <Box
         borderRadius="sm"
         style={{
-          height: 44,
+          height: Spacings['5W'],
           justifyContent: 'center',
           alignItems: 'center',
           backgroundColor: nuance.hex,
@@ -86,8 +86,8 @@ const CaseDeNuance = ({
           // La nuance choisie est cernee de la teinte de son numero, en retrait pour ne pas decaler
           // la ligne.
           outlineStyle: 'solid',
-          outlineWidth: selectionnee ? 2 : 0,
-          outlineOffset: -4,
+          outlineWidth: selectionnee ? Spacings['0,5V'] : 0,
+          outlineOffset: -Spacings['1V'],
           outlineColor: teinte,
         }}
       >
@@ -100,8 +100,8 @@ const CaseDeNuance = ({
               position: 'absolute',
               top: Spacings['1V'],
               right: Spacings['1V'],
-              width: 4,
-              height: 4,
+              width: Spacings['1V'],
+              height: Spacings['1V'],
             }}
           />
         )}
@@ -196,7 +196,7 @@ export const ThemeNuancesScreen = ({
         <Link href={pageDesTokens}>{'tokens sémantiques'}</Link>
       </Box>
       <Box style={{ flexDirection: 'row', alignItems: 'flex-start', gap: Spacings['4W'] }}>
-        <Box role="region" aria-label="Échelles de nuances" style={{ flex: 1, minWidth: 0, overflowX: 'auto' }}>
+        <Box style={{ flex: 1, minWidth: 0, overflowX: 'auto' }}>
           <Box style={{ minWidth: largeurMinimaleDeGrille(nombreDeRangs) }}>
             {familles.map(famille => (
               <Box key={famille.titre} style={{ marginBottom: Spacings['5W'] }}>
