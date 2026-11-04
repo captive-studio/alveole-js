@@ -1,14 +1,15 @@
 import { Box, Link, Typography } from '@alveole/components';
 import { contrastRatio, Grilles, Spacings } from '@alveole/theme';
 import type { Nuance } from '../couleurs/catalogueDesCouleurs';
-import { contrasteAvecLeBlanc, type EchelleDeNuances, type RaisonHorsBande } from './echellesDuCatalogue';
+import { contrasteAvecLeBlanc } from '../couleurs/blanc';
+import { rapport } from '../couleurs/contraste';
+import { type EchelleDeNuances, type RaisonHorsBande } from './echellesDuCatalogue';
 import {
   compte,
   largeurDeColonne,
   libelleSansUsage,
   nomDe,
   pageDesTokens,
-  rapport,
   sansUsage,
   useStylesDesNuances,
 } from './presentationDesNuances';

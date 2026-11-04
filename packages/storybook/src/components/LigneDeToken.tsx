@@ -3,9 +3,11 @@ import { contrastRatio, Spacings, useTheme } from '@alveole/theme';
 import type React from 'react';
 import { Pressable } from 'react-native';
 import type { Consommateur, TokenSemantique } from '../couleurs/catalogueDesCouleurs';
+import { blanc } from '../couleurs/blanc';
+import { rapport } from '../couleurs/contraste';
 import { contrasteDuToken } from '../couleurs/contrasteDuToken';
 import { copier } from '../pressePapiers';
-import { rapport } from '../screens/presentationDesNuances';
+
 
 /**
  * Sur le web, Pressable rend un `<button>`, qui centre son texte. Box ne transmet pas
@@ -52,7 +54,7 @@ const UtilisePar = ({ consommateurs, deprecie }: { consommateurs: Consommateur[]
 
 /** Le rapport du token sur son fond, puis son verdict quand il a un sens sans contexte. */
 const Contraste = ({ token, fondParDefaut }: { token: TokenSemantique; fondParDefaut: string }) => {
-  const contraste = contrasteDuToken(token, { fondParDefaut, contraste: contrastRatio });
+  const contraste = contrasteDuToken(token, { fondParDefaut, blanc, contraste: contrastRatio });
   return (
     <Box style={{ width: LARGEUR_DE_COLONNE }}>
       {contraste && <Texte>{`${rapport(contraste.ratio)} sur ${contraste.fond}`}</Texte>}

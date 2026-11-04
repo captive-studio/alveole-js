@@ -1,5 +1,5 @@
-import { contrastRatio } from '@alveole/theme';
 import type { CatalogueDesCouleurs, Nuance } from '../couleurs/catalogueDesCouleurs';
+import { contrasteAvecLeBlanc } from '../couleurs/blanc';
 import { grouperDansLOrdre } from './grouperDansLOrdre';
 
 /** Ce qui sort une nuance de la progression : une cle comme `main-646` n'est pas un cran, un cran deprecie ne compte plus. */
@@ -27,11 +27,6 @@ const raisonsDe = (nuance: Nuance): RaisonHorsBande[] => [
 
 const parRang = (nuances: Nuance[]) =>
   [...nuances].sort((a, b) => contrasteAvecLeBlanc(a.hex) - contrasteAvecLeBlanc(b.hex));
-
-export const blanc = '#FFFFFF';
-
-/** Plus une nuance est foncee, plus elle contraste avec le blanc : c'est aussi son rang. */
-export const contrasteAvecLeBlanc = (hex: string) => contrastRatio(hex, blanc);
 
 const echelleDeNuances = (titre: string, nuancesDeLEchelle: Nuance[]): EchelleDeNuances => {
   const classees = nuancesDeLEchelle.map(nuance => ({ nuance, raisons: raisonsDe(nuance) }));

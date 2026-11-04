@@ -5,9 +5,8 @@ import { Pressable } from 'react-native';
 import { EcranDeCatalogue, filDuTheme } from '../components/EcranDeCatalogue';
 import type { CatalogueDesCouleurs, Nuance } from '../couleurs/catalogueDesCouleurs';
 import { catalogueDuTheme } from '../couleurs/catalogueDesCouleurs.generated';
+import { blanc, contrasteAvecLeBlanc } from '../couleurs/blanc';
 import {
-  blanc,
-  contrasteAvecLeBlanc,
   type EchelleDeNuances,
   type FamilleDEchelles,
   famillesDEchellesDuCatalogue,

@@ -22,7 +22,7 @@ const rapports: Record<string, number> = {
 const contraste = (couleur: string, fond: string) => rapports[`${couleur} sur ${fond}`] ?? 0;
 
 const juger = (champs: Partial<TokenSemantique>) =>
-  contrasteDuToken(token(champs), { fondParDefaut: FOND_PAR_DEFAUT, contraste });
+  contrasteDuToken(token(champs), { fondParDefaut: FOND_PAR_DEFAUT, blanc: '#FFFFFF', contraste });
 
 it('juge un texte lisible sur le fond par defaut', () => {
   expect(juger({})).toEqual({ ratio: 10.2, fond: 'background.default-grey', verdict: 'conforme' });
