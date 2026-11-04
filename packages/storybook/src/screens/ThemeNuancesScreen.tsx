@@ -3,14 +3,10 @@ import { contrastRatio, Spacings, useTheme } from '@alveole/theme';
 import React from 'react';
 import { Pressable } from 'react-native';
 import { EcranDeCatalogue, filDuTheme } from '../components/EcranDeCatalogue';
+import { blanc, contrasteAvecLeBlanc } from '../couleurs/blanc';
 import type { CatalogueDesCouleurs, Nuance } from '../couleurs/catalogueDesCouleurs';
 import { catalogueDuTheme } from '../couleurs/catalogueDesCouleurs.generated';
-import { blanc, contrasteAvecLeBlanc } from '../couleurs/blanc';
-import {
-  type EchelleDeNuances,
-  type FamilleDEchelles,
-  famillesDEchellesDuCatalogue,
-} from './echellesDuCatalogue';
+import { type EchelleDeNuances, type FamilleDEchelles, famillesDEchellesDuCatalogue } from './echellesDuCatalogue';
 import { type NuanceChoisie, PanneauDeNuance } from './PanneauDeNuance';
 import {
   compte,

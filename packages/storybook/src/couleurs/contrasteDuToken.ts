@@ -1,5 +1,5 @@
-import { cheminDuFondParDefaut } from './contraste';
 import type { TokenSemantique } from './catalogueDesCouleurs';
+import { cheminDuFondParDefaut } from './contraste';
 
 type Contexte = { fondParDefaut: string; blanc: string; contraste: (couleur: string, fond: string) => number };
 

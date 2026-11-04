@@ -1,5 +1,5 @@
-import type { CatalogueDesCouleurs, Nuance } from '../couleurs/catalogueDesCouleurs';
 import { contrasteAvecLeBlanc } from '../couleurs/blanc';
+import type { CatalogueDesCouleurs, Nuance } from '../couleurs/catalogueDesCouleurs';
 import { grouperDansLOrdre } from './grouperDansLOrdre';
 
 /** Ce qui sort une nuance de la progression : une cle comme `main-646` n'est pas un cran, un cran deprecie ne compte plus. */

@@ -4,8 +4,8 @@ import React from 'react';
 import { EcranDeCatalogue, filDuTheme } from '../components/EcranDeCatalogue';
 import { LigneDeToken } from '../components/LigneDeToken';
 import type { CatalogueDesCouleurs } from '../couleurs/catalogueDesCouleurs';
-import { fondParDefautDe } from '../couleurs/contrasteDuToken';
 import { catalogueDuTheme } from '../couleurs/catalogueDesCouleurs.generated';
+import { fondParDefautDe } from '../couleurs/contrasteDuToken';
 import { FamilleDeTokens, famillesDuCatalogue } from './famillesDuCatalogue';
 
 export type ThemePaletteScreenProps = {
