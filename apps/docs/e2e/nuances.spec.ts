@@ -19,13 +19,15 @@ test('mene d une nuance selectionnee a la souris a la ligne du token qui la cite
   await expect(page.locator('[id="light.system.focus"]')).toBeInViewport();
 });
 
-// Atteinte a la tabulation, la case montre un anneau ; Entree la selectionne comme un clic.
+// Atteinte a la tabulation, la case montre un anneau avant toute selection : c'est le focus, pas
+// le cerne de la nuance choisie. Entree la selectionne ensuite comme un clic.
 test('selectionne une nuance au clavier, avec un focus visible', async ({ page }) => {
   await caseFocus(page).focus();
   await page.keyboard.press('Shift+Tab');
   await page.keyboard.press('Tab');
 
   await expect(caseFocus(page)).toBeFocused();
+  await expect(caseFocus(page)).toHaveAttribute('aria-pressed', 'false');
   await expect(caseFocus(page)).not.toHaveCSS('outline-style', 'none');
 
   await page.keyboard.press('Enter');
