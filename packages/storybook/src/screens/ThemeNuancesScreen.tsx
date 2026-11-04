@@ -1,5 +1,5 @@
 import { Box, Link, Typography } from '@alveole/components';
-import { contrastRatio, Spacings } from '@alveole/theme';
+import { contrastRatio, Spacings, useTheme } from '@alveole/theme';
 import React from 'react';
 import { Pressable } from 'react-native';
 import { EcranDeCatalogue, filDuTheme } from '../components/EcranDeCatalogue';
@@ -13,7 +13,14 @@ import {
   famillesDEchellesDuCatalogue,
 } from './echellesDuCatalogue';
 import { type NuanceChoisie, PanneauDeNuance } from './PanneauDeNuance';
-import { compte, nomDe, pageDesTokens, useStylesDesNuances } from './presentationDesNuances';
+import {
+  compte,
+  largeurDeColonne,
+  nomDe,
+  pageDesTokens,
+  sansUsage,
+  useStylesDesNuances,
+} from './presentationDesNuances';
 
 export type ThemeNuancesScreenProps = {
   /** Le catalogue extrait du source du theme (ADR 0035). Par defaut, celui d'Alveole. */
@@ -32,8 +39,6 @@ const fonce = '#000000';
 /** La teinte, claire ou foncee, qui se lit le mieux sur la nuance. */
 const teinteLisibleSur = (fond: string) => (contrastRatio(fonce, fond) >= contrasteAvecLeBlanc(fond) ? fonce : blanc);
 
-const sansUsage = (nuance: Nuance) => nuance.tokens.length === 0;
-
 /** Chaque case prend une part egale de la ligne : le rang N tombe sous le rang N de l'echelle voisine. */
 const partDeLigne = { flexGrow: 1, flexBasis: 0, minWidth: 0 };
 
@@ -47,6 +52,7 @@ const CaseDeNuance = ({
   onPress: () => void;
 }) => {
   const styles = useStylesDesNuances();
+  const { text: texte } = useTheme().color.light;
   const teinte = teinteLisibleSur(nuance.hex);
 
   return (
@@ -78,14 +84,13 @@ const CaseDeNuance = ({
         {sansUsage(nuance) && (
           <Box
             borderRadius="sm"
+            backgroundColor={teinte === fonce ? texte['title-grey'] : texte['inverted-grey']}
             style={{
               position: 'absolute',
               top: Spacings['1V'],
               right: Spacings['1V'],
               width: 4,
               height: 4,
-              backgroundColor: teinte,
-              opacity: 0.5,
             }}
           />
         )}
@@ -120,10 +125,10 @@ type Selection = { nuanceSelectionnee: Nuance | null; selectionner: (choix: Nuan
 
 const LigneDEchelle = ({
   echelle,
-  rangs,
+  nombreDeRangs,
   nuanceSelectionnee,
   selectionner,
-}: { echelle: EchelleDeNuances; rangs: number } & Selection) => {
+}: { echelle: EchelleDeNuances; nombreDeRangs: number } & Selection) => {
   const styles = useStylesDesNuances();
   const horsBande = echelle.horsBande.length;
 
@@ -131,7 +136,7 @@ const LigneDEchelle = ({
     <Box style={{ flexDirection: 'row', alignItems: 'center', marginBottom: Spacings['1W'] }}>
       <Typography style={[styles.petitGras, { width: 128 }]}>{echelle.titre}</Typography>
       <Box style={{ flex: 1, flexDirection: 'row', gap: Spacings['0,5V'] }}>
-        {Array.from({ length: rangs }, (_, rang) => {
+        {Array.from({ length: nombreDeRangs }, (_, rang) => {
           const nuance = echelle.nuances[rang];
           return nuance ? (
             <CaseDeNuance
@@ -145,7 +150,7 @@ const LigneDEchelle = ({
           );
         })}
       </Box>
-      <Typography style={[styles.petit, styles.discret, { width: 72, textAlign: 'right' }]}>
+      <Typography style={[styles.petit, styles.discret, { width: largeurDeColonne, textAlign: 'right' }]}>
         {horsBande > 0 ? `+${horsBande} hors` : ''}
       </Typography>
     </Box>
@@ -166,7 +171,7 @@ export const ThemeNuancesScreen = ({
   const familles = React.useMemo(() => famillesDEchellesDuCatalogue(catalogue), [catalogue]);
   const [choix, selectionner] = React.useState<NuanceChoisie | null>(null);
   const nuanceSelectionnee = choix?.nuance ?? null;
-  const rangs = rangsDe(familles);
+  const nombreDeRangs = rangsDe(familles);
 
   return (
     <EcranDeCatalogue
@@ -188,7 +193,7 @@ export const ThemeNuancesScreen = ({
                 <LigneDEchelle
                   key={echelle.titre}
                   echelle={echelle}
-                  rangs={rangs}
+                  nombreDeRangs={nombreDeRangs}
                   nuanceSelectionnee={nuanceSelectionnee}
                   selectionner={selectionner}
                 />
