@@ -1,8 +1,16 @@
 import { Box, Link, Typography } from '@alveole/components';
-import { contrastRatio, Spacings, useTheme } from '@alveole/theme';
+import { contrastRatio, Spacings } from '@alveole/theme';
 import type { Nuance } from '../couleurs/catalogueDesCouleurs';
 import { contrasteAvecLeBlanc, type EchelleDeNuances, type RaisonHorsBande } from './echellesDuCatalogue';
-import { compte, nomDe, pageDesTokens, useStylesDesNuances } from './presentationDesNuances';
+import {
+  compte,
+  largeurDeColonne,
+  libelleSansUsage,
+  nomDe,
+  pageDesTokens,
+  sansUsage,
+  useStylesDesNuances,
+} from './presentationDesNuances';
 
 /** Un rapport de contraste a une decimale et a la francaise : `1,4:1`. */
 const rapport = (contraste: number) => `${contraste.toFixed(1).replace('.', ',')}:1`;
@@ -34,7 +42,6 @@ const Aplat = ({ hex, taille, rayon }: { hex: string; taille: number; rayon: 'sm
 
 const DetailDeNuance = ({ nuance, plusFoncee }: { nuance: Nuance; plusFoncee?: Nuance }) => {
   const styles = useStylesDesNuances();
-  const { color } = useTheme();
   const nombre = nuance.tokens.length;
 
   return (
@@ -52,13 +59,11 @@ const DetailDeNuance = ({ nuance, plusFoncee }: { nuance: Nuance; plusFoncee?: N
       </Box>
       <Box style={{ gap: Spacings['1V'] }}>
         <Typography style={styles.rubrique}>{`Tokens (${nombre})`}</Typography>
-        {nombre === 0 && <Typography style={[styles.petit, styles.discret]}>{'sans usage'}</Typography>}
+        {sansUsage(nuance) && <Typography style={[styles.petit, styles.discret]}>{libelleSansUsage}</Typography>}
         <LiensDesTokens chemins={nuance.tokens} />
         {nuance.tokensDeprecies.length > 0 && (
           <>
-            <Typography style={[styles.petitGras, { color: color.light.text['default-warning'] }]}>
-              {'Déprécié'}
-            </Typography>
+            <Typography style={[styles.petitGras, styles.alerte]}>{'Déprécié'}</Typography>
             <LiensDesTokens chemins={nuance.tokensDeprecies} />
           </>
         )}
@@ -75,9 +80,8 @@ const marquageDe = (raisons: RaisonHorsBande[]) => raisons.map(raison => libelle
 /** Ce que dit d'une nuance la derniere colonne du tableau : ses raisons de sortir de la bande, ou son usage. */
 const usageDe = (nuance: Nuance, raisons: RaisonHorsBande[]) => {
   if (raisons.length > 0) return marquageDe(raisons);
-  const nombre = nuance.tokens.length;
-  if (nombre === 0) return 'sans usage';
-  return compte(nombre, 'token');
+  if (sansUsage(nuance)) return libelleSansUsage;
+  return compte(nuance.tokens.length, 'token');
 };
 
 const TableauDeLEchelle = ({
@@ -95,40 +99,42 @@ const TableauDeLEchelle = ({
     <Box>
       <Typography style={[styles.rubrique, { marginBottom: Spacings['1V'] }]}>{titre}</Typography>
       <Box role="table" aria-label={titre}>
-        {lignes.map(({ nuance, raisons }) => (
-          <Box
-            key={nuance.numero}
-            role="row"
-            aria-selected={nuance === nuanceSelectionnee}
-            style={{
-              flexDirection: 'row',
-              alignItems: 'center',
-              gap: Spacings['1W'],
-              paddingVertical: Spacings['1V'],
-              borderTopWidth: 1,
-              borderColor: styles.filet,
-              backgroundColor: nuance === nuanceSelectionnee ? styles.surbrillance : undefined,
-            }}
-          >
-            <Box role="cell">
-              <Aplat hex={nuance.hex} taille={20} rayon="sm" />
+        {lignes.map(({ nuance, raisons }) => {
+          const horsBande = raisons.length > 0;
+          const choisie = nuance === nuanceSelectionnee;
+          return (
+            <Box
+              key={nuance.numero}
+              role="row"
+              aria-selected={choisie}
+              style={{
+                flexDirection: 'row',
+                alignItems: 'center',
+                gap: Spacings['1W'],
+                paddingVertical: Spacings['1V'],
+                borderTopWidth: 1,
+                borderColor: styles.filet,
+                backgroundColor: choisie ? styles.surbrillance : undefined,
+              }}
+            >
+              <Box role="cell">
+                <Aplat hex={nuance.hex} taille={20} rayon="sm" />
+              </Box>
+              <Box role="cell" style={{ width: largeurDeColonne }}>
+                {/* Un cran deprecie ou hors echelle reste lisible, mais grise, en retrait de la progression. */}
+                <Typography style={[styles.petitGras, horsBande && styles.discret]}>{nuance.numero}</Typography>
+              </Box>
+              <Box role="cell" style={{ width: largeurDeColonne }}>
+                <Typography style={[styles.petit, styles.mono, horsBande && styles.discret]}>{nuance.hex}</Typography>
+              </Box>
+              <Box role="cell" style={{ flex: 1 }}>
+                <Typography style={[styles.petit, styles.discret, { textAlign: 'right' }]}>
+                  {usageDe(nuance, raisons)}
+                </Typography>
+              </Box>
             </Box>
-            <Box role="cell" style={{ width: 72 }}>
-              {/* Un cran deprecie ou hors echelle reste lisible, mais grise, en retrait de la progression. */}
-              <Typography style={[styles.petitGras, raisons.length > 0 && styles.discret]}>{nuance.numero}</Typography>
-            </Box>
-            <Box role="cell" style={{ width: 72 }}>
-              <Typography style={[styles.petit, styles.mono, raisons.length > 0 && styles.discret]}>
-                {nuance.hex}
-              </Typography>
-            </Box>
-            <Box role="cell" style={{ flex: 1 }}>
-              <Typography style={[styles.petit, styles.discret, { textAlign: 'right' }]}>
-                {usageDe(nuance, raisons)}
-              </Typography>
-            </Box>
-          </Box>
-        ))}
+          );
+        })}
       </Box>
     </Box>
   );
