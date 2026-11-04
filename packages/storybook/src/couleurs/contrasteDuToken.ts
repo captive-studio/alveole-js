@@ -1,6 +1,7 @@
+import { cheminDuFondParDefaut } from './contraste';
 import type { TokenSemantique } from './catalogueDesCouleurs';
 
-type Contexte = { fondParDefaut: string; contraste: (couleur: string, fond: string) => number };
+type Contexte = { fondParDefaut: string; blanc: string; contraste: (couleur: string, fond: string) => number };
 
 /** Le seuil WCAG AA d'un texte courant. */
 const SEUIL_DU_TEXTE = 4.5;
@@ -13,8 +14,6 @@ const verdictDuTexte = (token: TokenSemantique, ratio: number) => {
   return ratio >= SEUIL_DU_TEXTE ? 'conforme' : 'insuffisant';
 };
 
-const BLANC = '#FFFFFF';
-
 /** Seul un hexadecimal a une couleur propre : `transparent` ou `rgba(...)` laissent voir dessous. */
 const EST_OPAQUE = /^#[0-9a-f]{3}([0-9a-f]{3})?$/i;
 
@@ -26,9 +25,9 @@ const estUnTexte = (token: TokenSemantique) => token.famille.split(' / ').includ
  * par defaut ; une bordure ou un fond se mesure sur blanc, sans verdict. Une couleur non opaque
  * n'a aucun rapport : `null`.
  */
-export const contrasteDuToken = (token: TokenSemantique, { fondParDefaut, contraste }: Contexte) => {
+export const contrasteDuToken = (token: TokenSemantique, { fondParDefaut, blanc, contraste }: Contexte) => {
   if (!EST_OPAQUE.test(token.hex)) return null;
-  if (!estUnTexte(token)) return { ratio: contraste(token.hex, BLANC), fond: 'blanc', verdict: null };
+  if (!estUnTexte(token)) return { ratio: contraste(token.hex, blanc), fond: 'blanc', verdict: null };
   const ratio = contraste(token.hex, fondParDefaut);
-  return { ratio, fond: 'background.default-grey', verdict: verdictDuTexte(token, ratio) };
+  return { ratio, fond: cheminDuFondParDefaut.replace('light.', ''), verdict: verdictDuTexte(token, ratio) };
 };
