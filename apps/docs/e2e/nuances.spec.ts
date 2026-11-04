@@ -1,4 +1,4 @@
-import { expect, type Page, test } from '@playwright/test';
+import { expect, type Locator, type Page, test } from '@playwright/test';
 import { blockThirdParties, openRoute } from './audit';
 
 test.beforeEach(async ({ page }) => {
@@ -45,56 +45,52 @@ test('garde le detail de la nuance selectionnee a l ecran pendant le defilement'
   await expect(page.getByRole('main').getByRole('table', { name: 'Échelle Focus' })).toBeInViewport();
 });
 
+/** La boite d'un element affiche : son absence fait echouer le test plutot que de le fausser. */
+const boiteDe = async (locator: Locator) => {
+  const boite = await locator.boundingBox();
+  if (!boite) throw new Error('élément non affiché');
+  return boite;
+};
+
+/** Ce qui deborde d'un element, en pixels : nul quand tout son contenu se voit. */
+const debordementDe = (locator: Locator) => locator.evaluate(element => element.scrollWidth - element.clientWidth);
+
+const parent = (locator: Locator) => locator.locator('xpath=..');
+
 // La repartition flex des cases n'existe qu'au navigateur : jsdom ne calcule aucune largeur.
 test('etale les cases d une echelle sur toute la ligne, chaque numero tenant dans sa case', async ({ page }) => {
-  const premiere = page.getByRole('main').getByRole('button', { name: 'Neutre 50' });
-  const mesure = await premiere.evaluate(element => {
-    const cases = element.parentElement as HTMLElement;
-    const ligne = cases.parentElement as HTMLElement;
-    const nom = ligne.firstElementChild as HTMLElement;
-    const horsBande = ligne.lastElementChild as HTMLElement;
-    const debordements = Array.from(cases.children).filter(
-      caseDeNuance => caseDeNuance.scrollWidth > caseDeNuance.clientWidth,
-    ).length;
-    return {
-      occupee: cases.getBoundingClientRect().width,
-      contenu: cases.scrollWidth - cases.clientWidth,
-      disponible: horsBande.getBoundingClientRect().left - nom.getBoundingClientRect().right,
-      debordements,
-    };
-  });
+  const cases = parent(page.getByRole('main').getByRole('button', { name: 'Neutre 50', exact: true }));
+  const ligne = parent(cases);
+  const nom = await boiteDe(ligne.locator('xpath=*').first());
+  const horsBande = await boiteDe(ligne.locator('xpath=*').last());
 
-  expect(mesure.occupee).toBeGreaterThan(mesure.disponible - 1);
-  expect(mesure.contenu).toBe(0);
-  expect(mesure.debordements).toBe(0);
+  expect((await boiteDe(cases)).width).toBeGreaterThan(horsBande.x - (nom.x + nom.width) - 1);
+  expect(await debordementDe(cases)).toBe(0);
+  for (const caseDeNuance of await cases.locator('xpath=*').all()) expect(await debordementDe(caseDeNuance)).toBe(0);
 });
 
 // Le panneau suit le defilement a cote de la grille (US 8) : meme a 1280 px, il ne passe jamais dessous.
 test('garde le panneau a droite de la grille a 1280 px', async ({ page }) => {
   await page.setViewportSize({ width: 1280, height: 720 });
-  const panneau = await page.getByRole('main').getByText('Sélectionnez une nuance').boundingBox();
-  const premiereLigne = await page.getByRole('main').getByText('GrisPolaire', { exact: true }).boundingBox();
+  const panneau = await boiteDe(page.getByRole('main').getByText('Sélectionnez une nuance'));
+  const premiereLigne = await boiteDe(page.getByRole('main').getByText('GrisPolaire', { exact: true }));
 
-  expect(panneau?.x).toBeGreaterThan((premiereLigne?.x ?? 0) + (premiereLigne?.width ?? 0));
-  expect(panneau?.y).toBeLessThan((premiereLigne?.y ?? 0) + (premiereLigne?.height ?? 0));
+  expect(panneau.x).toBeGreaterThan(premiereLigne.x + premiereLigne.width);
+  expect(panneau.y).toBeLessThan(premiereLigne.y + premiereLigne.height);
 });
 
-/** Ce qui deborde de la zone de grille, en pixels : nul quand tout se voit sans defiler. */
-const debordementDeLaGrille = (page: Page) =>
+/** La zone qui defile : le premier ancetre d'une case dont le debordement horizontal est `auto`. */
+const zoneDeGrille = (page: Page) =>
   page
     .getByRole('main')
     .getByRole('button', { name: 'GrisPolaire 50', exact: true })
-    .evaluate(caseDeNuance => {
-      let zone = caseDeNuance.parentElement as HTMLElement;
-      while (getComputedStyle(zone).overflowX !== 'auto') zone = zone.parentElement as HTMLElement;
-      return zone.scrollWidth - zone.clientWidth;
-    });
+    .locator('xpath=ancestor::*[contains(@style, "overflow-x: auto")][1]');
 
 // Faute de place, c'est la zone de grille qui defile, jamais le panneau qui descend.
 test('fait defiler la grille a 1280 px et la montre entiere a 1440 px', async ({ page }) => {
   await page.setViewportSize({ width: 1280, height: 720 });
-  expect(await debordementDeLaGrille(page)).toBeGreaterThan(0);
+  expect(await debordementDe(zoneDeGrille(page))).toBeGreaterThan(0);
 
   await page.setViewportSize({ width: 1440, height: 720 });
-  expect(await debordementDeLaGrille(page)).toBe(0);
+  expect(await debordementDe(zoneDeGrille(page))).toBe(0);
 });
