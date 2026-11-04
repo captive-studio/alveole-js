@@ -1,5 +1,5 @@
 import { Box, Link, Typography } from '@alveole/components';
-import { contrastRatio, Spacings } from '@alveole/theme';
+import { contrastRatio, Grilles, Spacings } from '@alveole/theme';
 import type { Nuance } from '../couleurs/catalogueDesCouleurs';
 import { contrasteAvecLeBlanc, type EchelleDeNuances, type RaisonHorsBande } from './echellesDuCatalogue';
 import {
@@ -150,9 +150,8 @@ export const PanneauDeNuance = ({ choix }: { choix: NuanceChoisie | null }) => {
     <Box
       borderRadius="lg"
       style={{
-        flexGrow: 1,
-        flexBasis: 280,
-        maxWidth: 340,
+        width: Grilles['3 colonnes'],
+        flexShrink: 0,
         position: 'sticky',
         top: Spacings['3W'],
         maxHeight: '90vh',
