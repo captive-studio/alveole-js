@@ -26,6 +26,7 @@ test('rend un token avec son chemin, sa famille, sa nuance et son hex', () => {
       hex: '#DDDDDD',
       deprecie: false,
       remplacant: null,
+      usage: null,
     },
   ]);
 });
@@ -176,5 +177,30 @@ test('echoue en nommant la nuance quand son ecriture dans Colors n est pas recon
   assert.throws(
     () => extraireCatalogueDesCouleurs({ palette: paletteVide, echelles: echellesIllisibles }),
     /Neutre\.50/,
+  );
+});
+
+// La phrase d'usage vit en JSDoc a cote du token ; le texte du @deprecated n'en fait pas partie.
+test('lit la phrase d usage du JSDoc sans le texte du deprecated', () => {
+  const palette = `export const CustomPalette = {
+  light: {
+    border: {
+      /** Bordure des cartes et des separateurs. */
+      'default-grey': Colors['Neutre']['900'],
+      /**
+       * Ancienne bordure.
+       * @deprecated Utiliser light.border['default-grey']
+       */
+      base: Colors['Neutre']['900'],
+      plain: Colors['Neutre']['50'],
+    },
+  },
+} as const;`;
+
+  const tokens = extraireCatalogueDesCouleurs({ palette, echelles }).tokens;
+
+  assert.deepEqual(
+    tokens.map(({ usage }) => usage),
+    ['Bordure des cartes et des separateurs.', 'Ancienne bordure.', null],
   );
 });

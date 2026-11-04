@@ -82,6 +82,7 @@ export const LigneDeToken = ({ token }: { token: TokenSemantique }) => {
             <Texte style={{ fontFamily: 'monospace', textDecorationLine: token.deprecie ? 'line-through' : 'none' }}>
               {token.chemin}
             </Texte>
+            {token.usage && <Texte style={{ color: color.light.text['mention-grey'] }}>{token.usage}</Texte>}
             {token.deprecie && (
               <>
                 <Texte style={{ color: color.light.text['default-warning'] }}>{'Déprécié'}</Texte>
