@@ -44,3 +44,11 @@ consomme pas les tokens de ce dernier. Les exemples, tests et démonstrations ne
 font pas d'un composant un consommateur. Le catalogue l'affiche « Utilisé par ».
 _Éviter_ : usage, utilisation. L'usage d'un token est le rôle que son nom et sa
 phrase d'usage annoncent, pas le constat de qui le cite.
+
+**Verdict de contraste** :
+Le jugement d'un token de texte par rapport au seuil WCAG de 4,5:1, mesuré sur
+`background.default-grey` : « conforme » ou « insuffisant ». Un texte désactivé est
+« exempté » (WCAG 1.4.3). Une bordure ou un fond n'a que son rapport sur blanc, sans
+verdict : son seuil dépend du contexte. Une couleur non opaque (`transparent`,
+`rgba(...)`) n'a pas de rapport.
+_Éviter_ : score, note d'accessibilité.

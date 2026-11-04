@@ -22,6 +22,9 @@ export const useStylesDesNuances = () => {
 };
 
 /** Une nuance se designe par son echelle et son numero : `Neutre 900`. */
+/** Un rapport de contraste a une decimale et a la francaise : `1,4:1`. */
+export const rapport = (contraste: number) => `${contraste.toFixed(1).replace('.', ',')}:1`;
+
 export const nomDe = (nuance: Nuance) => `${nuance.echelle} ${nuance.numero}`;
 
 /** Un nombre et son mot, accorde : `1 token`, `2 tokens`. */

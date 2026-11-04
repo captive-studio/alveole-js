@@ -8,12 +8,10 @@ import {
   libelleSansUsage,
   nomDe,
   pageDesTokens,
+  rapport,
   sansUsage,
   useStylesDesNuances,
 } from './presentationDesNuances';
-
-/** Un rapport de contraste a une decimale et a la francaise : `1,4:1`. */
-const rapport = (contraste: number) => `${contraste.toFixed(1).replace('.', ',')}:1`;
 
 const contrasteSurBlanc = (hex: string) => `${rapport(contrasteAvecLeBlanc(hex))} sur blanc`;
 
