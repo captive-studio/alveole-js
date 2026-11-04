@@ -1,9 +1,11 @@
 import { Box, Link, Typography, useToast } from '@alveole/components';
-import { Spacings, useTheme } from '@alveole/theme';
+import { contrastRatio, Spacings, useTheme } from '@alveole/theme';
 import type React from 'react';
 import { Pressable } from 'react-native';
 import type { Consommateur, TokenSemantique } from '../couleurs/catalogueDesCouleurs';
+import { contrasteDuToken } from '../couleurs/contrasteDuToken';
 import { copier } from '../pressePapiers';
+import { rapport } from '../screens/presentationDesNuances';
 
 /**
  * Sur le web, Pressable rend un `<button>`, qui centre son texte. Box ne transmet pas
@@ -48,8 +50,19 @@ const UtilisePar = ({ consommateurs, deprecie }: { consommateurs: Consommateur[]
   );
 };
 
+/** Le rapport du token sur son fond, puis son verdict quand il a un sens sans contexte. */
+const Contraste = ({ token, fondParDefaut }: { token: TokenSemantique; fondParDefaut: string }) => {
+  const contraste = contrasteDuToken(token, { fondParDefaut, contraste: contrastRatio });
+  return (
+    <Box style={{ width: LARGEUR_DE_COLONNE }}>
+      {contraste && <Texte>{`${rapport(contraste.ratio)} sur ${contraste.fond}`}</Texte>}
+      {contraste?.verdict && <Texte>{contraste.verdict}</Texte>}
+    </Box>
+  );
+};
+
 /** Une ligne de la page des tokens : swatch, chemin complet, nuance referencee et hex. */
-export const LigneDeToken = ({ token }: { token: TokenSemantique }) => {
+export const LigneDeToken = ({ token, fondParDefaut }: { token: TokenSemantique; fondParDefaut: string }) => {
   const { color } = useTheme();
   const toast = useToast();
   const nuance = token.nuance ? `${token.nuance.echelle} ${token.nuance.numero}` : 'Valeur directe';
@@ -94,6 +107,7 @@ export const LigneDeToken = ({ token }: { token: TokenSemantique }) => {
           </Box>
           <Texte style={{ width: LARGEUR_DE_COLONNE }}>{nuance}</Texte>
           <Texte style={{ width: LARGEUR_DE_COLONNE, fontFamily: 'monospace' }}>{token.hex}</Texte>
+          <Contraste token={token} fondParDefaut={fondParDefaut} />
         </Box>
       </Pressable>
       {token.consommateurs && <UtilisePar consommateurs={token.consommateurs} deprecie={token.deprecie} />}

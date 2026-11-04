@@ -169,3 +169,19 @@ it('donne la phrase d usage du token qui en a une', async () => {
 
   expect(screen.getByText(usage)).toBeTruthy();
 });
+
+// La couleur du verdict se verifie sur les cliches (ADR 0027) : jsdom prouve le texte affiche.
+it('donne le contraste d un texte sur le fond par defaut et son verdict', async () => {
+  rendreLaPalette({
+    catalogue: {
+      tokens: [
+        token({ chemin: 'light.background.default-grey', famille: 'light / background', hex: '#FFFFFF' }),
+        token({ chemin: 'light.text.default-grey', famille: 'light / text', hex: '#000000' }),
+      ],
+      nuances: [],
+    },
+  });
+
+  expect(screen.getByText('21,0:1 sur background.default-grey')).toBeTruthy();
+  expect(screen.getByText('conforme')).toBeTruthy();
+});

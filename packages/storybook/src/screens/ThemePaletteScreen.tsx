@@ -19,10 +19,14 @@ export type ThemePaletteScreenProps = {
   footerContent?: React.ReactNode;
 };
 
-const SectionDeTokens = ({ famille }: { famille: FamilleDeTokens }) => (
+/** Le fond sur lequel se juge un texte : `background.default-grey`, blanc s'il manque au catalogue. */
+const fondParDefautDe = (catalogue: CatalogueDesCouleurs) =>
+  catalogue.tokens.find(({ chemin }) => chemin === 'light.background.default-grey')?.hex ?? '#FFFFFF';
+
+const SectionDeTokens = ({ famille, fondParDefaut }: { famille: FamilleDeTokens; fondParDefaut: string }) => (
   <Accordion.Item value={famille.titre} label={famille.titre} variant="alt" noPadding>
     {famille.tokens.map(token => (
-      <LigneDeToken key={token.chemin} token={token} />
+      <LigneDeToken key={token.chemin} token={token} fondParDefaut={fondParDefaut} />
     ))}
   </Accordion.Item>
 );
@@ -46,6 +50,7 @@ export const ThemePaletteScreen = ({
   footerContent,
 }: ThemePaletteScreenProps) => {
   const { color } = useTheme();
+  const fondParDefaut = fondParDefautDe(catalogue);
   const familles = React.useMemo(() => famillesDuCatalogue(catalogue), [catalogue]);
   const [ouvertes, setOuvertes] = React.useState(() => familles.map(famille => famille.titre));
   React.useEffect(() => {
@@ -67,7 +72,7 @@ export const ThemePaletteScreen = ({
       </Typography>
       <Accordion type="multiple" value={ouvertes} onValueChange={setOuvertes}>
         {familles.map(famille => (
-          <SectionDeTokens key={famille.titre} famille={famille} />
+          <SectionDeTokens key={famille.titre} famille={famille} fondParDefaut={fondParDefaut} />
         ))}
       </Accordion>
     </EcranDeCatalogue>
