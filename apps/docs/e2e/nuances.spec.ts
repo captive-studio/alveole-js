@@ -68,3 +68,29 @@ test('etale les cases d une echelle sur toute la ligne, chaque numero tenant dan
   expect(mesure.contenu).toBe(0);
   expect(mesure.debordements).toBe(0);
 });
+
+// Le panneau suit le defilement a cote de la grille (US 8) : meme a 1280 px, il ne passe jamais dessous.
+test('garde le panneau a droite de la grille a 1280 px', async ({ page }) => {
+  await page.setViewportSize({ width: 1280, height: 720 });
+  const panneau = await page.getByRole('main').getByText('Sélectionnez une nuance').boundingBox();
+  const premiereLigne = await page.getByRole('main').getByText('GrisPolaire', { exact: true }).boundingBox();
+
+  expect(panneau?.x).toBeGreaterThan((premiereLigne?.x ?? 0) + (premiereLigne?.width ?? 0));
+  expect(panneau?.y).toBeLessThan((premiereLigne?.y ?? 0) + (premiereLigne?.height ?? 0));
+});
+
+/** Ce qui deborde de la zone de grille, en pixels : nul quand tout se voit sans defiler. */
+const debordementDeLaGrille = (page: Page) =>
+  page
+    .getByRole('main')
+    .getByRole('region', { name: 'Échelles de nuances' })
+    .evaluate(zone => zone.scrollWidth - zone.clientWidth);
+
+// Faute de place, c'est la zone de grille qui defile, jamais le panneau qui descend.
+test('fait defiler la grille a 1280 px et la montre entiere a 1440 px', async ({ page }) => {
+  await page.setViewportSize({ width: 1280, height: 720 });
+  expect(await debordementDeLaGrille(page)).toBeGreaterThan(0);
+
+  await page.setViewportSize({ width: 1440, height: 720 });
+  expect(await debordementDeLaGrille(page)).toBe(0);
+});

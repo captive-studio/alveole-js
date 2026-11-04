@@ -41,15 +41,15 @@ const teinteLisibleSur = (fond: string) => (contrastRatio(fonce, fond) >= contra
 
 /**
  * Chaque case prend une part egale de la ligne : le rang N tombe sous le rang N de l'echelle voisine.
- * Elle ne descend pas sous la largeur d'un numero a quatre chiffres : faute de place, c'est le
- * panneau qui passe sous la grille, jamais les numeros qui se chevauchent.
+ * Elle ne descend pas sous la largeur d'un numero a quatre chiffres : faute de place, la grille
+ * defile, jamais les numeros ne se chevauchent.
  */
 const largeurMinimaleDeCase = Spacings['4W'];
 const partDeLigne = { flexGrow: 1, flexBasis: 0, minWidth: largeurMinimaleDeCase };
 const ecartEntreCases = Spacings['0,5V'];
 const largeurDuNom = 128;
 
-/** La grille ne se serre pas sous ses cases minimales : le panneau passe dessous plutot. */
+/** La grille ne se serre pas sous ses cases minimales : elle defile plutot. */
 const largeurMinimaleDeGrille = (nombreDeRangs: number) =>
   largeurDuNom + nombreDeRangs * (largeurMinimaleDeCase + ecartEntreCases) - ecartEntreCases + largeurDeColonne;
 
@@ -195,25 +195,27 @@ export const ThemeNuancesScreen = ({
         <Typography>{'Un composant lit un token sémantique, jamais une nuance. Voir les'}</Typography>
         <Link href={pageDesTokens}>{'tokens sémantiques'}</Link>
       </Box>
-      <Box style={{ flexDirection: 'row', flexWrap: 'wrap', alignItems: 'flex-start', gap: Spacings['4W'] }}>
-        <Box style={{ flexGrow: 1, flexBasis: 0, minWidth: largeurMinimaleDeGrille(nombreDeRangs) }}>
-          {familles.map(famille => (
-            <Box key={famille.titre} style={{ marginBottom: Spacings['5W'] }}>
-              <TitreDeFamille famille={famille} />
-              {famille.echelles.map(echelle => (
-                <LigneDEchelle
-                  key={echelle.titre}
-                  echelle={echelle}
-                  nombreDeRangs={nombreDeRangs}
-                  nuanceSelectionnee={nuanceSelectionnee}
-                  selectionner={selectionner}
-                />
-              ))}
-            </Box>
-          ))}
-          <Typography style={[styles.petit, styles.discret]}>
-            {'Point dans la case : nuance sans usage. Colonnes alignées par rang, du plus clair au plus foncé.'}
-          </Typography>
+      <Box style={{ flexDirection: 'row', alignItems: 'flex-start', gap: Spacings['4W'] }}>
+        <Box role="region" aria-label="Échelles de nuances" style={{ flex: 1, minWidth: 0, overflowX: 'auto' }}>
+          <Box style={{ minWidth: largeurMinimaleDeGrille(nombreDeRangs) }}>
+            {familles.map(famille => (
+              <Box key={famille.titre} style={{ marginBottom: Spacings['5W'] }}>
+                <TitreDeFamille famille={famille} />
+                {famille.echelles.map(echelle => (
+                  <LigneDEchelle
+                    key={echelle.titre}
+                    echelle={echelle}
+                    nombreDeRangs={nombreDeRangs}
+                    nuanceSelectionnee={nuanceSelectionnee}
+                    selectionner={selectionner}
+                  />
+                ))}
+              </Box>
+            ))}
+            <Typography style={[styles.petit, styles.discret]}>
+              {'Point dans la case : nuance sans usage. Colonnes alignées par rang, du plus clair au plus foncé.'}
+            </Typography>
+          </Box>
         </Box>
         <PanneauDeNuance choix={choix} />
       </Box>
