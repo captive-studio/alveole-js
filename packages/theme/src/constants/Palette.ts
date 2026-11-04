@@ -10,17 +10,23 @@ export const CustomPalette = {
     },
     background: {
       'alt-primary': Colors['BleuCaptive']['975'],
+      /** Fond alternatif d'une zone qui se distingue du fond de page. */
       'alt-grey': Colors['Neutre']['975'],
       'action-low-primary': Colors['BleuCaptive']['925'],
+      /** Fond contrasté d'un élément posé sur le fond de page, comme un champ ou un tag. */
       'contrast-grey': Colors['Neutre']['950'],
       'contrast-success': Colors['VertSuccess']['950'],
       'contrast-error': Colors['RougeErreur']['950'],
       'contrast-info': Colors['BleuCaptive']['950'],
       'contrast-warning': Colors['OrangeWarning']['950'],
+      /** Fond par défaut des pages et des surfaces. */
       'default-grey': Colors['Neutre']['1000'],
+      /** Fond d'une surface par défaut survolée. */
       'default-grey-hover': Colors['Neutre']['950'],
+      /** Fond d'une surface par défaut pressée. */
       'default-grey-active': Colors['Neutre']['925'],
       'active-primary': Colors['BleuCaptive']['sun-172'],
+      /** Fond d'un élément désactivé. */
       'disabled-grey': Colors['Neutre']['925'],
       'active-inverted': Colors['Neutre']['1000'],
       'transparent-hover': 'rgba(0, 0, 0, 0.04)',
@@ -34,15 +40,20 @@ export const CustomPalette = {
       'open-primary': Colors['BleuCaptive']['925'],
     },
     border: {
+      /** Bordure par défaut des cartes, des séparateurs et des champs. */
       'default-grey': Colors['Neutre']['900'],
+      /** Bordure contrastée d'un élément qui doit se détacher de son fond. */
       'contrast-grey': Colors['Neutre']['625'],
       'default-primary': Colors['BleuCaptive']['425'],
       'action-high-primary': Colors['BleuCaptive']['sun-172'],
+      /** Bordure d'une action secondaire mise en avant. */
       'action-high-grey': Colors['Neutre']['50'],
       'active-primary': Colors['BleuCaptive']['sun-172'],
       'open-primary': Colors['BleuCaptive']['925'],
+      /** Bordure d'un élément désactivé. */
       'disabled-grey': Colors['Neutre']['925'],
       'plain-primary': Colors['BleuCaptive']['sun-172'],
+      /** Bordure pleine d'un élément neutre sélectionné ou actif. */
       'plain-grey': Colors['Neutre']['200'],
       'plain-success': Colors['VertSuccess']['425'],
       'plain-error': Colors['RougeErreur']['425'],
@@ -51,20 +62,28 @@ export const CustomPalette = {
       'action-low-primary': Colors['BleuCaptive']['850'],
     },
     text: {
+      /** Texte des titres. */
       'title-grey': Colors['Neutre']['50'],
       'title-primary': Colors['BleuCaptive']['sun-172'],
+      /** Texte courant par défaut. */
       'default-grey': Colors['Neutre']['200'],
+      /** Texte secondaire des mentions, aides et indications. */
       'mention-grey': Colors['Neutre']['425'],
+      /** Texte des libellés de champs. */
       'label-grey': Colors['Neutre']['50'],
       'action-high-primary': Colors['BleuCaptive']['125'],
+      /** Texte d'une action secondaire mise en avant. */
       'action-high-grey': Colors['Neutre']['50'],
       'action-high-info': Colors['BleuCaptive']['425'],
       'action-high-warning': Colors['OrangeWarning']['425'],
       'action-high-error': Colors['RougeErreur']['425'],
+      /** Texte posé sur un fond sombre ou coloré. */
       'inverted-grey': Colors['Neutre']['1000'],
       'inverted-primary': Colors['BleuCaptive']['975'],
       'active-primary': Colors['BleuCaptive']['sun-172'],
+      /** Texte d'un élément neutre actif ou sélectionné. */
       'active-grey': Colors['Neutre']['50'],
+      /** Texte d'un élément désactivé. */
       'disabled-grey': Colors['Neutre']['625'],
       'default-success': Colors['VertSuccess']['425'],
       'default-error': Colors['RougeErreur']['425'],

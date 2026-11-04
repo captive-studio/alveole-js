@@ -162,3 +162,10 @@ it('n avertit pas pour un token deprecie qu aucun composant ne cite', async () =
   expect(screen.getByText('sans usage')).toBeTruthy();
   expect(screen.queryByText('Encore utilisé par')).toBeNull();
 });
+
+it('donne la phrase d usage du token qui en a une', async () => {
+  const usage = 'Bordure des cartes et des separateurs.';
+  rendreLaPalette({ catalogue: { tokens: [token({ usage })], nuances: [] } });
+
+  expect(screen.getByText(usage)).toBeTruthy();
+});

@@ -15,6 +15,8 @@ export type TokenSemantique = {
   hex: string;
   deprecie: boolean;
   remplacant: string | null;
+  /** La phrase d'usage ecrite en JSDoc a cote du token, `null` s'il n'en a pas (ADR 0035). */
+  usage?: string | null;
   /** Absent d'un catalogue construit avant leur extraction : l'ecran ne dit alors rien. */
   consommateurs?: Consommateur[];
 };

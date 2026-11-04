@@ -24,6 +24,13 @@ const deprecation = propriete => {
   return tag ? (ts.getTextOfJSDocComment(tag.comment) ?? '') : null;
 };
 
+/** La phrase d'usage du JSDoc pose sur la propriete, hors tags : `null` si elle n'en porte pas. */
+const usage = propriete => {
+  const jsdoc = ts.getJSDocCommentsAndTags(propriete).filter(ts.isJSDoc).at(-1);
+  const texte = jsdoc ? (ts.getTextOfJSDocComment(jsdoc.comment) ?? '').trim() : '';
+  return texte || null;
+};
+
 /** L'echec qui nomme l'endroit de la palette que l'extraction ne sait pas lire (ADR 0035). */
 const nonReconnue = (endroit, noeud) =>
   new Error(`Ecriture de la palette non reconnue pour ${endroit} : ${noeud.getText()}`);
@@ -104,6 +111,7 @@ export const extraireCatalogueDesCouleurs = ({ palette, echelles }) => {
         ...lireValeur(valeur, valeursDesEchelles, cheminComplet),
         deprecie: remplacant !== null,
         remplacant,
+        usage: usage(propriete),
       });
     }
   };
