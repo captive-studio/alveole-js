@@ -2,12 +2,11 @@ import { Box, Link, Typography, useToast } from '@alveole/components';
 import { contrastRatio, Spacings, useTheme } from '@alveole/theme';
 import type React from 'react';
 import { Pressable } from 'react-native';
-import type { Consommateur, TokenSemantique } from '../couleurs/catalogueDesCouleurs';
 import { blanc } from '../couleurs/blanc';
+import type { Consommateur, TokenSemantique } from '../couleurs/catalogueDesCouleurs';
 import { rapport } from '../couleurs/contraste';
 import { contrasteDuToken } from '../couleurs/contrasteDuToken';
 import { copier } from '../pressePapiers';
-
 
 /**
  * Sur le web, Pressable rend un `<button>`, qui centre son texte. Box ne transmet pas

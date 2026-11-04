@@ -25,7 +25,12 @@ const token = (champs: Partial<TokenSemantique>): TokenSemantique => ({
 });
 
 /** L'ecran exige le fond par defaut : chaque catalogue de test le porte, sauf s'il le fixe lui-meme. */
-const fondParDefaut = token({ chemin: 'light.background.default-grey', famille: 'light / background', nuance: { echelle: 'Neutre', numero: '1000' }, hex: '#FFFFFF' });
+const fondParDefaut = token({
+  chemin: 'light.background.default-grey',
+  famille: 'light / background',
+  nuance: { echelle: 'Neutre', numero: '1000' },
+  hex: '#FFFFFF',
+});
 function avecLeFondParDefaut(catalogue?: CatalogueDesCouleurs) {
   if (!catalogue || catalogue.tokens.some(({ chemin }) => chemin === fondParDefaut.chemin)) return catalogue;
   return { ...catalogue, tokens: [...catalogue.tokens, fondParDefaut] };

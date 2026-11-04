@@ -1,7 +1,7 @@
 import { Box, Link, Typography } from '@alveole/components';
 import { contrastRatio, Grilles, Spacings } from '@alveole/theme';
-import type { Nuance } from '../couleurs/catalogueDesCouleurs';
 import { contrasteAvecLeBlanc } from '../couleurs/blanc';
+import type { Nuance } from '../couleurs/catalogueDesCouleurs';
 import { rapport } from '../couleurs/contraste';
 import { type EchelleDeNuances, type RaisonHorsBande } from './echellesDuCatalogue';
 import {
