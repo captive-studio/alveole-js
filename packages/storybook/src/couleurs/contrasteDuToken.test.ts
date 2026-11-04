@@ -29,12 +29,12 @@ it('juge un texte lisible sur le fond par defaut', () => {
 });
 
 it('juge insuffisant un texte sous 4,5:1', () => {
-  expect(juger({ hex: '#929292' }).verdict).toBe('insuffisant');
+  expect(juger({ hex: '#929292' })?.verdict).toBe('insuffisant');
 });
 
 // WCAG 1.4.3 exempte le texte d'un composant inactif : un echec y serait un faux signal.
 it('exempte un texte desactive', () => {
-  expect(juger({ chemin: 'light.text.disabled-grey', hex: '#929292' }).verdict).toBe('exempté');
+  expect(juger({ chemin: 'light.text.disabled-grey', hex: '#929292' })?.verdict).toBe('exempté');
 });
 
 // Un filet ou un aplat decoratif n'a pas de seuil sans son contexte : un verdict serait un faux echec.

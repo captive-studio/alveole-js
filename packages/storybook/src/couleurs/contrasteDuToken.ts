@@ -6,7 +6,7 @@ type Contexte = { fondParDefaut: string; contraste: (couleur: string, fond: stri
 const SEUIL_DU_TEXTE = 4.5;
 
 /** `light.text.disabled-grey` ou `text.button.primary.disabled` : le dernier segment le dit. */
-const estDesactive = (token: TokenSemantique) => token.chemin.split('.').at(-1)?.includes('disabled') ?? false;
+const estDesactive = (token: TokenSemantique) => (token.chemin.split('.').pop() ?? '').includes('disabled');
 
 const verdictDuTexte = (token: TokenSemantique, ratio: number) => {
   if (estDesactive(token)) return 'exempté';
