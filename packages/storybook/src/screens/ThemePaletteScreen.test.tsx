@@ -10,7 +10,7 @@ import { ThemePaletteScreen } from './ThemePaletteScreen';
 const rendreLaPalette = (props: Parameters<typeof ThemePaletteScreen>[0]) =>
   renderScreen(
     <Toasts>
-      <ThemePaletteScreen {...props} />
+      <ThemePaletteScreen {...props} catalogue={avecLeFondParDefaut(props.catalogue)} />
     </Toasts>,
   );
 
@@ -23,6 +23,13 @@ const token = (champs: Partial<TokenSemantique>): TokenSemantique => ({
   remplacant: null,
   ...champs,
 });
+
+/** L'ecran exige le fond par defaut : chaque catalogue de test le porte, sauf s'il le fixe lui-meme. */
+const fondParDefaut = token({ chemin: 'light.background.default-grey', famille: 'light / background', nuance: { echelle: 'Neutre', numero: '1000' }, hex: '#FFFFFF' });
+function avecLeFondParDefaut(catalogue?: CatalogueDesCouleurs) {
+  if (!catalogue || catalogue.tokens.some(({ chemin }) => chemin === fondParDefaut.chemin)) return catalogue;
+  return { ...catalogue, tokens: [...catalogue.tokens, fondParDefaut] };
+}
 
 const catalogue: CatalogueDesCouleurs = { tokens: [token({})], nuances: [] };
 

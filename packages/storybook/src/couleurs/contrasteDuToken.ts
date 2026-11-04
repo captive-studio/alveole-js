@@ -31,3 +31,10 @@ export const contrasteDuToken = (token: TokenSemantique, { fondParDefaut, blanc,
   const ratio = contraste(token.hex, fondParDefaut);
   return { ratio, fond: cheminDuFondParDefaut.replace('light.', ''), verdict: verdictDuTexte(token, ratio) };
 };
+
+/** Le fond sur lequel se juge un texte : un catalogue qui ne le porte pas est casse. */
+export const fondParDefautDe = (tokens: TokenSemantique[]) => {
+  const fond = tokens.find(({ chemin }) => chemin === cheminDuFondParDefaut);
+  if (!fond) throw new Error(`Le catalogue ne porte pas ${cheminDuFondParDefaut}`);
+  return fond.hex;
+};

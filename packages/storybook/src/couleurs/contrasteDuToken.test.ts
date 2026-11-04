@@ -1,5 +1,5 @@
 import type { TokenSemantique } from './catalogueDesCouleurs';
-import { contrasteDuToken } from './contrasteDuToken';
+import { contrasteDuToken, fondParDefautDe } from './contrasteDuToken';
 
 const token = (champs: Partial<TokenSemantique>): TokenSemantique => ({
   chemin: 'light.text.default-grey',
@@ -49,4 +49,9 @@ it('donne le rapport d une bordure sur blanc, sans verdict', () => {
 // `transparent` et les `rgba(...)` prennent la couleur de ce qu'ils recouvrent : aucun rapport fixe.
 it('ne donne aucun rapport pour une couleur qui n est pas opaque', () => {
   expect(juger({ hex: 'transparent' })).toBeNull();
+});
+
+// Sans fond par defaut, chaque verdict de texte serait juge sur un fond invente : mieux vaut echouer.
+it('refuse un catalogue sans fond par defaut', () => {
+  expect(() => fondParDefautDe([token({})])).toThrow('light.background.default-grey');
 });
