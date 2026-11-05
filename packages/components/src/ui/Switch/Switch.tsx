@@ -51,6 +51,16 @@ const SwitchLabel = ({ id, checked, disabled, onChange, children }: SwitchLabelP
 const POUCES: Record<SwitchTaille, number> = { sm: 16, md: 22, lg: Math.round(44 * 0.65) };
 const dimensionsDeLaPiste = (pouce: number) => ({ width: 2 * pouce + 4, height: pouce + 4, minHeight: pouce + 4 });
 
+// En mode contrôlé, `checked` fait foi et l'état local reste inutilisé.
+const useValeur = (checked: boolean | undefined, onCheckedChange: SwitchProps['onCheckedChange']) => {
+  const [model, setModel] = React.useState(Boolean(checked));
+  const onChange = (newValue: boolean) => {
+    setModel(newValue);
+    onCheckedChange?.(newValue);
+  };
+  return [checked ?? model, onChange] as const;
+};
+
 export const Switch = React.forwardRef<SwitchElement, SwitchProps>(function Switch(props, ref) {
   const {
     checked,
@@ -66,20 +76,13 @@ export const Switch = React.forwardRef<SwitchElement, SwitchProps>(function Swit
   } = props;
   let { id } = props;
 
-  const isControlled = checked !== undefined;
-  const [model, setModel] = React.useState(Boolean(checked));
-  const value = isControlled ? checked : model;
+  const [value, onChange] = useValeur(checked, onCheckedChange);
 
   const styles = useStyles();
   const pouceTaille = POUCES[size];
 
   const uniqId = useId();
   id = id || `switch--${uniqId}`;
-
-  const onChange = (newValue: boolean) => {
-    if (!isControlled) setModel(newValue);
-    onCheckedChange?.(newValue);
-  };
 
   const { bouton, pouce, libelle } = apparenceDuSwitch(styles, { value, disabled, noPadding, style });
 
