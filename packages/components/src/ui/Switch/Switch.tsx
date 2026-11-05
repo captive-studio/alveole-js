@@ -18,7 +18,11 @@ export type SwitchProps = Omit<TamaguiSwitchProps, 'value' | 'onChange'> & {
   error?: string;
   success?: string;
   noPadding?: boolean;
+  /** `md` par défaut ; `lg` reprend la taille d'avant la 2.0. */
+  size?: SwitchTaille;
 };
+
+export type SwitchTaille = 'sm' | 'md' | 'lg';
 
 type SwitchLabelProps = React.PropsWithChildren<{
   id: string;
@@ -43,11 +47,23 @@ const SwitchLabel = ({ id, checked, disabled, onChange, children }: SwitchLabelP
 // 4 px pour le padding et la bordure qu'Alveole pose de chaque cote. La v2 ne compte plus ces
 // 4 px, et le pouce debordait de sa piste. La taille de reference etait le token `$true` de la
 // config de l'application, 44 px ; la config v5 de Tamagui v3 ne le fournit plus, Alveole la fixe.
-const POUCE = Math.round(44 * 0.65);
-const DIMENSIONS_DE_LA_PISTE = { width: 2 * POUCE + 4, height: POUCE + 4, minHeight: POUCE + 4 };
+// `lg` garde ce pouce historique ; `md` et `sm` le réduisent.
+const POUCES: Record<SwitchTaille, number> = { sm: 16, md: 22, lg: Math.round(44 * 0.65) };
+const dimensionsDeLaPiste = (pouce: number) => ({ width: 2 * pouce + 4, height: pouce + 4, minHeight: pouce + 4 });
 
 export const Switch = React.forwardRef<SwitchElement, SwitchProps>(function Switch(props, ref) {
-  const { checked, style, label, error, success, disabled, noPadding, onCheckedChange, ...switchProps } = props;
+  const {
+    checked,
+    style,
+    label,
+    error,
+    success,
+    disabled,
+    noPadding,
+    size = 'md',
+    onCheckedChange,
+    ...switchProps
+  } = props;
   let { id } = props;
 
   const isControlled = checked !== undefined;
@@ -55,6 +71,7 @@ export const Switch = React.forwardRef<SwitchElement, SwitchProps>(function Swit
   const value = isControlled ? checked : model;
 
   const styles = useStyles();
+  const pouceTaille = POUCES[size];
 
   const uniqId = useId();
   id = id || `switch--${uniqId}`;
@@ -71,7 +88,7 @@ export const Switch = React.forwardRef<SwitchElement, SwitchProps>(function Swit
       id={id}
       ref={ref}
       borderWidth={1}
-      {...DIMENSIONS_DE_LA_PISTE}
+      {...dimensionsDeLaPiste(pouceTaille)}
       checked={value}
       onCheckedChange={onChange}
       style={bouton}
@@ -83,7 +100,7 @@ export const Switch = React.forwardRef<SwitchElement, SwitchProps>(function Swit
       {...focusRingProps()}
       {...switchProps}
     >
-      <TamaguiSwitch.Thumb {...animer('quicker')} width={POUCE} height={POUCE} style={pouce} />
+      <TamaguiSwitch.Thumb {...animer('quicker')} width={pouceTaille} height={pouceTaille} style={pouce} />
     </TamaguiSwitch>
   );
 

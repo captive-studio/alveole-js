@@ -14,7 +14,6 @@ export const useStyles = makeStyles(({ text, color, spacing }) => ({
     backgroundColor: color.background.default,
     cursor: 'pointer',
     padding: 1,
-    minHeight: spacing('4W'),
     marginTop: 'auto',
     marginBottom: 'auto',
   },
@@ -34,7 +33,7 @@ export const useStyles = makeStyles(({ text, color, spacing }) => ({
     boxShadow: 'none',
   },
   switchThumbChecked: {
-    backgroundColor: color.primary,
+    backgroundColor: color.light.background['action-high-primary'],
   },
   switchThumbDisabled: {
     backgroundColor: color.background['disabled-grey'],
