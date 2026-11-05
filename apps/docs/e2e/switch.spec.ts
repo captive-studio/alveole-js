@@ -39,9 +39,10 @@ test('garde au pouce son aplat, sans ombre', async ({ page }) => {
 
 // La piste se dimensionnait sur le token `$true` de la config de l'application, que la config
 // v5 de Tamagui v3 ne fournit plus : piste et pouce perdaient leur taille de Tamagui v2.
-test('garde à la piste et au pouce la taille de Tamagui v2', async ({ page }) => {
+// `lg` garde cette taille ; `md`, la taille par défaut depuis la 2.0, est plus petite.
+test('garde à la piste et au pouce lg la taille de Tamagui v2', async ({ page }) => {
   await openRoute(page, '/components/Switch');
-  const piste = page.getByRole('main').getByRole('switch').first();
+  const piste = page.getByRole('main').getByRole('switch', { name: 'Lg' });
 
   const boite = await piste.boundingBox();
   const pouce = await piste.locator('[data-disable-theme]').boundingBox();
