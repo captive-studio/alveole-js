@@ -616,6 +616,25 @@ git grep -nE "<Tag\\b[^>]*\\bcolor=|\\b(onActions|actionsIcon)\\b|onNavigate="
 Nouveautés du \`Tag\`, si utiles : \`selected\`, \`interactive\`, \`closable\` + \`onClose\`, \`leading\`.`,
   },
   {
+    titre: '6 ter. Switch : taille md par défaut',
+    markdown: `\`\`\`bash
+git grep -nE "<Switch\\b"
+\`\`\`
+
+\`Switch\` accepte \`size\` (\`sm\`, \`md\`, \`lg\`) et vaut **\`md\`** par défaut, plus petit qu'en 1.x.
+Pour garder le rendu actuel, ajouter \`size="lg"\` à chaque appel :
+
+\`\`\`tsx
+// Avant
+<Switch label="Notifications" checked={on} onCheckedChange={setOn} />
+
+// Après
+<Switch size="lg" label="Notifications" checked={on} onCheckedChange={setOn} />
+\`\`\`
+
+Le pouce coché passe aussi du rose à la couleur primaire (bleu) : aucun code à changer.`,
+  },
+  {
     titre: '7. @alveole/theme',
     markdown: `\`\`\`bash
 git grep -nE "\\b(Mandarine|Shakespeare|Pacifika|ButteryWhite|CoralRed|Lochmara|BigStone|LimeGreen|Purple)\\b|Inter|Barlow|generateDefaultThemeCSS|generateFontSmoothingCSS|color-(sun|950)\\b|illustration"

@@ -22,6 +22,14 @@ export const Default = () => (
   </Box>
 );
 
+export const Sizes = () => (
+  <Box display="flex" flexDirection="column" gap="3W">
+    <Switch label="Sm" size="sm" checked />
+    <Switch label="Md" size="md" checked />
+    <Switch label="Lg" size="lg" checked />
+  </Box>
+);
+
 export const Controlled = () => {
   const [value, setValue] = useState(false);
   return <Switch label={value ? 'Activé' : 'Désactivé'} checked={value} onCheckedChange={v => setValue(!!v)} />;
