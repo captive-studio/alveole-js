@@ -1,6 +1,7 @@
 import React from 'react';
 import { Platform } from 'react-native';
 import { ButtonIcon } from '../Button';
+import { LucideIconName } from '../LucideIcon/LucideIcon.props';
 import { TextInputElement, TextInputProps } from './TextInput.types';
 import { TextInputInline } from './TextInputInline';
 
@@ -12,6 +13,9 @@ const boutonAccole = {
   paddingTop: 0,
   paddingBottom: 0,
 };
+
+/** L'oeil montre l'action et non l'etat : ouvert pour reveler, barre pour masquer. */
+export const iconeDeLOeil = (masque: boolean): LucideIconName => (masque ? 'Eye' : 'EyeOff');
 
 /** Le mot de passe : une saisie ordinaire, masquee, qu'un oeil permet de reveler. */
 export const TextInputPassword = React.forwardRef<TextInputElement, TextInputProps>(
@@ -29,7 +33,7 @@ export const TextInputPassword = React.forwardRef<TextInputElement, TextInputPro
             size="sm"
             variant="tertiary"
             style={boutonAccole}
-            icon={masque ? 'Eye' : 'EyeOff'}
+            icon={iconeDeLOeil(masque)}
             accessibilityLabel={masque ? 'Afficher le mot de passe' : 'Masquer le mot de passe'}
             onPress={() => setMasque(actuel => !actuel)}
           />

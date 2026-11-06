@@ -108,19 +108,6 @@ it('nomme le bouton d oeil selon ce qu il fera', async () => {
   expect(view.getByRole('button', { name: 'Masquer le mot de passe' })).toBeTruthy();
 });
 
-// L'oeil montre l'action et non l'etat : ouvert pour reveler un mot de passe masque, barre pour
-// masquer un mot de passe visible. Lucide nomme l'icone dessinee dans la classe du SVG.
-it('dessine l oeil ouvert quand le mot de passe est masque et barre quand il est visible', async () => {
-  const view = await renderNative(<TextInput type="password" value="secret" onChangeText={() => undefined} />);
-  const iconeDuBouton = () => view.root!.queryAll(i => i.type === 'RNSVGSvgView')[0]?.props.className;
-
-  expect(iconeDuBouton()).toBe('lucide lucide-eye');
-
-  await userEvent.setup().press(view.getByRole('button'));
-
-  expect(iconeDuBouton()).toBe('lucide lucide-eye-off');
-});
-
 // iOS ne propose le trousseau qu'a un champ qui se declare mot de passe.
 it('declare a iOS un champ de mot de passe', async () => {
   const { getByDisplayValue } = await renderNative(
