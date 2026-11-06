@@ -29,7 +29,7 @@ export const TextInputPassword = React.forwardRef<TextInputElement, TextInputPro
             size="sm"
             variant="tertiary"
             style={boutonAccole}
-            icon={masque ? 'EyeClosed' : 'Eye'}
+            icon={masque ? 'Eye' : 'EyeOff'}
             accessibilityLabel={masque ? 'Afficher le mot de passe' : 'Masquer le mot de passe'}
             onPress={() => setMasque(actuel => !actuel)}
           />
