@@ -16,7 +16,7 @@ jobs:
     name: Build and submit to TestFlight
     runs-on: [self-hosted]
     timeout-minutes: 60
-    container: ghcr.io/captive-studio/node-ci:26.13.0@sha256:1350c8740b42b5273651a0a38da5d344ef5dec8f78ed8b8934aed2287828f2f2
+    container: ghcr.io/captive-studio/node-ci:26.13.0@sha256:28c6a728d8ae2bf911e73a04762aee6663f65f20934be72ce253761a7e7eb2f1
     env:
       EXPO_TOKEN: ${{ secrets.EXPO_TOKEN }}
     steps:
