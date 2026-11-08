@@ -259,10 +259,12 @@ jobs:
   publish-packages:
     name: Publish packages to npm
     if: github.event_name == 'push' && startsWith(github.ref, 'refs/tags/v')
-    uses: captive-studio/captive-ci/.github/workflows/release-npm.yml@f6abdd5043466edd4b5823ac4d7f77778b414d31 # main
+    # Trusted publishing (OIDC) : chaque paquet @alveole/* déclare ce dépôt et ci.yml sur npmjs.com
+    permissions:
+      contents: write
+      id-token: write
+    uses: captive-studio/captive-ci/.github/workflows/release-npm.yml@748756cc18611eb7961fd68ca873919e44c96967 # feat/release-npm-oidc
     with:
       node-version: '24'
       packages-dir: packages
       package-manager: pnpm
-    secrets:
-      NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
