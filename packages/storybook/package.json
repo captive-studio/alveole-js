@@ -2,6 +2,11 @@
   "name": "@alveole/storybook",
   "version": "2.0.0-alpha.26",
   "description": "Catalog screens and helpers for Alveole stories and theme tokens.",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/captive-studio/alveole-js.git",
+    "directory": "packages/storybook"
+  },
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
   "exports": {
