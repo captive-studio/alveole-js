@@ -1,0 +1,10 @@
+#!/bin/sh
+# Formatage vérifié avant chaque commit (quelques secondes grâce au cache de Prettier), pour ne
+# pas le découvrir au bout du `check` complet. Vérification seule : le hook ne touche pas à l'index.
+# Un worktree sans `pnpm install` n'a pas Prettier : on laisse passer, la CI tranchera.
+[ -d node_modules/prettier ] || exit 0
+
+node scripts/format.mjs --check --log-level warn || {
+  echo "Formatage à corriger : node scripts/format.mjs --write, puis restager." >&2
+  exit 1
+}
