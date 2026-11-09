@@ -263,7 +263,7 @@ jobs:
     permissions:
       contents: write
       id-token: write
-    uses: captive-studio/captive-ci/.github/workflows/release-npm.yml@1c01d30cbb626f0ec484e8528d4d65df712f787c # main
+    uses: captive-studio/captive-ci/.github/workflows/release-npm.yml@c5d4a76c92a030040d582da22ea9ba482398bb7b # main
     with:
       node-version: '24'
       packages-dir: packages
