@@ -33,3 +33,15 @@ test('les fleches changent le mois affiche dans la liste des mois', () => {
 
   expect(screen.getByText('Novembre')).toBeTruthy();
 });
+
+test('un clic sur le mois ou l annee ouvre la liste pour y sauter', () => {
+  renderWeb(<DateRangeInput value={octobre} onApply={jest.fn()} />);
+
+  fireEvent.click(screen.getByLabelText('Mois'));
+  fireEvent.click(screen.getByText('Mars'));
+  fireEvent.click(screen.getByLabelText('Année'));
+  fireEvent.click(screen.getByText('2030'));
+
+  expect(screen.getByLabelText('Mois').textContent).toBe('Mars');
+  expect(screen.getByLabelText('Année').textContent).toBe('2030');
+});
