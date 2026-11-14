@@ -10,6 +10,7 @@ export * from './Checkbox';
 export * from './Counter';
 export * from './DataTable';
 export * from './DateInput';
+export * from './DateRangeInput';
 export * from './Divider';
 export * from './DocumentViewer';
 export * from './DurationInput';

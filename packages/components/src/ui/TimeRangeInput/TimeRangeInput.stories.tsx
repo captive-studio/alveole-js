@@ -2,7 +2,7 @@ import React from 'react';
 import { Box } from '../../core/Box';
 import { Typography } from '../../core/Typography';
 import { Story } from '../../type';
-import { libelleDePlage } from './plage';
+import { libelleDePlage } from '../DateRangeInput/plage';
 import { PlageAbsolue, TimeRangeInput } from './TimeRangeInput';
 import { useStyles } from './TimeRangeInput.styles';
 

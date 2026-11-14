@@ -40,5 +40,5 @@ test('change de mois avec les fleches', () => {
 
   fireEvent.click(screen.getByLabelText('Mois suivant'));
 
-  expect(screen.getByText('novembre 2026')).toBeTruthy();
+  expect(screen.getByText('Novembre')).toBeTruthy();
 });

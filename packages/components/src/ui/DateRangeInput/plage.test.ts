@@ -1,4 +1,15 @@
-import { choisirJour, composerDate, dureeRelative, formeDuJour, joursDuMois, libelleDePlage } from './plage';
+import { enUS } from 'date-fns/locale/en-US';
+import { fr } from 'date-fns/locale/fr';
+import {
+  choisirJour,
+  composerDate,
+  dureeRelative,
+  formeDuJour,
+  joursDuMois,
+  libelleDePlage,
+  optionsDesAnnees,
+  optionsDesMois,
+} from './plage';
 
 test('aligne le premier jour du mois sur le lundi', () => {
   // 1er octobre 2026 : un jeudi, donc trois cases vides avant
@@ -64,4 +75,15 @@ test('arrondit la pastille aux bornes et aux bords de semaine, jamais hors plage
   expect(formeDuJour(new Date(2026, 9, 14), 2, plage)).toEqual({ dansPlage: true, debut: true, fin: false });
   expect(formeDuJour(new Date(2026, 9, 18), 6, plage)).toEqual({ dansPlage: true, debut: false, fin: true });
   expect(formeDuJour(new Date(2026, 9, 12), 0, plage)).toEqual({ dansPlage: false, debut: false, fin: false });
+});
+
+test('propose les mois dans la langue du calendrier', () => {
+  expect(optionsDesMois(fr)[0]).toEqual({ value: '0', label: 'Janvier' });
+  expect(optionsDesMois(enUS)[11]).toEqual({ value: '11', label: 'December' });
+});
+
+test('propose dix années de part et d autre de celle affichée', () => {
+  const annees = optionsDesAnnees(2026).map(option => option.value);
+
+  expect([annees[0], annees[10], annees[20]]).toEqual(['2016', '2026', '2036']);
 });
