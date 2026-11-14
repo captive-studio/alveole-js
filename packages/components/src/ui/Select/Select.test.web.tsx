@@ -22,6 +22,13 @@ test('associe le libellé du FormControl au champ', () => {
   expect(screen.getByRole('combobox', { name: 'Pays' })).toBeTruthy();
 });
 
+// Hors FormControl, le titre du sheet nomme deja le champ en natif : le web le lit aussi.
+test('nomme le champ par sheetTitle hors FormControl', () => {
+  renderWeb(<Select sheetTitle="Mois" value={null} options={OPTIONS} />);
+
+  expect(screen.getByRole('combobox', { name: 'Mois' })).toBeTruthy();
+});
+
 test('interdit la saisie tant que la recherche n’est pas demandée', () => {
   renderWeb(<Select value={null} options={OPTIONS} />);
 

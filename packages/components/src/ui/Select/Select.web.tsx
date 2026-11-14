@@ -15,7 +15,9 @@ export const Select = React.forwardRef<SelectRef, SelectProps>(function Select(p
   const selectStyles = useSelectStyles();
   const { fieldProps, instanceRef, createLabel } = useSelectWebField(props, ref, selectStyles);
   // L'id vient du FormControl, dont l'étiquette désigne ainsi le champ (ADR 0026).
-  const champ = { ...fieldProps, inputId: useFieldId() };
+  const fieldId = useFieldId();
+  // Hors FormControl, aucune étiquette ne désigne le champ : le titre du sheet le nomme, comme en natif.
+  const champ = { ...fieldProps, inputId: fieldId, 'aria-label': fieldId ? undefined : props.sheetTitle };
 
   return (
     <Box tag="form-control-select-input" style={selectStyles.inputContainer}>
