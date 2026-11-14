@@ -6,10 +6,16 @@ export const useStyles = makeStyles(({ spacing, spacingValue, color, text, radiu
     alignItems: 'center',
     justifyContent: 'space-between',
   },
-  titreMois: {
-    ...text['Corps de texte'].MD.Medium,
-    color: color.light.text['title-grey'],
-    textTransform: 'capitalize',
+  choixMois: {
+    flex: 1,
+    flexDirection: 'row',
+    gap: spacing('1W'),
+  },
+  selectMois: {
+    flex: 3,
+  },
+  selectAnnee: {
+    flex: 2,
   },
   grille: {
     flexDirection: 'row',

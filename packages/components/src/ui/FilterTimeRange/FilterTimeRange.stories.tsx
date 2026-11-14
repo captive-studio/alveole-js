@@ -1,7 +1,7 @@
 import React from 'react';
 import { Box } from '../../core/Box';
 import { Story } from '../../type';
-import type { PlageDeTemps } from '../TimeRangeInput';
+import type { PlageDeTemps } from '../DateRangeInput';
 import { FilterTimeRange } from './FilterTimeRange';
 import { useStyles } from './FilterTimeRange.styles';
 

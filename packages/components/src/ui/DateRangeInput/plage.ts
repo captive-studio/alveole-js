@@ -1,4 +1,5 @@
 import { format } from 'date-fns/format';
+import type { Locale } from 'date-fns/locale';
 import { enUS } from 'date-fns/locale/en-US';
 import { fr } from 'date-fns/locale/fr';
 
@@ -9,6 +10,17 @@ export type PlageDeTemps =
   { type: 'relative'; duree: DureeRelative } | { type: 'absolue'; debut: Date; fin: Date; utc: boolean };
 
 export type PlageEnCours = { debut?: Date; fin?: Date };
+
+/** Les douze mois dans la langue du calendrier, la valeur étant le numéro de mois JavaScript (0 à 11). */
+export const optionsDesMois = (locale: Locale) =>
+  Array.from({ length: 12 }, (_, numero) => {
+    const nom = format(new Date(2026, numero, 1), 'MMMM', { locale });
+    return { value: String(numero), label: nom.charAt(0).toUpperCase() + nom.slice(1) };
+  });
+
+// shortcut: fenêtre glissante de dix ans de part et d'autre, à ouvrir en props si un usage demande des bornes.
+export const optionsDesAnnees = (annee: number) =>
+  Array.from({ length: 21 }, (_, i) => ({ value: String(annee - 10 + i), label: String(annee - 10 + i) }));
 
 /** Les jours du mois, précédés d'une case vide par jour de semaine avant le 1er (semaine du lundi). */
 export const joursDuMois = (annee: number, mois: number): (number | null)[] => {

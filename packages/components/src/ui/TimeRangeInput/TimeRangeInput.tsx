@@ -1,14 +1,13 @@
-import { enUS } from 'date-fns/locale/en-US';
-import { fr } from 'date-fns/locale/fr';
 import React from 'react';
 import { Box } from '../../core/Box';
 import { Typography } from '../../core/Typography';
 import { Button } from '../Button';
 import { Checkbox } from '../Checkbox';
+import { libellesDuCalendrier } from '../DateRangeInput';
+import { Calendrier } from '../DateRangeInput/Calendrier';
+import { composerDate, PlageDeTemps, PlageEnCours } from '../DateRangeInput/plage';
 import { FormControl } from '../FormControl';
 import { TimeInput } from '../TimeInput';
-import { Calendrier } from './Calendrier';
-import { composerDate, PlageDeTemps, PlageEnCours } from './plage';
 import { useStyles } from './TimeRangeInput.styles';
 
 export type PlageAbsolue = Extract<PlageDeTemps, { type: 'absolue' }>;
@@ -22,26 +21,10 @@ export type TimeRangeInputProps = {
   onCancel?: () => void;
 };
 
-const libelles = (local: 'fr' | 'en') =>
-  local === 'fr'
-    ? {
-        retour: 'Retour',
-        appliquer: 'Appliquer',
-        debut: 'Début',
-        fin: 'Fin',
-        precedent: 'Mois précédent',
-        suivant: 'Mois suivant',
-        locale: fr,
-      }
-    : {
-        retour: 'Back',
-        appliquer: 'Apply',
-        debut: 'Start',
-        fin: 'End',
-        precedent: 'Previous month',
-        suivant: 'Next month',
-        locale: enUS,
-      };
+const libelles = (local: 'fr' | 'en') => ({
+  ...libellesDuCalendrier(local),
+  ...(local === 'fr' ? { debut: 'Début', fin: 'Fin' } : { debut: 'Start', fin: 'End' }),
+});
 
 const heureDe = (date: Date | undefined, utc: boolean, defaut: string) => {
   if (!date) return defaut;
@@ -97,13 +80,7 @@ export const TimeRangeInput = (props: TimeRangeInputProps) => {
         </Typography>
       )}
 
-      <Calendrier
-        plage={etat.plage}
-        onChange={etat.setPlage}
-        locale={mots.locale}
-        precedent={mots.precedent}
-        suivant={mots.suivant}
-      />
+      <Calendrier plage={etat.plage} onChange={etat.setPlage} mots={mots} />
 
       <Box tag="time-range-input-heures" style={styles.heures}>
         <FormControl label={mots.debut} style={styles.heure}>
