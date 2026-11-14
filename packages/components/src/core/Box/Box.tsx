@@ -65,7 +65,7 @@ export const Box = React.forwardRef<BoxElement, BoxProps>(function Box(props, re
       ref={ref}
       render={elementDuTag(tag)}
       style={{ ...aplatirStyle(style), ...correctionFlex }}
-      {...radius}
+      {...definis(radius)}
       {...viewProps}
       {...definis(margins)}
       {...definis(paddings)}
