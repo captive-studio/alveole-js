@@ -33,7 +33,6 @@ export const inputFrameStyle = (styles: Styles, state: InputFrameState) => ({
   ...fieldBorderState(styles, state),
   ...(state.endAdornment ? { paddingRight: 0 } : {}),
   ...(state.startAdornment ? { paddingLeft: 0 } : {}),
-  ...(state.multiline ? { paddingTop: 8 } : {}),
 });
 
 /** Centrer le texte n'a de sens qu'encadre des deux cotes, sinon il fuit vers l'ornement. */
