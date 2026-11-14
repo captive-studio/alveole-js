@@ -43,7 +43,7 @@
     "@alveole/eslint-config": "file:../eslint-config",
     "@react-native-community/datetimepicker": "9.2.1",
     "@react-native/jest-preset": "0.88.0",
-    "@shopify/flash-list": "2.3.2",
+    "@shopify/flash-list": "2.3.3",
     "@tamagui/core": "3.2.4",
     "@tamagui/toast": "3.2.4",
     "@testing-library/react": "16.3.3",
