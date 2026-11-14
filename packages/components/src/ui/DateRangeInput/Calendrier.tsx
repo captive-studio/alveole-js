@@ -3,8 +3,8 @@ import React from 'react';
 import { Pressable } from 'react-native';
 import { Box } from '../../core/Box';
 import { Typography } from '../../core/Typography';
+import { ActionMenu } from '../ActionMenu';
 import { ButtonIcon } from '../Button';
-import { Select } from '../Select';
 import { useStyles } from './Calendrier.styles';
 import { choisirJour, formeDuJour, joursDuMois, optionsDesAnnees, optionsDesMois, PlageEnCours } from './plage';
 
@@ -51,6 +51,49 @@ const CaseJour = ({
   );
 };
 
+// Le mois ou l'année s'affiche en texte ; un clic ouvre la liste des valeurs dans un popover.
+const ChoixDansMenu = ({
+  nom,
+  options,
+  valeur,
+  onChoix,
+}: {
+  nom: string;
+  options: { value: string; label: string }[];
+  valeur: string;
+  onChoix: (valeur: string) => void;
+}) => {
+  const styles = useStyles();
+  const [open, setOpen] = React.useState(false);
+
+  return (
+    <ActionMenu
+      placement="bottom"
+      open={open}
+      setOpen={setOpen}
+      renderTrigger={() => (
+        <Pressable accessibilityRole="button" accessibilityLabel={nom} onPress={() => setOpen(!open)}>
+          <Typography tag="date-range-input-titre-mois" style={styles.titreMois}>
+            {options.find(option => option.value === valeur)?.label}
+          </Typography>
+        </Pressable>
+      )}
+    >
+      {options.map(option => (
+        <ActionMenu.Item
+          key={option.value}
+          title={option.label}
+          selected={option.value === valeur}
+          onPress={() => {
+            onChoix(option.value);
+            setOpen(false);
+          }}
+        />
+      ))}
+    </ActionMenu>
+  );
+};
+
 // Flèches pour le mois voisin, et deux listes pour sauter directement à un mois ou une année.
 const EnteteCalendrier = ({
   mois,
@@ -74,22 +117,18 @@ const EnteteCalendrier = ({
         onPress={() => aller(mois.getFullYear(), mois.getMonth() - 1)}
       />
       <Box tag="date-range-input-choix-mois" style={styles.choixMois}>
-        <Box tag="date-range-input-select-mois" style={styles.selectMois}>
-          <Select
-            sheetTitle={mots.mois}
-            options={optionsDesMois(mots.locale)}
-            value={String(mois.getMonth())}
-            onChange={numero => numero !== null && aller(mois.getFullYear(), Number(numero))}
-          />
-        </Box>
-        <Box tag="date-range-input-select-annee" style={styles.selectAnnee}>
-          <Select
-            sheetTitle={mots.annee}
-            options={optionsDesAnnees(mois.getFullYear())}
-            value={String(mois.getFullYear())}
-            onChange={annee => annee !== null && aller(Number(annee), mois.getMonth())}
-          />
-        </Box>
+        <ChoixDansMenu
+          nom={mots.mois}
+          options={optionsDesMois(mots.locale)}
+          valeur={String(mois.getMonth())}
+          onChoix={numero => aller(mois.getFullYear(), Number(numero))}
+        />
+        <ChoixDansMenu
+          nom={mots.annee}
+          options={optionsDesAnnees(mois.getFullYear())}
+          valeur={String(mois.getFullYear())}
+          onChoix={annee => aller(Number(annee), mois.getMonth())}
+        />
       </Box>
       <ButtonIcon
         icon="ChevronRight"
