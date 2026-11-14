@@ -13,7 +13,7 @@ export const useStyles = makeStyles(({ spacing, color, text }) => ({
   },
   heures: {
     flexDirection: 'row',
-    alignItems: 'center',
+    alignItems: 'flex-end',
     gap: spacing('1W'),
     borderTopWidth: 1,
     borderTopColor: color.light.border['default-grey'],

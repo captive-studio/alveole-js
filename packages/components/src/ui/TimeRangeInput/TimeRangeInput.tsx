@@ -5,6 +5,7 @@ import { Box } from '../../core/Box';
 import { Typography } from '../../core/Typography';
 import { Button } from '../Button';
 import { Checkbox } from '../Checkbox';
+import { FormControl } from '../FormControl';
 import { TimeInput } from '../TimeInput';
 import { Calendrier } from './Calendrier';
 import { composerDate, PlageDeTemps, PlageEnCours } from './plage';
@@ -23,8 +24,24 @@ export type TimeRangeInputProps = {
 
 const libelles = (local: 'fr' | 'en') =>
   local === 'fr'
-    ? { retour: 'Retour', appliquer: 'Appliquer', precedent: 'Mois précédent', suivant: 'Mois suivant', locale: fr }
-    : { retour: 'Back', appliquer: 'Apply', precedent: 'Previous month', suivant: 'Next month', locale: enUS };
+    ? {
+        retour: 'Retour',
+        appliquer: 'Appliquer',
+        debut: 'Début',
+        fin: 'Fin',
+        precedent: 'Mois précédent',
+        suivant: 'Mois suivant',
+        locale: fr,
+      }
+    : {
+        retour: 'Back',
+        appliquer: 'Apply',
+        debut: 'Start',
+        fin: 'End',
+        precedent: 'Previous month',
+        suivant: 'Next month',
+        locale: enUS,
+      };
 
 const heureDe = (date: Date | undefined, utc: boolean, defaut: string) => {
   if (!date) return defaut;
@@ -89,12 +106,12 @@ export const TimeRangeInput = (props: TimeRangeInputProps) => {
       />
 
       <Box tag="time-range-input-heures" style={styles.heures}>
-        <Box tag="time-range-input-heure" style={styles.heure}>
+        <FormControl label={mots.debut} style={styles.heure}>
           <TimeInput value={etat.heureDebut} onChange={etat.setHeureDebut} />
-        </Box>
-        <Box tag="time-range-input-heure" style={styles.heure}>
+        </FormControl>
+        <FormControl label={mots.fin} style={styles.heure}>
           <TimeInput value={etat.heureFin} onChange={etat.setHeureFin} />
-        </Box>
+        </FormControl>
         <Checkbox label="UTC" checked={etat.utc} onCheckedChange={coche => etat.setUtc(coche === true)} />
       </Box>
 
