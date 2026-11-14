@@ -9,8 +9,17 @@ export default {
   title: 'Section',
   tags: ['core'],
   experimental: true,
-  description:
-    'Section de page. Permet de contenir une section dans un élément adapté aux différentes platformes. Composant de type Box.',
+  description: [
+    'Section de page : centre son contenu dans un conteneur de largeur maximale et applique la marge extérieure du thème (`externalPadding`). Composant de type Box.',
+    '',
+    'Padding horizontal (gauche/droite), toujours appliqué, selon la largeur d’écran :',
+    '- mobile (< 768px) : `2W` = 16px ;',
+    '- tablette (768–991px) et desktop (≥ 992px) : `3W` = 24px.',
+    '',
+    '`withPaddingY` ajoute la même valeur en haut et en bas (désactivé par défaut).',
+    '',
+    'Largeur maximale du contenu (`size`) : `sm` = 600px, `md` = 1200px (par défaut), `full` = sans limite.',
+  ].join('\n'),
   component: Section,
   styleFn: useStyles,
 } satisfies Story;
@@ -41,7 +50,9 @@ export const WidthMdSize = () => {
   return (
     <Section backgroundColor={paddingColor} size="md">
       <Box backgroundColor={innerBoxColor} p="1W">
-        <Typography>Section avec background et size md ({styles.sectionContainerMD.maxWidth}px)</Typography>
+        <Typography>
+          Section avec background et size md ({styles.sectionContainerMD.maxWidth}px, taille par défaut)
+        </Typography>
       </Box>
     </Section>
   );
@@ -50,7 +61,7 @@ export const WidthMdSize = () => {
 export const WidthFullSize = () => (
   <Section backgroundColor={paddingColor} size="full">
     <Box backgroundColor={innerBoxColor} p="1W">
-      <Typography>Section avec background et size full (taille par défaut)</Typography>
+      <Typography>Section avec background et size full (sans largeur maximale)</Typography>
     </Box>
   </Section>
 );
