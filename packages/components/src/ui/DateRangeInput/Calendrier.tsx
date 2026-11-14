@@ -65,6 +65,7 @@ const ChoixDansMenu = ({
 }) => {
   const styles = useStyles();
   const [open, setOpen] = React.useState(false);
+  const libelle = options.find(option => option.value === valeur)?.label;
 
   return (
     <ActionMenu
@@ -72,9 +73,9 @@ const ChoixDansMenu = ({
       open={open}
       setOpen={setOpen}
       renderTrigger={() => (
-        <Pressable accessibilityRole="button" accessibilityLabel={nom} onPress={() => setOpen(!open)}>
+        <Pressable accessibilityRole="button" accessibilityLabel={`${nom} : ${libelle}`} onPress={() => setOpen(!open)}>
           <Typography tag="date-range-input-titre-mois" style={styles.titreMois}>
-            {options.find(option => option.value === valeur)?.label}
+            {libelle}
           </Typography>
         </Pressable>
       )}
