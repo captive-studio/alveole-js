@@ -1,8 +1,8 @@
-import { fireEvent, renderWeb, screen } from '@/__tests__/helpers/renderWeb';
+import { fireEvent, renderOnDesktop, renderOnMobile, screen } from '@/__tests__/helpers/renderWeb';
 import { FilterTimeRange } from './FilterTimeRange';
 
 const ouvrir = (onChange = jest.fn()) => {
-  renderWeb(<FilterTimeRange title="Période" value={{ type: 'relative', duree: '14d' }} onChange={onChange} />);
+  renderOnDesktop(<FilterTimeRange title="Période" value={{ type: 'relative', duree: '14d' }} onChange={onChange} />);
   fireEvent.click(screen.getByText('14D'));
   return onChange;
 };
@@ -33,4 +33,11 @@ test('Date absolue ouvre le calendrier, Retour ramene aux plages', () => {
 
   fireEvent.click(screen.getByText('Retour'));
   expect(screen.getByText('Dernière heure')).toBeTruthy();
+});
+
+test('sur mobile, s ouvre dans un BottomSheet nomme par le titre', () => {
+  renderOnMobile(<FilterTimeRange title="Période" value={{ type: 'relative', duree: '14d' }} onChange={jest.fn()} />);
+  fireEvent.click(screen.getByText('14D'));
+
+  expect(screen.getByRole('dialog', { name: 'Période' }).textContent).toContain('7 derniers jours');
 });
