@@ -9,6 +9,7 @@ export const useStyles = makeStyles(({ color, text, spacing }) => ({
   row: {
     display: 'flex',
     flexDirection: 'row',
+    flexWrap: 'wrap',
     justifyContent: 'space-between',
     alignItems: 'center',
     gap: spacing('1V'),
@@ -18,12 +19,16 @@ export const useStyles = makeStyles(({ color, text, spacing }) => ({
     // 24, Primer a 20. Le catalogue, lui, compose son titre a part.
     ...text.Titres['H4 - SM'],
     color: color.light.text['title-grey'],
+    // Sur ecran etroit, le titre garde une largeur lisible et les actions passent dessous.
+    flexGrow: 1,
+    flexShrink: 1,
+    minWidth: 200,
   },
   actions: {
     display: 'flex',
     flexDirection: 'row',
     alignItems: 'center',
+    flexWrap: 'wrap',
     gap: spacing('1W'),
-    flexShrink: 0,
   },
 }));
