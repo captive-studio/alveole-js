@@ -32,4 +32,18 @@ export const WithActions = () => (
   </Box>
 );
 
+export const MobileWidth = () => (
+  <Box width={375}>
+    <PageHeader
+      title="AD Poids Lourds - Application"
+      actions={
+        <>
+          <Button variant="secondary" title="Modifier en masse" size="sm" onPress={() => {}} />
+          <Button variant="primary" title="Ajouter une variable" size="sm" onPress={() => {}} />
+        </>
+      }
+    />
+  </Box>
+);
+
 export * as Sources from './PageHeader.stories.sources';
