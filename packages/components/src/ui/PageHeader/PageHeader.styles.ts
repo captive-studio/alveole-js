@@ -19,12 +19,12 @@ export const useStyles = makeStyles(({ color, text, spacing }) => ({
     // 24, Primer a 20. Le catalogue, lui, compose son titre a part.
     ...text.Titres['H4 - SM'],
     color: color.light.text['title-grey'],
-    // flexBasis 0 : le retour a la ligne se decide sur les 200 px minimum, pas sur la longueur
+    // flexBasis 0 : le retour a la ligne se decide sur les 40 % minimum, pas sur la longueur
     // du titre. Les actions ne passent dessous que sur ecran etroit.
     flexGrow: 1,
     flexBasis: 0,
     flexShrink: 1,
-    minWidth: 200,
+    minWidth: '40%',
   },
   actions: {
     display: 'flex',
