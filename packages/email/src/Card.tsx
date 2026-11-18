@@ -12,7 +12,6 @@ export type CardProps = {
 
 export const Card = ({ media, children }: CardProps) => (
   <Section
-    className="al-carte"
     style={{
       backgroundColor: color.light.background['default-grey'],
       border: `1px solid ${color.light.border['default-grey']}`,

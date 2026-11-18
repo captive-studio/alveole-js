@@ -59,7 +59,7 @@ describe('un mail complet', () => {
   it('ne pose de classes que pour les @media du gabarit', () => {
     const classes = new Set([...html.matchAll(/class="([^"]*)"/g)].flatMap(([, c]) => c.split(' ')));
     expect([...classes].every(c => c.startsWith('al-'))).toBe(true);
-    expect(html).toContain('@media (prefers-color-scheme: dark)');
+    expect(html).not.toContain('prefers-color-scheme');
     expect(html).toContain('@media (max-width: 600px)');
     for (const classe of classes) expect(html).toContain(`.${classe}`);
   });
@@ -75,9 +75,7 @@ describe('un mail complet', () => {
 
   it('indente la structure sans couper le texte', () => {
     expect(html).toContain('\n      <tbody>\n        <tr>\n');
-    expect(html).toMatch(
-      /<p class="al-texte" style="[^"]*">Voir sur <a class="al-lien" href="https:\/\/github.com"[^>]*>GitHub<\/a><\/p>/,
-    );
+    expect(html).toMatch(/<p style="[^"]*">Voir sur <a href="https:\/\/github.com"[^>]*>GitHub<\/a><\/p>/);
   });
 
   it('produit une version texte, sans aperçu ni commentaires Outlook', () => {
@@ -132,10 +130,6 @@ describe('Button', () => {
     expect(s).toContain('border:1px solid transparent');
   });
 
-  it('pose les classes du mode sombre', () => {
-    expect(renderEmail(<Button variant="danger" title="Ok" href="#" />)).toContain('class="al-btn al-btn-danger"');
-  });
-
   it('rend la hauteur de chaque taille par le padding', () => {
     // md : contrôle de 32 px, ligne de 20 px, bordure de 1 px, padding horizontal de 12 px.
     expect(style(<Button variant="primary" title="Ok" href="#" />)).toContain('padding:5px 12px');
@@ -153,9 +147,7 @@ describe('Button', () => {
 
 describe('les autres composants', () => {
   it('Heading vaut h2 par défaut, au cran du thème', () => {
-    expect(renderEmail(<Heading>Titre</Heading>)).toMatch(
-      /^<h2 class="al-titre" style="[^"]*font-weight:600[^"]*">Titre<\/h2>$/,
-    );
+    expect(renderEmail(<Heading>Titre</Heading>)).toMatch(/^<h2 style="[^"]*font-weight:600[^"]*">Titre<\/h2>$/);
   });
 
   it('Typography a trois tons', () => {

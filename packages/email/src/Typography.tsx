@@ -19,7 +19,5 @@ export type TypographyProps = {
 };
 
 export const Typography = ({ ton = 'normal', textAlign, children }: TypographyProps) => (
-  <Text className="al-texte" style={{ ...TONS[ton], textAlign, margin: `${spacing('1W')}px 0` }}>
-    {children}
-  </Text>
+  <Text style={{ ...TONS[ton], textAlign, margin: `${spacing('1W')}px 0` }}>{children}</Text>
 );

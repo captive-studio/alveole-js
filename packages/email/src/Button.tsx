@@ -23,7 +23,6 @@ export const Button = ({ title, variant, size = 'md', fullWidth = false, href }:
   const vertical = (height - Number(cran.lineHeight)) / 2 - BORDURE;
   return (
     <BoutonMail
-      className={`al-btn al-btn-${variant}`}
       href={href}
       style={{
         ...typo(cran),

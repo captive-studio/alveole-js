@@ -4,11 +4,7 @@ import { theme } from './theme';
 
 /** Un lien dans le texte : il prend la typographie de son paragraphe. */
 export const A = ({ href, children }: { href: string; children: ReactNode }) => (
-  <Link
-    className="al-lien"
-    href={href}
-    style={{ color: theme.color.light.text['action-high-primary'], textDecoration: 'underline' }}
-  >
+  <Link href={href} style={{ color: theme.color.light.text['action-high-primary'], textDecoration: 'underline' }}>
     {children}
   </Link>
 );

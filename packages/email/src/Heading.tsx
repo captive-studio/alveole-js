@@ -12,7 +12,6 @@ export type HeadingProps = {
 export const Heading = ({ as = 'h2', children }: HeadingProps) => (
   <TitreMail
     as={as}
-    className="al-titre"
     style={{
       ...typo(theme.text.Titres[TitreParNiveau[as]]),
       color: theme.color.light.text['title-grey'],
