@@ -14,7 +14,7 @@ type Table = Record<string, StyleValue>;
 // desormais celui de `buttonVariants.ts` : une fonction par variante, qui tient tout ce qui
 // change ensemble quand le design revoit cette variante.
 
-const commun = ({ spacing, radius }: Theme) =>
+export const commun = ({ spacing, radius }: Theme) =>
   ({
     container: {
       // Reserve le meme contour sur chaque variante : avec une largeur automatique, une
@@ -58,7 +58,7 @@ const commun = ({ spacing, radius }: Theme) =>
     },
   }) satisfies Table;
 
-const tailles = ({ text, radius, control }: Theme) =>
+export const tailles = ({ text, radius, control }: Theme) =>
   ({
     smContainer: {
       height: '100%',
@@ -92,7 +92,7 @@ const tailles = ({ text, radius, control }: Theme) =>
   }) satisfies Table;
 
 /** `selected` court-circuite la variante : ces styles valent pour les cinq. */
-const selection = ({ color }: Theme) =>
+export const selection = ({ color }: Theme) =>
   ({
     selectedContainer: {
       backgroundColor: color.light.background['alt-primary'],
@@ -108,7 +108,7 @@ const selection = ({ color }: Theme) =>
     },
   }) satisfies Table;
 
-const primaire = ({ color }: Theme) =>
+export const primaire = ({ color }: Theme) =>
   ({
     primaryTitle: {
       color: color.light.text['inverted-primary'],
@@ -144,7 +144,7 @@ const primaire = ({ color }: Theme) =>
     },
   }) satisfies Table;
 
-const secondaire = ({ color }: Theme) =>
+export const secondaire = ({ color }: Theme) =>
   ({
     secondaryTitle: {
       color: color.light.text['action-high-grey'],
@@ -185,7 +185,7 @@ const secondaire = ({ color }: Theme) =>
     },
   }) satisfies Table;
 
-const tertiaire = ({ color }: Theme) =>
+export const tertiaire = ({ color }: Theme) =>
   ({
     tertiaryTitle: {
       color: color.light.text['action-high-grey'],
@@ -218,7 +218,7 @@ const tertiaire = ({ color }: Theme) =>
     },
   }) satisfies Table;
 
-const dangereuse = ({ color }: Theme) =>
+export const dangereuse = ({ color }: Theme) =>
   ({
     dangerTitle: {
       color: color.light.text['inverted-grey'],

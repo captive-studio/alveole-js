@@ -8,7 +8,7 @@ export type HeadingProps = Omit<TypographyProps, 'tag'> & {
   as?: HeadingLevel;
 };
 
-const STYLE_PAR_NIVEAU = {
+export const STYLE_PAR_NIVEAU = {
   h1: 'H1 - XL',
   h2: 'H2 - LG',
   h3: 'H3 - MD',
