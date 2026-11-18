@@ -1,0 +1,49 @@
+{
+  "name": "@alveole/email",
+  "version": "2.0.0-alpha.30",
+  "description": "Composants de mail transactionnel au style d'Alvéole, sur react-email.",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/captive-studio/alveole-js.git",
+    "directory": "packages/email"
+  },
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "default": "./dist/index.js"
+    },
+    "./package.json": "./package.json"
+  },
+  "files": [
+    "dist",
+    "!dist/.tsbuildinfo",
+    "README.md"
+  ],
+  "sideEffects": false,
+  "scripts": {
+    "build": "tsc -p tsconfig.build.json",
+    "lint": "eslint . --cache --cache-strategy content",
+    "typecheck": "tsc -p tsconfig.typecheck.json --noEmit",
+    "test:unit": "jest --coverage --runInBand --ci"
+  },
+  "dependencies": {
+    "@react-email/components": "1.0.12"
+  },
+  "devDependencies": {
+    "@alveole/eslint-config": "file:../eslint-config",
+    "@types/react-dom": "19.3.0",
+    "eslint": "10.14.0",
+    "react": "19.3.0",
+    "react-dom": "19.3.0"
+  },
+  "peerDependencies": {
+    "@alveole/theme": "*",
+    "react": "*",
+    "react-dom": "*"
+  },
+  "publishConfig": {
+    "access": "public"
+  }
+}
