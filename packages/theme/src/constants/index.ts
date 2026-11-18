@@ -1,5 +1,6 @@
 export * from './Breakpoint';
 export * from './Color';
+export * from './Composants';
 export * from './Elevation';
 export * from './Focus';
 export * from './FocusProps';

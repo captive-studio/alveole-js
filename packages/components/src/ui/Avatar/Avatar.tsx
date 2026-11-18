@@ -1,25 +1,16 @@
-import { Theme, useTheme } from '@alveole/theme';
+import { TailleAvatar, TaillesAvatar } from '@alveole/theme';
 import { CSSProperties, useState } from 'react';
 import { AvatarImageProps, Avatar as TamaguiAvatar } from 'tamagui';
 import { Typography } from '../../core/Typography';
 import { useStyles } from './Avatar.styles';
 
 export type AvatarProps = {
-  size: 'xs' | 'sm' | 'md' | 'lg' | 'xl';
+  size: TailleAvatar;
   fallbackText?: string;
   style?: CSSProperties;
   src?: AvatarImageProps['src'];
   carre?: boolean;
 };
-
-/** Cote en pixels de chaque taille, partagee avec la variante mail. */
-export const tailleAvatar = (spacingValue: Theme['spacingValue']): Record<AvatarProps['size'], number> => ({
-  xs: 20,
-  sm: spacingValue('3W'),
-  md: spacingValue('4W'),
-  lg: spacingValue('5W'),
-  xl: spacingValue('8W'),
-});
 
 const getInitials = (name: string) => {
   const words = name.trim().split(/\s+/);
@@ -33,14 +24,13 @@ export const Avatar = (props: AvatarProps) => {
 
   const initials = getInitials(fallbackText ?? '');
 
-  const { spacingValue } = useTheme();
   const styles = useStyles();
   const [chargee, setChargee] = useState(false);
 
   // Pas de prop `size` : Tamagui y lit une valeur qui est aussi une clé de jeton de taille
   // ($0 à $20) comme ce jeton. `xs` (20) donnait $20, soit 284 px, et la photo débordait du
   // cercle. Largeur et hauteur en pixels n'ont pas cette ambiguïté.
-  const px = tailleAvatar(spacingValue)[size];
+  const px = TaillesAvatar[size];
 
   return (
     <TamaguiAvatar
