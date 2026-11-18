@@ -27,8 +27,22 @@ const Apercu = ({ demo }: { demo: DemoDEmail }) => {
   return (
     <Box display="flex" gap="2W">
       <Box display="flex" flexDirection="row" gap="1W" flexWrap="wrap">
-        <Button variant="secondary" size="sm" title="Clair" selected={!sombre} onPress={() => setSombre(false)} />
-        <Button variant="secondary" size="sm" title="Sombre" selected={sombre} onPress={() => setSombre(true)} />
+        <Button
+          variant="secondary"
+          size="sm"
+          title="Clair"
+          leading="Sun"
+          selected={!sombre}
+          onPress={() => setSombre(false)}
+        />
+        <Button
+          variant="secondary"
+          size="sm"
+          title="Sombre"
+          leading="Moon"
+          selected={sombre}
+          onPress={() => setSombre(true)}
+        />
         <Button
           variant="secondary"
           size="sm"
