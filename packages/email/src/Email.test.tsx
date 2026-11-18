@@ -53,8 +53,15 @@ describe('un mail complet', () => {
   it('est un document HTML en tables, styles inline', () => {
     expect(html.startsWith('<!DOCTYPE html>\n<html dir="ltr" lang="fr">')).toBe(true);
     expect(html).toContain('role="presentation"');
-    expect(html).not.toContain('class=');
     expect(html).not.toContain('var(--');
+  });
+
+  it('ne pose de classes que pour les @media du gabarit', () => {
+    const classes = new Set([...html.matchAll(/class="([^"]*)"/g)].flatMap(([, c]) => c.split(' ')));
+    expect([...classes].every(c => c.startsWith('al-'))).toBe(true);
+    expect(html).toContain('@media (prefers-color-scheme: dark)');
+    expect(html).toContain('@media (max-width: 600px)');
+    for (const classe of classes) expect(html).toContain(`.${classe}`);
   });
 
   it('pose variables et conditions en ERB', () => {
@@ -68,7 +75,9 @@ describe('un mail complet', () => {
 
   it('indente la structure sans couper le texte', () => {
     expect(html).toContain('\n      <tbody>\n        <tr>\n');
-    expect(html).toMatch(/<p style="[^"]*">Voir sur <a href="https:\/\/github.com"[^>]*>GitHub<\/a><\/p>/);
+    expect(html).toMatch(
+      /<p class="al-texte" style="[^"]*">Voir sur <a class="al-lien" href="https:\/\/github.com"[^>]*>GitHub<\/a><\/p>/,
+    );
   });
 
   it('produit une version texte, sans aperçu ni commentaires Outlook', () => {
@@ -117,8 +126,14 @@ describe('Button', () => {
     expect(s).toContain(`border:1px solid ${bordure}`);
   });
 
-  it('laisse la variante tertiary sans fond', () => {
-    expect(style(<Button variant="tertiary" title="Ok" href="#" />)).not.toContain('background-color');
+  it('laisse la variante tertiary sans fond ni bordure visibles', () => {
+    const s = style(<Button variant="tertiary" title="Ok" href="#" />);
+    expect(s).toContain('background-color:transparent');
+    expect(s).toContain('border:1px solid transparent');
+  });
+
+  it('pose les classes du mode sombre', () => {
+    expect(renderEmail(<Button variant="danger" title="Ok" href="#" />)).toContain('class="al-btn al-btn-danger"');
   });
 
   it('rend la hauteur de chaque taille par le padding', () => {
@@ -138,7 +153,9 @@ describe('Button', () => {
 
 describe('les autres composants', () => {
   it('Heading vaut h2 par défaut, au cran du thème', () => {
-    expect(renderEmail(<Heading>Titre</Heading>)).toMatch(/^<h2 style="[^"]*font-weight:600[^"]*">Titre<\/h2>$/);
+    expect(renderEmail(<Heading>Titre</Heading>)).toMatch(
+      /^<h2 class="al-titre" style="[^"]*font-weight:600[^"]*">Titre<\/h2>$/,
+    );
   });
 
   it('Typography a trois tons', () => {

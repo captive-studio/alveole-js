@@ -1,4 +1,4 @@
-import { jetonsBouton, makeStyles, StyleValue, useTheme } from '@alveole/theme';
+import { couleursDeBouton, dimensionsDeBouton, makeStyles, StyleValue, useTheme } from '@alveole/theme';
 
 type Theme = ReturnType<typeof useTheme>;
 
@@ -59,7 +59,7 @@ const commun = ({ spacing, radius }: Theme) =>
   }) satisfies Table;
 
 const tailles = (theme: Theme) => {
-  const { sm, md, lg } = jetonsBouton(theme).tailles;
+  const [sm, md, lg] = (['sm', 'md', 'lg'] as const).map(taille => dimensionsDeBouton(theme, taille));
   return {
     smContainer: {
       height: '100%',
@@ -110,8 +110,10 @@ const selection = ({ color }: Theme) =>
     },
   }) satisfies Table;
 
+const ETATS = ['repos', 'desactive'] as const;
+
 const primaire = (theme: Theme) => {
-  const repos = jetonsBouton(theme).variantes.primary;
+  const [repos, desactive] = ETATS.map(etat => couleursDeBouton(theme, 'primary', etat));
   return {
     primaryTitle: {
       color: repos.texte,
@@ -130,11 +132,11 @@ const primaire = (theme: Theme) => {
     },
     primaryTitleDisabled: {
       cursor: 'not-allowed',
-      color: theme.color.light.text['disabled-grey'],
+      color: desactive.texte,
     },
     primaryContainerDisabled: {
       cursor: 'not-allowed',
-      backgroundColor: theme.color.light.background['disabled-grey'],
+      backgroundColor: desactive.fond,
     },
     primaryIcon: {
       color: theme.color.light.text['inverted-primary'],
@@ -149,7 +151,7 @@ const primaire = (theme: Theme) => {
 };
 
 const secondaire = (theme: Theme) => {
-  const repos = jetonsBouton(theme).variantes.secondary;
+  const [repos, desactive] = ETATS.map(etat => couleursDeBouton(theme, 'secondary', etat));
   return {
     secondaryTitle: {
       color: repos.texte,
@@ -173,11 +175,11 @@ const secondaire = (theme: Theme) => {
     },
     secondaryTitleDisabled: {
       cursor: 'not-allowed',
-      color: theme.color.light.text['disabled-grey'],
+      color: desactive.texte,
     },
     secondaryContainerDisabled: {
       cursor: 'not-allowed',
-      borderColor: theme.color.light.border['disabled-grey'],
+      borderColor: desactive.bordure,
     },
     secondaryIcon: {
       color: theme.color.light.text['action-high-grey'],
@@ -192,7 +194,7 @@ const secondaire = (theme: Theme) => {
 };
 
 const tertiaire = (theme: Theme) => {
-  const repos = jetonsBouton(theme).variantes.tertiary;
+  const [repos, desactive] = ETATS.map(etat => couleursDeBouton(theme, 'tertiary', etat));
   return {
     tertiaryTitle: {
       color: repos.texte,
@@ -209,7 +211,7 @@ const tertiaire = (theme: Theme) => {
     },
     tertiaryTitleDisabled: {
       cursor: 'not-allowed',
-      color: theme.color.light.text['disabled-grey'],
+      color: desactive.texte,
     },
     tertiaryContainerDisabled: {
       cursor: 'not-allowed',
@@ -227,7 +229,7 @@ const tertiaire = (theme: Theme) => {
 };
 
 const dangereuse = (theme: Theme) => {
-  const repos = jetonsBouton(theme).variantes.danger;
+  const [repos, desactive] = ETATS.map(etat => couleursDeBouton(theme, 'danger', etat));
   return {
     dangerTitle: {
       color: repos.texte,
@@ -250,12 +252,12 @@ const dangereuse = (theme: Theme) => {
     },
     dangerTitleDisabled: {
       cursor: 'not-allowed',
-      color: theme.color.light.text['disabled-grey'],
+      color: desactive.texte,
     },
     dangerContainerDisabled: {
       cursor: 'not-allowed',
-      backgroundColor: theme.color.light.background['default-grey'],
-      borderColor: theme.color.light.border['disabled-grey'],
+      backgroundColor: desactive.fond,
+      borderColor: desactive.bordure,
     },
     dangerIcon: {
       color: theme.color.light.text['inverted-primary'],

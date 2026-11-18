@@ -1,3 +1,4 @@
+export * from './Bouton';
 export * from './Breakpoint';
 export * from './Color';
 export * from './Composants';

@@ -1,8 +1,7 @@
-import { jetonsBouton, type TailleBouton, type VarianteBouton } from '@alveole/theme';
+import { couleursDeBouton, dimensionsDeBouton, type TailleBouton, type VarianteBouton } from '@alveole/theme';
 import { Button as BoutonMail } from '@react-email/components';
 import { theme, typo } from './theme';
 
-const { variantes, tailles } = jetonsBouton(theme);
 const BORDURE = 1;
 
 export type ButtonProps = {
@@ -14,16 +13,17 @@ export type ButtonProps = {
 };
 
 /**
- * Le Button d'Alveole dans un mail : un lien, seul element cliquable fiable partout. Les
- * jetons de variante et de taille sont ceux du composant (`jetonsBouton`) ; la hauteur du
- * controle passe par le padding, un client mail ignorant `height` sur un lien.
+ * Le Button d'Alveole dans un mail : un lien, seul element cliquable fiable partout. Couleurs
+ * et dimensions viennent des memes tables que le composant (`variantesDeBouton`,
+ * `taillesDeBouton`) ; la hauteur passe par le padding, un client mail ignorant `height`.
  */
 export const Button = ({ title, variant, size = 'md', fullWidth = false, href }: ButtonProps) => {
-  const { fond, texte, bordure } = variantes[variant];
-  const { height, paddingInline, rayon, typo: cran } = tailles[size];
+  const { fond, texte, bordure } = couleursDeBouton(theme, variant, 'repos');
+  const { height, paddingInline, rayon, typo: cran } = dimensionsDeBouton(theme, size);
   const vertical = (height - Number(cran.lineHeight)) / 2 - BORDURE;
   return (
     <BoutonMail
+      className={`al-btn al-btn-${variant}`}
       href={href}
       style={{
         ...typo(cran),
