@@ -33,6 +33,7 @@ const Apercu = ({ demo }: { demo: DemoDEmail }) => {
           variant="secondary"
           size="sm"
           title="Bureau"
+          leading="Monitor"
           selected={largeur === 'bureau'}
           onPress={() => setLargeur('bureau')}
         />
@@ -40,6 +41,7 @@ const Apercu = ({ demo }: { demo: DemoDEmail }) => {
           variant="secondary"
           size="sm"
           title="Mobile"
+          leading="Smartphone"
           selected={largeur === 'mobile'}
           onPress={() => setLargeur('mobile')}
         />
