@@ -26,39 +26,43 @@ const Apercu = ({ demo }: { demo: DemoDEmail }) => {
 
   return (
     <Box display="flex" gap="2W">
-      <Box display="flex" flexDirection="row" gap="1W" flexWrap="wrap">
-        <Button
-          variant="secondary"
-          size="sm"
-          title="Clair"
-          leading="Sun"
-          selected={!sombre}
-          onPress={() => setSombre(false)}
-        />
-        <Button
-          variant="secondary"
-          size="sm"
-          title="Sombre"
-          leading="Moon"
-          selected={sombre}
-          onPress={() => setSombre(true)}
-        />
-        <Button
-          variant="secondary"
-          size="sm"
-          title="Bureau"
-          leading="Monitor"
-          selected={largeur === 'bureau'}
-          onPress={() => setLargeur('bureau')}
-        />
-        <Button
-          variant="secondary"
-          size="sm"
-          title="Mobile"
-          leading="Smartphone"
-          selected={largeur === 'mobile'}
-          onPress={() => setLargeur('mobile')}
-        />
+      <Box display="flex" flexDirection="row" gap="4W" flexWrap="wrap">
+        <Box display="flex" flexDirection="row" gap="1W" role="group" aria-label="Mode">
+          <Button
+            variant="secondary"
+            size="sm"
+            title="Clair"
+            leading="Sun"
+            selected={!sombre}
+            onPress={() => setSombre(false)}
+          />
+          <Button
+            variant="secondary"
+            size="sm"
+            title="Sombre"
+            leading="Moon"
+            selected={sombre}
+            onPress={() => setSombre(true)}
+          />
+        </Box>
+        <Box display="flex" flexDirection="row" gap="1W" role="group" aria-label="Largeur">
+          <Button
+            variant="secondary"
+            size="sm"
+            title="Bureau"
+            leading="Monitor"
+            selected={largeur === 'bureau'}
+            onPress={() => setLargeur('bureau')}
+          />
+          <Button
+            variant="secondary"
+            size="sm"
+            title="Mobile"
+            leading="Smartphone"
+            selected={largeur === 'mobile'}
+            onPress={() => setLargeur('mobile')}
+          />
+        </Box>
       </Box>
       <iframe
         title={`Aperçu du mail ${demo.titre}`}
