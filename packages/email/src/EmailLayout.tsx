@@ -1,5 +1,6 @@
 import { Body, Container, Font, Head, Html, Img, Preview } from '@react-email/components';
 import type { ReactNode } from 'react';
+import { stylesDesMedias } from './medias';
 import { theme } from './theme';
 
 const { color, spacing } = theme;
@@ -23,10 +24,11 @@ export const EmailLayout = ({ preview, logo, footer, lang = 'fr', children }: Em
         fallbackFontFamily="Helvetica"
         webFont={{ url: 'https://fonts.gstatic.com/s/geist/v1/gyByhwUxId8gMEwcGFU.woff2', format: 'woff2' }}
       />
+      <style>{stylesDesMedias}</style>
     </Head>
     {preview && <Preview>{preview}</Preview>}
-    <Body style={{ backgroundColor: color.light.background['default-grey'], margin: 0 }}>
-      <Container style={{ maxWidth: 560, padding: `${spacing('4W')}px ${spacing('2W')}px` }}>
+    <Body className="al-corps" style={{ backgroundColor: color.light.background['default-grey'], margin: 0 }}>
+      <Container className="al-conteneur" style={{ maxWidth: 560, padding: `${spacing('4W')}px ${spacing('2W')}px` }}>
         {logo && <Img src={logo.src} alt={logo.alt} width={logo.size ?? 32} height={logo.size ?? 32} />}
         {children}
         {footer}

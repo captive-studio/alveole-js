@@ -12,6 +12,7 @@ export type CardProps = {
 
 export const Card = ({ media, children }: CardProps) => (
   <Section
+    className="al-carte"
     style={{
       backgroundColor: color.light.background['default-grey'],
       border: `1px solid ${color.light.border['default-grey']}`,
@@ -21,11 +22,14 @@ export const Card = ({ media, children }: CardProps) => (
   >
     {media && (
       <Section
+        className="al-carte-media"
         style={{ backgroundColor: color.light.background['alt-grey'], padding: spacing('3W'), textAlign: 'center' }}
       >
         {media}
       </Section>
     )}
-    <Section style={{ padding: spacing('3W') }}>{children}</Section>
+    <Section className="al-carte-contenu" style={{ padding: spacing('3W') }}>
+      {children}
+    </Section>
   </Section>
 );
