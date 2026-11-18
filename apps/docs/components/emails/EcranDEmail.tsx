@@ -26,7 +26,7 @@ const Apercu = ({ demo }: { demo: DemoDEmail }) => {
 
   return (
     <Box display="flex" gap="2W">
-      <Box display="flex" flexDirection="row" gap="4W" flexWrap="wrap">
+      <Box display="flex" flexDirection="row" gap="4W" flexWrap="wrap" style={{ justifyContent: 'space-between' }}>
         <Box display="flex" flexDirection="row" gap="1W" role="group" aria-label="Mode">
           <Button
             variant="secondary"
