@@ -1,10 +1,9 @@
 import type { ReactElement } from 'react';
-import { Boutons, exemple as exempleBoutons } from './demos/Boutons';
 import { Commentaire, exemple as exempleCommentaire } from './demos/Commentaire';
 import { Invitation, exemple as exempleInvitation } from './demos/Invitation';
 
 export type DemoDEmail = {
-  /** Segment d'URL, et nom du fichier de la demonstration. */
+  /** Nom du fichier de la demonstration. */
   nom: string;
   titre: string;
   description: string;
@@ -28,13 +27,4 @@ export const DEMOS_D_EMAILS: DemoDEmail[] = [
     mail: Commentaire,
     exemple: exempleCommentaire,
   },
-  {
-    nom: 'Boutons',
-    titre: 'Boutons',
-    description: 'Le bouton dans ses quatre variantes, ses trois tailles et en pleine largeur.',
-    mail: Boutons,
-    exemple: exempleBoutons,
-  },
 ];
-
-export const demoDEmail = (nom: string) => DEMOS_D_EMAILS.find(demo => demo.nom === nom);

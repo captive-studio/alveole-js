@@ -39,7 +39,7 @@ writeFileSync('app/views/invitation_mailer/invitation.text.erb', renderEmailText
   {
     titre: 'Prévisualiser',
     texte:
-      'renderSample remplit le mail avec des données d’exemple, sans Rails. Les démonstrations de cette rubrique en sont rendues, en mode clair ou sombre et en largeur mobile.',
+      'renderSample remplit le mail avec des données d’exemple, sans Rails. Les pages Composants et Exemples de cette rubrique en sont rendues, en largeur bureau ou mobile.',
     code: "renderSample(<Invitation />, { organisation: 'Acme', invite_par: null, url: 'https://exemple.test' });",
     langage: 'tsx',
   },

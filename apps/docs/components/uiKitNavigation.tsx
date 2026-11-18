@@ -18,7 +18,6 @@ import * as ThemeConstants from '@alveole/theme';
 import { usePathname } from 'expo-router';
 import React from 'react';
 import { Image } from 'react-native';
-import { DEMOS_D_EMAILS } from './emails/demos';
 
 export { DocFooter };
 export const storyList = toStoryModules(Stories);
@@ -56,7 +55,8 @@ const GUIDE_PAGES: UIKitColumnItem[] = [
 
 const EMAIL_PAGES: UIKitColumnItem[] = [
   { key: 'guide', title: 'Guide', href: '/emails' },
-  ...DEMOS_D_EMAILS.map(({ nom, titre }) => ({ key: nom, title: titre, href: `/emails/${nom}` })),
+  { key: 'composants', title: 'Composants', href: '/emails/composants' },
+  { key: 'exemples', title: 'Exemples', href: '/emails/exemples' },
 ];
 
 const componentGroups = (): UIKitColumnGroup[] =>
