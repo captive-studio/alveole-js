@@ -13,34 +13,34 @@ const ETAPES = [
   },
   {
     titre: 'Écrire un mail',
-    texte:
-      'Un mail est un composant React. v(nom) pose une variable fournie par le mailer, when(nom, a, b) la seule condition permise.',
-    code: `import { Button, EmailLayout, Heading, Typography, v, when } from '@alveole/email';
+    texte: 'Un mail est un composant React : ses données arrivent en props, comme pour un écran.',
+    code: `import { Button, EmailLayout, Heading, Typography } from '@alveole/email';
 
-export const Invitation = () => (
-  <EmailLayout preview={\`Rejoignez \${v('organisation')}\`}>
-    <Heading as="h1">Rejoignez {v('organisation')}</Heading>
-    <Typography>{when('invite_par', <>{v('invite_par')} vous invite</>, 'Vous êtes invité·e')}</Typography>
-    <Button variant="primary" title="Rejoindre" href={v('url')} />
+export const Invitation = ({ organisation, url }: { organisation: string; url: string }) => (
+  <EmailLayout preview={\`Rejoignez \${organisation}\`}>
+    <Heading as="h1">Rejoignez {organisation}</Heading>
+    <Typography>Vous êtes invité·e à rejoindre {organisation}.</Typography>
+    <Button variant="primary" title="Rejoindre" href={url} />
   </EmailLayout>
 );`,
     langage: 'tsx',
   },
   {
-    titre: 'Générer les vues Rails',
+    titre: 'Rendre le HTML et le texte',
     texte:
-      'Chaque .tsx produit un .html.erb et un .text.erb : les variables deviennent <%= @nom %>, les conditions <% if @nom %>. Le mailer Rails n’a plus qu’à définir ses variables d’instance.',
+      'renderEmail donne le HTML du mail, styles inline, et renderEmailText sa version texte. Les pages Composants et Exemples de cette rubrique en sont rendues, en largeur bureau ou mobile.',
     code: `import { renderEmail, renderEmailText } from '@alveole/email';
 
-writeFileSync('app/views/invitation_mailer/invitation.html.erb', renderEmail(<Invitation />));
-writeFileSync('app/views/invitation_mailer/invitation.text.erb', renderEmailText(<Invitation />));`,
+const html = renderEmail(<Invitation organisation="Acme" url="https://exemple.test" />);
+const texte = renderEmailText(<Invitation organisation="Acme" url="https://exemple.test" />);`,
     langage: 'tsx',
   },
   {
-    titre: 'Prévisualiser',
+    titre: 'Brancher un moteur de gabarit',
     texte:
-      'renderSample remplit le mail avec des données d’exemple, sans Rails. Les pages Composants et Exemples de cette rubrique en sont rendues, en largeur bureau ou mobile.',
-    code: "renderSample(<Invitation />, { organisation: 'Acme', invite_par: null, url: 'https://exemple.test' });",
+      'Le paquet ne produit ni ERB ni autre gabarit. Pour qu’un serveur remplisse le mail à l’envoi, l’application passe des marqueurs en props, puis les convertit dans le HTML rendu, par exemple en <%= @organisation %> pour un mailer Rails.',
+    code: `const html = renderEmail(<Invitation organisation="{{organisation}}" url="{{url}}" />)
+  .replace(/\\{\\{(\\w+)\\}\\}/g, '<%= @$1 %>');`,
     langage: 'tsx',
   },
 ] as const;

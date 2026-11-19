@@ -9,4 +9,3 @@ export * from './Heading';
 export * from './render';
 export * from './theme';
 export * from './Typography';
-export * from './vars';

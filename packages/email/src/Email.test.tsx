@@ -11,18 +11,15 @@ import {
   Heading,
   renderEmail,
   renderEmailText,
-  renderSample,
   Row,
   Typography,
-  v,
-  when,
 } from '.';
 
 const { background, border, text } = CustomPalette.light;
 
-const Commentaire = () => (
+const Commentaire = ({ auteur, avatar, url }: { auteur: string; avatar?: string; url: string }) => (
   <EmailLayout
-    preview={`${v('auteur')} a commenté`}
+    preview={`${auteur} a commenté`}
     logo={{ src: '/logo.png', alt: 'Captive' }}
     footer={
       <Typography ton="discret" textAlign="center">
@@ -30,25 +27,27 @@ const Commentaire = () => (
       </Typography>
     }
   >
-    <Heading as="h1">{v('auteur')} a laissé un commentaire</Heading>
+    <Heading as="h1">{auteur} a laissé un commentaire</Heading>
     <Card media={<img src="/capture.png" alt="" width={240} />}>
       <Row>
-        <Column>{when('avatar', <Avatar size="md" src={v('avatar')} fallbackText="Dave" />)}</Column>
+        <Column>{avatar && <Avatar size="md" src={avatar} fallbackText={auteur} />}</Column>
         <Column>
-          <Typography ton="fort">{v('auteur')}</Typography>
+          <Typography ton="fort">{auteur}</Typography>
           <Typography>
             Voir sur <A href="https://github.com">GitHub</A>
           </Typography>
         </Column>
       </Row>
-      <Button variant="secondary" fullWidth title="Voir dans le dashboard" href={v('url')} />
+      <Button variant="secondary" fullWidth title="Voir dans le dashboard" href={url} />
     </Card>
     <Divider />
   </EmailLayout>
 );
 
+const mail = <Commentaire auteur="A & B" avatar="/a.png" url="https://exemple.test" />;
+
 describe('un mail complet', () => {
-  const html = renderEmail(<Commentaire />);
+  const html = renderEmail(mail);
 
   it('est un document HTML en tables, styles inline', () => {
     expect(html.startsWith('<!DOCTYPE html>\n<html dir="ltr" lang="fr">')).toBe(true);
@@ -58,19 +57,20 @@ describe('un mail complet', () => {
 
   it('ne pose de classes que pour les @media du gabarit', () => {
     const classes = new Set([...html.matchAll(/class="([^"]*)"/g)].flatMap(([, c]) => c.split(' ')));
-    expect([...classes].every(c => c.startsWith('al-'))).toBe(true);
+    expect([...classes].every(c => c.startsWith('alv-'))).toBe(true);
     expect(html).not.toContain('prefers-color-scheme');
     expect(html).toContain('@media (max-width: 600px)');
     for (const classe of classes) expect(html).toContain(`.${classe}`);
   });
 
-  it('pose variables et conditions en ERB', () => {
-    expect(html).toContain('<%= @auteur %> a laissé un commentaire</h1>');
-    expect(html).toMatch(/<% if @avatar %><img alt="Dave" height="32" src="<%= @avatar %>"[^>]*\/><% else %><% end %>/);
+  it('échappe les données et n’écrit aucun gabarit', () => {
+    expect(html).toContain('A &amp; B a laissé un commentaire</h1>');
+    expect(html).toMatch(/<img alt="A &amp; B" height="32" src="\/a.png"/);
+    expect(html).not.toMatch(/<%|\{\{/);
   });
 
   it('cache l’aperçu dans le corps', () => {
-    expect(html).toMatch(/<div style="display:none[^"]*" data-skip-in-text="true">\s*<%= @auteur %> a commenté/);
+    expect(html).toMatch(/<div style="display:none[^"]*" data-skip-in-text="true">\s*A &amp; B a commenté/);
   });
 
   it('indente la structure sans couper le texte', () => {
@@ -79,19 +79,12 @@ describe('un mail complet', () => {
   });
 
   it('produit une version texte, sans aperçu ni commentaires Outlook', () => {
-    const texte = renderEmailText(<Commentaire />);
+    const texte = renderEmailText(mail);
     expect(texte).toContain('Voir sur GitHub : https://github.com');
-    expect(texte).toContain('Voir dans le dashboard : <%= @url %>');
+    expect(texte).toContain('Voir dans le dashboard : https://exemple.test');
+    expect(texte).toContain('A & B a laissé un commentaire');
     expect(texte).not.toContain('a commenté');
-    expect(texte).not.toMatch(/<(?!%)|&#/);
-  });
-
-  it('se remplit avec des données d’exemple', () => {
-    const exemple = renderSample(<Commentaire />, { auteur: 'A & B', avatar: null, url: 'https://exemple.test' });
-    expect(exemple).toContain('A &amp; B a laissé un commentaire');
-    expect(exemple).toContain('href="https://exemple.test"');
-    expect(exemple).not.toContain('<img alt="Dave"');
-    expect(exemple).not.toContain('{{');
+    expect(texte).not.toMatch(/<|&#/);
   });
 });
 

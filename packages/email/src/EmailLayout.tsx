@@ -28,7 +28,7 @@ export const EmailLayout = ({ preview, logo, footer, lang = 'fr', children }: Em
     </Head>
     {preview && <Preview>{preview}</Preview>}
     <Body style={{ backgroundColor: color.light.background['default-grey'], margin: 0 }}>
-      <Container className="al-conteneur" style={{ maxWidth: 560, padding: `${spacing('4W')}px ${spacing('2W')}px` }}>
+      <Container className="alv-conteneur" style={{ maxWidth: 560, padding: `${spacing('4W')}px ${spacing('2W')}px` }}>
         {logo && <Img src={logo.src} alt={logo.alt} width={logo.size ?? 32} height={logo.size ?? 32} />}
         {children}
         {footer}

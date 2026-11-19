@@ -28,6 +28,6 @@ module.exports = {
   collectCoverage: false,
   coverageReporters: ['text', 'json-summary'],
   // Seuils en cliquet, poses a la couverture mesuree a la creation du paquet.
-  coverageThreshold: { global: { statements: 98, branches: 86, functions: 94, lines: 98 } },
+  coverageThreshold: { global: { statements: 100, branches: 93, functions: 100, lines: 100 } },
   collectCoverageFrom: ['src/**/*.{ts,tsx}', '!src/**/*.test.{ts,tsx}', '!src/**/index.ts'],
 };

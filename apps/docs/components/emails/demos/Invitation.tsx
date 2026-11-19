@@ -1,26 +1,30 @@
-import { Button, EmailLayout, Heading, Typography, v, when } from '@alveole/email';
+import { Button, EmailLayout, Heading, Typography } from '@alveole/email';
 
-export const exemple = {
-  organisation: 'Acme',
-  invite_par: 'Camille Martin',
-  url: 'https://exemple.test/invitation',
-  logo_url: 'https://picsum.photos/seed/captive/64',
-};
+type InvitationProps = { organisation: string; invitePar?: string; url: string; logo: string };
 
-export const Invitation = () => (
-  <EmailLayout preview={`Rejoignez ${v('organisation')} sur Captive`} logo={{ src: v('logo_url'), alt: 'Captive' }}>
-    <Heading as="h1">Rejoignez {v('organisation')}</Heading>
+export const Invitation = ({ organisation, invitePar, url, logo }: InvitationProps) => (
+  <EmailLayout preview={`Rejoignez ${organisation} sur Captive`} logo={{ src: logo, alt: 'Captive' }}>
+    <Heading as="h1">Rejoignez {organisation}</Heading>
     <Typography>
-      {when(
-        'invite_par',
+      {invitePar ? (
         <>
-          <strong>{v('invite_par')}</strong> vous invite
-        </>,
-        'Vous êtes invité·e',
+          <strong>{invitePar}</strong> vous invite
+        </>
+      ) : (
+        'Vous êtes invité·e'
       )}{' '}
-      à rejoindre l’organisation {v('organisation')} sur Captive.
+      à rejoindre l’organisation {organisation} sur Captive.
     </Typography>
-    <Button variant="primary" size="lg" title={`Rejoindre ${v('organisation')}`} href={v('url')} />
+    <Button variant="primary" size="lg" title={`Rejoindre ${organisation}`} href={url} />
     <Typography ton="discret">Ce lien expire dans 7 jours.</Typography>
   </EmailLayout>
+);
+
+export const Exemple = () => (
+  <Invitation
+    organisation="Acme"
+    invitePar="Camille Martin"
+    url="https://exemple.test/invitation"
+    logo="https://picsum.photos/seed/captive/64"
+  />
 );

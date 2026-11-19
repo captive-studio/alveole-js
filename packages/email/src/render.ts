@@ -1,20 +1,11 @@
 import type { ReactElement } from 'react';
 import { renderToStaticMarkup } from 'react-dom/server';
 
-const ERB: [RegExp, string][] = [
-  [/\{\{v:(\w+)\}\}/g, '<%= @$1 %>'],
-  [/\{\{if:(\w+)\}\}/g, '<% if @$1 %>'],
-  [/\{\{else\}\}/g, '<% else %>'],
-  [/\{\{end\}\}/g, '<% end %>'],
-];
-
-const toErb = (markup: string) => ERB.reduce((out, [marker, erb]) => out.replace(marker, erb), markup);
-
 const STRUCTURE = /(<\/?(?:html|head|body|div|table|tbody|tr|td)\b[^>]*>)/;
 const BLOC = /<(?:p|h\d|div|table)\b/;
 
 /**
- * Indente la structure (tables, cellules) pour que l'.erb se relise en revue, sans toucher au
+ * Indente la structure (tables, cellules) pour que le HTML genere se relise en revue, sans toucher au
  * texte : un paragraphe reste sur une ligne, et une cellule sans bloc (image, texte court) reste
  * collée à son contenu, faute de quoi certains clients laissent un écart sous une image.
  */
@@ -53,7 +44,6 @@ const plainText = (html: string) =>
     .replace(/<a [^>]*href="([^"]*)"[^>]*>([\s\S]*?)<\/a>/g, (_, href, label) => `${label} : ${href}`)
     .replace(/<\/(p|h\d|td)>/g, '\n\n')
     .replace(/<[^>]+>/g, '')
-    .replace(/\{\{if:\w+\}\}\s*\{\{else\}\}\s*\{\{end\}\}/g, '')
     .replace(/&[#\w]+;/g, entity => ENTITIES[entity] ?? entity)
     .replace(/\n{3,}/g, '\n\n')
     .trim();
@@ -63,23 +53,8 @@ const markup = (element: ReactElement) => renderToStaticMarkup(element).replace(
 
 const doctype = (html: string) => (html.startsWith('<html') ? `<!DOCTYPE html>\n${html}` : html);
 
-/** Le HTML du mail, styles inline, avec ses variables et conditions en ERB. */
-export const renderEmail = (element: ReactElement) => doctype(toErb(indente(markup(element))));
+/** Le HTML du mail, styles inline, indente pour se relire. */
+export const renderEmail = (element: ReactElement) => doctype(indente(markup(element)));
 
-/** La version texte du meme mail. */
-export const renderEmailText = (element: ReactElement) => `${toErb(plainText(markup(element)))}\n`;
-
-type Exemple = Record<string, string | null>;
-
-const echappe = (value: string) =>
-  value.replace(/[&<>"]/g, c => `&${{ '&': 'amp', '<': 'lt', '>': 'gt', '"': 'quot' }[c]};`);
-
-/** Le mail rempli avec des donnees d'exemple, conditions resolues : pour le previsualiser sans Rails. */
-export const renderSample = (mail: ReactElement, exemple: Exemple) =>
-  doctype(
-    markup(mail)
-      .replace(/\{\{if:(\w+)\}\}([\s\S]*?)\{\{else\}\}([\s\S]*?)\{\{end\}\}/g, (...[, nom, oui, non]: string[]) =>
-        exemple[nom] ? oui : non,
-      )
-      .replace(/\{\{v:(\w+)\}\}/g, (_: string, nom: string) => echappe(exemple[nom] ?? '')),
-  );
+/** La version texte du meme mail : un lien garde son adresse, un bloc devient un paragraphe. */
+export const renderEmailText = (element: ReactElement) => `${plainText(markup(element))}\n`;

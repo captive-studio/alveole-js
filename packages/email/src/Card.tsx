@@ -21,13 +21,13 @@ export const Card = ({ media, children }: CardProps) => (
   >
     {media && (
       <Section
-        className="al-carte-media"
+        className="alv-carte-media"
         style={{ backgroundColor: color.light.background['alt-grey'], padding: spacing('3W'), textAlign: 'center' }}
       >
         {media}
       </Section>
     )}
-    <Section className="al-carte-contenu" style={{ padding: spacing('3W') }}>
+    <Section className="alv-carte-contenu" style={{ padding: spacing('3W') }}>
       {children}
     </Section>
   </Section>

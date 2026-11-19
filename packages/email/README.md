@@ -3,22 +3,22 @@
 Composants de mail transactionnel au style d'Alvéole, sur [react-email](https://react.email) : mêmes jetons (couleurs, typographie, rayons, tailles de bouton) que `@alveole/components`, rendus en styles inline pour les clients mail.
 
 ```tsx
-import { Button, Card, EmailLayout, Heading, Typography, renderEmail, renderEmailText, v, when } from '@alveole/email';
+import { Button, Card, EmailLayout, Heading, Typography, renderEmail, renderEmailText } from '@alveole/email';
 
-const Invitation = () => (
-  <EmailLayout preview={`Rejoignez ${v('organisation')}`} logo={{ src: v('logo_url'), alt: 'Captive' }}>
+const Invitation = ({ organisation, url }: { organisation: string; url: string }) => (
+  <EmailLayout preview={`Rejoignez ${organisation}`}>
     <Heading as="h1">Bienvenue</Heading>
     <Card>
-      <Typography>
-        {when('invite_par', <strong>{v('invite_par')} vous invite</strong>, 'Vous êtes invité·e')}
-      </Typography>
-      <Button variant="primary" title="Rejoindre" href={v('url')} />
+      <Typography>Vous êtes invité·e à rejoindre {organisation}.</Typography>
+      <Button variant="primary" title="Rejoindre" href={url} />
     </Card>
   </EmailLayout>
 );
 
-renderEmail(<Invitation />); // HTML, variables et conditions en ERB (<%= @url %>)
-renderEmailText(<Invitation />); // version texte
+renderEmail(<Invitation organisation="Acme" url="https://exemple.test" />); // HTML
+renderEmailText(<Invitation organisation="Acme" url="https://exemple.test" />); // version texte
 ```
+
+Le paquet ne produit que du HTML et du texte. Brancher un moteur de gabarit (ERB, Handlebars…) revient à l'application : passer des marqueurs en props, puis les convertir dans la sortie.
 
 Peer deps : `@alveole/theme`, `react`, `react-dom`.

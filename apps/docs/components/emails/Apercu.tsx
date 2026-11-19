@@ -1,5 +1,5 @@
 import { Box, Button, Typography } from '@alveole/components';
-import { renderSample } from '@alveole/email';
+import { renderEmail } from '@alveole/email';
 import { CustomPalette } from '@alveole/theme';
 import React, { type ReactElement } from 'react';
 import { Platform } from 'react-native';
@@ -9,14 +9,13 @@ const LARGEURS = { bureau: 640, mobile: 375 };
 export type ApercuProps = {
   titre: string;
   mail: ReactElement;
-  exemple?: Record<string, string | null>;
 };
 
-/** Le mail rendu par `@alveole/email` avec ses donnees d'exemple, en largeur bureau ou mobile. */
-export const Apercu = ({ titre, mail, exemple = {} }: ApercuProps) => {
+/** Le mail rendu par `@alveole/email` en largeur bureau ou mobile. */
+export const Apercu = ({ titre, mail }: ApercuProps) => {
   const [largeur, setLargeur] = React.useState<keyof typeof LARGEURS>('bureau');
   const [hauteur, setHauteur] = React.useState<number>();
-  const html = React.useMemo(() => renderSample(mail, exemple), [mail, exemple]);
+  const html = React.useMemo(() => renderEmail(mail), [mail]);
 
   if (Platform.OS !== 'web') {
     return <Typography>L’aperçu d’un mail n’est disponible que sur le web.</Typography>;

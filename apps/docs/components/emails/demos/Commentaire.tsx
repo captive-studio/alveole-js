@@ -10,25 +10,24 @@ import {
   Row,
   Section,
   Typography,
-  v,
 } from '@alveole/email';
 import { Spacings } from '@alveole/theme';
 
-export const exemple = {
-  organisation: 'Acme',
-  auteur: 'Camille Martin',
-  avatar_url: 'https://i.pravatar.cc/96?img=5',
-  commentaire: 'Le bouton d’envoi passe sous le clavier sur iPhone SE.',
-  capture_url: 'https://picsum.photos/seed/alveole/480/300',
-  url: 'https://exemple.test/commentaires/42',
-  desabonnement_url: 'https://exemple.test/notifications',
-  logo_url: 'https://picsum.photos/seed/captive/64',
+type CommentaireProps = {
+  organisation: string;
+  auteur: string;
+  avatar: string;
+  commentaire: string;
+  capture: string;
+  url: string;
+  desabonnement: string;
+  logo: string;
 };
 
-const PiedDePage = () => (
+const PiedDePage = ({ desabonnement }: { desabonnement: string }) => (
   <>
     <Section style={{ textAlign: 'center', marginTop: 32 }}>
-      <A href={v('desabonnement_url')}>Désactiver les notifications de commentaires pour cette app</A>
+      <A href={desabonnement}>Désactiver les notifications de commentaires pour cette app</A>
     </Section>
     <Divider />
     <Typography textAlign="center">
@@ -49,25 +48,38 @@ const PiedDePage = () => (
   </>
 );
 
-export const Commentaire = () => (
+export const Commentaire = (p: CommentaireProps) => (
   <EmailLayout
-    preview={`${v('auteur')} : ${v('commentaire')}`}
-    logo={{ src: v('logo_url'), alt: 'Captive' }}
-    footer={<PiedDePage />}
+    preview={`${p.auteur} : ${p.commentaire}`}
+    logo={{ src: p.logo, alt: 'Captive' }}
+    footer={<PiedDePage desabonnement={p.desabonnement} />}
   >
-    <Typography ton="discret">{v('organisation')}</Typography>
-    <Heading as="h1">{v('auteur')} a laissé un commentaire</Heading>
-    <Card media={<img src={v('capture_url')} width={240} alt="" />}>
+    <Typography ton="discret">{p.organisation}</Typography>
+    <Heading as="h1">{p.auteur} a laissé un commentaire</Heading>
+    <Card media={<img src={p.capture} width={240} alt="" />}>
       <Row>
         <Column style={{ width: Spacings['6W'], verticalAlign: 'top' }}>
-          <Avatar size="md" src={v('avatar_url')} fallbackText={v('auteur')} />
+          <Avatar size="md" src={p.avatar} fallbackText={p.auteur} />
         </Column>
         <Column>
-          <Typography ton="fort">{v('auteur')}</Typography>
-          <Typography>{v('commentaire')}</Typography>
+          <Typography ton="fort">{p.auteur}</Typography>
+          <Typography>{p.commentaire}</Typography>
         </Column>
       </Row>
-      <Button variant="secondary" fullWidth title="Voir dans le dashboard" href={v('url')} />
+      <Button variant="secondary" fullWidth title="Voir dans le dashboard" href={p.url} />
     </Card>
   </EmailLayout>
+);
+
+export const Exemple = () => (
+  <Commentaire
+    organisation="Acme"
+    auteur="Camille Martin"
+    avatar="https://i.pravatar.cc/96?img=5"
+    commentaire="Le bouton d’envoi passe sous le clavier sur iPhone SE."
+    capture="https://picsum.photos/seed/alveole/480/300"
+    url="https://exemple.test/commentaires/42"
+    desabonnement="https://exemple.test/notifications"
+    logo="https://picsum.photos/seed/captive/64"
+  />
 );

@@ -36,11 +36,11 @@ const Ecran = ({ titre, description, sections }: { titre: string; description: s
 export const EcranDesExemples = () => (
   <Ecran
     titre="Exemples"
-    description="Des mails complets écrits avec @alveole/email, remplis avec des données d’exemple."
-    sections={DEMOS_D_EMAILS.map(({ nom, titre, description, mail: Mail, exemple }) => ({
+    description="Des mails complets écrits avec @alveole/email."
+    sections={DEMOS_D_EMAILS.map(({ nom, titre, description, Exemple }) => ({
       titre,
       description,
-      apercu: <Apercu titre={titre} mail={<Mail />} exemple={exemple} />,
+      apercu: <Apercu titre={titre} mail={<Exemple />} />,
       source: sourcesDesEmails[`demos/${nom}`],
     }))}
   />
@@ -50,13 +50,12 @@ export const EcranDesComposants = () => (
   <Ecran
     titre="Composants"
     description="Les composants de @alveole/email, au style d’Alvéole. Chacun est rendu dans EmailLayout."
-    sections={COMPOSANTS_D_EMAIL.map(({ nom, description, Exemple, complet, exemple }) => ({
+    sections={COMPOSANTS_D_EMAIL.map(({ nom, description, Exemple, complet }) => ({
       titre: nom,
       description,
       apercu: (
         <Apercu
           titre={nom}
-          exemple={exemple}
           mail={
             complet ? (
               <Exemple />
