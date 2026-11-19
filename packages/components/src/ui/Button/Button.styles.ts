@@ -1,4 +1,4 @@
-import { makeStyles, StyleValue, useTheme } from '@alveole/theme';
+import { couleursDeBouton, dimensionsDeBouton, makeStyles, StyleValue, useTheme } from '@alveole/theme';
 
 type Theme = ReturnType<typeof useTheme>;
 
@@ -58,38 +58,40 @@ const commun = ({ spacing, radius }: Theme) =>
     },
   }) satisfies Table;
 
-const tailles = ({ text, radius, control }: Theme) =>
-  ({
+const tailles = (theme: Theme) => {
+  const [sm, md, lg] = (['sm', 'md', 'lg'] as const).map(taille => dimensionsDeBouton(theme, taille));
+  return {
     smContainer: {
       height: '100%',
-      paddingLeft: control('sm').paddingInline,
-      paddingRight: control('sm').paddingInline,
+      paddingLeft: sm.paddingInline,
+      paddingRight: sm.paddingInline,
 
-      borderTopLeftRadius: radius('sm'),
-      borderBottomLeftRadius: radius('sm'),
-      borderTopRightRadius: radius('sm'),
-      borderBottomRightRadius: radius('sm'),
+      borderTopLeftRadius: sm.rayon,
+      borderBottomLeftRadius: sm.rayon,
+      borderTopRightRadius: sm.rayon,
+      borderBottomRightRadius: sm.rayon,
     },
     mdContainer: {
       height: '100%',
-      paddingLeft: control('md').paddingInline,
-      paddingRight: control('md').paddingInline,
+      paddingLeft: md.paddingInline,
+      paddingRight: md.paddingInline,
     },
     lgContainer: {
       height: '100%',
-      paddingLeft: control('lg').paddingInline,
-      paddingRight: control('lg').paddingInline,
+      paddingLeft: lg.paddingInline,
+      paddingRight: lg.paddingInline,
     },
     // Litteraux dedies au Pressable : lui seul doit connaitre la hauteur en pixels, pour
     // l'absorber dans sa propre bordure via boxSizing. Le conteneur interieur, lui, se
     // contente de remplir cet espace (cf. smContainer et consorts, height: '100%').
-    hauteurSm: { height: control('sm').height },
-    hauteurMd: { height: control('md').height },
-    hauteurLg: { height: control('lg').height },
-    smTitle: text['Corps de texte'].SM.Medium,
-    mdTitle: text['Corps de texte'].SM.Medium,
-    lgTitle: text['Corps de texte'].MD.Medium,
-  }) satisfies Table;
+    hauteurSm: { height: sm.height },
+    hauteurMd: { height: md.height },
+    hauteurLg: { height: lg.height },
+    smTitle: sm.typo,
+    mdTitle: md.typo,
+    lgTitle: lg.typo,
+  } satisfies Table;
+};
 
 /** `selected` court-circuite la variante : ces styles valent pour les cinq. */
 const selection = ({ color }: Theme) =>
@@ -108,156 +110,166 @@ const selection = ({ color }: Theme) =>
     },
   }) satisfies Table;
 
-const primaire = ({ color }: Theme) =>
-  ({
+const ETATS = ['repos', 'desactive'] as const;
+
+const primaire = (theme: Theme) => {
+  const [repos, desactive] = ETATS.map(etat => couleursDeBouton(theme, 'primary', etat));
+  return {
     primaryTitle: {
-      color: color.light.text['inverted-primary'],
+      color: repos.texte,
     },
     primaryContainer: {
-      backgroundColor: color.light.background['action-high-primary'],
+      backgroundColor: repos.fond,
     },
     primaryTitleHover: {
-      color: color.light.text['inverted-primary'],
+      color: theme.color.light.text['inverted-primary'],
     },
     primaryContainerHover: {
-      backgroundColor: color.light.background['action-high-primary-hover'],
+      backgroundColor: theme.color.light.background['action-high-primary-hover'],
     },
     primaryContainerPressed: {
-      backgroundColor: color.light.background['action-high-primary-hover'],
+      backgroundColor: theme.color.light.background['action-high-primary-hover'],
     },
     primaryTitleDisabled: {
       cursor: 'not-allowed',
-      color: color.light.text['disabled-grey'],
+      color: desactive.texte,
     },
     primaryContainerDisabled: {
       cursor: 'not-allowed',
-      backgroundColor: color.light.background['disabled-grey'],
+      backgroundColor: desactive.fond,
     },
     primaryIcon: {
-      color: color.light.text['inverted-primary'],
+      color: theme.color.light.text['inverted-primary'],
     },
     primaryIconHover: {
-      color: color.light.text['inverted-primary'],
+      color: theme.color.light.text['inverted-primary'],
     },
     primaryIconDisabled: {
-      color: color.light.text['disabled-grey'],
+      color: theme.color.light.text['disabled-grey'],
     },
-  }) satisfies Table;
+  } satisfies Table;
+};
 
-const secondaire = ({ color }: Theme) =>
-  ({
+const secondaire = (theme: Theme) => {
+  const [repos, desactive] = ETATS.map(etat => couleursDeBouton(theme, 'secondary', etat));
+  return {
     secondaryTitle: {
-      color: color.light.text['action-high-grey'],
+      color: repos.texte,
     },
     secondaryContainer: {
       borderStyle: 'solid',
       borderWidth: 1,
-      borderColor: color.light.border['default-grey'],
-      backgroundColor: color.light.background['default-grey'],
+      borderColor: repos.bordure,
+      backgroundColor: repos.fond,
     },
     secondaryTitleHover: {
-      color: color.light.text['action-high-grey'],
+      color: theme.color.light.text['action-high-grey'],
     },
     secondaryContainerHover: {
-      borderColor: color.light.border['default-grey'],
-      backgroundColor: color.light.background['transparent-hover'],
+      borderColor: theme.color.light.border['default-grey'],
+      backgroundColor: theme.color.light.background['transparent-hover'],
     },
     secondaryContainerPressed: {
-      borderColor: color.light.border['default-grey'],
-      backgroundColor: color.light.background['transparent-hover'],
+      borderColor: theme.color.light.border['default-grey'],
+      backgroundColor: theme.color.light.background['transparent-hover'],
     },
     secondaryTitleDisabled: {
       cursor: 'not-allowed',
-      color: color.light.text['disabled-grey'],
+      color: desactive.texte,
     },
     secondaryContainerDisabled: {
       cursor: 'not-allowed',
-      borderColor: color.light.border['disabled-grey'],
+      borderColor: desactive.bordure,
     },
     secondaryIcon: {
-      color: color.light.text['action-high-grey'],
+      color: theme.color.light.text['action-high-grey'],
     },
     secondaryIconHover: {
-      color: color.light.text['action-high-grey'],
+      color: theme.color.light.text['action-high-grey'],
     },
     secondaryIconDisabled: {
-      color: color.light.text['disabled-grey'],
+      color: theme.color.light.text['disabled-grey'],
     },
-  }) satisfies Table;
+  } satisfies Table;
+};
 
-const tertiaire = ({ color }: Theme) =>
-  ({
+const tertiaire = (theme: Theme) => {
+  const [repos, desactive] = ETATS.map(etat => couleursDeBouton(theme, 'tertiary', etat));
+  return {
     tertiaryTitle: {
-      color: color.light.text['action-high-grey'],
+      color: repos.texte,
     },
     tertiaryContainer: {},
     tertiaryTitleHover: {
-      color: color.light.text['action-high-grey'],
+      color: theme.color.light.text['action-high-grey'],
     },
     tertiaryContainerHover: {
-      backgroundColor: color.light.background['transparent-hover'],
+      backgroundColor: theme.color.light.background['transparent-hover'],
     },
     tertiaryContainerPressed: {
-      backgroundColor: color.light.background['transparent-hover'],
+      backgroundColor: theme.color.light.background['transparent-hover'],
     },
     tertiaryTitleDisabled: {
       cursor: 'not-allowed',
-      color: color.light.text['disabled-grey'],
+      color: desactive.texte,
     },
     tertiaryContainerDisabled: {
       cursor: 'not-allowed',
     },
     tertiaryIcon: {
-      color: color.light.text['action-high-grey'],
+      color: theme.color.light.text['action-high-grey'],
     },
     tertiaryIconHover: {
-      color: color.light.text['action-high-grey'],
+      color: theme.color.light.text['action-high-grey'],
     },
     tertiaryIconDisabled: {
-      color: color.light.text['disabled-grey'],
+      color: theme.color.light.text['disabled-grey'],
     },
-  }) satisfies Table;
+  } satisfies Table;
+};
 
-const dangereuse = ({ color }: Theme) =>
-  ({
+const dangereuse = (theme: Theme) => {
+  const [repos, desactive] = ETATS.map(etat => couleursDeBouton(theme, 'danger', etat));
+  return {
     dangerTitle: {
-      color: color.light.text['inverted-grey'],
+      color: repos.texte,
     },
     dangerContainer: {
       borderStyle: 'solid',
       borderWidth: 1,
-      borderColor: color.light.border['plain-error'],
-      backgroundColor: color.light.background['action-high-error'],
+      borderColor: repos.bordure,
+      backgroundColor: repos.fond,
     },
     dangerTitleHover: {
-      color: color.light.text['action-high-error'],
+      color: theme.color.light.text['action-high-error'],
     },
     dangerContainerHover: {
-      borderColor: color.light.border['default-grey'],
-      backgroundColor: color.light.background['default-grey'],
+      borderColor: theme.color.light.border['default-grey'],
+      backgroundColor: theme.color.light.background['default-grey'],
     },
     dangerContainerPressed: {
-      backgroundColor: color.alpha(color.light.background['action-high-error'], 0.8),
+      backgroundColor: theme.color.alpha(theme.color.light.background['action-high-error'], 0.8),
     },
     dangerTitleDisabled: {
       cursor: 'not-allowed',
-      color: color.light.text['disabled-grey'],
+      color: desactive.texte,
     },
     dangerContainerDisabled: {
       cursor: 'not-allowed',
-      backgroundColor: color.light.background['default-grey'],
-      borderColor: color.light.border['disabled-grey'],
+      backgroundColor: desactive.fond,
+      borderColor: desactive.bordure,
     },
     dangerIcon: {
-      color: color.light.text['inverted-primary'],
+      color: theme.color.light.text['inverted-primary'],
     },
     dangerIconHover: {
-      color: color.light.text['action-high-error'],
+      color: theme.color.light.text['action-high-error'],
     },
     dangerIconDisabled: {
-      color: color.light.text['disabled-grey'],
+      color: theme.color.light.text['disabled-grey'],
     },
-  }) satisfies Table;
+  } satisfies Table;
+};
 
 export const useStyles = makeStyles(theme => ({
   ...commun(theme),

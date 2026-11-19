@@ -1,0 +1,13 @@
+{
+  "extends": "../../tsconfig.json",
+  "compilerOptions": {
+    "paths": {
+      "@alveole/theme": ["../theme/src/index.ts"],
+      "@alveole/email": ["../email/src/index.ts"]
+    },
+    "types": ["jest"],
+    "incremental": true,
+    "tsBuildInfoFile": ".tsbuildinfo"
+  },
+  "include": ["src"]
+}

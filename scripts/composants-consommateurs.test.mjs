@@ -1,6 +1,6 @@
 import assert from 'node:assert/strict';
 import { test } from 'node:test';
-import { extraireConsommateurs } from './composants-consommateurs.mjs';
+import { extraireConsommateurs, tokensDeTable } from './composants-consommateurs.mjs';
 
 const index = "export * from './Select';\n";
 
@@ -85,4 +85,17 @@ test('range les consommateurs par nom', () => {
     extraireConsommateurs(fichiers)['light.system.focus'].map(consommateur => consommateur.nom),
     ['Select', 'Tag'],
   );
+});
+
+test('fait du composant qui lit une table de jetons un consommateur de ses tokens', () => {
+  const fichiers = {
+    'ui/index.ts': "export * from './Button';\n",
+    'ui/Button/Button.styles.ts': "const repos = couleursDeBouton(theme, 'primary', 'repos');",
+  };
+  const tokens = tokensDeTable("primary: { repos: { fond: 'action-high-primary', texte: 'inverted-primary' } },");
+
+  assert.deepEqual(extraireConsommateurs(fichiers, { couleursDeBouton: tokens }), {
+    'light.background.action-high-primary': [{ nom: 'Button', story: null }],
+    'light.text.inverted-primary': [{ nom: 'Button', story: null }],
+  });
 });

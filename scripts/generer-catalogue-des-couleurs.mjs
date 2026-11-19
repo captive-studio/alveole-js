@@ -1,6 +1,6 @@
 import fs from 'node:fs/promises';
 import { extraireCatalogueDesCouleurs } from './catalogue-des-couleurs.mjs';
-import { extraireConsommateurs } from './composants-consommateurs.mjs';
+import { extraireConsommateurs, tokensDeTable } from './composants-consommateurs.mjs';
 
 const racine = new URL('..', import.meta.url);
 const constantes = new URL('packages/theme/src/constants/', racine);
@@ -20,7 +20,9 @@ const fichiersDesComposants = Object.fromEntries(
       .map(async chemin => [chemin, await fs.readFile(new URL(chemin, sources), 'utf8')]),
   ),
 );
-const consommateurs = extraireConsommateurs(fichiersDesComposants);
+const consommateurs = extraireConsommateurs(fichiersDesComposants, {
+  couleursDeBouton: tokensDeTable(await fs.readFile(new URL('Bouton.ts', constantes), 'utf8')),
+});
 const tokens = catalogue.tokens.map(token => ({ ...token, consommateurs: consommateurs[token.chemin] ?? [] }));
 
 const contenu = [
