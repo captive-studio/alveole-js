@@ -1,7 +1,7 @@
 {
   "name": "@alveole/root",
   "private": true,
-  "packageManager": "pnpm@12.17.0",
+  "packageManager": "pnpm@12.16.1",
   "scripts": {
     "build": "pnpm -r --if-present run build",
     "postinstall": "node scripts/link-workspace-packages.mjs && node scripts/install-git-hooks.mjs",
@@ -46,7 +46,7 @@
     "knip": "6.44.2",
     "pixelmatch": "8.0.0",
     "pngjs": "7.0.0",
-    "prettier": "3.9.10",
+    "prettier": "3.10.1",
     "prettier-plugin-organize-imports": "4.3.0",
     "publint": "0.3.25",
     "typescript": "6.0.3"
