@@ -19,6 +19,6 @@ renderEmail(<Invitation organisation="Acme" url="https://exemple.test" />); // H
 renderEmailText(<Invitation organisation="Acme" url="https://exemple.test" />); // version texte
 ```
 
-Le paquet ne produit que du HTML et du texte. Brancher un moteur de gabarit (ERB, Handlebars…) revient à l'application : passer des marqueurs en props, puis les convertir dans la sortie.
+Le paquet ne produit que du HTML et du texte. Pour générer des vues Rails (`.erb`), voir le paquet annexe [`@alveole/email2erb`](../email2erb).
 
 Peer deps : `@alveole/theme`, `react`, `react-dom`.

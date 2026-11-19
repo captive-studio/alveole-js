@@ -605,6 +605,25 @@ importers:
         specifier: 19.3.0
         version: 19.3.0(react@19.3.0)
 
+  packages/email2erb:
+    dependencies:
+      '@alveole/email':
+        specifier: '*'
+        version: link:../email
+      react-dom:
+        specifier: '*'
+        version: 19.3.0(react@19.3.0)
+    devDependencies:
+      '@alveole/eslint-config':
+        specifier: file:../eslint-config
+        version: link:../eslint-config
+      eslint:
+        specifier: 10.14.0
+        version: 10.14.0(jiti@2.7.0)(supports-color@8.1.1)
+      react:
+        specifier: 19.3.0
+        version: 19.3.0
+
   packages/eslint-config:
     dependencies:
       '@eslint-community/eslint-plugin-eslint-comments':

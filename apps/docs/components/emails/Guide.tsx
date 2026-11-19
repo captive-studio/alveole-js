@@ -36,11 +36,20 @@ const texte = renderEmailText(<Invitation organisation="Acme" url="https://exemp
     langage: 'tsx',
   },
   {
-    titre: 'Brancher un moteur de gabarit',
+    titre: 'Générer des vues Rails',
     texte:
-      'Le paquet ne produit ni ERB ni autre gabarit. Pour qu’un serveur remplisse le mail à l’envoi, l’application passe des marqueurs en props, puis les convertit dans le HTML rendu, par exemple en <%= @organisation %> pour un mailer Rails.',
-    code: `const html = renderEmail(<Invitation organisation="{{organisation}}" url="{{url}}" />)
-  .replace(/\\{\\{(\\w+)\\}\\}/g, '<%= @$1 %>');`,
+      '@alveole/email ne produit ni ERB ni autre gabarit. Pour un mailer Rails, le paquet annexe @alveole/email2erb ajoute v(nom), une variable du mailer, et when(nom, a, b), la seule condition permise, puis rend le mail en .html.erb et .text.erb.',
+    code: `import { renderErb, renderErbText, v, when } from '@alveole/email2erb';
+
+const Invitation = () => (
+  <EmailLayout preview={\`Rejoignez \${v('organisation')}\`}>
+    <Typography>{when('invite_par', <>{v('invite_par')} vous invite</>, 'Vous êtes invité·e')}</Typography>
+    <Button variant="primary" title="Rejoindre" href={v('url')} />
+  </EmailLayout>
+);
+
+writeFileSync('app/views/invitation_mailer/invitation.html.erb', renderErb(<Invitation />));
+writeFileSync('app/views/invitation_mailer/invitation.text.erb', renderErbText(<Invitation />));`,
     langage: 'tsx',
   },
 ] as const;

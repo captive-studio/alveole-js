@@ -1,0 +1,44 @@
+{
+  "name": "@alveole/email2erb",
+  "version": "2.0.0-alpha.30",
+  "description": "Rendu ERB des mails @alveole/email, pour les mailers Rails.",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/captive-studio/alveole-js.git",
+    "directory": "packages/email2erb"
+  },
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "default": "./dist/index.js"
+    },
+    "./package.json": "./package.json"
+  },
+  "files": [
+    "dist",
+    "!dist/.tsbuildinfo",
+    "README.md"
+  ],
+  "sideEffects": false,
+  "scripts": {
+    "build": "tsc -p tsconfig.build.json",
+    "lint": "eslint . --cache --cache-strategy content",
+    "typecheck": "tsc -p tsconfig.typecheck.json --noEmit",
+    "test:unit": "jest --coverage --runInBand --ci"
+  },
+  "devDependencies": {
+    "@alveole/eslint-config": "file:../eslint-config",
+    "eslint": "10.14.0",
+    "react": "19.3.0"
+  },
+  "peerDependencies": {
+    "@alveole/email": "*",
+    "react": "*",
+    "react-dom": "*"
+  },
+  "publishConfig": {
+    "access": "public"
+  }
+}
