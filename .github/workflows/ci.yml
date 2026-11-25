@@ -263,8 +263,10 @@ jobs:
     permissions:
       contents: write
       id-token: write
-    uses: captive-studio/captive-ci/.github/workflows/release-npm.yml@e007578cd28c195ef09302230c14410c3f11c8a4 # main
+    uses: captive-studio/captive-ci/.github/workflows/release-npm.yml@f2889c0c41764b34c019266bdc6d4ace3ea16886 # main
     with:
+      # captive-small (512Mi) perd le runner pendant le pnpm install du monorepo.
+      runs-on: self-hosted
       node-version: '24'
       packages-dir: packages
       package-manager: pnpm
