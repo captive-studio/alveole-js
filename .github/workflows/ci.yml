@@ -265,8 +265,8 @@ jobs:
       id-token: write
     uses: captive-studio/captive-ci/.github/workflows/release-npm.yml@f2889c0c41764b34c019266bdc6d4ace3ea16886 # main
     with:
-      # captive-small (512Mi) perd le runner pendant le pnpm install du monorepo.
-      runs-on: self-hosted
+      # Runner GitHub obligatoire : npm refuse la provenance venant d'un runner self-hosted (422).
+      runs-on: ubuntu-latest
       node-version: '24'
       packages-dir: packages
       package-manager: pnpm
