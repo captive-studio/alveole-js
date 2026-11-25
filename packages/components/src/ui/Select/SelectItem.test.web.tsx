@@ -8,3 +8,9 @@ test('marque l option active par une barre', async () => {
 
   expect(screen.getByTestId('select-item-barre')).toBeTruthy();
 });
+
+test('affiche la description sous le libelle', async () => {
+  await renderWeb(<SelectItem label="Agirc-Arrco" description="Retraite complémentaire FR" />);
+
+  expect(screen.getByText('Retraite complémentaire FR')).toBeTruthy();
+});

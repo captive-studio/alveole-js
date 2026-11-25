@@ -27,6 +27,7 @@ export const selectItemStyle = (
     hover: disabled ? undefined : styles.bandHighlighted.backgroundColor,
   },
   label: { ...styles.itemLabel, ...(disabled ? styles.itemLabelDisabled : {}) },
+  description: { ...styles.itemDescription, ...(disabled ? styles.itemLabelDisabled : {}) },
   icone: disabled ? couleurs.texteDesactive : couleurs.texte,
   caseACocher: caseACocherStyle(styles, { selected, disabled }),
   coche: disabled ? couleurs.texte : couleurs.coche,

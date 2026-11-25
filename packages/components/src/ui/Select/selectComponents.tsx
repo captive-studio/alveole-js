@@ -46,6 +46,7 @@ export const useSelectComponents = ({ multiple, disabled, onRemoveValue }: Selec
     <components.Option {...optionProps} innerProps={optionInnerProps(optionProps, multiple)}>
       <SelectItem
         label={optionProps.data.label}
+        description={optionProps.data.description}
         leading={optionProps.data.leading}
         selected={optionProps.isSelected}
         highlighted={optionProps.isFocused}
