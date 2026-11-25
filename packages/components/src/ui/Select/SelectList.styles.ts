@@ -109,6 +109,10 @@ const contenuDeLaLigne = ({ text, color, spacingValue }: Theme) =>
       paddingTop: spacingValue('1V'),
       paddingBottom: spacingValue('1V'),
     },
+    // Libelle renforce quand une description le suit, comme chez Primer.
+    itemLabelAvecDescription: {
+      ...text['Corps de texte'].SM.SemiBold,
+    },
     itemDescription: {
       ...text['Corps de texte'].XS.Regular,
       color: color.light.text['mention-grey'],

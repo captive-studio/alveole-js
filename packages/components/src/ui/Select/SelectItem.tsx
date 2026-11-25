@@ -73,7 +73,7 @@ export const SelectItem = ({
 
         {description ? (
           <Box style={styles.itemTextes}>
-            <Typography style={aspect.label}>{label}</Typography>
+            <Typography style={{ ...aspect.label, ...styles.itemLabelAvecDescription }}>{label}</Typography>
             <Typography testID="select-item-description" style={aspect.description}>
               {description}
             </Typography>
