@@ -1,4 +1,5 @@
 import React from 'react';
+import { optionCorrespond } from './optionCorrespond';
 import type { SelectOption } from './Select.types';
 
 /** Une option prête à être rendue, précédée de son en-tête de groupe si elle ouvre une suite. */
@@ -37,8 +38,7 @@ export const useSelectOptions = (params: UseSelectOptionsParams): UseSelectOptio
 
   const filtered = React.useMemo(() => {
     if (!localFilter || trimmedQuery.length === 0) return options;
-    const needle = trimmedQuery.toLowerCase();
-    return options.filter(option => option.label.toLowerCase().includes(needle));
+    return options.filter(option => optionCorrespond(option, trimmedQuery));
   }, [options, localFilter, trimmedQuery]);
 
   const rows = React.useMemo(

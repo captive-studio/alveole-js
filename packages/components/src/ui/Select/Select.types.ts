@@ -5,6 +5,8 @@ import type { Leading } from '../Leading';
 export type SelectOption = {
   value: string;
   label: string;
+  /** Texte secondaire sous le libellé, dans le panneau seulement (Primer). */
+  description?: string;
   /** Icône affichée à gauche du libellé, dans le panneau et dans le champ fermé. */
   leading?: Leading;
   /** Les options consécutives partageant le même `group` sont regroupées sous un en-tête. */

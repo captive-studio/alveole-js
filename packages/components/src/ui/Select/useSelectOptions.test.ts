@@ -24,6 +24,15 @@ describe('useSelectOptions, filtrage et groupes', () => {
     expect(rows.map(row => row.option.value)).toEqual(['bordeaux']);
   });
 
+  it('cherche aussi dans la description, sans tenir compte des accents', async () => {
+    const { rows } = await listOf({
+      options: [...OPTIONS, { label: 'Agirc-Arrco', value: 'agirc', description: 'Retraite complémentaire' }],
+      query: 'complementaire',
+    });
+
+    expect(rows.map(row => row.option.value)).toEqual(['agirc']);
+  });
+
   it('ignore les espaces autour de la saisie', async () => {
     const { rows } = await listOf({ options: OPTIONS, query: '  option a  ' });
 

@@ -101,6 +101,18 @@ const contenuDeLaLigne = ({ text, color, spacingValue }: Theme) =>
       color: color.light.text['default-grey'],
       flex: 1,
     },
+    // Libelle et description empiles : la colonne prend la place du libelle seul.
+    itemTextes: {
+      flex: 1,
+      display: 'flex',
+      flexDirection: 'column',
+      paddingTop: spacingValue('1V'),
+      paddingBottom: spacingValue('1V'),
+    },
+    itemDescription: {
+      ...text['Corps de texte'].XS.Regular,
+      color: color.light.text['mention-grey'],
+    },
     itemLabelDisabled: {
       color: color.light.text['disabled-grey'],
     },

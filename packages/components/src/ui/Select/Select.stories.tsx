@@ -68,6 +68,18 @@ const GROUPED_OPTIONS: SelectOption[] = [
   { label: 'État des lieux', value: 'edl', group: 'Documents' },
 ];
 
+const DESCRIPTION_OPTIONS: SelectOption[] = [
+  { label: 'Agirc-Arrco', value: 'agirc-arrco', description: 'Retraite complémentaire FR' },
+  {
+    label: 'Assurance Essentiel Single',
+    value: 'essentiel-single',
+    description: 'Assurance rapatriement • Assurance santé',
+  },
+  { label: 'Chômage expatrié', value: 'chomage-expatrie', description: 'Assurance chômage' },
+  { label: 'RC professionnelle', value: 'rc-pro', description: 'Responsabilité civile' },
+  { label: 'Retraite de base', value: 'retraite-base', description: 'Retraite' },
+];
+
 const CITY_OPTIONS: SelectOption[] = [
   { label: 'Bordeaux', value: 'bordeaux' },
   { label: 'Lille', value: 'lille' },
@@ -134,6 +146,23 @@ export const Grouped = () => {
     <Box display="flex" flexDirection="column" gap="3W">
       <FormControl label="Type de document">
         <Select placeholder="Tous les types" options={GROUPED_OPTIONS} value={value} onChange={setValue} />
+      </FormControl>
+    </Box>
+  );
+};
+
+export const WithDescriptions = () => {
+  const [value, setValue] = useState<string | null>(null);
+  return (
+    <Box display="flex" flexDirection="column" gap="3W">
+      <FormControl label="Service">
+        <Select
+          placeholder="Rechercher un service"
+          searchable
+          options={DESCRIPTION_OPTIONS}
+          value={value}
+          onChange={setValue}
+        />
       </FormControl>
     </Box>
   );

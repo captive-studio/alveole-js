@@ -1,5 +1,6 @@
 import type { GroupBase, Props as ReactSelectProps } from 'react-select';
 import type { SelectOption, SelectProps } from './Select.types';
+import { optionCorrespond } from './optionCorrespond';
 import { emitSelectChange } from './selectValue';
 
 type Group = GroupBase<SelectOption>;
@@ -42,7 +43,7 @@ export const selectFieldProps = (params: SelectFieldPropsParams): ReactSelectPro
     closeMenuOnSelect: !multiple,
     // Les options déjà retenues restent listées, comme dans le bottom sheet.
     hideSelectedOptions: false,
-    filterOption: localFilter === false ? () => true : undefined,
+    filterOption: localFilter === false ? () => true : (option, input) => optionCorrespond(option.data, input),
     loadingMessage: () => params.loadingMessage,
     noOptionsMessage: () => params.emptyMessage,
     // Le garde écarte les réinitialisations émises à la fermeture du menu, qui

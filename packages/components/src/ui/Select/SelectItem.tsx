@@ -8,6 +8,8 @@ import { selectItemStyle } from './selectItemStyle';
 
 export type SelectItemProps = {
   label: string;
+  /** Texte secondaire affiché sous le libellé. */
+  description?: string;
   leading?: Leading;
   /** Option actuellement sélectionnée : coche en tête de bande. */
   selected?: boolean;
@@ -23,7 +25,15 @@ export type SelectItemProps = {
  * le conteneur porteur du clavier et de l'ARIA (web, via `components.Option`
  * de react-select) est fourni par l'appelant.
  */
-export const SelectItem = ({ label, leading, selected, highlighted, disabled, multiple }: SelectItemProps) => {
+export const SelectItem = ({
+  label,
+  description,
+  leading,
+  selected,
+  highlighted,
+  disabled,
+  multiple,
+}: SelectItemProps) => {
   const styles = useStyles();
   const { color } = useTheme();
 
@@ -61,7 +71,16 @@ export const SelectItem = ({ label, leading, selected, highlighted, disabled, mu
 
         <LeadingSlot contenu={leading} apparence={{ size: 'sm', color: aspect.icone }} />
 
-        <Typography style={aspect.label}>{label}</Typography>
+        {description ? (
+          <Box style={styles.itemTextes}>
+            <Typography style={aspect.label}>{label}</Typography>
+            <Typography testID="select-item-description" style={aspect.description}>
+              {description}
+            </Typography>
+          </Box>
+        ) : (
+          <Typography style={aspect.label}>{label}</Typography>
+        )}
       </Box>
     </Box>
   );
