@@ -31,6 +31,7 @@ export * as BottomSheetStory from '../ui/BottomSheet/BottomSheet.stories';
 export * as BreadcrumbsStory from '../ui/Breadcrumbs/Breadcrumbs.stories';
 export * as ButtonStory from '../ui/Button/Button.stories';
 export * as CardStory from '../ui/Card/Card.stories';
+export * as ChatWidgetStory from '../ui/ChatWidget/ChatWidget.stories';
 export * as CheckboxStory from '../ui/Checkbox/Checkbox.stories';
 export * as CounterStory from '../ui/Counter/Counter.stories';
 export * as DataTableStory from '../ui/DataTable/DataTable.stories';

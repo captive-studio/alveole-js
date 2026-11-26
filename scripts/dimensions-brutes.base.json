@@ -7,6 +7,8 @@
   "packages/components/src/ui/Accordion/Accordion.styles.ts": 1,
   "packages/components/src/ui/Breadcrumbs/Breadcrumbs.styles.ts": 2,
   "packages/components/src/ui/Button/buttonIconStyling.ts": 1,
+  "packages/components/src/ui/ChatWidget/ChatWidget.styles.ts": 8,
+  "packages/components/src/ui/ChatWidget/ChatWidget.tsx": 1,
   "packages/components/src/ui/DataTable/DataTable.styles.ts": 12,
   "packages/components/src/ui/DataTable/DataTablePagination.tsx": 2,
   "packages/components/src/ui/Divider/Divider.styles.ts": 1,
