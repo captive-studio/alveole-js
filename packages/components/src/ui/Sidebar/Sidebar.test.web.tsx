@@ -27,3 +27,16 @@ test('expose aussi le tiroir mobile comme un repère de navigation', () => {
 
   expect(container.querySelector('nav')).not.toBeNull();
 });
+
+// Fixée dans le pied, la version réduisait la zone des items et forçait à défiler.
+test('affiche la version au bout de la liste qui défile, hors du pied fixe', () => {
+  const { getByText } = renderOnDesktop(
+    <Sidebar footer={<span>pied</span>}>
+      <span>item</span>
+    </Sidebar>,
+  );
+
+  const version = getByText(/App version/);
+  expect(getByText('item').parentElement?.contains(version)).toBe(true);
+  expect(getByText('pied').parentElement?.contains(version)).toBe(false);
+});

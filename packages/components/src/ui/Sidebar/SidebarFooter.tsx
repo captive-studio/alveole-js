@@ -1,5 +1,4 @@
 import { Box } from '../../core/Box';
-import { Version } from '../../core/Version';
 import { Divider } from '../Divider';
 
 import React from 'react';
@@ -11,8 +10,6 @@ export const SidebarFooter = (props: SidebarFooterProps) => {
 
   return (
     <Box>
-      <Version />
-
       <Divider />
 
       {children}
