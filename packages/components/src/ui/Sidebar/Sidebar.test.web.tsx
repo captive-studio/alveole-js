@@ -37,6 +37,6 @@ test('affiche la version au bout de la liste qui défile, hors du pied fixe', ()
   );
 
   const version = getByText(/App version/);
-  expect(getByText('item').parentElement?.contains(version)).toBe(true);
+  expect(getByText('item').parentElement?.parentElement?.contains(version)).toBe(true);
   expect(getByText('pied').parentElement?.contains(version)).toBe(false);
 });
