@@ -46,6 +46,8 @@ const coque = ({ color, spacing, spacingValue, isVariant }: Theme) =>
       zIndex: 1000,
       backgroundColor: '#FFFFFF',
     },
+    // La version reste en bas quand les items ne remplissent pas la hauteur.
+    scrollContent: { flexGrow: 1, justifyContent: 'space-between' },
   }) satisfies Table;
 
 const groupe = ({ text, color, spacing, spacingValue }: Theme) =>
