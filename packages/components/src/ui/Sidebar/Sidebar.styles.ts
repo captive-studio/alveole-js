@@ -42,12 +42,13 @@ const coque = ({ color, spacing, spacingValue, isVariant }: Theme) =>
     scrollView: {
       flex: 1,
       paddingTop: spacing('2W'),
-      paddingBottom: spacing('2W'),
       zIndex: 1000,
       backgroundColor: '#FFFFFF',
     },
     // La version reste en bas quand les items ne remplissent pas la hauteur.
     scrollContent: { flexGrow: 1, justifyContent: 'space-between' },
+    // Sans version, l'air sous le dernier item ; avec, son propre padding suffit.
+    itemsSansVersion: { paddingBottom: spacing('2W') },
   }) satisfies Table;
 
 const groupe = ({ text, color, spacing, spacingValue }: Theme) =>

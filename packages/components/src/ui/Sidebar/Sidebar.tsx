@@ -32,7 +32,7 @@ const SidebarDesktop = (props: SidebarProps) => {
           style={versStyleNatif<StyleProp<ViewStyle>>(styles.scrollView)}
           contentContainerStyle={versStyleNatif<StyleProp<ViewStyle>>(styles.scrollContent)}
         >
-          <Box>{children}</Box>
+          <Box style={footer ? undefined : styles.itemsSansVersion}>{children}</Box>
           {/* Au bout de la liste, pas dans le pied fixe : elle y mangeait la place des items. Liste courte : poussée en bas. */}
           {footer && <Version />}
         </ScrollView>
@@ -60,7 +60,7 @@ const SidebarMobile = (props: SidebarProps) => {
           style={versStyleNatif<StyleProp<ViewStyle>>(styles.scrollView)}
           contentContainerStyle={versStyleNatif<StyleProp<ViewStyle>>(styles.scrollContent)}
         >
-          <Box>{children}</Box>
+          <Box style={footer ? undefined : styles.itemsSansVersion}>{children}</Box>
           {/* Au bout de la liste, pas dans le pied fixe : elle y mangeait la place des items. Liste courte : poussée en bas. */}
           {footer && <Version />}
         </ScrollView>
