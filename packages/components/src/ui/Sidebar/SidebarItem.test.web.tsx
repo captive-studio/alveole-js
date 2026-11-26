@@ -109,3 +109,10 @@ test('masque le compteur à zéro', () => {
 
   expect(container.querySelector('counter')).toBeNull();
 });
+
+// Le compteur warning signale une entree qui reclame l'attention : il doit rester affiche.
+test('affiche le compteur en variante warning', () => {
+  const { getByText } = renderOnDesktop(<SidebarItem title="Alertes" href="/x" counter={2} counterVariant="warning" />);
+
+  expect(getByText('2')).toBeTruthy();
+});

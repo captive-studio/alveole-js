@@ -2,7 +2,7 @@ import { Typography } from '../../core/Typography';
 import { useStyles } from './Counter.styles';
 
 export type CounterProps = {
-  variant: 'default' | 'primary';
+  variant: 'default' | 'primary' | 'warning';
   count: number;
 };
 
@@ -16,6 +16,7 @@ export const Counter = (props: CounterProps) => {
       style={{
         ...styles.counter,
         ...(variant === 'primary' ? styles.counterPrimary : {}),
+        ...(variant === 'warning' ? styles.counterWarning : {}),
       }}
     >
       {count}

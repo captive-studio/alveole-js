@@ -13,3 +13,14 @@ it('reprend le cran sm de l echelle de puce', () => {
     retrait: result.current.counter.paddingLeft,
   }).toEqual({ hauteur: 20, retrait: 6 });
 });
+
+// Meme paire que le Badge warning : texte warning sur fond contraste warning.
+it('habille la variante warning comme le Badge warning', () => {
+  const { result } = renderHookOnDesktop(() => useStyles());
+
+  expect(result.current.counterWarning).toEqual({
+    backgroundColor: expect.any(String),
+    color: expect.any(String),
+  });
+  expect(result.current.counterWarning.backgroundColor).not.toBe(result.current.counter.backgroundColor);
+});

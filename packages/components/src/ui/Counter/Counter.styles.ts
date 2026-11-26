@@ -13,4 +13,8 @@ export const useStyles = makeStyles(({ color, text, radius, pill }) => ({
     backgroundColor: color.light.background['action-high-primary'],
     color: color.light.text['inverted-primary'],
   },
+  counterWarning: {
+    backgroundColor: color.light.background['contrast-warning'],
+    color: color.light.text['default-warning'],
+  },
 }));
