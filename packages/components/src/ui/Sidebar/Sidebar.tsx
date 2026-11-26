@@ -2,6 +2,7 @@ import { useTheme } from '@alveole/theme';
 import React from 'react';
 import { ScrollView, StyleProp, ViewStyle } from 'react-native';
 import { Box } from '../../core/Box';
+import { Version } from '../../core/Version';
 import { versStyleNatif } from '../../core/styleNatif/versStyleNatif';
 import { useStyles } from './Sidebar.styles';
 import { SidebarFooter } from './SidebarFooter';
@@ -27,7 +28,11 @@ const SidebarDesktop = (props: SidebarProps) => {
     <Box tag="nav" width={SidebarWidth} style={styles.sidebar}>
       <Box style={styles.sidebarContent}>
         <SidebarHeader controller={controller} logo={logo} />
-        <ScrollView style={versStyleNatif<StyleProp<ViewStyle>>(styles.scrollView)}>{children}</ScrollView>
+        <ScrollView style={versStyleNatif<StyleProp<ViewStyle>>(styles.scrollView)}>
+          {children}
+          {/* Au bout de la liste, pas dans le pied fixe : elle y mangeait la place des items. */}
+          {footer && <Version />}
+        </ScrollView>
         {footer && <SidebarFooter>{footer}</SidebarFooter>}
       </Box>
     </Box>
@@ -48,7 +53,11 @@ const SidebarMobile = (props: SidebarProps) => {
     <Box tag="nav" width={navWidth} style={styles.sidebar}>
       <Box style={styles.sidebarContent} pb={'3V'} pr={'3V'} pl={'3V'}>
         <SidebarHeader controller={controller} logo={logo} />
-        <ScrollView style={versStyleNatif<StyleProp<ViewStyle>>(styles.scrollView)}>{children}</ScrollView>
+        <ScrollView style={versStyleNatif<StyleProp<ViewStyle>>(styles.scrollView)}>
+          {children}
+          {/* Au bout de la liste, pas dans le pied fixe : elle y mangeait la place des items. */}
+          {footer && <Version />}
+        </ScrollView>
         {footer && controller?.open && <SidebarFooter>{footer}</SidebarFooter>}
       </Box>
     </Box>
