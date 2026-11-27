@@ -17,6 +17,7 @@
 const castsAssumes = [
   'src/helpers/mapValues.ts',
   'src/helpers/cssVarTypography.ts',
+  'src/helpers/typographieBrute.ts',
   'src/helpers/deepMerge.ts',
   'src/core/styleNatif/versStyleNatif.ts',
 ];

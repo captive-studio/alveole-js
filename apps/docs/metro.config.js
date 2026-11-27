@@ -53,12 +53,19 @@ const sourceEntries = {
   '@alveole/components/stories': 'packages/components/src/stories/index.ts',
   '@alveole/storybook': 'packages/storybook/src/index.ts',
   '@alveole/theme': 'packages/theme/src/index.ts',
+  '@alveole/email': 'packages/email/src/index.ts',
   '@alveole/core': 'packages/core/src/index.ts',
 };
 
 config.resolver.resolveRequest = (context, moduleName, platform) => {
   if (liveSources && sourceEntries[moduleName]) {
     return { type: 'sourceFile', filePath: path.resolve(monorepoRoot, sourceEntries[moduleName]) };
+  }
+
+  // `require.resolve` suit les conditions de Node : `react-dom/server` y donne la version Node,
+  // qui casse dans le navigateur. Le rendu des mails de @alveole/email veut celle du navigateur.
+  if (moduleName === 'react-dom/server') {
+    return { type: 'sourceFile', filePath: require.resolve('react-dom/server.browser', { paths: [projectRoot] }) };
   }
 
   const isCanonical = canonicalPackages.some(pkg => moduleName === pkg || moduleName.startsWith(`${pkg}/`));

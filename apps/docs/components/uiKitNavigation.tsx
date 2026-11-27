@@ -32,6 +32,7 @@ const RUBRIQUES: (UIKitTopBarItem & { key: string })[] = [
   { key: 'components', label: 'Composants', href: '/' },
   { key: 'theme', label: 'Thème', href: '/theme' },
   { key: 'constants', label: 'Constantes', href: '/constants' },
+  { key: 'emails', label: 'Emails', href: '/emails' },
 ];
 
 // Les deux pages des couleurs se lisent ensemble : une nuance mene aux tokens qui la citent.
@@ -50,6 +51,12 @@ const GUIDE_PAGES: UIKitColumnItem[] = [
   { key: 'formulaires', title: 'Formulaires', href: '/guides/formulaires' },
   { key: 'philosophy', title: 'Philosophie', href: '/guides/philosophy' },
   { key: 'migration-v2', title: 'Migration v2', href: '/guides/migration-v2' },
+];
+
+const EMAIL_PAGES: UIKitColumnItem[] = [
+  { key: 'guide', title: 'Guide', href: '/emails' },
+  { key: 'composants', title: 'Composants', href: '/emails/composants' },
+  { key: 'exemples', title: 'Exemples', href: '/emails/exemples' },
 ];
 
 const componentGroups = (): UIKitColumnGroup[] =>
@@ -85,6 +92,7 @@ const buildColumnGroups = (rubrique: string | undefined): UIKitColumnGroup[] => 
     ];
   }
   if (rubrique === 'constants') return constantGroups();
+  if (rubrique === 'emails') return [{ title: 'Emails', items: EMAIL_PAGES }];
   return [];
 };
 

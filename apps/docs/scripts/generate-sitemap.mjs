@@ -40,6 +40,7 @@ const urls = [
   staticPage('/guides/philosophy', 0.6),
   staticPage('/guides/migration-v2', 0.6),
   staticPage('/constants', 0.6),
+  ...['', '/composants', '/exemples'].map(page => staticPage(`/emails${page}`, 0.5)),
   staticPage('/theme/nuances', 0.6),
   staticPage('/theme/tokens-semantiques', 0.6),
   staticPage('/theme/css-variables', 0.6),

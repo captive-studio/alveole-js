@@ -35,6 +35,20 @@ const tokensCites = (chemin, texte) => {
   return chemins;
 };
 
+const CATEGORIE = { fond: 'background', texte: 'text', bordure: 'border' };
+
+/**
+ * Les tokens qu'une table de jetons du theme nomme par cle, comme `variantesDeBouton` :
+ * `fond: 'default-grey'` devient `light.background.default-grey`.
+ */
+export const tokensDeTable = texte => [
+  ...new Set(
+    [...texte.matchAll(/\b(fond|texte|bordure): '([^']+)'/g)].map(
+      ([, cle, jeton]) => `light.${CATEGORIE[cle]}.${jeton}`,
+    ),
+  ),
+];
+
 /** Les exemples, tests et demonstrations ne font pas d'un composant un consommateur. */
 const estDuComposant = chemin => !/\.(stories|test|demo)\./.test(chemin);
 
@@ -59,15 +73,20 @@ const titreDeStory = (fichiers, racine, nom) =>
 
 /**
  * Pour chaque token cite, les composants exportes qui le citent dans leur propre code, ranges par
- * nom. Un composant est son dossier : `ui/Select/SelectTrigger.tsx` compte pour Select (ADR 0035).
+ * nom. `tables` associe le nom d'une table de jetons du theme aux tokens qu'elle nomme.
+ * Un composant est son dossier : `ui/Select/SelectTrigger.tsx` compte pour Select (ADR 0035).
  */
-export const extraireConsommateurs = fichiers => {
+export const extraireConsommateurs = (fichiers, tables = {}) => {
   const exportes = dossiersExportes(fichiers);
   const nomsParToken = {};
   for (const [chemin, texte] of Object.entries(fichiers)) {
     if (!exportes.has(dossierDe(chemin)) || !estDuComposant(chemin)) continue;
     const [racine, nom] = chemin.split('/');
-    for (const token of tokensCites(chemin, texte)) (nomsParToken[token] ??= new Map()).set(nom, racine);
+    // Un composant qui lit une table de jetons du theme en consomme tous les tokens.
+    const parTable = Object.entries(tables).flatMap(([table, tokens]) => (texte.includes(table) ? tokens : []));
+    for (const token of [...tokensCites(chemin, texte), ...parTable]) {
+      (nomsParToken[token] ??= new Map()).set(nom, racine);
+    }
   }
   return Object.fromEntries(
     Object.entries(nomsParToken).map(([token, noms]) => [
