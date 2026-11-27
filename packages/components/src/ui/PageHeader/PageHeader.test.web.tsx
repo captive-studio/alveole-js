@@ -8,3 +8,9 @@ test('montre le titre de la page', () => {
 
   expect(screen.getByText('Suivi RH')).toBeTruthy();
 });
+
+test('montre la barre sous le titre', () => {
+  renderWeb(<PageHeader title="Suivi RH" bottomBar="Filtres" />);
+
+  expect(screen.getByText('Filtres')).toBeTruthy();
+});
