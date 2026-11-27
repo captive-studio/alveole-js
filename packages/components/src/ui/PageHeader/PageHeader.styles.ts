@@ -33,4 +33,12 @@ export const useStyles = makeStyles(({ color, text, spacing }) => ({
     flexWrap: 'wrap',
     gap: spacing('1W'),
   },
+  bottomBar: {
+    display: 'flex',
+    flexDirection: 'row',
+    flexWrap: 'wrap',
+    alignItems: 'center',
+    gap: spacing('1W'),
+    marginTop: spacing('1W'),
+  },
 }));

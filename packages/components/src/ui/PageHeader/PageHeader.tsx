@@ -11,13 +11,16 @@ export type PageHeaderProps = React.PropsWithChildren<{
   actions?: React.ReactNode;
   /** Props passées au Breadcrumbs (rootLabel, getLabel). */
   breadcrumbsProps?: React.ComponentProps<typeof Breadcrumbs>;
+  /** Barre sous le titre : recherche, filtres, etc. */
+  bottomBar?: React.ReactNode;
 }>;
 
 /**
- * En-tête de page : fil d'Ariane, puis une ligne avec le titre à gauche et des actions à droite.
+ * En-tête de page : fil d'Ariane, une ligne avec le titre à gauche et des actions à droite,
+ * puis une barre optionnelle (recherche, filtres).
  */
 export const PageHeader = (props: PageHeaderProps) => {
-  const { title, actions, breadcrumbsProps } = props;
+  const { title, actions, breadcrumbsProps, bottomBar } = props;
   const styles = useStyles();
 
   return (
@@ -33,6 +36,11 @@ export const PageHeader = (props: PageHeaderProps) => {
           </Box>
         )}
       </Box>
+      {bottomBar && (
+        <Box tag="page-header-barre" style={styles.bottomBar}>
+          {bottomBar}
+        </Box>
+      )}
     </Box>
   );
 };
