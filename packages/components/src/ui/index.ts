@@ -6,6 +6,7 @@ export * from './BottomSheet';
 export * from './Breadcrumbs';
 export * from './Button';
 export * from './Card';
+export * from './ChatWidget';
 export * from './Checkbox';
 export * from './Counter';
 export * from './DataTable';
